@@ -1,0 +1,234 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Jumping...</title><script type="text/javascript" src="../../../js/awifi_toe_lib.min.js"></script></head><script type="text/javascript">
+
+var timestamp;
+var token;
+var url;
+var userId;
+
+/**
+ * 获取url分派地址
+ */
+function getUrlRequest(){
+    var url = location.search; 
+    var theRequest = new Object();
+	if (url.indexOf("?") != -1) {
+       var str = url.substr(1);
+       if (str.indexOf("&") != -1) {
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+            	theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+       } else {
+           var key = str.substring(0,str.indexOf("="));
+           var value = str.substr(str.indexOf("=")+1);
+           theRequest[key] = decodeURI(value);
+       }
+    }
+	if(theRequest.rout == 1){//添加模板
+		addTemplate();
+	}
+	if(theRequest.rout == 2){//编辑模板
+		editTemplate(theRequest.id)
+	}
+	if(theRequest.rout == 3){//添加站点
+		addSite();
+	}
+	if(theRequest.rout == 4){//编辑站点
+		editSite(theRequest.id);
+	}	
+	if(theRequest.rout == 5){//添加默认站点
+		addDefaultSite();
+	}
+	if(theRequest.rout == 6){//编辑默认站点
+		editDefaultSite(theRequest.id);
+	}
+    if(theRequest.rout == 7){//预览模板
+        viewTemplate(theRequest.id);
+    }
+    if(theRequest.rout == 8){//预览站点
+        viewSite(theRequest.id);
+    }
+    return theRequest;
+}
+
+/**
+ * 预览模板
+ */
+function viewTemplate (id){
+    $.ajax({
+        type: 'GET',
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+            if(data.result == "OK"){
+                timestamp = data.timestamp;
+                token = data.token;
+                url = data.url;
+                window.location = url + "/api/template/preview?timestamp=" + timestamp + '&token=' + token + '&templateId=' + id;
+            } else {
+                alert("跳转失败");
+            }
+        }
+    })
+}
+
+
+/**
+ * 预览站点
+ */
+function viewSite (id){
+    $.ajax({
+        type: 'GET',
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+            if(data.result == "OK"){
+                timestamp = data.timestamp;
+                token = data.token;
+                url = data.url;
+                window.location = url + "/api/site/preview?timestamp=" + timestamp + '&token=' + token + '&siteId=' + id;
+            } else {
+                alert("跳转失败");
+            }
+        }
+    })
+}
+
+/**
+ * 添加模板
+ */
+function addTemplate(){
+	$.ajax({
+        type: "GET",
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+             if(data.result =="OK"){
+            	 timestamp = data.timestamp;
+            	 token = data.token;
+            	 url = data.url;
+            	 userId = data.userId;
+            	 window.location=url+"/api/template/adminAddPage?timestamp="+timestamp+"&token="+token+"&userId="+userId;
+             }else{
+            	 alert("跳转失败");
+             }
+        }
+    });
+}
+
+/**
+ * 编辑模板
+ */
+ function editTemplate(id){
+	$.ajax({
+        type: "GET",
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+             if(data.result =="OK"){
+            	 timestamp = data.timestamp;
+            	 token = data.token;
+            	 url = data.url;
+            	 userId = data.userId;
+            	 window.location=url+"/api/template/adminEditPage?timestamp="+timestamp+"&token="+token+"&templateId="+id+"&userId="+userId;
+             }else{
+            	 alert("跳转失败");
+             }
+        }
+    });
+}
+
+/**
+ * 添加站点
+ */
+function addSite(){
+ 	$.ajax({
+        type: "GET",
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+             if(data.result =="OK"){
+            	 timestamp = data.timestamp;
+            	 token = data.token;
+            	 url = data.url;
+            	 userId = data.userId;
+            	 window.location=url+"/api/site/adminAddSite?timestamp="+timestamp+"&token="+token+"&userId="+userId;
+             }else{
+            	 alert("跳转失败");
+             }
+        }
+    });
+}
+
+/**
+ * 编辑站点
+ */
+function editSite(id){
+ 	$.ajax({
+        type: "GET",
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+             if(data.result =="OK"){
+            	 timestamp = data.timestamp;
+            	 token = data.token;
+            	 url = data.url;
+            	 window.location=url+"/api/site/adminEditSite?timestamp="+timestamp+"&token="+token+"&siteId="+id;
+             }else{
+            	 alert("跳转失败");
+             }
+        }
+    });
+}
+
+/**
+ * 添加默认站点
+ */
+function addDefaultSite(){
+ 	$.ajax({
+        type: "GET",
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+             if(data.result =="OK"){
+            	 timestamp = data.timestamp;
+            	 token = data.token;
+            	 url = data.url;
+            	 window.location=url+"/api/site/addDefaultSite?timestamp="+timestamp+"&token="+token;
+             }else{
+            	 alert("跳转失败");
+             }
+        }
+    });
+}
+
+/**
+ * 编辑默认站点
+ */
+function editDefaultSite(id){
+ 	$.ajax({
+        type: "GET",
+        url: "/template/add",
+        data: {},
+        dataType: "json",
+        success: function(data){
+             if(data.result =="OK"){
+            	 timestamp = data.timestamp;
+            	 token = data.token;
+            	 url = data.url;
+            	 window.location=url+"/api/site/editDefaultSite?timestamp="+timestamp+"&token="+token+"&siteDefaultId="+id;
+             }else{
+            	 alert("跳转失败");
+             }
+        }
+    });
+}
+
+</script><body onload="getUrlRequest()"></body></html>

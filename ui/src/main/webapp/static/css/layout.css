@@ -1,0 +1,149 @@
+﻿@CHARSET "UTF-8";
+.zw-col{
+    display:inline-block;
+}
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10
+{
+float:left;
+    display:inline-block;
+}
+.zw-col-1,.col-1{
+    width:8.330%;
+}
+.col-2,.zw-col-2{
+
+    width:16.6%;
+}
+
+.col-3,.zw-col-3{
+    width:25%;
+}
+.col-4,.zw-col-4{
+    width:33.3%;
+}
+.col-5,.zw-col-5{
+    width:41.6%;
+}
+.col-6,.zw-col-6{
+    width:50%;
+}
+.col-7,,.zw-col-7{
+    width:58%;
+}
+.col-8,.zw-col-8{
+    width:66.6%;
+}
+.col-9,.zw-col-9{
+    width:75%;
+}
+.col-10,.zw-col-10{
+    width:83%;
+}
+.col-11,.zw-col-11{
+    width:91.6%;
+}
+.col-12,.zw-col-12{
+    width:99%;
+}
+.left-1{
+    margin-left:10%;
+}
+.right-1{
+    margin-right:10%;
+}
+
+.fix-width-midle{
+    margin-left: auto;
+    margin-right: auto;
+}
+/*.middle-center{
+
+    margin-left:auto;
+    margin-right:auto;
+
+
+}*/
+.horizon-center{
+     margin-left: auto!important;
+        margin-right: auto!important;
+          display:block;
+}
+.vertical-center{
+position:relative;
+ top:50%;
+  margin-top: -1px; /***常用的居中****/
+  display:block;
+}
+.hv-center{
+	position:absolute;
+	top:50%;
+	left:50%;
+}
+
+.left{
+float:left;
+}
+.right{
+float:right;
+}
+.text-left {
+text-align:left;
+}
+.text-right{
+text-align:right;
+
+}
+
+    .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .clearfix{*+height:1%;}
+    
+    
+    .footer{
+    	/*position:fixed;*/
+    	border:1px solid red;
+    	background-color:white;
+    	line-height:2.5rem;
+    	font-size:1rem;
+    	bottom:0px;
+    	/*width:100%;*/
+    }
+
+    .fix-top{
+        position:fixed;
+        top:0px;
+        width:100%;
+        z-index:1000;
+    }
+ .fix-bottom{
+        position:fixed;
+        bottom:0px;
+        width:100%;
+        z-index:1000;
+    }
+/*
+.zw-box{
+    border: 1px solid #e9e9e9;
+        border-radius: 4px;
+        display: inline-block;
+
+        position: relative;
+        margin: 0 0 16px;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+}
+
+
+
+.zw-code-box-demo{
+     border-bottom: 1px solid #e9e9e9;
+     padding: 42px 20px 50px;
+}
+
+.zw-code-box-meta{
+    position:relative;
+        top: -14px;
+}
+.zw-code-box-meta-title{
+    position:absolute;
+        top: -14px;
+}*/

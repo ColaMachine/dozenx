@@ -1,0 +1,268 @@
+
+<div id="SysLogList" class="col-lg-12 ibox float-e-margins">
+   <!-- <div class="main-hd ibox-title">| 系统日志</div>-->
+
+
+    <div class="main-bd ibox-content">
+        <div class="body_top" >
+            <form class="form-inline app-search">
+                    <label for="id">编号</label>
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="10" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="编号"></input>
+        <label for="path">路径</label>
+            <input type="text" id="pathLike" name="pathLike"  class="form-control input-sm"   maxlength="100" placeholder="路径" ></input>
+        <label for="type">日志类型</label>
+            <input type="number" id="type" name="type"  class="form-control input-sm"  maxlength="10" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="日志类型"></input>
+        <label for="code">代码</label>
+            <input type="number" id="code" name="code"  class="form-control input-sm"  maxlength="10" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="代码"></input>
+        <label for="param">操作参数</label>
+            <input type="text" id="paramLike" name="paramLike"  class="form-control input-sm"   maxlength="200" placeholder="操作参数" ></input>
+        <label for="user">用户</label>
+            <input type="text" id="userLike" name="userLike"  class="form-control input-sm"   maxlength="40" placeholder="用户" ></input>
+        <label for="msg">消息</label>
+            <input type="text" id="msgLike" name="msgLike"  class="form-control input-sm"   maxlength="1000" placeholder="消息" ></input>
+        <label for="createTime">创建时间</label>
+        <div class="input-group">
+            <input type="text" id="createTime" name="createTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  placeholder="创建时间" ></input>
+            <label class="input-group-addon" for="createTime" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="createTimeBegin">创建时间开始</label>
+        <div class="input-group">
+            <input type="text" id="createTimeBegin" name="createTimeBegin"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  placeholder="创建时间开始" ></input>
+            <label class="input-group-addon" for="createTimeBegin" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="createTimeEnd">创建时间结束</label>
+        <div class="input-group">
+            <input type="text" id="createTimeEnd" name="createTimeEnd"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  placeholder="创建时间结束" ></input>
+            <label class="input-group-addon" for="createTimeEnd" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="startTime">开始时间</label>
+        <div class="input-group">
+            <input type="text" id="startTime" name="startTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  placeholder="开始时间" ></input>
+            <label class="input-group-addon" for="startTime" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="startTimeBegin">开始时间开始</label>
+        <div class="input-group">
+            <input type="text" id="startTimeBegin" name="startTimeBegin"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  placeholder="开始时间开始" ></input>
+            <label class="input-group-addon" for="startTimeBegin" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="startTimeEnd">开始时间结束</label>
+        <div class="input-group">
+            <input type="text" id="startTimeEnd" name="startTimeEnd"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  placeholder="开始时间结束" ></input>
+            <label class="input-group-addon" for="startTimeEnd" ><i class="fa fa-calendar"></i></label>        </div>
+
+            <button type="button"  class="btn btn-default searchBtn">查询</button>
+            </form>
+
+            <button class="btn btn-primary addBtn" ><i class="fa fa-plus"></i>新增</button>
+            <button class="btn btn-primary addSysLogTagBtn" ><i class="fa fa-plus"></i>打标签</button>
+            <!--<button class="btn btn-primary deleteBtn"><i class="fa fa-plus"></i>删除</button>-->
+            <!--<button class="btn btn-primary exportBtn"><i class="fa fa-plus"></i>导出</button>-->
+        </div>
+        <table id="SysLogGrid" class="grid table"></table>
+        <div id="SysLogGrid-Pager" class="pager"></div>
+    </div>
+</div>
+<script>
+var sysLogList={
+    modal:true,
+    mygrid:null,
+    treeObj:null,
+    dqData:null,
+    root:$("#SysLogList"),
+    logTag:{},
+    init:function(){
+       var that =this;
+         $.ajax({
+            url:PATH+"/sysLogTag/listAll.json",
+            async: true,
+            dataType:"json",
+            success : function(data){
+                that.logTag
+                for(var i=0;i<data.data.length;i++){
+
+                    that.logTag[data.data[i].id]=data.data[i].remark;
+
+                }
+            }
+        });
+
+        setTitle("系统日志");
+        this.mygrid =this.root.find("#SysLogGrid").jqGrid(this.gridParam);
+        this.addEventListener();
+        this.loadData();
+    },
+    loadData:function(){
+    },
+    addEventListener:function(){
+        $(this.root).find(".addBtn").click(this.addInfo.Apply(this));
+          $(this.root).find(".editBtn").click(this.editSelectInfo.Apply(this));
+        $(this.root).find(".deleteBtn").click(this.multiDelete.Apply(this));
+        $(this.root).find(".searchBtn").click(this.searchInfo.Apply(this));
+          $(this.root).find(".addSysLogTagBtn").click(this.addTag.Apply(this));
+
+    },
+    gridParam:{
+        datatype: "json",
+        viewrecords: true, sortorder: "desc", caption:"",
+        rowNum:10,
+        rowList:[10,20,30],
+        multiselect : false,
+        url : PATH+'/sysLog/list.json',
+        autowidth:true,
+        grid:"#SysLogGrid",
+        pager:"#SysLogGrid-Pager",
+        jsonReader:jsonReader,
+        colNames : [
+        "编号","路径","日志类型","代码","操作参数","用户","消息","创建时间","开始时间" , '操作' ],
+        colModel : [
+            {   name : 'id',width : 10,
+
+            } ,
+            {   name : 'path',width : 80,
+
+            } ,
+            {   name : 'type',width : 10,
+
+            } ,
+            {   name : 'code',width : 30,
+              formatter : function(value, grid, rows) {
+
+                   if(sysLogList.logTag[value] ){
+                        return sysLogList.logTag[value]+value;
+                   }else{
+                        return value;
+                   }
+                }
+
+            } ,
+            {   name : 'param',width : 80,
+
+            } ,
+            {   name : 'user',width : 40,
+
+            } ,
+            {   name : 'msg',width : 80,
+
+            } ,
+            {   name : 'createTime',width :40,
+                formatter : function(value, grid, rows) {
+                    if(value){
+                        return new Date(value).format("yyyy-MM-dd:HH:mm:ss");
+                    }else{
+                        return "";
+                    }
+                }
+            } ,
+            {   name : 'startTime',width : 30,
+                formatter : function(value, grid, rows) {
+                    if(value){
+                        return new Date(value).format("yyyy-MM-dd:HH:mm:ss");
+                    }else{
+                        return "";
+                    }
+                }
+            } ,
+
+            {   name : 'operation',
+                width : 30,
+                formatter : function(value, grid, rows) {
+                    return gridHelper.getViewHtml(rows.id,"sysLogList")+gridHelper.getEditHtml(rows.id,"sysLogList")+gridHelper.getDelHtml(rows.id,"sysLogList");
+                }
+            }
+        ],
+        onSelectRow: function(id){ //alert("单击选中"+id);
+        },
+        loadComplete:function(data){
+            dqData=data;
+        }
+    },
+
+    saveInfo:function(){
+    },
+    addInfo:function (){
+        dialog.window('/sysLog/edit.htm',this.modal);
+    },
+    addTag:function(){
+          var rowid =this.mygrid.jqGrid("getGridParam","selrow");
+        var rowData = this.mygrid.jqGrid('getRowData',rowid);
+        var id = rowData["code"];
+        if(StringUtil.isBlank(id)){
+            dialog.alert("请选中一行数据");
+        }else{
+            dialog.window("/sysLogTag/edit.htm?id="+id,this.modal);
+        }
+    },
+    editSelectInfo:function(){
+        var rowid =this.mygrid.jqGrid("getGridParam","selrow");
+        var rowData = this.mygrid.jqGrid('getRowData',rowid);
+        var id = rowData["id"];
+        if(StringUtil.isBlank(id)){
+            dialog.alert("请选中一行数据");
+        }else{
+            dialog.window("/sysLog/edit.htm?id="+id,this.modal);
+        }
+    },
+    editInfo:function (id){
+        dialog.window("/sysLog/edit.htm?id="+id,this.modal);
+    },
+    searchInfo:function (){
+        var jso = changeForm2Jso(".app-search");
+
+        this.mygrid.jqGrid("setGridParam", { search: true ,"postData":jso}).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
+    },
+    viewInfo:function (id){
+        dialog.window("/sysLog/view.htm?id="+id,this.modal);
+    },
+    exportInfo:function (){
+        var jso= changeForm2Jso(".app-search");
+        Ajax.getJSON(PATH+"/sysLog/export.json",jso,function(data){
+            if(data.r==AJAX_SUCC){
+                window.location=PATH+"/"+data.data;
+            }else{
+                dialog.error(data.msg,"导出失败",null);
+            }
+        })
+    },
+    deleteInfo:function (id){
+        var that =this;
+         //弹窗
+        dialog.confirm("确定删除数据:"+id,function(){
+            Ajax.post(PATH+"/sysLog/del.json",{id:id},function(result){
+                result=ajaxResultHandler(result);
+                if(result.r==AJAX_SUCC){
+                    var did=dialog.alert("删除成功，数据："+id,function(index){
+                    that.mygrid.trigger("reloadGrid");
+                    dialog.close(did);
+                });
+                }else {
+                    dialog.error(result.msg,"提醒");
+                }
+            });
+        });
+    },
+    multiDelete:function (){
+        //获取ids字符串
+        var ids=this.mygrid.jqGrid("getGridParam","selarrrow");
+        if(ids.length==0){
+            dialog.alert("请勾选数据");
+            return;
+        }
+        for(var i=0;i<ids.length;i++){
+            var data= this.mygrid.jqGrid("getRowData",ids[i]);
+            ids[i]=data["id"];
+        }
+        //弹窗
+        var that=this;
+        var dialogid= dialog.confirm("确定删除数据:"+ids.join(","),function(){
+            Ajax.post(PATH+"/sysLog/mdel.json?",{ids:ids.join(",")},function(result){
+                result=ajaxResultHandler(result);
+                if(result.r==AJAX_SUCC){
+                    dialogid=dialog.alert("删除成功，数据："+ids.join(","),function(index){
+                    that.mygrid.trigger("reloadGrid");
+                    dialog.close(dialogid);
+                });
+                }else {
+                    dialog.error(result.msg);
+                }
+            });
+        });
+    }
+};
+sysLogList.init()
+</script>
+

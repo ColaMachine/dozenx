@@ -1,0 +1,111 @@
+/*************菜单**************/
+
+
+// 普通\选中状态的图标
+@mixin back-img($name) {
+  .ant-menu-item {
+    .#{$name} {
+      background: url('../images/#{$name}.png') no-repeat center center;
+    }
+  }
+  .ant-menu-item.ant-menu-item-selected {
+    .#{$name} {
+      background: url('../images/#{$name}_act.png') no-repeat center center;
+    }
+  }
+}
+
+.leftMenu {
+  .icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    display: inline-block;
+  }
+
+  /*
+  * 每个问卷的图标在这里设置
+  图片名为例如：blacklist ,激活时为blacklist_act,页面中的类名在util/menus.js中配置
+  */
+  @include back-img(blacklist);
+  @include back-img(devmamage);
+  @include back-img(usermanage);
+  @include back-img(liveplaymgr);
+  @include back-img(blacklist);
+  @include back-img(blackuser);
+  @include back-img(version);
+  @include back-img(investigate);
+}
+
+//.ant-menu-dark .ant-menu-item-selected
+.ant-menu-root {
+  .menu-2nd a {
+    padding-left: 10px;
+    font-size: 14px;
+  }
+}
+
+.arrow-frame {
+  //position: relative;
+  width: 210px;
+  height: 100%;
+  .bright-block {
+    display: none;
+    width: 6px;
+    border-radius: 3px;
+    background-color: #4AA0ED;
+    height: 100%;
+    position: absolute;
+    left: 0;
+  }
+  .arrow-blk {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 21%;
+    border: 10px solid transparent;
+    border-right-color: #F5F7FB;
+  }
+  a {
+    font-size: 14px;
+    color: #BFC7D5;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none !important;
+  }
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: #415778 !important;
+  a {
+    color: #fff !important;
+  }
+  .bright-block {
+    display: block;
+  }
+  .arrow-blk {
+    display: block;
+  }
+}
+
+.leftMenu {
+  position: fixed;
+  width: 210px;
+  height: 100%;
+
+  .i-cloud {
+
+    padding-left: 25px;
+    background-color: #4AA0ED;
+    text-align: left;
+    height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    img {
+      height: 50px;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+﻿@CHARSET "UTF-8";
+
+.fnt-0-8{
+    font-size:0.3rem;
+}
+.fnt-1{
+    font-size:1rem;
+}
+.fnt-2{
+    font-size:2rem;
+}
+.fnt-3{
+font-size:3rem;
+}
+.fnt-4{
+font-size:4rem;
+}
+.fnt-5{
+   font-size:5rem;
+}
+
+title-1{
+3rem;
+}
+
+.height1{
+height: 1rem;
+    line-height: 1rem;
+}
+.height3{
+height: 3rem;
+    line-height: 3rem;
+}
+.height4{
+height: 4rem;
+    line-height: 4rem;
+}
+
+.height40{
+height: 40rem;
+
+}
+.all-1{
+	font-size:1rem;
+	width:1rem;
+	height:1rem;
+	
+}
+.all-2{
+	font-size:2rem;
+	width:2rem;
+	height:2rem;
+	
+}
+.all-3{
+	font-size:3rem !important;
+	width:3rem !important;
+	height:3rem !important;
+	
+}

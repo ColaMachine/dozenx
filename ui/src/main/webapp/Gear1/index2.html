@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+   <script src="hls.js"></script>
+</head>
+<body>
+你好i <br>
+<video id='video' loop="true" preload controls id='video' height=450 src ="index.m3u8"></video>
+<script type="text/javascript">
+    var video = document.getElementById('video');
+    video.loop = true;
+
+
+    var eventTester = function (e) {
+        video.addEventListener(e, function (e) {
+            console.log((new Date()).getTime(), ' >> ', ' : ', e.type);
+            if(e.type=="ended"){
+                console.log('ended load');
+                video.load();
+            }
+        });
+    };
+    eventTester("playing");
+    eventTester("ended");
+
+
+    let hls =  new Hls();
+    if (!Hls.isSupported())
+    {
+        console.error('无法播放')
+    }
+    let src="index.m3u8";
+    hls.loadSource(src);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+        video.play();
+        console.log('play...')
+    });
+</script>
+</body>
+</html>

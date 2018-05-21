@@ -1,0 +1,18 @@
+
+$red:#0000;
+
+
+body {
+	background-color:yellow;
+	font:25px;
+}
+
+body {
+	background-color:$red;
+	font:25px;
+}
+
+$blue:#1875e7;　
+div {
+color:$blue;
+}

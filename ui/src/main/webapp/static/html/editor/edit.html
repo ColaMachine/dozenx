@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+<!--    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">-->
+   <!-- <link rel="stylesheet" type="text/css" href="/static/css/head.css">-->
+<!--    <link rel="stylesheet" type="text/css" href="/static/css/main.css">-->
+    <link rel="stylesheet" type="text/css" href="/static/css/editor/editor.css">
+   <!-- <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.css">-->
+    <link rel="stylesheet" type="text/css" href="/static/css/editor/tab.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/editor/page_nav.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/editor/edit_canvas.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/editor/RightBar.css">
+</head>
+<body>
+<div id="editor">
+
+</div>
+<script src="/portalmaker/js/lib/react/react.js"></script>
+<script src="/portalmaker/js/lib/react/react-dom.js"></script>
+<script src="/portalmaker/js/lib/react/browser.js"></script>
+<!--<script type="text/javascript"   src="/static/js/jquery.min.js"></script>-->
+
+<!--<script type="text/javascript"   src="/static/js/common.js"></script>-->
+<script type="text/javascript"   src="/static/js/editor/Drag.js"></script>
+<!--
+<script type="text/javascript"   src="/static/js/jquery.min.js"></script>
+
+<script type="text/javascript"   src="/static/js/common.js"></script>
+<script type="text/javascript"   src="/static/js/react.js"></script>
+<script type="text/javascript"   src="/static/js/JSXTransformer.js"></script>
+
+<script type="text/jsx"   src="/static/js/editor/component/Entity.js"></script>
+<script type="text/jsx"   src="/static/js/editor/component/Setting.js"></script>
+
+<script type="text/jsx"   src="/static/js/editor/Drag.js"></script>
+<script type="text/jsx"  src="/static/js/editor/RightBar.js"></script>
+<script type="text/jsx"  src="/static/js/editor/PagePreView.js"></script>
+<script type="text/jsx"  src="/static/js/editor/editor_head.js"></script>
+<script type="text/jsx"  src="/static/js/editor/edit_template_wrap.js"></script>
+<script type="text/jsx"  src="/static/js/editor/edit_pagenav.js"></script>
+<script type="text/jsx"  src="/static/js/editor/edit_canvas.js"></script>
+<script type="text/jsx"  src="/static/js/editor/edit_main.js"></script>
+
+-->
+
+<!--<script type="text/javascript"  src="../js/menu.js"></script>-->
+
+
+
+<div id="dragmodifybtn" style="display:none;position:absolute;top:500px;left:600px">
+    <ul>
+        <li><a id="drag_edit_modify">修改</a></li>
+        <li><a id="drag_edit_move">移动</a></li>
+        <li><a id="drag_edit_del">删除</a></li>
+    </ul></div>
+<script src="/static/js/editor/all.js"></script>
+
+
+<script>
+ReactDOM.render(
+React.createElement(EditorMain, null),
+document.getElementById('editor')
+);
+</script>
+</body>
+</html>

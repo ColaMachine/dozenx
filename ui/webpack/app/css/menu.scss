@@ -1,0 +1,702 @@
+@import 'base';
+@CHARSET "UTF-8";
+$menu_height:2.25rem;
+$menu_font_size:2.25rem;
+.page{
+    margin-left:50px ;
+    margin-right:50px;
+    margin-top:100px;
+    background-color:$white;
+    border: 1px solid $light-gray;
+}
+
+
+i.undefined {/*有的时候 没有样式的情况下 也要占用一个位置*/
+	display: inline-block;
+	min-width: 1rem;
+}
+
+div ul li{
+    display:block;
+}
+.body-wrapper {
+padding-top:0px;
+}
+.main-wrap{
+    display:table-cell;
+    /*width:80%;*/
+    min-width:800px;
+    /*margin-left: 0px;*/
+}
+/**Position**/
+
+
+/**Box-model**/
+
+
+/**Typography**/
+
+
+/**Visual**/
+
+
+/* misc */
+
+/*********************************Position 位置**/
+body{
+    font-size:$ft-nm;
+}
+.zw-menu{
+    font-size:$ft-nm;
+}
+.zw-menu{
+    /*position:absolute;*/
+    list-style: none;
+    padding:0px 0px;
+    background-color: $white;
+    margin:0px 0px 0px;
+    border-radius:5px;
+    border:none;/*1px solid #F0F0EE;*/
+    text-align:left;
+    z-index:1000;
+  /*  width: 200px;*//* 为了让弹出来的菜单能够只适应宽度*/
+}
+
+/**ul**/
+
+.zw-menu li ul {
+	margin-left:10px;
+	min-width:30px;/**为了防止ie7下展开不显示 to prevent in ie7 not show **/
+	min-height:20px;
+}
+/***li**/
+
+ .zw-menu-item{
+border-bottom:1px dashed #a79595;
+}
+.zw-menu-horizontal .zw-menu-item{
+border-bottom:none;
+}
+
+.zw-menu-item{
+@include height_size($ft-h1);
+  @inclue padding($ft-h1);
+}
+ .zw-menu>ul>li {
+	position: relative;
+}
+
+.zw-menu-item:hover{
+    /**background-color:$light-gray;**/
+    color:$blue;
+}
+
+
+
+.zw-menu li{
+     line-height:$ft-nm*2;
+             margin:0px;
+             padding:0px;
+    &:last-child{
+       border-bottom:none;
+
+    }
+     &>a{
+        border:none;
+        margin:0px;
+        /* padding:0 0 0 5px;*/
+       cursor:pointer;
+        line-height:$ft-nm*3;
+       display:block;
+       width:100%;
+   }
+}
+
+.zw-menu>ul>li {
+    list-style-type: none;
+    position: relative;
+    border-bottom: 1px solid $light-gray;
+}
+
+/**a**/
+ .zw-menu li>a {
+    position: relative;
+}
+
+
+ .zw-menu li>a {
+	display: block;
+	width: 100%;
+}
+
+.zw-menu li a {
+    @inclulde height_size($ft-nm);
+}
+.zw-menu li>a {
+
+ @inclulde height_size($ft-nm);
+}
+
+/***子菜单区域**/
+.zw-menu-submenu{
+    position:relative;
+
+}
+
+.zw-menu-sub{
+    padding-left:0px;
+}
+
+
+
+/**打开的情况**/
+
+
+.zw-menu-submenu-open>.zw-menu-sub{
+   display:block;/**z只有当水平的菜单 鼠标移动上去会自动打开**/
+}
+
+
+
+
+/**.zw-menu-item-group菜单集合 保证group的内容菜单项目比title 有缩进**/
+.zw-menu-item-group zw-menu-item{
+    padding-left:50px;
+}
+
+.zw-menu-item-group-title{
+    color:$dark-gray;
+    padding-left:10px;
+}
+.zw-menu-wrap{
+  /*  z-index: 2000;*/
+    /**Position**/
+    font-size:12px;
+
+   top: 0px;
+   left:0px;
+    position: absolute ;
+
+}
+/**zw-icon**/
+
+
+ ul.zw-menu>li>a>.zw-icon-arrow{
+
+}
+
+/*.fa{
+   font-size:1.2rem;
+}
+ ul ul .fa{
+ font-size:0.8rem;
+
+  }*/
+ .zw-menu>ul.nav>li>ul>li .zw-icon{
+
+
+   padding-left:10px;
+   padding-right:10px;
+ }
+ .zw-menu .zw-icon{
+
+ /* margin-left:7px;*/
+  margin-left:0px;
+ /* margin-top:7px;*/
+  }
+ ul.zw-menu>li>a>.zw-icon{
+
+/* margin-left:7px;*/
+
+/* display:block;*/
+  /*width:100%;*/
+  text-align:center;
+ }
+
+.zw-menu-item-text .zw-icon{
+    position:relative;
+    line-height: 2.25rem;
+    min-height: 2.25rem;
+    height:2.25rem;
+}
+.zw-menu-item-text .zw-icon-arrow{
+    position:relative;
+    line-height: 10px;
+    min-height: 10px;
+    height:10px;
+}
+
+.zw-menu-item-text .zw-icon:after{
+
+}
+
+.zw-menu .zw-icon {
+	/*margin-left: 15px;*/
+	margin-right: 15px;
+}
+
+/**arrow**/
+
+
+.zw-menu .zw-icon-arrow {
+   transition: transform 0.3s ease-in-out 0s;
+
+}
+
+.zw-menu-submenu>a>.zw-icon-arrow{
+  -webkit-transition: all .3s;
+  transition: all .3s;
+/*  @include height_size($ft-h3);*/
+}
+
+.zw-menu-horizontal  .zw-menu-submenu > a > .zw-icon-arrow {
+
+    position:relative;
+    top:0px;
+    margin-left:5px;
+}
+.zw-menu-item-text{
+    position:relative;
+    min-width:100px;
+    padding-right:20px;
+}
+.zw-menu-horizontal .zw-menu-item-text{
+    position:relative;
+    min-width:50px;
+    padding-right:0px;
+}
+.zw-menu-submenu>a .zw-icon-arrow{
+ position:absolute;
+/*   display:inline-block;*/
+       top: 50%;
+     /*  transform: translateY(-50%);*/
+     margin-top:-5px;
+     height:10px;
+ /*  left:120px;*/
+ right:-5px;
+/*top:$ft-h1*0.3;*/
+/*    vertical-align: baseline;
+     text-align: center;*/
+}/*
+ .zw-menu .zw-icon-arrow {
+	position: absolute;
+	top: 50%;
+	margin-top: -$ft-nm/2;
+	right: $ft-nm/2;
+}*/
+
+
+
+.zw-menu-submenu-open>a .zw-icon-arrow {
+   transform: rotate(180deg);
+}
+/**文本**/
+
+
+ .zw-menu-item-text {
+   width:0px;
+
+/*   opacity:1;
+    filter: alpha(opacity=1); */
+}
+  zw-menu>li>a>.zw-menu-item-text {
+   /* display: none;*/
+  /* font-size:0.5*$ft-nm;*/
+
+}
+ ul.zw-menu>li>ul>li .zw-menu-item-text{
+ /*   margin-left:5px;
+    padding-left:5px;*/
+}
+  .zw-menu .zw-menu-item-text
+{
+   margin-left:0px;
+}
+
+
+  ul.zw-menu>li>a> .zw-menu-item-text{
+display:block;
+width:100%;
+/*text-align:center;*/
+/*line-height:1.55rem;
+ min-height:1.55rem;*/
+
+ }
+ .zw-menu .zw-menu-item-text {
+
+	/*margin-left: 15px;*/
+	padding-left:20px;
+
+}
+
+/*********************************Box-model 盒子模型**/
+
+.menu-wrap{
+	width: 200px;
+	height: 100%;
+	text-align: left;
+}
+
+/*div ,ul,li,a {
+    margin: 0px 0px 0px 0px;
+  	padding: 0px 0px 0px 0px;
+}*/
+/**覆盖 bootstrap**/
+
+
+
+ .zw-menu-item-text {
+    box-sizing:border-box;
+    padding-right:25px;
+}
+
+
+
+
+/********************************Typography 字体**/
+
+.menu-wrap .logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+
+}
+.zw-menu>.nav>li a {
+	font-weight: 500;
+}
+
+
+.zw-menu .fa-caret-down {
+    font-size: $ft-nm;
+}
+/**Visual 视觉**/
+/**颜色**/
+
+
+.zw-menu  ul,.zw-menu ,.zw-menu  a{
+    color:$white;
+	background-color: $light-black;
+
+}
+.zw-menu-white {
+    color:$light-black;
+	background-color: $white !important;
+    ul{
+           color:$light-black;
+        	background-color: $white;
+    }
+    a{
+           color:$light-black;
+        	background-color: $white;
+    }
+}
+
+
+
+
+
+
+.zw-menu-item:hover,
+.zw-menu-item:focus,
+ .zw-menu-sub>li:hover,
+ .zw-menu-sub>li>a:hover,
+.zw-menu-sub:focus,
+ .zw-menu-sub>li:focus,
+ .zw-menu-sub>li>a:focus , .zw-menu-sub {
+	background-color: rgba(0, 0, 0, 0.067);
+}
+
+
+
+.zw-menu-sub>li.open {
+	background-color: rgba(0, 0, 0, 0.077);
+}
+
+.zw-menu-submenu-open>a,.menu-wrap .nav .open>a.active,
+.zw-menu-submenu-open>a:focus,
+.zw-menu-submenu-open>a:hover {
+	background-color: rgba(0, 0, 0, 0.077);
+	border-color: rgba(0, 0, 0, 0.077);
+}
+.zw-menu-submenu-active {
+	background-color: rgba(1,1, 1, 0.077);
+}
+.zw-menu-sub>li a {
+	opacity: 0.85;
+}
+
+
+.zw-menu-submenu-open>a, .zw-menu li>a:hover  {
+	/*opacity: 1;*/
+  /*  color: #fff;*/
+    /*background: #1e282c;*/
+}
+
+ .zw-menu>ul>li>a,  .zw-menu>ul>li>a {
+    box-sizing:border-box;
+    border-left: 5px solid transparent;
+}
+
+
+
+
+ .zw-menu>ul>li:hover>a,  .zw-menu-submenu-open>a {
+    box-sizing:border-box;
+    border-left: 5px solid #3c8dbc !important;
+}
+
+.zw-menu-white ul,.zw-menu-white ,.zw-menu-white  a{
+    color:#555;
+	background-color: $white;
+
+}
+
+.zw-menu-white .zw-menu>ul.nav>li.open>a,.zw-menu-white .zw-menu li>a:hover  {
+/*	opacity: 1;*/
+    color: #111;
+    background:#f8f3f3;
+}
+
+
+
+
+.zw-menu-white {
+    .zw-menu-item:hover,
+    .zw-menu-item>a:hover,
+    .zw-menu-item:focus,
+    .zw-menu-sub:hover,
+    .zw-menu-item-group ,
+      .zw-menu-sub ,
+        .zw-menu-sub:hover,
+    .zw-menu-item-group:hover,
+    .zw-menu-sub:focus,
+
+    {
+        color:$light-black;
+        background-color:  $white !important;
+
+    }
+    .zw-menu-submenu-open>a, .zw-menu li>a:hover  {
+    	opacity: 0 !important;
+        color: $dark-gray;
+        background-color: $white !important;
+    }
+
+
+}
+
+
+/*************************************************************** misc 杂项 */
+
+
+
+.zw-menu-submenu-open>.zw-menu-sub{
+   display:block;/**z只有当水平的菜单 鼠标移动上去会自动打开**/
+}
+.zw-menu-sub{
+    display:none;/**默认是隐藏的 当有open的时候打开**/
+}
+
+
+.zw-menu span ,.zw-menu a{
+	white-space: nowrap;
+	/*overflow: hidden;会导致 如果有下拉弹出框 看不见 被隐藏*/
+}
+.zw-menu li {
+
+    list-style-type: none;
+}
+
+
+.zw-menu a ,.zw-menu a:hover,.zw-menu a:focus {
+
+	/*color: white;*/
+	text-decoration: none;
+}
+
+.zw-menu>ul li>ul {
+	/* transition: height 0.6s; */
+	transition: transform 3s ease-in-out 0s;
+	display: none;
+}
+
+
+/** li **/
+
+
+
+
+
+/***展开动画***/
+
+/***收缩动画****/
+.menu-wrap
+{
+transition:width 0.5s;
+-moz-transition:width 0.5s;
+-webkit-transition:width 0.5s;
+-o-transition:width 0.5s;
+}
+.main-wrap
+{
+/*margin-left:200px;*/
+transition:margin-left 0.5s;
+-moz-transition:margin-left 0.5s;
+-webkit-transition:margin-left 0.5s;
+-o-transition:margin-left 0.5s;
+
+}
+
+/**收缩**/
+.collapse1 {
+.zw-menu{
+width:100px;
+}
+ .zw-menu
+{
+margin-left:50px;
+
+}
+
+ .logo-desc{
+
+}
+
+ .logo-desc-text{
+
+}
+
+ .menu>ul{
+
+
+ }
+ .zw-menu>ul>li>ul{
+
+         margin-left:0px;
+ }
+ /** make icon don't get too colose with the left side **/
+
+ .zw-menu-submenu:hover>.zw-menu-sub{
+
+    display:block !important;
+
+ }
+
+ .zw-menu .zw-menu-sub{
+
+        display:none !important;
+   }
+   /** when hover the li show the ul  **/
+ ul.zw-menu>li:hover> .zw-menu-sub{
+   display:block !important;
+   }
+
+
+ .zw-menu {
+      width: 50px;
+ }
+ .main-wrap
+{
+margin-left:50px;
+}
+ .logo-desc-text{
+    display:none;
+}
+
+
+
+ ul.zw-menu>li>ul {
+    position: absolute;
+    left: 40px;
+    top: 0px;
+    diplay: block;
+    width: 150px;
+    z-index: 2000;
+  /*  background-color:  #2E3E4E;*/
+}
+
+/**icon **/
+
+
+
+  .zw-menu li > a{
+     /*min-height:3.25rem;*/
+    /* text-align:center;*/
+    	line-height: 2.25rem;
+    	min-height: 2.25rem;
+
+ }
+}
+
+
+
+/**水平菜单区域**/
+.zw-menu-horizontal{
+   /* display:table;*/
+
+
+}
+
+.zw-menu-horizontal {
+    background-color: $light-black;
+
+}
+
+.zw-menu-horizontal {
+    width: 100% !important;
+
+    text-align: left;
+    @include height_size($ft-h3);
+}
+ .zw-menu-horizontal .zw-menu-sub{
+
+   position:absolute;
+    min-width:155px;
+    list-style: none;
+    padding:0px 0px;
+    /* background-color: $white;*/
+    margin:0px 0px 0px;
+    border-radius:5px;
+    border:none;/*1px solid #F0F0EE;*/
+    box-shadow: 0 0px 12px $shadow-gray;
+    text-align:left;
+    z-index:1000;
+}
+
+.zw-menu-horizontal .zw-menu-submenu-active .zw-menu-sub{
+   display:block;/**z只有当水平的菜单 鼠标移动上去会自动打开**/
+}
+
+.zw-menu-horizontal>li{
+    float:left;
+    padding-left:15px;
+
+    /*display:table-cell;*/
+}
+
+.zw-menu-horizontal .zw-menu-item {
+        margin-left:15px;
+}
+ .zw-menu-horizontal .zw-menu-sub{
+
+   position:absolute;
+    min-width:155px;
+    list-style: none;
+    padding:0px 0px;
+    /* background-color: $white;*/
+    margin:0px 0px 0px;
+    border-radius:5px;
+    border:none;/*1px solid #F0F0EE;*/
+    box-shadow: 0 0px 12px $shadow-gray;
+    text-align:left;
+    z-index:1000;
+}
+
+
+.zw-menu-horizontal:after{
+   visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+ }

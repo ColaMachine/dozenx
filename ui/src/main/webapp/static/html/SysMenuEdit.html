@@ -1,0 +1,219 @@
+ <div class="ibox float-e-margins">
+    <form id="sysMenuEditForm" class="form-horizontal" method="post" action="/sysMenu/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">资源配置编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <input type="hidden" id="id" name="id"  class="form-control input-sm" >
+    <div class="form-group">
+        <label for="pid" class="col-sm-2 control-label">父菜单:</label>
+        <div class="col-sm-10">
+            <select  id="pid" name="pid"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">菜单名称:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="name" name="name"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">菜单代码:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="code" name="code"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="permission" class="col-sm-2 control-label">权限:</label>
+        <div class="col-sm-10">
+            <textarea  id="permission" name="permission"  class="form-control input-sm"   maxlength="255"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="url" class="col-sm-2 control-label">资源对应URL:</label>
+        <div class="col-sm-10">
+            <textarea  id="url" name="url"  class="form-control input-sm"   maxlength="255"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="order" class="col-sm-2 control-label">排序id:</label>
+        <div class="col-sm-10">
+            <input type="number" id="order" name="order"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态:</label>
+        <div class="col-sm-10">
+            <select  id="status" name="status"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>启用</option>
+                <option value=2>禁用</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="remark" name="remark"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var sysMenuEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#sysMenuEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        pid:{
+            digits:true
+        },
+        name:{
+            maxlength:20,required:true
+        },
+        code:{
+            maxlength:20,required:true
+        },
+        permission:{
+            maxlength:255
+        },
+        url:{
+            maxlength:255
+        },
+        order:{
+            digits:true
+        },
+        status:{
+            CheckBox:["1","2"],digits:true,required:true
+        },
+        remark:{
+            maxlength:20
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        pid:{
+            digits:"必须输入整数"
+        },
+        name:{
+            maxlength:"菜单名称不能多于20个字符"
+        },
+        code:{
+            maxlength:"菜单代码不能多于20个字符"
+        },
+        permission:{
+            maxlength:"权限不能多于255个字符"
+        },
+        url:{
+            maxlength:"资源对应URL不能多于255个字符"
+        },
+        order:{
+            digits:"必须输入整数"
+        },
+        status:{
+            CheckBox:"必须输入'1','2'中的值",digits:"必须输入整数"
+        },
+        remark:{
+            maxlength:"备注不能多于20个字符"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#sysMenuEditForm").validate(this.validParam);
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+                Ajax.getJSON(PATH+"/sysMenu/list.json",{},function(data){
+            fillSelectWithJso("pid",data.data,"id","name");
+
+        Ajax.getJSON(PATH+"/sysMenu/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#sysMenuEditForm",data.data.bean);
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("sysMenu/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#sysMenuEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#sysMenuEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#sysMenuEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("sysMenu/list.htm");
+
+                    if(that.modal){
+                        $("#SysMenuGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("sysMenu/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    sysMenuEdit.init();
+
+});
+</script>

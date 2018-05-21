@@ -1,0 +1,16 @@
+﻿.main{
+    padding:0rem 0rem 0rem 2rem ;
+    width:100%;
+   /* padding-top:75px;*/
+}
+.main-content{
+	/* background-color:white; */
+
+
+}.main-wrap {
+     background-color: #fff;
+     margin-left: 220px;
+     padding: 0 0 0 0;
+     position: relative;
+     /* border: 1px solid red; */
+ }

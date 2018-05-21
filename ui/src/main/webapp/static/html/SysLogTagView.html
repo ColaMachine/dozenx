@@ -1,0 +1,110 @@
+<div id="SysLogTagView" class="ibox float-e-margins">
+    <form id="SysLogTagViewForm" class="form-horizontal" >
+      <!--  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">系统日志注释查看</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">注解:</label>
+        <div class="col-sm-10">
+            <span name="remark" id="remark"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="detail" class="col-sm-2 control-label">详解:</label>
+        <div class="col-sm-10">
+            <span name="detail" id="detail"  class="form-control"  ></span>
+        </div>
+    </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<!--<div class="body_title">| 系统日志注释编辑</div>
+<form id="editForm" class="form-horizontal" method="post" action="/sysLogTag/save.json" enctype="multipart/form-data">
+     <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">注解:</label>
+        <div class="col-sm-10">
+            <span name="remark" id="remark"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="detail" class="col-sm-2 control-label">详解:</label>
+        <div class="col-sm-10">
+            <span name="detail" id="detail"  class="form-control"  ></span>
+        </div>
+    </div>
+
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+       <button type="button"   class="btn btn-default cancelBtn">返回</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>-->
+<script type="text/javascript">
+var sysLogTagView={
+    modal:true,
+    windowIndex:null,
+    root:$("#SysLogTagView"),
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        var that = this;
+        this.addEventListener();
+        //获取传入参数
+        if(!StringUtil.isBlank(getParam("id"))){
+            Ajax.getJSON("sysLogTag/view.json?id="+getParam("id"),null,function(data){
+                if(data.r==AJAX_SUCC){
+                    fillJso2FormSpan("#SysLogTagView",data.data.bean);
+                }else{
+                    dialog.error("获取信息失败"+data.msg,function(index){
+                        that.cancel();
+                        dialog.close(index);
+                    });
+                }
+
+            });
+
+        }
+    },
+    loadData:function(){
+    },
+    cancel:function(){
+        if(sysLogTagView.modal){
+            dialog.closeWindow("sysLogTagView");
+        }else{
+            goPage("sysLogTag/list.htm");
+        }
+    },
+    addEventListener:function(){
+        $(this.root).find(".cancelBtn").click(sysLogTagView.cancel);
+    }
+}
+$(document).ready(function() {
+    sysLogTagView.init();
+});
+   
+
+</script>

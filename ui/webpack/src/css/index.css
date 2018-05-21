@@ -1,0 +1,251 @@
+@charset "UTF-8";
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+/*登录页面配置*/
+.loginWrap {
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    background: url(../images/login.jpg) no-repeat 0 0 fixed;
+    background-size: cover;
+    position: fixed;
+}
+
+.loginWrap .login {
+    height: 350px;
+    width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    background-color: rgba(46, 87, 105, 0.63);
+    padding: 50px 100px;
+    border-radius: 15px;
+}
+
+.loginWrap .login .verification_code {
+    background: rgba(225, 225, 225, 0.4);
+    float: right;
+    text-align: center;
+    height: 34px;
+    width: 80px;
+    border-radius: 17px;
+    cursor: default;
+}
+
+.loginWrap .title {
+    position: relative;
+    top: 25%;
+    margin-top: -75px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+}
+
+/*加载login和index路由样式*/
+.mainRouter {
+    height: 100%;
+    width: 100%;
+}
+
+/*主页面*/
+.containerAll {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.containerAll .leftMenu {
+    position: fixed;
+    width: 210px;
+    height: 100%;
+}
+
+/*右侧内容区域*/
+.rightContainer {
+    position: fixed;
+    height: 100%;
+    right: 0px;
+    left: 210px;
+    background-color: #F5F7FB;
+}
+
+.rightContainer .header {
+    height: 80px;
+    width: 100%;
+    background-color: white;
+    border-bottom: solid 2px #f1f1e9;
+}
+
+.rightContainer .menuRouters {
+    height: 100%;
+    width: 99%;
+    padding: 20px 20px 20px 10px;
+}
+
+/*内容区域头部*/
+.topHeader {
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.topHeader .title {
+    font-size: 25px;
+    line-height: 80px;
+    margin-left: 20px;
+}
+
+.topHeader .panel {
+    float: right;
+    line-height: 80px;
+    margin-right: 20px;
+}
+
+.topHeader ul li {
+    float: right;
+    margin-left: 20px;
+}
+
+.topHeader ul li:first-child {
+    float: right;
+    margin-left: 60px;
+}
+
+/*设备管理页面*/
+.deviceMangement {
+    width: 100%;
+    height: 100%;
+    /*border-color: #2db7f5;*/
+    /*border: 5px solid;*/
+    margin: 20px;
+}
+
+/*.deviceMangement table {
+    !*margin-top: 10px;*!
+}*/
+
+.content {
+    height: 500px;
+    width: 500px;
+    position: absolute;
+    margin-left: 340px;
+    background-color: #87d068;
+}
+
+#components-form-demo-normal-login .login-form {
+    max-width: 300px;
+}
+
+.formitem .ant-input {
+    background: rgba(225, 225, 225, 0.4);
+    height: 34px;
+    font-size: 14px;
+    color: white;
+    border-radius: 17px;
+}
+
+.formitem .ant-btn {
+    background: rgba(225, 225, 225, 0.4);
+    height: 34px;
+    font-size: 14px;
+    color: white;
+    border-radius: 17px;
+}
+
+#components-form-demo-normal-login .login-form-forgot {
+    float: right;
+}
+
+#components-form-demo-normal-login .login-form-button {
+    width: 100%;
+    height: 34px;
+    border-radius: 17px;
+    background: white;
+    font-size: 14px;
+}
+
+/*# sourceMappingURL=index.css.map */
+
+/*设置批量上传tabs里的元素的布局*/
+.registerDevBatch .ant-row {
+    height: 32px;
+    margin: 5px 0 ;
+}
+.registerDevBatch .ant-row:first-child {
+    height: 32px;
+    margin-bottom: 20px;
+}
+
+.registerDevBatch .ant-row div {
+    line-height: 32px;
+    vertical-align: center;
+}
+
+.upload-device .upload-base {
+    display: inline-block;
+    height: 32px;
+    width: 100%;
+    line-height: 32px;
+    border-radius: 16px;
+    border: 1px solid lightgray;
+}
+
+/*文件名太长隐藏*/
+.upload-device .upload-base > span {
+    display: inline-block;
+    width: 135px;
+    overflow: hidden;
+}
+.upload-device .upload-base > span i {
+    margin: 0 4px 0 8px;
+    color:lightgray;
+}
+.upload-device .upload-base > span i:hover{
+    color:blue;
+}
+.registerDevBatch input{
+    height: 32px;
+}
+/*椭圆形的上传按钮*/
+.upload-device .upload-btn {
+    border-radius: 16px;
+    float: right;
+    position: relative;
+    top: -1px;
+    right: -1px;
+    height: 32px;
+    width: 70px;
+    background-color: #EEF3F8;
+    border-color: #4AA0ED;
+    color:#4AA0ED;
+}
+
+/*最下方长的㮋圆保存按钮*/
+.ant-row.register-save button{
+    border-radius: 16px;
+    height: 34px;
+    font-size: 14px;
+    color:#fff;
+    width: 100%;
+    background-color: #4AA0ED;
+}
+/*分布ul的样式*/
+.pagination{
+    text-align: right;
+    margin: 20px;
+}
+.table{
+    margin-top: 20px;
+}
+.ant-table-thead > tr > th {
+    background: #E7EBF2;
+}
+

@@ -1,0 +1,133 @@
+/**
+文件上传部分样式，包括批量上传设备，上传固件版本
+ */
+
+/********************************************************************/
+
+.upload-window-wrap {
+  width: 550px;
+  margin-top: 20px;
+
+  .template-down {
+    position: absolute;
+    top: 5px;
+    left: 229px;
+  }
+  .ant-row {
+    display: flex;
+    justify-content: center;
+    .ant-form-item-label {
+      width: 140px;
+      padding-right: 10px;
+      label {
+        font-size: 14px;
+      }
+    }
+  }
+
+  input[type=text] {
+    height: 32px;
+    width: 300px;
+    border-radius: 16px;
+    padding-left: 15px;
+  }
+
+  .btn-area {
+    display: flex;
+    margin: 50px 0 0 191px;
+    justify-content: space-around;
+    width: 313px;
+    button {
+      text-align: center;
+      line-height: 17px;
+      border-radius: 17px;
+      width: 140px;
+      height: 34px;
+      margin: 0 15px;
+      font-size: 20px;
+      color: #fff !important;
+      background-color: #4AA0ED !important;
+    }
+    .cancel {
+      color: #4AA0ED !important;
+      background-color: #fff !important;
+
+    }
+  }
+}
+
+/********************************************************************/
+/*设置批量上传tabs里的元素的布局*/
+.registerDevBatch .ant-row {
+  height: 32px;
+  margin: 5px 0;
+}
+
+.registerDevBatch .ant-row {
+  &:first-child {
+    height: 32px;
+    margin-bottom: 20px;
+  }
+
+  div {
+    line-height: 32px;
+    vertical-align: center;
+  }
+}
+
+.upload-device .upload-base {
+  display: inline-block;
+  height: 32px;
+  width: 100%;
+  line-height: 32px;
+  border-radius: 16px;
+  border: 1px solid lightgray;
+}
+
+/*文件名太长隐藏*/
+.upload-device .upload-base > span {
+  display: inline-block;
+  width: 227px;
+  overflow: hidden;
+}
+
+.upload-device .upload-base > span i {
+  margin: 0 4px 0 8px;
+  color: lightgray;
+  &:before {
+    font-size: 10px;
+  }
+  &:hover {
+    color: blue;
+  }
+}
+
+.registerDevBatch input {
+  height: 32px;
+}
+
+/*椭圆形的上传按钮*/
+.upload-device .upload-btn {
+  border-radius: 16px;
+  float: right;
+  position: relative;
+  top: -1px;
+  right: -1px;
+  height: 32px;
+  width: 70px;
+  background-color: #EEF3F8;
+  border-color: #4AA0ED;
+  color: #4AA0ED;
+}
+
+/*最下方长的㮋圆保存按钮*/
+.ant-row.register-save button.blue {
+  border-radius: 16px;
+  height: 34px;
+  font-size: 14px;
+  color: #fff !important;
+  width: 100%;
+  background-color: #4AA0ED !important;
+}
+
+

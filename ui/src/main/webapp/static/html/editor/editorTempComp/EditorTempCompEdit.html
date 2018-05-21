@@ -1,0 +1,171 @@
+ <div class="ibox float-e-margins">
+    <form id="editorTempCompEditForm" class="form-horizontal" method="post" action="/editorTempComp/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">模板编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="15" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="templateId" class="col-sm-2 control-label">模板id:</label>
+        <div class="col-sm-10">
+            <input type="number" id="templateId" name="templateId"  class="form-control input-sm"  maxlength="15" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="componentId" class="col-sm-2 control-label">组件id:</label>
+        <div class="col-sm-10">
+            <input type="number" id="componentId" name="componentId"  class="form-control input-sm"  maxlength="15" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+
+            <div class="form-group">
+        <label for="createtime" class="col-sm-2 control-label">组件:</label>
+        <div class="col-sm-10 z-col-table">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+       </div>
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var editorTempCompEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#editorTempCompEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        templateId:{
+            digits:true,required:true
+        },
+        componentId:{
+            digits:true
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        templateId:{
+            digits:"必须输入整数"
+        },
+        componentId:{
+            digits:"必须输入整数"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#editorTempCompEditForm").validate(this.validParam);
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/editorTempComp/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#editorTempCompEditForm",data.data.bean);
+                }
+                if(data.data.childs){
+                    var treeObj=$.fn.zTree.init($("#treeDemo"), setting, data.data.childs);
+                    if(data.data.childMaps!=null){
+                        for(var i=0;i<data.data.childMaps.length;i++){
+                            var node = treeObj.getNodeByParam("id",data.data.childMaps[i].componentId);
+                            treeObj.checkNode(node,true,true);
+                        }
+                    }
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("editorTempComp/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#editorTempCompEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#editorTempCompEditForm");
+        var childids=[];
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        var checkedNodes= treeObj.getCheckedNodes(true);
+        for(var i=0;i<checkedNodes.length;i++){
+            var obj=checkedNodes[i];
+            if(!checkedNodes[i].isParent){
+                childids.push(checkedNodes[i].id);
+            }
+        }
+        if(childids.length==0){
+         //$("#childs").parent().parent().find(".error").text("请选择相应权限");
+          //flag=false;
+        }
+        jso.childids= childids.join(",");//alert(jso.childids);return;
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#editorTempCompEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("editorTempComp/list.htm");
+
+                    if(that.modal){
+                        $("#EditorTempCompGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("editorTempComp/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    editorTempCompEdit.init();
+
+});
+</script>

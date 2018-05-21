@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hello, World</title>
+    <style type="text/css">
+        html{height:100%}
+        body{height:100%;margin:0px;padding:0px}
+        #container{height:100%}
+    </style>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="../../../static/js/zwcommon.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=0B1d2eff62bd35d2d98a8395b2560fe2">
+//v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+</script>
+</head>
+
+<body>
+<div id="container"></div>
+<script type="text/javascript">
+
+
+
+//初始化地图句柄 当前位置 x y
+var map=null,x,y;
+var markerList=[];
+//初始化百度地图
+function  initBaiduMap(x,y){
+    map = new BMap.Map("container");
+    if(!x){
+        x=116.404;
+    }
+     if(!y){
+        y= 39.915;
+    }
+     // 创建地图实例
+    var point = new BMap.Point(116.404, 39.915);
+
+    // 创建点坐标
+    map.centerAndZoom(point, 15);
+    // 初始化地图，设置中心点坐标和地图级别
+
+    map.addEventListener('dragend', function(){
+        // 你的代码
+        console.log("手机移动了,重新计算点");
+        for(var i=0;i<markerList.length;i++){
+            map.removeOverlay(markerList[i]);
+        }
+        markerList.length=0;
+        addPointTest();
+    });
+
+  map.addEventListener('dragstart', function(){
+    G("suggestId").blur();
+     });
+      map.addEventListener('click', function(){
+    G("suggestId").blur();
+     });
+
+}
+
+
+
+
+//通过web 内置方式获取经纬度(估计是ip) 不太准确
+function getWebLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, locationError,{
+            // 指示浏览器获取高精度的位置，默认为false
+            enableHighAcuracy: true,
+            // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+            timeout: 5000,
+            // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+            maximumAge: 3000
+         });
+    } else {
+        alert("该浏览器不支持获取地理位置");
+    }
+}
+
+
+function locationError (error){
+    switch(error.code) {
+        case error.TIMEOUT:
+            alert("A timeout occured! Please try again!");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert('We can\'t detect your location. Sorry!');
+            break;
+        case error.PERMISSION_DENIED:
+            alert('Please allow geolocation access for this to work.');
+            break;
+        case error.UNKNOWN_ERROR:
+            alert('An unknown error occured!');
+            break;
+    }
+}
+function showPosition(position) {
+
+    var longitude = position.coords.longitude;
+    var latitude = position.coords.latitude;
+
+
+    x=longitude;
+    y=latitude;
+
+  // 创建地图实例
+    var point = new BMap.Point(longitude, latitude);
+    // 创建点坐标
+    map.centerAndZoom(point, 15);
+
+
+
+}
+
+
+
+
+</script>
+
+
+<div style="position:absolute;width:200px;top:0px;left:0px;">
+    <span><button onclick="initBaiduMap()"> 初始换地图</button></span>
+    <span><button onclick="getWebLocation()"> web定位</button></span>
+
+    <div id="r-result">请输入:<input type="text" id="suggestId" size="20" value="百度" style="width:150px;" /></div>
+
+    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+    <script>
+        function G(id) {
+            return document.getElementById(id);
+        }
+        	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{"input" : "suggestId"
+		,"location" : map
+	});
+
+	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+		value = "";
+		if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		G("searchResultPanel").innerHTML = str;
+
+	});
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+		setPlace();
+	});
+
+	function setPlace(){
+		map.clearOverlays();    //清除地图上所有覆盖物
+		function myFun(){
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			map.centerAndZoom(pp, 18);
+			map.addOverlay(new BMap.Marker(pp));    //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+		  onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+    </script>
+
+    <script>
+function getBaiduWebLocationByIP(){
+    Ajax.getJSONP("http://api.map.baidu.com/location/ip?ak=0B1d2eff62bd35d2d98a8395b2560fe2&coor=bd09ll",
+    { },
+
+showBaiduIpLoaction
+    );
+}
+var x,y;
+ function showBaiduIpLoaction(data){
+        alert("x:"+data.content.point.x+"y:"+data.content.point.y);
+
+          // 创建地图实例
+        var point = new BMap.Point(data.content.point.x, data.content.point.y);
+        // 创建点坐标
+        map.centerAndZoom(point, 15);
+        x=point.lng;y=point.lat;
+        // 初始化地图，设置中心点坐标和地图级别
+    }
+
+    </script>
+    <span><button onclick="getBaiduWebLocationByIP()">ip定位</button></span>
+
+
+
+    <span><button onclick="getTecentJSDKLocation()"> 微信jssdk定位</button></span>
+
+    <span><button onclick="addPointTest()"> 地图中心添加点</button></span>
+
+<script>
+    var points ;//标记数组
+    //测试添加点
+    function addPointTest(){
+        //建立坐标点：
+        // lng：经度 lat：纬度
+
+    //获取当前中心经纬度
+    var point= map.getCenter();
+    x=point.lng;//设置当前中心点
+    y=point.lat;//设置当前中心点
+    var offset =0.0005;//计算距离中心偏移位置
+    points =  [
+        {"lng":x,"lat":y,"url":"http://www.baidu.com","id":1,"name":"p1"},
+        {"lng":x-offset,"lat":y-offset,"url":"http://www.baidu.com","id":1,"name":"p1"},
+        {"lng":x+offset,"lat":y-offset,"url":"http://www.baidu.com","id":1,"name":"p1"},
+        {"lng":x+offset,"lat":y+offset,"url":"http://www.baidu.com","id":1,"name":"p1"},
+        {"lng":x-offset,"lat":y+offset,"url":"http://www.baidu.com","id":1,"name":"p1"},
+    ]
+
+    addMarker(points);//添加标记
+
+}
+
+    //创建标注点并添加到地图中
+function addMarker(points) {
+    //循环建立标注点
+    for(var i=0, pointsLen = points.length; i<pointsLen; i++) {
+        var point = new BMap.Point(points[i].lng, points[i].lat); //将标注点转化成地图上的点
+        var marker = new BMap.Marker(point); //将点转化成标注点
+        map.addOverlay(marker);  //将标注点添加到地图上
+
+        markerList.push(marker);
+        //添加监听事件
+        (function() {
+            var thePoint = points[i];
+            marker.addEventListener("click",
+            //显示信息的方法
+                function() {
+                showInfo(this,thePoint);
+            });
+         })();
+    }
+}
+
+function showInfo(thisMarker,point) {
+    //获取点的信息
+    var sContent =
+    '<ul style="margin:0 0 5px 0;padding:0.2em 0">'
+    +'<li style="line-height: 26px;font-size: 15px;">'
+    +'<span style="width: 50px;display: inline-block;">id：</span>' + point.id + '</li>'
+    +'<li style="line-height: 26px;font-size: 15px;">'
+    +'<span style="width: 50px;display: inline-block;">名称：</span>' + point.name + '</li>'
+    +'<li style="line-height: 26px;font-size: 15px;"><span style="width: 50px;display: inline-block;">查看：</span><a href="'+point.url+'">详情</a></li>'
+    +'</ul>';
+    var infoWindow = new BMap.InfoWindow(sContent); //创建信息窗口对象
+    thisMarker.openInfoWindow(infoWindow); //图片加载完后重绘infoWindow
+}
+
+document.body.addEventListener("click",function(){
+
+})
+</script>
+</div>
+
+</body>
+</html>

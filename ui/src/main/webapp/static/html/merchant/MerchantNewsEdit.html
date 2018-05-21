@@ -1,0 +1,143 @@
+ <div class="ibox float-e-margins">
+    <form id="merchantNewsEditForm" class="form-horizontal" method="post" action="/merchantNews/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">商户滚动图片编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="content" class="col-sm-2 control-label">路径:</label>
+        <div class="col-sm-10">
+<input  id="content" name="content"  value="null" style="display:none" class="form-control input-sm"   maxlength="150"></input>        </div>
+    </div>
+    <div class="form-group">
+        <label for="merid" class="col-sm-2 control-label">商户id:</label>
+        <div class="col-sm-10">
+            <input type="number" id="merid" name="merid"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var merchantNewsEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#merchantNewsEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        content:{
+            maxlength:150
+        },
+        merid:{
+            digits:true
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        content:{
+            maxlength:"路径不能多于150个字符"
+        },
+        merid:{
+            digits:"必须输入整数"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#merchantNewsEditForm").validate(this.validParam);
+        var imageUtil=new zImageUtil2({"input":"content"});
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/merchantNews/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#merchantNewsEditForm",data.data.bean);
+                    $("#content").parent().find("img").attr("src",$("#content").val());
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("merchantNews/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#merchantNewsEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#merchantNewsEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#merchantNewsEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("merchantNews/list.htm");
+
+                    if(that.modal){
+                        $("#MerchantNewsGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("merchantNews/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    merchantNewsEdit.init();
+
+});
+</script>

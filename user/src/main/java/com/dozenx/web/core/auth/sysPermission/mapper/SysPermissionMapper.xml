@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysPermission.dao.SysPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysPermission.bean.SysPermission">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="pid" jdbcType="BIGINT" property="pid" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
+      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="order_no" jdbcType="INTEGER" property="orderNo" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sys_permission_name" jdbcType="VARCHAR" property="sys_permission_name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_permission.`id` ,sys_permission.`pid` ,sys_permission.`name` ,sys_permission.`code` ,sys_permission.`order_no` ,sys_permission.`status` ,sys_permission.`remark`,sys_permission.`url`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+
+    from sys_permission sys_permission
+
+    where sys_permission.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update  sys_permission set status =9
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
+
+    insert into sys_permission (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{pid,jdbcType=BIGINT}
+,#{name,jdbcType=VARCHAR}
+,#{code,jdbcType=VARCHAR}
+,#{orderNo,jdbcType=INTEGER}
+,#{status,jdbcType=INTEGER}
+,#{remark,jdbcType=VARCHAR}
+     ,#{url,jdbcType=VARCHAR}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
+    insert into sys_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="pid != null" >  
+           `pid`, 
+        </if>  
+        <if test="name != null" >  
+           `name`, 
+        </if>  
+        <if test="code != null" >  
+           `code`, 
+        </if>  
+        <if test="orderNo != null" >
+           `orderNo`,
+        </if>  
+        <if test="status != null" >  
+           `status`, 
+        </if>  
+        <if test="remark != null" >  
+           `remark`, 
+        </if>
+        <if test="url != null" >
+            `url`,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+          #{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="orderNo != null" >
+          #{orderNo,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="url != null" >
+            #{url,jdbcType=VARCHAR},
+        </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
+    update sys_permission
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+             `code`=#{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="orderNo != null" >
+             `order_no`=#{orderNo,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="url != null" >
+            `url`=#{url,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
+    update sys_permission
+    set 
+              `pid`=#{pid,jdbcType=BIGINT},  
+              `name`=#{name,jdbcType=VARCHAR},  
+              `code`=#{code,jdbcType=VARCHAR},  
+              `order_no`=#{orderNo,jdbcType=INTEGER},
+              `status`=#{status,jdbcType=INTEGER},  
+              `remark`=#{remark,jdbcType=VARCHAR} ,
+                `url`=#{url,jdbcType=VARCHAR}
+      where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_permission where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and `name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and `code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and `code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="orderNo != null and orderNo != '' ">
+           and `order_no` = #{orderNo}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and `remark` like "%"#{remarkLike}"%"
+        </if>
+      <if test="url != null and url != '' ">
+          and `url` like "%"#{url}"%"
+      </if>
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+
+    from sys_permission
+
+
+
+    where status !=9
+        <if test="id != null and id != '' ">  
+           and sys_permission.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sys_permission.`pid` = #{pid}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_permission.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_permission.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and sys_permission.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_permission.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="orderNo != null and orderNo != '' ">
+           and sys_permission.`order_no` = #{orderNo}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and sys_permission.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_permission.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_permission.`remark` like "%"#{remarkLike}"%"
+        </if>
+
+       <if test="url != null and url != '' ">
+           and sys_permission.`url` like "%"#{url}"%"
+       </if>
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_permission where status!=9
+        <if test="id != null and id != '' ">  
+           and sys_permission.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sys_permission.`pid` = #{pid}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_permission.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_permission.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and sys_permission.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_permission.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="orderNo != null and orderNo != '' ">
+           and sys_permission.`order_no` = #{orderNo}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and sys_permission.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_permission.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_permission.`remark` like "%"#{remarkLike}"%"
+        </if>
+       <if test="url != null and url != '' ">
+           and sys_permission.`url` like "%"#{url}"%"
+       </if>
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_permission where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="code != null and code != '' ">
+           or `code` = #{code}
+        </if>
+        <if test="orderNo != null and orderNo != '' ">
+           or `order_no` = #{orderNo}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+  </select>
+</mapper>

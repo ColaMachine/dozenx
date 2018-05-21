@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/widget.css">
+<link rel="stylesheet" href="../css/btn.css">
+<style type="text/css">
+
+.mask{
+    position: fixed;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #000;
+    background-color: #000000;
+    filter:alpha(opacity= 50); /* IE 透明度20% */
+    -moz-opacity: 0.5; /* Moz + FF 透明度20%*/
+    opacity: 0.5 ; /* 支持CSS3的浏览器（FF 1.5也支持）透明度20%*/
+}
+
+</style>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body><i class="fa fa-check-circle"></i>
+<i class="fa fa-camera-retro"></i> fa-camera-retro
+<button onclick="zalert('消息','标题',function(){alert('回调函数')})">alert</button>
+<button onclick="zconfirm('消息','标题',function(){alert('回调函数')})" >confirm</button>
+<button onclick="zerror('消息','标题',function(){alert('回调函数')})">error</button>
+</body>
+</html>

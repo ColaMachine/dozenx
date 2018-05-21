@@ -1,0 +1,142 @@
+ <div class="ibox float-e-margins">
+    <form id="sysLogTagEditForm" class="form-horizontal" method="post" action="/sysLogTag/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">系统日志注释编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="10" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">注解:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="remark" name="remark"  class="form-control input-sm"   maxlength="50"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="detail" class="col-sm-2 control-label">详解:</label>
+        <div class="col-sm-10">
+            <textarea  id="detail" name="detail"  class="form-control input-sm"   maxlength="100"  ></textarea>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var sysLogTagEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#sysLogTagEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        remark:{
+            maxlength:50
+        },
+        detail:{
+            maxlength:100
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        remark:{
+            maxlength:"注解不能多于50个字符"
+        },
+        detail:{
+            maxlength:"详解不能多于100个字符"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#sysLogTagEditForm").validate(this.validParam);
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/sysLogTag/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#sysLogTagEditForm",data.data.bean);
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("sysLogTag/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#sysLogTagEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#sysLogTagEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#sysLogTagEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("sysLogTag/list.htm");
+
+                    if(that.modal){
+                        $("#SysLogTagGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("sysLogTag/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    sysLogTagEdit.init();
+
+});
+</script>

@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		
+	
+	</head>
+	<body onload='init()' style='overflow:hidden;'>
+<style type="text/css">
+	.co-mask{
+		position: absolute;
+		 top: 0px; 
+		 left: 0px; 
+		 width: 1263px; 
+		 height: 3512px; 
+		 z-index: 9998; 
+		 display: block;
+		  opacity: 0.1; 
+		  background-color: rgb(221, 221, 221); 
+		  filter:  alpha(opacity=80);
+		  border :1px solid red;
+		  padding: 0px;
+	}
+	
+	.co-window{
+		border-radius:5px;
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		background:#FFF;
+		height:500px;
+		width:400px;
+		 top: 100px; 
+		 left: 300px; 
+		 z-index: 9999; 
+		position: absolute;
+		box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+		
+	}
+	.co-close{
+		cursor: pointer;
+		position: absolute;
+		right: 3px;
+		top: 5px;
+		background: url('buttons-master.20140130192956.png') no-repeat scroll 0px -1326px transparent;
+		display: block;
+		width: 16px;
+		height: 16px;
+	}
+	.co-close:hover{
+		background-position: -16px -1326px;
+	}
+	.co-tabs{
+		display:block;
+		
+		
+		height:60px;
+		background: none repeat scroll 0% 0% #F5F5F1;
+		border-radius:5px 5px 0px 0px;
+		border-bottom: 1px solid #DFE1E1;
+		border-top: 1px solid #FFF;
+		
+		padding: 0px 10px 0px 40px;
+		margin: 20px 0px 30px;
+	}
+	
+	.co-active {
+		border-bottom-color: #FFF;
+		background-color: #FFF;
+		
+	}
+	.register-tab{
+		margin: 0px 0px -1px 0px;	
+		display:block;
+		border-color: #DADBD6 #DADBD6 white #DADBD6 ;
+		border-width: 1px 1px 1px 1px;
+		border-style: solid solid solid solid ;
+		height:31px;
+	}
+.co-tabs li {
+    margin-top: 20px;
+}
+.overlay-content .co-tabs li {
+    margin-bottom: 0px;
+}
+.co-tabs li {
+    float: left;
+}
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	    margin: 0px;
+	    padding: 0px;
+	    border: 0px none;
+	    outline: 0px none;
+	    vertical-align: baseline;
+	    background: none repeat scroll 0% 0% transparent;
+	}
+	.co-tabs li>a {
+		display: block;
+		background-color: #F5F6F1;
+		border-width: 1px 1px 1px 0px;
+		border-style: solid solid solid none;
+		border-color: #DADBD6 #DADBD6 #DADBD6 -moz-use-text-color;
+		-moz-border-top-colors: none;
+		-moz-border-right-colors: none;
+		-moz-border-bottom-colors: none;
+		-moz-border-left-colors: none;
+		border-image: none;
+		font-size: 13px;
+		padding: 8px 12px;
+		margin: 0px 0px -1px;
+		text-align: center;
+		color: #0192B5;
+		font-weight: bold;
+		position: relative;
+		cursor: pointer;
+		
+	}
+	.co-tab-first{
+	
+	}
+</style>
+
+<div class="co-mask"  >123123
+</div>
+	<div class="co-window " >
+		<a class="co-close"> </a>
+		
+		<ul class="co-tabs" >
+
+		    <li class="co-tab-first co-active">
+		    	<a class="register-tab">
+		    			register
+		    	</a>
+		    	
+		    </li class="co-tab-second">
+		    <li class="">
+		    	<a class="register-tab"> 
+		    			sign in
+		    	</a>
+		    </li>
+
+		</ul>
+	</div>
+	
+</body>
+</html>

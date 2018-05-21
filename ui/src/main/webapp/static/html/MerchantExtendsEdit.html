@@ -1,0 +1,221 @@
+ <div class="ibox float-e-margins">
+    <form id="merchantExtendsEditForm" class="form-horizontal" method="post" action="/merchantExtends/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">商户扩展字段编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <input type="hidden" id="id" name="id"  class="form-control input-sm" >
+    <div class="form-group">
+        <label for="chinaNet" class="col-sm-2 control-label">chainaNet开关:</label>
+        <div class="col-sm-10">
+            <select  id="chinaNet" name="chinaNet"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lan" class="col-sm-2 control-label">lan口认证:</label>
+        <div class="col-sm-10">
+            <select  id="lan" name="lan"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="awifi" class="col-sm-2 control-label">awifi开关:</label>
+        <div class="col-sm-10">
+            <select  id="awifi" name="awifi"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="escapse" class="col-sm-2 control-label">一键放通:</label>
+        <div class="col-sm-10">
+            <select  id="escapse" name="escapse"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="portal" class="col-sm-2 control-label">酒店首页:</label>
+        <div class="col-sm-10">
+            <select  id="portal" name="portal"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=0>爱wifi</option>
+                <option value=1>信产</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="freeTimeOut" class="col-sm-2 control-label">闲时下线:</label>
+        <div class="col-sm-10">
+            <input type="number" id="freeTimeOut" name="freeTimeOut"  class="form-control input-sm"  maxlength="5" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="netPwdSta" class="col-sm-2 control-label">防蹭网开关:</label>
+        <div class="col-sm-10">
+            <select  id="netPwdSta" name="netPwdSta"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var merchantExtendsEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#merchantExtendsEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        chinaNet:{
+            CheckBox:["1","0"],digits:true
+        },
+        lan:{
+            CheckBox:["1","0"],digits:true
+        },
+        awifi:{
+            CheckBox:["1","0"],digits:true
+        },
+        escapse:{
+            CheckBox:["1","0"],digits:true
+        },
+        portal:{
+            CheckBox:["0","1"],digits:true
+        },
+        freeTimeOut:{
+            digits:true
+        },
+        netPwdSta:{
+            CheckBox:["1","0"],digits:true
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        chinaNet:{
+            CheckBox:"必须输入'1','0'中的值",digits:"必须输入整数"
+        },
+        lan:{
+            CheckBox:"必须输入'1','0'中的值",digits:"必须输入整数"
+        },
+        awifi:{
+            CheckBox:"必须输入'1','0'中的值",digits:"必须输入整数"
+        },
+        escapse:{
+            CheckBox:"必须输入'1','0'中的值",digits:"必须输入整数"
+        },
+        portal:{
+            CheckBox:"必须输入'0','1'中的值",digits:"必须输入整数"
+        },
+        freeTimeOut:{
+            digits:"必须输入整数"
+        },
+        netPwdSta:{
+            CheckBox:"必须输入'1','0'中的值",digits:"必须输入整数"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#merchantExtendsEditForm").validate(this.validParam);
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/merchantExtends/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#merchantExtendsEditForm",data.data.bean);
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("merchantExtends/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#merchantExtendsEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#merchantExtendsEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#merchantExtendsEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("merchantExtends/list.htm");
+
+                    if(that.modal){
+                        $("#MerchantExtendsGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("merchantExtends/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    merchantExtendsEdit.init();
+
+});
+</script>

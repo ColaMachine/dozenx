@@ -1,0 +1,131 @@
+
+<script type="text/javascript" src="static/js/layer.js"/>
+<link rel="stylesheet" type="text/css" href="${path}/static/css/layer.css" />
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+<button type="button" class="btn btn-primary btn-lg" onclick="zalert('123')" >
+ alert
+</button>
+<button type="button" class="btn btn-primary btn-lg" onclick="zconfirm('123')" >
+zconfirm
+</button>
+<button type="button" class="btn btn-primary btn-lg" onclick="zerror('123')" >
+zerror
+</button>
+<button type="button" class="btn btn-primary btn-lg" onclick="layer.alert('123')" >
+  layer alert
+</button>
+
+<button type="button" id="layerConfirmBtn" class="btn btn-primary btn-lg"  >
+  layer confirm
+</button>
+<button type="button" class="btn btn-primary btn-lg" onclick="layer.msg('layer msg')" >
+  layer msg
+</button>
+
+<button id="tipsBtn" type="button" class="btn btn-primary btn-lg" >
+layer.tips
+</button>
+
+<button type="button" class="btn btn-primary btn-lg" id="layerOpenBtn" >
+  layer 捕获页
+</button>
+
+<button type="button" class="btn btn-primary btn-lg" id="layerPageBtn" >
+  layer 页面层
+</button>
+
+<button type="button" class="btn btn-primary btn-lg" id="zidingyiye" >
+  layer 自定义页
+</button>
+<button type="button" class="btn btn-primary btn-lg" id="iframe" >
+ iframe 层
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+$("#tipsBtn").click(function(){
+  layer.tips("hi，我是tips","#tipsBtn");
+})
+$("#layerConfirmBtn").click(function(){
+  layer.confirm("确定操作?",{btn:['是','否']},function(){
+    layer.msg('你按了是',{icon:1})
+  },function(){
+
+    layer.msg('你按了否10s后小时',{time:10000,btn:['yes','no']}
+      ,function(){alert("你按了yes")
+    })
+  });
+})
+
+$("#layerOpenBtn").click(function(){
+  layer.open({
+    type:1,
+    shade:false,
+    tittle:false,
+    content:$('#layerOpenBtn'),
+    cancel:function(index){
+      layer.close(index);
+      this.content.show();
+      layer.msg('捕获就是从页面已经存在的元素上,包裹layer的结构',{time:5000,icon:6});
+    }
+  })
+})
+
+$("#layerPageBtn").click(function(){
+  //页面层
+layer.open({
+  type: 1,
+  skin: 'layui-layer-rim', //加上边框
+  area: ['420px', '240px'], //宽高
+  content: 'html内容'
+});
+})
+$("#zidingyiye").click(function(){
+
+//自定页
+layer.open({
+  type: 1,
+  skin: 'layui-layer-demo', //样式类名
+  closeBtn: 0, //不显示关闭按钮
+  shift: 2,
+  shadeClose: true, //开启遮罩关闭
+  content: '内容'
+});
+})
+
+$("#iframe").click(function(){
+
+//自定页
+layer.open({
+  type: 1,
+  skin: 'layui-layer-demo', //样式类名
+  closeBtn: 0, //不显示关闭按钮
+  shift: 2,
+  shadeClose: true, //开启遮罩关闭
+  content: '内容'
+});
+})
+</script>

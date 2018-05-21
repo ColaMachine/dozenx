@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,user-scalable=no" />
+<title>Insert title here</title>
+<style type="text/css">
+
+
+
+
+.area-province{
+float:left;
+background-color:#EEEEEE;
+}
+.area-province .selected{
+	background-color:white;
+}
+
+.area-city{
+float:right
+}
+.area-wrap div{
+	margin:0;
+color:#7B7474;
+display:block;width:50%;height:100%;margin:0 ;margin-left:0px;0;overflow-y:scroll;overflow-x:hidden;
+}
+.area-wrap span{
+margin-left:5px;
+margin-right:0px;
+display:block;;
+width:100%;
+right:0px;
+border-bottom:1px solid #B8BDB8;
+}
+.area-wrap ul{
+margin:0 ;
+padding:0;
+}
+.area-wrap li{
+line-height:45px;
+list-style:none;
+}
+</style>    
+<script src="/calendar/js/jquery.min.js" type="text/javascript"
+	charset="utf-8"></script>
+</head>
+<body>
+<!-- <input type="color">  -->
+<div class="area-wrap">
+<div id="province-wrapper"  class="area-province">
+<ul id="province" >
+</ul>
+</div>
+<div   id="city-wrapper"  class="area-city">
+<ul id="city" >
+</ul>
+</div>
+</div>
+</body>
+<script type="text/javascript" src ="/calendar/js/jquery.mobile.custom.min.js"></script>
+<script  type="text/javascript">
+$("#province-wrapper").css("height",$(window).height());
+$("#city-wrapper").css("height",$(window).height());
+$.post( "http://192.168.0.100:8080/MerchantManage/member/getProvince", {}, function(data) {
+	for (var i = 0, length = data.list.length; i < length; i++) {
+		jQuery(
+				"<li value='" + data.list[i] + "'><span>" + data.list[i]
+						+ "</span></li>").appendTo($("#province"));
+	}
+	$("#province").find("li").each(function(i,val){
+		$(this).click(function(event){
+			$(".selected").removeClass();
+			$(this).removeClass().addClass("selected");
+			getCity($(this).text());
+		});
+	})
+});
+
+function getCity(province){
+$.post( "http://192.168.0.100:8080/MerchantManage/member/getCity", {
+	areaname : province
+}, function(data) {
+	$("#city").empty();
+	for (var i = 0, length = data.list.length; i < length; i++) {
+		jQuery(
+				"<li value='" + data.list[i] + "'><span>" + data.list[i]
+						+ "</span></li>").appendTo($("#city"));
+	}});
+}
+
+</script>
+</html>

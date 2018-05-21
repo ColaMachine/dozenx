@@ -1,0 +1,36 @@
+ li{ list-style: none; }
+            .app-li-it{
+                display:table;
+            }
+            .app-li-it-pic{
+                width:20%;
+                display:table-cell;
+            }
+            .app-li-it-content{
+                width:80%;
+                margin-left:110px;
+                padding-left:50px;
+                display:table-cell;
+                vertical-align: middle;
+            }
+            .app-li-it-pic img{
+                max-height: 100px;
+                min-height: 100px;
+            }
+            .app-li-it-text{
+                width:100%;
+                color:gray;
+                display:table;
+            }
+            .src-net{
+                display:table-cell;
+                width:30%;
+            }
+            .comment-num{
+                display:table-cell;
+                width:30%;
+            }
+            .goods-score{
+                display:table-cell;
+                width:30%;
+            }

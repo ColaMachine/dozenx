@@ -1,0 +1,226 @@
+@import 'base';
+@CHARSET "UTF-8";
+
+/**Position**/
+.zw-input-wrapper{
+
+  display:inline-block;
+
+  font-size: 14px;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.65);
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      position: relative;
+      display: table;
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+
+}
+
+.zw-input-group{
+margin-top:15px;
+    margin-bottom:15px;
+
+
+}
+.zw-input-group .zw-input{
+    width:100%;
+}
+
+.zw-input-group{
+   /* display:flex;
+    display:-webkit-flex;*/
+/*    display: flex;
+flex-direction: row;*/
+display:table;
+border-collapse: separate;
+   /* flex: auto;*/
+}
+.zw-input-group-addon{
+    font-size:14px;
+    *{
+        vertical-align:middle;
+        max-height:20px;
+    }
+    .btn{
+        color: #8d8d8d;
+        background-color: #e5e5e5;
+        border-color: #e5e5e5;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: 0px;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-bottom: 0px;
+        padding-right: 0px;
+        line-height: 28px;
+        height: 28px;
+         min-height: 28px;
+
+    }
+    padding: 0 11px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.65);
+    text-align: center;
+    background-color: #fafafa;
+    border: 1px solid #d9d9d9;
+    border-radius: 0px;
+    position: relative;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+     max-width:100px;
+}
+.zw-input-affix {
+    position:relative;
+}
+.zw-input-prefix {
+      border-left:1px solid gray;
+}
+.zw-input-suffix {
+      border-right:1px solid gray;
+}
+.zw-input-prefix ,.zw-input-suffix{
+   /* position:absolute;
+    top:50%;
+    transform: translateY(-50%);*/
+    display:inline-block;
+    border-top:1px solid gray;
+ border-bottom:1px solid gray;
+
+}
+.zw-input-affix .zw-input {
+   /*padding-left:30px;
+   padding-right:30px;*/
+}
+  .zw-input-prefix {
+    left:0px;
+  }
+.zw-input-suffix{
+
+    right:0px;
+}
+/**Box-model**/
+
+.zw-form{
+    @include padding($ft-h1);
+}
+.zw-input-wrapper,.zw-input{
+   /* width:100%;*/
+   white-space:nowrap;
+}
+.zw-input-group .btn{
+   /* width:100%;*/
+}/*
+.zw-input-affix .zw-input{
+  padding-left:$ft-nm*2;
+  padding-right:$ft-nm*2;
+}*/
+
+
+
+.zw-input-wrapper{
+     @include height_size($ft-nm);
+      @include padding($ft-nm);
+    /*
+      nowrap:norap;
+      white-space:normal ;*/
+}
+
+.zw-input-group-prepend>span ,.zw-input-group-append>span {/**子元素需要缩小 不然会撑开父元素**/
+    @include height_size($ft-nm);
+    @include padding(0);
+}
+
+.zw-input-group .zw-input ,.zw-input-group .zw-input-group-prepend,.zw-input-group .zw-input-group-append{
+    display:table-cell;
+    height:30px;
+ box-sizing: border-box;
+ vertical-align: middle;
+/* flex: auto;*/
+
+}
+.zw-input-prefix ,.zw-input-suffix  ,.zw-input,.zw-input-group-prepend ,.zw-input-group-append {
+     @include height_size($ft-nm);
+  /*@include padding($ft-nm);*/
+
+}
+.zw-input-group-append>*,.zw-input-group-append>*{
+    margin:0px;
+    height:25px;
+}
+.zw-input-group-prepend ,.zw-input-group-append {
+  border-right-top-radius:0px;
+      border-radius: 0px;
+}
+
+.zw-input-group-prepend, .zw-input-group>.zw-input:first-child, .zw-input-group>span>.zw-input:first-child {
+    border-bottom-right-radius: 0!important;
+    border-top-right-radius: 0!important;
+}
+
+.zw-input-group-append, .zw-input-group>.zw-input:last-child, .zw-input-group>span>.zw-input:last-child {
+    border-bottom-left-radius: 0!important;
+    border-top-left-radius: 0!important;
+}
+
+
+
+/**Typography**/
+.zw-input,.zw-input-group-prepend ,.zw-input-group-append{
+    font-size:$ft-nm;
+}
+
+/**Visual**/
+.zw-input,.zw-input-group-prepend ,.zw-input-group-append {
+border:0px;
+  border-bottom: 1px solid $light-gray;
+
+
+}
+.zw-input,.zw-input-suffix ,.zw-input-prefix {
+ color:$light-black;
+}
+
+.zw-input-suffix:hover ,.zw-input-prefix:hover {
+  color:$dark-gray;
+}
+.zw-form{
+    background-color:$white;
+}
+
+.zw-input-group-prepend ,.zw-input-group-append {
+  background-color: $light-gray;
+}
+.zw-form-item{
+   font-size: 14px;
+       line-height: 1.5;
+       color: rgba(0, 0, 0, 0.65);
+       -webkit-box-sizing: border-box;
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+       list-style: none;
+       margin-bottom: 24px;
+       vertical-align: top;
+       -webkit-transition: margin 0.15s steps(1);
+       transition: margin 0.15s steps(1);
+           font-family: "Monospace Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+/* misc */
+.zw-input{
+width: 100%;
+}
+
+

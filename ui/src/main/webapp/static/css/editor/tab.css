@@ -1,0 +1,64 @@
+﻿@CHARSET "UTF-8";
+div,input,button,select,textarea,a{outline:none;}
+
+
+.nav-tabs  {
+    /*position: absolute;*//**可以删除**/
+    width: 161px;/**定义总宽度**/
+    /*height: 44px;*//**可以删除**/
+    /*border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: rgb(214, 214, 214);*/
+    /*top: -4px;*/
+   /* z-index: 105;*/
+    background: rgb(236, 236, 236);
+    margin:0px;
+    display: -webkit-flex;/**子元素 会填充整个宽度**/
+}
+
+.nav-tabs > li {
+    float: left;/***让所有li 都并列排列**/
+    margin-bottom: -1px;/***让边宽和ul的边宽合一**/
+
+    border-right: 1px solid #d6d6d6;
+    border-bottom: none;/**tab 不允许出现下边框**/
+  /*  position: relative;*/
+    display: block;
+    -webkit-flex:1;/**结合-webkit-flex 使用**/
+    background-color: #d6d6d6;
+    /*border-bottom: 1px solid #d6d6d6;*/
+    text-align: center;
+}
+.nav-tabs>li.active {
+    border: none !important;
+    background-color: transparent !important;
+}
+.nav-tabs > li > a {
+   /* position: relative;*/
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    line-height: 1.45rem;
+}
+.nav-tabs > li >a {
+    color:#373f42;
+}
+.nav-tabs > li.active >a {
+    color:#555555;
+}
+
+.fade {
+    opacity: 0.5;
+    -webkit-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.fade.in {
+    opacity: 1;
+}
+.tab-content>.tab-pane {
+
+    display: none;
+}
+.tab-content>.active {
+    display: block;
+}

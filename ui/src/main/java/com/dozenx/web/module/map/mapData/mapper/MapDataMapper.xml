@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.map.mapData.dao.MapDataMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.map.mapData.bean.MapData">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="lng" jdbcType="DECIMAL" property="lng" />
+      <result column="lat" jdbcType="DECIMAL" property="lat" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+      <result column="dist" jdbcType="FLOAT" property="dist" />
+      <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    map_data.`id` ,map_data.`name` ,map_data.`content` ,map_data.`lng` ,map_data.`lat` ,map_data.`status` ,map_data.`address` ,map_data.`updatetime`,map_data.`img`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from map_data
+    where map_data.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from map_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.map.mapData.bean.MapData" >
+
+    insert into map_data (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{name,jdbcType=VARCHAR}
+,#{content,jdbcType=VARCHAR}
+,#{lng,jdbcType=DECIMAL}
+,#{lat,jdbcType=DECIMAL}
+,#{status,jdbcType=INTEGER}
+,#{address,jdbcType=VARCHAR}
+,#{updatetime,jdbcType=TIMESTAMP}
+     ,#{img,jdbcType=VARCHAR}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.map.mapData.bean.MapData" >
+    insert into map_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="name != null" >  
+           `name`, 
+        </if>  
+        <if test="content != null" >  
+           `content`, 
+        </if>  
+        <if test="lng != null" >  
+           `lng`, 
+        </if>  
+        <if test="lat != null" >  
+           `lat`, 
+        </if>  
+        <if test="status != null" >  
+           `status`, 
+        </if>  
+        <if test="address != null" >  
+           `address`, 
+        </if>  
+        <if test="updatetime != null" >  
+           `updatetime`, 
+        </if>
+        <if test="img != null" >
+            `img`,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="content != null" >  
+          #{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="lng != null" >  
+          #{lng,jdbcType=DECIMAL},
+        </if>  
+        <if test="lat != null" >  
+          #{lat,jdbcType=DECIMAL},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="address != null" >  
+          #{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="updatetime != null" >  
+          #{updatetime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="img != null" >
+            #{img,jdbcType=VARCHAR},
+        </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.map.mapData.bean.MapData" >
+    update map_data
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="content != null" >  
+             `content`=#{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="lng != null" >  
+             `lng`=#{lng,jdbcType=DECIMAL},
+        </if>  
+        <if test="lat != null" >  
+             `lat`=#{lat,jdbcType=DECIMAL},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="address != null" >  
+             `address`=#{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="updatetime != null" >  
+             `updatetime`=#{updatetime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="img != null" >
+            `img`=#{img,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.map.mapData.bean.MapData" >
+    update map_data
+    set 
+              `name`=#{name,jdbcType=VARCHAR},  
+              `content`=#{content,jdbcType=VARCHAR},  
+              `lng`=#{lng,jdbcType=DECIMAL},
+              `lat`=#{lat,jdbcType=DECIMAL},
+              `status`=#{status,jdbcType=INTEGER},  
+              `address`=#{address,jdbcType=VARCHAR},  
+              `updatetime`=#{updatetime,jdbcType=TIMESTAMP}  ,
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from map_data where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and `name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="content != null and content != '' ">  
+           and `content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and `content` like "%"#{contentLike}"%"
+        </if>   
+        <if test="lng != null and lng != '' ">  
+           and `lng` = #{lng}
+        </if>  
+        <if test="lat != null and lat != '' ">  
+           and `lat` = #{lat}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="address != null and address != '' ">  
+           and `address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and `address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="updatetime != null and updatetime != '' ">  
+           and `updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from map_data
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and map_data.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and map_data.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and map_data.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="content != null and content != '' ">  
+           and map_data.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and map_data.`content` like "%"#{contentLike}"%"
+        </if>   
+        <if test="lng != null and lng != '' ">  
+           and map_data.`lng` = #{lng}
+        </if>  
+        <if test="lat != null and lat != '' ">  
+           and map_data.`lat` = #{lat}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and map_data.`status` = #{status}
+        </if>  
+        <if test="address != null and address != '' ">  
+           and map_data.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and map_data.`address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="updatetime != null and updatetime != '' ">  
+           and map_data.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and map_data.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and map_data.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from map_data where 1=1
+        <if test="id != null and id != '' ">  
+           and map_data.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and map_data.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and map_data.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="content != null and content != '' ">  
+           and map_data.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and map_data.`content` like "%"#{contentLike}"%"
+        </if>   
+        <if test="lng != null and lng != '' ">  
+           and map_data.`lng` = #{lng}
+        </if>  
+        <if test="lat != null and lat != '' ">  
+           and map_data.`lat` = #{lat}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and map_data.`status` = #{status}
+        </if>  
+        <if test="address != null and address != '' ">  
+           and map_data.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and map_data.`address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="updatetime != null and updatetime != '' ">  
+           and map_data.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and map_data.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and map_data.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from map_data where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="content != null and content != '' ">
+           or `content` = #{content}
+        </if>
+        <if test="lng != null and lng != '' ">
+           or `lng` = #{lng}
+        </if>
+        <if test="lat != null and lat != '' ">
+           or `lat` = #{lat}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="address != null and address != '' ">
+           or `address` = #{address}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+           or `updatetime` = #{updatetime}
+        </if>
+  </select>
+
+
+    <select id="queryNearby" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />, 6371 * acos (
+        cos ( radians(#{lat}) )
+        * cos( radians( lat ) )
+        * cos( radians( lng ) - radians(#{lng}) )
+        + sin ( radians(#{lat}) )
+        * sin( radians( lat ) )
+        ) as dist
+        from map_data
+
+        having dist&lt;=#{dist}
+
+    </select>
+</mapper>

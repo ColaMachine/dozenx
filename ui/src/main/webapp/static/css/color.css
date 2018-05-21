@@ -1,0 +1,25 @@
+﻿@CHARSET "UTF-8";
+.bg-green{
+    background-color: #89bf04;
+}
+.bg-blue{
+   background-color: #2E67B6;
+}
+
+.bg-red{
+   background-color: #ff4200;
+}
+.bg-black{
+   background-color: #000000;
+}
+.color-white{
+    color:#FFFFFF;
+}
+.color-black{
+    color:#000;
+}
+.border-red{
+
+   border-color: #ff4200;
+
+}

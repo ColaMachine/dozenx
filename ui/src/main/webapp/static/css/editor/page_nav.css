@@ -1,0 +1,135 @@
+﻿@CHARSET "UTF-8";
+div,input,button,select,textarea,a{outline:none;}
+
+
+.page-reorder, .page-navigator .page-layer {
+    position: absolute;
+    top: 40px;
+    bottom: 50px;
+    left: 0px;
+    width: 161px;
+    border-right: 1px solid #d6d6d6;
+    background-color: #ececec;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 101;
+}
+ul{
+    margin:0px;
+    padding:0px;
+}
+ul .page-menu {
+    margin-top: 5px;
+}
+.page-thumb-block.active {
+    border-top: 4px #18ccc0 solid;
+    border-left: 4px #18ccc0 solid;
+    border-right: 4px #18ccc0 solid;
+    border-bottom: 30px #18ccc0 solid;
+}
+
+.page-thumb-block{
+    position: relative;
+    width: 140px;
+    height: 165.5px;
+    margin: 0 10px;
+
+
+}
+
+
+.page-thumb {
+    position: absolute;
+    top: 1.5rem;
+    left: 1rem;
+    width: 640px;
+    height: 1008px;
+    background: #fff;
+    -webkit-transform: scale(0.13);
+    transform: scale(0.13);
+    margin-top: -462px;
+    margin-left: -265px;
+}
+.page-thumb-bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.page-thumb-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.page-thumb-block .page-num {
+    position: absolute;
+    left: 0px;
+    bottom: -27px;
+    width: 80px;
+    height: 24px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 24px;
+    border-radius: 3px;
+    text-overflow: ellipsis;
+    padding: 0 0px;
+}
+.page-thumb-block .page-num span{
+
+    padding: 0 5px;
+}
+/**鼠标悬浮**/
+.page-num:hover{
+    background-color: #E42692;
+}
+.page-num input{
+    /*margin-left:-5px;
+    margin-right:-15px;*/
+    width:100%;
+    height:100%;
+    color:#000;
+}
+.page-thumb-block>
+.icon-button{
+    position:absolute;
+    bottom: -23px;
+    opacity: 0.6;
+    cursor:pointer;
+    color:#fff;
+    opacity:0.6;
+}
+.page-thumb-block>
+.icon-button:hover{
+    opacity:1;
+}
+
+.icon-uninstall{
+    right:20px;
+}
+.icon-copy{
+    right:0px;
+}
+.left-container .add-blank-page {
+    position: absolute;
+    bottom: 0;
+    width: 161px;
+    height: 50px;
+    background: #373f42;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 101;
+    font-size: 40px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+}
+.page-navigator {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    /*width:322px !important;*/
+    height: 100%;
+    float: left;
+}

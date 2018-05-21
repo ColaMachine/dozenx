@@ -1,0 +1,68 @@
+@import 'base';
+@CHARSET "UTF-8";
+.zw-dropdown{
+    display:inline-block;
+    line-height:$ft-title-1;
+    z-index: 150;
+        position: relative;/** 防止弹出的菜单 被其他div 遮挡住*/
+}
+
+.zw-dropdown .zw-menu{
+
+   /* min-width:155px;*/
+
+  /*  position:absolute;
+    left:-150px;*/
+    list-style: none;
+    padding:0px 0px;
+    background-color: $white;
+    margin:0px 0px 0px;
+    border-radius:5px;
+    border:none;/*1px solid #F0F0EE;*/
+    box-shadow: 0 0px 12px $shadow-gray;
+    text-align:left;
+    z-index:1000;
+    &>li{
+         line-height:$ft-nm*3;
+         margin:0px;
+         padding:0px;
+         border-bottom:1px dashed #a79595;
+         font-size:0.5em;
+         &:last-child{
+              border-bottom:none;
+
+          }
+          &>a{
+                border:none;
+                margin:0px;
+                 padding:0 0 0 5px;
+               cursor:pointer;
+                line-height:$ft-nm*3;
+               display:block;
+               width:100%;
+           }
+
+           &:hover{
+                /*background-color:$light-gray;
+                border-color:$light-gray;*/
+            }
+     }
+}
+
+.open>.dropdown-menu{
+      display:block;
+}
+
+.dropdown-menu-justify{
+    position: absolute!important;
+    width:80%;
+    /*left:-50%;*/
+    position: fixed!important;
+    left:200px;
+    /*  left: 10%x;*/
+    background-color:white;
+    top: 43px;
+}
+.quicknav .nav-pills>li{
+    border-right:none;
+}

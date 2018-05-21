@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+
+
+
+
+</head>
+
+<body>
+<ul id="apiList" class="row">
+    <li  is="apiPath"
+         v-for="(value, key) in tags"
+         v-bind:title="key"
+         v-bind:content="value"
+          class="zwlist">
+
+
+    </li>
+
+</ul>
+<script type="text/javascript" src ="\static\html\api\apiPath.js"/>
+<script type="text/javascript" src ="\static\html\api\apiUrl.js"/>
+<script type="text/javascript" src ="\static\html\api\apiParameter.js"/>
+<script  >
+var formId=0;
+    Ajax.getJSON(PATH+"/api",null,function(data){
+    var tags={};
+        for(var url in data.paths){
+            console.log(url);
+            var postGetData=data.paths[url];
+
+            for(var httpType in postGetData){
+                var content = postGetData[httpType];
+                content.httpType = httpType;
+                content.url = url;
+                 var tagName = content.tags[0];
+                  if(tags[tagName]){
+
+                }else{
+                    tags[tagName]=new Array();
+
+                }
+                tags[tagName].push(content);
+            }
+            //console.log(content);
+
+
+        }
+        data.tags= tags;
+        var app = new Vue({
+          el: '#apiList',
+          data:data
+        })
+    });
+
+  </script>
+
+
+</body>
+
+
+</html>

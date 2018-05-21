@@ -1,0 +1,285 @@
+
+<script type="text/javascript" src="static/js/plugins/echarts.min.js"/>
+
+
+<div class="row">
+    <div class="col-lg-4">
+        <div id="staLoginByDayBox" class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>常用日志代码</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">Config option 1</a>
+                        </li>
+                        <li><a href="#">Config option 2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div style="display: block;" class="ibox-content no-padding">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-danger m-r-sm">12</button>
+                            Total messages
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary m-r-sm">28</button>
+                            Posts
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info m-r-sm">15</button>
+                            Comments
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-info m-r-sm">20</button>
+                            News
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success m-r-sm">40</button>
+                            Likes
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger m-r-sm">30</button>
+                            Notifications
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-warning m-r-sm">20</button>
+                            Albums
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default m-r-sm">40</button>
+                            Groups
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning m-r-sm">30</button>
+                            Permissions
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div id="staByDay" class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>按日统计</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">Config option 1</a>
+                        </li>
+                        <li><a href="#">Config option 2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div style="display: block;" class="ibox-content no-padding">
+                <ul class="list-group">
+
+                    <li class="list-group-item">
+                        <form class=" form-inline app-search">
+                            <label for="createTimeBegin">创建时间开始</label>
+                            <div class="input-group">
+                                <input type="text" id="createTimeBegin" name="createTimeBegin"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="创建时间开始" ></input>
+                                <label class="input-group-addon" for="createTimeBegin" ><i class="fa fa-calendar"></i></label>        </div>
+                            <label for="createTimeEnd">创建时间结束</label>
+                            <div class="input-group">
+                                <input type="text" id="createTimeEnd" name="createTimeEnd"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="创建时间结束" ></input>
+                                <label class="input-group-addon" for="createTimeEnd" ><i class="fa fa-calendar"></i></label>        </div>
+
+
+                            <label for="code">代码</label>
+                            <input type="number" id="code" name="code"  class="form-control input-sm"  maxlength="10" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="代码"></input>
+                            <button type="button"  class="btn btn-default searchBtn">查询</button>
+                        </form>
+
+
+                    </li>
+                    <li class="list-group-item">
+                        <div id="staByDayChart"  style="width:100%;height:300px" ></div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div id="staByHour" class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>按小时统计</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">Config option 1</a>
+                        </li>
+                        <li><a href="#">Config option 2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div style="display: block;" class="ibox-content no-padding">
+            <ul class="list-group">
+
+                <li class="list-group-item">
+                    <form class=" form-inline app-search">
+                        <label for="createTimeBegin">创建时间开始</label>
+                        <div class="input-group">
+                            <input type="text" id="createTimeBegin" name="createTimeBegin"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="创建时间开始" ></input>
+                            <label class="input-group-addon" for="createTimeBegin" ><i class="fa fa-calendar"></i></label>        </div>
+                        <label for="createTimeEnd">创建时间结束</label>
+                        <div class="input-group">
+                            <input type="text" id="createTimeEnd" name="createTimeEnd"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="创建时间结束" ></input>
+                            <label class="input-group-addon" for="createTimeEnd" ><i class="fa fa-calendar"></i></label>        </div>
+
+
+                        <label for="code">代码</label>
+                        <input type="number" id="code" name="code"  class="form-control input-sm"  maxlength="10" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="代码"></input>
+                        <button type="button"  class="btn btn-default searchBtn">查询</button>
+                        </form>
+
+
+                </li>
+                <li class="list-group-item">
+                    <div id="staByHourChart"  style="width:100%;height:300px" ></div>
+                </li>
+
+            </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<script type="text/javascript">
+var staByDayChart={
+
+
+    init:function(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById("staByDayChart"));
+        myChart.setOption({
+            title: {
+                text: '次数'
+            },
+            tooltip: {},
+            legend: {
+                data:['次数']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: '次数',
+                type: 'bar',
+                data: []
+            }]
+        });
+        $("#staByDay").find(".searchBtn").click(searchInfo);
+        function searchInfo(){
+            var beginDate = $("#createTimeBegin").val();
+            var endDate = $("#createTimeEnd").val();
+            Ajax.getJSON(PATH+"/sysLog/getCountEveryDay.json",{code:$("#code").val(),beginDate:beginDate,endDate:endDate},function(data){
+                   // console.log(data);
+
+                     myChart.setOption({
+                        xAxis: {
+                            data: data.categories
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            name: '次数',
+                            data:data.data
+                        }]
+                    });
+            });
+
+        }
+    }
+}
+staByDayChart.init();
+
+
+var staByHourChart={
+    init:function(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById("staByHourChart"));
+        myChart.setOption({
+            title: {
+                text: '次数'
+            },
+            tooltip: {},
+            legend: {
+                data:['次数']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: '次数',
+                type: 'bar',
+                data: []
+            }]
+        });
+        $("#staByHour").find(".searchBtn").click(searchInfo);
+        function searchInfo(){
+            var beginDate = $("#staByHour").find("#createTimeBegin").val();
+            var endDate =  $("#staByHour").find("#createTimeEnd").val();
+            Ajax.getJSON(PATH+"/sysLog/getCountEveryHour.json",{code:$("#code").val(),beginDate:beginDate,endDate:endDate},function(data){
+                   // console.log(data);
+                     myChart.setOption({
+                        xAxis: {
+                            data: data.categories
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            name: '次数',
+                            data:data.data
+                        }]
+                    });
+            });
+        }
+    }
+}
+staByHourChart.init();
+
+
+    </script>

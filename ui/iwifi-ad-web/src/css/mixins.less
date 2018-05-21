@@ -1,0 +1,22 @@
+/**
+Mixins
+ */
+/**
+线性渐变
+  @startColor:起始颜色
+  @endColor:结束颜色
+ */
+.gradient-background-x( @startColor, @endColor) {
+  background: -moz-linear-gradient(left, @startColor, @endColor);
+  background: -moz-linear-gradient(to right, @startColor, @endColor);
+  background: -ms-linear-gradient(left, @startColor, @endColor);
+  background: -o-linear-gradient(left, @startColor, @endColor);
+  background: -webkit-linear-gradient(left, @startColor, @endColor);
+}
+.gradient-background-y( @startColor, @endColor) {
+    background: -moz-linear-gradient(top, @startColor, @endColor);
+    background: -moz-linear-gradient(to bottom, @startColor, @endColor);
+    background: -ms-linear-gradient(top, @startColor, @endColor);
+    background: -o-linear-gradient(top, @startColor, @endColor);
+    background: -webkit-linear-gradient(top, @startColor, @endColor);
+}

@@ -1,0 +1,37 @@
+package ch.ethz.ssh2;
+
+import ch.ethz.ssh2.crypto.cipher.BlockCipherFactory;
+import ch.ethz.ssh2.crypto.digest.MAC;
+
+import java.security.SecureRandom;
+
+/**
+ * @Author: dozen.zhang
+ * @Description:
+ * @Date: Created in 12:29 2018/4/24
+ * @Modified By:
+ */
+public class Connection {
+    /**
+     * 这个识别符 会被 ssh-2 server 看到
+     */
+    public final static String identification ="dozenx  build_2018";
+    /**
+     * 将会用来生成各种水机数据 用于当前连接
+     * SecureRandom.nextBytes() 是线程安全的
+     */
+    private SecureRandom generator;
+    /*
+    * unless you know what you are doing ,you will never need this
+    * the list of 支持的 密码算法
+     */
+    public static synchronized String[] getAvailableCiphers(){
+        return BlockCipherFactory.getDefaultCipherList();
+
+    }
+
+    public static synchronized String[] getAvailableMACSs(){
+        return MAC.getMacList();
+    }
+
+}

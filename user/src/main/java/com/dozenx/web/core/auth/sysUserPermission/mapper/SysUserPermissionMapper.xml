@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysUserPermission.dao.SysUserPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysUserPermission.bean.SysUserPermission">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="uid" jdbcType="BIGINT" property="uid" />
+      <result column="pid" jdbcType="BIGINT" property="pid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_user_permission.`id` ,sys_user_permission.`uid` ,sys_user_permission.`pid` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_permission
+    where sys_user_permission.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_user_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+   <delete id="deleteExtra" parameterType="map">
+          delete from sys_user_permission
+          where uid in
+          <foreach collection="uids" item="item" index="index"
+                   open="(" separator="," close=")"> #{item}</foreach>
+         <if test="pids != null and id != '' " >
+          and pid not in
+          <foreach collection="pids" item="item" index="index"
+                   open="(" separator="," close=")"> #{item}</foreach>
+       </if>
+      </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysUserPermission.bean.SysUserPermission" >
+
+    insert into sys_user_permission (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{uid,jdbcType=BIGINT}
+,#{pid,jdbcType=BIGINT}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysUserPermission.bean.SysUserPermission" >
+    insert into sys_user_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="uid != null" >  
+           `uid`, 
+        </if>  
+        <if test="pid != null" >  
+           `pid`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="uid != null" >  
+          #{uid,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=BIGINT},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysUserPermission.bean.SysUserPermission" >
+    update sys_user_permission
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="uid != null" >  
+             `uid`=#{uid,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=BIGINT},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysUserPermission.bean.SysUserPermission" >
+    update sys_user_permission
+    set 
+              `uid`=#{uid,jdbcType=BIGINT},  
+              `pid`=#{pid,jdbcType=BIGINT}  
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_permission where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="uid != null and uid != '' ">  
+           and `uid` = #{uid}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_permission
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_user_permission.`id` = #{id}
+        </if>  
+        <if test="uid != null and uid != '' ">  
+           and sys_user_permission.`uid` = #{uid}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sys_user_permission.`pid` = #{pid}
+        </if>  
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_user_permission where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_user_permission.`id` = #{id}
+        </if>  
+        <if test="uid != null and uid != '' ">  
+           and sys_user_permission.`uid` = #{uid}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sys_user_permission.`pid` = #{pid}
+        </if>  
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_user_permission where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="uid != null and uid != '' ">
+           or `uid` = #{uid}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+  </select>
+</mapper>

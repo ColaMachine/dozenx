@@ -1,0 +1,23 @@
+﻿@CHARSET "UTF-8";
+div,input,button,select,textarea,a{outline:none;}
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#editor, .container-fluid, .body-container {
+    height: 100%;
+}
+#editor{
+    height: 700px;
+}
+.body-container {
+    background-color: #e2e5e8;
+
+}.body-container>div {
+    height:100%;
+
+ }

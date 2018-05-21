@@ -1,0 +1,75 @@
+@import 'base';
+@CHARSET "UTF-8";
+
+body{
+   /* background-color:$light-gray;*/
+}
+.zw-panel-header{
+    background-color:$white;
+}
+.zw-img-title-state-spot{
+    width:8px;
+    height:8px;
+    display:block;
+    position:absolute;
+    top:5px;
+    right:5px;
+    border-radius:5px
+}
+
+.zw-img-title-img-wrap{
+    width: 35px;
+    position: relative;
+    padding: 13px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.zw-img-title-img{
+display:block;
+height:35px;
+}
+
+.smart-home-device-view-head-bg{
+        background: url(/weixin/static/img/smarthome/背景板.png);
+}
+.zw-radio-button-wrapper{
+        border-color: #fcd70f !important;
+        border-width:2px !important;
+}
+.zw-radio-button-wrapper-checked {
+    background: #fcd70f !important;
+
+    color: #1890ff;
+
+}
+.device-view-title{
+width:70%;
+color:gray;
+padding-left:15px;
+span{
+    display:inline-block;
+    margin-left:12px;
+    font-size:15px;margin-top:-8px;
+    line-height:$ft-h3;
+}
+}
+
+
+.zw-jumbotron-wrap{
+display:flex;
+vertical-align:middle;
+padding-top:35px;
+padding-left:25px;
+min-height:150px;
+/*line-height:150px;
+background-color:#dfdf1d;*/
+
+
+
+background-size:100% 180px;
+background-repeat:no-repeat;
+}

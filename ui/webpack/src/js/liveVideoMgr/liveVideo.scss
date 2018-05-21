@@ -1,0 +1,37 @@
+.play-btn {
+  border: none;
+  i {
+    color: #8C97A0;
+    font-size: 26px !important;
+    font-weight: 400;
+  }
+}
+
+.monitor-modal {
+  $videoWidth: 741px;
+  $videoHeight: 415px;
+
+  .ant-modal-content {
+    width: $videoWidth;
+
+    .ant-modal-close-x:before {
+      color: #fff;
+      content: "\E62F";
+      font-size: 20px;
+      text-shadow: 0px 2px 6px #000;
+      opacity: 0.5;
+    }
+    .ant-modal-body {
+      padding: 0;
+    }
+    #video {
+      width: $videoWidth;
+    }
+  }
+  .ant-modal-content:hover {
+    .ant-modal-close-x:before {
+      //color: #4AA0ED;
+      opacity: 1;
+    }
+  }
+}

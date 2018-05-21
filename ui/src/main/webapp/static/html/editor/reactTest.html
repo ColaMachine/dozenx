@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div id="editor">
+
+</div>
+
+<script src="/portalmaker/js/lib/react/react.js"></script>
+<script src="/portalmaker/js/lib/react/react-dom.js"></script>
+<script src="/portalmaker/js/lib/react/browser.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/static/css/font-awesome.css" >
+<script type="text/javascript"   src="/static/js/JSXTransformer.js"></script>
+<script type="text/javascript"   src="/static/js/jquery.min.js"></script>
+<script type="text/javascript"   src="/static/js/slider.js"></script>
+<script type="text/javascript"   src="/static/js/common.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/slider.css" >
+
+<div id="div1"></div>
+<style>
+    .app_bt_fl_nav_bar{
+        position:absolute;
+        width:100%;
+        bottom:0px;
+        left:0px;
+        border-top:1px solid red;
+        min-height:5rem;
+        font-size:5rem;
+        display:table;
+        text-align:center;
+        vertical-align:center;
+    }
+    .app_bt_fl_nav_bar>.cell{
+        display:table-cell;
+        line-height:100%;
+        text-align:center;
+        vertical-align:center;
+        padding-top:20px;
+        padding-bottom:10px;
+        font-size:0.4em;
+
+
+    }
+    .cell.select{
+   border-bottom:0.5rem solid red;
+    }
+</style>
+<script type="text/jsx">
+
+var Entity1116= function(state, divId) {
+    var name="header";
+
+    var _state = state || {
+    };
+var EntityReact = React.createClass({
+    getInitialState: function() {
+        return MapUtil.copy(_state,
+        {pic:"",
+        content:"",
+        title:"",
+        subtitle:"",
+        src:""
+        });
+    },
+
+    render: function() {
+    return (
+        <div className="app_bt_fl_nav_bar table">
+            <div className="select cell col-20" ><i className="fa fa-home"></i>首页</div>
+            <div className="cell col-20" ><i className="fa fa-female"></i>服饰</div>
+            <div className="cell col-20" ><i className="fa fa-tv"></i>电器</div>
+            <div className="cell col-20" ><i className="fa fa-star-o"></i>最爱</div>
+            <div className="cell col-20" ><i className="fa fa-user"></i>我</div>
+        </div>
+    );
+    },
+
+    componentDidMount:function(){
+    var that =this;
+    var id = getQueryString("goodsid");
+       Ajax.getJSON("/goods/view.json?id="+id,null,function(result){
+        if(result.r==AJAX_SUCC){
+             that.setState(result.data.bean);
+        }
+       });
+        },
+        getInitialState:function(){
+            return _state
+        },
+    });
+    /**
+     * 制作页面时返回React对象
+     * @returns {*}
+     */
+   var react =null;
+       function render() {
+            react=  ReactDOM.render(<EntityReact />, document.getElementById(divId));
+            return react;
+
+       }
+       function setState(state_){
+           for(var i in state_){
+                _state[i]=state_[i];
+           }
+           react.setState(_state);
+      }
+       return {
+           name:name,
+           render: render,
+           setState:setState,
+           state:_state
+       }
+};
+
+var instance = Entity1116(null,"div1");
+instance.render();
+
+var smsRegExp = /\{/g;
+var smsMatch = "验证码：${code}，有效时间为5分钟。${co7de}{}".match(smsRegExp); // 求值
+if (smsMatch ) {
+alert("{}只能出现一次:"+smsMatch.length);
+}
+  </script>
+
+
+</body>
+</html>

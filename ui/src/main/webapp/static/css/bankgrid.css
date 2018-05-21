@@ -1,0 +1,103 @@
+body{
+    background-color:black;
+
+    }
+    /*grid div*/
+    .list_wrapper {
+    display:block;
+    background-color:green;
+    width:800px;
+    MARGIN-RIGHT: auto; MARGIN-LEFT: auto; MARGIN-TOP: 200px;
+    }
+    /*商品图标*/
+    .commondity_pic{
+    background:url('http://content.battlenet.com.cn/wow/icons/36/inv_misc_food_70.jpg') center no-repeat ;
+    width:36px;
+    height:36px;
+    border-radius: 3px;
+    border:1px solid #434445;
+    display:block;
+    border-color: #B1B2B4 #434445 #2F3032;
+    box-shadow: 0px 0px 10px #000;
+
+    /*margin:1px 1px 1px 1px;*/
+    padding:1px 1px 1px 1px;
+    }
+    .title_block{
+    width:200px;
+    position:relative;
+    }
+    .commondity_name{
+    position:absolute;
+    top:0;
+    left:50px;
+    color:white;
+    }
+    .commondity_count{
+
+    color:white;
+    }
+    .commondity_level{
+
+    color:white;
+    }
+    .commondity_time{
+
+    color:white;
+    }
+    .commondity_seller{
+    position:absolute;
+    top:20px;
+    left:50px;
+    color: #FFB100;
+    }
+    .grid_h{
+    color:white;
+
+    }
+
+    .grid-head thead>tr>th {
+        background: url('https://www.battlenet.com.cn/wow/static/images/content/table-header.gif') repeat-x scroll 0px 100%
+         #4D1A08;
+
+         white-space: nowrap;
+         height:35px;
+         border-bottom: 1px solid #1A0F08;
+         padding:0px 0px 0px 0px;
+    }
+
+
+     .grid-head thead>tr>th a{
+    display:block;
+    font-size:10px;
+    color:white;
+    margin:0px 0px 0px 0px;
+    padding:8px 10px;
+
+    height:28px;
+    border-left: 1px solid #7C2804;
+    border-top: 1px solid #7C2804;
+    border-right: 1px solid #391303;
+    }
+    .grid-head thead>tr>th:hover{
+    color: #FFF;
+    background: url('../images/content/table-header-hover.gif') repeat-x scroll 0px 100% #6A240B;
+    border-top-color: #AF3900;
+    border-left-color: #AF3900;
+
+    }
+    .grid-content tr{
+    background:#180C04;
+    }
+
+    .grid-content {
+       color:white;
+    }
+    .commondity_list{
+
+    border:0;margin:0;border-collapse:collapse;border-spacing:0;
+    }
+    a {
+    color: #FFB100;
+    text-decoration:none;
+    }

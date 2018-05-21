@@ -1,0 +1,89 @@
+/*color*/
+
+$white:#fff;
+$red:#f00;
+$black:#000;
+$blue:#00a0e9;
+
+$light-blue:rgba(0,160,233,.7);
+
+$light-gray:#e5e5e5;
+$dark-gray:#8d8d8d;
+$gray:#d9d9d9;
+$lighter-gray:#f7f7f7;
+$qian-gray:#e5e5e5;
+$shadow-gray:rgba(0,0,0,0.25);
+$disabled-color:$shadow-gray;
+$light-black:#2E3E4E;
+/**font-size**/
+$ft-title-1:25px;
+$ft-nm:14px;
+$ft-nm1:12px;
+$ft-nm2:10px;
+$ft-h1:25px;
+$ft-h2:21px;
+$ft-h3:18px;
+
+@mixin height_size($size) {
+
+
+    line-height:$size*1.5 ;
+/* height:$size*2;*/
+   /*  min-height: $size*2.5;
+      max-height: $size*2.5;*/
+  box-sizing:border-box;
+-moz-box-sizing:border-box; /* Firefox */
+-webkit-box-sizing:border-box; /* Safari */
+  /*  position: relative;
+        border-collapse: separate;*/
+
+}
+@mixin clearfix() {
+
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+
+}
+@mixin padding( $size){
+ padding: $size*0.2 $size*0.5;
+}
+
+$title:14px;
+@mixin title{
+    font-size:$title;
+    font-weight:bold;
+}
+
+$title1:14px;
+@mixin title1{
+    font-size:$title;
+    font-weight:bold;
+}
+
+$title2:14px;
+@mixin title2{
+    font-size:$title;
+    font-weight:bold;
+}
+
+$headline:16px;
+@mixin headline{
+    font-size:$headline;
+    font-weight:bold;
+}
+
+
+
+$size-small:12px;
+$size-normal:14px;
+$size-normal:14px;
+$size-big:24px;
+$size4:15px;
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+             "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+             SimSun, sans-serif;
+$ft-nm-family:"Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53", Helvetica,Arial,sans-serif;

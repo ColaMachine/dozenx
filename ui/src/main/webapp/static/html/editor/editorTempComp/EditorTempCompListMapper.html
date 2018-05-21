@@ -1,0 +1,157 @@
+<div id="EditorTempCompMapperList" class="col-lg-12 ibox float-e-margins ">
+    <!--<div class="body_title">| 模板</div>-->
+    <div class="main-bd ibox-content clearfix" >
+        <div class="body_top" >
+            <form class="form-inline app-search">
+        <label for="id">编号</label>
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="15" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="编号"></input>
+        <label for="name">模板名称</label>
+            <input type="text" id="nameLike" name="nameLike"  class="form-control input-sm"   maxlength="40" placeholder="模板名称" ></input>
+        <label for="remark">描述</label>
+            <input type="text" id="remarkLike" name="remarkLike"  class="form-control input-sm"   maxlength="200" placeholder="描述" ></input>
+        <label for="face">图片</label>
+            <input type="text" id="faceLike" name="faceLike"  class="form-control input-sm"   maxlength="100" placeholder="图片" ></input>
+
+                <button type="button" class="btn btn-default searchBtn">查询</button>
+            </form>
+
+             <button class="btn btn-success saveBtn" ><i class="fa fa-floppy-o" aria-hidden="true"></i>保存</button>
+        </div>
+
+        <div class="col-sm-8 mapper-grid-parent-wrap" >
+        <table id="EditorTempCompMapperGrid" class="grid"></table>
+        <div id="EditorTempCompMapperGrid-Pager" class="pager"></div>
+        </div>
+        <div class="col-sm-4 mapper-grid-child-wrap">
+                <ul id="treeDemo" class="ztree"></ul>
+        </div>
+    </div>
+</div>
+<script>
+var editorTempCompList={
+    modal:false,
+    mygrid:null,
+    treeObj:null,
+    root:$("#EditorTempCompMapperList"),
+    init:function(){
+        this.mygrid = $(this.root).find(".grid").jqGrid(this.gridParam);
+        this.addEventListener();
+        this.initTree();
+    },
+    initTree:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/component/listAll.json",null,function(result){
+            if(result.r==AJAX_SUCC){
+                if(result.data){
+                     that.treeObj=$.fn.zTree.init($(that.root).find("#treeDemo"), setting, result.data);
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg);
+            }
+        });
+    },
+    addEventListener:function(){
+           $(this.root).find(".saveBtn").click(this.saveInfo.Apply(this));
+           $(this.root).find(".searchBtn").click(this.searchInfo.Apply(this));
+    },
+    gridParam:{
+                  datatype: "json",
+                          viewrecords: true, sortorder: "desc", caption:"",
+                          rowNum:10,
+                          rowList:[10,20,30],
+                  multiselect : true,
+                  url : PATH+'/template/list.json',
+                  grid:"#EditorTempCompMapperGrid",
+                  pager:"#EditorTempCompMapperGrid-Pager",
+                  jsonReader:jsonReader,
+                   autowidth:true,
+                  colNames : [
+                   "编号","模板名称","描述","图片", ],
+                  colModel : [
+                          {
+                              name : 'id',
+                              width : 80,
+                          } ,
+                          {
+                              name : 'name',
+                              width : 80,
+                          } ,
+                          {
+                              name : 'remark',
+                              width : 80,
+                          } ,
+                          {
+                              name : 'face',
+                              width : 80,
+                          } ,
+
+
+                    ],
+
+                    onSelectRow: function(id){ //alert("单击选中"+id);
+                    var that =this;
+                  //  var treeObj = $.fn.zTree.getZTreeObj("tree");
+                     var celldata =$(editorTempCompList.mygrid).jqGrid('getRowData',id)["id"];
+                     //清空原来的选项
+                    editorTempCompList.treeObj.checkAllNodes(false);
+                      Ajax.getJSON(PATH+"/editorTempComp/listAll.json",{"templateId":celldata},function(result){
+                           if(result.data){
+                                          for(var i=0;i<result.data.length;i++){
+                                              var node = editorTempCompList.treeObj.getNodeByParam("id",result.data[i].componentId);
+                                              if(node!=null)
+                                              editorTempCompList.treeObj.checkNode(node,true,true);
+                                          }
+                                      }
+                      })
+                    },
+    },
+    saveInfo:function(){
+        //首先查出父节点勾选信息
+        var selarrrow =$(this.mygrid).jqGrid("getGridParam","selarrrow");
+        if(selarrrow==null || selarrrow.length==0){
+            selarrrow .push(this.mygrid.jqGrid('getGridParam','selrow'));
+        }
+        console.log(selarrrow);
+        //再查出子节点勾选信息
+        var childids=[];
+        var treeObj= this.treeObj;
+                         var checkedNodes= this.treeObj.getCheckedNodes(true);
+                         for(var i=0;i<checkedNodes.length;i++){
+                             var obj=checkedNodes[i];
+                             if(!checkedNodes[i].isParent){
+                                 childids.push(checkedNodes[i].id);
+                             }
+                         }
+        console.log(selarrrow.join(","));
+        var parentIdArray=new Array();
+        for(var i=0;i<selarrrow.length;i++){
+            parentIdArray.push( $(this.mygrid).jqGrid("getRowData",selarrrow[i])["id"]);
+        }
+
+        console.log(childids.join(","));
+         console.log(parentIdArray.join(","));
+        //进行保存
+
+        Ajax.post(PATH+"/editorTempComp/msave.json",{"templateIds":parentIdArray.join(","),"componentIds":childids.join(",")},function(result){
+            if(result.r==AJAX_SUCC){
+                dialog.alert("关联成功");
+            }else{
+                dialog.alert(result.msg);
+            }
+        })
+    },
+    searchInfo:function (){
+        var jso = changeForm2Jso(".app-search");
+        $(this.mygrid).jqGrid("setGridParam", { search: true ,"postData":jso}).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
+    },
+    search:function (){
+        var jso= changeForm2Jso(".app-search");
+        console.log(jso);
+        this.mygrid.search(jso);
+    },
+
+
+};
+editorTempCompList.init()
+</script>
+

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+
+<style type="text/css">
+.top_head{
+	
+	width:100%;
+	height:20px;
+	background-color:blue;
+}
+.wrapper{
+width:100%;
+	height:100%;
+	
+}
+.open_dialogue_h{
+	width:400px;
+	height:20px;
+	background-color:blue;
+}
+.close_btn{
+	display:block;
+	
+	top:0px;
+	right:0px;
+	background-color:red;
+	position:absolute;
+	width:15px;
+	height:15px;
+}
+
+</style>
+</head>
+<body>
+<div class="wrapper">
+	<div class="top_head">
+		添加商品
+		<a class="close_btn">
+			关闭
+		<a>
+	</div>
+	<table>
+		<tr>
+			<td>名称</td>
+			<td><input type="input" id="name" name="name"></input></td>
+		</tr>
+		<tr>
+			<td>说明</td>
+			<td><textarea  id="description" name="description" ></textarea ></td>
+		</tr>
+		<tr>
+			<td>数量</td>
+			<td><input type="input"></input></td>
+		</tr>
+	</table>
+  </div>
+ </body>
+ </html>

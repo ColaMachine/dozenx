@@ -1,0 +1,1 @@
+mvn deploy:deploy-file -DgroupId=com.dozenx -DartifactId=user -Dversion=1.0.0 -Dpacckaging=jar -Dfile=G:\E-zhike\code\trunk\dozenx\user\target\user.jar -DrepositoryId=snapshots -Durl=http://192.168.41.25:8081/nexus/content/repositories/thirdparty/

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.dao.SysAuthMapper">
+
+
+    <resultMap id="SysPermission" type="com.dozenx.web.core.auth.sysPermission.bean.SysPermission">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="pid" jdbcType="BIGINT" property="pid" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="order" jdbcType="INTEGER" property="order" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="sys_permission_name" jdbcType="VARCHAR" property="sys_permission_name" />
+    </resultMap>
+
+    <resultMap id="SysRole" type="com.dozenx.web.core.auth.sysRole.bean.SysRole">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="order_no" jdbcType="INTEGER" property="orderNo" />
+
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+
+    </resultMap>
+   <!-- <select id="selectResourceByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from sys_resource sr where sr.id in (select rid from sys_role_resource where roleid in ( select roleid from sys_user_role where uid =#{userid}))
+        union (select * from sys_resource sr1 where sr1.id  in (select rid from sys_user_resource where uid =#{userid}))
+    </select>-->
+
+    <select id="selectPermissionByUserId" parameterType="java.lang.Long" resultMap="SysPermission">
+        select * from sys_permission sr where sr.id in (select permission_id from sys_role_permission where status!=9 and role_id in ( select role_id from sys_user_role where user_id =#{userid}))
+        union (select * from sys_permission sr1 where sr1.id  in (select permission_id from sys_user_permission where user_id =#{userid}))
+    </select>
+
+    <select id="selectPermissionByRoleId" parameterType="java.lang.Long" resultMap="SysPermission">
+        select * from sys_permission sr where sr.id in (select permission_id from sys_role_permission where role_id  =#{roleid}))
+    </select>
+
+
+    <select id="selectPermissionStrByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select url from sys_permission sr where sr.id in (select permission_id from sys_role_permission where status!=9 and role_id in ( select role_id from sys_user_role where user_id =#{userid}))
+        union (select url from sys_permission sr1 where sr1.id  in (select permission_id from sys_user_permission where user_id =#{userid}))
+    </select>
+
+
+    <select id="selectRolesByUserId" parameterType="java.lang.Long" resultMap="SysRole">
+        select * from sys_role sr where sr.id in (select role_id from sys_user_role where user_id =#{userid})
+    </select>
+
+
+
+
+</mapper>

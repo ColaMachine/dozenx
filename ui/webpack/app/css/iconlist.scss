@@ -1,0 +1,66 @@
+@import 'base';
+@CHARSET "UTF-8";
+.zw-icon-list{
+        display:table;
+
+        border-collapse :0px  ;
+        /*flex-direction:row;
+        justify-content: space-between;*/
+        background-color:white;
+        li:first-child{
+            border-top-left-radius:7px;
+              border-bottom-left-radius:7px;
+        }
+        li:last-child{
+                    border-top-right-radius:7px;
+                      border-bottom-right-radius:7px;
+                }
+        li{
+
+             display:table-cell;
+            text-align: center;
+            list-style: none;
+            cursor: pointer;
+
+            color: #555;
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            position: relative;
+            margin: 3px -3px;
+
+            background-color: #fff;
+            overflow: hidden;
+            padding: 10px 0 10px 0;
+            border:0px ;
+
+
+    .zw-icon-desc {
+        display: block;
+        text-align: center;
+        -webkit-transform: scale(0.83);
+        -ms-transform: scale(0.83);
+        transform: scale(0.83);
+        font-family: "Lucida Console", Consolas;
+        white-space: nowrap;
+
+        .zw-badge{
+                display:block;
+
+
+                    font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    color: rgba(0, 0, 0, 0.65);
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                    position: relative;
+                    display: inline-block;
+                    line-height: 1;
+                    vertical-align: middle;
+            }
+    }
+ }
+}

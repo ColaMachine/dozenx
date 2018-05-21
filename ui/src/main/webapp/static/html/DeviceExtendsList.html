@@ -1,0 +1,253 @@
+
+<div id="DeviceExtendsList" class="col-lg-12 ibox float-e-margins">
+   <!-- <div class="main-hd ibox-title">| 商户扩展字段</div>-->
+
+
+    <div class="main-bd ibox-content">
+        <div class="body_top" >
+            <form class="form-inline app-search">
+                    <label for="id">设备id</label>
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="设备id"></input>
+        <label for="merId">商户id</label>
+            <input type="number" id="merId" name="merId"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="商户id"></input>
+        <label for="chinaNet">chainaNet开关</label>
+            <select id="chinaNet" name="chinaNet"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        <label for="lan">lan口认证</label>
+            <select id="lan" name="lan"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        <label for="awifi">awifi开关</label>
+            <select id="awifi" name="awifi"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        <label for="escapse">一键放通</label>
+            <select id="escapse" name="escapse"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        <label for="portal">酒店首页</label>
+            <select id="portal" name="portal"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=0>爱wifi</option>
+                <option value=1>信产</option>
+            </select>
+        <label for="freeTimeOut">闲时下线</label>
+            <input type="number" id="freeTimeOut" name="freeTimeOut"  class="form-control input-sm"  maxlength="5" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="闲时下线"></input>
+        <label for="netPwdSta">防蹭网开关</label>
+            <select id="netPwdSta" name="netPwdSta"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>开</option>
+                <option value=0>关</option>
+            </select>
+        <label for="netPwdCode">防蹭网密码</label>
+            <input type="text" id="netPwdCodeLike" name="netPwdCodeLike"  class="form-control input-sm"   maxlength="10" placeholder="防蹭网密码" ></input>
+
+            <button type="button"  class="btn btn-default searchBtn">查询</button>
+            </form>
+
+            <button class="btn btn-primary addBtn" ><i class="fa fa-plus"></i>新增</button>
+            <!--<button class="btn btn-primary deleteBtn"><i class="fa fa-plus"></i>删除</button>-->
+            <!--<button class="btn btn-primary exportBtn"><i class="fa fa-plus"></i>导出</button>-->
+        </div>
+        <table id="DeviceExtendsGrid" class="grid table"></table>
+        <div id="DeviceExtendsGrid-Pager" class="pager"></div>
+    </div>
+</div>
+<script>
+var deviceExtendsList={
+    modal:true,
+    mygrid:null,
+    treeObj:null,
+    dqData:null,
+    root:$("#DeviceExtendsList"),
+    init:function(){
+
+        setTitle("商户扩展字段");
+        this.mygrid =this.root.find(".grid").jqGrid(this.gridParam);
+        this.addEventListener();
+        this.loadData();
+    },
+    loadData:function(){
+    },
+    addEventListener:function(){
+        $(this.root).find(".addBtn").click(this.addInfo.Apply(this));
+          $(this.root).find(".editBtn").click(this.editSelectInfo.Apply(this));
+        $(this.root).find(".deleteBtn").click(this.multiDelete.Apply(this));
+        $(this.root).find(".searchBtn").click(this.searchInfo.Apply(this));
+    },
+    gridParam:{
+        datatype: "json",
+        viewrecords: true, sortorder: "desc", caption:"",
+        rowNum:10,
+        rowList:[10,20,30],
+        multiselect : false,
+        url : PATH+'/deviceExtends/list.json',
+        autowidth:true,
+        grid:"#DeviceExtendsGrid",
+        pager:"#DeviceExtendsGrid-Pager",
+        jsonReader:jsonReader,
+        colNames : [
+        "设备id","商户id","chainaNet开关","lan口认证","awifi开关","一键放通","酒店首页","闲时下线","防蹭网开关","防蹭网密码" , '操作' ],
+        colModel : [
+            {   name : 'id',width : 80,
+
+            } ,
+            {   name : 'merId',width : 80,
+
+            } ,
+            {   name : 'chinaNet',width : 80,
+                formatter : function(value, grid, rows) {
+                  var map ={'0':'关','1':'开',};
+                  return map[value];
+                }
+
+            } ,
+            {   name : 'lan',width : 80,
+                formatter : function(value, grid, rows) {
+                  var map ={'0':'关','1':'开',};
+                  return map[value];
+                }
+
+            } ,
+            {   name : 'awifi',width : 80,
+                formatter : function(value, grid, rows) {
+                  var map ={'0':'关','1':'开',};
+                  return map[value];
+                }
+
+            } ,
+            {   name : 'escapse',width : 80,
+                formatter : function(value, grid, rows) {
+                  var map ={'0':'关','1':'开',};
+                  return map[value];
+                }
+
+            } ,
+            {   name : 'portal',width : 80,
+                formatter : function(value, grid, rows) {
+                  var map ={'0':'爱wifi','1':'信产',};
+                  return map[value];
+                }
+
+            } ,
+            {   name : 'freeTimeOut',width : 80,
+
+            } ,
+            {   name : 'netPwdSta',width : 80,
+                formatter : function(value, grid, rows) {
+                  var map ={'0':'关','1':'开',};
+                  return map[value];
+                }
+
+            } ,
+            {   name : 'netPwdCode',width : 80,
+
+            } ,
+
+            {   name : 'operation',
+                width : 150,
+                formatter : function(value, grid, rows) {
+                    return gridHelper.getViewHtml(rows.id,"deviceExtendsList")+gridHelper.getEditHtml(rows.id,"deviceExtendsList")+gridHelper.getDelHtml(rows.id,"deviceExtendsList");
+                }
+            }
+        ],
+        onSelectRow: function(id){ //alert("单击选中"+id);
+        },
+        loadComplete:function(data){
+            dqData=data;
+        }
+    },
+
+    saveInfo:function(){
+    },
+    addInfo:function (){
+        dialog.window('/deviceExtends/edit.htm',this.modal);
+    },
+    editSelectInfo:function(){
+        var rowid =this.mygrid.jqGrid("getGridParam","selrow");
+        var rowData = this.mygrid.jqGrid('getRowData',rowid);
+        var id = rowData["id"];
+        if(StringUtil.isBlank(id)){
+            dialog.alert("请选中一行数据");
+        }else{
+            dialog.window("/deviceExtends/edit.htm?id="+id,this.modal);
+        }
+    },
+    editInfo:function (id){
+        dialog.window("/deviceExtends/edit.htm?id="+id,this.modal);
+    },
+    searchInfo:function (){
+        var jso = changeForm2Jso(".app-search");
+
+        this.mygrid.jqGrid("setGridParam", { search: true ,"postData":jso}).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
+    },
+    viewInfo:function (id){
+        dialog.window("/deviceExtends/view.htm?id="+id,this.modal);
+    },
+    exportInfo:function (){
+        var jso= changeForm2Jso(".app-search");
+        Ajax.getJSON(PATH+"/deviceExtends/export.json",jso,function(data){
+            if(data.r==AJAX_SUCC){
+                window.location=PATH+"/"+data.data;
+            }else{
+                dialog.error(data.msg,"导出失败",null);
+            }
+        })
+    },
+    deleteInfo:function (id){
+        var that =this;
+         //弹窗
+        dialog.confirm("确定删除数据:"+id,function(){
+            Ajax.post(PATH+"/deviceExtends/del.json",{id:id},function(result){
+                result=ajaxResultHandler(result);
+                if(result.r==AJAX_SUCC){
+                    var did=dialog.alert("删除成功，数据："+id,function(index){
+                    that.mygrid.trigger("reloadGrid");
+                    dialog.close(did);
+                });
+                }else {
+                    dialog.error(result.msg,"提醒");
+                }
+            });
+        });
+    },
+    multiDelete:function (){
+        //获取ids字符串
+        var ids=this.mygrid.jqGrid("getGridParam","selarrrow");
+        if(ids.length==0){
+            dialog.alert("请勾选数据");
+            return;
+        }
+        for(var i=0;i<ids.length;i++){
+            var data= this.mygrid.jqGrid("getRowData",ids[i]);
+            ids[i]=data["id"];
+        }
+        //弹窗
+        var that=this;
+        var dialogid= dialog.confirm("确定删除数据:"+ids.join(","),function(){
+            Ajax.post(PATH+"/deviceExtends/mdel.json?",{ids:ids.join(",")},function(result){
+                result=ajaxResultHandler(result);
+                if(result.r==AJAX_SUCC){
+                    dialogid=dialog.alert("删除成功，数据："+ids.join(","),function(index){
+                    that.mygrid.trigger("reloadGrid");
+                    dialog.close(dialogid);
+                });
+                }else {
+                    dialog.error(result.msg);
+                }
+            });
+        });
+    }
+};
+deviceExtendsList.init()
+</script>
+

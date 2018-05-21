@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysUser.dao.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysUser.bean.SysUser">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="nkname" jdbcType="VARCHAR" property="nkname" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="telno" jdbcType="VARCHAR" property="telno" />
+        <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+        <result column="sex" jdbcType="INTEGER" property="sex" />
+        <result column="province" jdbcType="INTEGER" property="province" />
+        <result column="city" jdbcType="INTEGER" property="city" />
+        <result column="county" jdbcType="INTEGER" property="county" />
+        <result column="birth" jdbcType="DATE" property="birth" />
+        <result column="integral" jdbcType="INTEGER" property="integral" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+        <result column="qq" jdbcType="BIGINT" property="qq" />
+        <result column="face" jdbcType="VARCHAR" property="face" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="account" jdbcType="VARCHAR" property="account" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        sys_user.`id` ,sys_user.`username` ,sys_user.`password` ,sys_user.`nkname` ,sys_user.`type` ,sys_user.`status` ,sys_user.`email` ,sys_user.`telno` ,sys_user.`idcard` ,sys_user.`sex` ,sys_user.`birth` ,sys_user.`integral` ,sys_user.`address` ,sys_user.`wechat` ,sys_user.`qq` ,sys_user.`face` ,sys_user.`remark` ,sys_user.`create_time` ,sys_user.`update_time`
+        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`
+    </sql>
+    <sql id="Base_Column_List_no_pwd">
+        sys_user.`id` ,sys_user.`username`  ,sys_user.`nkname` ,sys_user.`type` ,sys_user.`status` ,sys_user.`email` ,sys_user.`telno` ,sys_user.`idcard` ,sys_user.`sex` ,sys_user.`birth` ,sys_user.`integral` ,sys_user.`address` ,sys_user.`wechat` ,sys_user.`qq` ,sys_user.`face` ,sys_user.`remark` ,sys_user.`create_time` ,sys_user.`update_time`
+        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where sys_user.id =   #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        update   sys_user set status =9
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >
+
+        insert into sys_user (  <include refid="Base_Column_List" />)
+        values (
+        #{id,jdbcType=BIGINT}
+        ,#{username,jdbcType=VARCHAR}
+        ,#{password,jdbcType=VARCHAR}
+        ,#{nkname,jdbcType=VARCHAR}
+        ,#{type,jdbcType=INTEGER}
+        ,#{status,jdbcType=INTEGER}
+        ,#{email,jdbcType=VARCHAR}
+        ,#{telno,jdbcType=VARCHAR}
+        ,#{idcard,jdbcType=VARCHAR}
+        ,#{sex,jdbcType=INTEGER}
+        ,#{birth,jdbcType=DATE}
+        ,#{integral,jdbcType=INTEGER}
+        ,#{address,jdbcType=VARCHAR}
+        ,#{wechat,jdbcType=VARCHAR}
+        ,#{qq,jdbcType=BIGINT}
+        ,#{face,jdbcType=VARCHAR}
+        ,#{remark,jdbcType=VARCHAR}
+        ,#{createTime,jdbcType=TIMESTAMP}
+        ,#{updateTime,jdbcType=TIMESTAMP}
+        ,#{province,jdbcType=INTEGER}
+        ,#{city,jdbcType=INTEGER}
+        ,#{county,jdbcType=INTEGER}
+        ,#{account,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                `id`,
+            </if>
+            <if test="username != null" >
+                `username`,
+            </if>
+            <if test="password != null" >
+                `password`,
+            </if>
+            <if test="nkname != null" >
+                `nkname`,
+            </if>
+            <if test="type != null" >
+                `type`,
+            </if>
+            <if test="status != null" >
+                `status`,
+            </if>
+            <if test="email != null" >
+                `email`,
+            </if>
+            <if test="telno != null" >
+                `telno`,
+            </if>
+            <if test="idcard != null" >
+                `idcard`,
+            </if>
+            <if test="sex != null" >
+                `sex`,
+            </if>
+            <if test="birth != null" >
+                `birth`,
+            </if>
+            <if test="integral != null" >
+                `integral`,
+            </if>
+            <if test="address != null" >
+                `address`,
+            </if>
+            <if test="wechat != null" >
+                `wechat`,
+            </if>
+            <if test="qq != null" >
+                `qq`,
+            </if>
+            <if test="face != null" >
+                `face`,
+            </if>
+            <if test="remark != null" >
+                `remark`,
+            </if>
+            <if test="createTime != null" >
+                `create_time`,
+            </if>
+            <if test="updateTime != null" >
+                `update_time`,
+            </if>
+            <if test="province != null" >
+                `province`,
+            </if>
+            <if test="city != null" >
+                `city`,
+            </if>
+            <if test="county != null" >
+                `county`,
+            </if>
+            <if test="account != null" >
+                `account`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="username != null" >
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nkname != null" >
+                #{nkname,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="telno != null" >
+                #{telno,jdbcType=VARCHAR},
+            </if>
+            <if test="idcard != null" >
+                #{idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="birth != null" >
+                #{birth,jdbcType=DATE},
+            </if>
+            <if test="integral != null" >
+                #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null" >
+                #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="qq != null" >
+                #{qq,jdbcType=BIGINT},
+            </if>
+            <if test="face != null" >
+                #{face,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="province != null" >
+                #{province,jdbcType=INTEGER},
+            </if>
+            <if test="city != null" >
+                #{city,jdbcType=INTEGER},
+            </if>
+            <if test="county != null" >
+                #{county,jdbcType=INTEGER},
+            </if>
+            <if test="account != null" >
+                #{account,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >
+        update sys_user
+        <set >
+            <if test="id != null" >
+                `id`=#{id,jdbcType=BIGINT},
+            </if>
+            <if test="username != null" >
+                `username`=#{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                `password`=#{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nkname != null" >
+                `nkname`=#{nkname,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                `type`=#{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                `status`=#{status,jdbcType=INTEGER},
+            </if>
+            <if test="email != null" >
+                `email`=#{email,jdbcType=VARCHAR},
+            </if>
+            <if test="telno != null" >
+                `telno`=#{telno,jdbcType=VARCHAR},
+            </if>
+            <if test="idcard != null" >
+                `idcard`=#{idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                `sex`=#{sex,jdbcType=INTEGER},
+            </if>
+            <if test="birth != null" >
+                `birth`=#{birth,jdbcType=DATE},
+            </if>
+            <if test="integral != null" >
+                `integral`=#{integral,jdbcType=INTEGER},
+            </if>
+            <if test="address != null" >
+                `address`=#{address,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null" >
+                `wechat`=#{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="qq != null" >
+                `qq`=#{qq,jdbcType=BIGINT},
+            </if>
+            <if test="face != null" >
+                `face`=#{face,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                `remark`=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                `create_time`=#{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                `update_time`=#{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="province != null" >
+                `province`=#{province,jdbcType=INTEGER},
+            </if>
+            <if test="city != null" >
+                `city`=#{city,jdbcType=INTEGER},
+            </if>
+            <if test="county != null" >
+                `county`=#{county,jdbcType=INTEGER},
+            </if>
+            <if test="account != null" >
+                `account`=#{account,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >
+        update sys_user
+        set
+        `username`=#{username,jdbcType=VARCHAR},
+        `password`=#{password,jdbcType=VARCHAR},
+        `nkname`=#{nkname,jdbcType=VARCHAR},
+        `type`=#{type,jdbcType=INTEGER},
+        `status`=#{status,jdbcType=INTEGER},
+        `email`=#{email,jdbcType=VARCHAR},
+        `telno`=#{telno,jdbcType=VARCHAR},
+        `idcard`=#{idcard,jdbcType=VARCHAR},
+        `sex`=#{sex,jdbcType=INTEGER},
+        `province`=#{province,jdbcType=INTEGER},
+        `city`=#{city,jdbcType=INTEGER},
+        `county`=#{county,jdbcType=INTEGER},
+        `birth`=#{birth,jdbcType=DATE},
+        `integral`=#{integral,jdbcType=INTEGER},
+        `address`=#{address,jdbcType=VARCHAR},
+        `wechat`=#{wechat,jdbcType=VARCHAR},
+        `qq`=#{qq,jdbcType=BIGINT},
+        `face`=#{face,jdbcType=VARCHAR},
+        `remark`=#{remark,jdbcType=VARCHAR},
+        `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        `updateTime`=#{updateTime,jdbcType=TIMESTAMP}
+
+
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user where status!=9
+        <if test="id != null and id != '' ">
+            and `id` = #{id}
+        </if>
+        <if test="username != null and username != '' ">
+            and `username` = #{username}
+        </if>
+
+        <if test="usernameLike != null and usernameLike != '' ">
+            and `username` like "%"#{usernameLike}"%"
+        </if>
+        <if test="password != null and password != '' ">
+            and `password` = #{password}
+        </if>
+        <if test="passwordLike != null and passwordLike != '' ">
+            and `password` like "%"#{passwordLike}"%"
+        </if>
+        <if test="nkname != null and nkname != '' ">
+            and `nkname` = #{nkname}
+        </if>
+        <if test="nknameLike != null and nknameLike != '' ">
+            and `nkname` like "%"#{nknameLike}"%"
+        </if>
+        <if test="type != null and type != '' ">
+            and `type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+            and `status` = #{status}
+        </if>
+        <if test="email != null and email != '' ">
+            and `email` = #{email}
+        </if>
+        <if test="emailLike != null and emailLike != '' ">
+            and `email` like "%"#{emailLike}"%"
+        </if>
+        <if test="telno != null and telno != '' ">
+            and `telno` = #{telno}
+        </if>
+        <if test="telnoLike != null and telnoLike != '' ">
+            and `telno` like "%"#{telnoLike}"%"
+        </if>
+        <if test="idcard != null and idcard != '' ">
+            and `idcard` = #{idcard}
+        </if>
+        <if test="idcardLike != null and idcardLike != '' ">
+            and `idcard` like "%"#{idcardLike}"%"
+        </if>
+        <if test="sex != null and sex != '' ">
+            and `sex` = #{sex}
+        </if>
+        <if test="birth != null and birth != '' ">
+            and `birth` = #{birth}
+        </if>
+        <if test="integral != null and integral != '' ">
+            and `integral` = #{integral}
+        </if>
+        <if test="address != null and address != '' ">
+            and `address` = #{address}
+        </if>
+        <if test="addressLike != null and addressLike != '' ">
+            and `address` like "%"#{addressLike}"%"
+        </if>
+        <if test="wechat != null and wechat != '' ">
+            and `wechat` = #{wechat}
+        </if>
+        <if test="wechatLike != null and wechatLike != '' ">
+            and `wechat` like "%"#{wechatLike}"%"
+        </if>
+        <if test="qq != null and qq != '' ">
+            and `qq` = #{qq}
+        </if>
+        <if test="face != null and face != '' ">
+            and `face` = #{face}
+        </if>
+        <if test="faceLike != null and faceLike != '' ">
+            and `face` like "%"#{faceLike}"%"
+        </if>
+        <if test="remark != null and remark != '' ">
+            and `remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and `remark` like "%"#{remarkLike}"%"
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and `create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
+
+        <if test="updateTime != null and updateTime != '' ">
+            and `update_time` = #{updateTime}
+        </if>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and `update_time` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and `update_time` &lt;= #{updateTimeEnd}
+        </if>
+        <if test="province != null and province != '' ">
+            and `province` = #{province}
+        </if>
+        <if test="city != null and city != '' ">
+            and `city` = #{city}
+        </if>
+        <if test="county != null and county != '' ">
+            and `county` = #{county}
+        </if>
+        <if test="account != null and account != '' ">
+            and `account` = #{account}
+        </if>
+
+    </select>
+    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+
+        where status!=9
+        <if test="id != null and id != '' ">
+            and sys_user.`id` = #{id}
+        </if>
+        <if test="username != null and username != '' ">
+            and sys_user.`username` = #{username}
+        </if>
+        <if test="usernameLike != null and usernameLike != '' ">
+            and sys_user.`username` like "%"#{usernameLike}"%"
+        </if>
+        <if test="password != null and password != '' ">
+            and sys_user.`password` = #{password}
+        </if>
+        <if test="passwordLike != null and passwordLike != '' ">
+            and sys_user.`password` like "%"#{passwordLike}"%"
+        </if>
+        <if test="nkname != null and nkname != '' ">
+            and sys_user.`nkname` = #{nkname}
+        </if>
+        <if test="nknameLike != null and nknameLike != '' ">
+            and sys_user.`nkname` like "%"#{nknameLike}"%"
+        </if>
+        <if test="type != null and type != '' ">
+            and sys_user.`type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+            and sys_user.`status` = #{status}
+        </if>
+        <if test="email != null and email != '' ">
+            and sys_user.`email` = #{email}
+        </if>
+        <if test="emailLike != null and emailLike != '' ">
+            and sys_user.`email` like "%"#{emailLike}"%"
+        </if>
+        <if test="telno != null and telno != '' ">
+            and sys_user.`telno` = #{telno}
+        </if>
+        <if test="telnoLike != null and telnoLike != '' ">
+            and sys_user.`telno` like "%"#{telnoLike}"%"
+        </if>
+        <if test="idcard != null and idcard != '' ">
+            and sys_user.`idcard` = #{idcard}
+        </if>
+        <if test="idcardLike != null and idcardLike != '' ">
+            and sys_user.`idcard` like "%"#{idcardLike}"%"
+        </if>
+        <if test="sex != null and sex != '' ">
+            and sys_user.`sex` = #{sex}
+        </if>
+        <if test="birth != null and birth != '' ">
+            and sys_user.`birth` = #{birth}
+        </if>
+        <if test="integral != null and integral != '' ">
+            and sys_user.`integral` = #{integral}
+        </if>
+        <if test="address != null and address != '' ">
+            and sys_user.`address` = #{address}
+        </if>
+        <if test="addressLike != null and addressLike != '' ">
+            and sys_user.`address` like "%"#{addressLike}"%"
+        </if>
+        <if test="wechat != null and wechat != '' ">
+            and sys_user.`wechat` = #{wechat}
+        </if>
+        <if test="wechatLike != null and wechatLike != '' ">
+            and sys_user.`wechat` like "%"#{wechatLike}"%"
+        </if>
+        <if test="qq != null and qq != '' ">
+            and sys_user.`qq` = #{qq}
+        </if>
+        <if test="face != null and face != '' ">
+            and sys_user.`face` = #{face}
+        </if>
+        <if test="faceLike != null and faceLike != '' ">
+            and sys_user.`face` like "%"#{faceLike}"%"
+        </if>
+        <if test="remark != null and remark != '' ">
+            and sys_user.`remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and sys_user.`remark` like "%"#{remarkLike}"%"
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and sys_user.`create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and sys_user.`create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and sys_user.`create_time` &lt;= #{createTimeEnd}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+            and sys_user.`update_time` = #{updateTime}
+        </if>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and sys_user.`update_time` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and sys_user.`update_time` &lt;= #{updateTimeEnd}
+        </if>
+
+        <if test="province != null and province != '' ">
+            and sys_user.`province` = #{province}
+        </if>
+        <if test="city != null and city != '' ">
+            and sys_user.`city` = #{city}
+        </if>
+        <if test="county != null and county != '' ">
+            and sys_user.`county` = #{county}
+        </if>
+        <if test="roleId != null and roleId != '' ">
+            and sys_user.`id` in (select user_id from sys_user_role where role_id = #{roleId})
+        </if>
+        <if test="account != null and account != '' ">
+            and sys_user.`account` = #{account}
+        </if>
+        <if test="accountLike != null and accountLike != '' ">
+            and sys_user.`account`  like "%"#{accountLike}"%"
+        </if>
+
+    </select>
+    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from sys_user where status!=9
+        <if test="id != null and id != '' ">
+            and sys_user.`id` = #{id}
+        </if>
+        <if test="username != null and username != '' ">
+            and sys_user.`username` = #{username}
+        </if>
+        <if test="usernameLike != null and usernameLike != '' ">
+            and sys_user.`username` like "%"#{usernameLike}"%"
+        </if>
+        <if test="password != null and password != '' ">
+            and sys_user.`password` = #{password}
+        </if>
+        <if test="passwordLike != null and passwordLike != '' ">
+            and sys_user.`password` like "%"#{passwordLike}"%"
+        </if>
+        <if test="nkname != null and nkname != '' ">
+            and sys_user.`nkname` = #{nkname}
+        </if>
+        <if test="nknameLike != null and nknameLike != '' ">
+            and sys_user.`nkname` like "%"#{nknameLike}"%"
+        </if>
+        <if test="type != null and type != '' ">
+            and sys_user.`type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+            and sys_user.`status` = #{status}
+        </if>
+        <if test="email != null and email != '' ">
+            and sys_user.`email` = #{email}
+        </if>
+        <if test="emailLike != null and emailLike != '' ">
+            and sys_user.`email` like "%"#{emailLike}"%"
+        </if>
+        <if test="telno != null and telno != '' ">
+            and sys_user.`telno` = #{telno}
+        </if>
+        <if test="telnoLike != null and telnoLike != '' ">
+            and sys_user.`telno` like "%"#{telnoLike}"%"
+        </if>
+        <if test="idcard != null and idcard != '' ">
+            and sys_user.`idcard` = #{idcard}
+        </if>
+        <if test="idcardLike != null and idcardLike != '' ">
+            and sys_user.`idcard` like "%"#{idcardLike}"%"
+        </if>
+        <if test="sex != null and sex != '' ">
+            and sys_user.`sex` = #{sex}
+        </if>
+        <if test="birth != null and birth != '' ">
+            and sys_user.`birth` = #{birth}
+        </if>
+        <if test="integral != null and integral != '' ">
+            and sys_user.`integral` = #{integral}
+        </if>
+        <if test="address != null and address != '' ">
+            and sys_user.`address` = #{address}
+        </if>
+        <if test="addressLike != null and addressLike != '' ">
+            and sys_user.`address` like "%"#{addressLike}"%"
+        </if>
+        <if test="wechat != null and wechat != '' ">
+            and sys_user.`wechat` = #{wechat}
+        </if>
+        <if test="wechatLike != null and wechatLike != '' ">
+            and sys_user.`wechat` like "%"#{wechatLike}"%"
+        </if>
+        <if test="qq != null and qq != '' ">
+            and sys_user.`qq` = #{qq}
+        </if>
+        <if test="face != null and face != '' ">
+            and sys_user.`face` = #{face}
+        </if>
+        <if test="faceLike != null and faceLike != '' ">
+            and sys_user.`face` like "%"#{faceLike}"%"
+        </if>
+        <if test="remark != null and remark != '' ">
+            and sys_user.`remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and sys_user.`remark` like "%"#{remarkLike}"%"
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and sys_user.`create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and sys_user.`create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and sys_user.`create_time` &lt;= #{createTimeEnd}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+            and sys_user.`update_time` = #{updateTime}
+        </if>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and sys_user.`update_time` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and sys_user.`update_time` &lt;= #{updateTimeEnd}
+        </if>
+
+        <if test="province != null and province != '' ">
+            and sys_user.`province` = #{province}
+        </if>
+        <if test="city != null and city != '' ">
+            and sys_user.`city` = #{city}
+        </if>
+        <if test="county != null and county != '' ">
+            and sys_user.`county` = #{county}
+        </if>
+        <if test="account != null and account != '' ">
+            and sys_user.`account` = #{account}
+        </if>
+        <if test="accountLike != null and accountLike != '' ">
+            and sys_user.`accountLike`  like "%"#{accountLike}"%"
+        </if>
+    </select>
+    <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from sys_user where 1!=1
+        <if test="id != null and id != '' ">
+            or `id` = #{id}
+        </if>
+        <if test="username != null and username != '' ">
+            or `username` = #{username}
+        </if>
+        <if test="password != null and password != '' ">
+            or `password` = #{password}
+        </if>
+        <if test="nkname != null and nkname != '' ">
+            or `nkname` = #{nkname}
+        </if>
+        <if test="type != null and type != '' ">
+            or `type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+            or `status` = #{status}
+        </if>
+        <if test="email != null and email != '' ">
+            or `email` = #{email}
+        </if>
+        <if test="telno != null and telno != '' ">
+            or `telno` = #{telno}
+        </if>
+        <if test="idcard != null and idcard != '' ">
+            or `idcard` = #{idcard}
+        </if>
+        <if test="sex != null and sex != '' ">
+            or `sex` = #{sex}
+        </if>
+        <if test="birth != null and birth != '' ">
+            or `birth` = #{birth}
+        </if>
+        <if test="integral != null and integral != '' ">
+            or `integral` = #{integral}
+        </if>
+        <if test="address != null and address != '' ">
+            or `address` = #{address}
+        </if>
+        <if test="wechat != null and wechat != '' ">
+            or `wechat` = #{wechat}
+        </if>
+        <if test="qq != null and qq != '' ">
+            or `qq` = #{qq}
+        </if>
+        <if test="face != null and face != '' ">
+            or `face` = #{face}
+        </if>
+        <if test="remark != null and remark != '' ">
+            or `remark` = #{remark}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            or `create_time` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+            or `update_time` = #{updateTime}
+        </if>
+        <if test="account != null and account != '' ">
+            or `account` = #{account}
+        </if>
+
+    </select>
+
+
+    <select id="selectConfilic" parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user where status!=9
+        <if test="id != null and id != '' ">
+            and sys_user.`id` != #{id}
+        </if>
+        and (
+        <if test="account != null and account != '' ">
+             sys_user.`account` = #{account}
+        </if>
+
+        <if test="username != null and username != '' ">
+            or sys_user.`username` = #{username}
+        </if>
+
+        <if test="email != null and email != '' ">
+            or sys_user.`email` = #{email}
+        </if>
+
+        <if test="telno != null and telno != '' ">
+            or sys_user.`telno` = #{telno}
+        </if>
+
+        ) limit 1
+
+    </select>
+
+
+
+<!--    <select id="selectWithRoleInfoByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        ,sys_role.id roleId
+        from sys_user  left join sys_user_role  on sys_user_role.user_id = sys_user.id left join sys_role  on sys_role.id = sys_user_role.role_id
+        where sys_user.id =   #{id,jdbcType=BIGINT}
+    </select>-->
+
+
+    <select id="listIdNameByRole" parameterType="java.lang.Long" resultType="java.util.HashMap">
+        select
+        id,username,account
+        from sys_user where status !=9 and
+             sys_user.`id` in (select user_id from sys_user_role where status!=9 and  role_id = #{roleId})
+    </select>
+
+    <select id="listWithRoleInfoByParams4Page" parameterType="map" resultType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+
+        where status!=9
+        <if test="id != null and id != '' ">
+            and sys_user.`id` = #{id}
+        </if>
+        <if test="username != null and username != '' ">
+            and sys_user.`username` = #{username}
+        </if>
+        <if test="usernameLike != null and usernameLike != '' ">
+            and sys_user.`username` like "%"#{usernameLike}"%"
+        </if>
+
+
+        <if test="province != null and province != '' ">
+            and sys_user.`province` = #{province}
+        </if>
+        <if test="city != null and city != '' ">
+            and sys_user.`city` = #{city}
+        </if>
+        <if test="county != null and county != '' ">
+            and sys_user.`county` = #{county}
+        </if>
+
+        <if test="roleId != null and roleId != '' ">
+            and sys_user.`id` in (select user_id from sys_user_role where status!=9 and  role_id = #{roleId})
+        </if>
+
+        <if test="account != null and account != '' ">
+            and sys_user.`account` = #{account}
+        </if>
+
+        <if test="accountLike != null and accountLike != '' ">
+            and sys_user.`account`  like "%"#{accountLike}"%"
+        </if>
+
+
+    </select>
+
+    <select id="listIdNameByParam" parameterType="map" resultType="java.util.HashMap">
+        select
+        id,username,account ,telno
+        from sys_user where status!=9
+        <if test="id != null and id != '' ">
+            and `id` = #{id}
+        </if>
+        <if test="username != null and username != '' ">
+            and `username` = #{username}
+        </if>
+
+        <if test="usernameLike != null and usernameLike != '' ">
+            and `username` like "%"#{usernameLike}"%"
+        </if>
+        <if test="password != null and password != '' ">
+            and `password` = #{password}
+        </if>
+        <if test="passwordLike != null and passwordLike != '' ">
+            and `password` like "%"#{passwordLike}"%"
+        </if>
+        <if test="nkname != null and nkname != '' ">
+            and `nkname` = #{nkname}
+        </if>
+        <if test="nknameLike != null and nknameLike != '' ">
+            and `nkname` like "%"#{nknameLike}"%"
+        </if>
+        <if test="type != null and type != '' ">
+            and `type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+            and `status` = #{status}
+        </if>
+        <if test="email != null and email != '' ">
+            and `email` = #{email}
+        </if>
+        <if test="emailLike != null and emailLike != '' ">
+            and `email` like "%"#{emailLike}"%"
+        </if>
+        <if test="telno != null and telno != '' ">
+            and `telno` = #{telno}
+        </if>
+        <if test="telnoLike != null and telnoLike != '' ">
+            and `telno` like "%"#{telnoLike}"%"
+        </if>
+        <if test="idcard != null and idcard != '' ">
+            and `idcard` = #{idcard}
+        </if>
+        <if test="idcardLike != null and idcardLike != '' ">
+            and `idcard` like "%"#{idcardLike}"%"
+        </if>
+        <if test="sex != null and sex != '' ">
+            and `sex` = #{sex}
+        </if>
+        <if test="birth != null and birth != '' ">
+            and `birth` = #{birth}
+        </if>
+        <if test="integral != null and integral != '' ">
+            and `integral` = #{integral}
+        </if>
+        <if test="address != null and address != '' ">
+            and `address` = #{address}
+        </if>
+        <if test="addressLike != null and addressLike != '' ">
+            and `address` like "%"#{addressLike}"%"
+        </if>
+        <if test="wechat != null and wechat != '' ">
+            and `wechat` = #{wechat}
+        </if>
+        <if test="wechatLike != null and wechatLike != '' ">
+            and `wechat` like "%"#{wechatLike}"%"
+        </if>
+        <if test="qq != null and qq != '' ">
+            and `qq` = #{qq}
+        </if>
+        <if test="face != null and face != '' ">
+            and `face` = #{face}
+        </if>
+        <if test="faceLike != null and faceLike != '' ">
+            and `face` like "%"#{faceLike}"%"
+        </if>
+        <if test="remark != null and remark != '' ">
+            and `remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and `remark` like "%"#{remarkLike}"%"
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and `create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
+
+        <if test="updateTime != null and updateTime != '' ">
+            and `update_time` = #{updateTime}
+        </if>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and `update_time` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and `update_time` &lt;= #{updateTimeEnd}
+        </if>
+        <if test="province != null and province != '' ">
+            and `province` = #{province}
+        </if>
+        <if test="city != null and city != '' ">
+            and `city` = #{city}
+        </if>
+        <if test="county != null and county != '' ">
+            and `county` = #{county}
+        </if>
+        <if test="account != null and account != '' ">
+            and `account` = #{account}
+        </if>
+
+    </select>
+
+
+
+    <select id="selectUserByEmail" parameterType="string" resultMap="BaseResultMap">
+        select * from sys_user where email = #{email} limit 1
+    </select>
+    <select id="selectUserByTelno" parameterType="string" resultMap="BaseResultMap">
+        select * from sys_user where telno = #{telno} limit 1
+    </select>
+    <select id="selectUserByUsername" parameterType="string" resultMap="BaseResultMap">
+
+        SELECT * FROM sys_user where username=#{loginname} limit 1
+    </select>
+    <!--  修改记录	-->
+
+
+    <update id="resetPwd" parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser">
+        update sys_user set password = #{password}  where id = #{id}
+    </update>
+    <!--  查询所有记录，查询多条记录即返回结果是一个集合的时候，resultType不是集合类型，而是集合所包含的类型	-->
+    <select id="selectAll" resultType="com.dozenx.web.core.auth.sysUser.bean.SysUser">
+        select * from sys_user
+    </select>
+    <!--  模糊查询	-->
+    <select id="fuzzyQuery" resultType="com.dozenx.web.core.auth.sysUser.bean.SysUser" parameterType="java.lang.String">
+        select * from sys_user where username like "%"#{username}"%"
+    </select>
+
+    <update id="updateStatus" parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser">
+        update sys_user set status = #{status} where id = #{id}
+    </update>
+
+    <select id="selectUserByWeichat" parameterType="string" resultMap="BaseResultMap">
+        select * from sys_user where weichat = #{weichat} limit 1
+    </select>
+    <select id="countAll" resultType="java.lang.Integer">
+        select count(*) c from user;
+    </select>
+    <!--  查询单条记录	-->
+
+
+</mapper>

@@ -1,0 +1,2842 @@
+
+/**
+ *
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-19 14:36:39
+ * @version $Id$
+ */
+
+body {
+	/*background: #F1F1F1;*/
+	width: 100%;
+	min-width: 320px;
+}
+
+@media screen and (min-width: 1024px) {
+	body {
+		width: 740px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+button,
+input,
+select,
+textarea {
+	font-size: 1.5rem;
+	outline: 0;
+	/*border-radius: 1%;*/
+	border: 1px solid #D4D4D4;
+	padding: 0;
+}
+
+textarea {
+	-webkit-appearance: none;
+	resize: none;
+}
+
+input {
+	text-indent: 1em;
+	height: inherit;
+	line-height: inherit;
+	width: 100%;
+	box-shadow: none;
+	-webkit-appearance: none;
+	/*box-shadow: 1px 1px 1px 1px #F5F5F5;*/
+}
+
+input[type=checkbox] {
+	margin-bottom: 0;
+	-webkit-appearance: checkbox;
+}
+
+button {
+	border: 1px solid transparent;
+	height: inherit;
+	line-height: inherit;
+	width: 100%;
+	background: #2580D8;
+	color: #ffffff;
+	padding: 15px 0;
+	border-radius: 2%;
+	border-radius: 5px;
+}
+
+.no-shadow {
+	box-shadow: none;
+}
+
+.no-text-indent {
+	text-indent: 0;
+}
+
+.text-indent {
+	text-indent: 1rem;
+}
+
+.button-height {
+	height: 55px;
+	line-height: 55px;
+}
+
+.little-height {
+	height: 20px;
+	line-height: 20px;
+}
+
+.small-height {
+	height: 28px;
+	line-height: 28px;
+}
+
+.normal-height {
+	height: 48px;
+	line-height: 48px;
+}
+
+.big-height {
+	height: 70px;
+}
+
+.bigger-height {
+	height: 200px;
+}
+
+.auto-height {
+	height: auto;
+}
+
+.smaller-text {
+	font-size: 1.15rem;
+}
+
+.small-text {
+	font-size: 1.3rem;
+}
+
+.normal-text {
+	font-size: 1.6rem;
+}
+
+.big-text {
+	font-size: 2rem;
+}
+
+.biggest-text {
+	font-size: 2.5rem;
+}
+
+.center-text {
+	text-align: center;
+}
+
+.left-text {
+	text-align: left;
+}
+
+.right-text {
+	text-align: right;
+}
+
+.light-gray-text {
+	color: #999999;
+}
+
+.gray-text {
+	color: #666666;
+}
+
+.blue-text {
+	color: #2C8FFF;
+}
+
+.black-text {
+	color: #333333;
+}
+
+.red-text {
+	color: #ff4a2c;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.row-1 {
+	width: 10%;
+	margin: 0 auto;
+}
+
+.row-2 {
+	width: 20%;
+	margin: 0 auto;
+}
+
+.row-2-3 {
+	width: 23.33%;
+	margin: 0 auto;
+}
+
+.row-2-5 {
+	width: 25%;
+	margin: 0 auto;
+}
+
+.row-3 {
+	width: 30%;
+	margin: 0 auto;
+}
+
+.row-3-3 {
+	width: 33.33%;
+	margin: 0 auto;
+}
+
+.row-4 {
+	width: 40%;
+	margin: 0 auto;
+}
+
+.row-4-7 {
+	width: 47%;
+	margin: 0 auto;
+}
+
+.row-4-8 {
+	width: 48%;
+	margin: 0 auto;
+}
+
+.row-5 {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.row-5-2 {
+	width: 52%;
+	margin: 0 auto;
+}
+
+.row-6 {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.row-7 {
+	width: 70%;
+	margin: 0 auto;
+}
+
+.row-8 {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.row-9 {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.row-10 {
+	width: 100%;
+	margin: 0 auto;
+
+}
+
+.disable {
+	background: #F7F7F7;
+}
+
+.able {
+	background: #ffffff;
+}
+
+.top-fix-10 {
+	padding-top: 10px;
+}
+
+.container {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 60px;
+	/*font-size: 1.5em;*/
+}
+
+
+/* 选择 */
+
+select {
+	width: 90%;
+	display: block;
+	position: absolute;
+	opacity: 0;
+	height: inherit;
+}
+
+.clr-fix:before {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.clr-fix:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+
+/*背景颜色*/
+
+.back-blue {
+	background: #2C8FFF;
+}
+
+.back-yellow {
+	background: #ffbc2c;
+}
+
+.back-red {
+	background: #ff4a2c;
+}
+
+.back-cyan {
+	background: #20ce97;
+}
+
+.back-purple {
+	background: #ce20c8;
+}
+
+.back-gray {
+	background: #ECECEC;
+}
+
+.back-light-gray {
+	background: #F7F7F7;
+}
+
+.back-lighter-gray {
+	background: #f1f1f1;
+}
+
+.back-orange {
+	background: #F79647;
+}
+
+
+/*显示*/
+
+.display-none {
+	display: none;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.display-alpha {
+	opacity: 0;
+}
+
+.display-hidden {
+	visibility: hidden;
+}
+
+.no-border {
+	border: 0;
+}
+
+
+/*title*/
+
+.title {
+	background: #F1F1F1;
+}
+
+.title-text {
+	display: block;
+	padding-top: 10px;
+	padding-bottom: 2px;
+	/*padding-left: 15px;*/
+}
+
+.title-text-sub {
+	display: block;
+	padding-top: 25px;
+	padding-bottom: 10px;
+	padding-right: 15px;
+}
+
+
+/*遮罩*/
+
+div#overlay {
+	background-color: #000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	opacity: 0.5;
+	z-index: 99;
+	display: none;
+}
+
+
+/*提示*/
+
+.tip {
+	position: fixed;
+	/*top: 50%;*/
+	color: #ffffff;
+	text-align: center;
+}
+
+.tip-warp {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 10px 10px;
+	width: auto;
+}
+
+
+/*loading*/
+
+.loading {
+	padding: 20px;
+	background: rgba(0, 0, 0, 0);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+}
+
+.loading-warp {
+	/*position: fixed;*/
+	width: 70px;
+	margin: 0 auto;
+}
+
+.loading-content {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+
+.loading-circle {
+	display: block;
+	height: 0;
+	width: 0;
+	background: rgba(191, 0, 28, 0.72);
+	border-radius: 50%;
+	-webkit-animation: loading 1.5s linear infinite;
+	-moz-animation: loading 1.5s linear infinite;
+	-o-animation: loading 1.5s linear infinite;
+	animation: loading 1.5s linear infinite;
+}
+
+.loading-circle-one {
+	animation-delay: 0s;
+	-webkit-animation-delay: 0s;
+}
+
+.loading-circle-two {
+	animation-delay: 0.25s;
+	-webkit-animation-delay: 0.25s;
+}
+
+.loading-circle-three {
+	animation-delay: 0.5s;
+	-webkit-animation-delay: 0.5s;
+}
+
+@keyframes loading {
+	0% {
+		height: 0;
+		width: 0;
+	}
+	100% {
+		height: 20px;
+		width: 20px;
+	}
+}
+
+@-webkit-keyframes loading {
+	0% {
+		height: 0;
+		width: 0;
+	}
+	100% {
+		height: 20px;
+		width: 20px;
+	}
+}
+
+.errorMsg {
+	color: red;
+	line-height: 2rem;
+	font-size: 1.2rem;
+	margin-bottom: 0.2rem;
+}
+
+.tipMsg {
+	display: block;
+	color: #CCC;
+	font-size: 1.2rem;
+	line-height: 2rem;
+	margin-bottom: 20px;
+	text-indent: 1rem;
+}
+
+.mask {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #666666;
+	display: none;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+	z-index: 100;
+}
+
+.modal {
+	border-radius: 10px;
+	height:200px;
+	width: 90%;
+	position: fixed;
+	top: 10%;
+	right: 5%;
+	bottom: 65%;
+	left: 5%;
+	filter: alpha(opacity=50);
+	z-index: 1000;
+	background-color: white;
+	display: none;
+}
+.bottomline {
+	border-bottom: 2px dashed #DEDEDE;
+}
+.avatar{
+    width:4rem;
+}
+.link{
+    text-decoration:underline;
+}
+.link:hover{
+    text-decoration:underline;
+}
+.text-left{
+text-align:left;
+}
+.regcontainer input {
+    padding: 15px 0;
+    margin-bottom: 25px;
+    border-radius: 5px;
+
+}
+.msp-font{
+     font-size: 1.5rem;
+}
+.black{
+color:#fff;
+}
+.loginWrap{
+    margin:0;
+}
+
+/**
+ * app
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-28 14:56:09
+ * @version $Id$
+ */
+
+.app-icon {
+	padding-top: 10px;
+	padding-bottom: 15px;
+}
+
+
+/**
+ * carousel
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-28 14:01:13
+ * @version $Id$
+ */
+
+.carousel {
+	position: relative;
+	background: #fff;
+	color: #666;
+	text-align: center;
+	text-shadow: none;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.carousel-ul {
+	padding: 0;
+	margin: 0;
+	left: 0;
+	position: relative;
+	overflow: hidden;
+	transform: translate3d(0, 0, 0);
+}
+
+.carousel-ul-li {
+	list-style: none;
+	/*width: 25%;*/
+	float: left;
+}
+
+.carousel-img {
+	display: block;
+	position: relative;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+@media only screen and and (max-width: 330px) {
+	.carousel-img {
+		display: block;
+		position: relative;
+		left: 0;
+		width: 320px;
+	}
+}
+
+@media only screen and and (max-width: 375px) {
+	.carousel-img {
+		display: block;
+		position: relative;
+		left: 0;
+		width: 375px;
+	}
+}
+
+.carousel .focus {
+	min-height: 0;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 35px;
+	z-index: 2;
+}
+
+.carousel .focus-div {
+	/*width: 80px;*/
+	position: absolute;
+	top: 50%;
+	right: 0;
+	margin-top: -5px;
+}
+
+.carousel .focus-div-span {
+	display: block;
+	float: left;
+	cursor: pointer;
+	width: 6px;
+	height: 6px;
+	margin-right: 10px;
+	border-radius: 50%;
+	border: 2px solid #ffffff;
+	background: transparent;
+	;
+	font-size: 0;
+}
+
+.carousel .focus span.current {
+	width: 10px;
+	height: 10px;
+	border: none;
+	background: #FF7054;
+}
+
+
+/*OLD*/
+
+
+/*.carousel {
+    display: none;
+    position: relative;
+    overflow: auto;
+}
+
+.carousel-ul {
+    padding: 0;
+    margin: 0;
+}
+
+.carousel-ul-li {
+    list-style: none;
+    float: left;
+}
+
+.carousel-img {
+    display: block;
+    position: relative;
+    left: 0;
+}*/
+
+
+/**
+ * checkbox
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-29 12:56:51
+ * @version $Id$
+ */
+
+.checkbox-label {
+	display: block;
+	margin-top: -3px;
+	position: relative;
+	width: 20px;
+	height: 20px;
+	background: #eee;
+	border: 1px solid #ddd;
+	cursor: pointer;
+}
+
+.checkbox-label[for=male],
+.checkbox-label[for=female],
+.checkbox-label[for=secret] {
+	margin-left: 13px;
+}
+
+@media only screen and (max-width: 320px) {
+	.checkbox-label[for=male],
+	.checkbox-label[for=female],
+	.checkbox-label[for=secret] {
+		margin-left: 13px;
+	}
+}
+
+.checkbox-label:after {
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 12px;
+	height: 5px;
+	background: transparent;
+	top: 6px;
+	left: 4px;
+	border: 3px solid #1DD767;
+	border-top: none;
+	border-right: none;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+
+/*label[for=checkbox]:hover::after {
+	opacity: 0.5;
+}*/
+
+input[type=checkbox]:checked + .checkbox-label:after {
+	opacity: 1;
+}
+
+.checkbox-label + span {
+	margin-left: 4px;
+	/*display: block;*/
+	text-align: right;
+}
+
+@media only screen and (max-width: 375px) {
+	.checkbox-label + span {
+		margin-left: 4px;
+		/*display: block;*/
+		text-align: right;
+	}
+}
+
+
+/**
+ *
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-19 14:36:39
+ * @version $Id$
+ */
+
+body {
+	/*background: #F1F1F1;*/
+	width: 100%;
+	min-width: 320px;
+}
+
+@media screen and (min-width: 1024px) {
+	body {
+		width: 100%;
+		margin: 0 auto;
+	}
+}
+
+button,
+input,
+select,
+textarea {
+	font-size: 1.5rem;
+	outline: 0;
+	/*border-radius: 1%;*/
+	border: 1px solid #D4D4D4;
+	padding: 0;
+}
+
+textarea {
+	-webkit-appearance: none;
+	resize: none;
+}
+
+input {
+	text-indent: 1em;
+	height: inherit;
+	line-height: inherit;
+	width: 100%;
+	box-shadow: none;
+	-webkit-appearance: none;
+	/*box-shadow: 1px 1px 1px 1px #F5F5F5;*/
+}
+
+input[type=checkbox] {
+	margin-bottom: 0;
+	-webkit-appearance: checkbox;
+}
+
+button {
+	border: 1px solid transparent;
+	height: inherit;
+	line-height: inherit;
+	width: 100%;
+	background: #2580D8;
+	color: #ffffff;
+	padding: 15px 0;
+	border-radius: 2%;
+	border-radius: 5px;
+}
+
+.no-shadow {
+	box-shadow: none;
+}
+
+.no-text-indent {
+	text-indent: 0;
+}
+
+.text-indent {
+	text-indent: 1rem;
+}
+
+.button-height {
+	height: 55px;
+	line-height: 55px;
+}
+
+.little-height {
+	height: 20px;
+	line-height: 20px;
+}
+
+.small-height {
+	height: 28px;
+	line-height: 28px;
+}
+
+.normal-height {
+	height: 48px;
+	line-height: 48px;
+}
+
+.big-height {
+	height: 70px;
+}
+
+.bigger-height {
+	height: 200px;
+}
+
+.auto-height {
+	height: auto;
+}
+
+.smaller-text {
+	font-size: 1.15rem;
+}
+
+.small-text {
+	font-size: 1.3rem;
+}
+
+.normal-text {
+	font-size: 1.6rem;
+}
+
+.big-text {
+	font-size: 2rem;
+}
+
+.biggest-text {
+	font-size: 2.5rem;
+}
+
+.center-text {
+	text-align: center;
+}
+
+.left-text {
+	text-align: left;
+}
+
+.right-text {
+	text-align: right;
+}
+
+.light-gray-text {
+	color: #999999;
+}
+
+.gray-text {
+	color: #666666;
+}
+
+.blue-text {
+	color: #2C8FFF;
+}
+
+.black-text {
+	color: #333333;
+}
+
+.red-text {
+	color: #ff4a2c;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.row-1 {
+	width: 10%;
+	margin: 0 auto;
+}
+
+.row-2 {
+	width: 20%;
+	margin: 0 auto;
+}
+
+.row-2-3 {
+	width: 23.33%;
+	margin: 0 auto;
+}
+
+.row-2-5 {
+	width: 25%;
+	margin: 0 auto;
+}
+
+.row-3 {
+	width: 30%;
+	margin: 0 auto;
+}
+
+.row-3-3 {
+	width: 33.33%;
+	margin: 0 auto;
+}
+
+.row-4 {
+	width: 40%;
+	margin: 0 auto;
+}
+
+.row-4-7 {
+	width: 47%;
+	margin: 0 auto;
+}
+
+.row-4-8 {
+	width: 48%;
+	margin: 0 auto;
+}
+
+.row-5 {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.row-5-2 {
+	width: 52%;
+	margin: 0 auto;
+}
+
+.row-6 {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.row-7 {
+	width: 70%;
+	margin: 0 auto;
+}
+
+.row-8 {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.row-9 {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.row-10 {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.disable {
+	background: #F7F7F7;
+}
+
+.able {
+	background: #ffffff;
+}
+
+.top-fix-10 {
+	padding-top: 10px;
+}
+
+.container {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 60px;
+	/*font-size: 1.5em;*/
+}
+
+@media only screen and (min-width: 100px) and (max-width: 640px) {}
+
+
+/* 閫夋嫨 */
+
+select {
+	width: 90%;
+	display: block;
+	position: absolute;
+	opacity: 0;
+	height: inherit;
+}
+
+.clr-fix:before {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.clr-fix:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+
+/*鑳屾櫙棰滆壊*/
+
+.back-blue {
+	background: #2C8FFF;
+}
+
+.back-yellow {
+	background: #ffbc2c;
+}
+
+.back-red {
+	background: #ff4a2c;
+}
+
+.back-cyan {
+	background: #20ce97;
+}
+
+.back-purple {
+	background: #ce20c8;
+}
+
+.back-gray {
+	background: #ECECEC;
+}
+
+.back-light-gray {
+	background: #F7F7F7;
+}
+
+.back-lighter-gray {
+	background: #f1f1f1;
+}
+
+.back-orange {
+	background: #F79647;
+}
+
+
+/*鏄剧ず*/
+
+.display-none {
+	display: none;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.display-alpha {
+	opacity: 0;
+}
+
+.display-hidden {
+	visibility: hidden;
+}
+
+.no-border {
+	border: 0;
+}
+
+
+/*title*/
+
+.title {
+	background: #F1F1F1;
+}
+
+.title-text {
+	display: block;
+	padding-top: 10px;
+	padding-bottom: 2px;
+	/*padding-left: 15px;*/
+}
+
+.title-text-sub {
+	display: block;
+	padding-top: 25px;
+	padding-bottom: 10px;
+	padding-right: 15px;
+}
+
+
+/*閬僵*/
+
+div#overlay {
+	background-color: #000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	opacity: 0.5;
+	z-index: 99;
+	display: none;
+}
+
+
+/*鎻愮ず*/
+
+.tip {
+	position: fixed;
+	/*top: 50%;*/
+	color: #ffffff;
+	text-align: center;
+}
+
+.tip-warp {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 10px 10px;
+	width: auto;
+}
+
+
+/*loading*/
+
+.loading {
+	padding: 20px;
+	background: rgba(0, 0, 0, 0);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+}
+
+.loading-warp {
+	/*position: fixed;*/
+	width: 70px;
+	margin: 0 auto;
+}
+
+.loading-content {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+
+.loading-circle {
+	display: block;
+	height: 0;
+	width: 0;
+	background: rgba(191, 0, 28, 0.72);
+	border-radius: 50%;
+	-webkit-animation: loading 1.5s linear infinite;
+	-moz-animation: loading 1.5s linear infinite;
+	-o-animation: loading 1.5s linear infinite;
+	animation: loading 1.5s linear infinite;
+}
+
+.loading-circle-one {
+	animation-delay: 0s;
+	-webkit-animation-delay: 0s;
+}
+
+.loading-circle-two {
+	animation-delay: 0.25s;
+	-webkit-animation-delay: 0.25s;
+}
+
+.loading-circle-three {
+	animation-delay: 0.5s;
+	-webkit-animation-delay: 0.5s;
+}
+
+@keyframes loading {
+	0% {
+		height: 0;
+		width: 0;
+	}
+	100% {
+		height: 20px;
+		width: 20px;
+	}
+}
+
+@-webkit-keyframes loading {
+	0% {
+		height: 0;
+		width: 0;
+	}
+	100% {
+		height: 20px;
+		width: 20px;
+	}
+}
+
+.errorMsg {
+	color: red;
+	line-height: 2rem;
+	font-size: 1.2rem;
+	margin-bottom: 0.2rem;
+}
+
+.tipMsg {
+	display: block;
+	color: #CCC;
+	font-size: 1.2rem;
+	line-height: 2rem;
+	margin-bottom: 20px;
+	text-indent: 1rem;
+}
+
+.mask {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #000;
+	display: none;
+	filter: alpha(opacity=62);
+	-moz-opacity: 0.62;
+	opacity: 0.62;
+	z-index: 100;
+}
+
+.modal {
+	border-radius: 10px;
+	height: 200px;
+	width: 90%;
+	position: fixed;
+	top: 10%;
+	right: 5%;
+	bottom: 65%;
+	left: 5%;
+	filter: alpha(opacity=50);
+	z-index: 1000;
+	background-color: white;
+	display: none;
+}
+.modal button {
+	color: #fff;
+	font-size: 1.5rem;
+}
+
+.modal .content {
+	padding: 50px 0 15px 0;
+	margin: 0 auto;
+}
+
+.modal .content div {
+	font-size: 1.5rem;
+	margin-bottom: 8px;
+}
+
+.activeDiv{
+	color:#F79647;min-height:30px;line-height:30px;background-image: url(http://msp-img.51awifi.com/V1/img/index/activeBack.png);
+}
+.bottomline {
+	border-bottom: 2px dashed #DEDEDE;
+}
+
+.footer {
+	position: relative;
+	bottom: 0;
+	min-height: 180px;
+}
+
+@media screen and (min-width: 1024px) {
+	.footer {
+		width: 740px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.footer.edit {
+	bottom: 5rem;
+	margin-top: 5rem;
+}
+
+.footer-top {
+	padding: 20px 0 10px 0;
+}
+
+.footer-bottom {
+	padding: 0 0 30px 0;
+}
+
+
+/**
+ * header
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-27 14:14:26
+ * @version $Id$
+ */
+
+.header {
+	height: 60px;
+	line-height: 60px;
+	color: #ffffff;
+	/*box-shadow: 0 2px 0 #2372CC, 0 1px 0 #438EE4;*/
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}
+
+
+/*@media screen and (min-width: 1024px) {
+	.header {
+		width: 740px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}*/
+
+.header-left,
+.header-right {
+
+	height: 60px;
+	line-height: 60px;
+	color: #ffffff;
+	font-size: 1.3rem;
+}
+
+.header-mid {
+	font-size: 1.6rem;
+}
+
+
+@media only screen and (max-width:321px ) {
+	.header-left,.header-right {
+	height: 60px;
+	line-height: 60px;
+	color: #ffffff;
+	font-size: 1rem;
+}
+.header-mid {
+	font-size: 1rem;
+}
+}
+
+.header-left-img {
+	display: block;
+	position: relative;
+	top: 30%;
+	left: 10%;
+	height: 40%;
+}
+
+.header-left-span {
+	position: relative;
+	top: -24px;
+	color: #ffffff;
+	padding-left: 42px;
+}
+
+@media screen and (min-width:700px) {
+	.header-left-span {
+		padding-left: 0;
+	}
+}
+
+.header-right-img {
+	display: block;
+	position: relative;
+	top: 30%;
+	height: 40%;
+	right: 15px;
+}
+
+.header-right-span {
+	margin-right: 15px;
+}
+
+
+/**
+ * imgUpload
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-11-05 15:19:59
+ * @version $Id$
+ */
+
+.img-upload-dialog {
+	display: none;
+	position: absolute;
+	/*bottom: 0;*/
+	z-index: 9999;
+	background: #ffffff;
+}
+
+.img-upload-dialog-text {
+	padding: 15px 0;
+}
+
+.img-upload-dialog-input {
+	position: absolute;
+	opacity: 0;
+	overflow: hidden;
+	left: 0;
+	top: 0;
+	padding: 15px 0;
+}
+
+.img-upload-dialog-button {
+	border-top: 1px dashed #D4D4D4;
+}
+
+.img-upload-dialog-button {
+	background: transparent;
+	color: #000000;
+	padding: 15px 0;
+}
+
+
+/**
+ * information
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-28 15:21:15
+ * @version $Id$
+ */
+
+.information-text {
+	padding: 15px 15px;
+}
+
+.information-text-area {
+	padding: 15px 15px;
+	overflow: hidden;
+	/*display: block;*/
+	/*border: 0;*/
+}
+
+
+/**
+ * messageboard
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-28 15:42:11
+ * @version $Id$
+ */
+
+.msgboard {
+	/*padding: 4px;*/
+}
+
+.msgboard-img {
+	height: 10px;
+	background: url(http://msp-img.51awifi.com/V1/img/messageboard/top.png) no-repeat center;
+	background-size: 100%;
+	overflow: hidden;
+}
+
+.msgboard-input {
+	padding: 10px 0;
+}
+
+.msgboard-textarea {
+	padding: 0;
+	width: 100%;
+}
+
+.msgboard-submit {
+	padding-bottom: 20px;
+}
+
+.msgboard-submit button {
+	padding: 7px 0;
+}
+
+.msgboard-list-item {
+	border-top: 1px dashed #D4D4D4;
+	padding: 15px 0;
+}
+
+.msgboard-nick {
+	display: block;
+	padding: 10px 0;
+	margin-left: 3px;
+}
+
+@media screen and (max-width:320px) {
+	.msgboard-nick {
+		padding: 4px 0;
+	}
+}
+
+.msgboard-message {
+	padding: 10px 0;
+	word-wrap: break-word;
+}
+
+.msgboard-reply {
+	padding: 10px 0;
+}
+
+.msgboard-reply-list {
+	padding: 10px 0;
+	border-radius: 5px;
+}
+
+.msgboard-reply-list:before {
+	content: " ";
+	margin-top: -35px;
+	margin-left: 15px;
+	/*margin:-6px 0px 0px 0px;*/
+	border: 13px solid transparent;
+	border-top-color: rgb(236, 236, 236);
+	position: absolute;
+	/*border-color:#ECECEC transparent transparent transparent;*/
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+	/*z-index: 9;*/
+}
+
+.msgboard-reply-list > div > span {
+	word-break: break-all;
+}
+
+.more {
+	padding: 30px 0;
+	border-top: 1px dashed #D4D4D4;
+	/*border-bottom: 1px dashed #D4D4D4;*/
+}
+
+
+/**
+ * nav
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-11-10 09:53:14
+ * @version $Id$
+ */
+
+.nav {
+	height: 4rem;
+	position: fixed;
+	bottom: 0;
+	background: #ffffff;
+	padding-top: 10px;
+	box-shadow: 0 1px 1px 1px #716F6F;
+}
+
+@media screen and (min-width: 1024px) {
+	.nav {
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.nav-img {
+	height: 2rem;
+}
+
+.nav-img > img {
+	height: inherit;
+}
+
+.nav-title {
+	padding-top: 3px;
+}
+
+
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+	font: 12px "Microsoft YaHei", 寰蒋闆呴粦, "MicrosoftJhengHei", 鍗庢枃缁嗛粦, STHeiti, MingLiu;
+	/* 1 */
+	-ms-text-size-adjust: 100%;
+	/* 2 */
+	-webkit-text-size-adjust: 100%;
+	/* 2 */
+	font-weight: normal;
+}
+
+
+/**
+ * Remove default margin.
+ */
+
+body {
+	margin: 0;
+}
+
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+	display: block;
+}
+
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+
+audio,
+canvas,
+progress,
+video {
+	display: inline-block;
+	/* 1 */
+	vertical-align: baseline;
+	/* 2 */
+}
+
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+	display: none;
+	height: 0;
+}
+
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+
+[hidden],
+template {
+	display: none;
+}
+
+
+/* Links
+   ========================================================================== */
+
+
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+
+a {
+	background-color: transparent;
+	text-decoration: none;
+	color: #000000;
+}
+
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+	outline: 0;
+}
+
+
+/* Text-level semantics
+   ========================================================================== */
+
+
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+
+b,
+strong {
+	font-weight: bold;
+}
+
+
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+
+dfn {
+	font-style: italic;
+}
+
+
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+
+h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+
+mark {
+	background: #ff0;
+	color: #000;
+}
+
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+	font-size: 80%;
+}
+
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+
+/* Embedded content
+   ========================================================================== */
+
+
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+
+img {
+	border: 0;
+}
+
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+
+/* Grouping content
+   ========================================================================== */
+
+
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+
+figure {
+	margin: 1em 40px;
+}
+
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+
+hr {
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	height: 0;
+}
+
+
+/**
+ * Contain overflow in all browsers.
+ */
+
+pre {
+	overflow: auto;
+}
+
+
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}
+
+
+/* Forms
+   ========================================================================== */
+
+
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+
+
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	color: inherit;
+	/* 1 */
+	font: inherit;
+	/* 2 */
+	margin: 0;
+	/* 3 */
+}
+
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+
+button {
+	overflow: visible;
+}
+
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+
+button,
+select {
+	text-transform: none;
+}
+
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+
+button,
+html input[type="button"],
+
+/* 1 */
+
+input[type="reset"],
+input[type="submit"] {
+	-webkit-appearance: button;
+	/* 2 */
+	cursor: pointer;
+	/* 3 */
+}
+
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+	cursor: default;
+}
+
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+input {
+	line-height: normal;
+}
+
+
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+	box-sizing: border-box;
+	/* 1 */
+	padding: 0;
+	/* 2 */
+}
+
+
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	height: auto;
+}
+
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+	-webkit-appearance: textfield;
+	/* 1 */
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	/* 2 */
+	box-sizing: content-box;
+}
+
+
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+	border: 1px solid #c0c0c0;
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em;
+}
+
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+
+legend {
+	border: 0;
+	/* 1 */
+	padding: 0;
+	/* 2 */
+}
+
+
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+
+textarea {
+	overflow: auto;
+}
+
+
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+
+optgroup {
+	font-weight: bold;
+}
+
+
+/* Tables
+   ========================================================================== */
+
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td,
+th {
+	padding: 0;
+}
+
+
+/**
+ * slider
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-10-28 14:01:13
+ * @version $Id$
+ */
+
+.carousel {
+	display: none;
+	position: relative;
+	overflow: auto;
+}
+
+.carousel-ul {
+	padding: 0;
+	margin: 0;
+}
+
+.carousel-ul-li {
+	list-style: none;
+	float: left;
+}
+
+.carousel-img {
+	display: block;
+	position: relative;
+	left: 0;
+}
+
+
+/**
+ * information
+ * @authors pingyf
+ * @date    2015-10-29 11:41:20
+ * @version $Id$
+ */
+
+.buycontainer {
+	padding-bottom: 15px;
+}
+
+.buy-save {
+	margin-top: 50px;
+}
+
+.buy-padding {
+	padding: 1.5rem 0;
+}
+
+.buy-day {
+	height: 3rem;
+	line-height: 3rem;
+}
+
+.buy-unit {
+	margin-left: 1rem;
+	height: 1.5rem;
+	line-height: 1.5rem;
+}
+
+.buychoosenum {
+	width: 2.4rem;
+	vertical-align: middle;
+}
+
+.buychoosetext {
+	width: 4rem;
+	line-height: 24px;
+	height: 2.5rem;
+	vertical-align: middle;
+	display: inline-block;
+	margin: 0 8px;
+}
+
+.brightborder {
+	border: 1px solid yellow;
+	#background: #2C8FFF;
+}
+
+.buymodalrow {
+	height: 50px;
+	line-height: 50px;
+	font-size: 1.7rem;
+}
+.meatDiv {
+	min-height: 40px;
+}
+
+/**
+ * index
+ * @authors pingyf
+ * @date    2015-10-30 11:39:45
+ * @version $Id$
+ */
+
+
+/*鐢ㄤ簬鑾峰彇鏇村姞浣撻獙*/
+
+.carousel-edit {
+	padding: 10px 0;
+}
+
+.focus span {
+	width: 10px;
+	height: 10px;
+	margin-right: 10px;
+	border-radius: 50%;
+	background: #ffffff;
+	font-size: 0;
+}
+
+.focus span.current {
+	background: #FF7054;
+}
+
+.inputlimit {
+	text-align: right;
+	padding-right: 1rem;
+	color: darkgray;
+}
+
+.edit-add {
+	min-height: 90px;
+	background-color: #F1F1F1;
+}
+
+.edit-inner-div {
+	padding: 20px 0 20px 60%;
+	width: 35%
+}
+
+.edit-save {
+	background: white;
+	border: none;
+	color: #999999;
+}
+
+.edit-margin {
+	margin: 0.5rem 0;
+}
+
+.infocontainer {
+	padding-bottom: 15px;
+}
+
+.info-avatar {
+	/*margin-top: 20px;*/
+	padding: 10px 0;
+	height: 80px;
+	line-height: 80px;
+}
+
+.info-avatar,
+.info-nick,
+.info-sex,
+.info-birthday,
+.info-address {
+	border-bottom: 1px dashed #DEDEDE;
+}
+
+.info-sex label {
+	margin-top: 12px;
+}
+
+.info-avatar-file {
+	position: absolute;
+	width: 23%;
+	right: 0;
+	font-size: 5rem;
+	overflow: hidden;
+}
+
+input[type='date'] {
+	/*margin-right: -70px;*/
+	text-align: right;
+}
+
+
+/*@media screen and (min-width:330px) {
+	input[type='date']{
+	margin-right: -60px;
+    }
+}*/
+
+::-webkit-inner-spin-button {
+	visibility: hidden;
+}
+
+.info-birthday-input {
+	position: absolute;
+	width: 65%;
+	right: 5%;
+	overflow: hidden;
+	margin-right: -80px;
+}
+
+@media screen and (min-width:330px) {
+	.info-birthday-input {
+		position: absolute;
+		width: 55%;
+		right: 5%;
+		overflow: hidden;
+		margin-right: -60px;
+	}
+}
+
+.info-avatar-img {
+	padding-top: 10px;
+	max-width: 80px;
+	max-height: 80px;
+}
+
+@media screen and (min-width:700px) {
+	.info-avatar-img {
+		padding-top: 0;
+	}
+}
+
+.info-input {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+.info-input[type=text] {
+	text-align: right;
+}
+
+
+/*.info-input[type=text]::-webkit-input-placeholder {
+	text-align: right;
+}
+*/
+
+.info-checkbox-secrect,
+.info-checkbox-male,
+.info-checkbox-female {
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.info-input-address {
+	padding: 10px 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	resize: none;
+	height: 80px;
+}
+
+.information-save {
+	margin-top: 50px;
+}
+
+.logininput {
+	padding: 15px 0;
+	margin-bottom: 25px;
+	border-radius: 5px;
+}
+
+.loginlogo {
+	height: 155px;
+	margin-bottom: 5px;
+	/*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);*/
+}
+
+.loginlogo-icon {
+	display: block;
+	position: relative;
+	top: 15%;
+}
+
+.logoWord {
+	font-size: 22px;
+	color: white;
+	display: block;
+	margin-top: 15px;
+	font-weight: 100;
+}
+
+@media screen and (max-width:320px) {
+	.loginlogo {
+		height: 130px;
+	}
+	.logoWord {
+		font-size: 19px;
+		color: white;
+		display: block;
+		margin-top: 13px;
+	}
+}
+
+@media screen and (min-width:500px) {
+	.loginlogo-icon {
+		display: block;
+		position: relative;
+		width: 210px;
+		height: 87px;
+	}
+}
+
+.logincontainer {
+	margin-top: 0;
+	margin-bottom: 85px;
+}
+
+.forget {
+	margin-top: -10px;
+}
+
+.forget:before {
+	content: '999';
+	font-size: 1.2rem;
+	height: 100%;
+	margin-top: 5px;
+	background: url(http://msp-img.51awifi.com/V1/img/login/forget.png) no-repeat center;
+	background-size: 70%;
+	color: transparent;
+}
+
+.loginbutton {
+	padding: 45px 0;
+}
+
+.loginErr {
+	text-align: center;
+	padding-bottom: 0.5rem;
+	min-height: 25px;
+}
+
+
+/**
+ * message
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-12-09 11:20:20
+ * @version $Id$
+ */
+
+.message-search {
+	padding-bottom: 25px;
+	background: #F1F1F1;
+}
+
+.pwdcontainer {
+	padding-top: 30px;
+	padding-bottom: 25px;
+}
+
+.pwdcontainer input {
+	padding: 15px 0;
+	margin-bottom: 25px;
+	border-radius: 5px;
+}
+
+.pwdsubmit {
+	margin-top: 0px;
+}
+
+.pwdError {
+	text-align: center;
+	padding-bottom: 0.5rem;
+	min-height: 25px;
+}
+
+
+/**
+ * personal
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-12-10 15:01:44
+ * @version $Id$
+ */
+
+.personal-img {
+	height: 6.666667rem;
+	padding: 0.833333rem 0.833333rem 0.833333rem 0;
+}
+
+.personal-info {
+	padding-top: 1.333333rem;
+}
+
+.personal-next {
+	padding-top: 3.5rem;
+}
+
+.personal-next-img {
+	height: 1.25rem;
+}
+
+.personal-border-bottom {
+	border-bottom: 0.083333rem solid #F7F7F7;
+}
+
+.personal-logout {
+	padding-top: 2.5rem;
+}
+
+.mininfo {
+	color: #ccc
+}
+
+.minspan {
+	display: block
+}
+
+.indent {
+	text-indent: 1.5rem;
+}
+
+.bottomline {
+	border-bottom: 1px dashed #DEDEDE;
+}
+
+
+/**
+ * photographs
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-11-06 10:19:28
+ * @version $Id$
+ */
+
+.photographs-del {
+	display: block;
+	position: relative;
+	margin-top: -18%;
+	color: #ffffff;
+	padding: 5px 10px;
+	border-radius: 5px;
+	background: rgba(0, 0, 0, 0.7);
+	margin-right: 10%;
+}
+
+.photographs-del-icon {
+	height: 10px;
+}
+
+.loading-img {
+	background: url(http://msp-img.51awifi.com/V1/img/pic-wall/loading.png) no-repeat center center;
+}
+
+
+/**
+ * registre
+ * @authors pingyf
+ * @date    2015-10-28 11:24:54
+ * @version $Id$
+ */
+
+.regcontainer {
+	padding-top: 30px;
+	padding-bottom: 5px;
+}
+
+.regcontainer input {
+	padding: 15px 0;
+	margin-bottom: 25px;
+	border-radius: 5px;
+}
+
+.regsubmit {
+	margin-top: 75px;
+}
+
+.regcheckbox {
+	visibility: hidden;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+}
+
+.register-agree-text {
+	font-size: 1.3rem;
+}
+
+@media screen and (max-width:320px) {
+	.register-agree-text {
+		font-size: 1.15rem;
+	}
+}
+
+.regErr {
+	text-align: center;
+	padding-bottom: 0.5rem;
+	min-height: 25px;
+}
+
+
+/**
+ * send
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-12-10 16:48:20
+ * @version $Id$
+ */
+
+.send-text {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.send-textarea {
+	padding: 0.833333rem 0 0.833333rem 0;
+}
+
+.send-sms {
+	padding-top: 2rem;
+}
+
+.send-warn {
+	padding: 0.416667rem 0 0.416667rem 0;
+}
+
+
+/**
+ * setting
+ * @authors pingyf (koakumaping@163.com)
+ * @date    2015-11-04 12:45:18
+ * @version $Id$
+ */
+
+.setting-text {
+	padding: 15px 0;
+}
+
+.setting-input {
+	border: 0;
+	padding: 10px 0;
+	text-indent: 0;
+	display: block;
+}
+
+.setting-input[type=time] {
+	font-size: 1.7rem;
+}
+
+.setting-down-arrow {
+	width: 25px;
+	margin-top: 5px;
+}
+
+.setting-color {
+	height: 25px;
+	width: 50px;
+	margin: 0 5px;
+}
+
+.setting-select {
+	right: 0;
+}
+
+.setting-logo-img {
+	width: 70%;
+	max-height: 120px;
+	max-width: 180px;
+}
+
+.setting-logo-file {
+	opacity: 0;
+}
+
+.setting-logo-img-change {
+	display: block;
+}
+
+.setting-information-text-area {
+	padding: 15px 15px;
+	overflow: hidden;
+	display: block;
+	/*border: 0;*/
+}
+
+.setting-time-text {
+	padding: 10px 0;
+}
+
+.setting-time-text-span {
+	margin-left: 15px;
+}
+
+.setting-time-afternoon {
+	border-left: 5px solid #f1f1f1;
+}
+
+.setting-save {
+	padding: 40px 0;
+}
+
+textarea {
+	border: none;
+	text-indent: 1.5rem;
+}
+
+.bottomline {
+	border-bottom: 1px dashed #DEDEDE;
+}
+
+
+/**
+ * visit
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-11-05 11:02:18
+ * @version $Id$
+ */
+
+.statiscontainer {
+	padding-bottom: 70px;
+}
+
+.visit-border-top {
+	border-top: 1px solid #F0F0F0;
+}
+
+
+/*.visit-border-left {
+	border-left: 1px solid #F9F9F9;
+}*/
+
+.visit-top-number {
+	margin-top: 30px;
+	font-size: 4rem;
+}
+
+.visit-top-text {
+	margin-bottom: 30px;
+}
+
+.visit-top-border-left {
+	border-left: 1px solid #D8D8D8;
+}
+
+.visit-padding {
+	padding: 10px 0;
+}
+
+.visit-top-padding {
+	padding: 8px 0;
+}
+
+
+/*.visit-back-gray {
+	background: #F7F7F7;
+}*/
+
+.visit-next {
+	/* width: 7%; */
+	margin-top: -4px;
+	padding-left: 10px;
+	vertical-align: middle;
+	height: 1.6rem;
+	opacity: 0.4;
+}
+
+.visit-more {
+	color: #ffffff;
+	background: #5B5D62;
+}
+
+.visit-more-right {
+	padding-left: 15px;
+}
+
+
+/**
+ * app not found
+ * @authors Ping YF (koakumaping@163.com)
+ * @date    2015-11-10 10:19:55
+ * @version $Id$
+ */
+
+.app-not-container {
+	background: #f1f1f1;
+}
+
+.app-not-found-img {
+	padding-top: 5rem;
+	padding-bottom: 2rem;
+}
+
+.app-not-found-text {
+	padding: 5px 0;
+}
+
+.app-not-found-footer {
+	padding-top: 6rem;
+	padding-bottom: 6rem;
+}
+
+
+/**
+ * photographs
+ * @authors Your Name (you@example.org)
+ * @date    2015-11-06 10:19:28
+ * @version $Id$
+ */
+
+.photographs-del {
+	display: block;
+	position: relative;
+	margin-top: -18%;
+	color: #ffffff;
+	padding: 5px 10px;
+	border-radius: 5px;
+	background: rgba(0, 0, 0, 0.7);
+	margin-right: 10%;
+}
+
+.photographs-del-icon {
+	height: 10px;
+}
+
+#image {
+	position: absolute;
+	opacity: 0;
+}
+.foot-text {
+	font-size: 1.3rem;
+}
+@media only screen and (min-width: 321px) and (max-width: 376px) {
+	.foot-text {
+	font-size: 1.2rem;
+}
+}
+@media only screen and (max-width: 321px) {
+	.foot-text {
+	font-size: 0.9rem;
+}
+}

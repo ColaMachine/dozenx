@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysUserRole.dao.SysUserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysUserRole.bean.SysUserRole">
+
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="role_id" jdbcType="BIGINT" property="roleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+   sys_user_role.`user_id` ,sys_user_role.`role_id`
+  </sql>
+
+    <delete id="deleteByUserId" parameterType="java.lang.Long">
+        delete from sys_user_role
+        where user_id = #{userId}
+
+    </delete>
+   <delete id="deleteExtra" parameterType="map">
+          delete from sys_user_role
+          where user_id in
+          <foreach collection="userIds" item="item" index="index"
+                   open="(" separator="," close=")"> #{item}</foreach>
+         <if test="roleIds != null and id != '' " >
+          and role_id not in
+          <foreach collection="roleIds" item="item" index="index"
+                   open="(" separator="," close=")"> #{item}</foreach>
+       </if>
+  </delete>
+ <insert id="insert"  parameterType="com.dozenx.web.core.auth.sysUserRole.bean.SysUserRole" >
+
+    insert into sys_user_role (  <include refid="Base_Column_List" />)
+    values (
+
+       #{userId,jdbcType=BIGINT}
+        ,#{roleId,jdbcType=BIGINT}
+    )
+  </insert>
+
+    <select id="count" parameterType="com.dozenx.web.core.auth.sysUserRole.bean.SysUserRole"  resultType="java.lang.Integer">
+        select
+        count(1)
+        from sys_user_role where
+
+        sys_user_role.`user_id` = #{userId} and sys_user_role.`role_id` = #{roleId}
+
+    </select>
+</mapper>

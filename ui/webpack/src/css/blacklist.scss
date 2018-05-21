@@ -1,0 +1,68 @@
+.page-body {
+  background: #f5f7fb;
+  padding: 20px;
+
+  @at-root .page-title {
+
+    background: #fff;
+    padding: 6px 10px;
+    color: #525A63;
+    font-size: 16px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .page-value {
+    color: #4AA0ED;
+    font-size: 18px;
+    display: inline-block;
+    margin-left: 4px;
+  }
+  .page-header {
+    margin-top: 20px;
+    .ant-btn {
+      height: 34px;
+      line-height: 34px;
+      border-color: #4AA0ED;
+      color: #4AA0ED;
+      font-size: 14px;
+      background: #EEF3F8;
+    }
+    .ant-btn + .ant-btn {
+      margin-left: 15px;
+    }
+  }
+  //.iplus-table {
+  //  table {
+  //    thead {
+  //      > tr {
+  //        > th, > td {
+  //          height: 34px;
+  //          line-height: 34px;
+  //          padding-top: 0;
+  //          padding-bottom: 0;
+  //          font-size: 14px;
+  //          color: #8D97A0;
+  //          background-color: #E7EBF2;
+  //          text-align: center;
+  //        }
+  //      }
+  //    }
+  //  }
+  //}
+}
+
+.ant-btn {
+  border-radius: 16px;
+}
+
+.page-title-me {
+  margin:20px 0;
+  background: #fff;
+  padding: 6px 10px;
+  color: #525A63;
+  font-size: 16px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+@import "fileUpload";

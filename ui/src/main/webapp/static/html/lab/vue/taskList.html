@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+
+
+</head>
+<style>
+
+    </style>
+
+<body>
+<table id="apiList" class="row">
+    <tr     v-for="(value, key) in data" class="zwlist">
+        <td>{{value.mainTitle}}</td>
+        <td>{{value.subTitle}}</td>
+        <td>{{value.userName}}</td>
+        <td v-for="(value, key) in days"></td>
+    </tr>
+
+</table>
+<script type="text/javascript" src ="\static\html\lab\vue\apiPath.js"/>
+<script type="text/javascript" src ="\static\html\lab\vue\apiUrl.js"/>
+<script type="text/javascript" src ="\static\html\lab\vue\apiParameter.js"/>
+<script  >
+    var formId=0;
+    Ajax.getJSON(PATH+"/activitys",null,function(result){
+    var finalData={};
+        for(var i=0;i<result.data.length;i++){
+            var record= result.data[i];
+            var title =record["title"];
+            var ary = title.split("#");
+            var mainTitle=ary[0];
+            var subTitle=ary[1];
+            var name =record["username"];
+
+            if(finalData[title]){
+
+            }else{
+                finalData[title]=new Array();
+
+            }
+             finalData[title].push(record);
+
+        }
+    var days=
+        var json={};
+
+
+          var app = new Vue({
+          el: '#apiList',
+          data:data
+        })
+    });
+
+  </script>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,166 @@
+<div id="MapDataView" class="ibox float-e-margins">
+    <form id="MapDataViewForm" class="form-horizontal" >
+      <!--  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">用户查看</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="content" class="col-sm-2 control-label">内容:</label>
+        <div class="col-sm-10">
+            <span name="content" id="content"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lng" class="col-sm-2 control-label">经度:</label>
+        <div class="col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lat" class="col-sm-2 control-label">维度:</label>
+        <div class="col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态:</label>
+        <div class="col-sm-10">
+            <span  name="status" id="status" datatype="map" data="{'1':'正常','-1':'删除',}" class="form-control" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address" class="col-sm-2 control-label">地址:</label>
+        <div class="col-sm-10">
+            <span name="address" id="address"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updatetime" class="col-sm-2 control-label">更新时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="updatetime" id="updatetime" ></span>
+        </div>
+    </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<!--<div class="body_title">| 用户编辑</div>
+<form id="editForm" class="form-horizontal" method="post" action="/mapData/save.json" enctype="multipart/form-data">
+     <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="content" class="col-sm-2 control-label">内容:</label>
+        <div class="col-sm-10">
+            <span name="content" id="content"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lng" class="col-sm-2 control-label">经度:</label>
+        <div class="col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lat" class="col-sm-2 control-label">维度:</label>
+        <div class="col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态:</label>
+        <div class="col-sm-10">
+            <span  name="status" id="status" datatype="map" data="{'1':'正常','-1':'删除',}" class="form-control" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address" class="col-sm-2 control-label">地址:</label>
+        <div class="col-sm-10">
+            <span name="address" id="address"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updatetime" class="col-sm-2 control-label">更新时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="updatetime" id="updatetime" ></span>
+        </div>
+    </div>
+
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+       <button type="button"   class="btn btn-default cancelBtn">返回</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>-->
+<script type="text/javascript">
+var mapDataView={
+    modal:true,
+    windowIndex:null,
+    root:$("#MapDataView"),
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        var that = this;
+        this.addEventListener();
+        //获取传入参数
+        if(!StringUtil.isBlank(getParam("id"))){
+            Ajax.getJSON("mapData/view.json?id="+getParam("id"),null,function(data){
+                if(data.r==AJAX_SUCC){
+                    fillJso2FormSpan("#MapDataView",data.data.bean);
+                }else{
+                    dialog.error("获取信息失败"+data.msg,function(index){
+                        that.cancel();
+                        dialog.close(index);
+                    });
+                }
+
+            });
+
+        }
+    },
+    loadData:function(){
+    },
+    cancel:function(){
+        if(mapDataView.modal){
+            dialog.closeWindow("mapDataView");
+        }else{
+            goPage("mapData/list.htm");
+        }
+    },
+    addEventListener:function(){
+        $(this.root).find(".cancelBtn").click(mapDataView.cancel);
+    }
+}
+$(document).ready(function() {
+    mapDataView.init();
+});
+   
+
+</script>

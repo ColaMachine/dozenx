@@ -1,0 +1,65 @@
+
+/*登录页面配置*/
+.loginWrap {
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  background: url(../images/login.jpg) no-repeat 0 0 fixed;
+  background-size: cover;
+  position: fixed;
+
+  $place_holder_col: #f0f0f0;
+  .login-form {
+    ::-webkit-input-placeholder { /* WebKit browsers */
+      color: $place_holder_col !important;
+    }
+
+    :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color: $place_holder_col !important;
+    }
+
+    ::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: $place_holder_col !important;
+    }
+
+    :-ms-input-placeholder { /* Internet Explorer 10+ */
+      color: $place_holder_col !important;
+    }
+  }
+
+  .login {
+    height: 350px;
+    width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    //background-color: rgba(46, 87, 105, 0.63);
+    padding: 50px 100px;
+    border-radius: 15px;
+    .verification_code {
+      background-color: #ffffff;
+      float: right;
+      text-align: center;
+      height: 34px;
+      width: 80px;
+      cursor: default;
+      color: #d87604;
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+  }
+
+  .title {
+    position: relative;
+    top: 25%;
+
+    margin-top: -75px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+
+  }
+}

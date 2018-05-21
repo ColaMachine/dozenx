@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <script src="\calendar\src\main\webapp\weixin\static\js\angular.min.js"></script>
+
+
+</head>
+
+<body>
+
+<script>
+    var data = {
+      "products": [{
+        "key": "KEY1",
+        "name": "iPhone6S",
+        "is_in_presale": false
+      }, {
+        "key": "KEY2",
+        "name": "iPhone7",
+        "is_in_presale": true
+      }],
+      "activities": []
+    };
+
+    var cartApp = angular.module('cartApp', []);
+    cartApp.controller('ProductListCtrl', function($scope, $http) {
+
+      $scope.dump = function(input) {
+        console.log(input);
+      }
+      $scope.products = data.products;
+      //            $scope.change();
+    });
+  </script>
+
+
+<div ng-app="cartApp" ng-controller="ProductListCtrl">
+    <input type="text" ng-model="search">
+    <div style="clear: both"></div>
+
+    <div class="" style="float: left;width: 20%">
+        <h1>repeat</h1>
+        <ol>
+            <li ng-repeat="pro in products"> {{pro.name}} - {{pro.key}}</li>
+        </ol>
+    </div>
+    <div class="" style="float: left;">
+        <h1>normalProduct</h1>
+        <ol>
+            <li ng-repeat="pro in products | filter:search as result">{{pro.name}} - {{pro.key}}</li>
+        </ol>
+    </div>
+    {{dump(result)}}
+
+</div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,471 @@
+$Ui_blue: #4AA0ED;
+
+@function pxToRem($px) {
+  @return $px/6 px;
+}
+
+//每个选项的长度，提交button
+$itemWidth: pxToRem(620);
+$Dot_size: 80; //标题号圆饼大小
+
+.content-wrap {
+  padding: 0 pxToRem(40);
+  padding-bottom: pxToRem(60);
+  button {
+    margin: pxToRem(80) 0;
+    width: pxToRem(755);
+    margin-left: pxToRem($Dot_size*1.5);
+  }
+}
+
+$dot_radius: 20;
+
+.quest-title {
+  .add {
+    margin: 0 15px;
+  }
+}
+
+//问题的标题
+.quest-title {
+  display: flex;
+  margin: 20px 0 10px;
+  align-items: center;
+  * {
+    font-size: 20px ;
+  }
+
+  .dot {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    border-radius: 17px;
+    background-color: white;
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  label {
+    flex: none;
+    max-width: 65%;
+    //font-weight: bold;
+  }
+  .line {
+    flex: auto;
+    border-bottom: 1px dashed #B7C0C9;
+    width: 2px;
+    margin: 0 10px 0 30px;
+  }
+  // 修改按钮
+  a {
+    //height: 34px;
+    width: 120px;
+    border: 1px solid;
+    text-align: center;
+    background-color: white;
+    border-radius: 4px;
+  }
+}
+
+//四个选项
+.answer-4 {
+  display: flex;
+  flex-direction: row;
+  padding: 0 5px;
+  * {
+    font-size: 16px;
+  }
+
+  .ant-radio-group {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: 35px;
+
+    .ant-radio-wrapper,.ant-checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-radius: 4px;
+      background-color: white;
+      width: $itemWidth;
+      padding: 0 15px;
+      margin-bottom: 10px;
+      border: 1px solid transparent;
+
+      &.ant-radio-wrapper-checked {
+        border: 1px solid $Ui_blue;
+      }
+      .mark {
+        color: darkgray;
+        //font-size: 12px;
+        margin-right: 12px;
+        & + label {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+.answer-text {
+  textarea {
+    width: 500px;
+    margin-left: 35px;
+  }
+}
+
+.submit {
+  width: 220px;
+  margin: 0 200px;
+  background-color: #4AA0ED !important;
+  color: white !important;
+}
+
+@charset "UTF-8";
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  * {
+    font-size: 14px;
+  }
+}
+
+@import "login";
+
+/*加载login和index路由样式*/
+.mainRouter {
+  height: 100%;
+  width: 100%;
+  .subRouter {
+    height: 100%;
+    width: 100%;
+    min-width: 870px;
+  }
+}
+
+/*
+.index-home {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  padding: 200px;
+  h1 {
+    color: #fff;
+  }
+  background: #FFF url(../images/background-black.png) no-repeat 0 0 fixed;
+}
+*/
+
+/*主页面*/
+.containerAll {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+}
+
+/*右侧内容区域*/
+.rightContainer {
+  height: 100%;
+  width: 100%;
+  margin-left: 210px;
+  background-color: #F5F7FB;
+  position: relative;
+
+  .header {
+    height: 80px;
+    width: 100%;
+    background-color: white;
+    margin-bottom: 10px;
+    //margin-left: -20px;
+    border-bottom: solid 2px #f1f1e9;
+    position: absolute;
+    top: 0;
+  }
+  .right-title {
+    height: 34px;
+    line-height: 34px;
+    background-color: white;
+    margin-bottom: 25px;
+    margin-left: 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    padding-left: 10px;
+  }
+  .menuRouters {
+    height: 100%;
+    width: 99%;
+    margin-right: 20px;
+    padding: 30px 20px 20px 10px;
+  }
+}
+
+/*内容区域头部*/
+/*
+.topHeader {
+  height: 100%;
+  width: 100%;
+  vertical-align: middle;
+  min-width: 870px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @at-root .awifi-title {
+    margin-left: 20px;
+    height: 32px;
+    width: 191px;
+    background: #FFF url(../images/title.png) no-repeat center center;
+  }
+
+  .panel {
+    display: flex;
+    align-items: flex-end;
+    flex: none;
+    width: 310px;
+    padding-right: 20px;
+
+  }
+}
+*/
+
+$ui_greenGray: #525A63;
+
+.topHeader li {
+  margin-left: 15px;
+  &:last-child {
+    margin-left: 40px;
+  }
+  i {
+    font-size: 20px;
+  }
+  i:before {
+    color: #8D97A0;
+  }
+  i.red:before {
+    color: red;
+  }
+}
+
+.topHeader li:first-child {
+  float: right;
+  margin-left: 60px;
+}
+
+.content {
+  height: 500px;
+  width: 500px;
+  position: absolute;
+  margin-left: 340px;
+  background-color: #87d068;
+}
+
+#components-form-demo-normal-login .login-form {
+  max-width: 300px;
+}
+
+.formitem .ant-input {
+  background: rgba(225, 225, 225, 0.4);
+  height: 34px;
+  font-size: 14px;
+  color: white;
+  border-radius: 17px;
+  border-color: transparent !important;
+  text-indent: 1rem;
+}
+
+.formitem .ant-btn {
+  background: rgba(225, 225, 225, 0.4);
+  height: 34px;
+  font-size: 14px;
+  color: white;
+  border-radius: 17px;
+}
+
+#components-form-demo-normal-login .login-form-forgot {
+  float: right;
+}
+
+#components-form-demo-normal-login .login-form-button {
+  width: 100%;
+  height: 34px;
+  border-radius: 17px;
+  background: white;
+  font-size: 14px;
+}
+
+.ant-input .ant-input-lg {
+  border-color: transparent !important;
+}
+
+.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+  border-color: transparent;
+}
+
+$place_holder_col: #b8b8b8;
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: $place_holder_col !important;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: $place_holder_col !important;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: $place_holder_col !important;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: $place_holder_col !important;
+}
+
+.anticon {
+  font-size: 1.2rem !important;
+  color: #fff;
+}
+
+.ant-btn-primary {
+  background: #fff !important;
+  border-radius: 1rem !important;
+  color: #108ee9 !important;
+}
+
+/*分布ul的样式*/
+.pagination {
+  text-align: right;
+  margin: 20px;
+}
+
+/*右侧列表管理页面下部*/
+.right-management {
+  width: 100%;
+  height: 100%;
+  padding-left: 20px;
+  min-width: 860px;
+
+  .label-block {
+    display: inline-block;
+    width: 80px;
+    height: 34px;
+    line-height: 34px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+  .label-block-text {
+    display: inline-block;
+    height: 34px;
+    line-height: 34px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    color: #4AA0ED;
+    margin: 0 20px 0 7Px;
+  }
+}
+
+/*******  表格顶部的搜索栏  *****/
+.ant-btn {
+  height: 32px !important;
+}
+
+.search-bar {
+
+  .ant-select-lg .ant-select-selection {
+    border-radius: 15px;
+    padding-left: 5px;
+  }
+  .ant-select-lg .ant-select-selection--single {
+    height: 30px;
+  }
+  .ant-input-lg {
+    padding: 6px 7px;
+    height: 30px;
+    border-radius: 15px;
+  }
+  li {
+    //margin-right: 20px;
+    float: left;
+  }
+  .pull-right {
+    float: right;
+  }
+
+  @at-root .searchButton {
+    text-align: center;
+    line-height: 20px;
+    border-radius: 17px;
+    width: 90px;
+    height: 34px;
+    font-size: 20px;
+    background: rgba(238, 243, 247, 1);
+    color: rgba(74, 160, 237, 1);
+    //margin-right: -14px;
+  }
+
+  @at-root .storageButton {
+    text-align: center;
+    line-height: 20px;
+    border-radius: 17px;
+    width: 140px;
+    height: 34px;
+    font-size: 20px;
+    color: #fff !important;
+    background-color: #4AA0ED !important;
+  }
+}
+
+/************ 表格的第一行 *************/
+.table {
+  margin-top: 10px;
+  * {
+    font-size: 14px;
+  }
+}
+
+.ant-table-thead > tr > th {
+  background: #E7EBF2 !important;
+  span {
+    color: #8D97A0;
+  }
+}
+
+.ant-table-tbody {
+  background: #fff;
+}
+
+/************ model定制样式 *************/
+.ant-modal-mask {
+  top: 80px !important;
+  left: 210px !important;;
+}
+
+.vertical-center-modal {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vertical-center-modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
+}
+
+.vertical-center-modal .ant-modal {
+  display: inline-block;
+  vertical-align: middle;
+  top: 0;
+  text-align: left;
+}
+

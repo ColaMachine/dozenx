@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="format-detection" content="telephone=no" />
+        <title>园区</title>
+        <!--<link rel="stylesheet" href="css/md.css" />
+        <link href="css/mobiscroll.css" rel="stylesheet" />
+        <link href="css/mobiscroll_date.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/layer/layer.css" />-->
+
+    </head>
+    <script>
+
+	var setCookie = function(name, value, hours, path) {
+		var name = escape(name);
+		var value = escape(value);
+		var expires = new Date();
+		expires.setTime(expires.getTime() + hours * 3600000);
+		path = path == "" ? "" : ";path=" + path;
+		_expires = (typeof hours) == "string" ? "" : ";expires=" + expires.toUTCString();
+		document.cookie = name + "=" + value + _expires + path;
+		//		store.set(name, value);
+	};
+
+    window.console = window.console || (function(){ 
+    	var c = {}; c.log = c.warn = c.debug = c.info = c.error = c.time = c.dir = c.profile = c.clear = c.exception = c.trace = c.assert = function(){}; 
+    	return c; 
+    	})(); 
+    var afterLoginFlag=false;
+    var msp_url = window.location.search;
+    var globalParam = {};
+    if(msp_url && msp_url.length>0){
+    	msp_url=msp_url.substr(1);
+    	var ary = msp_url.split("&");
+    	for(var i=0;i<ary.length;i++){
+    		var str =ary[i];
+    		var ele = str.split("=");
+    		if(ele.length>=2)
+    			globalParam[ele[0]]=ele[1];
+    		console.log(ele[0]+":"+ele[1]);
+    	}
+    }
+   
+    
+    var StringUtil={};
+    StringUtil.isNull=function(it){
+        if(it==null || typeof it=='undefinded' || it==''){
+            return true;
+        }
+        return null;
+    }
+    StringUtil.isBlank=function(it){
+        if(it==null || typeof it=='undefinded' || it==''){
+            return true;
+        }
+        return null;
+    }
+
+
+    if(StringUtil.isBlank(globalParam["logId"])){
+    	console.log("logId error:"+globalParam["logId"]);
+    }
+    setCookie("logId", globalParam["logId"], 24, "/");
+
+    if(StringUtil.isBlank(globalParam["deviceId"])){
+        console.log("deviceId error:"+globalParam["deviceId"]);
+    }
+    setCookie("deviceId", globalParam["deviceId"], 24, "/");
+    if(StringUtil.isBlank(globalParam["mobilePhone"])){
+        console.log("mobilePhone error:"+globalParam["mobilePhone"]);
+    }
+      setCookie("mobilePhone", globalParam["mobilePhone"], 24, "/");
+    if(StringUtil.isBlank(globalParam["userMac"])){
+        console.log("userMac error:"+globalParam["userMac"]);
+    }
+      setCookie("userMac", globalParam["userMac"], 24, "/");
+
+    if(StringUtil.isBlank(globalParam["userIP"])){
+        console.log("userIP error:"+globalParam["userIP"]);
+    }
+     setCookie("userIP", globalParam["userIP"], 24, "/");
+
+
+    if(StringUtil.isBlank(globalParam["gwAddress"])){
+        console.log("gwAddress error:"+globalParam["gwAddress"]);
+    }
+      setCookie("gwAddress", globalParam["gwAddress"], 24, "/");
+
+    if(StringUtil.isBlank(globalParam["gwPort"])){
+        console.log("gwPort error:"+globalParam["gwPort"]);
+    }
+      setCookie("gwPort", globalParam["gwPort"], 24, "/");
+
+    if(StringUtil.isBlank(globalParam["nasName"])){
+        console.log("nasName error:"+globalParam["nasName"]);
+    }
+      setCookie("nasName", globalParam["nasName"], 24, "/");
+
+    if(StringUtil.isBlank(globalParam["userType"])){
+        console.log("userType error:"+globalParam["userType"]);
+    }
+     setCookie("userType", globalParam["userType"], 24, "/");
+
+    if(StringUtil.isBlank(globalParam["token"])){
+        console.log("token error:"+globalParam["token"]);
+    }
+       setCookie("token", globalParam["token"], 24, "/");
+
+    if(StringUtil.isBlank(globalParam["url"])){
+        console.log("url error:"+globalParam["url"]);
+    }
+     setCookie("url", globalParam["url"], 24, "/");
+
+   	var index_url=window.location.pathname+window.location.search;
+    console.log(globalParam);
+   
+    
+        var REQUEST_IMG='http://www.baidu.com/img/bdlogo.gif';
+        var STATION_TYPE = 'local';
+        var PATH = "", //请求
+            JSCSS_PATH = '', //JSCSS
+            UPLOAD_PATH = '', //上传
+            IMG_PATH = ''; //图片
+        if (STATION_TYPE == 'beta') {
+            JSCSS_PATH = 'http://beta-msp-static.51awifi.com/V1/';
+            UPLOAD_PATH = 'http://beta-msp-img.51awifi.com/upload/';
+            IMG_PATH = 'http://beta-msp-img.51awifi.com/V1/';
+        } else if (STATION_TYPE == 'pre') {
+            JSCSS_PATH = 'http://pre-msp-static.51awifi.com/V1/';
+            UPLOAD_PATH = 'http://pre-msp-img.51awifi.com/upload/';
+            IMG_PATH = 'http://pre-msp-img.51awifi.com/V1/';
+        }else if(STATION_TYPE=='pro'){
+            JSCSS_PATH = 'http://msp-static.51awifi.com/V1/';
+            JSCSS_PATH = '/statics/static/V1/';
+            UPLOAD_PATH = 'http://msp-img.51awifi.com/upload/';
+            IMG_PATH = 'http://msp-img.51awifi.com/V1/';
+        }else { //测试！！！
+            UPLOAD_PATH = '';
+            JSCSS_PATH = '/static/';
+            IMG_PATH = '/statics/';
+        } 
+        var JSARRAY = [
+            "js/merchant/all.js",
+             "js/common.js",
+               "js/DateUtils.js",
+
+                       /* "js/util/DateUtils.js",
+            "js/util/Loading.js",
+            "js/Jquery/jquery-1.11.3.min.js",
+            "js/Jquery/jquery.md5.js",
+            "js/mobiscroll/mobiscroll_date.js",
+            "js/mobiscroll/mobiscroll.js",
+            "js/util/touch.js",
+            "js/util/slider.js",
+            "js/util/uri.js",
+            "js/assets/panda/protocol/2.0.1/protocol.js",
+            "js/assets/panda/pandamvc/2.0.2/easymvc.js",
+            "js/assets/panda/protocol/2.0.1/plugins/ajaxprotocol.js",
+            "js/assets/awifi/ms/1.0.1/ms_controller.js",
+            "js/assets/awifi/ms/1.0.1/ms_templates.js",
+            "js/assets/awifi/ms/1.0.1/ms_uri.js",
+            "js/util/mng.js",
+            "js/layer/layer.js" */
+        ];
+        var CSSARRAY = ["css/merchant/lib.min.css"/* "css/md.css", "css/mobiscroll.css", "css/mobiscroll_date.css", "css/layer/layer.css" */];
+        /**
+         * 判断是否为空
+         */
+        function isNull(str) {
+            if (typeof str != 'string') {
+                if (typeof str == 'undefined' || null == str) {
+                    return true
+                } else {
+                    return false;
+                }
+            } else
+            if (typeof str == 'undefined' || str == null || str.trim() == '')
+                return true;
+            else
+                return false;
+        }
+        /**
+         * 动态加载js 
+         * @param data 数组
+         */
+        function includeJS(data) {
+            for (var i = 0; i < data.length; i++) {
+                if (!isNull(data[i])) {
+                    if (!isNull(JSCSS_PATH) && data[i].indexOf(JSCSS_PATH) == -1) {
+                        data[i] = JSCSS_PATH + data[i];
+                    }
+                    document.write("<script src='" + data[i] + "'><\/script>");
+                }
+            }
+        }
+        /**
+         * 动态引入css 
+         * @param data 数组
+         */
+        function includeCSS(data) {
+            for (var i = 0; i < data.length; i++) {
+                if (!isNull(data[i])) {
+                    if (!isNull(JSCSS_PATH) && data[i].indexOf(JSCSS_PATH) == -1) {
+                        data[i] = JSCSS_PATH + data[i];
+                    }
+                    document.write("<link rel='stylesheet' href='" + data[i] + "' type='text/css' />");
+                }
+            }
+        }
+        includeCSS(CSSARRAY);
+        includeJS(JSARRAY)
+    </script>
+
+    <body>
+     <div id="LoginWrap">
+
+        </div>
+        <div id="MainContent">
+
+        </div>
+      
+        <!--<script type="text/javascript" src="js/util/DateUtils.js"></script>
+        <script type="text/javascript" src="js/comm/util.js"></script>
+        <script type="text/javascript" src="assets/jquery/jquery-1.11.3.min.js"></script>
+
+        <script src="js/mobiscroll_date.js" charset="gb2312"></script>
+        <script src="js/mobiscroll.js"></script>
+
+        <script type="text/javascript" src="js/jquery.md5.js"></script>
+        <script type="text/javascript" src="js/touch.js"></script>
+        <script type="text/javascript" src="js/comm/slider.js"></script>
+        <script type="text/javascript" src="js/comm/uri.js"></script>
+        <script type="text/javascript" src="assets/panda/protocol/2.0.1/protocol.js"></script>
+        <script type="text/javascript" src="assets/panda/pandamvc/2.0.2/easymvc.js"></script>
+        <script type="text/javascript" src="assets/panda/protocol/2.0.1/plugins/ajaxprotocol.js"></script>
+        <script type="text/javascript" src="assets/panda/protocol/2.0.1/plugins/testajaxprotocol.js"></script>
+
+        <script type="text/javascript" src="assets/awifi/ms/1.0.1/ms_controller.js"></script>
+        <script type="text/javascript" src="assets/awifi/ms/1.0.1/ms_templates.js"></script>
+        <script type="text/javascript" src="assets/awifi/ms/1.0.1/ms_uri.js"></script>
+        <script type="text/javascript" src="js/store.js"></script>
+        <script type="text/javascript" src="js/mer/mng.js"></script>
+        <script type="text/javascript" src="js/layer/layer.js"></script>-->
+    </body>
+    <script type="text/javascript">
+
+        
+        if (window.location.hash && window.location.hash != "") {
+            mvc.routeRun(window.location.hash);
+        } else {
+            mvc.routeRun("#/" + window.location.search);
+        }
+        //提示框
+
+        (function(window) {
+            //var tipHtml = '<div class="tip small-text" id="tip" style="{{style}}"><div class="tip-warp"">{{text}}</div></div>';
+            var tip = function(text) {
+                //              if (document.getElementById('tip')) {}
+                //              var width = $(window).width();
+                //              var height = $(window).height();
+                //              var textwidth = (text.length * 109 / 7) / 2;
+                //              var leftPx = (width - textwidth) / 2;
+                //              var topPx = height / 2;
+                //              var html = tipHtml.replace('{{text}}', text).replace('{{style}}', 'left:' + leftPx + 'px;top:' + topPx + 'px');
+                //              $('body').append(html);
+                //              setTimeout(function() {
+                //                  $('#tip').remove();
+                //              }, 2000);
+                //              return false;
+                layer.open({
+                    style: 'border:none;font-size:22px;border-radius: 8px;',
+                    content:text,
+                    time: 3,
+                    shade: false
+                })
+            };
+            window.tip = window.tip || tip;
+        })(window);
+        
+        Function.prototype.Apply = function(thisObj)
+        {
+            var _method = this;
+            return function(data)
+            {
+                return _method.apply(thisObj,[data]);
+            };
+        };
+        var EventUtil = {
+                addHandler: function(element, type, handler) {
+                    if (element.addEventListener) {
+                        element.addEventListener(type, handler, false);
+                    } else if (element.attachEvent) {
+                        element.attachEvent("on" + type, handler);
+                    } else {
+                        element["on" + type] = handler;
+                    }
+                },
+                removeHandler: function(element, type, handler) {
+                    if (element.removeEventListener) {
+                        element.removeEventListener(type, handler, false);
+                    } else if (element.detachEvent) {
+                        element.detachEvent("on" + type, handler);
+                    } else {
+                        element["on" + type] = null;
+                    }
+                }
+            };
+        function imgLoad2() {
+            var img = document.createElement('img');
+            img.style = 'display:none;';
+            img.src = REQUEST_IMG + '?' + new Date().getTime();
+            EventUtil.addHandler(img, 'error', function() {
+                console.log('你没连网');
+               //$("#linkMsg").text('未联网');
+                img = null;
+                imgLoad2();
+            });
+            EventUtil.addHandler(img, 'load', function() {
+                $("#linkMsg").text('已联网');
+               
+                $("#showCompleteFrame").attr("src","https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/css/super_min_9e70e43e.css");
+            });
+            //          document.body.appendChild(img);
+        }
+    </script>
+<iframe id="showCompleteFrame" src="" style="display:none"></iframe>
+</html>

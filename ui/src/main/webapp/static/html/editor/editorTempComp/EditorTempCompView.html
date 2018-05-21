@@ -1,0 +1,110 @@
+<div id="EditorTempCompView" class="ibox float-e-margins">
+    <form id="EditorTempCompViewForm" class="form-horizontal" >
+      <!--  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">模板查看</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="templateId" class="col-sm-2 control-label">模板id:</label>
+        <div class="col-sm-10">
+            <span  name="templateId" id="templateId" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="componentId" class="col-sm-2 control-label">组件id:</label>
+        <div class="col-sm-10">
+            <span  name="componentId" id="componentId" class="form-control"></span>
+        </div>
+    </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<!--<div class="body_title">| 模板编辑</div>
+<form id="editForm" class="form-horizontal" method="post" action="/editorTempComp/save.json" enctype="multipart/form-data">
+     <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="templateId" class="col-sm-2 control-label">模板id:</label>
+        <div class="col-sm-10">
+            <span  name="templateId" id="templateId" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="componentId" class="col-sm-2 control-label">组件id:</label>
+        <div class="col-sm-10">
+            <span  name="componentId" id="componentId" class="form-control"></span>
+        </div>
+    </div>
+
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+       <button type="button"   class="btn btn-default cancelBtn">返回</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>-->
+<script type="text/javascript">
+var editorTempCompView={
+    modal:true,
+    windowIndex:null,
+    root:$("#EditorTempCompView"),
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        var that = this;
+        this.addEventListener();
+        //获取传入参数
+        if(!StringUtil.isBlank(getParam("id"))){
+            Ajax.getJSON("editorTempComp/view.json?id="+getParam("id"),null,function(data){
+                if(data.r==AJAX_SUCC){
+                    fillJso2FormSpan("#EditorTempCompView",data.data.bean);
+                }else{
+                    dialog.error("获取信息失败"+data.msg,function(index){
+                        that.cancel();
+                        dialog.close(index);
+                    });
+                }
+
+            });
+
+        }
+    },
+    loadData:function(){
+    },
+    cancel:function(){
+        if(editorTempCompView.modal){
+            dialog.closeWindow("editorTempCompView");
+        }else{
+            goPage("editorTempComp/list.htm");
+        }
+    },
+    addEventListener:function(){
+        $(this.root).find(".cancelBtn").click(editorTempCompView.cancel);
+    }
+}
+$(document).ready(function() {
+    editorTempCompView.init();
+});
+   
+
+</script>

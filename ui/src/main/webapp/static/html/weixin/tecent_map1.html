@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Title</title>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script type="text/javascript" src="https://apis.map.qq.com/tools/geolocation/min?key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp"></script>
+
+</head>
+<body>
+<style>
+    .m-Map{
+        border:1px solid red;
+    }
+    
+    html, body, #app {
+    height: 100%; }
+
+    #app > div {
+    height: 100%; }
+    .m-Error {
+    text-align: center; }
+    .m-Error h4 {
+    margin: 0 auto;
+    color: #000;
+    font-size: 18px;
+    line-height: 40px; }
+    .m-Error .first {
+    margin-top: 30%; }
+    .m-Error .hotpot {
+    display: inline-block;
+    text-decoration: none;
+    background: #FFFFFF;
+    border: 1px solid #4A90E2;
+    width: 100px;
+    height: 34px;
+    line-height: 34px;
+    font-size: 14px;
+    color: #4A90E2;
+    margin-top: 20%; }
+    .m-Error .active {
+    color: #fff;
+    background: #4A90E2; }
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline; }
+
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section {
+    display: block; }
+
+    body {
+    line-height: 1; }
+
+    ol, ul {
+    list-style: none; }
+
+    blockquote, q {
+    quotes: none; }
+
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+    content: '';
+    content: none; }
+
+    table {
+    border-collapse: collapse;
+    border-spacing: 0; }
+
+    html {
+    font-size: 10px; }
+
+    body {
+    font-size: 1.4rem; }
+    .m-HotareaList {
+    height: 100%;
+    position: relative;
+    overflow: hidden; }
+    .m-HotareaList .title {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    padding: 0 30px;
+    height: 44px;
+    line-height: 44px;
+    background: #f1f1f1;
+    color: #888;
+    font-size: 12px;
+    overflow: hidden;
+    box-sizing: border-box; }
+    .m-HotareaList .hotareaList {
+    padding: 44px 15px 0;
+    line-height: 44px;
+    color: #333;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box; }
+    .m-HotareaList .hotareaList li {
+    position: relative;
+    padding: 0 15px;
+    border-bottom: 1px solid #eee; }
+    .m-HotareaList .name {
+    float: left;
+    width: 75%; }
+    .m-HotareaList .distance {
+    margin-left: 25%; }
+    .m-HotareaList .arrowDown {
+    height: 80px;
+    background: #fff url(data:image/png;base64,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) no-repeat;
+    background-position: center;
+    background-size: 32px; }
+    .m-HotareaList .arrowRight {
+    display: inline-block;
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border: 1px solid #333;
+    border-width: 1px 1px 0 0;
+    transform: rotate(45deg);
+    right: 9px;
+    top: 20px; }
+    .m-HotareaList .noresult {
+    line-height: 100px;
+    text-align: center; }
+    .m-Map .locate {
+    position: absolute;
+    left: 15px;
+    bottom: 220px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #bbb;
+    background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAv5JREFUSA2dlk1IVFEUx31vPmymhRRWpkiBuCo3zYc6ThAtojArbBEIuqtAd0VbA7ctalNYOyWIFokKbqMY0HFmbFNBHxiFWFYUFITaOGO///hePXV843ThcM895/x/Z+579703RoXLaG5u3pfP58+srq62U9aA1VrlH5lnDcOYME1zfHp6+rMV3zQZmyIEYrHY3uXl5eu4FzEf9gPYCxodwq/Af4l/GLcKy7K+5/f7ByYnJ78o7xymcyE/EomcBP4GtxfhOHaio6NjdyaTiROblclXTDnV0KxPGmnJrxvrdhAOhy+TvY1gzuPx9KRSqYSzOhQKZbSemZkJO+PRaPRoLpcbplk98T5+wF07/3cHwE8BviN9MBiMboTbgmKzaqWRVgyx7LpCA7ZWQ+IBv+BDIBA4nUgkvtoF252lkVYMscSUttCAgG6oblh3CfgYNbKiw9J2k6yymBVGW1tbLTdIXUe4theKKssMcq8espPOysrKA+bS0tJZ4F4Yg2Vy3MoHxRTbpJOu2zeO3VM3RTk5sWB+R9NucMdf4SxwtI6VAylVC/cJNTVq8BPnN1t66xTxC0ZoesMZ28qHcQ19pzOPvpG130tCD5sH2+ksIL7DuXbzrdqNejEN7eA1BfOcoONukHJznKTH7KJOz8E7rMnaSbmcovUWq0lsNZjAqvU+KVr9H0GLVS22jukYluO9f6kUi20HW1tbA6XqxBJTbDOdTs8hGMK6eH9E3MQIHmWz2RG3GovRJabYhXeRz+frJ/CLa3c/Ho/v2gpAfo9sq7y0YohlMddedlNTU/MEu0k2Li4ujrk1cYNLK4ZYFnOtgUQc01EuwVXcOO+QJN/jkOLbGdzUsDTUxmFcEcvWFS6RveDJvcmX7Dy/om5lZSXNMzLENY3Z+Y2zcqrha5aSRloYt5x16z6ZdgJhPSdhgHUPppO2wPwcO4JpPMP07OijkseG+XfRbx0Ylv9G0QZ2uqWl5SA7Oce6HWvA9lu5T8z6AzDh9XpHk8nkeyu+afoD5/BdaLh9YOUAAAAASUVORK5CYII=) no-repeat;
+    background-position: center;
+    background-size: 18px; }
+
+    .m-Hotarea {
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    width: 100%;
+    height: 203px;
+    background: #fff;
+    color: #333;
+    box-sizing: border-box; }
+    .m-Hotarea .item {
+    position: relative;
+    line-height: 30px;
+    overflow: hidden; }
+    .m-Hotarea .hotareaName {
+    float: left;
+    font-size: 16px;
+    line-height: 36px;
+    font-weight: bold; }
+    .m-Hotarea .dist {
+    float: right;
+    line-height: 36px; }
+    .m-Hotarea .title {
+    float: left;
+    width: 70px; }
+    .m-Hotarea .content {
+    margin-left: 70px; }
+    .m-Hotarea .buttons {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 20px;
+    text-align: center; }
+    .m-Hotarea .buttons a {
+    display: inline-block;
+    padding: 0;
+    width: 100px;
+    height: 34px;
+    line-height: 34px;
+    border: 1px solid #4A90E2;
+    color: #4A90E2;
+    background: #fff;
+    text-decoration: none; }
+    .m-Hotarea .buttons a + a {
+    margin-left: 30px; }
+    .m-Hotarea .buttons a.error {
+    border-color: #F05C5C;
+    color: #F05C5C; }
+
+</style>
+<script type="text/javascript">
+
+var MyMap = {
+    infoWin:null,
+     geolocation: new qq.maps.Geolocation(),
+    prev:{time:null,
+        LatLng:null,
+    },
+    map:null,
+    zoom:20,
+    userPos:{//当前人的定位经纬度
+        x:0,
+        y:0,
+        },
+    centerPos:{//当前地图的中心点
+        x:0,
+        y:0,
+        },
+
+    //初始化
+    init:function(){
+        this.map =this. initTecentMap();//初始化地图
+        this.infoWin = new qq.maps.InfoWindow({
+			map: this.map
+		});
+        this.getLocation();//获取当前的经纬度
+
+        this.marker = [];
+		this.prev = {
+			time: null,
+			LatLng: null
+		}
+    },
+    //加载后触发
+    componentDidMount:function(){
+        this.init();
+        this.evtset();
+    },
+    //初始化腾讯地图
+    initTecentMap: function(){
+       map = new qq.maps.Map(document.getElementById("container"), {
+            // 地图的中心地理坐标。
+            center: new qq.maps.LatLng(39.916527, 116.397128)
+        });
+        return  map;
+    },
+    //获取位置
+    getLocation:function(){//获取当前的经纬度
+
+        console.log("call getTecentWebLocationByIP");
+        this.getCurLocation();
+     //  this.getTecentWebLocationByIP(this.getLocationCallBack);
+    },
+    getCurLocation:function(){
+
+         var options = {timeout: 9000};
+
+      this.geolocation.getLocation(this.showPosition.Apply(this), this.showErr.Apply(this), options);
+    },
+     showPosition:function(position) {
+            //positionNum ++;
+            alert(JSON.stringify(position, null, 4));
+            this.userPos. x=position.lng;
+           this.userPos.y=position.lat;
+           this.centerPos. x=position.lng;
+           this.centerPos.y=position.lat;
+            this.map.setCenter(new qq.maps.LatLng( this.centerPos.y,this.centerPos. x))
+            this.map.setZoom(20);//设定放大级别
+
+        },
+
+         showErr:function() {
+            //positionNum ++;
+          //  alert("定位失败");
+            document.getElementById("demo").innerHTML += "序号：" + positionNum;
+            document.getElementById("demo").appendChild(document.createElement('p')).innerHTML = "定位失败！";
+            document.getElementById("pos-area").scrollTop = document.getElementById("pos-area").scrollHeight;
+        },
+    //获取地理位置后的回调
+    getLocationCallBack:function(){//console.log("getLocationCallBack");
+       // this.userPos. x=result.detail.latLng.lat;
+        //this.userPos.y=result.detail.latLng.lng;
+        //this.map.setCenter(result.detail.latLng);
+
+        this.map.setCenter(new qq.maps.LatLng( this.centerPos.y,this.centerPos. x))
+
+
+        //查找附近数据
+
+        //this.getNearbyData();
+    },
+
+
+    //通过腾讯的接口ip定位
+    getTecentWebLocationByIP:function  (callback){console.log("getTecentWebLocationByIP");
+
+        var citylocation= null;
+
+        citylocation = new qq.maps.CityService();
+        //请求成功回调函数
+        var that =this;
+        citylocation.setComplete(function(result) {
+           //
+
+            console.log(result.detail.latLng,result.detail.latLng.lng);
+            //callback(result.detail.latLng.lat);
+           /* */
+           that.map.setCenter(result.detail.latLng);
+           that.map.setZoom(20);//设定放大级别
+           that.userPos. x=result.detail.latLng.lng;
+           that.userPos.y=result.detail.latLng.lat;
+           that.centerPos. x=result.detail.latLng.lng;
+           that.centerPos.y=result.detail.latLng.lat;
+           callback.call(that);//获得经纬度后进行查询
+        });
+        //请求失败回调函数
+        citylocation.setError(function() {
+            alert("出错了，请输入正确的经纬度！！！");
+        });
+        citylocation.searchLocalCity();
+
+
+    },
+    // 请求附近热点
+    getNearbyData:function(){
+        var that = this;
+        Ajax.getJSON(PATH+"/mapdata/nearby",{lng:this.centerPos.x,lat:this.centerPos.y,dist:5000,pageSize:50,curPage:1},function(result){
+            //获得了数据之后展示到页面上
+            var data = result.data;
+
+            console.log(1);
+            that.displayAllMapData(data);
+        });
+    },
+    //咱先所有的地图点
+    displayAllMapData:function(latlngs){
+      //清楚所有地图点
+        this.clearOverlays(this.marker);
+        var _this =this;
+
+        for(var i = 0;i < latlngs.length; i++) {
+            (function(n){
+                _this.addMaker(latlngs[n]);
+                qq.maps.event.addListener(_this.marker[n], 'click', function() {
+                    _this.showInfoWin(latlngs[n]);
+                });
+            })(i);
+        }
+    },
+
+    // 转化为弧度
+	rad:function(d) {
+	   return d * Math.PI / 180.0;
+	},
+	// 通过经纬度算距离，单位：米
+	LantitudeLongitudeDist:function(center1, center2) {
+		let EARTH_RADIUS = 6378137;//赤道半径(单位m)
+		let radLat1 = this.rad(center1.lat);
+		let radLat2 = this.rad(center2.lat);
+
+		let radLon1 = this.rad(center1.lng);
+		let radLon2 = this.rad(center2.lng);
+
+		if (radLat1 < 0)
+			radLat1 = Math.PI / 2 + Math.abs(radLat1);// south
+		if (radLat1 > 0)
+			radLat1 = Math.PI / 2 - Math.abs(radLat1);// north
+		if (radLon1 < 0)
+			radLon1 = Math.PI * 2 - Math.abs(radLon1);// west
+		if (radLat2 < 0)
+			radLat2 = Math.PI / 2 + Math.abs(radLat2);// south
+		if (radLat2 > 0)
+			radLat2 = Math.PI / 2 - Math.abs(radLat2);// north
+		if (radLon2 < 0)
+			radLon2 = Math.PI * 2 - Math.abs(radLon2);// west
+		let x1 = EARTH_RADIUS * Math.cos(radLon1) * Math.sin(radLat1);
+		let y1 = EARTH_RADIUS * Math.sin(radLon1) * Math.sin(radLat1);
+		let z1 = EARTH_RADIUS * Math.cos(radLat1);
+
+		let x2 = EARTH_RADIUS * Math.cos(radLon2) * Math.sin(radLat2);
+		let y2 = EARTH_RADIUS * Math.sin(radLon2) * Math.sin(radLat2);
+		let z2 = EARTH_RADIUS * Math.cos(radLat2);
+
+		let d = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)+ (z1 - z2) * (z1 - z2));
+		//余弦定理求夹角
+		let theta = Math.acos((EARTH_RADIUS * EARTH_RADIUS + EARTH_RADIUS * EARTH_RADIUS - d * d) / (2 * EARTH_RADIUS * EARTH_RADIUS));
+		let dist = theta * EARTH_RADIUS;
+		return dist;
+	} ,
+    needUpdate:function(center){
+		// 如果是初始化中心 || 距离上一次请求的(移动时间>1000ms || 移动距离>500m)
+		if(!this.prev.time || !this.prev.LatLng ||
+			(this.prev.time && new Date().getTime() - this.prev.time > 1000) ||
+			(this.prev.LatLng && this.LantitudeLongitudeDist(this.prev.LatLng, center) > 500)){
+			this.prev.LatLng = center;
+			this.prev.time = new Date().getTime();
+			return true;
+		}
+		return false;
+	},
+    // 事件绑定
+    evtset:function(){
+		var _this = this;
+		// 定位拖动后的中心
+		qq.maps.event.addListener(_this.map, 'center_changed', function() {
+			// 距离和时间的判断
+			var center = _this.map.getCenter();
+			_this.centerPos.x= center.lng;
+			_this.centerPos.y = center.lat;
+
+			if(_this.needUpdate(center)){
+			    _this.getNearbyData(center.lng ,center.lat);
+			 }
+		});
+		// 点击地图，取消选中的标记
+		qq.maps.event.addListener(this.map, 'click', function() {
+		    //点击后出现简介 和地图标记
+			//_this.setState({hotarea: {}, show: false});
+
+		//	_this.infoWin.close();
+		    _this.hideInfoWin();//隐藏地图标记旁边的备注
+		  //  this.hideMapTags();
+		    _this.hideDialogue();
+		});
+		// 缩放处理
+		qq.maps.event.addListener(this.map,'zoom_changed',function() {
+			var zoomLevel = _this.map.getZoom();
+			// 市级及以上，不显示标记
+			_this.marker.map(function(maker, i){
+				maker.setVisible(zoomLevel < 9 ? false : true);
+			})
+		});
+        var locationEle = document.getElementById("locate");
+		locationEle.addEventListener("click",function(){
+		    _this.getLocation();
+		});
+	},
+	hideMapTags:function(){
+
+	},
+	hideInfoWin:function(){
+	    this.infoWin.close();//腾讯地图的点备注
+	},
+	// 清除地图上的点/标记
+    clearOverlays:function(overlays){//
+        var overlay;
+		while (overlay = overlays.pop()) {
+			overlay.setMap(null);
+		}
+    },
+    addMaker:function(data){
+		var position = new qq.maps.LatLng(data.lat,data.lng);
+		var marker = new qq.maps.Marker({
+			position: position,
+			map: this.map
+		});
+		this.marker.push(marker);
+	},
+	showInfoWin:function(data){
+		var position = new qq.maps.LatLng(data.lat,data.lng);
+		this.infoWin.open();
+		this.infoWin.setContent("<div style='padding: 5px;'>" + data.name + "</div>");
+		this.infoWin.setPosition(position);
+        this.showDialogue(data);
+		//this.setState({hotarea: data, show: true});
+	},
+	showDialogue:function(data){
+        document.getElementById("mapDialogue").style.display="block";
+          document.getElementById("mapDialogueName").innerText=data.name;
+            document.getElementById("mapDialogueAddress").innerText=data.address;
+              document.getElementById("mapDialogueContent").innerText=data.content;
+              document.getElementById("mapDialogueDist").innerText=//this.centerPos
+              this.LantitudeLongitudeDist(data,{"lng":this.userPos.x,"lat":this.userPos.y});
+
+
+	},
+	hideDialogue:function(data){
+        document.getElementById("mapDialogue").style.display="none";
+	}
+
+
+}
+
+window.onload=function(){MyMap.componentDidMount();}
+function searchNearByData(){
+    map.setCenter(x,y);
+}
+Ajax.getJSON(PATH+"/weixin/signatrue",{url:this.location},function(result){
+    var data = result.data;
+    initWx(data);
+
+
+});
+//var wx,map;
+function initWx(data){
+
+    //说明文档https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+    //https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+    //步骤二：引入JS文件
+
+    //步骤三：通过config接口注入权限验证配置
+    //alert(data.signature);
+
+    wx.config({
+
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+
+        appId: data.appId, // 必填，公众号的唯一标识
+
+        timestamp: data.timestamp, // 必填，生成签名的时间戳
+
+        nonceStr: data.noncestr, // 必填，生成签名的随机串
+
+        signature:data.signature,// 必填，签名，见附录1
+
+        jsApiList: [ 'getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+    });
+    //步骤四：通过ready接口处理成功验证
+
+    wx.ready(function(){
+
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+
+    });
+    //步骤五：通过error接口处理失败验证
+
+    wx.error(function(res){
+        alert("微信调用失败");
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+
+    });
+
+}
+//获取地理位置接口
+
+function getTecentJSDKLocation(){
+
+
+    wx.getLocation({
+
+        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+
+        success: function (res) {
+
+            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+
+            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+
+            var speed = res.speed; // 速度，以米/每秒计
+
+            var accuracy = res.accuracy; // 位置精度
+            //如果这里报错 config invalid urldomain的话 说明微信没有配置信任的域名
+            alert("获取到的经纬度:latitude:"+ latitude+"longitude:"+longitude+"speed:"+speed+"accuracy:"+accuracy);
+
+        }
+
+    });
+
+}
+</script>
+
+
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<style type="text/css">
+    html,
+    body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+    }
+    #container {
+    width: 100%;
+    height: 100%
+    }
+</style>
+
+<div id="container"></div>
+
+
+<div id="mapDialogue" class="m-Map" style="display:none"><div id='allmap' style="width:100vw,height:100vh"></div>
+<div class="locate" id="locate"></div>
+<div class="m-Hotarea">
+    <div class="item">
+        <div id="mapDialogueName" class="hotareaName"></div>
+        <div id="mapDialogueDist" class="dist"></div>
+    </div>
+    <div class="item">
+        <div class="title">热点地址：</div>
+        <div id="mapDialogueAddress" class="content"></div>
+    </div>
+    <div class="item">
+        <div class="title">覆盖范围：</div>
+        <div id="mapDialogueContent" class="content"></div>
+    </div>
+    <div class="buttons">
+        <a href="/hotspot/hotareaList">附近热点</a>
+        <a  class="error">故障申报</a>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+
+function  initTecentMap(){
+   map = new qq.maps.Map(document.getElementById("container"), {
+        // 地图的中心地理坐标。
+        center: new qq.maps.LatLng(39.916527, 116.397128)
+    });
+    return  map;
+
+}
+
+
+//=============通过web 内置方式获取经纬度(估计是ip) 不太准确===============
+function getWebLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, locationError,{
+        // 指示浏览器获取高精度的位置，默认为false
+        enableHighAcuracy: false,
+        // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+        timeout: 5000,
+        // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+        maximumAge: 3000
+    });
+    } else {
+        alert("该浏览器不支持获取地理位置");
+    }
+}
+function locationError (error){
+    switch(error.code) {
+        case error.TIMEOUT:
+            alert("A timeout occured! Please try again!");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert('We can\'t detect your location. Sorry!');
+            break;
+        case error.PERMISSION_DENIED:
+            alert('Please allow geolocation access for this to work.');
+            break;
+        case error.UNKNOWN_ERROR:
+            alert('An unknown error occured!');
+            break;
+    }
+}
+function showPosition(position) {
+
+    //$('#longitude').val(position.coords.longitude);
+    // $('#latitude').val(position.coords.latitude);
+    // map.setCenter(new qq.maps.LatLng(position.coords.longitud, position.coords.latitude));
+    //new qq.maps.LatLng(39.916527, 116.397128),
+    //map.setCenter(new qq.maps.LatLng(parseInt(position.coords.latitude),parseInt( position.coords.longitud)));
+    //LatLng(lat:Number, lng:Number)
+    //map.setCenter(new qq.maps.LatLng(30.283719,120.146323));
+
+    alert("经度:"+position.coords.longitude+"纬度:"+position.coords.latitude);
+    // alert("纬度:"+latitude+"经度:"+longitude);
+
+
+    //setZoom()设置地图缩放级别。
+
+    //setMapTypeId()设置地图类型。
+    // map.setMapTypeId(qq.maps.MapTypeId.HYBRID);
+
+
+     var longitude = position.coords.longitude;
+    var latitude = position.coords.latitude;
+
+    map.setCenter(new qq.maps.LatLng( latitude,longitude));
+
+    map.setZoom(20);
+
+}
+//==============================end ========================
+
+
+
+
+
+
+
+
+
+
+
+
+
+var map=null,x,y;
+//初始化腾讯地图
+
+//通过腾讯的接口ip定位
+function  getTecentWebLocationByIP(callBack){
+    //http://lbs.qq.com/javascript_v2/doc/cityservice.html
+    var citylocation= null;
+
+    citylocation = new qq.maps.CityService();
+    //请求成功回调函数
+    citylocation.setComplete(function(result) {
+        //map.setCenter(new qq.maps.LatLng( latitude,longitude));
+        map.setCenter(result.detail.latLng);
+        console.log(result.detail.latLng);
+        x=result.detail.latLng.lat;
+        y=result.detail.latLng.lng;
+
+        map.setZoom(20);
+
+    });
+    //请求失败回调函数
+    citylocation.setError(function() {
+        alert("出错了，请输入正确的经纬度！！！");
+    });
+    citylocation.searchLocalCity();
+
+
+}
+//添加定位点
+function addPoint(){
+    //参考http://lbs.qq.com/javascript_v2/case-run.html#sample-event-closure
+
+    var infoWin = new qq.maps.InfoWindow({
+        map: map
+    });
+    var offset =0.0005;
+    var latlngs = [
+     new qq.maps.LatLng(x,y),
+        new qq.maps.LatLng(x-offset,y-offset),
+       new qq.maps.LatLng(x+offset,y-offset),
+      new qq.maps.LatLng(x+offset,y+offset),
+      new qq.maps.LatLng(x-offset,y+offset),
+    ];
+
+    for(var i = 0;i < latlngs.length; i++) {
+        (function(n){
+            var marker = new qq.maps.Marker({
+                position: latlngs[n],
+                map: map
+            });
+            qq.maps.event.addListener(marker, 'click', function() {
+                infoWin.open();
+                infoWin.setContent('<div style="text-align:center;white-space:'+
+                'nowrap;margin:10px;">这是第 ' +
+                n + ' 个标注</div>');
+                infoWin.setPosition(latlngs[n]);
+            });
+
+
+        })(i);
+    }
+
+}
+
+function  getTecentLocationByIPAndWeb(){
+
+}
+
+    </script>
+<div id="hello" style="position:absolute;width:200px;top:0px;left:0px;">
+<span><button onclick="initTecentMap()"> 初始化微信地图</button></span>
+<span><button onclick="getWebLocation()"> 腾讯地图web定位</button></span>
+
+<span><button onclick="getTecentWebLocationByIP()"> 腾讯地图ip定位</button></span>
+<script>
+
+</script>
+<span><button onclick="getTecentJSDKLocation()"> 微信jssdk定位</button></span>
+
+<span><button onclick="addPoint()"> 地图中心添加点</button></span>
+
+    <span><button onclick="getTecentLocationByIPAndWeb()"> ip和web中间点</button></span>
+</div>
+<script>
+
+</script>
+</body>
+</html>

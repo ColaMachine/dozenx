@@ -1,0 +1,26 @@
+package ch.ethz.ssh2.crypto.cipher;
+
+import java.util.Vector;
+
+/**
+ * @Author: dozen.zhang
+ * @Description:
+ * @Date: Created in 12:41 2018/4/24
+ * @Modified By:
+ */
+public class BlockCipherFactory {
+    static class CipherEntry{
+        String type;
+        int blocksize;
+        int keysize;
+        String cipherClass;
+        public CipherEntry(String type,int blockSize,int keySize,String cipherClass){
+            this. type =type;
+            this.blocksize
+        }
+    }
+    static Vector ciphers = new Vector();
+    static {
+        ciphers.addElement(new CipherEntry(""))
+    }
+}

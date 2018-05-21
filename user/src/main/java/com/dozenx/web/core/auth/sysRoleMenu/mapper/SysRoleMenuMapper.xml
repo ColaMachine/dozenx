@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysRoleMenu.dao.SysRoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysRoleMenu.bean.SysRoleMenu">
+
+      <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+      <result column="role_id" jdbcType="BIGINT" property="roleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+   sys_role_menu.`menu_id` ,sys_role_menu.`role_id`
+  </sql>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Long">
+        delete from sys_role_menu
+        where role_id = #{roleId}
+
+    </delete>
+   <delete id="deleteExtra" parameterType="map">
+          delete from sys_role_menu
+          where role_id in
+          <foreach collection="roleIds" item="item" index="index"
+                   open="(" separator="," close=")"> #{item}</foreach>
+         <if test="menuIds != null and menuIds != '' " >
+          and menu_id not in
+          <foreach collection="menuIds" item="item" index="index"
+                   open="(" separator="," close=")"> #{item}</foreach>
+       </if>
+  </delete>
+ <insert id="insert"  parameterType="com.dozenx.web.core.auth.sysRoleMenu.bean.SysRoleMenu" >
+
+    insert into sys_role_menu (  <include refid="Base_Column_List" />)
+    values (
+
+        #{menuId,jdbcType=BIGINT}
+        ,#{roleId,jdbcType=BIGINT}
+    )
+  </insert>
+
+    <select id="count" parameterType="com.dozenx.web.core.auth.sysRoleMenu.bean.SysRoleMenu"  resultType="java.lang.Integer">
+        select
+        count(1)
+        from sys_role_menu where
+
+        sys_role_menu.`menu_id` = #{menuId} and sys_role_menu.`role_id` = #{roleId}
+
+    </select>
+</mapper>

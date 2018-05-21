@@ -1,0 +1,31 @@
+
+.awifi-btn {
+  font-size: 16px;
+  height: 36px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid $ui_blue;
+  color: $ui_blue;
+  text-align: center;
+  background-color: white;
+  line-height: 24px;
+  cursor: pointer;
+  &.primary {
+    background-color: $ui_blue;
+    color: white;
+  }
+  &.disabled {
+    background-color: #eaeaea;
+    color: grey;
+    //border-color: grey;
+    border:none;
+    cursor: default;
+  }
+  &.loading {
+    background-color: white;
+    border-color: black;
+    color: grey;
+    cursor: default;
+  }
+}
+

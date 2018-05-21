@@ -1,0 +1,155 @@
+ <div class="ibox float-e-margins">
+    <form id="merchantPicEditForm" class="form-horizontal" method="post" action="/merchantPic/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">商户滚动图片编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="slot" class="col-sm-2 control-label">槽位:</label>
+        <div class="col-sm-10">
+            <input type="number" id="slot" name="slot"  class="form-control input-sm"  maxlength="2" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="path" class="col-sm-2 control-label">路径:</label>
+        <div class="col-sm-10">
+<input  id="path" name="path"  value="null" style="display:none" class="form-control input-sm"   maxlength="150"></input>        </div>
+    </div>
+    <div class="form-group">
+        <label for="merid" class="col-sm-2 control-label">商户id:</label>
+        <div class="col-sm-10">
+            <input type="number" id="merid" name="merid"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var merchantPicEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#merchantPicEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        slot:{
+            digits:true,required:true
+        },
+        path:{
+            maxlength:150
+        },
+        merid:{
+            digits:true
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        slot:{
+            digits:"必须输入整数"
+        },
+        path:{
+            maxlength:"路径不能多于150个字符"
+        },
+        merid:{
+            digits:"必须输入整数"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#merchantPicEditForm").validate(this.validParam);
+        var imageUtil=new zImageUtil2({"input":"path"});
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/merchantPic/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#merchantPicEditForm",data.data.bean);
+                    $("#path").parent().find("img").attr("src",$("#path").val());
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("merchantPic/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#merchantPicEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#merchantPicEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#merchantPicEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("merchantPic/list.htm");
+
+                    if(that.modal){
+                        $("#MerchantPicGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("merchantPic/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    merchantPicEdit.init();
+
+});
+</script>

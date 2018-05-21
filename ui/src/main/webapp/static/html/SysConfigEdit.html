@@ -1,0 +1,149 @@
+ <div class="ibox float-e-margins">
+    <form id="sysConfigEditForm" class="form-horizontal" method="post" action="/sysConfig/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">系统配置表编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <input type="hidden" id="id" name="id"  class="form-control input-sm" >
+    <div class="form-group">
+        <label for="key" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="key" name="key"  class="form-control input-sm"   maxlength="50"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="value" class="col-sm-2 control-label">对应值:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="value" name="value"  class="form-control input-sm"   maxlength="50"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">说明:</label>
+        <div class="col-sm-10">
+            <textarea  id="remark" name="remark"  class="form-control input-sm"   maxlength="250"  ></textarea>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var sysConfigEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#sysConfigEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        key:{
+            maxlength:50
+        },
+        value:{
+            maxlength:50,required:true
+        },
+        remark:{
+            maxlength:250,required:true
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        key:{
+            maxlength:"名称不能多于50个字符"
+        },
+        value:{
+            maxlength:"对应值不能多于50个字符"
+        },
+        remark:{
+            maxlength:"说明不能多于250个字符"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#sysConfigEditForm").validate(this.validParam);
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/sysConfig/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#sysConfigEditForm",data.data.bean);
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("sysConfig/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#sysConfigEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#sysConfigEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#sysConfigEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("sysConfig/list.htm");
+
+                    if(that.modal){
+                        $("#SysConfigGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("sysConfig/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    sysConfigEdit.init();
+
+});
+</script>

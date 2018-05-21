@@ -1,0 +1,201 @@
+/*color*/
+@import 'base';
+@CHARSET "UTF-8";
+
+body{
+    margin:0px;
+    padding:0px;
+}
+ul,li{
+    margin:0px;
+    padding:0px;
+}
+@mixin height_size($size) {
+
+
+    line-height:$size*1.5 ;
+/* height:$size*2;*/
+   /*  min-height: $size*2.5;
+      max-height: $size*2.5;*/
+  box-sizing:border-box;
+-moz-box-sizing:border-box; /* Firefox */
+-webkit-box-sizing:border-box; /* Safari */
+  /*  position: relative;
+        border-collapse: separate;*/
+
+}
+@mixin clearfix() {
+
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+
+}
+@mixin padding( $size){
+ padding: $size*0.2 $size*0.5;
+}
+p{
+
+    font-size:$ft-nm;
+    @include height_size($ft-nm);
+
+}
+h1{
+    font-size:$ft-h1;
+    @include height_size($ft-h1);
+}
+h2{
+    font-size:$ft-h2;
+    @include height_size($ft-h2);
+}
+h3{
+    font-size:$ft-h3;
+    @include height_size($ft-h3);
+}
+$title:14px;
+@mixin title{
+    font-size:$title;
+    font-weight:bold;
+}
+
+$title1:14px;
+@mixin title1{
+    font-size:$title;
+    font-weight:bold;
+}
+
+$title2:14px;
+@mixin title2{
+    font-size:$title;
+    font-weight:bold;
+}
+
+$headline:16px;
+@mixin headline{
+    font-size:$headline;
+    font-weight:bold;
+}
+
+
+
+$size-small:12px;
+$size-normal:14px;
+$size-normal:14px;
+$size-big:24px;
+$size4:15px;
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+             "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+             SimSun, sans-serif;
+$ft-nm-family:"Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53", Helvetica,Arial,sans-serif;
+body {
+    font-size:$ft-nm;
+	background-color:$white;
+	font-family:$ft-nm-family;
+}
+.bg-black{
+    background-color:$light-black;
+}
+.bg-blue{
+    background-color:$blue;
+}
+.bg-white{
+    background-color:$white;
+}
+
+
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+ul{
+    padding:0 0;
+}
+.fix-bottom{
+    position:fixed !important;
+    bottom:0 !important;
+}
+
+.fix-top{
+    position:fixed !important;
+    top:0 !important;
+
+}
+ .v-center{
+ display:flex;
+         align-items: center;
+ }
+.middle{
+
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+}
+
+.ui-flex.center {
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+
+.mask{
+
+	position: fixed;
+top: 0px;
+right: 0px;
+bottom: 0px;
+left: 0px;
+background-color: #000;
+
+z-index:999;
+	display:none;
+
+  	background-color:#000000;
+    filter:alpha(opacity=50); /* IE 透明度20% */
+    -moz-opacity:0.5; /* Moz + FF 透明度20% */
+    opacity: 0.5;/*  支持CSS3的浏览器（FF 1.5也支持）透明度20% */
+}
+.wait{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size:30px;
+   margin-left:-15px;
+     margin-top:-15px;
+
+width:30px;
+height:30px;
+
+    z-index:1999;
+
+
+}
+
+.fa-spinner{
+     animation:mymove 2s   linear   infinite;
+     -webkit-animation:mymove 2s  linear   infinite; /*Safari and Chrome*/
+    /*transition: all 2s;*/
+
+ }
+
+
+ @keyframes mymove
+ {
+    from{transform:rotate(0)}
+    to{transform:rotate(360deg)}
+ }

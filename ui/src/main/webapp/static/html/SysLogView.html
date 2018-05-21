@@ -1,0 +1,172 @@
+<div id="SysLogView" class="ibox float-e-margins">
+    <form id="SysLogViewForm" class="form-horizontal" >
+      <!--  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">系统日志查看</h4>
+        </div>-->
+        <div class="ibox-content">
+                <input type="hidden" id="id" name="id">
+    <div class="form-group">
+        <label for="path" class="col-sm-2 control-label">路径:</label>
+        <div class="col-sm-10">
+            <span name="path" id="path"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="type" class="col-sm-2 control-label">日志类型:</label>
+        <div class="col-sm-10">
+            <span  name="type" id="type" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">代码:</label>
+        <div class="col-sm-10">
+            <span  name="code" id="code" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="param" class="col-sm-2 control-label">操作参数:</label>
+        <div class="col-sm-10">
+            <span name="param" id="param"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="user" class="col-sm-2 control-label">用户:</label>
+        <div class="col-sm-10">
+            <span name="user" id="user"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="msg" class="col-sm-2 control-label">消息:</label>
+        <div class="col-sm-10">
+            <span name="msg" id="msg"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="createTime" id="createTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="startTime" class="col-sm-2 control-label">开始时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="startTime" id="startTime" ></span>
+        </div>
+    </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<!--<div class="body_title">| 系统日志编辑</div>
+<form id="editForm" class="form-horizontal" method="post" action="/sysLog/save.json" enctype="multipart/form-data">
+     <input type="hidden" id="id" name="id">
+    <div class="form-group">
+        <label for="path" class="col-sm-2 control-label">路径:</label>
+        <div class="col-sm-10">
+            <span name="path" id="path"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="type" class="col-sm-2 control-label">日志类型:</label>
+        <div class="col-sm-10">
+            <span  name="type" id="type" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">代码:</label>
+        <div class="col-sm-10">
+            <span  name="code" id="code" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="param" class="col-sm-2 control-label">操作参数:</label>
+        <div class="col-sm-10">
+            <span name="param" id="param"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="user" class="col-sm-2 control-label">用户:</label>
+        <div class="col-sm-10">
+            <span name="user" id="user"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="msg" class="col-sm-2 control-label">消息:</label>
+        <div class="col-sm-10">
+            <span name="msg" id="msg"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="createTime" id="createTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="startTime" class="col-sm-2 control-label">开始时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="startTime" id="startTime" ></span>
+        </div>
+    </div>
+
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+       <button type="button"   class="btn btn-default cancelBtn">返回</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>-->
+<script type="text/javascript">
+var sysLogView={
+    modal:true,
+    windowIndex:null,
+    root:$("#SysLogView"),
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        var that = this;
+        this.addEventListener();
+        //获取传入参数
+        if(!StringUtil.isBlank(getParam("id"))){
+            Ajax.getJSON("sysLog/view.json?id="+getParam("id"),null,function(data){
+                if(data.r==AJAX_SUCC){
+                    fillJso2FormSpan("#SysLogView",data.data.bean);
+                }else{
+                    dialog.error("获取信息失败"+data.msg,function(index){
+                        that.cancel();
+                        dialog.close(index);
+                    });
+                }
+
+            });
+
+        }
+    },
+    loadData:function(){
+    },
+    cancel:function(){
+        if(sysLogView.modal){
+            dialog.closeWindow("sysLogView");
+        }else{
+            goPage("sysLog/list.htm");
+        }
+    },
+    addEventListener:function(){
+        $(this.root).find(".cancelBtn").click(sysLogView.cancel);
+    }
+}
+$(document).ready(function() {
+    sysLogView.init();
+});
+   
+
+</script>

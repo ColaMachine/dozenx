@@ -1,0 +1,370 @@
+<br>
+<br><br><br><br><br><br>
+<div class="form-inline">
+    <div class="form-group ">
+        <label>x:</label>
+        <input id="x" value="16" class="form-control"/>
+    </div>
+    <div class="form-group ">
+        <label>y:</label>
+        <input id="y" value="16" class="form-control"/>
+
+    </div>
+    <div class="form-group ">
+        <button class="btn btn-primary" onclick="changeSize()">改变格子大小</button>
+    </div>
+    <div class="form-group ">
+        <button class="btn btn-primary" onclick="paint()">从td保存图像</button>
+    </div>
+    <div class="form-group ">
+        <button class="btn btn-primary" onclick="paintFromCanvas()">从canvas保存图像</button>
+    </div>
+    <div class="form-group ">
+        <button class="btn btn-primary" onclick="addLayer()">增加图层</button>
+    </div>
+    <div id="loadImageDiv" class="form-group ">
+        <input id="loadImageInput" />
+
+
+    </div>
+</div>
+<div class="form-inline" >
+   <label> 当前颜色:</label><input id="nowColorText" value="#000000"/>
+    <div id="nowColor" style="border:1px solid red;width:150px;height:150px;background-color:#000000">点击选择颜色</div>
+
+   <!-- <button class="btn btn-primary" onclick="fangda()">+</button>
+    <button class="btn btn-primary" onclick="缩小()">-</button>-->
+    <canvas style="border:1px solid red;" id="myCanvas" width="16" height="16"></canvas>
+
+</div>
+<div id="canvas" class="zw-paint-grid noselect" style="color:white;"></div>
+<div id="layers" class="" style="border:1px solid red">
+
+    <div onclick="chooseLayer(this)" id="layer_0" class="layer">
+        <label>name:</label> <input type="text" name="name"/>
+        <label>x:</label> <input type="text" name="x"/>
+        <label>y:</label><input type="text" name="y"/>
+        <label>width:</label><input type="text" name="width"/>
+        <label>height:</label><input type="text" name="height"/>
+        <button  onclick="saveLayerSetting(this)">设置</button>
+
+    </div>
+
+
+</div>
+<div id="canvasContainer" style="width:500px;height:500px" width="500px" height="500px" >
+
+
+    <canvas style="border:1px solid red;position:abolute;left:0px;top:0px" id="canvas_0" width="16" height="16" class="canvas">
+
+    </canvas>
+</div>
+
+<style>
+
+    #layers label{
+        float:left;
+    }
+    #layers input{
+    float:left;
+    width:20%;
+    }
+    #canvasContainer{
+   /* width:1000px;
+    height:1000px;*/
+    border:1px solid green;
+    position:relative;
+    }
+
+    .layer{
+        width:200px;
+    height:200px;
+    border:1px solid blue;
+    }
+    .selected{
+    border:1px solid red;
+    }
+.zw-paint-grid td{
+    border:1px solid gray;
+    color:white;
+    width:20px;
+    height:20px;
+    background-color:black;
+padding:0px;
+    margin:0px;
+    }
+    .zw-paint-grid table{
+    border-collapse:collapse;
+    border-spacing: 0px;
+    cellpadding:0px;
+    cell-spacing:0px;
+    }
+
+    .canvas{
+        border:1px solid gray;
+        position:absolute;
+    }
+    </style>
+<script>
+
+function generate(x,y){
+/*$("#canvas").css("width",20*x)
+var html="<table style='cellspacing:0px'>";
+    for(var i =0 ;i<y;i++){
+
+        for(var j =0 ;j<x;j++){
+        var value="";
+         if(i==0){
+         // value=j;
+         }
+         if(j==0){
+        // value=i;
+            html+="<tr>";
+        }
+
+            html+="<td style='' onclick='setBgColorRight(this)' onmouseover='setBgColor(this)'>"+value+"</td>";
+             if(j>=x-1){
+
+            html+="</tr>";
+        }
+        }
+
+
+    }
+    html+="</table>";
+     $("#canvas").html("");
+    $("#canvas").html(html);
+     var c=document.getElementById("myCanvas");*/
+     canvasMain.width=x;
+     canvasMain.height=x;
+    // canvasBak[selectIndex]
+     canvasBak[selectedLayer].width=x*beishu;
+     canvasBak[selectedLayer].height=y*beishu;
+
+}
+
+
+$("#nowColor").colorpicker({
+    fillcolor:true,
+
+
+      success:function(o,color){
+        $("#nowColor").css("background-color",color);
+          $("#nowColor").css("color","black");
+         $("#nowColorText").val(color);
+         nowColor = color;
+    }
+});
+/*function setBgColorRight(it){
+   $( it).css("background-color",$("#nowColorText").val());
+}
+function setBgColor(it){
+if(press){
+   $( it).css("background-color",$("#nowColorText").val());
+   }
+}*/
+/*var press =false;
+$(document).mousedown(function(e){
+press=true;
+});
+$(document).mouseup(function(e){
+press=false;
+});*/
+
+function changeSize(){
+    var x = $("#x").val();
+    var y = $("#y").val();
+    generate(x,y);
+}
+var isDown =false;
+
+//
+var canvasMain =document.getElementById("myCanvas");
+var ctxMain =canvasMain .getContext("2d");
+//canvasdom 数组
+var canvasBak =new Array(10);
+//并初始化第一个元素
+canvasBak[0]=document.getElementById("canvas_0");//alert(canvasBak);
+
+//创建绘图层数组 绘图句柄数组
+var ctxBak  =new Array(10);
+//初始化一个图层
+ctxBak[0]=canvasBak[0] .getContext("2d");
+var scrollTop=$("body")[0].scrollTop;
+   var offsetLeft =0;
+    var offsetTop = 0;
+$(document).mousedown(function(){
+    isDown=true;
+
+});
+
+function canvasMouseDown(){
+
+scrollTop=$("body")[0].scrollTop;
+    console.log(scrollTop);
+   offsetLeft =$(this).offset().left;
+     offsetTop = $(this).offset().top-scrollTop;
+}
+$(document).mouseup(function(){
+    isDown=false;
+});
+//var offsetTop = $(canvasBak).offset().top+100;
+$("#canvas_0").mousemove(canvasPaint);
+$("#canvas_0").mousedown(canvasMouseDown);
+
+var beishu =15;
+//绘制图像
+function canvasPaint(event){//alert(123);
+if(isDown){
+
+     var event = event || window.event;
+    var x = event.clientX;//鼠标滑动时的X轴
+    var y = event.clientY;//鼠标滑动时的Y轴
+
+             ctxBak[selectedLayer].fillStyle=nowColor;
+            //console.log(color);
+//console.log(x-offsetLeft+":"+(y-offsetTop));
+//console.log(((x-offsetLeft)/beishu)*beishu+":"+(y-offsetTop));
+  ctxBak[selectedLayer].fillRect(parseInt((x-offsetLeft)/beishu)*beishu,parseInt((y-offsetTop)/beishu)*beishu,beishu,beishu);
+          //  ctxBak.fillRect(x-offsetLeft,y-offsetTop,5,5);
+            }
+
+}
+var nowColor="#000000";
+function paintFromCanvas(){
+
+    var canvasContainer = $("#canvasContainer");
+    var width =canvasContainer.css("width").replace("px","");
+      var height =canvasContainer.css("height").replace("px","");
+    canvasMain.width =width/beishu;
+    canvasMain.height =height/beishu;
+    console.log("set canvasMain width"+canvasMain.width+"height"+canvasMain.height);
+      //var width =canvasMain.width ;
+  //  var height = canvasMain.height;
+    //遍历所有层
+
+    var layers = canvasContainer.find("canvas");
+     console.log("找到对应的层数:"+layers.length);
+for(var i=0;i<layers.length;i++){
+    var layer = layers[i];
+
+    var canvasWidth = $(layer).attr("width");
+    var canvasHeight = $(layer).attr("height");
+
+     console.log("层:"+i+"的宽度:"+canvasWidth+"高度:"+canvasHeight);
+
+    var offsetLeft = $(layer).css("left").replace("px","")/beishu;
+      var offsetTop = $(layer).css("top").replace("px","")/beishu;
+      console.log("图层:"+i+"的偏移x/倍数:"+offsetLeft+"y/倍数:"+offsetTop);
+      //开始扫描对应的层 注意这里的扫描层都是放大后的 所以要除以倍数
+    for(var y =0 ;y<canvasHeight/beishu;y++){
+        for(var x =0 ;x<canvasWidth/beishu;x++){
+
+
+            var c = ctxBak[i].getImageData(x*beishu, y*beishu, 1, 1).data;
+         //   console.log(c);
+            var red = c[0];
+            var green = c[1];
+            var blue = c[2];
+            var hex = red.toString(16)+""+green.toString(16)+""+blue.toString(16);
+            ctxMain.fillStyle="#"+hex;
+              ctxMain.fillStyle="rgba("+red+","+green+","+blue+","+c[3]+")";
+           // console.log(hex);
+            //console.log(x*beishu+":"+y*beishu+":"+hex);
+            ctxMain.fillRect(offsetLeft+x,offsetTop+y,1,1);
+
+        }
+    }
+    }
+}
+/*function paint(){
+    canvasMain.width =$("#x").val();
+    canvasMain.height =$("#y").val();
+    canvasBak.width =$("#x").val()*beishu;
+    canvasBak.height =$("#y").val()*beishu;
+
+    var tds = $("#canvas").find("td");
+    var width = $("#x").val();
+    var height = $("#y").val();
+    for(var y =0 ;y<height;y++){
+        for(var x =0 ;x<width;x++){
+            //console.log(i+":"+j);
+            var td = tds[y*width+x];
+            var color =$(td).css("background-color");
+            ctxMain.fillStyle=color;
+             ctxBak[selectedLayer].fillStyle=color;
+            //console.log(color);
+            ctxMain.fillRect(x,y,1,1);
+            ctxBak[selectedLayer].fillRect((x/beishu)*beishu*beishu,(y/beishu)*beishu*beishu,beishu,beishu);
+        }
+    }
+}*/
+/*function fangda(){
+
+    var c=document.getElementById("myCanvas");
+    var ctx=c.getContext("2d");
+ctx.scale(2,2);
+
+}
+function suoxiao(){
+
+    var c=document.getElementById("myCanvas");
+    var ctx=c.getContext("2d");
+ctx.scale(0.5,0.5);
+
+}*/
+var layerIndex=0;
+var selectedLayer=0;
+//增加层
+function addLayer(){
+
+    layerIndex++;//增加当前最大层的序列号
+
+
+var str = '  <div onclick="chooseLayer(this)" id="layer_'+layerIndex+'" class="layer">'+
+ '<label>name:</label> <input type="text" name="name"/>'+
+        '<label>x:</label> <input type="text" name="x"/>'+
+       ' <label>y:</label><input type="text" name="y"/>'+
+       ' <label>width:</label><input type="text" name="width"/>'+
+      '  <label>height:</label><input type="text" name="height"/>'+
+      '  <button  onclick="saveLayerSetting(this)">设置</button>'+
+
+  '  </div>';
+  $("#layers").append(str);
+$("#canvasContainer").append("<canvas id='canvas_"+layerIndex+"'style='position:abolute;left:0px;top:0px' onclick='chooseLayer(this)' class='canvas'/>");
+
+$("#canvas_"+layerIndex).mousemove(canvasPaint);
+
+$("#canvas_"+layerIndex).mousedown(canvasMouseDown);
+canvasBak[layerIndex] = document.getElementById("canvas_"+layerIndex);
+ctxBak[layerIndex] = canvasBak[layerIndex].getContext("2d");
+}
+function chooseLayer(it){
+
+    $("#layer_"+selectedLayer).removeClass("selected");
+    var id = $(it).attr("id");
+
+   selectedLayer =  id.split("_")[1];
+     $(it).addClass("selected");
+}
+var imageUtil=new zImageUtil3({"input":"loadImageInput"});
+generate(16,16);
+function saveLayerSetting(it){
+    var div =$(it).parent();
+    var x = $(div).find("input[name='x']").val();
+     var y = $(div).find("input[name='y']").val();
+      var width = $(div).find("input[name='width']").val();
+       var height = $(div).find("input[name='height']").val();
+        var name = $(div).find("input[name='name']").val();
+       var id = $(div).attr("id");
+        id=id.split("_")[1];
+       $("#canvas_"+id).css("top",y);
+       $("#canvas_"+id).css("left",x);
+        $("#canvas_"+id).css("width",width);
+         $("#canvas_"+id).css("height",height);
+          $("#canvas_"+id).attr("width",width);
+         $("#canvas_"+id).attr("height",height);
+          $("#canvas_"+id).attr("name",name);
+}
+
+</script>

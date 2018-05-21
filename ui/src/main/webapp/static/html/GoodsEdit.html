@@ -1,0 +1,271 @@
+<div class="ibox float-e-margins">
+    <form id="goodsEditForm" class="form-horizontal" method="post" action="/goods/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">商品编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+            <input type="hidden" id="id" name="id"  class="form-control input-sm" >
+            <div class="form-group">
+                <label for="title" class="col-sm-2 control-label">标题:</label>
+                <div class="col-sm-10">
+                    <input  type="text"  id="title" name="title"  class="form-control input-sm"   maxlength="40"  ></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="subtitle" class="col-sm-2 control-label">副标题:</label>
+                <div class="col-sm-10">
+                    <input  type="text"  id="subtitle" name="subtitle"  class="form-control input-sm"   maxlength="40"  ></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="src" class="col-sm-2 control-label">来源:</label>
+                <div class="col-sm-10">
+                    <input  type="text"  id="src" name="src"  class="form-control input-sm"   maxlength="40"  ></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content" class="col-sm-2 control-label">正文:</label>
+                <div class="col-sm-10">
+                    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script><textarea  id="content" name="content"  class="form-control input-sm"   maxlength="10000"  ></textarea>
+                </div>
+            </div>
+            <div style="display:none" class="form-group">
+                <label for="status" class="col-sm-2 control-label">状态:</label>
+                <div class="col-sm-10">
+                    <select  id="status" name="status"  class="form-control input-sm"  >
+                        <option value=''>-请选择-</option>
+                        <option value=1>新建</option>
+                        <option value=2>提交</option>
+                        <option value=3>审核通过</option>
+                        <option value=4>驳回</option>
+                        <option value=5>删除</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="remark" class="col-sm-2 control-label">备注:</label>
+                <div class="col-sm-10">
+                    <textarea  id="remark" name="remark"  class="form-control input-sm"   maxlength="200"  ></textarea>
+                </div>
+            </div>
+            <div style="display:none" class="form-group">
+                <label for="creator" class="col-sm-2 control-label">创建人:</label>
+                <div class="col-sm-10">
+                    <input type="number" id="creator" name="creator"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="pic" class="col-sm-2 control-label">封面:</label>
+                <div class="col-sm-10">
+                    <input  id="pic" name="pic"  value="null" style="display:none" class="form-control input-sm"   maxlength="40"></input>        </div>
+            </div>
+            <div class="form-group">
+                <label for="url" class="col-sm-2 control-label">商品链接:</label>
+                <div class="col-sm-10">
+                       <textarea  id="url" name="url"  class="form-control input-sm"   maxlength="200"  ></textarea>
+                </div>
+            </div>
+            <div style="display:none" class="form-group">
+                <label for="creatorname" class="col-sm-2 control-label">创建人姓名:</label>
+                <div class="col-sm-10">
+                    <input  type="text"  id="creatorname" name="creatorname"  class="form-control input-sm"   maxlength="20"  ></input>
+                </div>
+            </div>
+            <div style="display:none" class="form-group">
+                <label for="createtime" class="col-sm-2 control-label">创建时间:</label>
+                <div class="input-group date">
+                    <span class="input-group-addon" for="createtime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="createtime" name="createtime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  ></input>
+                </div>
+            </div>
+            <div style="display:none" class="form-group">
+                <label for="updatetime" class="col-sm-2 control-label">更新时间:</label>
+                <div class="input-group date">
+                    <span class="input-group-addon" for="updatetime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="updatetime" name="updatetime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  ></input>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                    <button type="button"  class="btn btn-primary saveBtn">保存</button>
+                    <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<script type="text/javascript">
+
+
+
+var goodsEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#goodsEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        title:{
+            maxlength:40,required:true
+        },
+        subtitle:{
+            maxlength:40,required:true
+        },
+        src:{
+            maxlength:40,required:true
+        },
+        content:{
+            maxlength:10000,required:true
+        },
+        status:{
+            CheckBox:["1","2","3","4","5"],digits:true
+        },
+        remark:{
+            maxlength:200
+        },
+        creator:{
+            digits:true
+        },
+        pic:{
+            maxlength:40
+        },
+        url:{
+            maxlength:200,required:true
+        },
+        creatorname:{
+            maxlength:20
+        },
+        createtime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+        updatetime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        title:{
+            maxlength:"标题不能多于40个字符"
+        },
+        subtitle:{
+            maxlength:"副标题不能多于40个字符"
+        },
+        src:{
+            maxlength:"来源不能多于40个字符"
+        },
+        content:{
+            maxlength:"正文不能多于10000个字符"
+        },
+        status:{
+            CheckBox:"必须输入'1','2','3','4','5'中的值",digits:"必须输入整数"
+        },
+        remark:{
+            maxlength:"备注不能多于200个字符"
+        },
+        creator:{
+            digits:"必须输入整数"
+        },
+        pic:{
+            maxlength:"封面不能多于40个字符"
+        },
+        url:{
+            maxlength:"商品链接不能多于200个字符"
+        },
+        creatorname:{
+            maxlength:"创建人姓名不能多于20个字符"
+        },
+        createtime:{
+            ymd:"必须输入合法日期"
+        },
+        updatetime:{
+            ymd:"必须输入合法日期"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#goodsEditForm").validate(this.validParam);
+        var imageUtil=new zImageUtil2({"input":"pic"});
+        var that =this;
+    UE.delEditor('editor');
+        this.ue=UE.getEditor('editor');
+        this.ue.addListener("ready", function () {
+            that.loadData();
+        });
+
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/goods/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#goodsEditForm",data.data.bean);
+                       that.ue.setContent(data.data.bean.content);
+                    $("#pic").parent().find("img").attr("src",$("#pic").val());
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("goods/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+     $("#content").val(this.ue.getContent());
+        if (!$("#goodsEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#goodsEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#goodsEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("goods/list.htm");
+
+                    if(that.modal){
+                        $("#GoodsGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("goods/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    goodsEdit.init();
+
+});
+</script>

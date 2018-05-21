@@ -1,0 +1,231 @@
+@import 'base';
+@CHARSET "UTF-8";
+
+/** zw-tabs 是外层包裹  加上zw-tabs-top 是说明tab页是在tabpanel上面的zw-tabs-bottom 标明是是在下方的 **/
+    /** zw-tabs-bar 是标签页的外部 **/
+         /** zw-tabs-nav-container 是标签页的第二层包裹 **/
+            /** zw-tabs-nav-wrap 是标签页的第三层包裹 **/
+                /** zw-tabs-nav-scroll 是标签页的第三层包裹 **/
+                    /** zw-tabs-nav 是标签页的第三层包裹 **/
+                        /** zw-tabs-tab 是标签页的第三层包裹 **/
+
+    /**  zw-tabs-content zw-tabs-content-no-animated **/
+         /**  zw-tabs-tabpane zw-tabs-tabpane-inactive **/
+
+
+.zw-tabs{
+    font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.65);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    background-color:$white;
+    border-top:1px solid $light-gray;
+    overflow: hidden;
+    font-size:$ft-nm1;
+    zoom: 1;
+}
+.zw-tabs-tab img{
+    width:15px;
+
+}
+.zw-tabs-tab {
+    color:gray;
+}
+
+.zw-tabs-bar {
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 16px;
+    outline: none;
+    -webkit-transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.zw-tabs-bar {
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 16px;
+    outline: none;
+    -webkit-transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+
+    .zw-tabs-nav-container {
+        overflow: hidden;
+
+        line-height: 1.5;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        position: relative;
+        white-space: nowrap;
+        margin-bottom: -1px;
+        -webkit-transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        zoom: 1;
+    }
+.zw-tabs-nav-wrap{
+    margin-bottom: -1px;
+    overflow: hidden;
+
+}
+
+.zw-tabs-nav-scroll {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.zw-tabs-nav {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 0;
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    margin: 0;
+    list-style: none;
+    display: inline-block;
+
+}
+.zw-tabs-nav-flex {
+ display:flex;
+     justify-content:  space-between ;
+}
+.zw-tabs-nav .zw-tabs-tab {
+    display: inline-block;
+    /*height: 100%;*/
+    /*margin-right: 24px;*/
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    padding: 8px 20px;
+    transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    text-decoration: none;
+
+}
+
+
+.zw-tabs-bottom .zw-tabs-ink-bar-animated, .zw-tabs-top .zw-tabs-ink-bar-animated {
+   -webkit-transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+       transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+       transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+       transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.zw-tabs-ink-bar {
+    z-index: 1;
+    position: absolute;
+    left: 0px;
+    bottom: 1px;
+    box-sizing: border-box;
+    height: 2px;
+    background-color: rgb(16, 142, 233);
+    transform-origin: 0px 0px 0px;
+}
+
+
+.zw-tabs:not(.zw-tabs-vertical) > .zw-tabs-content > .zw-tabs-tabpane {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 100%;
+    -webkit-transition: opacity .45s;
+    transition: opacity .45s;
+    opacity: 1;
+}
+
+
+/** tab pane的切换动画 **/
+.zw-tabs:not(.zw-tabs-vertical)  .zw-tabs-content-animated {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    will-change: margin-left;
+    -webkit-transition: margin-left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: margin-left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.zw-tabs:not(.zw-tabs-vertical)  .zw-tabs-content {
+    width: 100%;
+}
+
+.zw-tabs:not(.zw-tabs-vertical)  .zw-tabs-content  .zw-tabs-tabpane {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 100%;
+    -webkit-transition: opacity .45s;
+    transition: opacity .45s;
+    opacity: 1;
+}
+
+
+/** 标签页在未选中时候的样式**/
+.zw-tabs.zw-tabs-card  .zw-tabs-bar .zw-tabs-tab {
+    margin: 0;
+    border: 1px solid #e8e8e8;
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+    background: #fafafa;
+    margin-right: 2px;
+    padding: 0 16px;
+    -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    line-height: 38px;
+}
+/** 标签页在选中后的样式 **/
+.zw-tabs.zw-tabs-card > .zw-tabs-bar .zw-tabs-tab-active {
+    background: #fff;
+    border-color: #e8e8e8;
+    color: $yellow;
+    padding-bottom: 1px;
+}
+.zw-tabs-tab-active {
+    background: #fff;
+    border-color: #e8e8e8;
+    color: $yellow;
+    padding-bottom: 1px;
+}
+.zw-tabs-tab{
+    text-align:center;
+    span{
+        display:block;
+    }
+}
+
+
+.theme-purple-yellow{
+    border-top:1px solid $purple;
+    color:gray;
+    .zw-tabs-tab-active{
+        color:yellow;
+        background-color:$purple;
+    }
+    background-color:$purple;
+    .zw-tabs-nav{
+    border: 1px solid $purple;
+        background-color:$purple;
+    }
+}
+
+.zw-tabs-has-no-panel{
+.zw-tabs-bar{
+
+    margin-bottom:0px;
+}
+.zw-tabs-ink-bar {
+    display:none;
+}
+}

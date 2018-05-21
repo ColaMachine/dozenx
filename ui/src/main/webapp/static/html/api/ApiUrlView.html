@@ -1,0 +1,206 @@
+<div id="ApiUrlView" class="ibox float-e-margins">
+    <form id="ApiUrlViewForm" class="form-horizontal" >
+      <!--  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">api分类查看</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pid" class="col-sm-2 control-label">父id:</label>
+        <div class="col-sm-10">
+            <span  name="pid" id="pid" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="summary" class="col-sm-2 control-label">概要:</label>
+        <div class="col-sm-10">
+            <span name="summary" id="summary"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <span name="description" id="description"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="consumes" class="col-sm-2 control-label">允许的请求类型:</label>
+        <div class="col-sm-10">
+            <span name="consumes" id="consumes"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="produces" class="col-sm-2 control-label">响应MIME:</label>
+        <div class="col-sm-10">
+            <span name="produces" id="produces"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createUser" class="col-sm-2 control-label">创建者:</label>
+        <div class="col-sm-10">
+            <span name="createUser" id="createUser"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="deprecated" class="col-sm-2 control-label">是否废弃:</label>
+        <div class="col-sm-10">
+            <span  name="deprecated" id="deprecated" datatype="map" data="{'1':'废弃','0':'正常',}" class="form-control" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createtime" class="col-sm-2 control-label">创建时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="createtime" id="createtime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updatetime" class="col-sm-2 control-label">更新时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="updatetime" id="updatetime" ></span>
+        </div>
+    </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<!--<div class="body_title">| api分类编辑</div>
+<form id="editForm" class="form-horizontal" method="post" action="/apiUrl/save.json" enctype="multipart/form-data">
+     <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pid" class="col-sm-2 control-label">父id:</label>
+        <div class="col-sm-10">
+            <span  name="pid" id="pid" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="summary" class="col-sm-2 control-label">概要:</label>
+        <div class="col-sm-10">
+            <span name="summary" id="summary"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <span name="description" id="description"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="consumes" class="col-sm-2 control-label">允许的请求类型:</label>
+        <div class="col-sm-10">
+            <span name="consumes" id="consumes"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="produces" class="col-sm-2 control-label">响应MIME:</label>
+        <div class="col-sm-10">
+            <span name="produces" id="produces"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createUser" class="col-sm-2 control-label">创建者:</label>
+        <div class="col-sm-10">
+            <span name="createUser" id="createUser"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="deprecated" class="col-sm-2 control-label">是否废弃:</label>
+        <div class="col-sm-10">
+            <span  name="deprecated" id="deprecated" datatype="map" data="{'1':'废弃','0':'正常',}" class="form-control" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createtime" class="col-sm-2 control-label">创建时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="createtime" id="createtime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updatetime" class="col-sm-2 control-label">更新时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="updatetime" id="updatetime" ></span>
+        </div>
+    </div>
+
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+       <button type="button"   class="btn btn-default cancelBtn">返回</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>-->
+<script type="text/javascript">
+var apiUrlView={
+    modal:true,
+    windowIndex:null,
+    root:$("#ApiUrlView"),
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        var that = this;
+        this.addEventListener();
+        //获取传入参数
+        if(!StringUtil.isBlank(getParam("id"))){
+            Ajax.getJSON("apiUrl/view.json?id="+getParam("id"),null,function(data){
+                if(data.r==AJAX_SUCC){
+                    fillJso2FormSpan("#ApiUrlView",data.data.bean);
+                }else{
+                    dialog.error("获取信息失败"+data.msg,function(index){
+                        that.cancel();
+                        dialog.close(index);
+                    });
+                }
+
+            });
+
+        }
+    },
+    loadData:function(){
+    },
+    cancel:function(){
+        if(apiUrlView.modal){
+            dialog.closeWindow("apiUrlView");
+        }else{
+            goPage("apiUrl/list.htm");
+        }
+    },
+    addEventListener:function(){
+        $(this.root).find(".cancelBtn").click(apiUrlView.cancel);
+    }
+}
+$(document).ready(function() {
+    apiUrlView.init();
+});
+   
+
+</script>
