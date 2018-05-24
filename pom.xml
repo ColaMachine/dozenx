@@ -21,6 +21,7 @@
         <module>calendar</module>
         <module>hbase</module>
         <module>ssh</module>
+        <module>codegenerator</module>
     </modules>
 
     <!-- 各jar版本号统一定义 -->

@@ -153,7 +153,7 @@ public class HbaseUtilTest {
 
     public static void initWithNo() {
         Configuration config = HBaseConfiguration.create();
-        config.set("hbase.zookeeper.quorum", "192.168.212.90");
+        config.set("hbase.zookeeper.quorum", "192.168.44.100");
 
         try {
 
@@ -184,7 +184,9 @@ public class HbaseUtilTest {
                 }
                 admin.createTable(descriptor);
             }
-        } finally {
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
             IOUtils.closeQuietly(admin);
         }
     }
@@ -197,7 +199,7 @@ public class HbaseUtilTest {
 
     //添加数据
     public static void add(String rowKey, Map<String, Object> columns) throws IOException  {
-        init();
+//        init();
         Table table = null;
         try {
 
@@ -291,7 +293,7 @@ public class HbaseUtilTest {
 
 
     public static void main(String[] args) throws Exception {
-        init();
+        initWithNo();
 
 //
 //        Configuration config = HBaseConfiguration.create();

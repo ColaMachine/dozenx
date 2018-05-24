@@ -106,7 +106,7 @@ public class SshUtil {
     }
 
 
-    public static void upload(String localRootPath ,String remoteRootPath, String thisFile, String userName,
+    public static void upload(String localRootPath ,String remoteRootPath, String tomcatPath,String thisFile, String userName,
                               String pwd, String serverIp) {
         Connection con = new Connection(serverIp);
 
@@ -178,8 +178,8 @@ public class SshUtil {
             }
             session = con.openSession();
             try{
-                System.out.println("/service/tomcat-npbiz-advert-8096/bin/shutdown.sh");
-                exec(session,"/service/tomcat-npbiz-advert-8096/bin/shutdown.sh"); //
+                System.out.println(tomcatPath+"/bin/shutdown.sh");
+                exec(session,tomcatPath+"/bin/shutdown.sh"); //
             }catch (Exception e){
                 e.printStackTrace();
             }finally {
@@ -193,8 +193,8 @@ public class SshUtil {
             }
             session = con.openSession();
             try{
-                System.out.println("/service/tomcat-npbiz-advert-8096/bin/startup.sh");
-                exec(session,"/service/tomcat-npbiz-advert-8096/bin/startup.sh"); //
+                System.out.println(tomcatPath+"/bin/startup.sh");
+                exec(session,tomcatPath+"/bin/startup.sh"); //
             }catch (Exception e){
                 e.printStackTrace();
             }finally {
@@ -247,8 +247,14 @@ public class SshUtil {
     }
 
     public static void main(String args[]){
-        String localRootPathStr="G:\\advert-workspace\\code\\trunk\\advert\\target\\classes";
-        String remoteRootPathStr ="/service/tomcat-npbiz-advert-8096/awifi-advert/WEB-INF/classes";
+        //String localRootPathStr="G:\\advert-workspace\\code\\trunk\\advert\\target\\classes";
+//        String localRootPathStr="G:\\advert-workspace\\code\\trunk\\advert\\target\\classes";
+//        String remoteRootPathStr ="/service/tomcat-npbiz-advert-8096/awifi-advert/WEB-INF/classes";
+
+        String localRootPathStr="G:\\E-zhike\\code\\trunk\\ezhike-web\\target\\classes";
+        String remoteRootPathStr ="/service/tomcat-ezhike-biz-8085/awifi-ezhike-web/WEB-INF/classes";
+        String tomcatPath = "/service/tomcat-ezhike-biz-8085";
+
         String serverIp ="192.168.212.90";
         String userName ="root";
         String pwd="awifi@123";
@@ -269,7 +275,7 @@ public class SshUtil {
         }
 
         //把文件上传到服务器指定的目录
-        SshUtil.upload(localRootPathStr,remoteRootPathStr,"a.zip",userName,pwd,serverIp);
+        SshUtil.upload(localRootPathStr,remoteRootPathStr,tomcatPath,"a.zip",userName,pwd,serverIp);
 
     }
 }

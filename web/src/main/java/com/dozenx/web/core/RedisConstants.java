@@ -21,5 +21,5 @@ public class RedisConstants {
     /**一天的秒数*/
     public static final int DAY_SECONDS=24*60*60;
 
-    public static final int HOUR_SECONDS=24*60*60;
+    public static final int HOUR_SECONDS=60*60;
 }

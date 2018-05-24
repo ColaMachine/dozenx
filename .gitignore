@@ -16,6 +16,7 @@ src/main/webapp/WEB-INF/classes/
 .classpath
 src/main/webapp/static/vc
 /target/
+**/target/
 /temp/
 .idea
 .idea/*
@@ -42,3 +43,7 @@ platform_js/.svn/*
 platform_js/.svn/wc.db
 *.rar
 platform_js/.svn/
+*.iml
+**/tmp/
+*/tmp
+**/temp/
