@@ -26,13 +26,12 @@
             <groupId>com.dozenx</groupId>
             <artifactId>common</artifactId>
             <version>${dozenx.version}</version>
-           <!-- <exclusions>
+           <exclusions>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>javax.servlet-api</artifactId>
-
                 </exclusion>
-            </exclusions>-->
+            </exclusions>
             <!-- <version>1.0-SNAPSHO</version>-->
         </dependency>
 
@@ -41,6 +40,14 @@
         <artifactId>swagger</artifactId>
         <version>${dozenx.version}</version>
         </dependency>
+
+     <!--   <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5</version>
+        </dependency>
+-->
+
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
@@ -257,8 +264,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
-
-            <scope>provided</scope>
+         <!--   <scope>provided</scope>-->
         </dependency>
 
 
@@ -278,7 +284,7 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.3.3</version>
+            <version>1.2.2</version>
         </dependency>
 
     </dependencies>

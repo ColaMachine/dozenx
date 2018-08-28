@@ -215,4 +215,13 @@ public class LocationService extends BaseService {
         }
         return idNameMap.get(id);
     }
+
+    public static  Map<String,Long > nameIdMap=null;
+    public   Long getIdByName(String name){
+        if(nameIdMap==null||nameIdMap.size()==0){
+            nameIdMap=new HashMap<>();//防止一直报错
+            loctionApiService.cacheJsonStr();//重新进行地区缓存
+        }
+        return nameIdMap.get(name);
+    }
 }

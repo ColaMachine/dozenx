@@ -88,7 +88,7 @@
           }, {
             title: '操作',
             // key: 'createDate',
-            // width: 300,
+            width: 200,
             align: 'center',
             render: (h, record) => {
               let _this = this;

@@ -341,6 +341,64 @@
 
                    </div>
                 </zwBox>
+
+
+
+                 <zwBox class="">
+                                     <div slot="zwCodeBoxDemo">
+
+                                        <zwDropDown  trigger="click" placement="bottomRight">
+                                            <zwButton slot="button" type="primary"   icon="down" >click trigger</zwButton>
+                                            <div slot="menu">
+                                            <zwPanel canFold=false state="open" style="">
+                                                <span slot="title" name="title">重大事件</span>
+                                                  <p  slot="body" name="body">
+
+                                                   123123asdfasdf
+                                                   asdfasdfasdf
+                                                   asdfasdf
+
+                                                   </p>
+
+                                               </zwPanel>
+
+                                            </div>
+                                        </zwDropDown>
+
+
+                                    </div>
+
+
+
+                                     <div slot="zwCodeBoxMeta"  title="trigger ">
+
+                                      trigger 有两种 click 或者其他  click 就是鼠标点击才有反应  其他就是鼠标移入就会显示
+                                    </div>
+                                     <div slot="zwCodeBoxPanel"  >
+
+                                        <textarea ref="textarea" id="textarea" name="textarea">
+                                                <div slot="zwCodeBoxDemo">
+                                                             <zwDropDown  trigger="click" placement="bottomRight">
+                                                                                         <zwButton slot="button" type="primary"   icon="down" >click trigger</zwButton>
+                                                                                         <zwMenu slot="menu">
+                                                                                             <zwMenuItem key="1">1st item</zwMenuItem>
+                                                                                             <zwMenuItem key="2">2nd item</zwMenuItem>
+                                                                                             <zwMenuItem key="3">3rd item</zwMenuItem>
+                                                                                         </zwMenu>
+                                                                                     </zwDropDown>
+                                                                                     <zwDropDown trigger="mouse" placement="bottomLeft">
+                                                                                         <zwButton slot="button" type="primary"   icon="down" >mouse trigger</zwButton>
+                                                                                         <zwMenu slot="menu">
+                                                                                             <zwMenuItem key="1">1st item</zwMenuItem>
+                                                                                             <zwMenuItem key="2">2nd item</zwMenuItem>
+                                                                                             <zwMenuItem key="3">3rd item</zwMenuItem>
+                                                                                         </zwMenu>
+                                                                                     </zwDropDown>
+                                                           </div>
+                                         </textarea>
+
+                                   </div>
+                                </zwBox>
 </zwCol>
 
 
@@ -358,13 +416,14 @@ import zwButtonGroup from '../../../component/button/zwButtonGroup.vue';
 import zwIcon from '../../../component/icon/zwIcon.vue';
 import zwRow from '../../../component/layout/zwRow.vue';
 import zwBox from '../../../component/layout/zwBox.vue';
+
 import zwDropDown from '../../../component/navigation/menu/zwDropDown.vue';
 import zwMenu from '../../../component/navigation/menu/zwMenu.vue';
 import zwMenuItem from '../../../component/navigation/menu/zwMenuItem.vue';
-
+import zwPanel from '../../../component/datadisplay/zwPanel.vue';
 import zwCol from '../../../component/layout/zwCol.vue';
 export default {
-    components:{zwButton,zwIcon,zwBox,zwRow,zwCol,zwDropDown,zwMenu,zwMenuItem,zwButtonGroup},
+    components:{zwButton,zwIcon,zwBox,zwRow,zwCol,zwDropDown,zwMenu,zwMenuItem,zwButtonGroup,zwPanel},
     data () {
 
         return {

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.spider.sight.comment.sightComment.dao.SightCommentMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.spider.sight.comment.sightComment.bean.SightComment">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="cotent" jdbcType="LONGVARCHAR" property="cotent" />
+      <result column="score" jdbcType="FLOAT" property="score" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="data_time" jdbcType="TIMESTAMP" property="data_time" />
+      <result column="author" jdbcType="VARCHAR" property="author" />
+      <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+      <result column="outId" jdbcType="INTEGER" property="outId" />
+      <result column="pid" jdbcType="INTEGER" property="pid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sight_comment.`id` ,sight_comment.`cotent` ,sight_comment.`score` ,sight_comment.`type` ,sight_comment.`status` ,sight_comment.`data_time` ,sight_comment.`author` ,sight_comment.`createTime` ,sight_comment.`updatetime` ,sight_comment.`outId` ,sight_comment.`pid` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sight_comment
+    where sight_comment.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sight_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.spider.sight.comment.sightComment.bean.SightComment" >
+
+    insert into sight_comment (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{cotent,jdbcType=LONGVARCHAR}
+,#{score,jdbcType=FLOAT}
+,#{type,jdbcType=INTEGER}
+,#{status,jdbcType=INTEGER}
+,#{data_time,jdbcType=TIMESTAMP}
+,#{author,jdbcType=VARCHAR}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{updatetime,jdbcType=TIMESTAMP}
+,#{outId,jdbcType=INTEGER}
+,#{pid,jdbcType=INTEGER}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.spider.sight.comment.sightComment.bean.SightComment" >
+    insert into sight_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="cotent != null" >  
+           `cotent`, 
+        </if>  
+        <if test="score != null" >  
+           `score`, 
+        </if>  
+        <if test="type != null" >  
+           `type`, 
+        </if>  
+        <if test="status != null" >  
+           `status`, 
+        </if>  
+        <if test="data_time != null" >  
+           `data_time`, 
+        </if>  
+        <if test="author != null" >  
+           `author`, 
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`, 
+        </if>  
+        <if test="updatetime != null" >  
+           `updatetime`, 
+        </if>  
+        <if test="outId != null" >  
+           `outId`, 
+        </if>  
+        <if test="pid != null" >  
+           `pid`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="cotent != null" >  
+          #{cotent,jdbcType=LONGVARCHAR},
+        </if>  
+        <if test="score != null" >  
+          #{score,jdbcType=FLOAT},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="data_time != null" >  
+          #{data_time,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="author != null" >  
+          #{author,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updatetime != null" >  
+          #{updatetime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="outId != null" >  
+          #{outId,jdbcType=INTEGER},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=INTEGER},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.spider.sight.comment.sightComment.bean.SightComment" >
+    update sight_comment
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="cotent != null" >  
+             `cotent`=#{cotent,jdbcType=LONGVARCHAR},
+        </if>  
+        <if test="score != null" >  
+             `score`=#{score,jdbcType=FLOAT},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="data_time != null" >  
+             `data_time`=#{data_time,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="author != null" >  
+             `author`=#{author,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updatetime != null" >  
+             `updatetime`=#{updatetime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="outId != null" >  
+             `outId`=#{outId,jdbcType=INTEGER},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=INTEGER},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.spider.sight.comment.sightComment.bean.SightComment" >
+    update sight_comment
+    set 
+              `cotent`=#{cotent,jdbcType=LONGVARCHAR},
+              `score`=#{score,jdbcType=FLOAT},
+              `type`=#{type,jdbcType=INTEGER},
+              `status`=#{status,jdbcType=INTEGER},
+              `data_time`=#{data_time,jdbcType=TIMESTAMP},
+              `author`=#{author,jdbcType=VARCHAR},
+              `createTime`=#{createTime,jdbcType=TIMESTAMP},
+              `updatetime`=#{updatetime,jdbcType=TIMESTAMP},
+              `outId`=#{outId,jdbcType=INTEGER},
+              `pid`=#{pid,jdbcType=INTEGER}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sight_comment where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="cotent != null and cotent != '' ">  
+           and `cotent` = #{cotent}
+        </if>  
+        <if test="score != null and score != '' ">  
+           and `score` = #{score}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="data_time != null and data_time != '' ">  
+           and `data_time` = #{data_time}
+        </if>  
+        <if test="data_timeBegin != null and data_timeBegin != '' ">  
+             and `data_time` &gt;= #{data_timeBegin}
+        </if>   
+         <if test="data_timeEnd != null and data_timeEnd != '' ">  
+             and `data_time` &lt;= #{data_timeEnd}
+        </if> 
+        <if test="data_timeBegin != null and data_timeBegin != '' ">  
+             and `data_time` &gt;= #{data_timeBegin}
+        </if>   
+         <if test="data_timeEnd != null and data_timeEnd != '' ">  
+             and `data_time` &lt;= #{data_timeEnd}
+        </if> 
+        <if test="author != null and author != '' ">  
+           and `author` = #{author}
+        </if>  
+        <if test="authorLike != null and authorLike != '' ">
+             and `author` like "%"#{authorLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and `updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+        <if test="outId != null and outId != '' ">  
+           and `outId` = #{outId}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sight_comment
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and sight_comment.`id` = #{id}
+        </if>  
+        <if test="cotent != null and cotent != '' ">  
+           and sight_comment.`cotent` = #{cotent}
+        </if>  
+        <if test="score != null and score != '' ">  
+           and sight_comment.`score` = #{score}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and sight_comment.`type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and sight_comment.`status` = #{status}
+        </if>  
+        <if test="data_time != null and data_time != '' ">  
+           and sight_comment.`data_time` = #{data_time}
+        </if>  
+        <if test="data_timeBegin != null and data_timeBegin != '' ">  
+             and sight_comment.`data_time` &gt;= #{data_timeBegin}
+        </if>   
+         <if test="data_timeEnd != null and data_timeEnd != '' ">  
+             and sight_comment.`data_time` &lt;= #{data_timeEnd}
+        </if> 
+        <if test="author != null and author != '' ">  
+           and sight_comment.`author` = #{author}
+        </if>  
+        <if test="authorLike != null and authorLike != '' ">  
+             and sight_comment.`author` like "%"#{authorLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sight_comment.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sight_comment.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sight_comment.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and sight_comment.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and sight_comment.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and sight_comment.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+        <if test="outId != null and outId != '' ">  
+           and sight_comment.`outId` = #{outId}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sight_comment.`pid` = #{pid}
+        </if>  
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sight_comment where 1=1
+        <if test="id != null and id != '' ">  
+           and sight_comment.`id` = #{id}
+        </if>  
+        <if test="cotent != null and cotent != '' ">  
+           and sight_comment.`cotent` = #{cotent}
+        </if>  
+        <if test="score != null and score != '' ">  
+           and sight_comment.`score` = #{score}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and sight_comment.`type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and sight_comment.`status` = #{status}
+        </if>  
+        <if test="data_time != null and data_time != '' ">  
+           and sight_comment.`data_time` = #{data_time}
+        </if>  
+        <if test="data_timeBegin != null and data_timeBegin != '' ">  
+             and sight_comment.`data_time` &gt;= #{data_timeBegin}
+        </if>   
+         <if test="data_timeEnd != null and data_timeEnd != '' ">  
+             and sight_comment.`data_time` &lt;= #{data_timeEnd}
+        </if> 
+        <if test="author != null and author != '' ">  
+           and sight_comment.`author` = #{author}
+        </if>  
+        <if test="authorLike != null and authorLike != '' ">  
+             and sight_comment.`author` like "%"#{authorLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sight_comment.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sight_comment.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sight_comment.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and sight_comment.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and sight_comment.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and sight_comment.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+        <if test="outId != null and outId != '' ">  
+           and sight_comment.`outId` = #{outId}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sight_comment.`pid` = #{pid}
+        </if>  
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sight_comment where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="cotent != null and cotent != '' ">
+           or `cotent` = #{cotent}
+        </if>
+        <if test="score != null and score != '' ">
+           or `score` = #{score}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="data_time != null and data_time != '' ">
+           or `data_time` = #{data_time}
+        </if>
+        <if test="author != null and author != '' ">
+           or `author` = #{author}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `createTime` = #{createTime}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+           or `updatetime` = #{updatetime}
+        </if>
+        <if test="outId != null and outId != '' ">
+           or `outId` = #{outId}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+  </select>
+</mapper>

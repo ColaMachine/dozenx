@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import com.dozenx.util.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +34,12 @@ import com.cpj.swagger.annotation.DataType;
 import com.cpj.swagger.annotation.Param;
 import ${table.pkg}.${abc}.service.${Abc}Service;
 import ${table.pkg}.${abc}.bean.${Abc};
-import com.dozenx.util.ResultUtil;
-import com.dozenx.util.ValidateUtil;
+import com.dozenx.web.util.ResultUtil;
+import com.dozenx.web.util.ValidateUtil;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.util.StringUtil;
-import com.dozenx.util.ValidateUtil;
 import com.dozenx.web.util.RequestUtil;
 import org.springframework.web.bind.annotation.*;
 import com.dozenx.web.core.log.ResultDTO;
@@ -158,9 +157,9 @@ ${getSearchParam}
           </#list>
         })
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
-    @RequestMapping(value = "update/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "update",method = RequestMethod.PUT)///{id}
     @ResponseBody
-    public ResultDTO update(@PathVariable <@javaType>${table.pk.type}</@javaType> id,HttpServletRequest request) throws Exception {
+    public ResultDTO update(HttpServletRequest request) throws Exception {//@PathVariable <@javaType>${table.pk.type}</@javaType> id,
         ${Abc} ${abc} =new  ${Abc}();
         /*<#list table.cols as col>
         String ${col.name} = request.getParameter("${col.name}");
@@ -252,9 +251,9 @@ ${validCode}
         parameters={
          @Param(name="${table.pk.name}" , description="${table.pk.remark}",dataType= DataType.<@apiType>${table.pk.type}</@apiType>,required = true),
         })
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)//{id}
     @ResponseBody
-    public ResultDTO delete(@PathVariable <@javaType>${table.pk.type}</@javaType> id,HttpServletRequest request) {
+    public ResultDTO delete(HttpServletRequest request) {//@PathVariable <@javaType>${table.pk.type}</@javaType> id,
         String ${table.pk.name}Str = request.getParameter("${table.pk.name}");
         if(StringUtil.isBlank(${table.pk.name}Str)){
             return this.getWrongResultFromCfg("err.param.notnull");

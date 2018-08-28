@@ -27,12 +27,12 @@
         <Input v-model="formData.platformDes" placeholder="平台描述" type="textarea"
                :autosize="{minRows: 2,maxRows: 5}" :readonly="readonly"></Input>
       </FormItem>
-      <FormItem prop="platformUrl" label="平台地址" required>
+      <FormItem prop="platformUrl" label="平台地址">
         <Input v-model="formData.platformUrl" placeholder="平台地址" :readonly="readonly"></Input>
       </FormItem>
-      <FormItem prop="platformParameter" label="平台参数" required>
+      <FormItem prop="platformParameter" label="平台参数">
         <Input v-model="formData.platformParameter" placeholder="平台参数" type="textarea"
-               :autosize="{minRows: 2,maxRows: 5}" :readonly="readonly"></Input>
+               :autosize="{minRows: 2,maxRows: 5}" :readonly="readonly" :maxlength="2000"></Input>
       </FormItem>
       <Row v-if="!readonly">
         <Col span="8">&nbsp;</Col>
@@ -72,10 +72,10 @@
             {required: true, message: '请填写平台描述', trigger: 'blur'}
           ],
           platformUrl: [
-            {required: true, message: '请填写平台地址', trigger: 'blur'}
+            // {required: true, message: '请填写平台地址', trigger: 'blur'}
           ],
           platformParameter: [
-            {required: true, message: '请填写平台参数', trigger: 'blur'}
+            // {required: true, message: '请填写平台参数', trigger: 'blur'}
           ]
         },
       };

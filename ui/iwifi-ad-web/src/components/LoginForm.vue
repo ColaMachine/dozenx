@@ -25,9 +25,9 @@
       <FormItem>
         <Button type="primary" size="large" long @click="login">登录</Button>
       </FormItem>
-      <FormItem style="text-align: center;">
-        <router-link to="forgetPassword" style="color:#666666">忘记密码</router-link>
-      </FormItem>
+      <!--<FormItem style="text-align: center;">-->
+        <!--<router-link to="forgetPassword" style="color:#666666">忘记密码</router-link>-->
+      <!--</FormItem>-->
     </Form>
   </div>
 </template>

@@ -24,7 +24,7 @@ function animation(it, attrname, finalValue, timeOut, fn) {
 	//if(finalValue<=0){
 	   // finalValue=100;
 	//}
-	console.log("finalValue:" + finalValue);
+	//console.log("finalValue:" + finalValue);
 	val = 0;
 	var val = parseInt(it.style[attrname].replace("px", ""));
 	//it.style[attrname] = "0%";

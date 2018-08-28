@@ -1,11 +1,11 @@
 <template>
   <div>
-    <PageHeader @on-add="onAdd"/>
+    <PageHeader/>
     <SearchBar v-model="searchParams" @on-search="search(1)"/>
     <div style="padding:20px 30px;">
-      <Table :columns="tableCols" :data="tableData" class="report-daily-table"></Table>
+      <Table :columns="tableCols" :data="tableData"></Table>
       <div style="margin-top:60px;" v-show="totalRecords">
-        <div style="float:left">展现次数合计：{{allTotalCount}}</div>
+        <!--<div style="float:left">展现次数合计：{{allTotalCount}}</div>-->
         <Page :current.sync="searchParams.curPage" style="float:right"
               :total="totalRecords"
               :page-size="searchParams.pageSize"
@@ -13,6 +13,20 @@
               simple></Page>
       </div>
     </div>
+    <Modal
+      :mask-closable="false"
+      v-model="formModalVisible"
+      :title="formModalTitle" :width="800">
+      <!--<div slot="header">-->
+      <!--<div>DSP ID：{{}}</div>-->
+      <!--</div>-->
+      <!--<div slot="footer">-->
+      <!--</div>-->
+      <div style="padding:20px;">
+        <DailyDetail :currentRecord="currentRecord"
+                     :reset-flag="formModalVisible"/>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -20,51 +34,95 @@
   import {getPageSize} from "@/js/util";
   import PageHeader from './PageHeader.vue';
   import SearchBar from './SearchBar.vue';
+  import DailyDetail from './DailyDetail.vue';
   import DateFormat from '@/js/dateFormat';
 
   export default {
     components: {
       PageHeader,
       SearchBar,
+      DailyDetail
+    },
+    computed: {
+      formModalTitle() {
+        return this.currentRecord ? this.currentRecord.date : '';
+      }
     },
     data() {
       return {
         searchParams: {
           curPage: 1,
           pageSize: getPageSize(),
-          advertPartnerName: '',
-          startTime: '',
-          endTime: ''
+          strategy: '',
+          strategyCode: '',
+          startTime: new Date(),
+          endTime: new Date()
         },
+        formModalVisible: false,
+        currentRecord: {},
         totalRecords: 0,
         allTotalCount: 0,
         tableCols: [
           {
             title: '序号',
             type: 'index',
-            width: 80
+            width: 80,
+            align: 'center'
           }, {
             title: '日期',
             key: 'date',
             align: 'center',
+            width: 200,
+          }, {
+            title: '投放策略',
+            key: 'strategyName',
+            align: 'center',
             width: 200
           }, {
-            title: '展现次数合计',
-            key: 'totalCount',
+            title: '展现量',
+            key: 'reqPv',
             align: 'center',
             // width: 200
           }, {
-            title: '合作平台',
-            key: 'platformList',
-            type: 'html',
+            title: '点击量',
+            key: 'clickPv',
             align: 'center',
             // width: 200
           }, {
-            title: '展现次数',
-            key: 'countList',
-            type: 'html',
+            title: 'CPM(元)',
+            key: 'cPM',
             align: 'center',
-            width: 200
+            // width: 200
+          }, {
+            title: '总价格(元)',
+            key: 'totalPrice',
+            align: 'center',
+            // width: 200
+          },
+          // {
+          //   title: '出价数',
+          //   key: 'bidNumber',
+          //   align: 'center',
+          //   // width: 200
+          // },
+          {
+            title: '竞得数',
+            key: 'competeNumber',
+            align: 'center',
+            render: (h, record) => {
+              let _this = this;
+              return h('div', [
+                h('a', {
+                  'class': ['tbl-link', 'action-link'],
+                  on: {
+                    click() {
+                      _this.onView(record.row);
+                    }
+                  }
+                }, record.row.competeNumber),
+              ]);
+            }
+            // width: 200
           }
         ],
         tableData: []
@@ -86,33 +144,37 @@
         } else {
           params.endTime = DateFormat.format.date(params.endTime, 'yyyy-MM-dd');
         }
-        $http.get('/advertsrv/lunch/log/', {
-          params: {
-            params
-          }
-        }).then(({data = {}, page}) => {
-          let list = [];
-          let obj = null;
-          if (data && data.list) {
-            data.list.forEach((dayList) => {
-              obj = {
-                totalCount: 0,
-                date: dayList[0].groupTime,
-                platformList: '',
-                countList: ''
-              };
-              dayList.forEach((day, index) => {
-                obj.platformList += `<div class="single-count-record">${day.advertPartnerName}</div>`;
-                obj.countList += `<div class="single-count-record">${day.viewTimes}</div>`;
-                obj.totalCount += day.viewTimes;
-              });
-              list.push(obj);
-            });
-          }
-          console.log(list);
-          this.tableData = list;
-          this.totalRecords = page.totalCount;
-          this.allTotalCount = data.allViewTime || 0;
+        console.log('params', params);
+        $http.get('/advertsrv/report/lunch/log/list', {
+          params: params
+        }).then((data) => {
+          data.data.forEach((item) => {
+            item.date = DateFormat.format.date(item.dateStamp, 'yyyy-MM-dd');
+          });
+          this.tableData = data.data;
+          this.totalRecords = data.page.totalCount;
+          // let list = [];
+          // let obj = null;
+          // if (data && data.list) {
+          //   data.list.forEach((dayList) => {
+          //     obj = {
+          //       totalCount: 0,
+          //       date: dayList[0].groupTime,
+          //       platformList: '',
+          //       countList: ''
+          //     };
+          //     dayList.forEach((day, index) => {
+          //       obj.platformList += `<div class="single-count-record">${day.advertPartnerName}</div>`;
+          //       obj.countList += `<div class="single-count-record">${day.viewTimes}</div>`;
+          //       obj.totalCount += day.viewTimes;
+          //     });
+          //     list.push(obj);
+          //   });
+          // }
+          // console.log(list);
+          // this.tableData = list;
+          // this.totalRecords = page.totalCount;
+          // this.allTotalCount = data.allViewTime || 0;
         });
       },
       showFormModal() {
@@ -124,81 +186,16 @@
       setFormModalVisible(isVisible) {
         this.formModalVisible = isVisible;
       },
-      onAdd() {
-        this.currentRecord = {};
-        this.formReadonly = false;
+      onView(row) {
+        this.currentRecord = this.getCurrentRecordCopy(row);
         this.showFormModal();
       },
-      onEdit(row) {
-        this.formReadonly = false;
-        this.getPlatform(row.id);
-      },
-      onView(row) {
-        this.formReadonly = true;
-        this.getPlatform(row.id);
-      },
-      onDelete(row) {
-        this.confirmDelete(row.id, row.platformName);
-      },
-      onFormSubmit() {
-        let isEdit = this.currentRecord.id ? true : false;
-        let url = '/advertsrv/partner';
-        let method = isEdit ? 'put' : 'post';
-        let title = `${isEdit ? '编辑' : '新增'}合作平台成功`;
-        $http({
-          method: method,
-          url: url,
-          data: this.currentRecord
-        }).then((data) => {
-          this.$Notice.success({
-            title: title
-          });
-          this.hideFormModal();
-          this.search();
-        });
-      },
-      confirmDelete(id, name) {
-        if (!id) {
-          return;
-        }
-        this.$Modal.confirm({
-          title: '删除合作平台',
-          content: `确认删除合作平台<span style="color:red;">${name}</span>？`,
-          okText: '删除',
-          onOk: () => {
-            this.del(id);
-          },
-        });
-      },
-      del(id) {
-        $http.delete('/advertsrv/partner', {
-          params: {
-            params: {
-              id
-            }
-          }
-        }).then(() => {
-          this.$Notice.success({
-            title: '删除合作平台成功',
-          });
-          this.search(1);
-        });
-      },
-      getPlatform(id) {
-        $http.get(`/advertsrv/partner`, {
-          params: {
-            params: {
-              id
-            }
-          }
-        }).then(({data}) => {
-          this.currentRecord = data;
-          this.showFormModal();
-        });
+      getCurrentRecordCopy() {
+        return Object.assign({}, ...arguments);
       }
     },
     mounted() {
-      this.search(1);
+      // this.search(1);
     },
   };
 </script>

@@ -962,7 +962,7 @@ return ymd;
                     int integer=Integer.valueOf(type.substring(type.indexOf("(")+1, type.indexOf(",")));
                     int fraction=Integer.valueOf(type.substring(type.indexOf(",")+1, type.indexOf(")")));
                     sb.append(tab3+String.format("<input type=\"number\" "+commonStr+" onkeyup=\"chkFloat(this,%d,%d)\" onafterpaste=\"chkFloat(this,%d,%d)\"></input>",
-                            zcol.getName(), zcol.getName(),integer,fraction,integer,fraction)).append(ctrl);
+                          integer,fraction,integer,fraction)).append(ctrl);
                 }else
                 if(type.equals("date")||type.equals("datetime")||type.equals("timestamp")){
                     sb.append(tab3+"<span class=\"input-group-addon\" for=\""+zcol.getName()+"\" ><i class=\"fa fa-calendar\"></i></span>");
@@ -1124,7 +1124,13 @@ return ymd;
     }
     public static void main(String[] args) {
         Generator generator =new Generator();
-        generator.generate(new String[]{"SysRole","SysUser","SysUserRole","SysMenu","SysRoleMenu"});
+        generator.generate(new String[]{"PhoneGroup"});
+        generator.generate(new String[]{"ArtUrl","ArtComment","SightComment","SightArtical","SightUrl","HotelComment","HotelUrl"});
+        //generator.generate(new String[]{"BlogComment"});
+        //generator.generate(new String[]{"EzkMacTel"});
+        //generator.generate(new String[]{"SmsTemplate"});
+       // generator.generate(new String[]{"EzkSolidBuildCustomerHistory"});
+        //generator.generate(new String[]{"SysRole","SysUser","SysUserRole","SysMenu","SysRoleMenu"});
         //用户模块
        // Generator.generate(new String[]{"Pwdrst"});
        // Generator.generate(new String[]{/*"SysResource",*/"SysRole","SysUser","SysUserRole"});

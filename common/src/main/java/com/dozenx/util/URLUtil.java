@@ -1,5 +1,7 @@
 package com.dozenx.util;
 
+import java.net.URLEncoder;
+
 public class URLUtil {
 	
 	/**
@@ -32,6 +34,9 @@ public class URLUtil {
 
 		return newUrl;
 	}
-	
+	public static void main(String args[]){
+		String url ="nohup ./telnet>a.txt 2>1 &";
+		System.out.println(URLEncoder.encode(url));
+	}
 
 }

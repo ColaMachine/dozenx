@@ -39,7 +39,7 @@
         this.$emit('on-search');
       },
       getRoleList() {
-        $http.get('/advertsrv/sys/auth/role/list', {
+        $http.get('/advertsrv/sys/auth/role/drop/list', {
           params: {
             params:
               {

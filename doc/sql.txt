@@ -1,0 +1,78 @@
+CREATE TABLE `active` (
+  `activeid` varchar(32) NOT NULL COMMENT '主键',
+  `userid` bigint(40) NOT NULL COMMENT '名称',
+  `actived` int(1) NOT NULL COMMENT '激活',
+  `activedtime` int(11) DEFAULT NULL COMMENT '激活时间',
+  `createdtime` varchar(40) DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`activeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='激活码';
+
+
+
+CREATE TABLE `artical` (
+  `id` bigint(15) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `title` varchar(40) NOT NULL COMMENT '标题',
+  `content` mediumtext NOT NULL COMMENT '正文',
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '类型',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `creator` bigint(11) DEFAULT NULL COMMENT '创建人',
+  `pic` varchar(200) DEFAULT NULL COMMENT '封面',
+  `creatorname` varchar(20) DEFAULT NULL COMMENT '创建人姓名',
+  `createtime` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `updatetime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `comment_count` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COMMENT='新闻咨询';
+
+
+CREATE TABLE `blog_comment` (
+  `id` bigint(9) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `pid` bigint(9) NOT NULL COMMENT '所属文章id',
+  `content` varchar(500) NOT NULL COMMENT '正文',
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '类型',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `create_user` bigint(11) DEFAULT NULL COMMENT '创建人',
+  `userName` varchar(20) DEFAULT NULL COMMENT '创建人姓名',
+  `face` varchar(250) DEFAULT NULL COMMENT '头像',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `comment_count` int(11) DEFAULT NULL COMMENT '评论数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='评论';
+
+
+CREATE TABLE `pwdrst` (
+  `id` bigint(15) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `idpwdrst` varchar(45) NOT NULL COMMENT '重置code',
+  `userid` int(11) NOT NULL COMMENT '发送人id',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `resttime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '重置时间',
+  `used` tinyint(1) DEFAULT NULL COMMENT '是否使用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='密码重置';
+
+
+CREATE TABLE `sys_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `path` varchar(200) DEFAULT NULL COMMENT '路径',
+  `type` tinyint(4) DEFAULT NULL COMMENT '日志类型',
+  `code` int(11) DEFAULT NULL COMMENT '代码',
+  `param` varchar(4000) DEFAULT NULL COMMENT '操作参数',
+  `msg` varchar(4000) DEFAULT NULL COMMENT '消息',
+  `createTime` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `startTime` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `user` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=617 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+
+CREATE TABLE `SmsRecord` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `phone` char(11) NOT NULL COMMENT '手机号码',
+  `systemNo` varchar(13) NOT NULL COMMENT '系统名称',
+  `sendTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '发送时间',
+  `content` varchar(200) NOT NULL COMMENT '内容',
+  `status` tinyint(4) DEFAULT '1' COMMENT '发送状态',
+  `reason` varchar(200) DEFAULT NULL COMMENT '失败原因',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COMMENT='短信验证码发送历史';

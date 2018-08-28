@@ -9,7 +9,7 @@
                    </FormItem>
                     <FormItem label="尺寸" class="sizeContent" >
                         <FormItem>
-                            <p v-text="length"></p >
+                            <p v-text="height"></p >
                         </FormItem>
                           <Icon type="ios-close-empty" :size="20"></Icon>
                         <FormItem>
@@ -23,7 +23,7 @@
 // import $http from '../../../js/http'
 import $http from '@/js/http2';
 export default {
-  props:['id','name','width','length'],
+  props:['id','name','width','height'],
 };
 </script>
 

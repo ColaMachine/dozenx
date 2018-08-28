@@ -22,8 +22,8 @@
      </div>
   </div>
 </template>
-<script>   
-import $http from "../../../js/http"  
+<script>
+import $http from "../../../js/http"
 export default {
   props:{
       value:{
@@ -55,7 +55,7 @@ export default {
               _this:this,
               _key:'provinceIdOption'
           }
-          $http.get('/advertsrv/location/provinces',httpConfig);
+          $http.get('/advertsrv/db/location/provinces',httpConfig);
 
       },
       //获取市
@@ -66,7 +66,7 @@ export default {
             _this:this,
             _key:'cityIdOption'
         }
-        $http.get('/advertsrv/location/cities',httpConfig)
+        $http.get('/advertsrv/db/location/cities',httpConfig)
       },
       //获取县
       getLocation(value){
@@ -76,7 +76,7 @@ export default {
             _this:this,
             _key:'locationIdOption'
         }
-        $http.get('/advertsrv/location/areas',httpConfig)
+        $http.get('/advertsrv/db/location/areas',httpConfig)
       },
       //添加省市县
       addLocation(){
@@ -94,9 +94,9 @@ export default {
                         title:'不可以重复添加'
                     })
                  }
-              })  
+              })
               if(_this.flag){
-                  this.d_value.push({  
+                  this.d_value.push({
                       provinceId:province.split('-')[0],
                       provinceName:province.split('-')[1],
                       cityId:city.split('-')[0],
@@ -136,7 +136,15 @@ export default {
         this.d_value=[];
     }
   },
- 
+  watch:{
+    value(val){
+      this.d_value=val;
+    },
+    d_value(val){
+      this.$emit('input',val);
+    }
+  },
+
   mounted () {
       this.getProvince();
   }

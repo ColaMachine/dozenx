@@ -74,7 +74,7 @@
           curPage: 1,
           pageSize: getPageSize(),
           code: '',
-          name: ''
+          nameLike: ''
         },
         totalRecords: 0,
         tableCols: [
@@ -96,7 +96,7 @@
           }, {
             title: '操作',
             // key: 'createDate',
-            // width: 300,
+            width: 200,
             align: 'center',
             render: (h, record) => {
               let _this = this;
@@ -187,7 +187,7 @@
       },
       onFormSubmit() {
         let isEdit = this.currentRole.id ? true : false;
-        let url = isEdit ? '/advertsrv/sys/auth/role/update' : '/advertsrv/sys/auth/role/add'
+        let url = isEdit ? ('/advertsrv/sys/auth/role/update/'+this.currentRole.id) : '/advertsrv/sys/auth/role/add'
         let method = isEdit ? 'put' : 'post';
         let title = `${isEdit ? '修改' : '新增'}角色成功`;
         $http({

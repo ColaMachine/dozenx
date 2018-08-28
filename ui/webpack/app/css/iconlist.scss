@@ -2,7 +2,7 @@
 @CHARSET "UTF-8";
 .zw-icon-list{
         display:table;
-
+        width:100%;
         border-collapse :0px  ;
         /*flex-direction:row;
         justify-content: space-between;*/
@@ -16,7 +16,8 @@
                       border-bottom-right-radius:7px;
                 }
         li{
-
+            float:left;
+            width:20%;
              display:table-cell;
             text-align: center;
             list-style: none;

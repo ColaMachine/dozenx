@@ -144,6 +144,9 @@ ul.search-bar {
       .error-link {
         color: @error-color;
       }
+      .action-link {
+        color: #4A90E2;
+      }
       .single-count-record {
         padding-top: 15px;
       }
@@ -157,6 +160,12 @@ ul.search-bar {
     th, td {
       vertical-align: baseline;
     }
+  }
+}
+
+.ivu-select-multiple {
+  .ivu-select-selection {
+    height: auto !important;
   }
 }
 
@@ -308,4 +317,10 @@ ul.search-bar {
 
 .ivu-notice {
   z-index: 12000;
+}
+.ivu-menu-primary.ivu-menu-horizontal .ivu-menu-item-active,
+.ivu-menu-primary.ivu-menu-horizontal .ivu-menu-submenu-active,
+.ivu-menu-primary.ivu-menu-horizontal .ivu-menu-item:hover, .ivu-menu-primary.ivu-menu-horizontal
+.ivu-menu-submenu:hover{
+  background: transparent;
 }

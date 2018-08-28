@@ -116,8 +116,8 @@ var registerForm={
 
            } else {
            // _this.alert(data[AJAX_MSG],data[AJAX_ERRORS]);
-         alert( JSON.stringify(data));
-
+        // alert( JSON.stringify(data));
+            console.log(data);
             _this.alert(data[AJAX_MSG],data[AJAX_ERRORS]);
             _this.getPicCaptcha();
            }
@@ -330,7 +330,7 @@ var emailValidForm={
         this.doms.smsCaptchaBtn.onclick=function(){
             _this.captchaCutdown(this);
             //发送短信
-            Ajax.post(PATH+"/forgetpwd/save.json",{"phone":_this.doms.phone.innerText},function(result){
+            Ajax.post(PATH+"/sys/auth/forgetpwd/save.json",{"phone":_this.doms.phone.innerText},function(result){
                                                 if(result.r==AJAX_SUCC){
                                                    dialog.alert("发送成功");
                                                 }else{
@@ -365,7 +365,7 @@ var smsValidForm={
         },
         messages : {
             smsCaptcha : {
-                required : "请填写短信验证码",
+                required : "请填写验证码",
                 rangelength : "长度应在3~6个字符"
             },
 

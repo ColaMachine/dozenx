@@ -32,11 +32,8 @@ import java.util.List;
 @RequestMapping("/activity")
 public class CalendarController extends BaseController {
 
-
-
         private static final Logger log = LoggerFactory
                 .getLogger(CalendarController.class);
-
         @InitBinder
         // 此处的参数也可以是ServletRequestDataBinder类型
         public void initBinder(ServletRequestDataBinder binder) throws Exception {
@@ -44,7 +41,6 @@ public class CalendarController extends BaseController {
             CustomDateEditor dateEditor = new CustomDateEditor(df, true);
             binder.registerCustomEditor(Date.class, dateEditor);
         }
-
         /*
          * @RequestMapping(value = "/listAjax") public @ResponseBody HashMap
          * listAjax(HttpServletRequest request) throws IOException { HashMap params=
@@ -100,7 +96,6 @@ public class CalendarController extends BaseController {
             // returnMap.put(SysConfig.AJAX_RESULT, SysConfig.AJAX_SUCC);
             // return returnMap;
         }
-
 
     /**
      * @Title: getActivities

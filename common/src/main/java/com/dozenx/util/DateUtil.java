@@ -332,6 +332,12 @@ public final class DateUtil {
 	}
 	public static void main(String[] args) {
 
+
+		System.out.println(DateUtil.getNowTimeStampSeconds());
+
+		System.out.println(DateUtil.getNowTimeStampSeconds()-60);
+
+		System.out.println(DateUtil.toDateStr(1534721800l*1000));
 		System.out.println(DateUtil.toDateStr(1496997617l*1000));
 		System.out.println(DateUtil.toDateStr(1491038114l*1000));
 		System.out.println(DateUtil.toDateStr(1490862198l*1000));

@@ -100,7 +100,7 @@ Vue
 
 							var json = changeForm2Jso("#" + this.formId);
 
-							var url = this.content.url;
+							var url = this.content.url+"?host="+getCookie("host")+"&url="+this.content.url;
 							if (this.content.url.indexOf("{") > 0) {
 								var replaceId = url.substr(
 										url.indexOf("{") + 1, url.indexOf("}")

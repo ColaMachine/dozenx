@@ -9,12 +9,15 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/advertsrv/static',
     proxyTable: {
       '/advertsrv': {
         //alpha
-        target: 'http://127.0.0.1:80/advertsrv',
-        // target: 'http://192.168.3.18:8080/advertsrv',
+
+       //target: 'http://192.168.120.88:8082/advertsrv',
+       target: 'http://127.0.0.1:80/advertsrv',
+        //target: 'http://192.168.212.90:8096/advertsrv',
+
         changeOrigin: true,
         pathRewrite: {
           '^/advertsrv': '/'

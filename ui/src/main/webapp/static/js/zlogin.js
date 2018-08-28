@@ -376,7 +376,7 @@ var forgetPwdForm={
     	    return;
     	}
 
-        Ajax.post(PATH+"/pwdrst/save.json",jso,function(result){
+        Ajax.post(PATH+"/sys/auth/pwdrst/save.json",jso,function(result){
             if(result.r==AJAX_SUCC){
                 // window.location=PATH+"/index.htm";
                  dialog.alert("密码重置成功!");
@@ -407,7 +407,7 @@ var forgetPwdForm={
             _this.captchaCutdown(this);
            // forgetpwd/save.json
             if(StringUtil.isEmail(_this.doms.phone.value)){
-                 Ajax.post(PATH+"/forgetpwd/save.json",{"phone":_this.doms.phone.value},function(result){
+                 Ajax.post(PATH+"/sys/auth/forgetpwd/save.json",{"phone":_this.doms.phone.value},function(result){
                                     if(result.r==AJAX_SUCC){
                                        dialog.alert("发送成功");
                                     }else{

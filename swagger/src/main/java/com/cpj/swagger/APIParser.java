@@ -366,6 +366,9 @@ public final class APIParser implements APIParseable {
 			for (Method method : apiMethods) {
 				API methodApi = method.getAnnotation(API.class);
 				RequestMapping methodUrl =method.getAnnotation(RequestMapping.class);
+				if(methodUrl ==null ){
+					continue;
+				}
 				APIResponse response = method.getAnnotation(APIResponse.class);
 
 				if(methodApi.hide()) {

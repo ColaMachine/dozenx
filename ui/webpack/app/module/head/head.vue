@@ -111,6 +111,9 @@
           <zwMenuItem key="grid" disabled>
             <zwIcon type="appstore" /><a href="#input">输入框</a>
           </zwMenuItem>
+            <zwMenuItem key="grid" disabled>
+                      <zwIcon type="appstore" /><a href="#richInputExample">富文本输入框</a>
+                    </zwMenuItem>
 
           <zwMenuItem key="grid" disabled>
             <zwIcon type="appstore" /><a href="#button">button</a>
@@ -142,7 +145,7 @@
 
             <zwMenuItem key="setting:1"><a href="#dropdownmenu">DropDown 下拉菜单</a></zwMenuItem>
             <zwMenuItem key="setting:2"><a href="#menu">menu 导航菜单</a></zwMenuItem>
-
+            <zwMenuItem key="setting:2"><a href="#navbar"> 导航条</a></zwMenuItem>
           </zwSubMenu>
              <zwSubMenu>
                 <template slot="title">

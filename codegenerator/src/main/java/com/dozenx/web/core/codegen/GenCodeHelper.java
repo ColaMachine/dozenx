@@ -150,7 +150,7 @@ public static Integer getIntFromKuoHao(String str){
         } else if (type.startsWith("date")) {
             typeName = "DATE";
         } else if (type.startsWith("timestamp")) {
-            typeName = "TIMESTAMP";
+            typeName = "DATE_TIME";//TIMESTAMP
         } else if (type.startsWith("text")) {
             typeName = "STRING";
         }

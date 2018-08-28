@@ -1,7 +1,7 @@
 
 <template>
  <div :class="getItemClasses" >
-    <div  v-on:click="changeCollapse" class=" zw-panel-header">
+    <div  v-if="hasHeader" v-on:click="changeCollapse"  class=" zw-panel-header">
         <zwIcon ref="icon" :type="getIconType"></zwIcon><span  ><slot class=" zw-panel-header" name="title" ref="title" ></slot></span>
     </div>
     <div id="panel1" ref="body" class="zw-panel-body">
@@ -15,30 +15,57 @@ import zwIcon from '../icon/zwIcon.vue';
 export default {
         name: 'zwPanel',
          components:{zwIcon},
-        props:["state"],
+      //  props:["state","canFold","hasHeader"],
+
+        props:{
+            state:{
+                type:String,
+                  default:"open"
+            },
+             canFold:{
+                type:Boolean,
+                  default:false
+            },
+            hasHeader:{
+                 type:Boolean,
+                   default:true
+             }
+
+        },
         data () {
             return {
-                collapse:true,
+                collapse:false,
             };
         },
         computed: {
             getItemClasses:function(){
-                if(this.collapse){
-                        return "zw-collapse-item";
-                }else{
-                     return "zw-collapse-item zw-collapse-item-active";
+                var cls=" zw-panel ";
+                 if(this.canFold==true || this.canFold=="true"){
+                    if(this.collapse ){
+                            cls+= "zw-collapse-item ";
+                    }else{
+                         cls+= "zw-collapse-item zw-collapse-item-active ";
+                   }
                }
-                return "zw-collapse-item";
+                return cls;
+
             },
              getIconType:function(){
-                if(this.collapse){
-                    return "arrow-right";
-                }else{
-                    return "arrow-down";
-                }
+               if(this.canFold==true  || this.canFold=="true"){
+                    if(this.collapse){
+                        return "arrow-right";
+                    }else{
+                        return "arrow-down";
+                    }
+               }else{
+                    return "";
+               }
+
              }
         },
         mounted () {
+            console.log("asdfasdfasdf"+this.hasHeader);
+
             if(this.state && this.state=="open"){
                 this.collapse=false;
             }else{
@@ -48,7 +75,13 @@ this.$refs.body.style.height="0px";
 
         },
         methods: {
-            changeCollapse:function(){//console.log("changeCollapse"+ this.collapse);
+            changeCollapse:function(){
+
+
+            //console.log("changeCollapse"+ this.collapse);
+            if(this.canFold!=true &&this.canFold!="true" ){
+                return ;
+            }
  this.collapse = !this.collapse;
                  //  return;
 //console.log("changeCollapse end"+ this.collapse);

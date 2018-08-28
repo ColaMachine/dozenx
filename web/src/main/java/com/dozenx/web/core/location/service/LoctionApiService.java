@@ -282,6 +282,7 @@ public class LoctionApiService extends BaseService {
 
     //    Map<Long,Location> hasChildLocationBeanMap = new LinkedHashMap<Long,Location>();
         LocationService.idNameMap = new HashMap<Long ,String>();
+        LocationService.nameIdMap = new HashMap<String,Long >();
         Map<String, Object> locationMap;
 
         for(Map<String,Object> map : locationList){
@@ -298,6 +299,7 @@ public class LoctionApiService extends BaseService {
             }
             //在内存中维护一个快速名字id 对照表 2018年2月27日13:59:38
             LocationService.idNameMap.put(id,(String) map.get("area_name"));
+            LocationService.nameIdMap.put((String) map.get("area_name"),id);
             Location location  = new Location();
             location.setId(id);
             location.setAreaName(MapUtils.getStringValue(map,"area_name"));

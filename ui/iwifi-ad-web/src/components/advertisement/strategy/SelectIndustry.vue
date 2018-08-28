@@ -61,13 +61,13 @@ export default {
             this.industryList=[];
             }else{
             this.$Notice.error({
-                    title: '不可以重复添加',    
+                    title: '不可以重复添加',
                 });
             }
             this.flag=true;
       }else{
           this.$Notice.error({
-              title: '请选择投放行业',    
+              title: '请选择投放行业',
            });
       }
     },
@@ -80,6 +80,14 @@ export default {
     },
     clearIndustry(){
        this.d_value=[];
+    }
+  },
+  watch:{
+    value(val){
+      this.d_value=val;
+    },
+    d_value(val){
+      this.$emit('input',val);
     }
   },
   created () {

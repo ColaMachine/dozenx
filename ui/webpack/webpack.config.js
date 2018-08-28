@@ -16,20 +16,25 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 const PATHS={
-    app:path.resolve(__dirname,'./app/app.js'),
-    phoneApp:path.resolve(__dirname,'./app/phoneApp.js'),
-     zhihuijiating:path.resolve(__dirname,'./app/zhihuijiating.js'),
+    app:path.resolve(__dirname,'./app/app.js'),//组件库
+    phoneApp:path.resolve(__dirname,'./app/phoneApp.js'),//手机端主界面
+     zhihuijiating:path.resolve(__dirname,'./app/zhihuijiating.js'),//智慧家庭
+      blog:path.resolve(__dirname,'./app/blog.js'),//blog主界面
     build:path.resolve(__dirname,'../src/main/webapp/static/js/'),
+      index:path.resolve(__dirname,'./app/index.js'),//web主界面
+      //phoneIndex:path.resolve(__dirname,'./app/phoneIndex.js'),
 };
 console.log("build path:"+PATHS.build);
 module.exports = {
      //entry:PATHS.app,//会根据这个目录来构建js
 
      entry : {
-
-         "app": PATHS.app,//pc端管理主界面
-         "zhihuijiating":PATHS.zhihuijiating,//智慧家庭
-          "phoneApp":PATHS.phoneApp//手机端
+        "index": PATHS.index,//pc端管理主界面
+        "blog": PATHS.blog,//pc端管理主界面
+        "app": PATHS.app,//组件库
+        "zhihuijiating":PATHS.zhihuijiating,//智慧家庭
+        "phoneApp":PATHS.phoneApp,//手机端
+       //   "phoneIndex":PATHS.phoneIndex//手机端
      },
      output: {
          path:PATHS.build,//会生成到这个目录下

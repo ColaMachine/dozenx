@@ -8,8 +8,12 @@
         <Submenu name="userInfo">
           <template slot="title">
             <!--<Icon type="stats-bars"></Icon>-->
-            {{currentUser.username}}
+            {{currentUser.account}}
           </template>
+          <MenuItem name="userInfo-password">
+            <!--<router-link :to="{ name: 'login' }">退出登录</router-link>-->
+            <router-link :to="{ name: 'modifyPassword' }" class="ivu-btn-text ivu-btn-large">修改密码</router-link>
+          </MenuItem>
           <MenuItem name="userInfo-logout">
             <!--<router-link :to="{ name: 'login' }">退出登录</router-link>-->
             <Button type="text" @click="logout" size="large">退出登录</Button>

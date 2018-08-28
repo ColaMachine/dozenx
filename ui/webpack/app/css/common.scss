@@ -34,6 +34,9 @@ ul,li{
     height: 0;
 
 }
+.clearfix{
+     display: block;
+}
 @mixin padding( $size){
  padding: $size*0.2 $size*0.5;
 }
@@ -101,10 +104,18 @@ body {
 .bg-blue{
     background-color:$blue;
 }
+
+
+.bg-blue1 {
+    background: #2C8FFF;
+}
 .bg-white{
     background-color:$white;
 }
 
+.bg-sm-gray{
+    background-color:$gray1;
+}
 
 
 .clearfix:after {
@@ -142,7 +153,9 @@ ul{
         -ms-flex-align: center;
         align-items: center;
 }
-
+.center{
+    text-align:center;
+}
 .ui-flex.center {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
@@ -198,4 +211,9 @@ height:30px;
  {
     from{transform:rotate(0)}
     to{transform:rotate(360deg)}
+ }
+
+ address, caption, cite, code, dfn, em, th, var, i {
+     font-style: normal;
+     font-weight: normal;
  }

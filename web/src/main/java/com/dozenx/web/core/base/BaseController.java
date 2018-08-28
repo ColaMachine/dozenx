@@ -152,6 +152,9 @@ public class BaseController extends ResultAction {
 		HttpSession session = request.getSession();
 		SessionUser sessionUser = (SessionUser) session.getAttribute(Constants.SESSION_USER);
 //		SessionUser sessionUser = null;
+		if(request.getParameter("userId")!=null){
+			return Long.valueOf(request.getParameter("userId"));
+		}
 		if (	 sessionUser != null &&  sessionUser.getUserId()!= null) {
 //			sessionUser = seesionDTO.getSessionUser();
 			return sessionUser.getUserId();

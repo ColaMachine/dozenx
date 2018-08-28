@@ -18,7 +18,7 @@ import "./css/iconlist.scss"
 import "./css/slider_text.scss"
 import "./css/widget.scss"
 import "./css/codedemo.scss"
-import "./css/smarthome.scss"
+
 //import app from "./vueTest"
 //const app= require("./head/head.vue");
 

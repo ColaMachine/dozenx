@@ -19,12 +19,31 @@
              <zwAppImgList :list="imgList"></zwAppImgList>
         </div>
         <div slot="zwCodeBoxMeta"  title="tab类型">
-            zwAppDialogue 是适用于手机端 在底部展现出 弹出框
+             zwAppImgList 是适用于手机端图片 信息展示条目
         </div>
         <div slot="zwCodeBoxPanel"  >
 
             <textarea ref="textarea" id="textarea" name="textarea">
  <zwAppDialogue ></zwAppDialogue>
+            </textarea>
+
+       </div>
+    </zwBox>
+</zwCol>
+
+
+
+<zwCol span=24>
+    <zwBox class="">
+        <div slot="zwCodeBoxDemo">
+             <zwPcImgList :list="imgList"></zwPcImgList>
+        </div>
+        <div slot="zwCodeBoxMeta"  title="tab类型">
+            zwPcImgList 是适用于电脑端图片 信息展示条目
+        </div>
+        <div slot="zwCodeBoxPanel"  >
+            <textarea ref="textarea" id="textarea" name="textarea">
+                  <zwPcImgList :list="imgList"></zwPcImgList>
             </textarea>
 
        </div>
@@ -55,8 +74,11 @@ import zwBox from '../../../component/layout/zwBox.vue';
 
 
 import zwAppImgList from '../../../component/datadisplay/zwAppImgList.vue';
+
+import zwPcImgList from '../../../component/datadisplay/zwPcImgList.vue';
+
 export default {
-    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwAppImgList},
+    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwAppImgList,zwPcImgList},
     data () {
 
         return {
@@ -72,11 +94,14 @@ export default {
     },
      mounted (){
           this.imgList=[
-                                                    {id:1,title:"1",subtitle:"123",pic:"static/img/smarthome/插座1.png"},
-                                                       {id:1,title:"1",subtitle:"123",pic:"static/img/smarthome/插座1.png"},
-                                                          {id:1,title:"1",subtitle:"123",pic:"static/img/smarthome/插座1.png"},
-                                                             {id:1,title:"1",subtitle:"123",pic:"static/img/smarthome/插座1.png"}
-                                                    ];
+
+        { id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+         {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+         {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+         {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+         {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"}
+
+        ];
     }
 }
 </script>

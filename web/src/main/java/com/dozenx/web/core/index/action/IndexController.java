@@ -29,4 +29,16 @@ public class IndexController extends BaseController {
         // System.out.println(123);
         return "/jsp/index.jsp";
     }
+
+    @RequestMapping(value = "/manage.htm", method = RequestMethod.GET)
+    public String manage(HttpServletRequest request) {
+        // System.out.println(request.getParameter("path"));
+        // System.out.println(request.getSession().getAttribute("path"));
+        // System.out.println(request.getServletContext().getAttribute("path"));
+        request.setAttribute("path", SysConfig.PATH);
+        // logger.debug("s");
+        // LogUtil.debug("nihao");
+        // System.out.println(123);
+        return "/jsp/manage.jsp";
+    }
 }

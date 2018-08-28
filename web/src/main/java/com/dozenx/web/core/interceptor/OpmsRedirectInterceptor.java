@@ -75,23 +75,26 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
 
         // 营销装维平台地址 先写死 以后从properties 中获取
         String proxyUrl = request.getParameter("url");//类似于
-        String proxyDomain = proxyUrl.substring(0,proxyUrl.indexOf("/",7));
+
+        String host = request.getParameter("host");//类似于
+
+       // String proxyDomain = host;
 
         //原来的url
         String requestUri = request.getRequestURI();
        String queryStr =  request.getQueryString();
 
         //截取后缀
-        int index = requestUri.indexOf("/proxy");
-        requestUri=requestUri+"?"+queryStr;
-        String urlSuffix = requestUri.substring(index+"/proxy".length());//截取proxy后面的内容
+       // int index = requestUri.indexOf("/proxy");
+       // requestUri=requestUri+"?"+queryStr;
+      //  String urlSuffix = requestUri.substring(index+"/proxy".length());//截取proxy后面的内容
 
         //拼接后的url为
-        String newUrl  = com.dozenx.util.URLUtil.connact(proxyDomain,urlSuffix);
+        String newUrl  = com.dozenx.util.URLUtil.connact(host,proxyUrl);
 
-        if(newUrl.indexOf("?")>-1){
-            newUrl =newUrl.substring(0,newUrl.indexOf("?"));
-        }
+//        if(newUrl.indexOf("?")>-1){
+//            newUrl =newUrl.substring(0,newUrl.indexOf("?"));
+//        }
         logger.info("newurl:"+newUrl);
         /*
         if(requestUri.startsWith("/api")){
@@ -110,10 +113,10 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
         userInfoMap.put("roleId", sessionUser.getOrgId());*/
         
         
-        String path = request.getServletPath();
-        if(path.startsWith("/api") && !path.equals("/api")){
-            path=path.substring(4);
-        }
+//        String path = request.getServletPath();
+//        if(path.startsWith("/api") && !path.equals("/api")){
+//            path=path.substring(4);
+//        }
 //        response.sendRedirect(newUrl);
 //
 //    return false;
@@ -137,7 +140,7 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
         logger.info("redirectUrl:" + redirectUrl);
         logger.info("usertoken:" + usertoken);*/
 
-        logger.info("path:" + path);
+     //   logger.info("path:" + path);
         HashMap<String, String> urlQueryParam = new HashMap<String, String>();
         Enumeration<String> paramNames = request.getParameterNames();
         // 将所有参数都封装成map

@@ -1,6 +1,7 @@
 package com.dozenx.core.Path;
 
 import com.dozenx.core.config.Config;
+import com.dozenx.util.FilePathUtil;
 import com.dozenx.util.LogUtil;
 import com.dozenx.util.StringUtil;
 import org.slf4j.Logger;
@@ -92,6 +93,7 @@ public final class PathManager {
             Config config = Config.getInstance();
 
             INSTANCE.updateDirs(config);
+            logger.error("PathManager load complete 3ks to zzw ");
         } catch (Exception e) {
             logger.error("维护系统默认目录出错", e);
         }
@@ -255,15 +257,15 @@ public final class PathManager {
             //imagePath = Paths.get(chantToUrl(config.getInstance().getImage().getServerDir()));
         Files.createDirectories(imagePath);
 
-        qrcodePath = imagePath.resolve(config.getInstance().getImage().getQrcodeDir());
-        Files.createDirectories(qrcodePath);
+//        qrcodePath = imagePath.resolve(config.getInstance().getImage().getQrcodeDir());
+//        Files.createDirectories(qrcodePath);
+//
+//        posterPath = imagePath.resolve(config.getInstance().getImage().getPosterDir());
+//        Files.createDirectories(posterPath);
+//
+//        posterZipPath = imagePath.resolve(config.getInstance().getImage().getPosterZipDir());
+//        Files.createDirectories(posterZipPath);
 
-        posterPath = imagePath.resolve(config.getInstance().getImage().getPosterDir());
-        Files.createDirectories(posterPath);
-
-        posterZipPath = imagePath.resolve(config.getInstance().getImage().getPosterZipDir());
-        Files.createDirectories(posterZipPath);
-        
         vcodePath = webRootPath.resolve(config.getInstance().getImage().getVcodeDir());
         Files.createDirectories(vcodePath);
 
@@ -311,8 +313,10 @@ public final class PathManager {
      * @param args 参数
      */
     public static void main(String[] args) {
-        System.out.println("123123target".contains("target"));
 
+        PathManager.getInstance().getWebRootPath().resolve(Config.getInstance().getImage().getServerDir()).resolve(FilePathUtil.getYMDPathAffix()).toString();
+        System.out.println("123123target".contains("target"));
+        System.out.println(Paths.get("/service/a/txt").resolve("/img/vert/a.txt").toString());
         String s = "C:\\zzw/workspace/kaqm/src/main/webapp/image";
         s = s.replaceAll("\\\\", "/");
         System.out.println(s);

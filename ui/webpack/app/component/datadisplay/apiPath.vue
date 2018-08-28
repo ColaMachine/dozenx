@@ -3,7 +3,7 @@
 
 
 
-      <zwPanel >
+      <zwPanel :canFold=true>
 
         <div slot="title">
             <span v-on:click="showOrHide" class=" zw-row-title"><a>{{title}} </a><ul  class="pull-right"><li>显示/隐藏</li> </ul></span>

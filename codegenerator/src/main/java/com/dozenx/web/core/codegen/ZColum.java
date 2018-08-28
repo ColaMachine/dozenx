@@ -3,7 +3,7 @@
  * 项目名称:calendar
  * 创建者: dozen.zhang
  * 创建日期: 2015年12月26日
- * 文件说明: 
+ * 文件说明:
  */
 package com.dozenx.web.core.codegen;
 
@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 public class ZColum {
-private String name;
+    private String name;
     private String colName;
     private boolean nn;
 
@@ -38,6 +38,7 @@ private String name;
     }
 
     private boolean list;
+
     public String getFile() {
         return file;
     }
@@ -78,65 +79,86 @@ private String name;
     }
 
     private boolean ai;
-public boolean isAi() {
-    return ai;
-}
-public void setAi(boolean ai) {
-    this.ai = ai;
-}
-private String def;
-public boolean isNn() {
-    return nn;
-}
-public void setNn(boolean nn) {
-    this.nn = nn;
-}
-public boolean isPk() {
-    return pk;
-}
-public void setPk(boolean pk) {
-    this.pk = pk;
-}
-public String getDef() {
-    return def;
-}
-public void setDef(String def) {
-    this.def = def;
-}
-private String type;
-private String remark;
-private Map showValue;
-public Map getShowValue() {
-    return showValue;
-}
-public void setShowValue(Map showValue) {
-    this.showValue = showValue;
-}
-private String valid;
-public String getName() {
-    return name;
-}
-public void setName(String name) {
-    this.name = name;
-}
-public String getType() {
-    return type;
-}
-public void setType(String type) {
-    this.type = type;
-}
-public String getRemark() {
-    return remark;
-}
-public void setRemark(String remark) {
-    this.remark = remark;
-}
-public String getValid() {
-    return valid;
-}
-public void setValid(String valid) {
-    this.valid = valid;
-}
+
+    public boolean isAi() {
+        return ai;
+    }
+
+    public void setAi(boolean ai) {
+        this.ai = ai;
+    }
+
+    private String def;
+
+    public boolean isNn() {
+        return nn;
+    }
+
+    public void setNn(boolean nn) {
+        this.nn = nn;
+    }
+
+    public boolean isPk() {
+        return pk;
+    }
+
+    public void setPk(boolean pk) {
+        this.pk = pk;
+    }
+
+    public String getDef() {
+        return def;
+    }
+
+    public void setDef(String def) {
+        this.def = def;
+    }
+
+    private String type;
+    private String remark;
+    private Map showValue;
+
+    public Map getShowValue() {
+        return showValue;
+    }
+
+    public void setShowValue(Map showValue) {
+        this.showValue = showValue;
+    }
+
+    private String valid;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getValid() {
+        return valid;
+    }
+
+    public void setValid(String valid) {
+        this.valid = valid;
+    }
 /*
 public String getJavaType(){
     return "long";
@@ -160,9 +182,9 @@ public String getJavaType(){
          */
         public ZColum deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
-            Gson gson =new Gson();
-            System.out.println("column name:"+json.getAsJsonObject().get("name"));
-            ZColum col = gson.fromJson(json,ZColum.class);
+            Gson gson = new Gson();
+            System.out.println("column name:" + json.getAsJsonObject().get("name"));
+            ZColum col = gson.fromJson(json, ZColum.class);
             JsonObject jsonObject = json.getAsJsonObject();
            /* col = context.deserialize(json, ZColum.class);
             col.setList(jsonObject.get("list")==null?true: Boolean.valueOf(jsonObject.get("list").getAsBoolean()));
@@ -179,10 +201,10 @@ public String getJavaType(){
             col.setType(jsonObject.get("name").getAsString());
             col.setUq(jsonObject.get("uq")==null?true: Boolean.valueOf(jsonObject.get("uq").getAsBoolean()));
             col.setValid(jsonObject.get("valid").getAsString());*/
-            if(jsonObject.get("list")==null){
+            if (jsonObject.get("list") == null) {
                 col.setList(true);
             }
-            if(jsonObject.get("edit")==null){
+            if (jsonObject.get("edit") == null) {
                 col.setEdit(true);
             }
 
@@ -203,8 +225,6 @@ public String getJavaType(){
             // result = context.serialize(src);
             return context.serialize(src);
         }
-
-
 
 
     }

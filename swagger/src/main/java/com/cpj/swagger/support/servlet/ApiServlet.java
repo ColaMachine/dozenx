@@ -47,6 +47,12 @@ public class ApiServlet extends HttpServlet implements Constants {
 			props.load(is);
 		} catch (IOException ioe) {
 			throw new ServletException(ioe);
+		}finally {
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

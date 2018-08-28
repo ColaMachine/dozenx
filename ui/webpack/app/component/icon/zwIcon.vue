@@ -35,6 +35,9 @@ export default {
                   if(this.type=="history"){
                     return "zw-icon  zw-icon-arrow fa fa-history";
                 }
+                 if(this.type=="plus"){
+                    return "zw-icon  fa fa-plus";
+                }
                   if(this.type=="shopping-cart"){
                                     return "zw-icon  zw-icon-arrow fa fa-shopping-cart ";
                                 }
@@ -52,7 +55,9 @@ export default {
                 }
               if(this.type=="refresh"){
                     return "zw-icon fa fa-refresh";
-                }
+                }  if(this.type=="search"){
+                                     return "zw-icon fa fa-search";
+                                 }
 
                    if(this.type=="toggle-on"){
                                     return "zw-icon fa fa-toggle-on";

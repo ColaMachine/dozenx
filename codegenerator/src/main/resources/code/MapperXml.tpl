@@ -139,6 +139,11 @@ where ${table.pk.name} = ${r'#{'}${table.pk.name},jdbcType=<@jdbcType>${table.pk
            and `${col.name}` = ${r'#{'}${col.name}}
         </if>  
          <#if col.type?length gt 6>
+          <#if col.type[0..6]?lower_case=='text'>
+         <if test="${col.name}Like != null and ${col.name}Like != '' ">
+              and `${col.colName}` like "%"${r'#{'}${col.name}Like}"%"
+         </if>
+         </#if>
         <#if col.type[0..6]?lower_case=='varchar'>
         <if test="${col.name}Like != null and ${col.name}Like != '' ">
              and `${col.colName}` like "%"${r'#{'}${col.name}Like}"%"

@@ -45,8 +45,8 @@ public class UserController extends BaseController{
 
     @ResponseBody
     public ResultDTO info(HttpServletRequest request){
-        SysUser sysUser = (SysUser) request.getSession().getAttribute(Constants.SESSION_DTO);
-
+       // SysUser sysUser = (SysUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        SessionUser sysUser = (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
         /*sessionUser.setNick("nick");
         sessionUser.setAddress("address");
         sessionUser.setBirthday(new Date().getTime());
@@ -56,6 +56,13 @@ public class UserController extends BaseController{
     }
 
 
+
+    @RequestMapping(value = "/info")
+    @ResponseBody
+    public ResultDTO info1(HttpServletRequest request){
+        SessionUser sysUser = (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        return this.getResult(sysUser);
+    }
     /**
      * 用户个人资料修改
      *

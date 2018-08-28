@@ -16,14 +16,22 @@ import java.io.InputStreamReader;
 
 public class CmdUtil {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CmdUtil.class);
-    public static void execCommand(String commandStr,String filePath){
+    public static String execCommand(String commandStr,String filePath)throws IOException{
         try {
 
             File dir = new File(filePath);
             // String command="netstat -an";
-            String command = "cmd /c "+commandStr;
+            String os = System.getProperty("os.name");
+            String[] cmdA = { "/bin/sh", "-c", commandStr };
+            String command = " "+commandStr;
+            if(os.toLowerCase().startsWith("win")){//如果是windows 操作系统
+                command = "cmd /c "+commandStr;
+                cmdA = new String[]{command};
+            }
+
+
             Runtime r = Runtime.getRuntime();
-            Process p = r.exec(command, null, dir);
+            Process p = r.exec(cmdA, null, dir);
             BufferedReader br = new BufferedReader(new InputStreamReader(p
                     .getInputStream()));
             StringBuffer sb = new StringBuffer();
@@ -32,34 +40,66 @@ public class CmdUtil {
                 sb.append(inline).append("\n");
             }
             System.out.println(sb.toString());
-
+            br.close();
+            return sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
+            throw e;
         }
 
+
     }
-    public void execCommand(String[] arstringCommand) {
+    public String execCommand(String[] arstringCommand)throws IOException {
         for (int i = 0; i < arstringCommand.length; i++) {
             System.out.print(arstringCommand[i] + " ");
         }
         try {
-            Runtime.getRuntime().exec(arstringCommand);
 
-        } catch (Exception e) {
+            Runtime r = Runtime.getRuntime();
+            Process p = r.exec(arstringCommand);
+            BufferedReader br = new BufferedReader(new InputStreamReader(p
+                    .getInputStream()));
+            StringBuffer sb = new StringBuffer();
+            String inline;
+            while (null != (inline = br.readLine())) {
+                sb.append(inline).append("\n");
+            }
+            System.out.println(sb.toString());
+            br.close();
+            return sb.toString();
+        } catch (IOException e) {
             System.out.println(e.getMessage());
+            throw e;
         }
+
     }
-    public void execCommand(String arstringCommand) {
+    public String execCommand(String arstringCommand) throws IOException {
         try {
-            Runtime.getRuntime().exec(arstringCommand);
+            Runtime r = Runtime.getRuntime();
+            Process p = r.exec(arstringCommand);
+            BufferedReader br = new BufferedReader(new InputStreamReader(p
+                    .getInputStream()));
+            StringBuffer sb = new StringBuffer();
+            String inline;
+            while (null != (inline = br.readLine())) {
+                sb.append(inline).append("\n");
+            }
+            System.out.println(sb.toString());
+            br.close();
+            return sb.toString();
 
-        } catch (Exception e) {
+       } catch (IOException e) {
             System.out.println(e.getMessage());
-        }
+            throw e;
+       }
     }
 
     public void cmd(){
         //打开记算器
+
+    }
+
+    public static void main(String[] args){
         String[] arstringCommand = new String[] {
                 "cmd ",
                 "/k",
@@ -68,13 +108,15 @@ public class CmdUtil {
                 "gulp",
                 "build",
         };
-        execCommand(arstringCommand);
-        //打开记事本
-        String cmd = "cmd /k start notepad";
-        execCommand(cmd);
-    }
+        try {
+            new CmdUtil(). execCommand(arstringCommand);
+            String cmd = "cmd /k start notepad";
+            new CmdUtil().execCommand(cmd);
 
-    public static void main(String[] args){
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //打开记事本
 
     }
 }

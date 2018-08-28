@@ -10,9 +10,10 @@
       <result column="content" jdbcType="VARCHAR" property="content" />
       <result column="status" jdbcType="TINYINT" property="status" />
       <result column="reason" jdbcType="VARCHAR" property="reason" />
+      <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
-    `id` ,`phone` ,`systemNo` ,`sendTime` ,`content` ,`status` ,`reason` 
+    `id` ,`phone` ,`systemNo` ,`sendTime` ,`content` ,`status` ,`reason`, `create_user`
    
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -36,6 +37,7 @@
 ,#{content,jdbcType=VARCHAR}
 ,#{status,jdbcType=TINYINT}
 ,#{reason,jdbcType=VARCHAR}
+     ,#{createUser,jdbcType=BIGINT}
     )
   </insert>
    <insert id="insertSelective" parameterType="com.dozenx.web.core.sms.bean.SmsRecord" >
@@ -61,7 +63,10 @@
         </if>  
         <if test="reason != null" >  
            `reason`, 
-        </if>  
+        </if>
+        <if test="createUser != null" >
+            `create_user`,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
         <if test="id != null" >  
@@ -84,7 +89,10 @@
         </if>  
         <if test="reason != null" >  
           #{reason,jdbcType=VARCHAR},
-        </if>  
+        </if>
+        <if test="createUser != null" >
+            #{createUser,jdbcType=BIGINT},
+        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.sms.bean.SmsRecord" >

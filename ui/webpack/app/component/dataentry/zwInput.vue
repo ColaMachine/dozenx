@@ -6,18 +6,18 @@
 <span :class="wrapperClasses">
  <span v-if="icon" class="zw-input-prefix .zw-input-group-addon">
  <zwIcon v-if="icon" :type="icon" ></zwIcon></span>
-<span  v-if="this.$slots.prepend" class="zw-input-group-prepend .zw-input-group-addon"><slot name="prepend" ></slot></span>
+<span  v-if="this.$slots.prepend"  :style="getComputedHeight"  class="zw-input-group-prepend .zw-input-group-addon"><slot name="prepend" ></slot></span>
 
-<span   v-if="this.$slots.prefix"  class="zw-input-prefix zw-input-group-addon"><slot  name="prefix"></slot></span>
+<span   v-if="this.$slots.prefix"  :style="getComputedHeight" class="zw-input-prefix zw-input-group-addon"><slot  name="prefix"></slot></span>
 <template v-if="type=='password'">
- <input :placeholder="placeholder" ref="text"  v-model="textvalue"  type ="password" class="zw-input" />
+ <input :placeholder="placeholder" ref="text"   :style="getComputedHeight"   v-model="textvalue"  type ="password" class="zw-input" />
  </template >
  <template v-if="type!='password'">
-  <input :id="id" :name="name" @change="onchange" :placeholder="placeholder" ref="text"  v-model="textvalue"  type ="text" class="zw-input" />
+  <input :id="id" :name="name" @change="onchange"  :style="getComputedHeight"  :placeholder="placeholder" ref="text"  v-model="textvalue"  type ="text" class="zw-input" />
   </template >
-  <span   v-if="this.closeSee"  class="zw-input-suffix zw-input-group-addon" v-on:click="clearContent"><zwIcon  name="suffix" type="close"></zwIcon></span>
- <span   v-if="this.$slots.suffix"  class="zw-input-suffix zw-input-group-addon "><slot  name="suffix"></slot></span>
-    <span   v-if="this.$slots.append"  class="zw-input-group-append zw-input-group-addon"><slot  name="append"></slot></span>
+  <span   v-if="this.closeSee"  :style="getComputedHeight"   class="zw-input-suffix zw-input-group-addon" v-on:click="clearContent"><zwIcon  name="suffix" type="close"></zwIcon></span>
+ <span   v-if="this.$slots.suffix"  :style="getComputedHeight"   class="zw-input-suffix zw-input-group-addon "><slot  name="suffix"></slot></span>
+    <span   v-if="this.$slots.append"  :style="getComputedHeight"   class="zw-input-group-append zw-input-group-addon"><slot  name="append"></slot></span>
  </span>
 </span>
 
@@ -28,7 +28,7 @@ import zwIcon from "../icon/zwIcon.vue"
 export default {
         name: 'zwInput',
          components:{zwIcon},
-        props: ["icon","placeholder","type","clear","id","name","defaultValue"],
+        props: ["icon","placeholder","type","clear","id","name","defaultValue","lineHeight"],
         data () {
             return {
                     ok:false,
@@ -37,7 +37,12 @@ export default {
             };
         },
         computed: {
-
+        getComputedHeight:function(){
+            if(this.lineHeight){
+                return "height:"+this.lineHeight+";line-height:"+this.lineHeight;
+            }
+            return "";
+        },
         /*canClear:function(){
             if(this.clear ){console.log("canclear");
                // if(this.$refs.text!=null && this.$refs.text.value!=null && this.$refs.text.value.length>0){
@@ -62,10 +67,10 @@ export default {
             wrapperClasses:function(){
                 var wrapperClasses = "zw-input-wrapper";
                 if(this.$slots.prepend !=null || this.$slots.append!=null ){
-                    wrapperClasses+=" zw-input-group";
+                    wrapperClasses+=" zw-input-group  zw-input-affix";
                 }
                 if(this.$slots.suffix !=null || this.$slots.prefix!=null  || this.clear ){
-                    wrapperClasses+=" zw-input-affix";
+                    wrapperClasses+=" zw-input-group zw-input-affix";
                 }
 
                 return wrapperClasses;

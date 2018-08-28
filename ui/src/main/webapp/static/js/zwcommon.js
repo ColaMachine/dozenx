@@ -11,7 +11,7 @@
 
 // AJAX璋冪敤 濡傦細ACWS.ajax('common/service/UserSelect/Init', inputData,
 // afterInit,{async:false});
-var PATH="/timebuysrv";
+var PATH="/advertsrv";
 String.prototype.trim= function(){
     // 用正则表达式将前后空格
     // 用空字符串替代。
@@ -1337,7 +1337,10 @@ function hideWait(index){
 	///setTimeout("hideWaitTrue()",100);
 
 	document.getElementsByClassName("wait")[0].style.display="none";
-	layer.close(index);
+	if(index){
+        layer.close(index);
+        }
+
 }
 function hideWaitTrue(){
 	$(".mask").hide()
@@ -1448,6 +1451,25 @@ var dialog={
     	//alert($(id).style.display);
     	dialog.showMask();
     },
+    showWindow:function(url,w,h){
+        var modal = document.getElementById(id);
+        if(typeof id =="object")
+            modal=id;
+        if(typeof h !='undefined' && h!=null )
+            modal.style.height=h;
+        if(typeof w !='undefined' && w!=null )
+            modal.style.width=w;
+        modal.style.display="block";
+
+        modal.find(".close").onclick=function(){
+            hideModal(modal);
+        }
+
+        var div =new Div();
+        modal.setAttribute("class",(modal.getAttribute("class")||"")+" in");
+        //alert($(id).style.display);
+        dialog.showMask();
+    },
     close:function(index){
         layer.close(index);
     },
@@ -1529,7 +1551,10 @@ var dialog={
         dialog.hideMask();
         if(document.getElementsByClassName("wait").length>0)
         document.getElementsByClassName("wait")[0].style.display="none";
-    	layer.close(index);
+        if(index){
+            layer.close(index);
+        }
+
     },
     windowIndex:0,
 

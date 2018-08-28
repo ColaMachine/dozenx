@@ -1,4 +1,4 @@
-${sql}
+
 
 
 CREATE TABLE `${table.tableName}` (
@@ -7,4 +7,15 @@ CREATE TABLE `${table.tableName}` (
 </#list>
   PRIMARY KEY (`${table.pk.colName}`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='${table.remark}';
+
+
+
+
+
+
+
+
+
+
+
 

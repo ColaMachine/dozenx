@@ -33,38 +33,44 @@ public class AreaCompareBean {
                city==null?null:city.intValue(),
                county==null?null:county.intValue());
     }
+
+    public void init(){
+        if( this.minProvince==null || this.maxProvince==null ||  this .minCity==null || this.maxCity ==null
+                || this.minCounty ==null || this.maxCounty ==null){
+            this.minProvince=0;
+            this.maxProvince=Infinity;
+
+            this.minCity=0;
+            this.maxCity=Infinity;
+
+            this.minCounty=0;
+            this.maxCounty=Infinity;
+
+            if(this.province!=null && this.province!=0){
+                this.minProvince=this.province;
+                this.maxProvince=this.province;
+
+                if(this.city!=null && this.city!=0){
+                    this.minCity=this.city;
+                    this.maxCity=this.city;
+
+                    if(this.county!=null && this.county!=0){
+                        this.minCounty=this.county;
+                        this.maxCounty=this.county;
+
+                    }
+                }
+
+
+            }
+        }
+    }
     public AreaCompareBean(Integer province, Integer city, Integer county){
         this.province =province;
         this.city=city;
         this.county=county;
 
-
-        this.minProvince=0;
-        this.maxProvince=Infinity;
-
-        this.minCity=0;
-        this.maxCity=Infinity;
-
-        this.minCounty=0;
-        this.maxCounty=Infinity;
-
-        if(this.province!=null && this.province!=0){
-            this.minProvince=this.province;
-            this.maxProvince=this.province;
-
-            if(this.city!=null && this.city!=0){
-                this.minCity=this.city;
-                this.maxCity=this.city;
-
-                if(this.county!=null && this.county!=0){
-                    this.minCounty=this.county;
-                    this.maxCounty=this.county;
-
-                }
-            }
-
-
-        }
+        init();
     }
     public Integer getProvince() {
         return province;
@@ -72,6 +78,14 @@ public class AreaCompareBean {
 
     public void setProvince(Integer province) {
         this.province = province;
+        this.minProvince=0;
+        this.maxProvince=Infinity;
+
+        if(this.province!=null && this.province!=0) {
+            this.minProvince = this.province;
+            this.maxProvince = this.province;
+        }
+
     }
 
     public Integer getCity() {
@@ -80,6 +94,14 @@ public class AreaCompareBean {
 
     public void setCity(Integer city) {
         this.city = city;
+
+        this.minCity=0;
+        this.maxCity=Infinity;
+
+        if(this.city!=null && this.city!=0){
+            this.minCity=this.city;
+            this.maxCity=this.city;
+        }
     }
 
     public Integer getCounty() {
@@ -88,10 +110,18 @@ public class AreaCompareBean {
 
     public void setCounty(Integer county) {
         this.county = county;
+
+        this.minCounty=0;
+        this.maxCounty=Infinity;
+
+        if(this.county!=null && this.county!=0){
+            this.minCounty=this.county;
+            this.maxCounty=this.county;
+        }
     }
 
     public boolean contain(AreaCompareBean otherArea){
-
+            //如果是通过json 转过来 minProinvce可能是为空的
         if(this.minProvince<=otherArea.minProvince
                 && this.maxProvince >= otherArea.maxProvince
                 &&this.minCity<=otherArea.minCity

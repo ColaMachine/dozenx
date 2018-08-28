@@ -1,10 +1,19 @@
 <template>
   <ul class="search-bar">
-    <li><label>合作平台：</label></li>
+    <!--<li><label>合作平台：</label></li>-->
+    <!--<li>-->
+    <!--<Select v-model="value.advertPartnerName" placeholder="全部" style="width:200px" clearable>-->
+    <!--<Option v-for="item in platformList" :value="item.platformName" :key="item.id">{{ item.platformName }}</Option>-->
+    <!--</Select>-->
+    <!--</li>-->
+    <li><label>投放策略：</label></li>
     <li>
-      <Select v-model="value.advertPartnerName" placeholder="全部" style="width:200px" clearable>
-        <Option v-for="item in platformList" :value="item.platformName" :key="item.id">{{ item.platformName }}</Option>
+      <Select v-model="value.strategy" placeholder="请选择" style="width:200px" clearable>
+        <Option v-for="item in strategyList" :value="item.id" :key="item.id">{{ item.name }}</Option>
       </Select>
+    </li>
+    <li>
+      <Input v-model="value.strategyCode" style="width:200px;" placeholder="策略编码" clearable></Input>
     </li>
     <li><label>起止时间：</label></li>
     <li>
@@ -38,10 +47,12 @@
         // value: this.propValue,
         dateOptions: {
           disabledDate(date) {
+            // return false;
             return date && date.valueOf() > Date.now();
           }
         },
-        platformList: [],
+        // platformList: [],
+        strategyList: []
       }
     },
     methods: {
@@ -63,20 +74,26 @@
         } else if (!st && !et) {
         } else {
           this.$Notice.warning({
-            title: '起止时间只能同时选择或者不选'
+            title: '起止时间只能同时选择'
           });
           return;
         }
         this.$emit('on-search');
       },
-      getPlatformList() {
-        $http.get('/advertsrv/partner/platform/list').then(({data}) => {
-          this.platformList = data;
+      // getPlatformList() {
+      //   $http.get('/advertsrv/partner/platform/list').then(({data}) => {
+      //     this.platformList = data;
+      //   });
+      // }
+      getStrategyList() {
+        $http.get('/advertsrv/advertstrategy/code/list', {}).then(({data}) => {
+          this.strategyList = data;
         });
       }
     },
     created() {
-      this.getPlatformList();
+      // this.getPlatformList();
+      this.getStrategyList();
     },
     // watch: {
     //   //actually this watcher does not work,

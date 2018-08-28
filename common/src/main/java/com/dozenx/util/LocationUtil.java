@@ -26,7 +26,7 @@ public class LocationUtil {
 		return idNameMap.get(id);
 	}
 	public static HashMap<Integer,String> idNameMap  =new HashMap<>();
-
+	public static HashMap<String,Integer> nameIdMap  =new HashMap<>();
 
 	public static HashMap<Integer,Integer>  map = new HashMap<Integer,Integer>();
 	static{

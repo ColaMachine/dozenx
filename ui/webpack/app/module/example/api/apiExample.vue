@@ -4,7 +4,7 @@
          <zwHeader class="bg-green">
 
          api列表  <input id="apiUrl"  value="" name="apiUrl" v-model="apiUrlStr"  type="text" /><zwButton type="dashed"   :loading="false"  :loading_delay=1  v-on:click.native="getApiData" >请求api文档</zwButton>
-
+ <input id="host"  value="" name="host" v-model="host"  type="text" />
 <zwInput id="apiSearchText" >
     <zwButton  v-on:click.native="search" slot="append">搜索</zwButton>
 </zwInput>
@@ -56,6 +56,7 @@ export default {
 
         return {
             tags:{},
+            host:"",
             original:{},
             apiUrlStr:'http://127.0.0.1:80/',//http://alpha-np.51awifi.com/timebuysrv/
         }
@@ -65,9 +66,15 @@ export default {
         //从cookie 中读取 apiUrlStr 放入到 apiUrlStr变量中
 
         var apiUrlStrTemp = getCookie("apiUrlStr");
+         var host = getCookie("host");
         if(apiUrlStrTemp){
            this.apiUrlStr= apiUrlStrTemp.replace(/"/g,"");
         }
+
+         if(host){
+                   this.host= host;
+
+                }
 
         var PATH ="";
         var that=this;
@@ -130,12 +137,13 @@ export default {
             window.APIPATH="/proxy";
             window.APIDOMAIN=this.apiUrlStr;
 
-            var url = APIPATH+"/api?url="+this.apiUrlStr;
+            var url = APIPATH+"/api?url="+this.apiUrlStr+"&host="+this.host;
             //alert(url);
 
              log("设置cookie值");
             setCookie("apiUrlStr",this.apiUrlStr,5);
-
+            setCookie("host",this.host,5);
+    window.host=this.host;
             var that=this;
             Ajax.getJSON(url,null,function(data){
            var data = ajaxResultHandler(data);

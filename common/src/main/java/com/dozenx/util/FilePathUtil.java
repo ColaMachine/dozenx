@@ -1,5 +1,6 @@
 package com.dozenx.util;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
@@ -64,6 +65,23 @@ public class FilePathUtil {
 			path = path.substring(5);
 		}
 		return path;
+	}
+	public static String joinPath(String prefix ,String affix){
+		if((!prefix.endsWith("/")) && (!prefix.endsWith("\\"))){
+			prefix+="/";
+		}
+		if(StringUtil.isNotBlank(affix) && affix.startsWith("/")){
+			affix=affix.substring(1);
+		}
+		return prefix+affix;
+	}
+	public static String getYMDPathAffix(String path){
+
+		return joinPath(path,DateUtil.toDateStr(new java.util.Date(),"yyyy/MM/dd/"));
+	}
+	public static String getYMDPathAffix(){
+		String ymdStr = DateUtil.toDateStr(new java.util.Date(),"yyyy/MM/dd");
+		return ymdStr;
 	}
 	
 	public static void main(String[] args) {

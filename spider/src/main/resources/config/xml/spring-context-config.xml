@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:cache="http://www.springframework.org/schema/cache"
+	   xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+
+
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+
+      http://www.springframework.org/schema/cache
+      http://www.springframework.org/schema/cache/spring-cache-3.2.xsd">
+	<!-- 加载数据库配置文件
+	<context:property-placeholder location="classpath:properties/jdbc.properties"
+		ignore-unresolvable="true" />
+
+	<context:annotation-config />-->
+
+
+	<bean id="propertyConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="properties">
+			 <bean id="remoteProperties" class="com.dozenx.web.core.properties.RemoteProperties" />
+		</property>
+	</bean>
+
+	<context:component-scan base-package="com.dozenx.web">
+		<!-- 在装载spring mvc 时会加载这些Controller 因此在这边排除加载 如果不排除会造成事务失效 -->
+		<context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation" />
+	</context:component-scan>
+
+
+	<!-- spring的属性加载器，加载properties文件中的属性 -->
+
+		<!--<bean id="configProperties"
+            class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+            <property name="locations">
+                <list>
+                    <value>classpath:properties/config.properties</value>
+                </list>
+            </property>
+        </bean>-->
+
+	<!-- 配置注解扫描 -->
+
+
+
+<!--	<context:component-scan base-package="core.log">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>-->
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+
+	<!-- 缓存配置  -->
+	<cache:annotation-driven cache-manager="cacheManager"/>
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:ehcache.xml"/>
+	<!-- 配置服务注册组件 -->
+	<!--<bean id="serviceRegistry" class="com.dozenx.test.rpc.ServiceRegistry">
+		<constructor-arg name="registryAddress" value="${registry.address}"/>
+	</bean>
+	&lt;!&ndash; 配置 RPC 服务器 &ndash;&gt;
+	<bean id="rpcServer" class="com.dozenx.test.rpc.server.RpcServer">
+		<constructor-arg name="serverAddress" value="${server.address}"/>
+		<constructor-arg name="serviceRegistry" ref="serviceRegistry"/>
+	</bean>-->
+</beans>

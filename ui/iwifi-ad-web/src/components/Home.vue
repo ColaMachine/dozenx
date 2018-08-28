@@ -13,9 +13,10 @@
             <router-view></router-view>
           </Content>
           <Footer>
-            footer
+            <!--footer-->
           </Footer>
         </Layout>
+
       </Layout>
     </Layout>
   </div>

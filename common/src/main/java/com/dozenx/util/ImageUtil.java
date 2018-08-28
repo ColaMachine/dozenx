@@ -84,9 +84,9 @@ public class ImageUtil {
      * @param times
      * @return
      */
-    public static BufferedImage zoomInImage(BufferedImage originalImage, Integer times) {
-        int width = originalImage.getWidth() * times;
-        int height = originalImage.getHeight() * times;
+    public static BufferedImage zoomInImage(BufferedImage originalImage, float times) {
+        int width = (int)(originalImage.getWidth() * times);
+        int height =(int)( originalImage.getHeight() * times);
         BufferedImage newImage = new BufferedImage(width, height, originalImage.getType());
         Graphics g = newImage.getGraphics();
         g.drawImage(originalImage, 0, 0, width, height, null);
@@ -503,8 +503,7 @@ public class ImageUtil {
 
     /**
      * 说明:
-     *
-     * @param path
+     * @param rootPath 存放路径
      * @param imageName
      * @param imageData
      * @return void
@@ -512,7 +511,7 @@ public class ImageUtil {
      * @author dozen.zhang
      * @date 2015年12月20日下午12:52:39
      */
-    public static String  saveBase64Image(String path, String imageName, String imageData) throws IOException {
+    public static String  saveBase64Image(String rootPath, String imageName, String imageData) throws IOException {
         int success = 0;
         String message = "";
         if (null == imageData || imageData.length() < 100) {
@@ -543,7 +542,9 @@ public class ImageUtil {
             if (null == imageName || imageName.length() < 1) {
                 imageName = System.currentTimeMillis() + ".png";
             }
-            saveImageToDisk(data, path, imageName);
+
+
+            saveImageToDisk(data, rootPath, imageName);
             //
             success = 1;
             message = "上传成功,参数长度:" + len2 + "字符，解析文件大小:" + len + "字节";
@@ -1020,6 +1021,8 @@ public class ImageUtil {
      * @throws Exception  非图片 url 不可读  写文件失败
      */
     public static   BufferedImage saveImageFromUrl(String url ,Path path,String fileName) throws Exception {
+        logger.debug("url:"+url);
+        logger.debug("fileName:"+fileName);
         InputStream inputStream =null;
         try {
              inputStream = HttpRequestUtil.getInputStream(url);//获取输入流 在final里关闭
@@ -1030,6 +1033,44 @@ public class ImageUtil {
             int width = bufferedImage.getWidth();//获取个宽度
             int height = bufferedImage.getHeight();//获取高度
             logger.debug("读取网络图片成功 read image from url succ:" + url + "成功 width:" + width + "height:" + height);
+
+            File file = path.resolve(fileName).toFile();//获取文件位置 尝试创建目录
+            if(!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
+            ImageIO.write(bufferedImage,"jpeg",file);//开始写文件
+            //保存完图片
+            logger.debug("save image file to disk  succ 下载图片:" +file.getAbsolutePath());
+            return bufferedImage;
+        }catch ( Exception e){
+            logger.error( "saveImageFromUrl",e);
+            throw e;
+        }finally {
+            if(inputStream!=null){
+                inputStream.close();
+            }
+        }
+
+    }
+
+    /**
+     * 从url 下载图片
+     * @param file
+     * @throws Exception  非图片 url 不可读  写文件失败
+     */
+    public static   BufferedImage saveImageFromFile(File fromFile ,Path path,String fileName) throws Exception {
+
+        logger.debug("fileName:"+fileName);
+        InputStream inputStream =null;
+        try {
+            inputStream = new FileInputStream(fromFile);//获取输入流 在final里关闭
+            BufferedImage bufferedImage = ImageIO.read(inputStream);//将流转化成图片 如果不是图片这里会报错 直接爆出异常给调用者
+            if(bufferedImage==null){
+                throw new IOException("图片读取失败 iamge read failed!:");
+            }
+            int width = bufferedImage.getWidth();//获取个宽度
+            int height = bufferedImage.getHeight();//获取高度
+            logger.debug("读取网络图片成功 read image from url succ:成功 width:" + width + "height:" + height);
 
             File file = path.resolve(fileName).toFile();//获取文件位置 尝试创建目录
             if(!file.getParentFile().exists()){

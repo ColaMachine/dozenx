@@ -65,7 +65,8 @@ public class MapUtils {
 			String value =entry.getValue()+"";
 			sb.append(key+conector+value+seprator);
 		}
-		return sb.substring(0,sb.length()-1);
+
+		return sb.length()>0?  sb.substring(0,sb.length()-1):sb.toString();
 
 	}
 
@@ -188,7 +189,12 @@ public class MapUtils {
 						return NumberFormat.getInstance().parse(text);
 
 					} catch (ParseException e) {
-						e.printStackTrace();
+						try {
+							System.err.print("err in MapUtils.getNumber:" +key+ e.getMessage() + e.getStackTrace()[0]);
+						}catch (Exception e1){
+							e1.printStackTrace();
+						}
+						//e.printStackTrace();
 					}
 				}
 			}

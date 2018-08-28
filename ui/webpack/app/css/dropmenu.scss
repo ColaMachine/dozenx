@@ -6,7 +6,15 @@
     z-index: 150;
         position: relative;/** 防止弹出的菜单 被其他div 遮挡住*/
 }
+.zw-dropdown .zw-dropdown-overlay{
+    padding:5px;
+    position: relative;
+    background: #fff;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 20px 1px rgba(0,0,0,0.2);
 
+}
 .zw-dropdown .zw-menu{
 
    /* min-width:155px;*/
@@ -18,7 +26,8 @@
     background-color: $white;
     margin:0px 0px 0px;
     border-radius:5px;
-    border:none;/*1px solid #F0F0EE;*/
+    /*border:none;1px solid #F0F0EE;*/
+    border: 1px solid #ccc;
     box-shadow: 0 0px 12px $shadow-gray;
     text-align:left;
     z-index:1000;

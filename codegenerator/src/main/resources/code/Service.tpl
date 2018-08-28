@@ -21,10 +21,9 @@ import org.springframework.stereotype.Service;
 
 import ${table.pkg}.${abc}.bean.${Abc};
 import ${table.pkg}.${abc}.dao.${Abc}Mapper;
-import com.dozenx.util.CacheUtil;
-import com.dozenx.util.ResultUtil;
+import com.dozenx.web.util.ResultUtil;
 import com.dozenx.util.UUIDUtil;
-import com.dozenx.util.ValidateUtil;
+import com.dozenx.web.util.ValidateUtil;
 import com.dozenx.util.StringUtil;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseService;
@@ -112,7 +111,7 @@ public class ${Abc}Service extends BaseService {
             </#if>
             <#list table.cols as col>
                   <#if col.name == 'createTime'>
-            ${abc}.setCreatetime(new Timestamp(new Date().getTime()));
+            ${abc}.setCreateTime(new Timestamp(new Date().getTime()));
                   </#if>
           </#list>
 

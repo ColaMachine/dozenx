@@ -1,5 +1,5 @@
 <template>
-<div id="wangluodiv" style="width:100%;height:100%;background-image:url(/weixin/static/img/smarthome/WechatIMG253.jpeg);background-attachment: fixed;background-size: cover;" >
+<div id="wangluodiv" style="width:100%;height:100%;background-image:url(/static/img/smarthome/WechatIMG253.jpeg);background-attachment: fixed;background-size: cover;" >
 
 
      <zwRow >

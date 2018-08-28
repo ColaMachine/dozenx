@@ -24,30 +24,15 @@ import "./css/slider_text.scss"
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+//这个作为主页面
 
-import phoneIndex from './module/example/datadisplay/phoneIndexExample.vue'
+import phoneIndex from './module/phone/index.vue'
+
+//初始化一个路由
 new Vue({
   el: '#head',
   render: h => h(phoneIndex)
 })
-
-
 Vue.use(VueRouter)
-
-/* 实例化一个vue */
-
-import menu from './component/menu/menu.js'
-
-//var menu = new zMenu();
-
-//var menu = require('./component/menu/menu.js');
-
-
-//menu.init("menu",menuList,{id:"id",url:"url",pid:"pid",name:"name"});
-
-//
-
-
-
 require('./module/route/route.vue');
 

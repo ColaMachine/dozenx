@@ -1,44 +1,42 @@
 <template>
-<div>
-<article>
-<section>
-<h2>Input输入框</h2>
-<p>通过鼠标或键盘输入内容，是最基础的表单域的包装。</p>
-<h3>何时使用</h3>
-<p>需要用户输入表单域内容时。
-   提供组合型输入框，带搜索的输入框，还可以进行大小选择。</p>
-<h3>代码演示<zwIcon type="windows" title="展开全部代码"></zwIcon></h3>
-<zwRow >
-<zwCol span=12>
+  <div>
+    <article>
+      <section>
+        <h2>Input输入框</h2>
+        <p>通过鼠标或键盘输入内容，是最基础的表单域的包装。</p>
+        <h3>何时使用</h3>
+        <p>需要用户输入表单域内容时。 提供组合型输入框，带搜索的输入框，还可以进行大小选择。
+        </p>
+        <h3>代码演示<zwIcon type="windows" title="展开全部代码"></zwIcon></h3>
+        <zwRow>
+          <zwCol span=12>
 
+            <zwBox class="">
+              <div slot="zwCodeBoxDemo">
+                <zwInput placeholder="Basic usage"></zwInput>
 
-    <zwBox class="">
-        <div slot="zwCodeBoxDemo">
-            <zwInput placeholder="Basic usage"></zwInput>
+              </div>
+              <div slot="zwCodeBoxMeta" title="基本使用">
+                基本使用
+              </div>
+              <div slot="zwCodeBoxPanel">
 
-        </div>
-        <div slot="zwCodeBoxMeta"  title="基本使用">
-           基本使用
-        </div>
-        <div slot="zwCodeBoxPanel"  >
-
-            <textarea ref="textarea" id="textarea" name="textarea">
+                <textarea ref="textarea" id="textarea" name="textarea">
            <zwInput placeholder="Basic usage"></zwInput>
              </textarea>
 
-       </div>
-    </zwBox>
+              </div>
+            </zwBox>
 
-    <zwBox class="">
-            <div slot="zwCodeBoxDemo">
-               <zwInput placeholder="Basic usage">
-                <span slot="prepend">http:</span>
-                <span slot="append">.com</span>
-               </zwInput>
-<zwInput placeholder="Basic usage">
+            <zwBox class="">
+              <div slot="zwCodeBoxDemo">
+                <zwInput placeholder="Basic usage">
+                  <span slot="prepend">http:</span>
+                  <span slot="append">.com</span>
+                </zwInput>
+                <zwInput placeholder="Basic usage">
 
-
-                <img slot="append" src="data:image/png;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+                  <img slot="append" src="data:image/png;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
                           HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
                           MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAaAFADASIA
                           AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
@@ -61,22 +59,19 @@
                           aKAGyRpNE8ciK8bgqysMhgeoI9KoaLoWm+HrN7TS7b7PA8hlZd7PliAM5Yk9AKvxxpDEkcaKkaAK
                           qqMBQOgA9Kpa5I8Ph/UpI3ZJEtZWVlOCpCHBB9aBWW5m33gbw1qOiRaNcaTF/Z8UomWKNmjzIFKh
                           iVILHBxkk571V0n4a+D9Dv1vrDQ4VuUxseV3m2EEEModiAwIGGHI9a6uindjWishskaTRPHIivG4
-                          KsrDIYHqCPSqH9mS2/8AyD72S3UfdgkUSwj8DhgMdFVlAwOOudGikB//2Q==" ></img>
+                          KsrDIYHqCPSqH9mS2/8AyD72S3UfdgkUSwj8DhgMdFVlAwOOudGikB//2Q=="></img>
 
+                  <zwButton slot="append" icon="refresh" loading :loading_delay=5></zwButton>
 
-                                    <zwButton  slot="append" icon="refresh" loading :loading_delay=5 ></zwButton>
+                </zwInput>
 
-               </zwInput>
+              </div>
+              <div slot="zwCodeBoxMeta" title="前置后置说明">
 
+                input 可以加前置 后置 用于配置一些固定组合。样式上采用display:table display:table-cell 并且vertical-align:center可解决;
 
-            </div>
-             <div slot="zwCodeBoxMeta"  title="前置后置说明">
-
-               input 可以加前置 后置
-               用于配置一些固定组合。样式上采用display:table display:table-cell 并且vertical-align:center可解决;
-
-            </div>
-            <div slot="zwCodeBoxPanel"  >
+              </div>
+              <div slot="zwCodeBoxPanel">
 
                 <textarea ref="textarea" id="textarea" name="textarea">
                 <zwInput placeholder="Basic usage">
@@ -85,33 +80,43 @@
                               </zwInput>
                 </textarea>
 
-            </div>
-        </zwBox>
+              </div>
+            </zwBox>
 
-        <zwBox class="">
-            <div slot="zwCodeBoxDemo">
-
-                <zwInput placeholder="Basic usage">
-                                               <zwIcon slot="prefix" type="windows"></zwIcon>
-                                               <zwIcon slot="suffix" type="windows"></zwIcon>
-                                              </zwInput>
+            <zwBox class="">
+              <div slot="zwCodeBoxDemo">
 
                 <zwInput placeholder="Basic usage">
-                                   <zwIcon slot="prefix" type="windows"></zwIcon>
-                                   <select slot="suffix" type="windows">
-                                     <option valule="minute">分</option>
-                                   <option valule="hour">小时</option>
-                                    <option valule="day">天</option>
-                                    <option valule="month">月</option>
-                                    <option valule="year">年</option>
-                                   </select>
-                              </zwInput>
-            </div>
-             <div slot="zwCodeBoxMeta"  title="前缀和后缀">
+                  <zwIcon slot="prefix" type="windows"></zwIcon>
+                  <zwIcon slot="suffix" type="windows"></zwIcon>
+                </zwInput>
 
-              在输入框上添加前缀或后缀图标。
-            </div>
-            <div slot="zwCodeBoxPanel"  >
+                <zwInput placeholder="Basic usage">
+                  
+                  <zwButton slot="suffix" icon="search"></zwButton>
+                </zwInput>
+
+
+                <zwInput placeholder="Basic usage">
+                  <zwButton slot="prefix" icon="search"></zwButton>
+                </zwInput>
+
+                <zwInput placeholder="Basic usage">
+                  <zwIcon slot="prefix" type="windows"></zwIcon>
+                  <select slot="suffix" type="windows">
+                    <option valule="minute">分</option>
+                    <option valule="hour">小时</option>
+                    <option valule="day">天</option>
+                    <option valule="month">月</option>
+                    <option valule="year">年</option>
+                  </select>
+                </zwInput>
+              </div>
+              <div slot="zwCodeBoxMeta" title="前缀和后缀">
+
+                在输入框上添加前缀或后缀图标。
+              </div>
+              <div slot="zwCodeBoxPanel">
 
                 <textarea ref="textarea" id="textarea" name="textarea">
                    <zwButton type="dashed" shape="circle" icon="search" loading :loading_delay=5></zwButton>
@@ -144,62 +149,93 @@
                    }
                 </textarea>
 
-            </div>
-        </zwBox>
+              </div>
+            </zwBox>
 
-</zwCol>
+            <zwBox class="">
+              <div slot="zwCodeBoxDemo">
+                <div>
+                  有什么新鲜事想告诉大家
+                  <textarea rows="7" cols="80" style="width:100%;height:100%">
+                        </textarea>
+                  <a>表情</a>
+                  <a>图片</a>
+                  <a>视频</a>
+                  <a>视频</a>
 
+                  <a>发布</a>
+                </div>
+              </div>
+              <div slot="zwCodeBoxMeta" title="前缀和后缀">
 
+              </div>
+              <div slot="zwCodeBoxPanel">
 
-<zwCol span=12>
+                <textarea ref="textarea" id="textarea" name="textarea">
 
-</zwCol>
+                        </textarea>
 
+              </div>
+            </zwBox>
 
+          </zwCol>
 
+          <zwCol span=12>
 
-</zwRow>
+          </zwCol>
 
-</section>
-</article>
-</div>
+        </zwRow>
+
+      </section>
+    </article>
+  </div>
 </template>
 <script>
-import zwButton from '../../../component/button/zwButton.vue';
-import zwButtonGroup from '../../../component/button/zwButtonGroup.vue';
-import zwIcon from '../../../component/icon/zwIcon.vue';
-import zwRow from '../../../component/layout/zwRow.vue';
-import zwBox from '../../../component/layout/zwBox.vue';
-import zwDropDown from '../../../component/navigation/menu/zwDropDown.vue';
-import zwMenu from '../../../component/navigation/menu/zwMenu.vue';
-import zwMenuItem from '../../../component/navigation/menu/zwMenuItem.vue';
-import zwInput from '../../../component/dataentry/zwInput.vue';
+  import zwButton from '../../../component/button/zwButton.vue';
+  import zwButtonGroup from '../../../component/button/zwButtonGroup.vue';
+  import zwIcon from '../../../component/icon/zwIcon.vue';
+  import zwRow from '../../../component/layout/zwRow.vue';
+  import zwBox from '../../../component/layout/zwBox.vue';
+  import zwDropDown from '../../../component/navigation/menu/zwDropDown.vue';
+  import zwMenu from '../../../component/navigation/menu/zwMenu.vue';
+  import zwMenuItem from '../../../component/navigation/menu/zwMenuItem.vue';
+  import zwInput from '../../../component/dataentry/zwInput.vue';
 
-import zwCol from '../../../component/layout/zwCol.vue';
-export default {
-    components:{zwButton,zwIcon,zwBox,zwRow,zwCol,zwDropDown,zwMenu,zwMenuItem,zwButtonGroup,zwInput},
-    data () {
-
-        return {
-            msg: 'Hello World!',
-            loading:false,
-        }
-    }
-    ,
-    computed: {
-        getLoadingVal:function(){
-            return this.loading;
-        }
+  import zwCol from '../../../component/layout/zwCol.vue';
+  export default {
+    components: {
+      zwButton,
+      zwIcon,
+      zwBox,
+      zwRow,
+      zwCol,
+      zwDropDown,
+      zwMenu,
+      zwMenuItem,
+      zwButtonGroup,
+      zwInput
     },
-    methods:{
-        changeLoading:function(){
-             console.log("123");
-          this.loading=!this.loading;
-            // this.loading={delay:5};
-              console.log(this.loading);
-        }
+    data() {
+
+      return {
+        msg: 'Hello World!',
+        loading: false,
+      }
+    },
+    computed: {
+      getLoadingVal: function() {
+        return this.loading;
+      }
+    },
+    methods: {
+      changeLoading: function() {
+        console.log("123");
+        this.loading = !this.loading;
+        // this.loading={delay:5};
+        console.log(this.loading);
+      }
     }
-}
+  }
 </script>
 <style scoped>
 

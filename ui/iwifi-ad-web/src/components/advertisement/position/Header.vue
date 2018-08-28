@@ -1,7 +1,7 @@
 <template>
    <div class="RightTop">
           <Breadcrumb>
-             <BreadcrumbItem>广告位列表</BreadcrumbItem>
+             <BreadcrumbItem>广告位管理</BreadcrumbItem>
           </Breadcrumb>
           <Button type="warning" @click="addSerach">添加广告位</Button>
      </div>

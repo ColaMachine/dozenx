@@ -141,6 +141,16 @@ function getChildByName(parentNode,name){
     return null;
 
 }
+
+function parseDom(arg) {
+
+　　 var objE = document.createElement("div");
+
+　　 objE.innerHTML = arg;
+
+　　 return objE.childNodes[0];
+
+};
 /*
 function getChildByTagName(parentNode,name){
     var result = [];

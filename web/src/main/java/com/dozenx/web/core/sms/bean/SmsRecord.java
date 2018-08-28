@@ -52,4 +52,14 @@ public class SmsRecord {
     }    public void setReason(String reason){
         this.reason=reason;
     }
+
+    private Long createUser;
+
+    public Long getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Long createUser) {
+        this.createUser = createUser;
+    }
 }

@@ -464,4 +464,34 @@ if(!StringUtil.isBlank(reasonLike)){
     public void importExcel(){
         
     }
+
+    @RequestMapping(value = "/test")
+    public void test(){
+//        YunpianClient clnt = new YunpianClient("apikey").init();
+//
+////发送短信API
+//        Map<String, String> param = clnt.newParam(2);
+//        param.put(YunpianClient.MOBILE, "13958173965");
+//        param.put(YunpianClient.TEXT, "【云片网】您的验证码是1234");
+//        Result<SmsSingleSend> r = clnt.sms().single_send(param);
+////获取返回结果，返回码:r.getCode(),返回码描述:r.getMsg(),API结果:r.getData(),其他说明:r.getDetail(),调用异常:r.getThrowable()
+//        System.out.println(r.getCode());
+////账户:clnt.user().* 签名:clnt.sign().* 模版:clnt.tpl().* 短信:clnt.sms().* 语音:clnt.voice().* 流量:clnt.flow().* 隐私通话:clnt.call().*
+//
+////释放clnt
+//        clnt.close();
+    }
+
+    public static void main(String args[]){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("apikey", "f95d47767b4f6773898beaef2930ee32");
+        params.put("text", "【云片网】您的验证码是1234");
+        params.put("mobile", "13958173965");
+       String content = MapUtils.join(params, "=", "&");
+        try {
+            System.out.println(HttpsConnection.doPost("https://sms.yunpian.com/v2/sms/single_send.json", content,"utf-8",2000,2000,false));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

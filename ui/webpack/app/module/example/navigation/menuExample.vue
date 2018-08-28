@@ -50,19 +50,33 @@
               <div slot="zwCodeBoxPanel">
 
                 <textarea ref="textarea" id="textarea" name="textarea">
-                  <zwButton type="primary" shape="circle" icon="search"></zwButton>
-                  <zwButton type="primary" icon="search">search</zwButton>
+                 <zwMenu mode="horizontal" color="white">
+                                  <zwMenuItem key="mail">
+                                    <zwIcon type="mail" />Navigation One
+                                  </zwMenuItem>
+                                  <zwMenuItem key="app" disabled>
+                                    <zwIcon type="appstore" />Navigation Two
+                                  </zwMenuItem>
 
-                  <zwButton shape="circle" icon="search"></zwButton>
-                  <zwButton icon="search">search</zwButton>
+                                  <zwSubMenu>
+                                    <template slot="title">
+                                      <zwIcon type="appstore" />Navigation three</template>
 
-                  <br />
+                                    <zwMenuItemGroup title="Item 1">
+                                      <zwMenuItem key="setting:1">Option 1</zwMenuItem>
+                                      <zwMenuItem key="setting:2">Option 2</zwMenuItem>
+                                    </zwMenuItemGroup>
+                                    <zwMenuItemGroup title="Item 2">
+                                      <zwMenuItem key="setting:3">Option 3</zwMenuItem>
+                                      <zwMenuItem key="setting:4">Option 4</zwMenuItem>
+                                    </zwMenuItemGroup>
 
-                  <zwButton type="dashed" shape="circle" icon="search"></zwButton>
-                  <zwButton type="dashed" icon="search">search</zwButton>
+                                  </zwSubMenu>
 
-                  <zwButton type="danger" shape="circle" icon="search"></zwButton>
-                  <zwButton type="danger" icon="search">search</zwButton>
+                                  <zwMenuItem key="alipay">
+                                    <a href="https://ant.design" target="_blank" rel="noopener noreferrer">Navigation Four - Link</a>
+                                  </zwMenuItem>
+                                </zwMenu>
                 </textarea>
 
               </div>

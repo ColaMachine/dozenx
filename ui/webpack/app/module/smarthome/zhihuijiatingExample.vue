@@ -71,6 +71,11 @@
                       </div>
           </zwCol>
           </zwRow>
+          <zwRow>
+          <zwCol>
+            <zwAppImgList :list="imgList"></zwAppImgList>
+          </zwCol>
+          </zwRow>
   <zwRow class="fix-bottom">
  <zwCol  span=24>
     <bottomBar  defaultIndex="1"></bottomBar>
@@ -87,6 +92,10 @@ import zwRow from '../../component/layout/zwRow.vue';
 import zwCol from '../../component/layout/zwCol.vue';
 import zwIcon from '../../component/icon/zwIcon.vue';
 
+
+
+import zwPcImgList from '../../component/datadisplay/zwPcImgList.vue';
+import zwAppImgList from '../../component/datadisplay/zwAppImgList.vue';
   import zwJumbotron from '../../component/datadisplay/zwJumbotron.vue';
   import zwSlidPanel from '../../component/datadisplay/zwSlidPanel.vue';
   import zwCollapse from '../../component/datadisplay/zwCollapse.vue';
@@ -97,12 +106,21 @@ import bottomBar from '../smarthome/bottomBar.vue';
  import zwMessage from '../../component/feedback/zwMessage.vue';
 export default {
     components:{zwRow,zwCol,zwIcon,bottomBar,zwJumbotron,zwSlidPanel,zwPanel,zwCollapse,zwMessage,
-    zwRadioGroup,zwRadioButton
+    zwRadioGroup,zwRadioButton,zwPcImgList,zwAppImgList
     },
     data () {
 
         return {
         list:[],
+        imgList:[
+
+                { id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+                 {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+                 {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+                 {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"},
+                 {id:1,title:"华家池(凯旋路)",tag1:["设施齐全","设施齐全","设施齐全"],tag2:["80人","888平米","已售88份"],tag3:["支付宝","有储物柜","小卖部","有空调"],score:"5.5",commentCount:"12",price:"1231起步",subtitle:"莫干山路101010号1幢401是",pic:"static/img/carousel/11.png"}
+
+                ],
         tabIndex:2,
         options:[
         {  value:0,name:"回家模式" },

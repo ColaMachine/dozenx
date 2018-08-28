@@ -8,6 +8,19 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 public class ByteUtil
 {
+    public final static short BIT_0011 = 3;
+    public final static short BIT_0100 = 4;
+    public final static short BIT_1111 = 255;
+    //每一位代表4位
+    public final static short HEX_1_0_0_0 =(short) (15<<12);// 1111 0000  0000  0000
+    public final static short HEX_0_1_0_0 = 15<<8;// 0000 1111 0000  0000
+    public final static short HEX_0_0_1_0 = 15<<4;// 0000 0000 1111 0000
+    public final static short HEX_0_0_0_1 = 15;// 0000 0000 0000 1111
+    public final static short HEX_0_0_1_1 = 255;// 0000 0000 1111 1111
+    public final static short HEX_0_1_1_1 = HEX_0_0_1_1 | HEX_0_1_0_0;// 0000 1111 1111 1111
+    public final static short HEX_1_1_0_0 = (short)(255<<8);// 1111 1111 0000 0000
+    public final static short HEX_1_1_1_1 = (short)(255<<8)|(255);// 1111 1111 1111 1111
+
     public static byte[] getBytes(short data)
     {
         byte[] bytes = new byte[2];
@@ -324,5 +337,105 @@ public class ByteUtil
             str.append(new String(chars));
         }
         return str.toString();
+    }
+
+
+    public static int get32_28Value(int value ){
+        return (value>>16 & HEX_1_0_0_0 )>>12 &HEX_0_0_0_1;
+    }
+    public static int get28_24Value(int value ){
+        return (value>>16 & HEX_0_1_0_0 )>>8&HEX_0_0_0_1;
+    }
+    public static int get24_20Value(int value ){
+        return (value>>16 & HEX_0_0_1_0 )>>4&HEX_0_0_0_1;
+    }
+    public static int get24_16Value(int value ){
+        return (value>>16 & HEX_0_0_1_1 );
+    }
+    public static int get20_16Value(int value ){
+        return (value>>16 & HEX_0_0_0_1)>>0&HEX_0_0_0_1;
+    }
+
+    public static int get16_12Value(int value ){
+        return (value & HEX_1_0_0_0 )>>12&HEX_0_0_0_1;
+    }
+    public static int get16_0Value(int value ){
+        return (value <<16 )>>16;
+    }
+    public static int get12_8Value(int value ){
+        return (value & HEX_0_1_0_0 )>>8&HEX_0_0_0_1;
+    }
+    public static int get9_8Value(int value ){//取第89位 右移8位 并上 0011
+        return (value & HEX_0_1_0_0 )>>8&BIT_0011;
+    }
+
+    public static int get10Value(int value ){//取第89位 右移8位 并上 0011
+        return (value & HEX_0_1_0_0 )>>8&BIT_0011;
+    }
+
+
+    public static int get8_4Value(int value ){
+        return (value & HEX_0_0_1_0 )>>4&HEX_0_0_0_1;
+    }
+    public static int get4_0Value(int value ){
+        return (value & HEX_0_0_0_1)>>0;
+    }
+    public static int get8_0Value(int value ){
+        return (value & HEX_0_0_1_1);
+    }
+    public static int get16_8Value(int value ){
+        return (value & HEX_1_1_0_0)>>8;
+    }
+
+
+
+    public  static int unionBinary(int a,int b,int c,int d){
+        return (((a&HEX_0_0_0_1 ) <<12 )|
+                ((b&HEX_0_0_0_1 ) <<8 )|
+                ((c&HEX_0_0_0_1 ) <<4 )|
+                ((d&HEX_0_0_0_1 ) <<0 ));
+
+    }
+
+    /**
+     * 将3个小于16的数 和一个 最大24bit的数据结合再一起
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @return
+     */
+    public  static int unionBinary4_4_4_24(int a,int b,int c,int d){
+        return (((a&HEX_0_0_0_1 ) <<28 )| //4
+                ((b&HEX_0_0_0_1 ) <<24 )|   //
+                ((c&HEX_0_0_0_1 ) << 20)|
+                ((d<<12 >>12 )  ));
+
+    }
+
+    public  static int unionBinary4_4_8_16(int a,int b,int c,int d){
+        return (((a&HEX_0_0_0_1 ) <<28 )| //4
+                ((b&HEX_0_0_0_1 ) <<24 )|   //
+                ((c&HEX_0_0_1_1 ) << 16)|
+                ((d<<16 >>16 )  ));
+
+    }
+    public  static int unionBinary4_8_4_16(int a,int b,int c,int d){
+        return (((a&HEX_0_0_0_1 ) <<28 )| //4
+                ((b&HEX_0_0_0_1 ) <<20 )|   //
+                ((c&HEX_0_0_1_1 ) << 16)|
+                ((d<<16 >>16 )  ));
+
+    }
+
+    public static int [] getValueSplit4Slot(int value ){
+
+        return new int[]{get16_12Value(value),get12_8Value(value),get8_4Value(value),get4_0Value(value)};
+
+    }
+    public static int [] getValueSplit8Slot(int value ){
+
+        return new int[]{get32_28Value(value),get28_24Value(value),get24_16Value(value),get16_0Value(value)};
+
     }
 }

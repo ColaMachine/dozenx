@@ -42,10 +42,10 @@
         <div>
             <div>
 
-                <h1 style="font-size:80px" class="logo-name">装维＋</h1>
+                <h1 style="font-size:40px" class="logo-name">公园＋</h1>
 
             </div>
-            <h3>注册 to 装维+</h3>
+            <h3>注册 to </h3>
             <p>注　册　一　个　账　号　瞧　瞧　吧.</p>
             <form id="registerForm" class="m-t" role="form" action="/sys/auth/registerPost.json">
 
@@ -166,15 +166,15 @@
     <!-- Mainly scripts -->
 
     <!-- iCheck -->
-    <script src="${path}/static/js/icheck.min.js"></script>
+ <!--   <script src="${path}/static/js/icheck.min.js"></script>-->
     <script>
 
-        $(document).ready(function(){
+       /* $(document).ready(function(){
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
-        });
+        });*/
     </script>
 
 

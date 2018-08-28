@@ -115,11 +115,14 @@ public class Config {
                 return new Config();
             } else {
                 merge(baseConfig.getAsJsonObject(), config.getAsJsonObject());
-                return gson.fromJson(baseConfig, Config.class);
+                Config newConfig= gson.fromJson(baseConfig, Config.class);
+                LOGGER.info("load config complete");
+                return  newConfig;
             }
         } catch (JsonParseException e) {
             throw new IOException("Failed to load config", e);
         }
+
     }
 
     /**

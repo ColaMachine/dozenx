@@ -2,13 +2,12 @@
 <div>
 <article>
 <section>
-<h2>Collapse折叠面板</h2>
-<p>可以折叠/展开的内容区域。。</p>
+<h2>table</h2>
+<p>展现列表数据</p>
 <h3>何时使用#</h3>
 
 <p>
-对复杂区域进行分组和隐藏，保持页面的整洁。
-手风琴 是一种特殊的折叠面板，只允许单个内容区域展开。
+对list数据进行展示
 </p>
 
 <h3>代码演示<zwIcon type="windows" title="展开全部代码"></zwIcon></h3>
@@ -20,7 +19,7 @@
              <zwTable :param="gridParam"> </zwTable>
         </div>
         <div slot="zwCodeBoxMeta"  title="tab类型">
-            zwAppDialogue 是适用于手机端 在底部展现出 弹出框
+            zwTable 是适合pc端使用的table表行列数据展示,内部使用grid 实现类似jqgrid
         </div>
         <div slot="zwCodeBoxPanel"  >
 
@@ -39,6 +38,60 @@
 
 
 
+<zwRow >
+<zwCol span=24>
+    <zwBox class="">
+        <div slot="zwCodeBoxDemo">
+
+             <zwSimpleTable :list="list" :param="tableParam"> </zwSimpleTable>
+        </div>
+        <div slot="zwCodeBoxMeta"  title="tab类型">
+            zwSimpleTable 是适用于简单的标行列结构 内部用ul li 实现
+        </div>
+        <div slot="zwCodeBoxPanel"  >
+
+            <textarea ref="textarea" id="textarea" name="textarea">
+             <zwAppDialogue ></zwAppDialogue>
+            </textarea>
+
+       </div>
+    </zwBox>
+</zwCol>
+
+
+
+</zwRow>
+
+
+<zwRow >
+<zwCol span=24>
+    <zwBox class="">
+        <div slot="zwCodeBoxDemo">
+            <zwPanel state="open">
+               <span slot="title" name="title">title123</span>
+                <p  slot="body" name="body">
+
+                 <zwSimpleTable :list="list" :param="tableParam"> </zwSimpleTable>
+
+                 </p>
+
+             </zwPanel>
+        </div>
+        <div slot="zwCodeBoxMeta"  title="tab类型">
+            zwSimpleTable 是适用于简单的标行列结构 内部用ul li 实现
+        </div>
+        <div slot="zwCodeBoxPanel"  >
+
+            <textarea ref="textarea" id="textarea" name="textarea">
+ <zwAppDialogue ></zwAppDialogue>
+            </textarea>
+
+       </div>
+    </zwBox>
+</zwCol>
+
+</zwRow>
+
 </section>
 </article>
 </div>
@@ -55,13 +108,28 @@ import zwCol from '../../../component/layout/zwCol.vue';
 import zwIcon from '../../../component/icon/zwIcon.vue';
 import zwBox from '../../../component/layout/zwBox.vue';
 
-
+import zwSimpleTable from '../../../component/datadisplay/zwSimpleTable.vue';
 import zwTable from '../../../component/datadisplay/zwTable.vue';
+import zwPanel from '../../../component/datadisplay/zwPanel.vue';
 export default {
-    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwTable},
+    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwTable,zwSimpleTable,zwPanel},
     data () {
 
         return {
+            list:[
+                             {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
+                             {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
+                             {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
+                             {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
+                             {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
+                             {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
+                             {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
+                             ],
+             tableParam:[
+              {   name : 'titile',width : 80,} ,
+              {   name : 'subTitle',width : 80, } ,
+                  {   name : 'pic',width : 80, } ,
+             ],
             gridParam:{
                     datatype: "json",
                     viewrecords: true, sortorder: "desc", caption:"",

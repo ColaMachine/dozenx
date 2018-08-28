@@ -35,7 +35,7 @@
                 charset="utf-8"></script>
                    <script src="${path}/static/js/layer.js" type="text/javascript"
                                 charset="utf-8"></script>
-                                 <script src="${path}/static/phone/js/jquery.md5.js" type="text/javascript"
+                                 <script src="${path}/static/js/jquery.md5.js" type="text/javascript"
                                                                 charset="utf-8"></script>
 <style type="text/css">
 .help-block-left-animation{

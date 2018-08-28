@@ -52,15 +52,4 @@ export default {
     };
 </script>
 <style>
-.zw-box{
-    border: 1px solid #e9e9e9;
-        border-radius: 4px;
-        display: inline-block;
-        width:90%;
-        position: relative;
-        margin: 16px 16px 16px 16px;
-        -webkit-transition: all .2s;
-        transition: all .2s;
-        margin-left:30px;
-}
 </style>

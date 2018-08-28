@@ -15,6 +15,7 @@ import com.dozenx.web.core.annotation.RequiresPermission;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysRole.service.SysRoleService;
 import com.dozenx.web.core.base.BaseController;
+import com.dozenx.web.core.location.service.LocationService;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.rules.*;
@@ -30,6 +31,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.sql.Timestamp;
@@ -532,6 +534,27 @@ public class SysRoleController extends BaseController{
 //        }
         List<SysRole> sysRoles = sysRoleService.listByParams4Page(params);
         return ResultUtil.getResult(sysRoles, page);
+    }
+
+    /**
+     * 说明:ajax请求角色信息
+     * @return
+     * @return Object
+     * @author dozen.zhang
+     * @date 2015年11月15日下午12:31:55
+     */
+    @API(summary = "角色列表接口",
+            consumes = "application/x-www-form-urlencoded",
+            description = "sysUserController 角色列表分页查询接口", parameters = {
+
+            @Param(name = "params", description = "{\"curPage\":1,\"pageSize\":20,\"code\":\"\",\"name\":\"\"}", dataType = DataType.STRING, in="query",required = true),
+    })
+    @APIResponse(value = "{\"r\":0,\"data\":[{\"id\":333,\"name\":\"ccc\",\"code\":\"ccc\",\"orderNo\":1,\"remark\":\"ccc\"},{\"id\":123123,\"name\":\"管理员1\",\"code\":\"role_admin\",\"orderNo\":1,\"remark\":\"管理员1\"}],\"page\":{\"curPage\":1,\"totalPage\":1,\"pageSize\":20,\"totalCount\":14,\"beginIndex\":0,\"hasPrePage\":false,\"hasNextPage\":false},\"right\":true}")
+    @RequestMapping(value = "/drop/list",method=RequestMethod.GET,produces="application/json")
+    @ResponseBody
+    public Object droplistRestful(HttpServletRequest request) {
+        List<SysRole> sysRoles = sysRoleService.listByParams(new HashMap<>());
+        return ResultUtil.getDataResult(sysRoles);
     }
 
 

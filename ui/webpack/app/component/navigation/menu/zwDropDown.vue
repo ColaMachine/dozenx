@@ -1,7 +1,7 @@
 
 <template>
-  <div ref="main"  v-on:mouseenter="showMenu" v-on:mouseleave="hideMenu"  v-on:click="toggleMenu"  class="zw-dropdown" >
-  <slot name="button" ></slot>
+  <div ref="main"  v-on:mouseenter="mouseenter" v-on:mouseleave="mouseleave"  class="zw-dropdown" >
+  <div  v-on:click="toggleMenu" ><slot name="button" ></slot></div>
   <div ref="overlay" style="display:none" class="zw-dropdown-overlay">
         <slot  name="menu"></slot>
   </div>
@@ -29,7 +29,7 @@ export default {
 　　　　　　},
         methods: {
 
-            showMenu:function(){console.log("enter ");
+            mouseenter:function(){console.log("enter ");
 
             if(this.trigger=="click"){
                 return;
@@ -42,7 +42,7 @@ export default {
                    console.log("offsetHeight"+this.$refs.overlay.offsetHeight);
                                            console.log("overLayPosition.height"+overLayPosition.height);
 
-                if(this.placement){
+               /* if(this.placement){
                     if(this.placement=="bottomLeft"){
                         this.$refs.overlay.style.top=mainPosition.bottom+"px";
                         this.$refs.overlay.style.left=mainPosition.left+"px";
@@ -71,12 +71,12 @@ export default {
                     this.$refs.overlay.style.left=mainPosition.left+"px";
 
 
-                }
+                }*/
 
                    console.log("offsetHeight"+this.$refs.overlay.offsetHeight);
                 //this.menuShow=true;
             },
-            hideMenu:function(){console.log("leave ");
+            mouseleave:function(){console.log("leave ");
                 if(this.trigger=="click"){
                     return;
                 }
@@ -103,7 +103,7 @@ export default {
                             console.log("mainPosition.top"+mainPosition.top);
                             console.log("mainPosition.height"+mainPosition.height);
 
-                             if(this.placement){
+                             /*if(this.placement){
                                  if(this.placement=="bottomLeft"){
                                      this.$refs.overlay.style.top=mainPosition.bottom+"px";
                                      this.$refs.overlay.style.left=mainPosition.left+"px";
@@ -129,7 +129,7 @@ export default {
                                 }else{
                                       this.$refs.overlay.style.top=mainPosition.bottom+"px";
                                                                          this.$refs.overlay.style.left=mainPosition.left+"px";
-                                }
+                                }*/
                   }
 
 

@@ -97,9 +97,13 @@ public class ValidUtil {
                 }
             }else if(ruleKey.trim().equals("length")){//长度校验，暂只支持字符串
                 length(key, value, CastUtil.toInteger(ruleValue));
+            }else if(ruleKey.trim().equals("minLength")){//长度校验，暂只支持字符串
+                minlength(key, value, CastUtil.toInteger(ruleValue));
             }else if(ruleKey.trim().equals("regex")){//正则匹配
                 isString("ruleValue", ruleValue);//规则 值 必须为字符串
                 regex(key, value, (String)ruleValue);
+            }else if(ruleKey.trim().equals("charRegex")){//判定特殊字符
+                charRegex(key, String.valueOf(value));
             }
         }
     }
@@ -263,6 +267,29 @@ public class ValidUtil {
 
         }
     }
+
+    /**
+     * 长度校验，暂只支持字符串
+     * @param key 键
+     * @param value 值
+     * @param length 长度
+     * @author 许小满
+     * @date 2017年11月7日 下午2:20:40
+     */
+    private static void minlength(String key, Object value, int length){
+        if(!(value instanceof String)){//不是字符串，自动跳过
+            return;
+        }
+        String valueStr = (String)value;
+        if(StringUtils.isBlank(valueStr)){//空串，自动跳过
+            return;
+        }
+        if(valueStr.length() < length){
+            //throw new ValidException("E2000074", MessageUtil.getMessage("E2000074", new Object[]{key, value, length}));//{0}[{1}]长度超出了范围[{2}]!
+            throw new ValidException("30202016", ErrorMessage.getErrorMsg("err.param.length.min", new Object[]{key, value, length}));
+
+        }
+    }
     
     /**
      * 数组内部不允许存在空值(null|"")的校验
@@ -410,4 +437,14 @@ public class ValidUtil {
 		Matcher m = p.matcher(str);
 		return m.matches();
 	}
+    public static final String CHAR_REEX = "^.*[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？].*$";
+
+    public static  void charRegex(String key ,String value)  {
+        Pattern pattern = Pattern.compile(CHAR_REEX);
+        Matcher matcher = pattern.matcher(CastUtil.toString(value));
+        if(matcher.matches()) {
+            throw new ValidException("10105001", ErrorMessage.getErrorMsg("err.special.char", key));//{0}不允许为空!
+        }
+    }
+
 }

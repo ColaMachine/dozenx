@@ -32,7 +32,7 @@ export function validateToken() {
 }
 
 export function getPageSize() {
-  return 20;
+  return 15;
 }
 
 export function logout() {
@@ -46,3 +46,12 @@ export function selectMenu(path) {
 export function initWorker(path) {
   return new Worker(path);
 }
+// 把Date格式的时间转换为字串'1985-02-25'
+export function formatDate(date) {
+  var y = date.getFullYear();
+  var m = date.getMonth() + 1;
+  m = m < 10 ? '0' + m : m;
+  var d = date.getDate();
+  d = d < 10 ? ('0' + d) : d;
+  return y + '-' + m + '-' + d;
+};

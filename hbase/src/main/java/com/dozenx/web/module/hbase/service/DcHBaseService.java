@@ -36,10 +36,13 @@ public class DcHBaseService {
     /** 日志 */
     private static final Logger LOG = LoggerFactory.getLogger(DcHBaseService.class);
     /** connection */
-    private static final Connection CONN = DcHBaseConnection.getConnection();
+    //  private static  Connection CONN =null;
 
     public static Connection getCONN() {
-        return CONN;
+
+
+
+        return DcHBaseConnection.getConnection();
     }
 
     /**
@@ -51,9 +54,9 @@ public class DcHBaseService {
     public static void createTable(String tableName, String familyName) {
         HBaseAdmin admin = null;
         try {
-            LOG.debug("hbase connection:" + CONN);
+            LOG.debug("hbase connection:" + getCONN());
             //获得admin，创建表
-            admin = (HBaseAdmin) CONN.getAdmin();
+            admin = (HBaseAdmin) getCONN().getAdmin();
             // 判断表是否存在，如果不存在，创建
             if (!admin.tableExists(tableName)) {
                 LOG.debug("creating HBase table...");
@@ -88,8 +91,8 @@ public class DcHBaseService {
     public static void createTable(String tableName, List<String> familyNames) {
         HBaseAdmin admin = null;
         try {
-            LOG.debug("hbase connection:" + CONN);
-            admin = (HBaseAdmin) CONN.getAdmin();
+            LOG.debug("hbase connection:" + getCONN());
+            admin = (HBaseAdmin) getCONN().getAdmin();
             // 判断表是否存在，如果不存在，创建
             if (!admin.tableExists(tableName)) {
                 LOG.debug("creating HBase table...");
@@ -129,7 +132,7 @@ public class DcHBaseService {
         try {
             if(puts!=null && puts.size()>0){
                 LOG.debug("inserting into HBase...");
-                table = (HTable) CONN.getTable(TableName.valueOf(tableName));
+                table = (HTable) getCONN().getTable(TableName.valueOf(tableName));
                 table.setAutoFlushTo(false);// 设置不自动flush
                 table.put(puts);
                 table.flushCommits();
@@ -148,11 +151,11 @@ public class DcHBaseService {
         }
     }
     public static boolean checkAndPut(String tableName,byte[] row, byte[] family, byte[] qualifier,
-                                   byte[] value, Put put) {
+                                      byte[] value, Put put) {
         HTable table = null;
         try {
             LOG.debug("inserting into HBase...");
-            table = (HTable) CONN.getTable(TableName.valueOf(tableName));
+            table = (HTable) getCONN().getTable(TableName.valueOf(tableName));
             table.setAutoFlushTo(false);// 设置不自动flush
             boolean success= table.checkAndPut(row,  family,  qualifier, value,  put);
             table.flushCommits();
@@ -177,7 +180,7 @@ public class DcHBaseService {
         try {
             if(deletes!=null && deletes.size()>0){
                 LOG.debug("delete  HBase row ...");
-                table = (HTable) CONN.getTable(TableName.valueOf(tableName));
+                table = (HTable) getCONN().getTable(TableName.valueOf(tableName));
                 table.setAutoFlushTo(false);// 设置不自动flush
                 table.delete(deletes);
                 table.flushCommits();
@@ -195,7 +198,7 @@ public class DcHBaseService {
             }
         }
     }
-
+    public static int failCount=0;
     /**
      * 根据列前缀获取列，不分列簇
      * @param tableName
@@ -204,19 +207,20 @@ public class DcHBaseService {
      */
     public static Result getColumnValue(String tableName,String rowkey,byte[] family,byte[] column){
         try {
-            HTable table=(HTable) CONN.getTable(TableName.valueOf(tableName));
+            HTable table=(HTable) getCONN().getTable(TableName.valueOf(tableName));
             Get get=new Get(Bytes.toBytes(rowkey));
             get.addColumn(family,column);
             Result result=table.get(get);
             return result;
         } catch (IOException e) {
+
             e.printStackTrace();
         }
         return null;
     }
 
     /**
-     * 
+     *
      * @Title: scanAll
      * @Description: 查询表里面所有数据
      * @param tableName String
@@ -228,7 +232,7 @@ public class DcHBaseService {
         Scan scan = null;
         try {
             LOG.debug("Scan HBase,table name:" + tableName);
-            table = (HTable) CONN.getTable(TableName.valueOf(tableName));
+            table = (HTable) getCONN().getTable(TableName.valueOf(tableName));
             scan = new Scan();
             ResultScanner scanRes = table.getScanner(scan);
             res = new ArrayList<Object>();
@@ -256,7 +260,7 @@ public class DcHBaseService {
 
 
     /**
-     * 
+     *
      * @Title: scanAllBySubstringKeyWordPaged
      * @Description: 根据条件分页查询HBase包含param的结果
      * @param params Map<String, Object>
@@ -283,7 +287,7 @@ public class DcHBaseService {
             try {
                 LOG.debug("Scan HBase,table name:" + tableName);
                 /** 获取table连接 */
-                table = (HTable) CONN.getTable(TableName.valueOf(tableName));
+                table = (HTable) getCONN().getTable(TableName.valueOf(tableName));
                 /** 获取扫描工具 */
                 scan = new Scan();
                 /** rowKey过滤器 */
@@ -492,7 +496,7 @@ public class DcHBaseService {
 
     /**
      * 根据rowKey查询一条记录
-     * 
+     *
      * @param rowKey
      */
     public static List<Cell> queryByRowKey(String tableName, String rowKey) throws Exception {
@@ -504,9 +508,9 @@ public class DcHBaseService {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        
+
         Result r = table.get(get);
-        
+
         if (!r.isEmpty()) {
             /*System.out.println("获得rowKey:" + new String(r.getRow()));
             for (Cell cell : r.rawCells()) {
@@ -517,10 +521,10 @@ public class DcHBaseService {
         }
         return Lists.newArrayList();
     }
-    
+
     /**
      * 是否存在rowKey
-     * 
+     *
      * @param rowKey
      */
     public static Boolean isExistenceByRowKey(String tableName, String rowKey) throws Exception {
@@ -531,11 +535,19 @@ public class DcHBaseService {
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        } 
+        }
         Result r = table.get(get);
         if (!r.isEmpty()) {
             return true;
         }
         return false;
+    }
+
+    public static void ForceGetConnection() {
+        DcHBaseConnection.ForceGetConnection();
+    }
+
+    public static boolean testHbase(){
+        return DcHBaseConnection .testHbase(getCONN());
     }
 }

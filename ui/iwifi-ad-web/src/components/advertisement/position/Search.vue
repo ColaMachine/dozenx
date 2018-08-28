@@ -1,6 +1,6 @@
 <template>
   <div class="serach">
-          <Input placeholder="广告名称" clearable style="width: 200px"  v-model="d_name.name" :maxlength="4"></Input>
+          <Input placeholder="广告位名称" clearable style="width: 200px"  v-model="d_name.name" :maxlength="20"></Input>
           <Button @click="serach">查询</Button>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   },
   data () {
     return {
-      d_name : this.value 
+      d_name : this.value
     }
   },
   methods: {

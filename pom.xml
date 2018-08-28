@@ -22,6 +22,8 @@
         <module>hbase</module>
         <module>ssh</module>
         <module>codegenerator</module>
+        <module>blog</module>
+        <module>spider</module>
     </modules>
 
     <!-- 各jar版本号统一定义 -->

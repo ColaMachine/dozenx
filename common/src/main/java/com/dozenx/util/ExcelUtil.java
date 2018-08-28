@@ -1,15 +1,11 @@
 package com.dozenx.util;
 
 import com.dozenx.core.Path.PathManager;
-
-
-
 import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -22,45 +18,45 @@ import java.util.*;
 public class ExcelUtil {
 
 
-
     /**
-     *
      * @param file
      * @return
      * @throws IOException
      */
     public static List<Map<Integer, String>> getExcelDataKeyIndex(File file) throws Exception {
         Sheet sheet = getExcelSheetFromFile(file);
-        List<Map<Integer,String>> retDats = getListFromSheet(sheet);
-        return  retDats;
+        List<Map<Integer, String>> retDats = getListFromSheet(sheet);
+        return retDats;
     }
 
     /**
      * 返回的是有key名的数据
+     *
      * @param file
      * @param keys
      * @return
      * @throws Exception
      */
-    public static List<Map<String, String>> getExcelDataKeyName(File file,List<String> keys) throws Exception {
+    public static List<Map<String, String>> getExcelDataKeyName(File file, List<String> keys) throws Exception {
 
         Sheet sheet = getExcelSheetFromFile(file);
-        List<Map<String ,String>> retDats = getListFromSheet(sheet,keys);
+        List<Map<String, String>> retDats = getListFromSheet(sheet, keys);
 
         return retDats;
     }
 
     /**
      * 返回的是有key名的数据
+     *
      * @param fileInputStream
      * @param keys
      * @return
      * @throws Exception
      */
-    public static List<Map<String, String>> getExcelDataFromStream(InputStream fileInputStream,List<String> keys) throws Exception {
+    public static List<Map<String, String>> getExcelDataFromStream(InputStream fileInputStream, List<String> keys) throws Exception {
 
         Sheet sheet = getExcelSheetFromInputStream(fileInputStream);
-        List<Map<String ,String>> retDats = getListFromSheet(sheet,keys);
+        List<Map<String, String>> retDats = getListFromSheet(sheet, keys);
 
         return retDats;
     }
@@ -68,11 +64,9 @@ public class ExcelUtil {
     /**
      * 将一个EXCEL文件转化为数据集合（以表头每列为key，对应列内容为value的list集合）
      *
-     * @param file
-     *            文件
+     * @param file 文件
      * @return List
-     * @throws IOException
-     *             抛出异常
+     * @throws IOException 抛出异常
      * @author 宋展辉
      */
     public static List<Map<String, String>> getExcelData(File file) throws IOException {
@@ -111,20 +105,14 @@ public class ExcelUtil {
     /**
      * 将excel文件转化为javaBean
      *
-     * @param file
-     *            文件
-     * @param valueType
-     *            值类型
-     * @param colMatch
-     *            参数 excel列名为key，字段名为value的Map
-     * @param <T>
-     *            对象
+     * @param file      文件
+     * @param valueType 值类型
+     * @param colMatch  参数 excel列名为key，字段名为value的Map
+     * @param <T>       对象
      * @return List
-     * @throws Exception
-     *             抛出异常
+     * @throws Exception   抛出异常
+     * @throws IOException 抛出IO异常
      * @author 宋展辉
-     * @throws IOException
-     *             抛出IO异常
      */
     public static <T> List<T> getExcelDataToBean(File file, Class<T> valueType, Map<String, String> colMatch)
             throws IOException {
@@ -157,11 +145,9 @@ public class ExcelUtil {
     /**
      * 将一个Excel文件转化为Map（以对应表格位置为key，表格内容为value的Map）
      *
-     * @param file
-     *            文件
+     * @param file 文件
      * @return Map
-     * @throws IOException
-     *             抛出异常
+     * @throws IOException 抛出异常
      * @author 宋展辉
      */
     public static Map<String, String> getExcelMData(File file) throws IOException {
@@ -198,15 +184,11 @@ public class ExcelUtil {
     /**
      * 生成EXCEL文件
      *
-     * @param obj
-     *            实体类集合
-     * @param filePath
-     *            自定义文件路径
-     * @param colTitle
-     *            匹配的有序列名，可以为空
+     * @param obj      实体类集合
+     * @param filePath 自定义文件路径
+     * @param colTitle 匹配的有序列名，可以为空
      * @return File
-     * @throws IOException
-     *             抛出异常
+     * @throws IOException 抛出异常
      * @author 宋展辉 2015年11月6日 下午3:19:39
      */
     public static File getExcelFile(List<?> obj, String filePath, LinkedHashMap<String, String> colTitle)
@@ -226,8 +208,7 @@ public class ExcelUtil {
     /**
      * 将object转化为Map<String,String>
      *
-     * @param object
-     *            参数
+     * @param object 参数
      * @return Map
      * @author 宋展辉 2015年11月6日 下午3:27:48
      */
@@ -269,15 +250,11 @@ public class ExcelUtil {
     /**
      * 生成EXCEL文件
      *
-     * @param data
-     *            参数 Map<String,String>对象集合
-     * @param filePath
-     *            自定义文件路径
-     * @param colTitle
-     *            匹配的有序列名，可以为空
+     * @param data     参数 Map<String,String>对象集合
+     * @param filePath 自定义文件路径
+     * @param colTitle 匹配的有序列名，可以为空
      * @return File
-     * @throws IOException
-     *             抛出异常
+     * @throws IOException 抛出异常
      * @author 宋展辉 2015年11月6日 下午3:19:58
      */
     public static File getExcelFileFromMap(List<Map<String, String>> data, String filePath,
@@ -337,7 +314,7 @@ public class ExcelUtil {
     }
 
     public static File getExcelFileFromList(List<String> dataList, String filePath
-                                        ) throws IOException {
+    ) throws IOException {
 
         if (dataList == null || dataList.size() == 0) {
             return null;
@@ -365,19 +342,19 @@ public class ExcelUtil {
                 row = sheet.createRow(i + 1);
 
 
-                    row.createCell(0).setCellValue(dataList.get(i));
+                row.createCell(0).setCellValue(dataList.get(i));
 
             }
             // 输出Excel文件
-            FileOutputStream fos =null;
+            FileOutputStream fos = null;
             try {
-                 fos = new FileOutputStream(
+                fos = new FileOutputStream(
                         PathManager.getInstance().getTmpPath().resolve(filePath).toFile());
                 wb.write(fos);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
 
-            }finally {
+            } finally {
                 fos.close();
                 wb.close();
             }
@@ -388,13 +365,13 @@ public class ExcelUtil {
     }
 
     public static Workbook getExcelBookFromMap(List<Map<String, String>> data,
-                                           LinkedHashMap<String, String> colTitle) throws IOException {
+                                               LinkedHashMap<String, String> colTitle) throws IOException {
         if (data == null || data.size() == 0) {
             return null;
         } else {
             Workbook wb = null;
 
-                wb = new HSSFWorkbook();
+            wb = new HSSFWorkbook();
 
             Sheet sheet = wb.createSheet("sheet1");
             // 先创建表头,将表头内容居中
@@ -430,15 +407,14 @@ public class ExcelUtil {
             }
             // 输出Excel文件
 
-           return wb;
+            return wb;
 
 
         }
     }
 
     /**
-     * @param cell
-     *            参数
+     * @param cell 参数
      * @return String
      */
     private static String getKey(Cell cell) {
@@ -458,13 +434,10 @@ public class ExcelUtil {
     }
 
     /**
-     * @param input
-     *            参数
-     * @param fileName
-     *            文件名
+     * @param input    参数
+     * @param fileName 文件名
      * @return Workbook
-     * @throws IOException
-     *             抛出IO异常
+     * @throws IOException 抛出IO异常
      */
     private static Workbook getWorkBook(InputStream input, String fileName) throws IOException {
         Workbook wb = null;
@@ -479,8 +452,7 @@ public class ExcelUtil {
     }
 
     /**
-     * @param row
-     *            参数
+     * @param row 参数
      * @return List
      */
     private static List<String> getHeader(Row row) {
@@ -495,8 +467,7 @@ public class ExcelUtil {
     }
 
     /**
-     * @param cell
-     *            参数
+     * @param cell 参数
      * @return String
      */
     private static String getCellValue(Cell cell) {
@@ -504,7 +475,13 @@ public class ExcelUtil {
             return "";
         }
         switch (cell.getCellType()) {
-            case 1:
+            //CELL_TYPE_NUMERIC 数值型 0
+//        CELL_TYPE_STRING 字符串型 1
+//        CELL_TYPE_FORMULA 公式型 2
+//        CELL_TYPE_BLANK 空值 3
+//        CELL_TYPE_BOOLEAN 布尔型 4
+//        CELL_TYPE_ERROR 错误 5
+            case Cell.CELL_TYPE_STRING:
                 try {
                     String value = cell.getStringCellValue();
                     String temp = new String(Hex.encodeHex(value.getBytes("utf-8"))).replaceAll("c2a0", "20");
@@ -516,8 +493,8 @@ public class ExcelUtil {
                 } catch (UnsupportedEncodingException e1) {
                     return new String(cell.getStringCellValue().getBytes());
                 }
-            case 0:
-                if ((DateUtil.checkDate(cell.getStringCellValue(),"YYYY/mm/dd")) || ((cell.getCellStyle() != null)
+            case Cell.CELL_TYPE_NUMERIC:
+               /* if ((DateUtil.checkDate(cell.getStringCellValue(),"YYYY/mm/dd")) || ((cell.getCellStyle() != null)
                         && ("yyyy\"年\"m\"月\";@".equals(cell.getCellStyle().getDataFormatString())))) {
                     String format = cell.getCellStyle().getDataFormatString();
                     if (format.equals("yyyy\"年\"m\"月\";@")) {
@@ -540,7 +517,7 @@ public class ExcelUtil {
                         e.printStackTrace();
                         return cell.getDateCellValue().toString();
                     }
-                }
+                }*/
                 NumberFormat nf = NumberFormat.getInstance(Locale.CHINESE);
                 return String.valueOf(nf.format(cell.getNumericCellValue()).replace(",", ""));
             case 4:
@@ -553,13 +530,11 @@ public class ExcelUtil {
     }
 
     /**
-     * @param args
-     *            参数
-     * @throws IOException
-     *             抛出IO异常
+     * @param args 参数
+     * @throws IOException 抛出IO异常
      */
     public static void main1(String[] args) throws IOException {
-		/*
+        /*
 		 * List<Map<String, String>> list = new ArrayList<Map<String,
 		 * String>>(); for (int i = 0; i < 10; i++) { Map<String, String> map =
 		 * new HashMap<String, String>(); map.put("a", "aaaa"); map.put("b",
@@ -603,14 +578,15 @@ public class ExcelUtil {
 
     /**
      * 根据文件获得sheet
+     *
      * @param file
      * @return
      * @throws IOException
      */
-    public static Sheet getExcelSheetFromFile(File file ) throws IOException {
-        FileInputStream inputStream =null;
+    public static Sheet getExcelSheetFromFile(File file) throws IOException {
+        FileInputStream inputStream = null;
 
-        inputStream  = new FileInputStream( file );
+        inputStream = new FileInputStream(file);
         return getExcelSheetFromInputStream(inputStream);
 
     }
@@ -618,31 +594,33 @@ public class ExcelUtil {
     /**
      * 从文件流中获取sheet
      * 此方法最终关闭流
+     *
      * @param stream
      * @return
      * @throws IOException
      */
-    public static Sheet getExcelSheetFromInputStream(InputStream stream ) throws IOException {
+    public static Sheet getExcelSheetFromInputStream(InputStream stream) throws IOException {
         try {
             Workbook wb = getWorkBook(stream, "excel");
             Sheet sheet = wb.getSheetAt(0);
             return sheet;
-        }finally {
+        } finally {
             stream.close();
         }
     }
 
     /**
      * 文件解析器.获取sheet(仅适用于单个文件)
-     * @param  sheet
+     *
+     * @param sheet
      * @return List<Map <Integer ,String>>
      * @throws Exception 异常
      * @author zhangzhiwei
      * @date 2017年2月13日 上午9:49:54
      */
-    public static List<Map <Integer ,String>>  getListFromSheet(Sheet sheet  ) throws Exception{
+    public static List<Map<Integer, String>> getListFromSheet(Sheet sheet) throws Exception {
 
-        List<Map <Integer ,String>> retDats = new ArrayList<Map <Integer ,String>>( );
+        List<Map<Integer, String>> retDats = new ArrayList<Map<Integer, String>>();
         int firsRowNum = sheet.getFirstRowNum();
         int lastRowNum = sheet.getLastRowNum();
         Row headerRow = sheet.getRow(firsRowNum);
@@ -667,18 +645,20 @@ public class ExcelUtil {
         }
         return retDats;
     }
+
     /**
      * 文件解析器.获取sheet(仅适用于单个文件)
+     *
      * @param sheet excelsheet
-     * @param keys 列名
+     * @param keys  列名
      * @return Sheet
      * @throws Exception 异常
      * @author zhangzhiwei
      * @date 2017年2月13日 上午9:49:54
      */
-    public static List<Map <String ,String>>  getListFromSheet(Sheet sheet   ,List<String> keys) throws Exception{
+    public static List<Map<String, String>> getListFromSheet(Sheet sheet, List<String> keys) throws Exception {
 
-        List<Map <String ,String>> retDats = new ArrayList<Map <String ,String>>( );
+        List<Map<String, String>> retDats = new ArrayList<Map<String, String>>();
         int firsRowNum = sheet.getFirstRowNum();
         int lastRowNum = sheet.getLastRowNum();
         Row headerRow = sheet.getRow(firsRowNum);

@@ -23,12 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class HttpRequestUtil {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(HttpRequestUtil.class);
-
+    static String LINEND = "\r\n";
+    static String twoHyphens = "--";
+    static String boundary = "------httpost123";
 
     public static HttpURLConnection sendPostRequest(String path, String params) throws Exception {
         byte[] paramData = params.getBytes();
@@ -131,7 +132,6 @@ public class HttpRequestUtil {
         }
 
     }
-
 
     /**
      * 向指定URL发送GET方法的请求
@@ -276,7 +276,57 @@ public class HttpRequestUtil {
         }
         return result.toString();
     }
+    public static String UrlReadWithException(String url) throws IOException {
+        StringBuffer result = new StringBuffer("");
+        BufferedReader in = null;
+        Long startTime = System.currentTimeMillis();
+        try {
+            URL realUrl = new URL(url);
+            // 打开和URL之间的连接
+            URLConnection connection = realUrl.openConnection();
+            // 设置通用的请求属性
 
+
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 建立实际的连接
+            connection.connect();
+            // 定义 BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+
+            String responseCookie = connection.getHeaderField("Set-Cookie");// 取到所用的Cookie
+            Long endTime = System.currentTimeMillis();
+            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+        } catch (IOException e) {
+            // System.out.println("发送GET请求出现异常！" + e);
+            Long endTime = System.currentTimeMillis();
+            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
+            // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
+            logger.error("send http get error " + url, e);
+            throw e;
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+                throw e2;
+
+            }
+        }
+        return result.toString();
+    }
     public static String UrlRead(String url) {
         StringBuffer result = new StringBuffer("");
         BufferedReader in = null;
@@ -290,6 +340,60 @@ public class HttpRequestUtil {
 
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 建立实际的连接
+            connection.connect();
+            // 定义 BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+
+            String responseCookie = connection.getHeaderField("Set-Cookie");// 取到所用的Cookie
+            Long endTime = System.currentTimeMillis();
+            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+        } catch (Exception e) {
+            // System.out.println("发送GET请求出现异常！" + e);
+            Long endTime = System.currentTimeMillis();
+            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
+            // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
+            logger.error("send http get error " + url, e);
+            return "400";
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return result.toString();
+    }
+
+
+    public static String UrlRead(String url,String host,String refer,Map<String,Cookie> cookieMap) {
+        StringBuffer result = new StringBuffer("");
+        BufferedReader in = null;
+        Long startTime = System.currentTimeMillis();
+        try {
+            URL realUrl = new URL(url);
+            // 打开和URL之间的连接
+            URLConnection connection = realUrl.openConnection();
+            // 设置通用的请求属性
+
+            HttpRequestUtil.setCookie(connection, cookieMap);
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("host",host);
+            connection.setRequestProperty("referer", refer);
+            connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
+
             connection.setRequestProperty("user-agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             // 建立实际的连接
@@ -412,6 +516,8 @@ public class HttpRequestUtil {
         }
     }
 
+
+
     /**
      * 向指定URL发送GET方法的请求
      *
@@ -441,6 +547,83 @@ public class HttpRequestUtil {
         }
     }
 
+    public static String getCookie(String url,  HashMap<String,String> map){
+        StringBuffer result = new StringBuffer("");
+        BufferedReader in = null;
+        Long startTime = System.currentTimeMillis();
+        try {
+            URL realUrl = new URL(url);
+            // 打开和URL之间的连接
+            URLConnection connection = realUrl.openConnection();
+            // 设置通用的请求属性
+
+
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 建立实际的连接
+            connection.connect();
+            // 定义 BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+
+            String responseCookie = connection.getHeaderField("Set-Cookie");// 取到所用的Cookie
+            Long endTime = System.currentTimeMillis();
+
+
+            //获取cookie
+            Map<String,List<String>> headdMap=connection.getHeaderFields();
+
+            Set<String> set=headdMap.keySet();
+            for (Iterator iterator = set.iterator(); iterator.hasNext();) {
+                String key = (String) iterator.next();
+                if ("Set-Cookie".equals(key)) {
+                    System.out.println("key=" + key+",开始获取cookie");
+                    List<String> list = headdMap.get(key);
+                   // StringBuilder builder = new StringBuilder();
+                    for (String str : list) {
+                      //  Cookie cookie =new Cookie(str.split(":")[0],str.split(":")[1]);
+                       String cookie = str.split(":")[0];
+                        map.put(cookie.split("=")[0],cookie.split("=")[1]);
+                        logger.debug("cookie item "+str);
+                       // builder.append(str).toString();
+                    }
+
+                   // firstCookie=builder.toString();
+                   // System.out.println("第一次得到的cookie="+firstCookie);
+                }
+            }
+
+            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+        } catch (Exception e) {
+            // System.out.println("发送GET请求出现异常！" + e);
+            Long endTime = System.currentTimeMillis();
+            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
+            // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
+            logger.error("send http get error " + url, e);
+            return "400";
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return result.toString();
+
+    }
+
+
     /**
      * 向指定URL发送GET方法的请求
      *
@@ -458,6 +641,13 @@ public class HttpRequestUtil {
         } catch (Exception e) {
             return "400";
         }
+    }
+
+    public static String sendGetWithException(String url) throws IOException {
+        StringBuffer result = new StringBuffer("");
+        BufferedReader in = null;
+        Long startTime = System.currentTimeMillis();
+        return UrlReadWithException(url);
     }
 
     /**
@@ -527,7 +717,6 @@ public class HttpRequestUtil {
         return result.toString();
     }
 
-
     public static String sendPost(String url, String param, String contentType) {
         OutputStreamWriter out = null;
         BufferedReader in = null;
@@ -590,7 +779,6 @@ public class HttpRequestUtil {
         }
         return result.toString();
     }
-
 
     public static String sendPostWithCookie(String url, String param, String contentType, Map<String, Cookie> cookieMap) {
         OutputStreamWriter out = null;
@@ -1028,6 +1216,123 @@ public class HttpRequestUtil {
             // flush输出流的缓冲
             out.flush();
             out.close();
+            // 定义BufferedReader输入流来读取URL的响应
+            System.out.println(conn.getResponseCode());
+            if (conn.getResponseCode() != 200) {
+                return "400";
+            }
+            in = new BufferedReader(new InputStreamReader(
+                    conn.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+            System.out.println(result.toString());
+            conn.disconnect();
+        } catch (Exception e) {
+            // //System.out.println("发送 POST 请求出现异常！" + e);
+            e.printStackTrace();
+            return "400";
+        }
+        // 使用finally块来关闭输出流、输入流
+        finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 向指定 URL 发送POST form表单请求方法的请求
+     *
+     * @param url    发送请求的 URL
+     * @param params 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @return 所代表远程资源的响应结果
+     */
+    public static String sendPost(String url, Map<String, String> params, String[] uploadFilePaths) {
+        OutputStream out = null;
+        BufferedReader in = null;
+        StringBuffer result = new StringBuffer("");
+
+        try {
+            String bodyString = MapUtils.join(params, "=", "&");
+            System.out.println(bodyString);
+            byte[] body = bodyString
+                    .getBytes("utf-8");// ("[" + JSON.toJSONString(params) + "]")
+            URL realUrl = new URL(url);
+            // 打开和URL之间的连接
+            HttpURLConnection conn = (HttpURLConnection) realUrl
+                    .openConnection();
+            conn.setReadTimeout(5 * 1000);
+            conn.setDoInput(true);// 允许输入
+            conn.setDoOutput(true);// 允许输出
+            // 设置通用的请求属性
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("connection", "keep-alive");
+            conn.setRequestProperty("Charsert", "UTF-8");
+            //conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+
+
+            // 设置请求内容类型
+            conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+          //  conn.setConnectTimeout(asdf);
+            System.out.println("Content-Type"+ "multipart/form-data; boundary=" + boundary+LINEND);
+           /* conn.setRequestProperty("Content-Length",
+                    String.valueOf(body.length));*/
+
+//            PrintWriter  out2 = new PrintWriter(conn.getOutputStream());
+            // 发送POST请求必须设置如下两行
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            out = conn.getOutputStream();
+            // 发送请求参数
+            //   out.write(body);
+
+            for (int i = 0; i < uploadFilePaths.length; i++) {
+                String uploadFile = uploadFilePaths[i];
+                String filename = uploadFile.substring(uploadFile.lastIndexOf("//") + 1);
+//                out.write((LINEND).getBytes());
+//                System.out.print(LINEND);
+                out.write((twoHyphens + boundary + LINEND).getBytes());
+                System.out.print(twoHyphens + boundary + LINEND);
+                out.write(("Content-Disposition: form-data; name=\"file" + i + "\";filename=\"" + filename
+                        + "\"" + LINEND).getBytes());
+                System.out.print("Content-Disposition: form-data; name=\"file" + i + "\";filename=\"" + filename
+                        + "\"" + LINEND);
+                out.write(("Content-Type: application/octet-stream charset=UTF-8" + LINEND).getBytes());
+                System.out.print("Content-Type: application/octet-stream charset=UTF-8" + LINEND);
+                out.write(LINEND.getBytes());
+                System.out.print(LINEND);
+                //out.write("123123123".getBytes());
+                byte[] bytes= FileUtil.getBytes(uploadFile);
+                out.write(bytes);
+              //  FileInputStream fStream = new FileInputStream(uploadFile);
+//                int bufferSize = 1024;
+//                byte[] buffer = new byte[bufferSize];
+//                int length = -1;
+//                while ((length = fStream.read(buffer)) != -1) {
+//                    out.write(buffer, 0, length);
+//                }
+                out.write(LINEND.getBytes());
+                out.write((twoHyphens + boundary+twoHyphens + LINEND).getBytes());
+                out.flush();
+               // out.write(LINEND.getBytes());
+                 /* close streams */
+                //fStream.close();
+            }
+            // flush输出流的缓冲
+            //out.flush();
+            //  out.close();
             // 定义BufferedReader输入流来读取URL的响应
             System.out.println(conn.getResponseCode());
             if (conn.getResponseCode() != 200) {
@@ -1928,7 +2233,8 @@ public class HttpRequestUtil {
 
     /**
      * 从url 上保存文件(ex 图片)到本地
-     *  如果报错直接抛出异常
+     * 如果报错直接抛出异常
+     *
      * @param url
      */
 
@@ -1961,7 +2267,6 @@ public class HttpRequestUtil {
             //开始往外输出文件
 
 
-
         } catch (Exception e) {
             logger.error("send http get error " + url, e);
             throw new IOException(e.getMessage());
@@ -1970,6 +2275,204 @@ public class HttpRequestUtil {
         // 使用finally块来关闭输入流
 
     }
+/**
+     * 通过拼接的方式构造请求内容，实现参数传输以及文件传输
+     *
+     * @param actionUrl 访问的服务器URL
+     * @param params 普通参数
+     * @param files 文件参数
+     * @return
+     * @throws IOException
+     */
+    public static String post(String actionUrl, Map<String, String> params, Map<String, File> files) throws IOException
+    {
+
+        String BOUNDARY = java.util.UUID.randomUUID().toString();
+        String PREFIX = "--", LINEND = "\r\n";
+        String MULTIPART_FROM_DATA = "multipart/form-data";
+        String CHARSET = "UTF-8";
+
+        URL uri = new URL(actionUrl);
+        HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
+        conn.setReadTimeout(60 * 1000); // 缓存的最长时间
+        conn.setDoInput(true);// 允许输入
+        conn.setDoOutput(true);// 允许输出
+        conn.setUseCaches(false); // 不允许使用缓存
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("connection", "keep-alive");
+        conn.setRequestProperty("Charsert", "UTF-8");
+        conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
+
+        // 首先组拼文本类型的参数
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : params.entrySet())
+        {
+            sb.append(PREFIX);
+            sb.append(BOUNDARY);
+            sb.append(LINEND);
+            sb.append("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINEND);
+            sb.append("Content-Type: text/plain; charset=" + CHARSET + LINEND);
+            sb.append("Content-Transfer-Encoding: 8bit" + LINEND);
+            sb.append(LINEND);
+            sb.append(entry.getValue());
+            sb.append(LINEND);
+        }
+
+        DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
+        outStream.write(sb.toString().getBytes());
+        InputStream in = null;
+        // 发送文件数据
+        StringBuilder sb2 = new StringBuilder();
+        if (files != null)
+        {
+            for (Map.Entry<String, File> file : files.entrySet())
+            {
+                StringBuilder sb1 = new StringBuilder();
+                sb1.append(PREFIX);
+                sb1.append(BOUNDARY);
+                sb1.append(LINEND);
+                // name是post中传参的键 filename是文件的名称
+                sb1.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getKey() + "\"" + LINEND);
+                sb1.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINEND);
+                sb1.append(LINEND);
+                outStream.write(sb1.toString().getBytes());
+
+                InputStream is = new FileInputStream(file.getValue());
+                byte[] buffer = new byte[1024];
+                int len = 0;
+                while ((len = is.read(buffer)) != -1)
+                {
+                    outStream.write(buffer, 0, len);
+                }
+
+                is.close();
+                outStream.write(LINEND.getBytes());
+            }
+
+            // 请求结束标志
+            byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
+            outStream.write(end_data);
+            outStream.flush();
+            // 得到响应码
+
+            int res = conn.getResponseCode();
+            if (res == 200)
+            {
+                in = conn.getInputStream();
+                int ch;
+
+                while ((ch = in.read()) != -1)
+                {
+                    sb2.append((char) ch);
+                }
+
+
+            }
+            outStream.close();
+            conn.disconnect();
+
+        }
+        return sb2.toString();
+        // return in.toString();
+    }
+
+   // 以数据流的形式传参
+    public static String postFile(String actionUrl, Map<String, String> params, Map<String, byte[]> files)
+            throws Exception
+    {
+        StringBuilder sb2 = null;
+        String BOUNDARY = java.util.UUID.randomUUID().toString();
+        String PREFIX = "--", LINEND = "\r\n";
+        String MULTIPART_FROM_DATA = "multipart/form-data";
+        String CHARSET = "UTF-8";
+
+        URL uri = new URL(actionUrl);
+        HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
+        conn.setReadTimeout(6 * 1000); // 缓存的最长时间
+        conn.setDoInput(true);// 允许输入
+        conn.setDoOutput(true);// 允许输出
+        conn.setUseCaches(false); // 不允许使用缓存
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("connection", "keep-alive");
+        conn.setRequestProperty("Charsert", "UTF-8");
+        conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
+
+        // 首先组拼文本类型的参数
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : params.entrySet())
+        {
+            sb.append(PREFIX);
+            sb.append(BOUNDARY);
+            sb.append(LINEND);
+            sb.append("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINEND);
+            sb.append("Content-Type: text/plain; charset=" + CHARSET + LINEND);
+            sb.append("Content-Transfer-Encoding: 8bit" + LINEND);
+            sb.append(LINEND);
+            sb.append(entry.getValue());
+            sb.append(LINEND);
+        }
+
+        DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
+        outStream.write(sb.toString().getBytes());
+        InputStream in = null;
+        // 发送文件数据
+        if (files != null)
+        {
+            for (Map.Entry<String, byte[]> file : files.entrySet())
+            {
+                StringBuilder sb1 = new StringBuilder();
+                sb1.append(PREFIX);
+                sb1.append(BOUNDARY);
+                sb1.append(LINEND);
+                sb1.append("Content-Disposition: form-data; name=\"pic\"; filename=\"" + file.getKey() + "\"" + LINEND);
+                sb1.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINEND);
+                sb1.append(LINEND);
+                outStream.write(sb1.toString().getBytes());
+
+                // InputStream is = new FileInputStream(file.getValue());
+                // byte[] buffer = new byte[1024];
+                // int len = 0;
+                // while ((len = is.read(buffer)) != -1)
+                // {
+                // outStream.write(buffer, 0, len);
+                // }
+                // is.close();
+                outStream.write(file.getValue());
+
+                outStream.write(LINEND.getBytes());
+            }
+
+            // 请求结束标志
+            byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
+            outStream.write(end_data);
+            outStream.flush();
+            // 得到响应码
+            int res = conn.getResponseCode();
+            if (res == 200)
+            {
+                in = conn.getInputStream();
+                int ch;
+                sb2 = new StringBuilder();
+                while ((ch = in.read()) != -1)
+                {
+                    sb2.append((char) ch);
+                }
+                System.out.println(sb2.toString());
+            }
+            outStream.close();
+            conn.disconnect();
+            // 解析服务器返回来的数据
+            return sb2.toString();
+        }
+        else
+        {
+            return "Update icon Fail";
+        }
+        // return in.toString();
+    }
+
+
+
     public static void main(String args[]) {
 //
 //        String url = "http://192.168.41.53/sms-service/sms/send?mobile=18368729738&msg=%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%A4%B1%E8%B4%A5&access_token=5aaf89c1bfaed238e1eea6c1";
@@ -1977,15 +2480,50 @@ public class HttpRequestUtil {
 //        String result = HttpRequestUtil.sendGet(url);
 //        System.out.println(result);
 
-        String url = "http://pic-bucket.nosdn.127.net/photo/0001/2018-04-07/DEQ8E03N00AP0001NOS.jpg";
-
-        String result = null;
+//        String url = "http://pic-bucket.nosdn.127.net/photo/0001/2018-04-07/DEQ8E03N00AP0001NOS.jpg";
+//
+//        String result = null;
+//        try {
+//            HttpRequestUtil.saveFileFromUrl(url, "saveFileFromUrlPic", Paths.get("g:/"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(result);
+     /*   javax.servlet.http.HttpServletRequest requets;
+        String url = "http://127.0.0.1/timebuysrv/image/uploadSubmit.json";
         try {
-            HttpRequestUtil.saveFileFromUrl(url, "saveFileFromUrlPic", Paths.get("g:/"));
+            HttpRequestUtil.sendPost(url, new HashMap<String, String>(), new String[]{"G:\\advert-workspace\\code\\trunk\\iwifi-ad-web\\index.html"});
         } catch (Exception e) {
             e.printStackTrace();
+        }*/
+        HashMap<String,String> map =new HashMap<>();
+        String cookie=HttpRequestUtil.getCookie("http://hotels.ctrip.com/hotel/2302255.html",map);
+
+        Map<String,Cookie> cookieMap =new HashMap<>();
+
+        Iterator it = map.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, Object> entry = (Map.Entry<String, Object>)it.next();
+            String key = entry.getKey();
+            String value =entry.getValue()+"";
+            cookieMap.put(key,new Cookie(key,value));
         }
-        System.out.println(result);
+        String url ="http://hotels.ctrip.com/Domestic/tool/AjaxHotelCommentList.aspx?MasterHotelID=436543&hotel=436543&NewOpenCount=0&AutoExpiredCount=0&RecordCount=3671&OpenDate=&card=-1&property=-1&userType=-1&productcode=&keyword=&roomName=&orderBy=2&currentPage=2&viewVersion=c&contyped=0&eleven=58533f54d5b03dfe2ac58984234f97b3b0c3e869a72b129321b5863ee57a82e3&callback=CASVhrenqketVsbXP&_=1533526730862";
+        String html = HttpRequestUtil.UrlRead(url,"hotels.ctrip.com","http://hotels.ctrip.com/hotel/436543.html",cookieMap);
+
+        System.out.println(html);
+
+
+        System.out.println();
+//
+//        try {
+//            HashMap<String,File> map =new HashMap<>();
+//            map.put("pic1",new File("G:\\advert-workspace\\code\\trunk\\iwifi-ad-web\\index.html"));
+//            HttpRequestUtil.post(url, new HashMap<String, String>(), map);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
     }
 }
 

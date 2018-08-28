@@ -13,6 +13,10 @@ $dark-gray:#8d8d8d;
 $gray:#d9d9d9;
 $lighter-gray:#f7f7f7;
 $qian-gray:#e5e5e5;
+
+$qian-gray:#e5e5e5;
+$gray1:#f7f1f1;
+$gray2:#ece3e3;
 $shadow-gray:rgba(0,0,0,0.25);
 $disabled-color:$shadow-gray;
 $light-black:#2E3E4E;
@@ -89,3 +93,6 @@ $font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
              "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
              SimSun, sans-serif;
 $ft-nm-family:"Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53", Helvetica,Arial,sans-serif;
+h1,h2,p,span{
+word-wrap:break-word;
+}

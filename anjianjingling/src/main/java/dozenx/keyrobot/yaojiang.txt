@@ -1,0 +1,7 @@
+delay 10000
+mousemove 569,601
+delay 1000
+mousepress
+delay 10000
+mousemove 690,571 
+mousepress

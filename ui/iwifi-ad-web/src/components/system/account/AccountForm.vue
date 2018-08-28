@@ -1,8 +1,11 @@
 <template>
   <div>
     <Form ref="form" :model="formData" :rules="readonly?{}:formRules" :label-width="80">
-      <FormItem prop="username" label="账号" required>
-        <Input v-model="formData.username" placeholder="账号" :readonly="readonly"></Input>
+      <FormItem prop="account" label="账号" required>
+        <Input v-model="formData.account" placeholder="账号" :readonly="readonly" :maxlength="15"></Input>
+      </FormItem>
+      <FormItem prop="username" label="名称" required>
+        <Input v-model="formData.username" placeholder="名称" :readonly="readonly"></Input>
       </FormItem>
       <FormItem prop="telno" label="电话号码" required>
         <Input v-model="formData.telno" placeholder="电话号码" :readonly="readonly" :maxlength="11"></Input>
@@ -15,14 +18,14 @@
       <FormItem prop="fullLocation" label="所在地区" required v-if="resetFlag">
         <SelectLocation v-model="formData.fullLocation" :disabled="readonly"></SelectLocation>
       </FormItem>
-      <FormItem prop="address" label="详细地址" >
-        <Input v-model="formData.address" placeholder="详细地址" :readonly="readonly"></Input>
+      <FormItem prop="address" label="详细地址">
+        <Input v-model="formData.address" placeholder="详细地址" :readonly="readonly" :maxlength="50"></Input>
       </FormItem>
-      <FormItem prop="email" label="邮箱" >
+      <FormItem prop="email" label="邮箱">
         <Input v-model="formData.email" placeholder="邮箱" :readonly="readonly"></Input>
       </FormItem>
-      <FormItem prop="remark" label="备注" >
-        <Input v-model="formData.remark" placeholder="备注" :readonly="readonly"></Input>
+      <FormItem prop="remark" label="备注">
+        <Input v-model="formData.remark" placeholder="备注" :readonly="readonly" :maxlength="100"></Input>
       </FormItem>
       <Row v-if="!readonly">
         <Col span="8">&nbsp;</Col>
@@ -48,24 +51,27 @@
       return {
         roleList: [],
         formRules: {
-          username: [
+          account: [
             {required: true, message: '请填写账号', trigger: 'blur'}
+          ],
+          username: [
+            {required: true, message: '请填写用户名', trigger: 'blur'}
           ],
           telno: [
             {required: true, message: '请填写电话号码', trigger: 'blur'},
             {validator: validatePhone, trigger: 'blur'}
           ],
           roleIds: [
-            {required: true, type: 'array', min: 1, message: '请选择用户权限', trigger: 'change'},
+            {required: true, type: 'array', min: 1, message: '请选择用户角色', trigger: 'change'},
           ],
           fullLocation: [
             {validator: validateFullLocation, trigger: 'change'}
           ],
           address: [
-            {required: true, message: '请填写详细地址', trigger: 'blur'}
+            // {required: true, message: '请填写详细地址', trigger: 'blur'}
           ],
           email: [
-            {required: true, type: 'email', message: '请填写正确的邮箱地址', trigger: 'blur'}
+            // {required: true, type: 'email', message: '请填写正确的邮箱地址', trigger: 'blur'}
           ],
         },
       };
@@ -82,7 +88,7 @@
         this.$refs.form.resetFields();
       },
       getRoleList() {
-        $http.get('/advertsrv/sys/auth/role/list', {
+        $http.get('/advertsrv/sys/auth/role/drop/list', {
           params: {
             params: {
               curPage: 1,

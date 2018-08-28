@@ -224,4 +224,13 @@ public class ValidateUtil<T> {
             throw new ValidException("302",validStr);
         }
     }
+
+
+    public static void valid(Object value,String name,Rule rule) throws Exception {
+        rule.setValue(value);
+        if(!rule.valid()){
+            throw new ValidException("30405110",rule.getMessage());
+        }
+    }
+
 }

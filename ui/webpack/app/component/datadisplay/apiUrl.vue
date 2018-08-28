@@ -2,7 +2,7 @@
 <template>
 
 
-                                <zwPanel :class="content.httpType">
+                                <zwPanel :canFold=true :class="content.httpType">
 
                                      <div   slot="title" class="zw-panel-heading"  >
 <span class="zw-panel-title "><span class="zw-row-title-main" >{{content.httpType}}</span><span class="zw-row-title-sub ">{{content.url}}&nbsp;&nbsp;&nbsp;</span><a></a><span class="pull-right" >{{content.summary}}</span></span>
@@ -137,6 +137,7 @@ export default {
                     },
 
                 sendRequest : function() {//发送请求
+                alert(window.host)
                     this.sending=true;//修改状态为
                     //console.log("formId" + this.formId);
                     var contentType = "application/x-www-form-urlencoded";//初步制定contentType
@@ -245,7 +246,9 @@ export default {
 
                     if (isFileSubmit) {
                         var options = {
-                            url : window.APIPATH+ url+"&url="+window.APIDOMAIN,//加上前缀 加上url 加上 代理url
+                           // url : window.APIPATH+ url+"&url="+window.APIDOMAIN,//加上前缀 加上url 加上 代理url
+
+                            url : window.APIPATH+"?url="+encodeURIComponent(url+"&userId=1")+"&host="+window.host,//加上前缀 加上url 加上 代理url
                             success : function(xml) {
                                 this.result = xml;
 
@@ -270,7 +273,9 @@ export default {
                    }
                     $.ajax({
                         type : this.content.httpType,
-                        url :  window.APIPATH+url+"&url="+window.APIDOMAIN,
+                       // url :  window.APIPATH+url+"&url="+window.APIDOMAIN,
+                         url : window.APIPATH+"?url="+encodeURIComponent(url+"&userId=1")+"&host="+window.host,//加上前缀 加上url 加上 代理url
+
                         data : json,
                         type:this.content.httpType,
                         dataType : "json",

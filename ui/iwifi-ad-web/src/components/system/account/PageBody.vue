@@ -56,14 +56,19 @@
         tableCols: [
           {
             title: '账号',
+            key: 'account',
+            align: 'center',
+            width: 100
+          },{
+            title: '名称',
             key: 'username',
             align: 'center',
-            width: 300
+            width: 100
           }, {
             title: '角色',
             key: 'roleNames',
             align: 'center',
-            width: 300
+            width: 100
           }, {
             title: '地区',
             key: 'location',
@@ -82,7 +87,7 @@
           }, {
             title: '操作',
             // key: 'createDate',
-            // width: 300,
+            width: 200,
             align: 'center',
             render: (h, record) => {
               let _this = this;
@@ -158,7 +163,7 @@
         this.getAccount(row.id);
       },
       onDelete(row) {
-        this.confirmDelete(row.id, row.username);
+        this.confirmDelete(row.id, row.account);
       },
       onFormSubmit() {
         let isEdit = this.currentRecord.id ? true : false;

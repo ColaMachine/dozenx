@@ -32,14 +32,15 @@ $http.interceptors.response.use(function (response) {
     //if ok, return the data directly
     return response.data;
   } else {
-    //backend error
-    console.log('$http error1, backend normal json error');
-    window.VueBus.$Notice.error({
-      title: data.code || data.r,
-      desc: data.msg || '后台错误'
-    });
     if (data.r == 504) {
       logout();
+    } else {
+      //backend error
+      console.log('$http error1, backend normal json error');
+      window.VueBus.$Notice.error({
+        title: data.code || data.r,
+        desc: data.msg || '后台错误'
+      });
     }
     //将错误包装成正常的网络错误，以便显式的catch处理
     return Promise.reject({response});
