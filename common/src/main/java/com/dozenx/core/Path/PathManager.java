@@ -106,6 +106,7 @@ public final class PathManager {
         // Are we running on a JDK 1.2 or later system?
         Method method = null;
         try {
+           //获得当前线程的类加载容器
             method = Thread.class.getMethod("getContextClassLoader", null);
         } catch (NoSuchMethodException e) {
             // We are running on JDK 1.1
@@ -124,11 +125,14 @@ public final class PathManager {
 
         try {
             if(!java1 && !ignoreTCL) {
+                LogUtil.debug("  enter tcl");
                 classLoader = getTCL();
                 if(classLoader != null) {
                    LogUtil.debug("Trying to find ["+resource+"] using context classloader "
                             +classLoader+".");
                     url = classLoader.getResource(resource);
+
+                    LogUtil.debug("classLoader.getResource(resource) "+url);
                     if(url != null) {
                         return url;
                     }
@@ -169,22 +173,27 @@ public final class PathManager {
 
 
             URL urlToSource = PathManager.getResource("");//PathManager.class.getProtectionDomain().getCodeSource().getLocation();
-            logger.debug("protectionDomain:" + PathManager.class.getProtectionDomain().getCodeSource().getLocation());
-
-            logger.debug("classLoader resource:" +  PathManager.getResource(""));
-
-
+            logger.info("protectionDomain:" + PathManager.class.getProtectionDomain().getCodeSource().getLocation());
+            //protectionDomain:file:/D:/apache-tomcat-8.5.34/selenium_jar/common-1.0-SNAPSHOT.jar
+            logger.info("classLoader resource:" +  PathManager.getResource(""));
+            // classLoader resource:file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 向上找到classes目录
-
+            logger.info("getResource(\"\") :" + urlToSource);
+            // getResource("") :file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 这个目录是正确的
-            String path = urlToSource.toString();
 
-            path = path.substring(0, path.indexOf("classes") + 7);
+            String path = urlToSource.toString();
+            //file:/D:/apache-tomcat-8.5.34/selenium_jar/
+            if(path.indexOf("classes")!=-1){
+                path = path.substring(0, path.indexOf("classes") + 7);
+            }
+
 
             path = path.replace("file:/", "");
             if (path.indexOf(":") != 1) {
-                path = File.separator + path;
+                path = File.separator + path;//   /service
             }
+            logger.info("classPath :" + path);
             classPath = Paths.get(path);
         } catch (Exception e) {
             logger.error("PathManager ", e);

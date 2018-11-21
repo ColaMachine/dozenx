@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>myproj</artifactId>
+        <groupId>com.dozenx</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.dozenx</groupId>
+    <artifactId>CheckinClient</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <dozenx.version>1.0-SNAPSHOT</dozenx.version>
+        <org.springframework.version>4.3.9.RELEASE</org.springframework.version>
+        <!-- <org.apache.struts.version>2.3.15.1</org.apache.struts.version> -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>ucanaccess</groupId>
+            <artifactId>ucanaccess</artifactId>
+            <scope>system</scope>
+            <version>1.1.1</version>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ucanaccess-4.0.4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ucanaccess</groupId>
+            <artifactId>commons-lang</artifactId>
+            <scope>system</scope>
+            <version>1.1.1</version>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-lang-2.6.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>ucanaccess</groupId>
+            <artifactId>commons-logging</artifactId>
+            <scope>system</scope>
+            <version>1.1.1</version>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-logging-1.1.3.jar</systemPath>
+        </dependency>
+
+
+        <dependency>
+            <groupId>ucanaccess</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>system</scope>
+            <version>1.1.1</version>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/hsqldb.jar</systemPath>
+        </dependency>
+
+
+        <dependency>
+            <groupId>ucanaccess</groupId>
+            <artifactId>jackess</artifactId>
+            <scope>system</scope>
+            <version>1.1.1</version>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jackcess-2.1.11.jar</systemPath>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dozenx</groupId>
+            <artifactId>common</artifactId>
+            <version>${dozenx.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+            <!-- <version>1.0-SNAPSHO</version>-->
+        </dependency>
+
+
+
+    </dependencies>
+
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- <plugin>
+                     <groupId>org.apache.tomcat.maven</groupId>
+                     <artifactId>tomcat7-maven-plugin</artifactId>
+                     <version>2.2</version>
+                     <configuration>
+                         <path>/home</path>
+                         <port>80</port>
+                         <uriEncoding>UTF-8</uriEncoding>
+                         <url>http://localhost:80/manager/html</url>
+                         <server>tomcat7</server>
+                     </configuration>
+                 </plugin>-->
+                <plugin>
+
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <useDefaultDelimiters>false</useDefaultDelimiters>
+                        <delimiters>
+                            <delimiter>$[*]</delimiter>
+                        </delimiters>
+                        <!-- 过滤后缀不需要转码的文件  后缀名.crt/.p8 -->
+                        <nonFilteredFileExtensions>
+                                                   
+                            <nonFilteredFileExtension>xls</nonFilteredFileExtension>
+                                                   
+                            <nonFilteredFileExtension>wod</nonFilteredFileExtension>
+                                           
+                        </nonFilteredFileExtensions>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>com.dozenx.ReadAccess</mainClass>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                            </manifest>
+
+                        </archive>
+                        <classesDirectory>
+                        </classesDirectory>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

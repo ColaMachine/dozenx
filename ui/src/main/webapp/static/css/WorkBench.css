@@ -160,7 +160,7 @@ td {
 }
 
 .div-tg-time {
-	position: absolute;/**because in load html in chrome the div-tg-time 's 100% height doesn't work it's height is 0 the origin value is relative**/
+/** 	position: absolute; because in load html in chrome the div-tg-time 's 100% height doesn't work it's height is 0 the origin value is relative**/
 	width: 100%;
 	height: 100%;
 	padding: 0px 0px 0px 0px;
@@ -247,19 +247,14 @@ border-radius: 4px;
 background-color: #E6E6E6;
 border-color: #ADADAD;
 }*/
-.calendarEventBar DT {
-	z-index: 1;
-	margin: 0px;
-	/*BACKGROUND-COLOR: #a32929;*/
-	width: 100%;
 
-}
 
 .calendarEventBar DT {
 	z-index: 1;
 	margin: 0px;
 	/*BACKGROUND-COLOR: #a32929;*/
 	width: 100%;
+
 }
 
 .calendarEventBar {
@@ -267,16 +262,21 @@ border-color: #ADADAD;
 	background-color: white;
 	width: 90%;
 	cursor:pointer;
+	min-height:23px;
+}
+.calendarEventBar dt{
+    display:none;
 }
 
 .calendarEventBar dl {
 	alter: left;
-	border: 1px solid #a32929;
+	border: 1px solid #a32929;/* #e0b9b9;*/
 	margin: 0px 0px 0px 0px;
 	width: 100%;
 	height: auto;/*100%;*/
 	font: normal 12px/22px "锟斤拷锟斤拷";
 	background-color: #F6C4CE;
+	overflow: hidden;
 	/*height: 80;
 		box-shadow: 0px 0px 10px rgb(254, 254, 254);*/
 	/*	filter:alpha(opacity=80);*/ /* -moz-opacity:0.8;Moz + FF 透锟斤拷锟�0%*/
@@ -294,6 +294,9 @@ border-color: #ADADAD;
 	 width: 100%;
 	left: -111px;
 	overflow: hidden;
+	line-height:12px;
+	font-size:12px;
+
 }
 
 .calendarEventBar DIV {
@@ -412,7 +415,7 @@ position:relative;
 }
 .wk_mv_table  td:hover{ background-color: #C3D9FF }
 .wk_mv_table{
-width:1012px;
+width:100%;
 }
 
 

@@ -38,10 +38,27 @@ public class FileUtil {
         }
         return listFile(file);
     }
-
+    public static List<File> listOneLevelFile(File file) {
+        List<File> fileList = new ArrayList<>();
+        File[] fileAry = file.listFiles();
+        if(fileAry==null){
+            return null;
+        }
+        for (File childFile : fileAry) {
+            if (childFile.isDirectory()) {
+                continue;
+            } else {
+                fileList.add(childFile);
+            }
+        }
+        return fileList;
+    }
     public static List<File> listFile(File file) {
         List<File> fileList = new ArrayList<>();
         File[] fileAry = file.listFiles();
+        if(fileAry==null){
+            return null;
+        }
         for (File childFile : fileAry) {
             if (childFile.isDirectory()) {
                 fileList.addAll(listFile(childFile));

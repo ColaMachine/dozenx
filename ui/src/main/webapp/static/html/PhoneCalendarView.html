@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+	<HEAD>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<TITLE>New Document</TITLE>
+
+		<meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″/>
+
+		<meta name=”description” content=”不超过150个字符”/>
+
+		<meta name=”keywords” content=””/>
+
+		<meta name=”author” content=”name, email@gmail.com”/>
+
+		<meta name=”robots” content=”index,follow”/>
+
+		<meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+
+		<meta name=”apple-mobile-web-app-title” content=”标题”>
+
+
+
+
+		<meta name=”apple-itunes-app” content=”app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL”>
+
+
+		<meta name=”apple-mobile-web-app-status-bar-style” content=”black”/>
+
+		<meta name=”format-detection” content=”telphone=no, email=no”/>
+
+		<meta name=”renderer” content=”webkit”>
+
+		<meta http-equiv=”X-UA-Compatible” content=”IE=edge”>
+
+		<meta http-equiv=”Cache-Control” content=”no-siteapp” />
+
+		<meta name=”HandheldFriendly” content=”true”>
+
+		<meta name=”MobileOptimized” content=”320″>
+
+		<meta name=”screen-orientation” content=”portrait”>
+
+		<meta name=”x5-orientation” content=”portrait”>
+
+		<meta name=”full-screen” content=”yes”>
+
+		<meta name=”x5-fullscreen” content=”true”>
+
+		<meta name=”browsermode” content=”application”>
+
+		<meta name=”x5-page-mode” content=”app”>
+
+		<meta name=”msapplication-tap-highlight” content=”no”>
+
+
+		<meta http-equiv=”pragma” content=”no-cache”>
+
+		<meta http-equiv=”cache-control” content=”no-cache”>
+
+		<meta http-equiv=”expires” content=”0″>
+
+	 	<link id="css" rel="stylesheet" href="../css/CalendarView.css"
+			type="text/css" media="all" />
+		<link id="css" rel="stylesheet" href="../css/WorkBench.css"
+			type="text/css" media="all" />
+		<link id="css" rel="stylesheet" href="../css/widget.css"
+			  type="text/css" media="all" />
+		<script src="../js/jsframework.js" charset="utf-8"></script>
+
+		<!-- <script src="/../js/system/data/calendar1.js" charset="utf-8">
+		</script><script src="/../js/jsframework.js" charset="utf-8"></script>-->
+
+		<link rel="stylesheet" type="text/css" href="../css/MiniCalendar.css" >
+     <!--  <script type="javascript">
+            includeCSS(["/../css/CalendarView.css",
+"/../css/WorkBench.css"
+]);
+includeJS(["/../js/system/global.js",
+           "/../js/system/action/Drag.js" ,
+            "/../js/system/web/ui/webcontrols/calendarview1.js",
+            "/../js/system/web/ui/webcontrols/property.js",
+          ]);
+        </script>-->
+
+       <!-- <script src="../js/jquery.min.js" charset="utf-8"></script>
+		<script src="../js/common.js" charset="utf-8"></script>-->
+		<script src="../js/dom.js" charset="utf-8"></script>
+		<script src="../js/zwcommon.js" charset="utf-8"></script>
+		<script src="../js/system/global.js" charset="utf-8"></script>
+		<script src="../js/system/action/Drag.js" charset="utf-8"></script>
+		<script src="../js/DateUtils.js" charset="utf-8"></script>
+		<script src="../js/system/web/ui/webcontrols/calendarview1.js" charset="utf-8"></script>
+		<script src="../js/system/data/calendar1.js" charset="utf-8"></script>
+		<!--<script src="../js/DateUtils.js" charset="utf-8"></script>-->
+		<script src="../js/system/web/ui/webcontrols/MiniCalendar.js" charset="utf-8"></script>
+	<!--	<script src="../js/system/web/ui/webcontrols/SelectDate1.js" charset="utf-8"></script>
+
+		<script src="/../js/system/data/calendar1.js" charset="utf-8"></script>
+
+                <script src="/../js/system/web/ui/webcontrols/MiniCalendar.js" charset="utf-8"></script>
+-->
+		<!---->
+		<!--<script src="/../js/system/web/ui/webcontrols/property.js" charset="utf-8"></script>-->
+
+
+<style type="text/css">
+table{border:0;margin:0;border-collapse:collapse;}
+table td{padding:0;}
+	@media  (max-width: 600px){
+		.ls-hidden{
+	background-color:gray;
+			position:fixed;
+	top:30px;
+	z-index:1000;
+		}
+	}
+	.firsttable{
+		width:100%;
+	}
+	.inlinewidth100{
+	width:100%;
+		}
+
+	@media  (min-width: 600px){
+	.ls-hidden{
+
+	float:left;
+
+
+	}
+	.inlinewidth100{
+	margin-left:200px;
+
+	}
+	}
+	.firsttable{
+	width:100%;
+	}
+	.inlinewidth100{
+	width:100%;
+	}
+
+	.zw-collapse {
+	/* background-color:$lighter-gray;*/
+	/* border-radius: 4px;*/
+	/*  border: 1px solid $gray;
+	border-bottom: 1px solid $gray;*/
+	}
+	.zw-collapse-item {
+	border-bottom: 1px solid $gray;
+	.zw-panel-body {
+	padding: 0 5px 0 15px;
+	}
+	i {
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	margin-right: 15px;
+	}
+	}
+	.zw-collapse-item .zw-panel-body {
+	/*collapse use */
+	visibility: hidden;
+	height: 0;
+	overflow: hidden;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	}
+	.zw-collapse-item-active {
+	.zw-panel-body {
+	visibility: visible;
+	height: auto;
+	}
+	i {
+	transform: rotate(90deg);
+	}
+	}
+	.zw-panel-body {
+	font-size: $ft-nm;
+	/* padding:5px 15px;*/
+	/*display:none;*/
+	background-color: $white;
+	line-height: $ft-nm*1.5;
+
+	padding-bottom: 25px;
+	padding-top: 0px;
+	}
+	.zw-panel {
+	margin-top: 15px;
+	}
+	.zw-panel-header {
+	line-height: 21px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	font-size: 14px;
+	/* line-height: 22px; */
+	padding: 8px 0 8px 32px;
+	color: rgba(0, 0, 0, 0.85);
+	cursor: pointer;
+	position: relative;
+	transition: all 0.3s;
+	line-height: 21px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	background-color: #e5e5e5;
+	border-bottom: 1px solid #d9d9d9;
+	}
+	.zw-panel-header>span {
+	display: inline-block;
+	width: 90%;
+	}
+.evt_9{
+
+	background-color:green;
+	}
+
+	div[evt_type="9"]>dl{
+		background-color:#c3d9ff;
+	}
+	div[evt_type="12"]>dl{
+	background-color:yellow
+	}
+	div[evt_type="13"]>dl{
+	background-color:rgb(71, 236, 17)
+	}
+	div[evt_type="14"]>dl{
+		background-color:#888686
+	}
+
+	*{
+	moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	}
+
+
+
+
+</style>
+
+	</HEAD>
+
+	<BODY onclick="hiddenDialogue()" >
+	<!--<input type="text" id="bb"></input>
+	<input type="text" id="cc"></input>
+	<input type="text" id="dd"></input>
+	<input type="text" id="ee"></input>
+	</input>
+	-->
+		<div style="position: absolute; top: 500;display:none">
+			<input type="text" id="aa"></input>
+			<textarea id="codeInput"  rows="2" cols="50"></textarea>
+	<button type="button" onclick="writeNow()">Click Me!</button>
+		</div>
+
+		<div style="position: absolute; top: 500;display:none">
+			<ul>
+				<li>只显示此日历</li>
+				<li>日历设置</li>
+				<li>在此日历上创建活动</li>
+				<li>共享此日历</li>
+				<li>提醒和通知</li>
+			</ul>
+			<div class="calcolor-menuitem goog-menuitem" style="height:200px;width:203px">
+				<div class="calcolors" style="height:100%;width:100%">
+					<div id="calpalette" class="calpalette" style="height:100%;width:100%">
+						<div class="ccp-rb-color goog-inline-block">
+							<div class="bcp-selected">
+							</div>
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div><br>
+
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div><br>
+
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div><br>
+
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div>
+						<div class="ccp-rb-color goog-inline-block">
+						</div><br>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!--topcontainerwk start-->
+		<div id="tt"></div>
+		<!-- scrolltimedevents end -->
+		<div id="tubiaodiv" class="tubiaodiv" ></div>
+	<div id="editForm" style="display:none">
+	<div class="editFormHead">
+		toubu
+	</div>
+		<form>
+			<div class="row">
+				<lable>
+					标题:
+				</lable>
+				<div><input type="text" /></div>
+				</div>
+			<div class="row">
+				<lable>
+					日期:
+				</lable>
+				<div><input type="text" onclick="MiniCalendar.redner(this)"/></div>
+			</div>
+			<div class="row">
+				<lable>
+					starttime:
+				</lable>
+				<input type="text" />
+				<lable>
+					endtime:
+				</lable>/
+				<input type="text" />
+			</div>
+		</form>
+		<div class="editFormFoot">
+			jiaobu
+			</div>
+	</div>
+	</BODY>
+	<script language="javascript">
+
+	//	var date=new Date(23320320*60000);
+	//	alert(date)
+	//	var startDateTime = Date.parse("2003-03-17T02:02:02");
+		//alert(startDateTime);
+		//var date=new Date(startDateTime);
+		//alert(date.getHours());
+	//var arr=[1];arr.splice(0,1);
+	//console.log(arr);
+	//Using("System.Web.UI.WebControls.CalendarView");
+
+	//judgeBrowser();
+	var global_weekdays;
+	var d = new CalendarView();
+	var ca =d;
+	//alert(d.render());
+	//$("tt").innerHTML = d.render();
+	d.attachTo("tt");
+	d.init();
+	var newEvent = {
+		id:79,
+		title : 1,
+		date : "2010-03-01",
+		startTime : "11:00",
+		endTime : "12:00"
+	};
+	document.onmousemove = function() {
+	}
+	window.onmousemove = function() {
+	}
+	//d.displaySingleEvent(newEvent);
+	Drag.init();
+	//Drag.displayMCalTypes();
+	function writeNow(){
+		var str=$("codeInput").value;
+		ca._eval(str);
+	}
+
+	function disableMouseSelection(element) {
+		if (element.onselectstart !== undefined) {
+			element.onselectstart = function() {
+				return false
+			};
+		} else if (element.style.MozUserSelect !== undefined) {
+			element.style.MozUserSelect = "none";
+		} else if (element.style.KhtmlUserSelect !== undefined) {
+
+			element.style.KhtmlUserSelect = "none";
+		} else {
+			element.onmousedown = function() {
+				return false
+			};
+		}
+		if (element.ondrag !== undefined) {
+			element.ondrag = function() {
+				return false
+			};
+		}
+	}
+	//disableMouseSelection(document.documentElement);
+	window.onresize=findDimensions;
+	function hiddenDialogue(){
+console.log("hidedialogue");
+
+		document.getElementById("calendarEventDialog").style.display="none";
+
+		d.deleteEventDataService("newEvent");
+
+
+	d.deleteEventBarAction("newEvent");
+
+	}
+	  function findDimensions()
+   {
+   var winHeight=0;
+   var winWidth=0;
+
+   if (window.innerWidth)
+   winWidth = window.innerWidth;
+   else if ((document.body) && (document.body.clientWidth))
+   winWidth = document.body.clientWidth;
+
+   if (window.innerHeight)
+   winHeight = window.innerHeight;
+   else if ((document.body) && (document.body.clientHeight))
+   winHeight = document.body.clientHeight;
+   if (document.documentElement  && document.documentElement.clientHeight && document.documentElement.clientWidth)
+   {
+   winHeight = document.documentElement.clientHeight;
+   winWidth = document.documentElement.clientWidth;
+   }
+
+	document.getElementById("aa").value= window.innerHeight;
+	//document.getElementById("scrolltimedeventswk").style.height= window.innerHeight-120;
+
+   }
+   window.onload=function (){
+	//document.getElementById("scrolltimedeventswk").style.height= window.innerHeight-120;
+   }
+</script>
+
+<script>
+/*firefox*/
+function __firefox(){
+    HTMLElement.prototype.__defineGetter__("runtimeStyle", __element_style);
+    window.constructor.prototype.__defineGetter__("event", __window_event);
+    Event.prototype.__defineGetter__("srcElement", __event_srcElement);
+}
+function __element_style(){
+    return this.style;
+}
+function __window_event(){
+    return __window_event_constructor();
+}
+function __event_srcElement(){
+    return this.target;
+}
+function __window_event_constructor(){
+    if(document.all){
+        return window.event;
+    }
+    var _caller = __window_event_constructor.caller;
+    while(_caller!=null){
+        var _argument = _caller.arguments[0];
+        if(_argument){
+            var _temp = _argument.constructor;
+            if(_temp.toString().indexOf("Event")!=-1){
+                return _argument;
+            }
+        }
+        _caller = _caller.caller;
+    }
+    return null;
+}
+if(window.addEventListener){
+    __firefox();
+}
+/*end firefox*/
+</script>
+<div data-v-60afc51c=""  style="display:none" class=" zw-panel ">
+
+  <div class=" zw-panel-header"><i class="zw-icon   fas fa-"></i>
+	  <span><span data-v-60afc51c="" name="title">2018年11月10日</span></span>
+  </div>
+  <div id="panel1" class="zw-panel-body">
+    <p data-v-60afc51c="" name="body">
+
+	  <ul>
+
+		  <li>123 2018年11月10日09:17:24</li>
+		  <li>签到 2018年11月10日09:17:24</li>
+	  </ul>
+		</p>
+
+
+  </div>
+</div>
+</HTML>

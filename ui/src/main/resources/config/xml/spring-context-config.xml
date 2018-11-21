@@ -32,6 +32,7 @@
 	</context:component-scan>
 
 
+
 	<!-- spring的属性加载器，加载properties文件中的属性 -->
 
 		<!--<bean id="configProperties"

@@ -53,9 +53,9 @@
 
             <div class="col-md-6">
                 <h2 class="font-bold">欢迎来到 Welcome to </h2>
-                <h1 style="font-size:80px;color: #e6e6e6;font-weight: 800;    letter-spacing: -10px;">装维＋</h1>
+                <h1 style="font-size:80px;color: #e6e6e6;font-weight: 800;    letter-spacing: -10px;">微智＋</h1>
                 <p>
-                    <span style="font-weight:bold">营销装维平台</span>，是新一代营销装维平台
+                    <span style="font-weight:bold">微智平台</span>，是新一代智能平台
                 </p>
                 <p>
 

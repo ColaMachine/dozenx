@@ -18,7 +18,7 @@ import java.util.Set;
 public class HttpPostUtil {
     URL url;  
     HttpURLConnection conn;  
-    String boundary = "-----------httpok\r\n\r\n";  //-----------httpok
+    String boundary = "--------------------56423498738365";  //-----------httpok
     Map<String, String> textParams = new HashMap<String, String>();  
     Map<String, File> fileparams = new HashMap<String, File>();  
     Map<String, CommonsMultipartFile> cmfileparams = new HashMap<String, CommonsMultipartFile>();  
@@ -91,13 +91,14 @@ public class HttpPostUtil {
         writeFileParams();  
         writeCmFileParams();  
         writeStringParams();  
-        paramsEnd();  
+        paramsEnd();
+        ds.flush();
         InputStream in = conn.getInputStream();  
         ByteArrayOutputStream out = new ByteArrayOutputStream();  
         int b;  
         while ((b = in.read()) != -1) {  
             out.write(b);  
-        }  
+        }
         conn.disconnect();  
         return out.toByteArray();  
     }  
@@ -110,13 +111,14 @@ public class HttpPostUtil {
      */
     private void initConnection() throws Exception {  
         conn = (HttpURLConnection) this.url.openConnection();  
-        conn.setDoOutput(true);  
+        conn.setDoOutput(true);
         conn.setUseCaches(false);  
         conn.setConnectTimeout(10000); //连接超时为10秒  
         conn.setRequestMethod("POST");
         //如果是 application/json格式的话就不能用这种
-/*        conn.setRequestProperty("Content-Type",
-                "multipart/form-data; boundary=" + boundary);  */
+        if(fileparams.size()!=0  || cmfileparams.size()!=0)
+      conn.setRequestProperty("Content-Type",
+                "multipart/form-data; boundary=" + boundary);
     }  
     /**
      * 普通字符串数据  

@@ -34,4 +34,25 @@ public class IpRule extends Rule {
 		}
 	}
 
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if (StringUtil.isBlank(value.toString())) {
+			return true;
+		}
+
+
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(value.toString());
+
+
+		if (!matcher.find()) {
+			this.setMessage("请输入正确的ip地址");
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 }

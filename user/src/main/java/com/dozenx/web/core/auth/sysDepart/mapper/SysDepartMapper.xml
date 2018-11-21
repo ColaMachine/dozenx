@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysDepart.dao.SysDepartMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysDepart.bean.SysDepart">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="pid" jdbcType="BIGINT" property="pid" />
+      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="userId" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_depart.`id` ,sys_depart.`name` ,sys_depart.`pid` ,sys_depart.`code` ,sys_depart.`status` ,sys_depart.`remark` ,sys_depart.`createTime` ,sys_depart.`updateTime` ,sys_depart.`userId` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_depart
+    where sys_depart.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_depart
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysDepart.bean.SysDepart" >
+
+    insert into sys_depart (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{name,jdbcType=VARCHAR}
+,#{pid,jdbcType=BIGINT}
+,#{code,jdbcType=VARCHAR}
+,#{status,jdbcType=INTEGER}
+,#{remark,jdbcType=VARCHAR}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{updateTime,jdbcType=TIMESTAMP}
+,#{userId,jdbcType=BIGINT}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysDepart.bean.SysDepart" >
+    insert into sys_depart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="name != null" >  
+           `name`, 
+        </if>  
+        <if test="pid != null" >  
+           `pid`, 
+        </if>  
+        <if test="code != null" >  
+           `code`, 
+        </if>  
+        <if test="status != null" >  
+           `status`, 
+        </if>  
+        <if test="remark != null" >  
+           `remark`, 
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`, 
+        </if>  
+        <if test="updateTime != null" >  
+           `updateTime`, 
+        </if>  
+        <if test="userId != null" >  
+           `userId`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="code != null" >  
+          #{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="userId != null" >  
+          #{userId,jdbcType=BIGINT},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysDepart.bean.SysDepart" >
+    update sys_depart
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="code != null" >  
+             `code`=#{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+             `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="userId != null" >  
+             `userId`=#{userId,jdbcType=BIGINT},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysDepart.bean.SysDepart" >
+    update sys_depart
+    set 
+              `name`=#{name,jdbcType=VARCHAR},
+              `pid`=#{pid,jdbcType=BIGINT},
+              `code`=#{code,jdbcType=VARCHAR},
+              `status`=#{status,jdbcType=INTEGER},
+              `remark`=#{remark,jdbcType=VARCHAR},
+              `createTime`=#{createTime,jdbcType=TIMESTAMP},
+              `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+              `userId`=#{userId,jdbcType=BIGINT}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_depart where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+        <if test="code != null and code != '' ">  
+           and `code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">
+             and `code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and `updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="userId != null and userId != '' ">  
+           and `userId` = #{userId}
+        </if>  
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_depart
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_depart.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_depart.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_depart.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="pid != null and pid != '' ">  
+           and sys_depart.`pid` = #{pid}
+        </if>  
+        <if test="code != null and code != '' ">  
+           and sys_depart.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_depart.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="status != null and status != '' ">  
+           and sys_depart.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_depart.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_depart.`remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_depart.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sys_depart.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sys_depart.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and sys_depart.`updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and sys_depart.`updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and sys_depart.`updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="userId != null and userId != '' ">  
+           and sys_depart.`userId` = #{userId}
+        </if>  
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_depart where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_depart.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_depart.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_depart.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="pid != null and pid != '' ">  
+           and sys_depart.`pid` = #{pid}
+        </if>  
+        <if test="code != null and code != '' ">  
+           and sys_depart.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_depart.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="status != null and status != '' ">  
+           and sys_depart.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_depart.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_depart.`remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_depart.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sys_depart.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sys_depart.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and sys_depart.`updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and sys_depart.`updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and sys_depart.`updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="userId != null and userId != '' ">  
+           and sys_depart.`userId` = #{userId}
+        </if>  
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_depart where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+        <if test="code != null and code != '' ">
+           or `code` = #{code}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `createTime` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+           or `updateTime` = #{updateTime}
+        </if>
+        <if test="userId != null and userId != '' ">
+           or `userId` = #{userId}
+        </if>
+  </select>
+</mapper>

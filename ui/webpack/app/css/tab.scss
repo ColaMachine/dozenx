@@ -200,7 +200,7 @@
 }
 .zw-tabs-tab{
     text-align:center;
-    span{
+    span{/**通过元素 居中 文字的span 是block 实现上线分离 居中对齐 **/
         display:block;
     }
 }

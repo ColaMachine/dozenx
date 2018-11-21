@@ -23,8 +23,7 @@ import java.util.Map.Entry;
  * 文件说明: 
  */
 public class ValidateUtil<T> {
-
-
+    Logger logger =LoggerFactory.getLogger(ValidateUtil.class);
     public Map<String, Rule[]> ruleMap = null;
     public Map<String, String> nameMap = null;
     public Map<String, Object> valueMap = null;
@@ -98,11 +97,15 @@ public class ValidateUtil<T> {
             resultMap = validate(key);
             boolean result = (Boolean)resultMap.get("result");
             if(!result){
+
                 message = (String)resultMap.get("message");
+                logger.error(message);
+
                 break;
             }
         }
         this.clear();
+
         return message;
     }
     
@@ -112,8 +115,8 @@ public class ValidateUtil<T> {
         Rule[] rules = ruleMap.get(key);
         if(rules!=null && rules.length>0){
             for(Rule rule : rules){
-                rule.setValue(valueMap.get(key));
-                if(!rule.valid()){
+               // rule.setValue(valueMap.get(key));
+                if(!rule.valid(valueMap.get(key))){
                     resultMap.put("result", false);
                     resultMap.put("message", nameMap.get(key)+rule.getMessage());
                     break;

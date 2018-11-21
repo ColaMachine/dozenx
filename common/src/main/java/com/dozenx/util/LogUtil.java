@@ -1,9 +1,17 @@
 package com.dozenx.util;
 
+import com.dozenx.core.Path.PathManager;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * Created by luying on 16/7/24.
  */
 public class LogUtil {
+
+
     public static void println1(String s){
 
 

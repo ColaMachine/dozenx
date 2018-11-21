@@ -1,13 +1,21 @@
 
 @import 'base';
 @CHARSET "UTF-8";
+.zwindow{
+	position:fixed;
+	width:100%;
+
+	left:0px;
+	z-index:1000;
+    background-color:white;
+}
 .zwidget_wrap{
-	position:absolute;
+	position:fixed;
 	min-width:200px;
 	max-width:70%;
 	background-color:white;
 	top:50%;
-
+    left:10%;
 	margin-top:-75px;
 	/*
 	left:50%;
@@ -105,6 +113,8 @@ position: relative;
 	postion:relative;
 	text-align:center;
 }
+
+
 .zwidget_wrap .zwidget_ft{
 	padding-left:5px;
 	padding-right:5px;
@@ -167,4 +177,8 @@ color:black !important;
     .zwidget_ft{
         display:none;
     }
+}
+
+.zwindow_bd{
+
 }

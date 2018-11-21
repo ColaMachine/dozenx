@@ -1,7 +1,7 @@
 
 <template>
   <button type="button"  v-on:click="diabledForAWhile" class="btn" :class="classes" :disabled="isDisabled"><i v-if="iconShow" :class="iconclasses"></i>
-  <span v-if="hasText"   class="zw-btn-text" ref="slot"> <slot ref="btnTxt"></slot></span>{{this.coolDown>0?(this.coolDown+'s'):"" }}</button>
+  <span v-if="hasText"   class="zw-btn-text" ref="slot"> <slot ref="btnTxt"></slot></span>{{this.coolDown>0?(this.coolDown+'s'):"" }} {{text}}</button>
 </template>
 <script type="text/javascript">
 export default {
@@ -13,6 +13,7 @@ export default {
                type:String,
                title: String,
                icon:String,
+               text:String,
                click:Function,
                shape:String,
                sizeNum:String,
@@ -21,6 +22,11 @@ export default {
                     type:Boolean,
                     default:false,
                },
+
+                 start_loading_state:{//表示他是一个loading 组件  正真表示他是否在loading 是loading_state loading_state中 按钮不可点击 并且有图标的话 图标会变成旋转
+                       type:Boolean,
+                       default:false,
+                  },
                loading_delay:{
                    type:Number,
                    default:0,
@@ -122,9 +128,11 @@ export default {
         }else{
             this.hasText=false;
         }
-        this.loading_state = this.loading;
-        this.judgeNeedWait();
-       /* if(this.loading==true && this.loading_delay>0){
+        this.loading_state = this.start_loading_state;
+
+
+       /*  this.judgeNeedWait();
+       if(this.loading==true && this.loading_delay>0){
             this.loading_state =true;
             var that = this;
 
@@ -178,7 +186,9 @@ export default {
                 }
             },
             diabledForAWhile:function(){
+            console.log("diabledForAWhile");
             this.$emit("clickFn");
+             console.log("$emit");
             if(this.loading && !this.loading_state){
                    this.loading_state=true;
             }

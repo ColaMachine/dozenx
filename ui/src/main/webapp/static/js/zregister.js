@@ -1,15 +1,17 @@
 
 var registerForm={
     ids:{
-            root:null,//根节点
-            form:null,//表单
-            picCaptchaInput:null,//图片输入框
-            picCaptchaImg:null,//图片验证码img
-            userName:null,//
-            realName:null,
-            pwd:null,
-            pwdrepeat:null,
-            submitBtn:null,
+//            root:null,//根节点
+//            form:null,//表单
+//            picCaptchaInput:null,//图片输入框
+//            picCaptchaImg:null,//图片验证码img
+//            userName:null,//
+//            realName:null,
+//            pwd:null,
+//            pwdrepeat:null,
+//            submitBtn:null,
+//            emailCode:null,
+//            getEmailCodeBtn:null,
         },
     doms:{
 
@@ -19,13 +21,15 @@ var registerForm={
          var cfg={
                     root:"#registerWrap",
                     form:"#registerForm",
-                    userName:"#email",
+                    userName:"#username",
+                    email:"#email",
                     pwd:"#pwd",
                     pwdrepeat:"#pwdrepeat",
-                    realName:"#username",
                     picCaptchaInput:"#regPicCaptchaInput",
                     picCaptchaImg:"#regPicCaptchaImg",
                     submitBtn:"#registerBtn",
+                    emailCode:"#emailCode",
+                    getEmailCodeBtn:"#getEmailCodeBtn",
                 };
 
                 extend(this.ids,cfg);
@@ -60,20 +64,40 @@ var registerForm={
     },
     addEventListener:function(){
 
-         this.doms.submitBtn.onclick=this.submit.Apply(this );
+        this.doms.submitBtn.onclick=this.submit.Apply(this );
         this.doms.picCaptchaImg.onclick=this.getPicCaptcha.Apply(this);
+        this.doms.getEmailCodeBtn.onclick=this.getEmailCode.Apply(this);
         //注册按钮
 
 
 
 
     },
-       //获取验证码图片点击事件
+   //获取验证码图片点击事件
     getPicCaptcha:function(){
         that =this;
         Ajax.getJSON(PATH+"/code/img/request.json",null,function(result){
             if(result.r==AJAX_SUCC){
                that.doms.picCaptchaImg.setAttribute("src","data:image/png;base64,"+result.data.imgdata);
+            }else{
+                dialog.error(result.msg);
+            }
+        });
+    },
+
+    getEmailCode:function(){
+        that =this;
+        var email = that.doms.email.value;
+        if(!StringUtil.isEmail(email)){
+            dialog.error("请正确填写邮箱");
+            return;
+        }else{
+
+        }
+        Ajax.getJSON(PATH+"/sys/auth/reg/email/code.json",{email:email},function(result){//登录的时候获取验证码
+            if(result.r==AJAX_SUCC){
+             //  that.doms.picCaptchaImg.setAttribute("src","data:image/png;base64,"+result.data.imgdata);
+                dialog.alert("请检查邮箱接收验证码");
             }else{
                 dialog.error(result.msg);
             }
@@ -91,24 +115,25 @@ var registerForm={
         jso.username=this.doms.form.find("#username").value;
           jso.pwd=this.doms.form.find("#pwd").value;
            jso.email=this.doms.form.find("#email").value;
-           jso.picCaptcha=this.doms.form.find("#regPicCaptchaInput").value;
+           jso.captcha=this.doms.form.find("#regPicCaptchaInput").value;
+             jso.emailCode=this.doms.form.find("#emailCode").value;
        // changeForm2Jso(this.ids.form);
-        Ajax.post(PATH + "/sys/auth/registerPost.json", jso, function(data) {
+        Ajax.post(PATH + "/sys/auth/reg/email.json", jso, function(data) {
              _this.doms.submitBtn.removeAttribute("disabled");
            if (data[AJAX_RESULT] == AJAX_SUCC) {
                 //如果是用手机注册的就弹出手机验证码 发送窗口
                 if(StringUtil.isPhone(jso.email)){
                 //手机号复制
 
-                    smsValidForm.setPhone(jso.email);
-                    smsValidForm.show();
+                    //smsValidForm.setPhone(jso.email);
+                  //  smsValidForm.show();
                     //registerForm.registerEnterForm.find("#phone").text(jso.email);
                     //registerForm.modal.modal("show");
                 }else
                 if(StringUtil.isEmail(jso.email)){
                 //手机号复制
-                    emailValidForm.setEmail(jso.email);
-                     emailValidForm.show();
+                    //emailValidForm.setEmail(jso.email);
+                    // emailValidForm.show();
                     /*registerForm.registerEnterForm.find("#phone").text(jso.email);
                     registerForm.modal.modal("show");*/
                 }
@@ -194,13 +219,13 @@ window.onload=function(){
 
 
 	registerForm.init();
-    smsValidForm.init();
-    emailValidForm.init();
+//    smsValidForm.init();
+//    emailValidForm.init();
 
 }
 
 
-
+/*
 
 var emailValidForm={
  ids:{
@@ -464,3 +489,4 @@ var smsValidForm={
         };
     }
 };
+*/

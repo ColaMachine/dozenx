@@ -365,10 +365,10 @@ Tool.isNull=function(it){
 	}
 	return null;
 }
-var StringUtil={};
-StringUtil.isNull=function(it){
-	if(it==null || typeof it=='undefinded' || it==''){
-		return true;
-	}
-	return null;
-}
+//var StringUtil={};
+//StringUtil.isNull=function(it){
+//	if(it==null || typeof it=='undefinded' || it==''){
+//		return true;
+//	}
+//	return null;
+//}

@@ -59,4 +59,30 @@ public class FloatRange extends Rule {
 
 		return false;
 	}
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if (value != null && !value.equals("")) {
+			BigDecimal realValue = new BigDecimal(value.toString());
+			//BigDecimal minValue = new BigDecimal(min);
+
+			if (this.min != null) {
+				if (realValue.compareTo(new BigDecimal(min)) == -1) {
+					message = "err.param.min." + min;
+					return false;
+				}
+			}
+			if (this.max != null) {
+				BigDecimal maxValue = new BigDecimal(max);
+				if (realValue.compareTo(maxValue) == 1) {
+					message = "数字应在范围" + min + "-" + max + "之内";
+					return false;
+				}
+
+			}
+			return true;
+		}
+
+		return false;
+	}
 }

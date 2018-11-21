@@ -52,6 +52,25 @@
 
 
 
+<zwCol span=24>
+    <zwBox class="">
+        <div slot="zwCodeBoxDemo">
+             <zwAppImgBlocks :list="imgList"></zwAppImgBlocks>
+        </div>
+        <div slot="zwCodeBoxMeta"  title="tab类型">
+             zwAppImgBlocks 是适用于手机端图片 信息展示条目
+        </div>
+        <div slot="zwCodeBoxPanel"  >
+
+            <textarea ref="textarea" id="textarea" name="textarea">
+ <zwAppImgBlocks ></zwAppImgBlocks>
+            </textarea>
+
+       </div>
+    </zwBox>
+</zwCol>
+
+
 </zwRow>
 
 
@@ -74,11 +93,11 @@ import zwBox from '../../../component/layout/zwBox.vue';
 
 
 import zwAppImgList from '../../../component/datadisplay/zwAppImgList.vue';
-
+import zwAppImgBlocks from '../../../component/datadisplay/zwAppImgBlocks.vue';
 import zwPcImgList from '../../../component/datadisplay/zwPcImgList.vue';
 
 export default {
-    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwAppImgList,zwPcImgList},
+    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwAppImgList,zwPcImgList,zwAppImgBlocks},
     data () {
 
         return {

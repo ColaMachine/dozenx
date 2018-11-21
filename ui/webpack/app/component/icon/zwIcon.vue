@@ -47,9 +47,16 @@ export default {
                 if(this.type=="user"){
                     return "zw-icon  zw-icon-user fa fa-user";
                 }
+                if(this.type=="lock"){
+                    return "zw-icon  zw-icon-user fa fa-lock";
+                }
                  if(this.type=="close"){
                     return "zw-icon  zw-icon-user fa  fa-times";
                 }
+
+                 if(this.type=="swimmer"){
+                        return "zw-icon  zw-icon-user fa  fa-swimmer";
+                    }
                  if(this.type=="toggle-off"){
                     return "zw-icon fa fa-toggle-off";
                 }
@@ -65,8 +72,10 @@ export default {
                  if(this.type=="sign-out"){
                                     return "zw-icon  zw-icon-user fa  fa-sign-out";
                                 }
-
-                return "";
+                if(this.type && this.type.indexOf("fa")!=-1){
+                    return this.type;
+                }
+                return "zw-icon   fas fa-"+this.type;
             }
         },
         mounted () {

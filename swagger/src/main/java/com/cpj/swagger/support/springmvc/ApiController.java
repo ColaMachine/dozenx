@@ -19,7 +19,6 @@ package com.cpj.swagger.support.springmvc;
 import com.cpj.swagger.support.Constants;
 import com.cpj.swagger.support.internal.ApiViewWriter;
 import com.cpj.swagger.support.internal.DefaultApiViewWriter;
-import com.cpj.swagger.util.FileUtil;
 import com.cpj.swagger.util.ResourceUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.dozenx.util.FileUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -104,7 +103,7 @@ public class ApiController implements InitializingBean, Constants {
 		InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
 		props.load(is);
 
-
+		is.close();
 
 		//吧json 数据 传入到对应的名称的数据文档里
 		String  url = request.getParameter("url");
@@ -134,7 +133,7 @@ public class ApiController implements InitializingBean, Constants {
 		InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
 		props.load(is);
 
-
+		is.close();
 
 		//吧json 数据 传入到对应的名称的数据文档里
 
@@ -173,5 +172,6 @@ public class ApiController implements InitializingBean, Constants {
 	public void afterPropertiesSet() throws Exception {
 		InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
 		props.load(is);
+		is.close();
 	}
 }

@@ -6,7 +6,7 @@
 <script>
 
 import zwRichInput from '../../../component/dataentry/zwRichInput.vue';
-
+//调用者需要实现 submitCallBack 回调用方法
 export default {
     components:{zwRichInput},
     data () {

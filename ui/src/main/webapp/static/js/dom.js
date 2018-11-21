@@ -264,6 +264,28 @@ function getHeight(obj){
 
     return parseInt(obj.style.height||obj.height||obj.offsetHeight);
 }
+function setSelectValue(id,value){
+var selid = document.getElementById(id).childNodes;
+for(var i=0;i<selid.length;i++){
+  if(selid[i].value == value){//content.belong_type为后台返回来的值
+        selid[i].selected = true;
+}else{
+      selid[i].removeAttribute("selected");
+}
+}
+
+}
+function getSelectedValue(id){
+var obj = document.getElementById(id); //定位id
+
+var index = obj.selectedIndex; // 选中索引
+
+var text = obj.options[index].text; // 选中文本
+
+var value = obj.options[index].value; // 选中值
+
+return value;
+}
 function getStyleWidth(obj){
 
     var style = null;

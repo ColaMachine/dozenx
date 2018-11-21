@@ -38,13 +38,17 @@ export default {
         //}
         },
         mounted () {
+            this.totalWidth=0;
+            for(var i=0;i<this.list.length;i++){
+                this.totalWidth+=this.list[i].width;
+            }
 
         },
         methods: {
 
         getWidth:function(num){
             //console.log("width:"+colItem.width+"%");
-            return "display:inline-block;width:"+num+"%";
+            return "display:inline-block;width:"+parseInt(num/this.totalWidth*100)+"%";
         }
         },
 

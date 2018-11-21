@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.shop.dao.ShopMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.shop.bean.Shop">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="telno" jdbcType="VARCHAR" property="telno" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="creator" jdbcType="BIGINT" property="creator" />
+      <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Shop.`id` ,Shop.`name` ,Shop.`address` ,Shop.`telno` ,Shop.`remark` ,Shop.`creator` ,Shop.`createTime` ,Shop.`status` ,Shop.`updateTime` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Shop
+    where Shop.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Shop
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.shop.bean.Shop" >
+
+    insert into Shop (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{name,jdbcType=VARCHAR}
+,#{address,jdbcType=VARCHAR}
+,#{telno,jdbcType=VARCHAR}
+,#{remark,jdbcType=VARCHAR}
+,#{creator,jdbcType=BIGINT}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{status,jdbcType=INTEGER}
+,#{updateTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.shop.bean.Shop" >
+    insert into Shop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="name != null" >  
+           `name`,
+        </if>  
+        <if test="address != null" >  
+           `address`,
+        </if>  
+        <if test="telno != null" >  
+           `telno`,
+        </if>  
+        <if test="remark != null" >  
+           `remark`,
+        </if>  
+        <if test="creator != null" >  
+           `creator`,
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`,
+        </if>  
+        <if test="status != null" >  
+           `status`,
+        </if>  
+        <if test="updateTime != null" >  
+           `updateTime`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="address != null" >  
+          #{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="telno != null" >  
+          #{telno,jdbcType=VARCHAR},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="creator != null" >  
+          #{creator,jdbcType=BIGINT},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="updateTime != null" >  
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.shop.bean.Shop" >
+    update Shop
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="address != null" >  
+             `address`=#{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="telno != null" >  
+             `telno`=#{telno,jdbcType=VARCHAR},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="creator != null" >  
+             `creator`=#{creator,jdbcType=BIGINT},
+        </if>  
+        <if test="createTime != null" >  
+             `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="updateTime != null" >  
+             `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.shop.bean.Shop" >
+    update Shop
+    set 
+              `name`=#{name,jdbcType=VARCHAR},
+              `address`=#{address,jdbcType=VARCHAR},
+              `telno`=#{telno,jdbcType=VARCHAR},
+              `remark`=#{remark,jdbcType=VARCHAR},
+              `creator`=#{creator,jdbcType=BIGINT},
+              `createTime`=#{createTime,jdbcType=TIMESTAMP},
+              `status`=#{status,jdbcType=INTEGER},
+              `updateTime`=#{updateTime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Shop where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="address != null and address != '' ">  
+           and `address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">
+             and `address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="telno != null and telno != '' ">  
+           and `telno` = #{telno}
+        </if>  
+        <if test="telnoLike != null and telnoLike != '' ">
+             and `telno` like "%"#{telnoLike}"%"
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and `creator` = #{creator}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="updateTime != null and updateTime != '' ">  
+           and `updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Shop
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and Shop.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and Shop.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and Shop.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="address != null and address != '' ">  
+           and Shop.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and Shop.`address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="telno != null and telno != '' ">  
+           and Shop.`telno` = #{telno}
+        </if>  
+        <if test="telnoLike != null and telnoLike != '' ">  
+             and Shop.`telno` like "%"#{telnoLike}"%"
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and Shop.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and Shop.`remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and Shop.`creator` = #{creator}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and Shop.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and Shop.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and Shop.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="status != null and status != '' ">  
+           and Shop.`status` = #{status}
+        </if>  
+        <if test="updateTime != null and updateTime != '' ">  
+           and Shop.`updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and Shop.`updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and Shop.`updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from Shop where 1=1
+        <if test="id != null and id != '' ">  
+           and Shop.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and Shop.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and Shop.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="address != null and address != '' ">  
+           and Shop.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and Shop.`address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="telno != null and telno != '' ">  
+           and Shop.`telno` = #{telno}
+        </if>  
+        <if test="telnoLike != null and telnoLike != '' ">  
+             and Shop.`telno` like "%"#{telnoLike}"%"
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and Shop.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and Shop.`remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and Shop.`creator` = #{creator}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and Shop.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and Shop.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and Shop.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="status != null and status != '' ">  
+           and Shop.`status` = #{status}
+        </if>  
+        <if test="updateTime != null and updateTime != '' ">  
+           and Shop.`updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and Shop.`updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and Shop.`updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from Shop where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="address != null and address != '' ">
+           or `address` = #{address}
+        </if>
+        <if test="telno != null and telno != '' ">
+           or `telno` = #{telno}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+        <if test="creator != null and creator != '' ">
+           or `creator` = #{creator}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `createTime` = #{createTime}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+           or `updateTime` = #{updateTime}
+        </if>
+  </select>
+</mapper>

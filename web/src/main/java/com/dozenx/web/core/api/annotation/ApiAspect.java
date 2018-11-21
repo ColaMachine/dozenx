@@ -85,6 +85,9 @@ public class ApiAspect {
             if("body".equalsIgnoreCase(in)){
                 continue;//如果是path 变量就跳过
             }
+            if("params".equalsIgnoreCase(in)){
+                continue;//如果是path 变量就跳过
+            }
             String name =params[i].name();
             if(restfulParam!=null && restfulParam.equals(name)){
 

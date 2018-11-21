@@ -2,15 +2,15 @@
 @CHARSET "UTF-8";
 @mixin btn-size($size) {
     font-size:$size ;
-    height:$size * 2.5;
-    line-height:$size * 2.5;
-     min-height: $size*2.5;
+    height:$size * 2.3;
+    line-height:$size * 2.3;
+     min-height: $size*2.3;
      padding: $size*0.1 $size*0.5;
       span,i{
               padding: $size*0.12 $size*0.15;
-             line-height: $size*1.8;
-             height: $size*1.8;
-             min-height: $size*1.8;
+             line-height: $size*1.7;
+             height: $size*1.7;
+             min-height: $size*1.7;
 
          }
 }
@@ -63,10 +63,10 @@ textarea {
     border: 1px solid transparent;
     border-radius: 4px;
 
-    margin:5px 5px 5px;
+  /*  margin:5px 5px 5px;*/
 
     @include btn-size($ft-nm);
-
+    height:32px;
     color:$black;
 }
 .btn-border-blue{

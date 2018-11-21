@@ -66,7 +66,11 @@ public class MD5Util {
 		stringbuffer.append(c1);
 	}
 
-	public static void main(){
-		//System.out.println(MD5Util.to);
+	public static void main(String args[]){
+		try {
+			System.out.println(MD5Util.getStringMD5String(MD5Util.getStringMD5String("awifi@123")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

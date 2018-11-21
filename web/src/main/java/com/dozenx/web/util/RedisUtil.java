@@ -97,6 +97,10 @@ public final class RedisUtil {
            // logger.debug(String.format("初始化redis ADDR:%s"));
          //   jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
             jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH, INDEX);
+            if(getJedis()==null){
+                logger.error("redis can't get jedis  redis启动失败");
+                System.exit(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -823,4 +827,44 @@ public final class RedisUtil {
         }
         return retFlag;
     }
+
+    /**
+     * 释放锁
+     * author 王作品
+     * @param key 锁的key
+     * @param value    释放锁的标识
+     * @return
+     */
+    public static void lpush(String key ,String value) {
+        Jedis conn = null;
+        try {
+            conn = RedisUtil.getJedis();
+            conn.lpush(key,value);
+        } catch (JedisException e) {
+            logger.error("JedisException报错 +e "+e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+    }
+
+    public static String rpop(String key ) {
+        Jedis conn = null;
+        try {
+            conn = RedisUtil.getJedis();
+            return conn.rpop(key);
+        } catch (JedisException e) {
+            logger.error("JedisException报错 +e "+e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
+
 }

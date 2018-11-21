@@ -262,7 +262,7 @@ public class ValidCodeController extends BaseController{
     @RequestMapping(value = "/img/request.json", method = RequestMethod.GET)
     public @ResponseBody ResultDTO imgRequest(HttpServletRequest request){
         String uuuid =UUID.randomUUID().toString();//StringUtil.getRandomAlphaDigitString(11);// RandomUtil.getRandom(10000000);
-        request.getSession().setAttribute("uuuid",uuuid);
+        request.getSession().setAttribute("uuuid",request.getRequestedSessionId());
         return validCodeService.getImgValidCode("calendar",request.getRequestedSessionId());
     }
     /**

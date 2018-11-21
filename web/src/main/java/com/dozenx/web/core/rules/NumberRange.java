@@ -61,4 +61,33 @@ public class NumberRange extends Rule {
 			return true;
 		}
 	}
+
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value != null && !value.equals("")){
+			BigDecimal realValue = new BigDecimal(value.toString());
+			BigDecimal minValue = new BigDecimal(min);
+
+			if(this.max==null || "".equals(this.max)){
+				if(realValue.compareTo(minValue) == -1) {
+					message = "err.param.min." + min;
+					return false;
+				}else {
+					return true;
+				}
+			}else {
+				BigDecimal maxValue = new BigDecimal(max);
+				if(realValue.compareTo(minValue)==-1 || realValue.compareTo(maxValue)==1) {
+					message = "数字应在范围" + min + "-" + max+"之内";
+					return false;
+				}else {
+					return true;
+				}
+			}
+		}
+		else {
+			return true;
+		}
+	}
 }

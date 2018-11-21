@@ -10,9 +10,9 @@ package com.dozenx.web.core.auth.sysUser.service;
 
 import com.dozenx.core.exception.ParamException;
 import com.dozenx.util.*;
-import com.dozenx.web.core.auth.bean.Active;
+import com.dozenx.web.core.auth.active.bean.Active;
+import com.dozenx.web.core.auth.active.service.ActiveService;
 import com.dozenx.web.core.auth.bean.Pwdrst;
-import com.dozenx.web.core.auth.dao.ActiveMapper;
 import com.dozenx.web.core.auth.dao.PwdrstMapper;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysRole.dao.SysRoleMapper;
@@ -35,15 +35,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sun.security.util.Password;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("sysUserService")
 public class SysUserService extends BaseService {
@@ -63,7 +61,7 @@ public class SysUserService extends BaseService {
     @Autowired
     private SysUserMapper sysUserMapper;
     @Autowired
-    private ActiveMapper activeMapper;
+    private ActiveService  activeService;
     @Autowired
     private PwdrstMapper pwdrstMapper;
     @Autowired
@@ -527,56 +525,164 @@ public class SysUserService extends BaseService {
         //检查是否有相同账号用户
         //TODO 改成count 就可以了
         SysUser sameEmailUser =new SysUser();
-        if(this.getUserByUserName(user.getUsername())!=null){
+        if(this.getUserByUserName(user.getUsername())!=null){//用户名是否有重复
             return ResultUtil.getResult(30105087,"用户名重复");
         }
-        if(StringUtil.isNotBlank(user.getEmail())){
+        if(StringUtil.isNotBlank(user.getEmail())){//使用的邮箱是否有重复
             sameEmailUser = this.getUserByEmail(user.getEmail());
 
         }else if(StringUtil.isNotBlank(user.getTelno())){
-            sameEmailUser = this.getUserByTelno(user.getTelno());
+            sameEmailUser = this.getUserByTelno(user.getTelno());//使用的手机是否有重复
         }else{
             return ResultUtil.getResult(3015088,"手机号或邮箱地址必填");
         }
 
         if (sameEmailUser != null) {
-            return ResultUtil.getResult(303,"手机号或邮箱地址已被注册");
-        } else {
+            return ResultUtil.getResult(303,"手机号或邮箱地址已被注册");//爆出异常
+        } else {//没有重复就发送验证码
             user.setEmail(user.getEmail());
             user.setPassword(MD5Utils.MD5Encode(user.getPassword()));
+            user.setAccount(StringUtil.isBlank(user.getEmail())?user.getTelno():user.getEmail());
             this.sysUserMapper.insert(user);
 
             if(StringUtil.isNotBlank(user.getEmail())) {
                 // 插入激活数据
-                Active active = new Active();
-                active.setUserid(user.getId());
-                active.setActiveid(UUIDUtil.getUUID());
-                this.activeMapper.insertActive(active);
-
-
-
+//                Active active = new Active();
+//                active.setUserId(user.getId());
+                String code = UUIDUtil.getUUID().substring(0,6);
+//                active.setCode();
+//                this.activeService.save(active);//插入一个激活记录
+                this.activeService.updateActive(user.getEmail(),"register",code);
                 HashMap params =new HashMap();
                 params.put("code","role_guest");
-                List<SysRole> sysUserRoles=  roleMapper.listByParams(params);//查询系统里是否有普通用户角色
-
+                List<SysRole> sysRoles=  roleMapper.listByParams(params);//查询系统里是否有普通用户角色
 
                 //TODO assign guest role
-                SysUserRole sysUserRole=new SysUserRole();
+                if(sysRoles==null || sysRoles.size()==0){
+                   SysRole sysRole =  new SysRole();
+                    sysRole.setCode("role_guest");
+                    sysRole.setName("普通用户");
+                    sysRole.setRemark("普通用户");
+                    int id =  roleMapper.insert(sysRole);
+                    sysRoles=new ArrayList<>();
+                    sysRoles.add(sysRole);
+                }
+
+                SysUserRole sysUserRole=new SysUserRole();//为了给新注册的用户赋值普通用户
                 sysUserRole.setUserId(user.getId());
 
-                if(sysUserRoles==null || sysUserRoles.size()==0){
+                if(sysRoles==null || sysRoles.size()==0){
                     return ResultUtil.getFailResult("系统异常");
                 }
-                sysUserRole.setRoleId(sysUserRoles.get(0).getId());
-                sysUserRoleMapper.insert(sysUserRole);
+                sysUserRole.setRoleId(sysRoles.get(0).getId());
+                sysUserRoleMapper.insert(sysUserRole);//给当前用户赋值一个普通角色
                 // 发送激活邮件
                 try {
-                    EmailUtil.send(user.getEmail(), "你的邮件验证码:" + active.getActiveid() + "");
+                    EmailUtil.send(user.getEmail(), "你的邮件验证码:" + code + "");
                 }catch (Exception e){
-                    LogUtilFeichu.system(serviceCode,218,user.getEmail()+active.getActiveid(),e.getMessage()+" 发送邮件失败","");
+                    logger.error("发送邮件失败");
+                    LogUtilFeichu.system(serviceCode,218,user.getEmail()+code,e.getMessage()+" 发送邮件失败","");
                     return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 219, "SEND_FAIL");
                 }
             }
+            return ResultUtil.getSuccResult();
+            // }
+        }
+    }
+    public ResultDTO sendEmailCode(String email ){
+        //首先去判断有没有用户是用这个email 了
+        int num = sysUserMapper.countUserByEmail(email);
+        if(num > 0 ){
+            return ResultUtil.getResult(30102312,"此邮箱已被使用");
+        }
+        //发送邮件和记录active
+
+        // 插入激活数据
+//        Active active = new Active();
+//        active.setAccount(email);
+//        active.setCode(UUIDUtil.getUUID().substring(0,6));
+//        this.activeMapper.insert(active);//插入一个激活记录
+
+
+        try {
+            String code = UUIDUtil.getUUID().substring(0,6);
+            EmailUtil.send(email, "你的邮件验证码:" + code + "");
+            activeService.save(email,"register",code);
+        }catch (Exception e){
+            logger.error("发送邮件失败");
+            LogUtilFeichu.system(serviceCode,218,email,e.getMessage()+" 发送邮件失败","");
+            return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 219, "SEND_FAIL");
+        }
+        return ResultUtil.getSuccResult();
+    }
+
+//    @Transactional (rollbackFor = Exception.class)
+    //注册用户前先校验邮箱验证码是否正确
+    public ResultDTO saveRegisterUserWithEamilCode(SysUser user,String emailCode) throws Exception{
+        user.setStatus(1);//什么都没初始化过 激活过
+        //校验邮箱验证码
+//        Active active = activeService.selectByParam(user.getEmail(),"registeremail",emailCode);
+//        //通过邮箱的验证码的前几位去验证
+//        if(active==null || !active.getCode().startsWith(emailCode) /*|| !active.getEmail().equals(user.getEmail())*/){
+//            return ResultUtil.getResult(30101105,"邮箱验证码校验错误");
+//        }
+
+        activeService.updateActive(user.getEmail(),"registeremail",emailCode);
+        // 检测是否有冲突的用户
+        // TODO 改成int 数
+        //检查是否有相同账号用户
+        //TODO 改成count 就可以了
+        SysUser sameEmailUser =new SysUser();
+        if(this.getUserByUserName(user.getUsername())!=null){//用户名是否有重复
+            return ResultUtil.getResult(30105087,"用户名重复");
+        }
+        if(StringUtil.isNotBlank(user.getEmail())){//使用的邮箱是否有重复
+            sameEmailUser = this.getUserByEmail(user.getEmail());
+
+        }else{
+            return ResultUtil.getResult(3015088,"手机号或邮箱地址必填");
+        }
+
+        if (sameEmailUser != null) {
+            return ResultUtil.getResult(303,"手机号或邮箱地址已被注册");//爆出异常
+        } else {//没有重复就发送验证码
+            user.setEmail(user.getEmail());
+            user.setUsername(user.getEmail());
+            user.setPassword(MD5Utils.MD5Encode(user.getPassword()));
+            user.setAccount(StringUtil.isBlank(user.getEmail())?user.getTelno():user.getEmail());
+            this.sysUserMapper.insert(user);
+
+            if(StringUtil.isNotBlank(user.getEmail())) {
+                // 插入激活数据
+               // activeService.save(active);
+                //维护用户角色关系
+                HashMap params =new HashMap();
+                params.put("code","role_guest");
+                List<SysRole> sysRoles=  roleMapper.listByParams(params);//查询系统里是否有普通用户角色
+
+                //TODO assign guest role
+                if(sysRoles==null || sysRoles.size()==0){
+                    SysRole sysRole =  new SysRole();
+                    sysRole.setCode("role_guest");
+                    sysRole.setName("普通用户");
+                    sysRole.setRemark("普通用户");
+                    sysRole.setStatus(1);
+                    int id =  roleMapper.insert(sysRole);
+                    sysRoles=new ArrayList<>();
+                    sysRoles.add(sysRole);
+                }
+
+                SysUserRole sysUserRole=new SysUserRole();//为了给新注册的用户赋值普通用户
+                sysUserRole.setUserId(user.getId());
+
+                if(sysRoles==null || sysRoles.size()==0){
+                    return ResultUtil.getFailResult("系统异常");
+                }
+                sysUserRole.setRoleId(sysRoles.get(0).getId());
+                sysUserRoleMapper.insert(sysUserRole);//给当前用户赋值一个普通角色
+                // 发送激活邮件
+            }
+
             return ResultUtil.getSuccResult();
             // }
         }
@@ -616,6 +722,7 @@ public class SysUserService extends BaseService {
             pwdrst.setUserid(user.getId());
             pwdrst.setUsed(false);
             pwdrst.setCreatetime(new Timestamp((new Date()).getTime()));
+            pwdrst.setResettime(new Timestamp((new Date()).getTime()));
             pwdrst.setIdpwdrst(UUIDUtil.getUUID());
             pwdrstMapper.insertPwdrst(pwdrst);
             // 发送邮件
@@ -650,19 +757,33 @@ public class SysUserService extends BaseService {
      * @author colamachine 涉及两张表 user 表 和 active 表 user表有active 字段标记账户是否激活状态
      * active 表记录激活过程和激活码
      */
-    public ResultDTO updateUserActive(String activeid) {
+    public ResultDTO updateUserActive(String code,String account,String type) {
 
-        Active active = this.activeMapper.selectActiveById(activeid);
-        if (active == null || StringUtil.isBlank(active.getActiveid())) {
+        Active active = this.activeService.selectByParam(code,account,type);
+        if (active == null || StringUtil.isBlank(active.getCode())) {
             return ResultUtil.getWrongResultFromCfg("active.url.not.valid");
         }
-        if (active.isActived()) {
+        if (active.getStatus()==0) {
             return ResultUtil.getWrongResultFromCfg("active.url.used");
         }
-        active.setActived(true);
-        active.setActivedtime(new Timestamp((new Date()).getTime()));
-        this.activeMapper.updateActive(active);
-        SysUser user = this.sysUserMapper.selectByPrimaryKey(active.getUserid());
+        active.setStatus(1);
+        active.setActivedTime(new Timestamp((new Date()).getTime()));
+        SysUser user =null;
+        if(StringUtil.isEmail(account)){
+             user = this.sysUserMapper.selectUserByEmail(account);
+
+        }else if(StringUtil.isPhone(account)){
+             user = this.sysUserMapper.selectUserByTelno(account);
+
+        }else{
+            return ResultUtil.getResult(30101775,"既不是手机号也不是邮箱");
+        }
+        if(user==null){
+            return ResultUtil.getResult(30101778,"未找到关联用户");
+        }
+        active.setUserId(user.getId());
+
+        this.activeService.save(active);
         user.setStatus(2);
         this.sysUserMapper.updateByPrimaryKey(user);
 
@@ -689,7 +810,7 @@ public class SysUserService extends BaseService {
 //
 //		ValidUtil.valid("pwd",pwd,"");
         ResultDTO msgBox = ValidUtil.pwd(pwd);
-        if (msgBox.isRight()) {
+        if (!msgBox.isRight()) {
             return msgBox;
         }
         if (StringUtil.isBlank(code)) {
@@ -710,7 +831,7 @@ public class SysUserService extends BaseService {
             userid=user.getId();
             // db校验
             Pwdrst pwdrst = pwdrstMapper.selectPwdrstById(code);
-            if (pwdrst == null || pwdrst.getUserid()!= userid) {
+            if (pwdrst == null || pwdrst.getUserid().longValue()!= userid.longValue()) {
                 return ResultUtil.getResult("VALIDCODE_MATCH_ERR");
             }
             if (pwdrst.isUsed()) {
@@ -751,24 +872,24 @@ public class SysUserService extends BaseService {
             return ResultUtil.getResultDetail(serviceCode,LogType.PARAM,395,"PARAM_ERR");
         }
 
-        Active active = this.activeMapper.selectActiveById(code);
+        Active active = this.activeService.selectByParam(email,"register",code);
 
-        if (active == null || StringUtil.isBlank(active.getActiveid())) {
+        if (active == null || StringUtil.isBlank(active.getCode())) {
             return ResultUtil.getResult("VALIDCODE_ERR");
         }
-        if (active.isActived()) {
+        if (active.getStatus()==1) {
             return ResultUtil.getResult("VALIDCODE_USED");
         }
 
 
-        SysUser olduser =sysUserMapper.selectByPrimaryKey(active.getUserid());
+        SysUser olduser =sysUserMapper.selectByPrimaryKey(active.getUserId());
         if(!email.equals(olduser.getEmail())){
             return ResultUtil.getResultDetail(serviceCode,LogType.PARAM,410,"PARAM_ERR");
         }
-        active.setActived(true);
-        active.setActivedtime(new Timestamp((new Date()).getTime()));
-        this.activeMapper.updateActive(active);
-        SysUser user = this.sysUserMapper.selectByPrimaryKey(active.getUserid());
+        active.setStatus(1);
+        active.setActivedTime(new Timestamp((new Date()).getTime()));
+        this.activeService.save(active);
+        SysUser user = this.sysUserMapper.selectByPrimaryKey(active.getUserId());
         user.setStatus(2);
         this.sysUserMapper.updateByPrimaryKey(user);
 
@@ -812,5 +933,11 @@ public class SysUserService extends BaseService {
         user.setPassword(newPassword);
         sysUserMapper.resetPwd(user);
         return ResultUtil.getSuccResult();
+    }
+
+
+    public SysUser getUserByOutId(Long id) {
+        SysUser user = sysUserMapper.selectUserByOutId(id);
+        return user;
     }
 }

@@ -14,4 +14,13 @@ public class Required extends Rule {
 			return true;
 		}
 	}
+
+	public boolean valid(Object value){
+		if(value==null || value.equals("")){
+			this.setMessage("不能为空");
+			return false;
+		}else {
+			return true;
+		}
+	}
 }

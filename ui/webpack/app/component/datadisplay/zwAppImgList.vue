@@ -3,7 +3,7 @@
   <ul class="app-li">
     <li v-for="result in list" key={{result.id}} class="zw-app-box app-li-it ">
       <div class="app-li-it-pic">
-        <a :href='"/static/html/editor/index.html?id=3&goodsid="+ result.id '><img onerror="" :src='"/"+ result.pic' /></a>
+        <a :href='"?id="+ result.id +"#placeView"'><img onerror="" :src='getPathValue( result.pic)' /></a>
       </div>
       <div class="app-li-it-content">
         
@@ -17,11 +17,11 @@
           <h5><span v-for="item in result.tag3">{{item}} |</span></h5>
         </div>
    <div style=" color:red" class="">
-          <span><h1>$3000起</h1></span>
+          <span><h1>${{result.price}}起</h1></span>
         </div>
         <div class="app-li-it-content-foot">
 
-          <div class="app-li-it-text"><span className="src-net">{{result.src}}|23:12</span><span className="comment-num">评论:2</span><span className="goods-score">评分:{{result.score}}</span></div>
+          <div class="app-li-it-text"><span className="src-net">{{result.src}}</span><span className="comment-num">评论:{{result.comments}}</span><span className="goods-score">评分:{{result.score}}</span></div>
         </div>
       </div>
     </li>
@@ -56,7 +56,9 @@
 
     },
     methods: {
-
+        getPathValue:function(value){
+          return getPathValue(value);
+        },
     },
 
     events: {

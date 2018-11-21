@@ -132,8 +132,10 @@
 
 
 
-<script src="http://192.168.120.80:7079/assets/index.js"></script>
+<script src="/assets/index.js"></script>
+<script src="/home/static/js/index.js"></script>
 
+<script>
 
-
+</script>
 </body>

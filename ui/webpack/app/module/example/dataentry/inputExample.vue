@@ -78,6 +78,13 @@
                                <span slot="prepend">http:</span>
                                <span slot="append">.com</span>
                               </zwInput>
+
+
+
+                               <zwInput placeholder="Basic usage">
+                                <img slot="append" src=""></img>
+                                <zwButton slot="append" icon="refresh" loading :loading_delay=5></zwButton>
+                              </zwInput>
                 </textarea>
 
               </div>
@@ -91,13 +98,13 @@
                   <zwIcon slot="suffix" type="windows"></zwIcon>
                 </zwInput>
 
-                <zwInput placeholder="Basic usage">
+                <zwInput placeholder="Basic usage" class="search">
                   
                   <zwButton slot="suffix" icon="search"></zwButton>
                 </zwInput>
 
 
-                <zwInput placeholder="Basic usage">
+                <zwInput placeholder="Basic usage" class="search">
                   <zwButton slot="prefix" icon="search"></zwButton>
                 </zwInput>
 

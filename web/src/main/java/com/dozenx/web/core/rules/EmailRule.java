@@ -24,4 +24,19 @@ public class EmailRule extends Rule {
 		}
 	}
 
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value == null || value.equals("")){
+			return true;
+		}else{
+			if (StringUtil.isEmail(value.toString())) {
+				return true;
+			}
+			else {
+				this.setMessage("请输入正确格式的邮箱");
+				return false;
+			}
+		}
+	}
+
 }

@@ -9,13 +9,16 @@
       <result column="userId" jdbcType="BIGINT" property="userId" />
       <result column="ip" jdbcType="VARCHAR" property="ip" />
       <result column="userName" jdbcType="VARCHAR" property="userName" />
+      <result column="result" jdbcType="LONGVARCHAR" property="result" />
+      <result column="params" jdbcType="LONGVARCHAR" property="params" />
+
       <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    oper_log.`id` ,oper_log.`moduleName` ,oper_log.`compName` ,oper_log.`detail` ,oper_log.`userId` ,oper_log.`ip` ,oper_log.`userName` ,oper_log.`createTime`
+      oper_log.`id` ,oper_log.`moduleName` ,oper_log.`result` ,oper_log.`params` ,oper_log.`compName` ,oper_log.`detail` ,oper_log.`userId` ,oper_log.`ip` ,oper_log.`userName` ,oper_log.`createTime`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from oper_log
     where oper_log.id =   #{id,jdbcType=INTEGER}
@@ -26,106 +29,120 @@
   </delete>
  <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.log.bean.OperLog" >
 
-    insert into oper_log (  <include refid="Base_Column_List" />)
-    values (
-#{id,jdbcType=INTEGER}
-,#{moduleName,jdbcType=VARCHAR}
-,#{compName,jdbcType=VARCHAR}
-,#{detail,jdbcType=VARCHAR}
-,#{userId,jdbcType=BIGINT}
-,#{ip,jdbcType=VARCHAR}
-,#{userName,jdbcType=VARCHAR}
-,#{createTime,jdbcType=TIMESTAMP}
-    )
+     insert into oper_log (  <include refid="Base_Column_List" />)
+     values (
+     #{id,jdbcType=INTEGER}
+     ,#{moduleName,jdbcType=VARCHAR}
+     ,#{result,jdbcType=LONGVARCHAR}
+     ,#{params,jdbcType=LONGVARCHAR}
+     ,#{compName,jdbcType=VARCHAR}
+     ,#{detail,jdbcType=LONGVARCHAR}
+     ,#{userId,jdbcType=BIGINT}
+     ,#{ip,jdbcType=VARCHAR}
+     ,#{userName,jdbcType=VARCHAR}
+     ,#{createTime,jdbcType=TIMESTAMP}
+     )
   </insert>
    <insert id="insertSelective" parameterType="com.dozenx.web.core.log.bean.OperLog" >
-    insert into oper_log
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-        <if test="id != null" >  
-           `id`, 
-        </if>  
-        <if test="moduleName != null" >
-           `moduleName`,
-        </if>  
-        <if test="compName != null" >  
-           `compName`, 
-        </if>  
-        <if test="detail != null" >  
-           `detail`, 
-        </if>  
-        <if test="userId != null" >  
-           `userId`, 
-        </if>  
-        <if test="ip != null" >  
-           `ip`, 
-        </if>  
-        <if test="userName != null" >  
-           `userName`, 
-        </if>  
-        <if test="createTime != null" >  
-           `createTime`, 
-        </if>  
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-        <if test="id != null" >  
-          #{id,jdbcType=INTEGER},
-        </if>  
-        <if test="moduleName != null" >
-          #{moduleName,jdbcType=VARCHAR},
-        </if>  
-        <if test="compName != null" >  
-          #{compName,jdbcType=VARCHAR},
-        </if>  
-        <if test="detail != null" >  
-          #{detail,jdbcType=VARCHAR},
-        </if>  
-        <if test="userId != null" >  
-          #{userId,jdbcType=BIGINT},
-        </if>  
-        <if test="ip != null" >  
-          #{ip,jdbcType=VARCHAR},
-        </if>  
-        <if test="userName != null" >  
-          #{userName,jdbcType=VARCHAR},
-        </if>  
-        <if test="createTime != null" >  
-          #{createTime,jdbcType=TIMESTAMP},
-        </if>  
-    </trim>
-  </insert>
+       insert into oper_log
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+           <if test="id != null" >
+               `id`,
+           </if>
+           <if test="moduleName != null" >
+               `moduleName`,
+           </if>
+           <if test="result != null" >
+               `result`,
+           </if>
+           <if test="params != null" >
+               `params`,
+           </if>
+           <if test="compName != null" >
+               `compName`,
+           </if>
+           <if test="detail != null" >
+               `detail`,
+           </if>
+           <if test="userId != null" >
+               `userId`,
+           </if>
+           <if test="ip != null" >
+               `ip`,
+           </if>
+           <if test="userName != null" >
+               `userName`,
+           </if>
+           <if test="createTime != null" >
+               `createTime`,
+           </if>
+       </trim>
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+           <if test="id != null" >
+               #{id,jdbcType=INTEGER},
+           </if>
+           <if test="moduleName != null" >
+               #{moduleName,jdbcType=VARCHAR},
+           </if>
+           <if test="result != null" >
+               #{result,jdbcType=LONGVARCHAR},
+           </if>
+           <if test="params != null" >
+               #{params,jdbcType=LONGVARCHAR},
+           </if>
+           <if test="compName != null" >
+               #{compName,jdbcType=VARCHAR},
+           </if>
+           <if test="detail != null" >
+               #{detail,jdbcType=LONGVARCHAR},
+           </if>
+           <if test="userId != null" >
+               #{userId,jdbcType=BIGINT},
+           </if>
+           <if test="ip != null" >
+               #{ip,jdbcType=VARCHAR},
+           </if>
+           <if test="userName != null" >
+               #{userName,jdbcType=VARCHAR},
+           </if>
+           <if test="createTime != null" >
+               #{createTime,jdbcType=TIMESTAMP},
+           </if>
+       </trim>
+   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.log.bean.OperLog" >
     update oper_log
     <set >
-        <if test="id != null" >  
+        <if test="id != null" >
              `id`=#{id,jdbcType=INTEGER},
-        </if>  
+        </if>
         <if test="moduleName != null" >
              `moduleName`=#{moduleName,jdbcType=VARCHAR},
-        </if>  
-        <if test="compName != null" >  
+        </if>
+        <if test="compName != null" >
              `compName`=#{compName,jdbcType=VARCHAR},
-        </if>  
-        <if test="detail != null" >  
+        </if>
+        <if test="detail != null" >
              `detail`=#{detail,jdbcType=VARCHAR},
-        </if>  
-        <if test="userId != null" >  
+        </if>
+        <if test="userId != null" >
              `userId`=#{userId,jdbcType=BIGINT},
-        </if>  
-        <if test="ip != null" >  
+        </if>
+        <if test="ip != null" >
              `ip`=#{ip,jdbcType=VARCHAR},
-        </if>  
-        <if test="userName != null" >  
+        </if>
+        <if test="userName != null" >
              `userName`=#{userName,jdbcType=VARCHAR},
-        </if>  
-        <if test="createTime != null" >  
+        </if>
+        <if test="createTime != null" >
              `createTime`=#{createTime,jdbcType=TIMESTAMP},
-        </if>  
+        </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.log.bean.OperLog" >
     update oper_log
-    set 
+    set
               `moduleName`=#{moduleName,jdbcType=VARCHAR},
               `compName`=#{compName,jdbcType=VARCHAR},
               `detail`=#{detail,jdbcType=VARCHAR},
@@ -136,96 +153,96 @@
 where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from oper_log where 1=1
-        <if test="id != null and id != '' ">  
+        <if test="id != null and id != '' ">
            and `id` = #{id}
-        </if>  
+        </if>
         <if test="moduleName != null and moduleName != '' ">
            and `moduleName` = #{moduleName}
-        </if>  
+        </if>
         <if test="moduleNameLike != null and moduleNameLike != '' ">
              and `moduleName` like "%"#{moduleNameLike}"%"
-        </if>   
-        <if test="compName != null and compName != '' ">  
+        </if>
+        <if test="compName != null and compName != '' ">
            and `compName` = #{compName}
-        </if>  
+        </if>
         <if test="compNameLike != null and compNameLike != '' ">
              and `compName` like "%"#{compNameLike}"%"
-        </if>   
-        <if test="detail != null and detail != '' ">  
+        </if>
+        <if test="detail != null and detail != '' ">
            and `detail` = #{detail}
-        </if>  
+        </if>
         <if test="detailLike != null and detailLike != '' ">
              and `detail` like "%"#{detailLike}"%"
-        </if>   
-        <if test="userId != null and userId != '' ">  
+        </if>
+        <if test="userId != null and userId != '' ">
            and `userId` = #{userId}
-        </if>  
-        <if test="ip != null and ip != '' ">  
+        </if>
+        <if test="ip != null and ip != '' ">
            and `ip` = #{ip}
-        </if>  
+        </if>
         <if test="ipLike != null and ipLike != '' ">
              and `ip` like "%"#{ipLike}"%"
-        </if>   
-        <if test="userName != null and userName != '' ">  
+        </if>
+        <if test="userName != null and userName != '' ">
            and `userName` = #{userName}
-        </if>  
+        </if>
         <if test="userNameLike != null and userNameLike != '' ">
              and `userName` like "%"#{userNameLike}"%"
-        </if>   
-        <if test="createTime != null and createTime != '' ">  
+        </if>
+        <if test="createTime != null and createTime != '' ">
            and `createTime` = #{createTime}
-        </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
              and `createTime` &gt;= #{createTimeBegin}
-        </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+        </if>
+         <if test="createTimeEnd != null and createTimeEnd != '' ">
              and `createTime` &lt;= #{createTimeEnd}
-        </if> 
+        </if>
 
   </select>
    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from oper_log
 
     where 1=1
-        <if test="id != null and id != '' ">  
+        <if test="id != null and id != '' ">
            and oper_log.`id` = #{id}
-        </if>  
+        </if>
         <if test="moduleName != null and moduleName != '' ">
            and oper_log.`moduleName` = #{moduleName}
-        </if>  
+        </if>
         <if test="moduleNameLike != null and moduleNameLike != '' ">
              and oper_log.`moduleName` like "%"#{moduleNameLike}"%"
-        </if>   
-        <if test="compName != null and compName != '' ">  
+        </if>
+        <if test="compName != null and compName != '' ">
            and oper_log.`compName` = #{compName}
-        </if>  
-        <if test="compNameLike != null and compNameLike != '' ">  
+        </if>
+        <if test="compNameLike != null and compNameLike != '' ">
              and oper_log.`compName` like "%"#{compNameLike}"%"
-        </if>   
-        <if test="detail != null and detail != '' ">  
+        </if>
+        <if test="detail != null and detail != '' ">
            and oper_log.`detail` = #{detail}
-        </if>  
-        <if test="detailLike != null and detailLike != '' ">  
+        </if>
+        <if test="detailLike != null and detailLike != '' ">
              and oper_log.`detail` like "%"#{detailLike}"%"
-        </if>   
-        <if test="userId != null and userId != '' ">  
+        </if>
+        <if test="userId != null and userId != '' ">
            and oper_log.`userId` = #{userId}
-        </if>  
-        <if test="ip != null and ip != '' ">  
+        </if>
+        <if test="ip != null and ip != '' ">
            and oper_log.`ip` = #{ip}
-        </if>  
-        <if test="ipLike != null and ipLike != '' ">  
+        </if>
+        <if test="ipLike != null and ipLike != '' ">
              and oper_log.`ip` like "%"#{ipLike}"%"
-        </if>   
-        <if test="userName != null and userName != '' ">  
+        </if>
+        <if test="userName != null and userName != '' ">
            and oper_log.`userName` = #{userName}
-        </if>  
-        <if test="userNameLike != null and userNameLike != '' ">  
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
              and oper_log.`userName` like "%"#{userNameLike}"%"
         </if>
        <if test="date != null and date != '' ">
@@ -233,64 +250,64 @@ where id = #{id,jdbcType=INTEGER}
        </if>
        <if test="createTime != null and createTime != '' ">
            and oper_log.`createTime` = #{createTime}
-        </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
              and oper_log.`createTime` &gt;= #{createTimeBegin}
-        </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+        </if>
+         <if test="createTimeEnd != null and createTimeEnd != '' ">
              and oper_log.`createTime` &lt;= #{createTimeEnd}
         </if>
         order by createTime desc
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
-    select 
-    count(1) 
+    select
+    count(1)
     from oper_log where 1=1
-        <if test="id != null and id != '' ">  
+        <if test="id != null and id != '' ">
            and oper_log.`id` = #{id}
-        </if>  
+        </if>
         <if test="moduleName != null and moduleName != '' ">
            and oper_log.`moduleName` = #{moduleName}
-        </if>  
+        </if>
         <if test="moduleNameLike != null and moduleNameLike != '' ">
              and oper_log.`moduleName` like "%"#{moduleNameLike}"%"
-        </if>   
-        <if test="compName != null and compName != '' ">  
+        </if>
+        <if test="compName != null and compName != '' ">
            and oper_log.`compName` = #{compName}
-        </if>  
-        <if test="compNameLike != null and compNameLike != '' ">  
+        </if>
+        <if test="compNameLike != null and compNameLike != '' ">
              and oper_log.`compName` like "%"#{compNameLike}"%"
-        </if>   
-        <if test="detail != null and detail != '' ">  
+        </if>
+        <if test="detail != null and detail != '' ">
            and oper_log.`detail` = #{detail}
-        </if>  
-        <if test="detailLike != null and detailLike != '' ">  
+        </if>
+        <if test="detailLike != null and detailLike != '' ">
              and oper_log.`detail` like "%"#{detailLike}"%"
-        </if>   
-        <if test="userId != null and userId != '' ">  
+        </if>
+        <if test="userId != null and userId != '' ">
            and oper_log.`userId` = #{userId}
-        </if>  
-        <if test="ip != null and ip != '' ">  
+        </if>
+        <if test="ip != null and ip != '' ">
            and oper_log.`ip` = #{ip}
-        </if>  
-        <if test="ipLike != null and ipLike != '' ">  
+        </if>
+        <if test="ipLike != null and ipLike != '' ">
              and oper_log.`ip` like "%"#{ipLike}"%"
-        </if>   
-        <if test="userName != null and userName != '' ">  
+        </if>
+        <if test="userName != null and userName != '' ">
            and oper_log.`userName` = #{userName}
-        </if>  
-        <if test="userNameLike != null and userNameLike != '' ">  
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
              and oper_log.`userName` like "%"#{userNameLike}"%"
-        </if>   
-        <if test="createTime != null and createTime != '' ">  
+        </if>
+        <if test="createTime != null and createTime != '' ">
            and oper_log.`createTime` = #{createTime}
-        </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
              and oper_log.`createTime` &gt;= #{createTimeBegin}
-        </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+        </if>
+         <if test="createTimeEnd != null and createTimeEnd != '' ">
              and oper_log.`createTime` &lt;= #{createTimeEnd}
-        </if> 
+        </if>
   </select>
  <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
     select

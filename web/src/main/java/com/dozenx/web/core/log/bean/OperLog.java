@@ -22,6 +22,25 @@ public class OperLog {
         this.id = id;
     }
 
+    private String result;
+    private String params;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getParams() {
+        return params;
+    }
+
+    public void setParams(String params) {
+        this.params = params;
+    }
+
     /** 模块名称 **/
     private String moduleName;
 

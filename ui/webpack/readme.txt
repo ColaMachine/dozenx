@@ -43,3 +43,6 @@ npm install --save-dev babel-core babel-loader  babel-preset-es2015 babel-preset
 
  npm install --save react-router-dom
 npm install axios
+
+###markdown js
+npm install mavon-editor --save

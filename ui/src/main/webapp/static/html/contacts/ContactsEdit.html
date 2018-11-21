@@ -1,0 +1,280 @@
+ <div class="ibox float-e-margins">
+    <form id="contactsEditForm" class="form-horizontal" method="post" action="/contacts//save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">联系人编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="15" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">用户名:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="name" name="name"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="org" class="col-sm-2 control-label">单位:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="org" name="org"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="depart" class="col-sm-2 control-label">部门:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="depart" name="depart"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="code" name="code"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+    <div style="display:none" class="form-group">
+        <label for="type" class="col-sm-2 control-label">类型:</label>
+        <div class="col-sm-10">
+            <input type="number" id="type" name="type"  class="form-control input-sm"  maxlength="4" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态:</label>
+        <div class="col-sm-10">
+            <select  id="status" name="status"  class="form-control input-sm"  >
+                <option value=''>-请选择-</option>
+                <option value=1>正常</option>
+                <option value=2>禁用</option>
+                <option value=3>未激活</option>
+                <option value=9>删除</option>
+            </select>
+        </div>
+    </div>
+    <div style="display:none" class="form-group">
+        <label for="email" class="col-sm-2 control-label">邮箱地址:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="email" name="email"  class="form-control input-sm"   maxlength="50"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="telno" class="col-sm-2 control-label">手机号码:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="telno" name="telno"  class="form-control input-sm"   maxlength="11"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <textarea  id="remark" name="remark"  class="form-control input-sm"   maxlength="200"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="group" class="col-sm-2 control-label">分组:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="group" name="group"  class="form-control input-sm"   maxlength="25"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="birth" class="col-sm-2 control-label">出生年月:</label>
+        <div class="input-group date">
+            <span class="input-group-addon" for="birth" ><i class="fa fa-calendar"></i></span>            <input type="text" id="birth" name="birth"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  ></input>
+        </div>
+    </div>
+    <div style="display:none" class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建时间:</label>
+        <div class="input-group date">
+            <span class="input-group-addon" for="createTime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="createTime" name="createTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  ></input>
+        </div>
+    </div>
+    <div style="display:none" class="form-group">
+        <label for="updateTime" class="col-sm-2 control-label">更新时间:</label>
+        <div class="input-group date">
+            <span class="input-group-addon" for="updateTime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="updateTime" name="updateTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  ></input>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var contactsEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#contactsEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        name:{
+            maxlength:20,required:true
+        },
+        org:{
+            maxlength:20
+        },
+        depart:{
+            maxlength:20
+        },
+        code:{
+            maxlength:20
+        },
+        type:{
+            digits:true
+        },
+        status:{
+            CheckBox:["1","2","3","9"],digits:true,required:true
+        },
+        email:{
+            maxlength:50,email:true
+        },
+        telno:{
+            maxlength:11,phone:true
+        },
+        remark:{
+            maxlength:200
+        },
+        group:{
+            maxlength:25
+        },
+        birth:{
+            dateISO:true
+        },
+        createTime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+        updateTime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        name:{
+            maxlength:"用户名不能多于20个字符"
+        },
+        org:{
+            maxlength:"单位不能多于20个字符"
+        },
+        depart:{
+            maxlength:"部门不能多于20个字符"
+        },
+        code:{
+            maxlength:"编号不能多于20个字符"
+        },
+        type:{
+            digits:"必须输入整数"
+        },
+        status:{
+            CheckBox:"必须输入'1','2','3','9'中的值",digits:"必须输入整数"
+        },
+        email:{
+            maxlength:"邮箱地址不能多于50个字符"
+        },
+        telno:{
+            maxlength:"手机号码不能多于11个字符"
+        },
+        remark:{
+            maxlength:"备注不能多于200个字符"
+        },
+        group:{
+            maxlength:"分组不能多于25个字符"
+        },
+        birth:{
+            dateISO:"必须输入合法日期"
+        },
+        createTime:{
+            ymd:"必须输入合法日期"
+        },
+        updateTime:{
+            ymd:"必须输入合法日期"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#contactsEditForm").validate(this.validParam);
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/contacts/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#contactsEditForm",data.data.bean);
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("contacts/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#contactsEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#contactsEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#contactsEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("contacts/list.htm");
+
+                    if(that.modal){
+                        $("#ContactsGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("contacts/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    contactsEdit.init();
+
+});
+</script>

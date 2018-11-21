@@ -31,4 +31,25 @@ public class MacShortRule extends Rule {
 		}
 	}
 
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if (value==null || StringUtil.isBlank(value.toString())) {
+			return true;
+		}
+
+
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(value.toString().toUpperCase());
+
+
+		if (!matcher.find()) {
+			this.setMessage("请输入正确的mac地址");
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 }

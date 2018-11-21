@@ -479,6 +479,7 @@ ul.zw-menu>li>a> .zw-menu-item-text {
     background-color: $light-black;
     width: 100% !important;
     text-align: left;
+    padding-top:5px;
     @include height_size($ft-h3);
     >li {
         float: left;

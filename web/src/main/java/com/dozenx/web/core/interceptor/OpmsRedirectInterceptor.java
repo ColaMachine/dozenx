@@ -13,6 +13,7 @@ import com.dozenx.web.util.HttpPostUtil;
 import com.dozenx.util.HttpRequestUtil;
 import com.dozenx.util.MapUtils;
 import com.dozenx.util.StringUtil;
+import okhttp3.OkHttpClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -75,7 +77,7 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
 
         // 营销装维平台地址 先写死 以后从properties 中获取
         String proxyUrl = request.getParameter("url");//类似于
-
+        proxyUrl=  proxyUrl.replace("///","/").replace("//","/");
         String host = request.getParameter("host");//类似于
 
        // String proxyDomain = host;
@@ -141,6 +143,7 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
         logger.info("usertoken:" + usertoken);*/
 
      //   logger.info("path:" + path);
+        logger.info("tt"+request.getParameter("day"));
         HashMap<String, String> urlQueryParam = new HashMap<String, String>();
         Enumeration<String> paramNames = request.getParameterNames();
         // 将所有参数都封装成map
@@ -174,6 +177,7 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
         String contentType = request.getContentType();
         if (request.getMethod().equals("POST") || request.getContentLength() > 297) {
             HttpPostUtil postUtil = new HttpPostUtil(newUrl);
+
 
             if(contentType.startsWith("multipart/form-data")) {    //如果有文件上传
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;

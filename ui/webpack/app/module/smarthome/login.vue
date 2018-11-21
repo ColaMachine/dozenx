@@ -9,14 +9,20 @@
 
         </zwCol>
   </zwRow>
-    <zwRow class="fix-bottom ">
+    <zwRow class=" " style="position:absolute;top:50%;margin-top:-100px">
 
         <zwCol span=24>
+        <zwForm>
+        <zwFormItem>
+            <zwButton type="yellow" v-on:clickFn="goToLoginInput" sizeNum="large" class="" style="width:95%;">登录</zwButton>
+            </zwFormItem>
+            <zwFormItem>
 
-            <zwButton type="yellow" v-on:clickFn="goToLoginInput" sizeNum="large" class="" style="width:95%;bottom:50px">登录/注册</zwButton>
+ <zwButton type="yellow" v-on:clickFn="goToLoginInput" sizeNum="large" class="" style="width:95%;">注册</zwButton>
+</zwFormItem>
 
-                  <bottomBar  defaultIndex="1"></bottomBar>
 
+</zwForm>
     </zwCol>
 
 
@@ -36,11 +42,14 @@ import zwTabPanel from '../../component/datadisplay/zwTabPanel.vue';
 import zwAppTitle from '../../component/datadisplay/zwAppTitle.vue';
 import bottomBar from '../smarthome/bottomBar.vue';
 import zwButton from '../../component/button/zwButton.vue';
+import zwForm from '../../component/dataentry/zwForm.vue';
+
+import zwFormItem from '../../component/dataentry/zwFormItem.vue';
 
 /**登录注册页面**/
 export default {
     name:"lockPwdModify",
-    components:{zwRow,zwCol,zwIcon,zwButton,zwTabs,zwTabPanel,bottomBar,zwAppTitle
+    components:{zwRow,zwCol,zwIcon,zwButton,zwTabs,zwTabPanel,bottomBar,zwAppTitle,zwForm,zwFormItem
     },
     data () {
 

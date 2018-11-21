@@ -14,10 +14,14 @@
 
     <meta name=”robots” content=”index,follow”/>
 
-    <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi ">
+    <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+
     <meta name=”apple-mobile-web-app-title” content=”标题”>
 
-    <meta name=”apple-mobile-web-app-capable” content=”yes”/>
+
 
 
     <meta name=”apple-itunes-app” content=”app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL”>
@@ -65,8 +69,16 @@
 
 <link rel="stylesheet" type="text/css" href="../../../static/css/border.css" >
 <link rel="stylesheet" type="text/css" href="../../../static/css/size.css" >
-<link rel="stylesheet" type="text/css" href="../../../static/css/list.css" >-->
+<link rel="stylesheet" type="text/css" href="../../../static/css/list.css" >
 <link rel="stylesheet" type="text/css" href="../../../static/css/font-awesome.css" >
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" >
+
+
+-->
+
+<link rel="stylesheet" href="../../../static/css/font-awesome-new.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="../../../static/css/slider.css" >
 <!--<link rel="stylesheet" type="text/css" href="../../../static/css/window.css" >
 <link rel="stylesheet" type="text/css" href="../../../static/css/img.css" >
@@ -115,11 +127,31 @@
 <script src="/static/js/zhihuijiating.js"></script>
 
 -->
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=0B1d2eff62bd35d2d98a8395b2560fe2"></script>
+
+<script type="text/javascript" src="https://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+<link rel="stylesheet" href="https://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+
+<script type="text/javascript" src="../../../static/html/weixin/baidu_map.js"></script>
+
+<script type="text/javascript" src="../../../static/js/imageUtil.js"></script>
+
+<script src="http://www.dapark.top/assets/vuePhoneIndex.js"></script>
+<!--<script src="../../../static/js/phoneApp.js"></script>-->
+<!--
+webpack.config.js
+./app/phoneApp.js
+import phoneIndex from './module/phone/index.vue'
 
 
 
-<script src="http://192.168.120.80:7079/assets/phoneApp.js"></script>
+./module/phone/index.vue
+访问url
+http://127.0.0.1/home/static/html/vue/vuePhoneIndex.html#/phoneMain
+phoneMain对应的是
+import phoneMain from '../../module/phone/main.vue';
 
+-->
 
 
 </body>

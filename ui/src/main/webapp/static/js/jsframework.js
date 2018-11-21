@@ -203,6 +203,9 @@ window.Import = function(namespace, path, rename) {
 window.Instance = function(hashCode) {//console.log("Instance" +System._instances[hashCode]);
 	return System._instances[hashCode];
 };
+   function Instance(hashCode) {//console.log("Instance" +System._instances[hashCode]);
+	return System._instances[hashCode];
+};
 window.Include = function(namespace, path) {
 	if (System._exist(namespace, path))
 		return;

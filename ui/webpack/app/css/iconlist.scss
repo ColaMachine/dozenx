@@ -1,9 +1,12 @@
 @import 'base';
 @CHARSET "UTF-8";
 .zw-icon-list{
-        display:table;
-        width:100%;
+     /*   display:table;*/
+      /*  width:90%;*/
         border-collapse :0px  ;
+
+            margin-left: auto;
+            margin-right: auto;
         /*flex-direction:row;
         justify-content: space-between;*/
         background-color:white;
@@ -16,9 +19,9 @@
                       border-bottom-right-radius:7px;
                 }
         li{
-            float:left;
+          /*  float:left;
             width:20%;
-             display:table-cell;
+             display:table-cell;*/
             text-align: center;
             list-style: none;
             cursor: pointer;

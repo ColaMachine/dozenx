@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.place.myPlace.dao.MyPlaceMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.place.myPlace.bean.MyPlace">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="province" jdbcType="INTEGER" property="province" />
+      <result column="city" jdbcType="INTEGER" property="city" />
+      <result column="county" jdbcType="INTEGER" property="county" />
+      <result column="price" jdbcType="FLOAT" property="price" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="cover" jdbcType="VARCHAR" property="cover" />
+      <result column="pic" jdbcType="VARCHAR" property="pic" />
+      <result column="create_time" jdbcType="DATE" property="createTime" />
+      <result column="update_time" jdbcType="DATE" property="updateTime" />
+      <result column="telno" jdbcType="VARCHAR" property="telno" />
+      <result column="create_user" jdbcType="BIGINT" property="createUser" />
+      <result column="lng" jdbcType="FLOAT" property="lng" />
+      <result column="lat" jdbcType="FLOAT" property="lat" />
+      <result column="comments" jdbcType="INTEGER" property="comments" />
+      <result column="score" jdbcType="FLOAT" property="score" />
+      <result column="lable" jdbcType="VARCHAR" property="lable" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    my_place.`id` ,my_place.`name` ,my_place.`code` ,my_place.`province` ,my_place.`city` ,my_place.`county` ,my_place.`price` ,my_place.`address` ,my_place.`cover` ,my_place.`pic` ,my_place.`create_time` ,my_place.`update_time` ,my_place.`telno` ,my_place.`create_user` ,my_place.`lng` ,my_place.`lat` ,my_place.`comments` ,my_place.`score` ,my_place.`lable` ,my_place.`remark` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from my_place
+    where my_place.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from my_place
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.place.myPlace.bean.MyPlace" >
+
+    insert into my_place (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{name,jdbcType=VARCHAR}
+,#{code,jdbcType=VARCHAR}
+,#{province,jdbcType=INTEGER}
+,#{city,jdbcType=INTEGER}
+,#{county,jdbcType=INTEGER}
+,#{price,jdbcType=FLOAT}
+,#{address,jdbcType=VARCHAR}
+,#{cover,jdbcType=VARCHAR}
+,#{pic,jdbcType=VARCHAR}
+,#{createTime,jdbcType=DATE}
+,#{updateTime,jdbcType=DATE}
+,#{telno,jdbcType=VARCHAR}
+,#{createUser,jdbcType=BIGINT}
+,#{lng,jdbcType=FLOAT}
+,#{lat,jdbcType=FLOAT}
+,#{comments,jdbcType=INTEGER}
+,#{score,jdbcType=FLOAT}
+,#{lable,jdbcType=VARCHAR}
+,#{remark,jdbcType=VARCHAR}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.place.myPlace.bean.MyPlace" >
+    insert into my_place
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="name != null" >  
+           `name`, 
+        </if>  
+        <if test="code != null" >  
+           `code`, 
+        </if>  
+        <if test="province != null" >  
+           `province`, 
+        </if>  
+        <if test="city != null" >  
+           `city`, 
+        </if>  
+        <if test="county != null" >  
+           `county`, 
+        </if>  
+        <if test="price != null" >  
+           `price`, 
+        </if>  
+        <if test="address != null" >  
+           `address`, 
+        </if>  
+        <if test="cover != null" >  
+           `cover`, 
+        </if>  
+        <if test="pic != null" >  
+           `pic`, 
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`, 
+        </if>  
+        <if test="updateTime != null" >  
+           `updateTime`, 
+        </if>  
+        <if test="telno != null" >  
+           `telno`, 
+        </if>  
+        <if test="createUser != null" >  
+           `createUser`, 
+        </if>  
+        <if test="lng != null" >  
+           `lng`, 
+        </if>  
+        <if test="lat != null" >  
+           `lat`, 
+        </if>  
+        <if test="comments != null" >  
+           `comments`, 
+        </if>  
+        <if test="score != null" >  
+           `score`, 
+        </if>  
+        <if test="lable != null" >  
+           `lable`, 
+        </if>  
+        <if test="remark != null" >  
+           `remark`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+          #{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="province != null" >  
+          #{province,jdbcType=INTEGER},
+        </if>  
+        <if test="city != null" >  
+          #{city,jdbcType=INTEGER},
+        </if>  
+        <if test="county != null" >  
+          #{county,jdbcType=INTEGER},
+        </if>  
+        <if test="price != null" >  
+          #{price,jdbcType=FLOAT},
+        </if>  
+        <if test="address != null" >  
+          #{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="cover != null" >  
+          #{cover,jdbcType=VARCHAR},
+        </if>  
+        <if test="pic != null" >  
+          #{pic,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=DATE},
+        </if>  
+        <if test="updateTime != null" >  
+          #{updateTime,jdbcType=DATE},
+        </if>  
+        <if test="telno != null" >  
+          #{telno,jdbcType=VARCHAR},
+        </if>  
+        <if test="createUser != null" >  
+          #{createUser,jdbcType=BIGINT},
+        </if>  
+        <if test="lng != null" >  
+          #{lng,jdbcType=FLOAT},
+        </if>  
+        <if test="lat != null" >  
+          #{lat,jdbcType=FLOAT},
+        </if>  
+        <if test="comments != null" >  
+          #{comments,jdbcType=INTEGER},
+        </if>  
+        <if test="score != null" >  
+          #{score,jdbcType=FLOAT},
+        </if>  
+        <if test="lable != null" >  
+          #{lable,jdbcType=VARCHAR},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.place.myPlace.bean.MyPlace" >
+    update my_place
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+             `code`=#{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="province != null" >  
+             `province`=#{province,jdbcType=INTEGER},
+        </if>  
+        <if test="city != null" >  
+             `city`=#{city,jdbcType=INTEGER},
+        </if>  
+        <if test="county != null" >  
+             `county`=#{county,jdbcType=INTEGER},
+        </if>  
+        <if test="price != null" >  
+             `price`=#{price,jdbcType=FLOAT},
+        </if>  
+        <if test="address != null" >  
+             `address`=#{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="cover != null" >  
+             `cover`=#{cover,jdbcType=VARCHAR},
+        </if>  
+        <if test="pic != null" >  
+             `pic`=#{pic,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `create_time`=#{createTime,jdbcType=DATE},
+        </if>  
+        <if test="updateTime != null" >  
+             `update_time`=#{updateTime,jdbcType=DATE},
+        </if>  
+        <if test="telno != null" >  
+             `telno`=#{telno,jdbcType=VARCHAR},
+        </if>  
+        <if test="createUser != null" >  
+             `create_user`=#{createUser,jdbcType=BIGINT},
+        </if>  
+        <if test="lng != null" >  
+             `lng`=#{lng,jdbcType=FLOAT},
+        </if>  
+        <if test="lat != null" >  
+             `lat`=#{lat,jdbcType=FLOAT},
+        </if>  
+        <if test="comments != null" >  
+             `comments`=#{comments,jdbcType=INTEGER},
+        </if>  
+        <if test="score != null" >  
+             `score`=#{score,jdbcType=FLOAT},
+        </if>  
+        <if test="lable != null" >  
+             `lable`=#{lable,jdbcType=VARCHAR},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.place.myPlace.bean.MyPlace" >
+    update my_place
+    set 
+              `name`=#{name,jdbcType=VARCHAR},
+              `code`=#{code,jdbcType=VARCHAR},
+              `province`=#{province,jdbcType=INTEGER},
+              `city`=#{city,jdbcType=INTEGER},
+              `county`=#{county,jdbcType=INTEGER},
+              `price`=#{price,jdbcType=FLOAT},
+              `address`=#{address,jdbcType=VARCHAR},
+              `cover`=#{cover,jdbcType=VARCHAR},
+              `pic`=#{pic,jdbcType=VARCHAR},
+              `create_time`=#{createTime,jdbcType=DATE},
+              `update_time`=#{updateTime,jdbcType=DATE},
+              `telno`=#{telno,jdbcType=VARCHAR},
+              `create_user`=#{createUser,jdbcType=BIGINT},
+              `lng`=#{lng,jdbcType=FLOAT},
+              `lat`=#{lat,jdbcType=FLOAT},
+              `comments`=#{comments,jdbcType=INTEGER},
+              `score`=#{score,jdbcType=FLOAT},
+              `lable`=#{lable,jdbcType=VARCHAR},
+              `remark`=#{remark,jdbcType=VARCHAR}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from my_place where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and `code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">
+             and `code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="province != null and province != '' ">  
+           and `province` = #{province}
+        </if>  
+        <if test="city != null and city != '' ">  
+           and `city` = #{city}
+        </if>  
+        <if test="county != null and county != '' ">  
+           and `county` = #{county}
+        </if>  
+        <if test="price != null and price != '' ">  
+           and `price` = #{price}
+        </if>  
+        <if test="address != null and address != '' ">  
+           and `address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">
+             and `address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="cover != null and cover != '' ">  
+           and `cover` = #{cover}
+        </if>  
+        <if test="coverLike != null and coverLike != '' ">
+             and `cover` like "%"#{coverLike}"%"
+        </if>   
+        <if test="pic != null and pic != '' ">  
+           and `pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">
+             and `pic` like "%"#{picLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="updateTime != null and updateTime != '' ">  
+           and `updateTime` = #{updateTime}
+        </if>  
+        <if test="telno != null and telno != '' ">  
+           and `telno` = #{telno}
+        </if>  
+        <if test="telnoLike != null and telnoLike != '' ">
+             and `telno` like "%"#{telnoLike}"%"
+        </if>   
+        <if test="createUser != null and createUser != '' ">  
+           and `createUser` = #{createUser}
+        </if>  
+        <if test="lng != null and lng != '' ">  
+           and `lng` = #{lng}
+        </if>  
+        <if test="lat != null and lat != '' ">  
+           and `lat` = #{lat}
+        </if>  
+        <if test="comments != null and comments != '' ">  
+           and `comments` = #{comments}
+        </if>  
+        <if test="score != null and score != '' ">  
+           and `score` = #{score}
+        </if>  
+        <if test="lable != null and lable != '' ">  
+           and `lable` = #{lable}
+        </if>  
+        <if test="lableLike != null and lableLike != '' ">
+             and `lable` like "%"#{lableLike}"%"
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like "%"#{remarkLike}"%"
+        </if>   
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from my_place
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and my_place.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and my_place.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and my_place.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and my_place.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and my_place.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="province != null and province != '' ">  
+           and my_place.`province` = #{province}
+        </if>  
+        <if test="city != null and city != '' ">  
+           and my_place.`city` = #{city}
+        </if>  
+        <if test="county != null and county != '' ">  
+           and my_place.`county` = #{county}
+        </if>  
+        <if test="price != null and price != '' ">  
+           and my_place.`price` = #{price}
+        </if>  
+        <if test="address != null and address != '' ">  
+           and my_place.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and my_place.`address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="cover != null and cover != '' ">  
+           and my_place.`cover` = #{cover}
+        </if>  
+        <if test="coverLike != null and coverLike != '' ">  
+             and my_place.`cover` like "%"#{coverLike}"%"
+        </if>   
+        <if test="pic != null and pic != '' ">  
+           and my_place.`pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">  
+             and my_place.`pic` like "%"#{picLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and my_place.`create_time` = #{createTime}
+        </if>  
+        <if test="updateTime != null and updateTime != '' ">  
+           and my_place.`update_time` = #{updateTime}
+        </if>  
+        <if test="telno != null and telno != '' ">  
+           and my_place.`telno` = #{telno}
+        </if>  
+        <if test="telnoLike != null and telnoLike != '' ">  
+             and my_place.`telno` like "%"#{telnoLike}"%"
+        </if>   
+        <if test="createUser != null and createUser != '' ">  
+           and my_place.`create_user` = #{createUser}
+        </if>  
+        <if test="lng != null and lng != '' ">  
+           and my_place.`lng` = #{lng}
+        </if>  
+        <if test="lat != null and lat != '' ">  
+           and my_place.`lat` = #{lat}
+        </if>  
+        <if test="comments != null and comments != '' ">  
+           and my_place.`comments` = #{comments}
+        </if>  
+        <if test="score != null and score != '' ">  
+           and my_place.`score` = #{score}
+        </if>  
+        <if test="lable != null and lable != '' ">  
+           and my_place.`lable` = #{lable}
+        </if>  
+        <if test="lableLike != null and lableLike != '' ">  
+             and my_place.`lable` like "%"#{lableLike}"%"
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and my_place.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and my_place.`remark` like "%"#{remarkLike}"%"
+        </if>   
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from my_place where 1=1
+        <if test="id != null and id != '' ">  
+           and my_place.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and my_place.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and my_place.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and my_place.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and my_place.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="province != null and province != '' ">  
+           and my_place.`province` = #{province}
+        </if>  
+        <if test="city != null and city != '' ">  
+           and my_place.`city` = #{city}
+        </if>  
+        <if test="county != null and county != '' ">  
+           and my_place.`county` = #{county}
+        </if>  
+        <if test="price != null and price != '' ">  
+           and my_place.`price` = #{price}
+        </if>  
+        <if test="address != null and address != '' ">  
+           and my_place.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and my_place.`address` like "%"#{addressLike}"%"
+        </if>   
+        <if test="cover != null and cover != '' ">  
+           and my_place.`cover` = #{cover}
+        </if>  
+        <if test="coverLike != null and coverLike != '' ">  
+             and my_place.`cover` like "%"#{coverLike}"%"
+        </if>   
+        <if test="pic != null and pic != '' ">  
+           and my_place.`pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">  
+             and my_place.`pic` like "%"#{picLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and my_place.`create_time` = #{createTime}
+        </if>  
+        <if test="updateTime != null and updateTime != '' ">  
+           and my_place.`update_time` = #{updateTime}
+        </if>  
+        <if test="telno != null and telno != '' ">  
+           and my_place.`telno` = #{telno}
+        </if>  
+        <if test="telnoLike != null and telnoLike != '' ">  
+             and my_place.`telno` like "%"#{telnoLike}"%"
+        </if>   
+        <if test="createUser != null and createUser != '' ">  
+           and my_place.`create_user` = #{createUser}
+        </if>  
+        <if test="lng != null and lng != '' ">  
+           and my_place.`lng` = #{lng}
+        </if>  
+        <if test="lat != null and lat != '' ">  
+           and my_place.`lat` = #{lat}
+        </if>  
+        <if test="comments != null and comments != '' ">  
+           and my_place.`comments` = #{comments}
+        </if>  
+        <if test="score != null and score != '' ">  
+           and my_place.`score` = #{score}
+        </if>  
+        <if test="lable != null and lable != '' ">  
+           and my_place.`lable` = #{lable}
+        </if>  
+        <if test="lableLike != null and lableLike != '' ">  
+             and my_place.`lable` like "%"#{lableLike}"%"
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and my_place.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and my_place.`remark` like "%"#{remarkLike}"%"
+        </if>   
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from my_place where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="code != null and code != '' ">
+           or `code` = #{code}
+        </if>
+        <if test="province != null and province != '' ">
+           or `province` = #{province}
+        </if>
+        <if test="city != null and city != '' ">
+           or `city` = #{city}
+        </if>
+        <if test="county != null and county != '' ">
+           or `county` = #{county}
+        </if>
+        <if test="price != null and price != '' ">
+           or `price` = #{price}
+        </if>
+        <if test="address != null and address != '' ">
+           or `address` = #{address}
+        </if>
+        <if test="cover != null and cover != '' ">
+           or `cover` = #{cover}
+        </if>
+        <if test="pic != null and pic != '' ">
+           or `pic` = #{pic}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `create_time` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+           or `update_time` = #{updateTime}
+        </if>
+        <if test="telno != null and telno != '' ">
+           or `telno` = #{telno}
+        </if>
+        <if test="createUser != null and createUser != '' ">
+           or `create_user` = #{createUser}
+        </if>
+        <if test="lng != null and lng != '' ">
+           or `lng` = #{lng}
+        </if>
+        <if test="lat != null and lat != '' ">
+           or `lat` = #{lat}
+        </if>
+        <if test="comments != null and comments != '' ">
+           or `comments` = #{comments}
+        </if>
+        <if test="score != null and score != '' ">
+           or `score` = #{score}
+        </if>
+        <if test="lable != null and lable != '' ">
+           or `lable` = #{lable}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+  </select>
+</mapper>

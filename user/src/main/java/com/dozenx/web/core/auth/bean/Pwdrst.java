@@ -11,7 +11,7 @@ private String idpwdrst;
 private long userid;
 private Timestamp createtime;
 private boolean used;
-private Timestamp resttime;
+private Timestamp resettime;
 public String getIdpwdrst() {
 	return idpwdrst;
 }
@@ -36,11 +36,16 @@ public boolean isUsed() {
 public void setUsed(boolean used) {
 	this.used = used;
 }
-public Timestamp getResttime() {
-	return resttime;
-}
-public void setResttime(Timestamp resttime) {
-	this.resttime = resttime;
-}
 
+	public void setUserid(long userid) {
+		this.userid = userid;
+	}
+
+	public Timestamp getResettime() {
+		return resettime;
+	}
+
+	public void setResettime(Timestamp resettime) {
+		this.resettime = resettime;
+	}
 }

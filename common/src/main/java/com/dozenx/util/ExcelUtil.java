@@ -4,6 +4,7 @@ import com.dozenx.core.Path.PathManager;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -442,8 +443,14 @@ public class ExcelUtil {
     private static Workbook getWorkBook(InputStream input, String fileName) throws IOException {
         Workbook wb = null;
         if (fileName.indexOf("xlsx") >= 0) {
-            wb = new XSSFWorkbook(input);
+           wb = new XSSFWorkbook(input);
+//            try {
+//                wb = WorkbookFactory.create(input);
+//            } catch (InvalidFormatException e) {
+//                e.printStackTrace();
+//            }
         } else if (fileName.indexOf("xls") >= 0) {
+
             wb = new HSSFWorkbook(input);
         } else {
             throw new IllegalArgumentException("文件类型未知!" + fileName);

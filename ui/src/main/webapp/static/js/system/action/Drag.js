@@ -3,7 +3,14 @@ Drag = {
 	drawed: false,
 	ao: null,
 	tdiv: null,
+	lastClick:0,
 	dragStart: function(it) {
+	    if(new Date().getTime()-this.lastClick>1000){
+	        this.lastClick=new Date().getTime();
+	    }else{
+	         return;
+	    }
+
 		/*console.log("dragstart");
 		Drag.ao = Event.srcElement ? Event.srcElement : arguments.callee.caller.arguments[0].target;
 		if((Drag.ao.tagName == "DT") || (Drag.ao.tagName == "DD")) {
@@ -11,8 +18,17 @@ Drag = {
 			Drag.ao.style.zIndex = -1;
 		} else
 			return;*/
+
+
 		Drag.ao = it; //.offsetParent
-		Drag.dragged = true;
+		if(it.getAttribute("edit")==false){
+			console.log("禁止拖动 不能编辑")
+		    return ;
+		}
+
+                Drag.dragged = true;
+
+
 		/*Drag.ao.style.zIndex = -1;
 		Drag.dragged = true; //替身
 		Drag.tdiv = document.createElement("div");
@@ -44,14 +60,25 @@ Drag = {
 	 * 赋值
 	 * 
 	 */
+
 	drawStart: function(it) {
 		//一般来说要取parentNode才是真的
-
-		if(it == null) {
+//        if(new Date().getTime()-this.lastClick<1000){//距离拖动开始少于1秒的话不允许拖动
+//            return;
+//        }else{
+//
+//        }
+		if(it == null) {//如果元素是空的 就从全局的时间去取对象
 			it = Event.srcElement ? Event.srcElement : arguments.callee.caller.arguments[0].target;
 		} else {
 
 		}
+		console.log(it);
+		if(it.parentNode.parentNode.getAttribute("edit")==false){
+        			console.log("禁止拖动 不能编辑")
+        		    return ;
+        		}
+
 
 		//alert(arguments.callee.caller.arguments[0].target.tagName);
 
@@ -76,6 +103,9 @@ Drag = {
 	},
 
 	draging: function() { // 重要:判断MOUSE的位置
+
+
+
 		if(Drag.ao == null) return;
 		if(!Drag.dragged && !Drag.drawed) return;
 		if(ca.viewMode == 2) return;

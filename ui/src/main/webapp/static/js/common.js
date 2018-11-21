@@ -1497,60 +1497,61 @@ var dialog={
 
     window:function(url,flag){
 
-        var that =this;
-        window.data={};
-        //截取参数
-        var position=url.indexOf("?");
-        if(position>0){
-        var paramsStr= url.substring(position+1);
-        console.log("paramsStr:"+paramsStr);
-        var arr= paramsStr.split("&");
-
-        for(var i=0;i<arr.length;i++){
-            var keyVal=arr[i].split("=");
-            var key=keyVal[0];
-            var val=keyVal[1];
-            console.log(keyVal[0]+":"+keyVal[1]);
-            window.data[key]=val;
-        }
-        }
-
-//        window.location= "#"+PATH+url;
 //
-//        return;
-        //  jLoading.start();
-
-        $.ajax({
-            type: 'GET',
-            url: PATH+url,
-            dataType: 'html',
-            success: function(data){
-                //jLoading.close();
-                if(flag){
-
-                   //页面层
-                   var index= layer.open({
-                     type: 1,
-                     skin: 'layui-layer-rim', //加上边框
-                     area: ['600px', '640px'], //宽高
-                     content:data
-                   });
-                   that.windowIndex= index;
-                    return index;
-
-                }else{
-                     window.location= "#"+PATH+url;
-
-                   // $(".main").html(data);
-                }
-
-                if(typeof fun == 'function') fun();
-            },
-            error: function(){
-                //jLoading.close();
-                //jDialog.alert('加载页面失败', '系统错误')
-            }
-        });
+//        var that =this;
+//        window.data={};
+//        //截取参数
+//        var position=url.indexOf("?");
+//        if(position>0){
+//        var paramsStr= url.substring(position+1);
+//        console.log("paramsStr:"+paramsStr);
+//        var arr= paramsStr.split("&");
+//
+//        for(var i=0;i<arr.length;i++){
+//            var keyVal=arr[i].split("=");
+//            var key=keyVal[0];
+//            var val=keyVal[1];
+//            console.log(keyVal[0]+":"+keyVal[1]);
+//            window.data[key]=val;
+//        }
+//        }
+//
+////        window.location= "#"+PATH+url;
+////
+////        return;
+//        //  jLoading.start();
+//
+//        $.ajax({
+//            type: 'GET',
+//            url: PATH+url,
+//            dataType: 'html',
+//            success: function(data){
+//                //jLoading.close();
+//                if(flag){
+//
+//                   //页面层
+//                   var index= layer.open({
+//                     type: 1,
+//                     skin: 'layui-layer-rim', //加上边框
+//                     area: ['600px', '500px'], //宽高
+//                     content:data
+//                   });
+//                   that.windowIndex= index;
+//                    return index;
+//
+//                }else{
+//                     window.location= "#"+PATH+url;
+//
+//                   // $(".main").html(data);
+//                }
+//
+//                if(typeof fun == 'function') fun();
+//            },
+//            error: function(){
+//                //jLoading.close();
+//                //jDialog.alert('加载页面失败', '系统错误')
+//            }
+//        });
     }
 }
 function zdialogue(jso){

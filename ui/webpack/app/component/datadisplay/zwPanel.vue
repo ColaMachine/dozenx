@@ -65,13 +65,22 @@ export default {
         },
         mounted () {
             console.log("asdfasdfasdf"+this.hasHeader);
+            if(this.state){
+                if(this.state=="open"){
 
-            if(this.state && this.state=="open"){
+                    this.collapse=false;
+                }else{
+                    this.collapse=true;
+                    this.$refs.body.style.visibility="collapse";
+                    this.$refs.body.style.height="0px";
+                }
+            }
+           /* if(this.state && this.state=="open"){
                 this.collapse=false;
             }else{
               this.$refs.body.style.visibility="collapse";
-this.$refs.body.style.height="0px";
-            }
+                this.$refs.body.style.height="0px";
+            }*/
 
         },
         methods: {

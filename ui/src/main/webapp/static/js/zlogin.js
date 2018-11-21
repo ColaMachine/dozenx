@@ -116,11 +116,19 @@ var loginForm={
         /*	console.log("选中了记住我" );*/
             console.log("username:" + jso.account);
             this.setCookie('username', jso.account, 365);
+
             this.setCookie('password', jso.pwd, 365);
         }
-        Ajax.post(PATH + "/sys/auth/loginPost.json", jso, function(data) {
+        Ajax.post(PATH + "/sys/auth/loginPost.json", jso, function(data) {console.log(data);//alert(data);
             if (data[AJAX_RESULT] == AJAX_SUCC) {
+                this.setCookie('userId', data.data, 7);
+                var pre= getQueryString("pre");
+                if(pre){
+                    window.location = pre;
+                    return;
+                }
                 window.location = PATH + "/index.htm";
+
             } else {
             dialog.close(dialogId);
             dialog.alert(data.msg);
@@ -207,13 +215,15 @@ getCookie:function (c_name) {
 },
 //设置cookie值
 setCookie:function (c_name, value, expiredays) {
+ console.log("准备设置cookie :"+c_name+" value:" +value);
     console.log("expiredays:"+expiredays);
 	var exdate = new Date();
 	exdate.setDate(exdate.getDate() + expiredays);
 	console.log(c_name + "=" + escape(value)
 			+ ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString()));
 	document.cookie = c_name + "=" + escape(value)
-			+ ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+			+ ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+    console.log("读取设置的cookie值:"+this.getCookie(c_name));
 },
 
 checkCookie:function () {

@@ -47,4 +47,21 @@ public class Length extends Rule {
 			return true;
 		}
 	}
+
+
+	@Override
+	public boolean valid(Object value) throws Exception{
+		if(value != null && !value.equals("")){
+			if(value.toString().length()<minLength
+					|| value.toString().length()>maxLength){
+				message = "字符长度"+value.toString().length()+" 应控制在"+minLength+"~"+maxLength+"个字符";
+				return false;
+			}else {
+				return true;
+			}
+		}
+		else {
+			return true;
+		}
+	}
 }

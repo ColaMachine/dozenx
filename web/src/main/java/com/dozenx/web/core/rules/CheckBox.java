@@ -38,4 +38,29 @@ public class CheckBox extends Rule {
 			return false;
 		}
 	}
+
+
+	@Override
+	public boolean valid(Object value) throws Exception{
+		if (value == null || value.equals("")) {
+			return true;
+		}
+
+		boolean result = false;
+		if(this.getCherkArr()!=null){
+			for(String item : this.getCherkArr()){
+				if(item.equalsIgnoreCase(value.toString())){
+					result = true;
+					break;
+				}
+			}
+		}
+
+		if(result){
+			return true;
+		}else {
+			this.setMessage("请选择");
+			return false;
+		}
+	}
 }

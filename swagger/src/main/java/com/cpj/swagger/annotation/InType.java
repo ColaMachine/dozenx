@@ -31,4 +31,5 @@ public class InType {
 	/**在提交的form 表单里**/
 	public static final String form ="form";
 
+	public static final String params ="params";
 }

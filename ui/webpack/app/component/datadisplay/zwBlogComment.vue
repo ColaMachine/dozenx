@@ -7,7 +7,7 @@
     </li>
     <li   style="border-bottom:1px solid gray" v-for="result in list" key={{result.id}} class="app-li-it">
         <div style="width:30px" class="app-li-it-pic">
-            <img style="width:30px"  :src=' result.face'/>
+            <img style="width:30px"  :src='result.face'/>
         </div>
         <div class="app-li-it-content">
             <div class="app-li-it-title">
@@ -50,6 +50,13 @@ export default {
             getCommentList:function(){
                   Ajax.getJSON(PATH+"/blog/comment/list.json?curpage=1&pagesize=10",{pid:this.pid,curPage:1,pageSize:10},function(result){
                       if(result.r==AJAX_SUCC){
+                          for(var i=0;i<result.data.length;i++){
+                              if(result.data[i].face){
+                               result.data[i].face=PATH+ result.data[i].face;
+                              }
+
+
+                          }
                           this.list=result.data;
                       }
                   }.Apply(this));

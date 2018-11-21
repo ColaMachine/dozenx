@@ -5,6 +5,7 @@ import com.dozenx.core.config.Config;
 import com.dozenx.core.config.SystemValidCodeConfig;
 import com.dozenx.core.config.ValidCodeConfig;
 import com.dozenx.util.*;
+import com.dozenx.util.EmailUtil;
 import com.dozenx.web.core.log.LogType;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.ServiceCode;

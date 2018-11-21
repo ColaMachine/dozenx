@@ -23,6 +23,7 @@ import menuExample from '../../module/example/navigation/menuExample.vue';
 import dropdownExample from '../../module/example/navigation/dropdownExample.vue';
 import siteExample from '../../module/example/site/siteExample.vue';
 import inputExample from '../../module/example/dataentry/inputExample.vue';
+import formExample from '../../module/example/dataentry/formExample.vue';
 import appDialogueExample from '../../module/example/datadisplay/appDialogueExample.vue';
 import tableExample from '../../module/example/datadisplay/tableExample.vue';
 import crouselExample from '../../module/example/datadisplay/crouselExample.vue';//gun dong tupian
@@ -52,12 +53,16 @@ import deviceErrorListView from '../smarthome/deviceErrorListView.vue';
 import deviceMsgList from '../smarthome/deviceMsgList.vue';
 
 import login from '../smarthome/login.vue';//登录注册页面
-import loginInput from '../smarthome/loginInput.vue';//登录输入图片验证码页面
-import loginSmsInput from '../smarthome/loginSmsInput.vue';//登录输入短信验证码页面
+import loginSmsStep1 from '../smarthome/loginSmsStep1.vue';//登录输入图片验证码页面
+import loginUP from '../smarthome/loginUP.vue';//登录输入图片验证码页面
+import loginSmsStep2 from '../smarthome/loginSmsStep2.vue';//登录输入短信验证码页面
 import userCenter from '../smarthome/userCenter.vue';
 import zwNavExample from '../../module/example/navigation/zwNavExample.vue';
 import alertExample from '../../module/example/feedback/alertExample.vue';
-import phoneMain from '../../module/phone/main.vue';
+import phoneMain from '../../module/phone/phoneMain.vue';
+import map from '../../module/phone/map.vue';
+import placeView from '../../module/phone/placeView.vue';
+import goodView from '../../module/phone/goodView.vue';
 // 然后定义路由(routes)，components还可以是Vue.extend()创建的
 const routes = [
 
@@ -72,7 +77,7 @@ const routes = [
 { path: '/site', component:siteExample },
 { path: '/input', component:inputExample },
 { path: '/tabs', component:tabExample },
-
+{ path: '/form', component:formExample },
 
 { path: '/crouselExample', component:crouselExample },
 { path: '/richInputExample', component:richInputExample },
@@ -99,8 +104,9 @@ const routes = [
 { path: '/deviceLockPwdModify', component:deviceLockPwdModify },//门锁密码修改
 { path: '/deviceErrorListView', component:deviceErrorListView },//门锁警告列表
 { path: '/login', component:login },//登录按钮
-{ path: '/loginInput', component:loginInput },//登录图片验证码输入
-{ path: '/loginSmsInput', component:loginSmsInput },//登录短信验证码输入
+{ path: '/loginSmsStep1', component:loginSmsStep1 },//登录图片验证码输入
+{ path: '/loginUP', component:loginUP },//登录图片验证码输入
+{ path: '/loginSmsStep2', component:loginSmsStep2 },//登录短信验证码输入
 { path: '/alert', component:alertExample },
 { path: '/userCenter', component:userCenter },
 { path: '/deviceMsgList', component:deviceMsgList },
@@ -112,6 +118,9 @@ const routes = [
 
 //手机页面展示
 { path: '/phoneMain', component:phoneMain },
+{ path: '/placeView', component:placeView },
+{ path: '/goodView', component:goodView },
+{ path: '/map', component:map },
 ];
 // 接着创建路由实例
 const router = new VueRouter({

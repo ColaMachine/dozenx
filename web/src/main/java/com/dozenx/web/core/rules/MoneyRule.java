@@ -24,4 +24,19 @@ public class MoneyRule extends Rule {
 		}
 	}
 
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value == null || value.equals("")){
+			return true;
+		}else{
+			if (StringUtil.checkNumeric(value.toString())) {
+				return true;
+			}
+			else {
+				this.setMessage("请输入有效金额");
+				return false;
+			}
+		}
+	}
+
 }

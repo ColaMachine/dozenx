@@ -55,6 +55,13 @@ public class WeixinController extends BaseController {
 
 	@Resource(name="sysUserService")
 	SysUserService sysUserService;
+
+
+	@API(summary = "跳转qq分享页的",consumes="application/x-www-form-urlencoded",
+			description = "跳转qq分享页的" ,
+			parameters = {
+					@Param(name = "url", description = "当前网页url", dataType = DataType.STRING, required = true),
+			})
 	@RequestMapping(value = "/qq", method = RequestMethod.GET)
 	public String  qq(HttpServletRequest request){
 		String access_tocken ="I8DfWtWrTMlMqEnkS-0eobGLzkyPYxf4JV0LqqY1N0tVbQB8jKWLZUG-aOREFQ6DOxyUkLjki7gH9F2A_dhBUJS30-N-n1K_Tadfjq54Q7w";
@@ -89,7 +96,7 @@ public class WeixinController extends BaseController {
 			description = "调用微信的jssdk之前需要获得微信的signature,1拿取传入的url 生成url 和随机字符串 " +
 					"2获取微信accessToken(系统缓存7200)" +
 					"3获取jstiket(系统换船7200)" +
-					"4noncestr timestamp url jsapi_ticket 获取signature " +
+					"4noncestr timestamp url jsapi_ticket 获取signature 票拿到签名" +
 					"5返回所有结果" ,
 			parameters = {
 			@Param(name = "url", description = "当前网页url", dataType = DataType.STRING, required = true),
@@ -109,7 +116,7 @@ public class WeixinController extends BaseController {
 
 		//String jsapiTicket = WeixinUtil.getJsapiTicket();
 		Long timestamp = System.currentTimeMillis()/1000;
-		int noncestr = new Random().nextInt();
+		int noncestr = new Random().nextInt();//随机数
 
 		//WeixinAccessToken accessTokenUtil = new WeixinAccessToken();
 		//String accessToken = WeixinUtil.getAccessToken();

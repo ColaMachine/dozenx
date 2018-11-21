@@ -34,4 +34,19 @@ public class CharRegex extends Rule {
 			return true;
 		}
 	}
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value != null && !value.equals("")) {
+			Matcher matcher = this.pattern.matcher(CastUtil.toString(value));
+			if(matcher.matches()) {
+				message = "含有特殊字符";
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
 }

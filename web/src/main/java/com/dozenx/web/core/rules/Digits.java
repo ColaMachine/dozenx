@@ -28,4 +28,20 @@ public class Digits extends Rule {
 		}
 	}
 
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value == null || value.equals("")){
+			return true;
+		}else{
+			if (StringUtil.checkFloat(value.toString(), integer, fraction)) {
+				return true;
+			}
+			else {
+				this.setMessage("请输入数字");
+				return false;
+			}
+		}
+	}
+
 }

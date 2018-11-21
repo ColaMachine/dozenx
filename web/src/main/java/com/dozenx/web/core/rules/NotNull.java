@@ -19,4 +19,16 @@ public class NotNull extends Rule {
 			}
 		
 	}
+
+	@Override
+	public boolean valid(Object value) throws Exception{
+		if(value == null ){
+
+			message = "不能为空";
+			return false;
+		}else {
+			return true;
+		}
+
+	}
 }

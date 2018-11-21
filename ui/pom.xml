@@ -48,10 +48,16 @@
         </dependency>
        <!-- <dependency>
             <groupId>com.dozenx</groupId>
-            <artifactId>spider</artifactId>
+            <artifactId>CheckinServer</artifactId>
             <version>${dozenx.version}</version>
 
         </dependency>-->
+        <!-- <dependency>
+             <groupId>com.dozenx</groupId>
+             <artifactId>spider</artifactId>
+             <version>${dozenx.version}</version>
+
+         </dependency>-->
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -60,20 +66,46 @@
             <scope>provided</scope>
 
         </dependency>
+
+
+      <!--  <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>7.0.0.jre10</version>
+        </dependency>-->
+        <!-- <dependency>
+             <groupId>javax</groupId>
+             <artifactId>javaee-api</artifactId>
+             <version>7.0</version>
+             <scope>provided</scope>
+         </dependency>-->
+        <!--
+                <dependency>
+                    <groupId>javax.websocket</groupId>
+                    <artifactId>javax.websocket-api</artifactId>
+                    <version>1.0</version>
+                    <scope>provided</scope>
+                </dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>4.3.9.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>1.1</version>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
                 <configuration>
-                    <path>/advertsrv</path>
+                    <path>/home</path>
                     <port>80</port>
                     <uriEncoding>UTF-8</uriEncoding>
-                    <url>http://localhost:8081/manager/html</url>
+                    <url>http://localhost:80/manager/html</url>
                     <server>tomcat7</server>
                 </configuration>
             </plugin>

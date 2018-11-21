@@ -2,13 +2,12 @@
 <template>
   <header class="header bg-blue">
   	    	<nav>
-  	    		<a id="login" href="login.html"><div class="header-left center-text zw-col-6 left small-text">
-  	    			<img class="header-left-img" src="/static/img/header/wifi.png">
-  	    			<span class="header-left-span right-text" slot="left"><slot ref="left" name="left"></slot></span>
-  	    		</div></a>
+  	    		<div id="login"><div class="header-left center-text zw-col-6 left small-text">
+  	    				<slot ref="left" name="left"></slot>
+
+  	    		</div></div>
   	    		<div class="center-text zw-col-11 left normal-text"  slot="middle"><slot ref="middle" name="middle"></slot></div>
   	    		<div class="header-right center-text zw-col-6 left small-text">
-
   	    			<slot ref="middle" name="right"></slot>
 
   	    		</div>
@@ -16,9 +15,14 @@
       	</header>
 </template>
 <script type="text/javascript">
+
+ import zwBase from '../../component/zwBase.vue';
+
 export default {
+        extends:zwBase, //继承组件
+
         name: 'zwAppTopBar',
-        components: {  },
+        components: {zwBase  },
         props:[],
         data () {
             return {
@@ -93,15 +97,16 @@ export default {
     font-size: 1.3rem;
 }
 
-.header-left-img {
+.header-left img{
     display: block;
     position: relative;
     top: 30%;
     left: 10%;
     height: 40%;
+     float: left;
 }
 
-.header-left-span {
+.header-left span {
     position: relative;
     top: -24px;
     color: #ffffff;
@@ -112,12 +117,13 @@ export default {
     text-align: right;
 }
 
-.header-right-img {
+.header-right img {
     display: block;
     position: relative;
     top: 30%;
     height: 40%;
     right: 15px;
+     float: right;
 }
 .right {
     float: right;

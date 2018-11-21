@@ -2,10 +2,10 @@
 <template>
 
 
-                                <zwPanel :canFold=true :class="content.httpType">
+                                <zwPanel :canFold=true state="close" :class="content.httpType">
 
                                      <div   slot="title" class="zw-panel-heading"  >
-<span class="zw-panel-title "><span class="zw-row-title-main" >{{content.httpType}}</span><span class="zw-row-title-sub ">{{content.url}}&nbsp;&nbsp;&nbsp;</span><a></a><span class="pull-right" >{{content.summary}}</span></span>
+                                          <h2>  <span class="zw-panel-title "><span class="zw-row-title-main" >{{content.httpType}}</span><span class="zw-row-title-sub ">{{content.url}}&nbsp;&nbsp;&nbsp;</span><a></a><span class="pull-right" >{{content.summary}}</span></span></h2>
                                       </div>
 
                                 <div  slot="body" name="body">
@@ -46,39 +46,43 @@
                                                             </h3>
                                                             <p style="max-width:1024px">
                                                             返回参数说明
+
                                                               <span>{{content.response}}</span>
                                                               </p>
+
                                                       </div>
+
                                                       <div v-if="showResponse">
                                                       <div class="panel-body">
+
+                                                         <hr>
                                                           <div class="panel panel-default">
-                                                              <div class="panel-heading">测试数据:</div>
+                                                              <div class="panel-heading"><span>测试数据:</span></div>
                                                               <div class="panel-body">
-                                                                <p v-for="(item,index) in testData"  >{{index}} {{item}}&nbsp;&nbsp;<a v-on:click="setTestData(index)"> 应用</a>&nbsp;&nbsp;  <a v-on:click="deleteTestData(index)">删除</a></p>
+                                                                <p v-for="(item,index) in testData"  ><span>{{index}} {{item}}&nbsp;&nbsp;<a v-on:click="setTestData(index)"> 应用</a>&nbsp;&nbsp;  <a v-on:click="deleteTestData(index)">删除</a></span></p>
                                                           </div>
                                                         </div>
+                                                         <hr>
                                                          <div class="panel panel-default">
-                                                            <div class="panel-heading">请求url:</div>
-                                                            <div class="panel-body">
-                                                               {{content.url}}
-                                                            </div>
+                                                            <div class="panel-heading"><span>请求url:</span> <span>{{testUrl}}</span></div>
+
                                                           </div>
+                                                           <hr>
                                                         <div class="panel panel-default">
-                                                            <div class="panel-heading">请求数据:</div>
+                                                            <div class="panel-heading"><span>请求数据:</span></div>
                                                             <div class="panel-body">
-                                                               {{requestData}}
+                                                               <span>{{requestData}}</span>
                                                             </div>
                                                           </div>
+                                                           <hr>
                                                         <div class="panel panel-default">
-                                                            <div class="panel-heading">响应码:</div>
-                                                            <div class="panel-body">
-                                                               {{status}}
-                                                            </div>
+                                                            <div class="panel-heading"><span>响应码:</span>  <span>{{status}}</span></div>
                                                           </div>
+                                                          <hr>
                                                       <div class="panel panel-default">
-                                                        <div class="panel-heading">请求结果</div>
+                                                        <div class="panel-heading"><span>请求结果:</span></div>
                                                         <div class="panel-body">
-                                                          {{result}}
+                                                          <span>{{result}}</span>
                                                         </div>
                                                       </div>
                                                       </div>
@@ -103,10 +107,10 @@ export default {
         props: [ 'title', "content", "url"],
         data () {
             return {
-                    showResponse : false,
+                    showResponse : true,
                     show : false,
                     result : "",
-
+                    testUrl:"",
                     success : "",
                     status : "",
                     requestData : "",
@@ -156,7 +160,8 @@ export default {
                     //==========为了兼容传输的数据是array 数组这种类型============
 
                       var url=   this.content.url+"?1=1";    //获取请求 get the request url 默认加上?号
-
+                    var params={};
+                    var paramsGetFlag =false;
                      for (var i = 0; i < this.content.parameters.length; i++) {
 
                        if (this.content.parameters[i].type.toLocaleLowerCase  () == 'array') {//如果参数的格式是数组的话
@@ -172,7 +177,18 @@ export default {
                            // break;
                            bodyJsonFlag=true;
                        }
-
+                       //if(this.content.parameters[i].in.toLocaleLowerCase()=='params' ){
+                          // json = json["body请求体"];//eval('{'++'}');
+                          // break;
+                        //  bodyJsonFlag=true;
+                      //}
+                        console.log("this.content.parameters[i].in.toLocaleLowerCase  () :"+this.content.parameters[i].in.toLocaleLowerCase  () );
+                         if (this.content.parameters[i].in.toLocaleLowerCase  () == 'params') {//如果参数的格式是数组的话
+                              console.log("this.content.parameters[i].type.toLocaleLowerCase  () :"+this.content.parameters[i].in.toLocaleLowerCase  () );
+                             params[this.content.parameters[i].name]= json[this.content.parameters[i].name];
+                              // break;
+                              paramsGetFlag=true;
+                       }
                        if(this.content.parameters[i].in .toLocaleLowerCase  ()== 'query'){//如果有url参数 就放到url参数里面
                             //如果是查询参数就拼接到url里
                             url+="&"+this.content.parameters[i].name+"="+json[this.content.parameters[i].name];
@@ -230,6 +246,17 @@ export default {
                                                  //this.requestData = json;
                                             }
                     }*/
+                     console.log("paramsGetFlag:"+paramsGetFlag);
+                     console.log("add params  contentType.toLocaleLowerCase:"+contentType.toLocaleLowerCase());
+                     if(paramsGetFlag && contentType.toLocaleLowerCase  () == "application/json"){
+                       console.log("this.content.httpType:"+this.content.httpType);
+
+                     if(this.content.httpType.toLocaleLowerCase  ()=="get" ){//如果是get 协议的话 这里的判断有点偏业务了
+                        console.log("add params before url:"+url);
+                        url+="&params="+JSON.stringify(params);
+                        console.log("add params after url:"+url);
+                    }
+                    }
                     this.requestData = json;
                     //如果是文件提交 就用第一种方案 一般都是post + form 表单提交方式
                     var isFileSubmit = false;
@@ -243,7 +270,7 @@ export default {
                        }*/
                     }
                       var that =this;
-
+                    this.testUrl= url;
                     if (isFileSubmit) {
                         var options = {
                            // url : window.APIPATH+ url+"&url="+window.APIDOMAIN,//加上前缀 加上url 加上 代理url
@@ -262,6 +289,7 @@ export default {
                                   //      + textStatus);
                             }.Apply(this)
                         };
+                        alert("submit"+this.formId)
                         $("#" + this.formId).ajaxSubmit(options);
                         return;
                     }
@@ -308,7 +336,7 @@ export default {
                     this.testData.push(json);
                     sendData.testData = JSON.stringify(this.testData);
                     sendData.url = this.content.url;
-                    Ajax.post("/api/test/data/save", sendData,
+                    Ajax.post(PATH+"/api/test/data/save", sendData,
                             function(data) {
 
                             }.Apply(this));
@@ -323,7 +351,7 @@ export default {
                     sendData.url = this.content.url;
 
 
-                    Ajax.getJSON( "/api/test/data/get", sendData,
+                    Ajax.getJSON( PATH+"/api/test/data/get", sendData,
                             function(data) {
 
                                 this.testData =getJSON(data);//eval( '('+data+')');
@@ -372,4 +400,24 @@ export default {
 .api-list {
 color:black;
 }
+/*
+.panel span {
+    display:table-cell;border:1px solid red;
+}
+.panel{
+border:1px solid red;
+display:table;
+}
+.panel-heading{
+display:table;border:1px solid red;
+}
+
+.panel-body{
+display:table;border:1px solid red;
+}
+
+.panel-body{
+display:table;border:1px solid red;
+}
+*/
 </style>

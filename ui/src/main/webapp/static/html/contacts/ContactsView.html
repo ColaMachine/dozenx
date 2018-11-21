@@ -1,0 +1,242 @@
+<div id="ContactsView" class="ibox float-e-margins">
+    <form id="ContactsViewForm" class="form-horizontal" >
+      <!--  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">联系人查看</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">用户名:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="org" class="col-sm-2 control-label">单位:</label>
+        <div class="col-sm-10">
+            <span name="org" id="org"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="depart" class="col-sm-2 control-label">部门:</label>
+        <div class="col-sm-10">
+            <span name="depart" id="depart"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span name="code" id="code"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="type" class="col-sm-2 control-label">类型:</label>
+        <div class="col-sm-10">
+            <span  name="type" id="type" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态:</label>
+        <div class="col-sm-10">
+            <span  name="status" id="status" datatype="map" data="{'1':'正常','2':'禁用','3':'未激活','9':'删除',}" class="form-control" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">邮箱地址:</label>
+        <div class="col-sm-10">
+            <span name="email" id="email"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="telno" class="col-sm-2 control-label">手机号码:</label>
+        <div class="col-sm-10">
+            <span name="telno" id="telno"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <span name="remark" id="remark"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="group" class="col-sm-2 control-label">分组:</label>
+        <div class="col-sm-10">
+            <span name="group" id="group"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="birth" class="col-sm-2 control-label">出生年月:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd" name="birth" id="birth" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="createTime" id="createTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updateTime" class="col-sm-2 control-label">更新时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="updateTime" id="updateTime" ></span>
+        </div>
+    </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<!--<div class="body_title">| 联系人编辑</div>
+<form id="editForm" class="form-horizontal" method="post" action="/contacts/save.json" enctype="multipart/form-data">
+     <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">用户名:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="org" class="col-sm-2 control-label">单位:</label>
+        <div class="col-sm-10">
+            <span name="org" id="org"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="depart" class="col-sm-2 control-label">部门:</label>
+        <div class="col-sm-10">
+            <span name="depart" id="depart"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span name="code" id="code"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="type" class="col-sm-2 control-label">类型:</label>
+        <div class="col-sm-10">
+            <span  name="type" id="type" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态:</label>
+        <div class="col-sm-10">
+            <span  name="status" id="status" datatype="map" data="{'1':'正常','2':'禁用','3':'未激活','9':'删除',}" class="form-control" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">邮箱地址:</label>
+        <div class="col-sm-10">
+            <span name="email" id="email"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="telno" class="col-sm-2 control-label">手机号码:</label>
+        <div class="col-sm-10">
+            <span name="telno" id="telno"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <span name="remark" id="remark"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="group" class="col-sm-2 control-label">分组:</label>
+        <div class="col-sm-10">
+            <span name="group" id="group"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="birth" class="col-sm-2 control-label">出生年月:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd" name="birth" id="birth" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="createTime" id="createTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updateTime" class="col-sm-2 control-label">更新时间:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd HH:mm:ss" name="updateTime" id="updateTime" ></span>
+        </div>
+    </div>
+
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+       <button type="button"   class="btn btn-default cancelBtn">返回</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>-->
+<script type="text/javascript">
+var contactsView={
+    modal:true,
+    windowIndex:null,
+    root:$("#ContactsView"),
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        var that = this;
+        this.addEventListener();
+        //获取传入参数
+        if(!StringUtil.isBlank(getParam("id"))){
+            Ajax.getJSON("contacts/view.json?id="+getParam("id"),null,function(data){
+                if(data.r==AJAX_SUCC){
+                    fillJso2FormSpan("#ContactsView",data.data.bean);
+                }else{
+                    dialog.error("获取信息失败"+data.msg,function(index){
+                        that.cancel();
+                        dialog.close(index);
+                    });
+                }
+
+            });
+
+        }
+    },
+    loadData:function(){
+    },
+    cancel:function(){
+        if(contactsView.modal){
+            dialog.closeWindow("contactsView");
+        }else{
+            goPage("contacts/list.htm");
+        }
+    },
+    addEventListener:function(){
+        $(this.root).find(".cancelBtn").click(contactsView.cancel);
+    }
+}
+$(document).ready(function() {
+    contactsView.init();
+});
+   
+
+</script>

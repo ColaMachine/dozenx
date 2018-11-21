@@ -1,6 +1,5 @@
-
-    Vue.component('apiParameter', {
-        template: '\
+Vue.component('apiParameter', {
+  template: '\
             <tr  >\
             <td >\
             {{item.name}}\
@@ -22,10 +21,10 @@
             </td>\
             </tr>\
         ',
-        methods:{
-        	isFile(item){
-        		return item.type=="file"?"file":"text";
-        	}
-        },
-        props: ['item'],
-    })
+  methods: {
+    isFile(item) {
+      return item.type == "file" ? "file" : "text";
+    }
+  },
+  props: ['item'],
+})

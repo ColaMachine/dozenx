@@ -97,7 +97,7 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <#list table.cols as col>
         <if test="${col.name} != null" >  
-           `${col.name}`, 
+           `${col.colName}`,
         </if>  
     </#list>
     </trim>
@@ -136,7 +136,7 @@ where ${table.pk.name} = ${r'#{'}${table.pk.name},jdbcType=<@jdbcType>${table.pk
     from ${table.tableName} where 1=1
     <#list table.cols as col>
         <if test="${col.name} != null and ${col.name} != '' ">  
-           and `${col.name}` = ${r'#{'}${col.name}}
+           and `${col.colName}` = ${r'#{'}${col.name}}
         </if>  
          <#if col.type?length gt 6>
           <#if col.type[0..6]?lower_case=='text'>

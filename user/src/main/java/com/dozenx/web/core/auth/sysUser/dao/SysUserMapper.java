@@ -132,4 +132,6 @@ public interface SysUserMapper {
      */
     public SysUser selectUserByWeichat(String openid);
 
+
+    public SysUser selectUserByOutId(Long openid);
 }

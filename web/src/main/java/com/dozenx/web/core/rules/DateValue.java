@@ -28,4 +28,22 @@ public class DateValue extends Rule {
 		}
 	}
 
+
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if (value==null|| StringUtil.isBlank(value.toString())) {
+			return true;
+		}
+
+		java.util.Date dtValue = DateUtil.parseToDateTry(value.toString());
+
+		if (dtValue == null) {
+			this.setMessage("请输入日期");
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 }

@@ -24,4 +24,20 @@ public class IDCardRule extends Rule {
 		}
 	}
 
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value == null || value.equals("")){
+			return true;
+		}else{
+			if (StringUtil.isID(value.toString())) {
+				return true;
+			}
+			else {
+				this.setMessage("请输入身份证号");
+				return false;
+			}
+		}
+	}
+
+
 }

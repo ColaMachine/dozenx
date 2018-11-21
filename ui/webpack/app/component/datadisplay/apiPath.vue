@@ -3,20 +3,20 @@
 
 
 
-      <zwPanel :canFold=true>
+      <zwPanel :canFold=true state="close">
 
         <div slot="title">
             <span v-on:click="showOrHide" class=" zw-row-title"><a>{{title}} </a><ul  class="pull-right"><li>显示/隐藏</li> </ul></span>
         </div>
 
-      <div  slot="body" name="body">
+        <div  slot="body" name="body">
         <li   is="apiUrl"
             v-for="(value, key) in content"
             v-bind:title="key"
             v-bind:content="value"
                  v-bind:url="title"
             ></li>
-      </div>
+        </div>
 
       </zwPanel>
 

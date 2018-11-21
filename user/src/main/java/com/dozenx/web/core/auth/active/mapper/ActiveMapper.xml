@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.active.dao.ActiveMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.active.bean.Active">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="type" jdbcType="VARCHAR" property="type" />
+      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="userId" jdbcType="BIGINT" property="userId" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="activedTime" jdbcType="DATE" property="activedTime" />
+      <result column="account" jdbcType="VARCHAR" property="account" />
+      <result column="createTime" jdbcType="DATE" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    active.`id` ,active.`type` ,active.`code` ,active.`userId` ,active.`status` ,active.`activedTime` ,active.`account` ,active.`createTime` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from active
+    where active.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from active
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.active.bean.Active" >
+
+    insert into active (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{type,jdbcType=VARCHAR}
+,#{code,jdbcType=VARCHAR}
+,#{userId,jdbcType=BIGINT}
+,#{status,jdbcType=INTEGER}
+,#{activedTime,jdbcType=DATE}
+,#{account,jdbcType=VARCHAR}
+,#{createTime,jdbcType=DATE}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.active.bean.Active" >
+    insert into active
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="type != null" >  
+           `type`, 
+        </if>  
+        <if test="code != null" >  
+           `code`, 
+        </if>  
+        <if test="userId != null" >  
+           `userId`, 
+        </if>  
+        <if test="status != null" >  
+           `status`, 
+        </if>  
+        <if test="activedTime != null" >  
+           `activedTime`, 
+        </if>  
+        <if test="account != null" >  
+           `account`, 
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+          #{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="userId != null" >  
+          #{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="activedTime != null" >  
+          #{activedTime,jdbcType=DATE},
+        </if>  
+        <if test="account != null" >  
+          #{account,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=DATE},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.active.bean.Active" >
+    update active
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+             `code`=#{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="userId != null" >  
+             `userId`=#{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="activedTime != null" >  
+             `activedTime`=#{activedTime,jdbcType=DATE},
+        </if>  
+        <if test="account != null" >  
+             `account`=#{account,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `createTime`=#{createTime,jdbcType=DATE},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.active.bean.Active" >
+    update active
+    set 
+              `type`=#{type,jdbcType=VARCHAR},
+              `code`=#{code,jdbcType=VARCHAR},
+              `userId`=#{userId,jdbcType=BIGINT},
+              `status`=#{status,jdbcType=INTEGER},
+              `activedTime`=#{activedTime,jdbcType=DATE},
+              `account`=#{account,jdbcType=VARCHAR},
+              `createTime`=#{createTime,jdbcType=DATE}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from active where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">
+             and `type` like "%"#{typeLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and `code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">
+             and `code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="userId != null and userId != '' ">  
+           and `userId` = #{userId}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="activedTime != null and activedTime != '' ">  
+           and `activedTime` = #{activedTime}
+        </if>  
+        <if test="account != null and account != '' ">  
+           and `account` = #{account}
+        </if>  
+        <if test="accountLike != null and accountLike != '' ">
+             and `account` like "%"#{accountLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from active
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and active.`id` = #{id}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and active.`type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">  
+             and active.`type` like "%"#{typeLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and active.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and active.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="userId != null and userId != '' ">  
+           and active.`userId` = #{userId}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and active.`status` = #{status}
+        </if>  
+        <if test="activedTime != null and activedTime != '' ">  
+           and active.`activedTime` = #{activedTime}
+        </if>  
+        <if test="account != null and account != '' ">  
+           and active.`account` = #{account}
+        </if>  
+        <if test="accountLike != null and accountLike != '' ">  
+             and active.`account` like "%"#{accountLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and active.`createTime` = #{createTime}
+        </if>  
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from active where 1=1
+        <if test="id != null and id != '' ">  
+           and active.`id` = #{id}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and active.`type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">  
+             and active.`type` like "%"#{typeLike}"%"
+        </if>   
+        <if test="code != null and code != '' ">  
+           and active.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and active.`code` like "%"#{codeLike}"%"
+        </if>   
+        <if test="userId != null and userId != '' ">  
+           and active.`userId` = #{userId}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and active.`status` = #{status}
+        </if>  
+        <if test="activedTime != null and activedTime != '' ">  
+           and active.`activedTime` = #{activedTime}
+        </if>  
+        <if test="account != null and account != '' ">  
+           and active.`account` = #{account}
+        </if>  
+        <if test="accountLike != null and accountLike != '' ">  
+             and active.`account` like "%"#{accountLike}"%"
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and active.`createTime` = #{createTime}
+        </if>  
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from active where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+        <if test="code != null and code != '' ">
+           or `code` = #{code}
+        </if>
+        <if test="userId != null and userId != '' ">
+           or `userId` = #{userId}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="activedTime != null and activedTime != '' ">
+           or `activedTime` = #{activedTime}
+        </if>
+        <if test="account != null and account != '' ">
+           or `account` = #{account}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `createTime` = #{createTime}
+        </if>
+  </select>
+
+
+
+    <select id="selectUnActiveByAccount" parameterType="string" resultType="com.dozenx.web.core.auth.active.bean.Active">
+        select * from active where account = #{account} and active =0 limit 1
+    </select>
+
+
+</mapper>

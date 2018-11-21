@@ -20,4 +20,21 @@ public class BooleanValue extends Rule {
 		}
 	
 	}
+
+	public boolean valid(Object value) throws Exception {
+		if (value == null) {
+			return true;
+		}
+
+		if (value != null &&
+				(value.toString().equalsIgnoreCase(Boolean.TRUE.toString())
+						|| value.toString().equalsIgnoreCase(Boolean.FALSE.toString()))){
+			return true;
+		}
+		else {
+			this.setMessage("请选择");
+			return false;
+		}
+
+	}
 }

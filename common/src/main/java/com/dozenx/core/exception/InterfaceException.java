@@ -6,8 +6,6 @@ package com.dozenx.core.exception;
  * Created by dozen.zhang on 2017/11/9.
  */
 public class InterfaceException extends MyException{
-    public String code ;
-    public String msg;
     public InterfaceException(String code, String msg) {
         super(code,msg);
 

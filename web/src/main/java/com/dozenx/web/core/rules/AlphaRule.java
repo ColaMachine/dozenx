@@ -24,4 +24,19 @@ public class AlphaRule extends Rule {
 		}
 	}
 
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value== null || value.equals("")){
+			return true;
+		}else{
+			if (StringUtil.checkAlpha(this.getValue().toString())) {
+				return true;
+			}
+			else {
+				this.setMessage("请输入字母");
+				return false;
+			}
+		}
+	}
+
 }

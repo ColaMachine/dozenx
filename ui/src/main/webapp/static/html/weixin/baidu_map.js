@@ -43,11 +43,11 @@ var MyMap = {
 			time: null,
 			LatLng: null
 		}
-
-$("#placeBtn").click(function(){
-    _this.canPlaceMarker=true;
-    $("#placeBtn").css("backgroundColor","blue");
-});
+//
+//$("#placeBtn").click(function(){
+//    _this.canPlaceMarker=true;
+//    $("#placeBtn").css("backgroundColor","blue");
+//});
 //		var overlaycomplete = function(e){
 //                _this.marker.push(e.overlay);
 //                lat=e.overlay.point.lat;

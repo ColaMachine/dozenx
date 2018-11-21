@@ -1,8 +1,8 @@
 <template>
 <div>
     <zwRow>
-        <zwCol class="pull-right" span=24>
-            <div  class="mubu smart-home-device-view-head-bg" >
+        <zwCol  span=24>
+            <div  style="background-color:yellow" class="mubu smart-home-device-view-head-bg" >
                 <div class="center-block ">
                     <div class="user-circle">
 
@@ -10,7 +10,7 @@
 
                     </div>
                      <h3>
-                                {{user?user.telno:""}}
+                            {{user?user.userName:""}}     {{user?user.telno:""}}
                     </h3>
                 </div>
             </div>
@@ -22,11 +22,17 @@
     </zwCol>
 
   </zwRow>
-  <zwRow class="fix-bottom">
- <zwCol  span=24>
+  <zwRow >
+ <zwCol style="margin-top:50px" class="center" v-if="user" span=24>
   <zwButton type="yellow"  v-on:clickFn="logout" sizeNum="large"  style="width:95%">退出登录</zwButton>
-<bottomBar defaultIndex="2"></bottomBar>
+
  </zwCol>
+
+ <zwCol  class="center" style="margin-top:50px" v-if="!user" span=24>
+   <zwButton type="yellow"  v-on:clickFn="login" sizeNum="large"  style="width:95%">登录</zwButton>
+
+  </zwCol>
+
   </zwRow>
 
 </div>
@@ -84,9 +90,16 @@ export default {
             return PATH+img;
         },
         logout:function(){
-        Ajax.post(PATH+"/loginout.json",{},function(){});
+             Ajax.get(PATH+"/sys/auth/logout.json",{},function(){
+               window.location=PATH+"/sys/auth/login.htm?pre="+encodeURIComponent(window.location);
 
-            window.location="#login";
+             });
+
+           // window.location="#loginSmsStep1";
+
+        },
+        login:function(){
+            window.location=PATH+"/sys/auth/login.htm?pre="+encodeURIComponent(window.location);
         }
 
     }

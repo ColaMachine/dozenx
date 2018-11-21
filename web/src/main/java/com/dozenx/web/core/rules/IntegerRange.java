@@ -42,4 +42,31 @@ public class IntegerRange extends Rule {
 
 		return false;
 	}
+
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if (value!= null && !value.equals("")) {
+			Integer realValue = Integer.valueOf(value.toString());
+			//BigDecimal minValue = new BigDecimal(min);
+
+			if (this.min != null) {
+				if (realValue<min) {
+					message = "err.param.min." + min;
+					return false;
+				}
+			}
+			if (this.max != null) {
+
+				if (realValue>max) {
+					message = "数字应在范围" + min + "-" + max + "之内";
+					return false;
+				}
+
+			}
+			return true;
+		}
+
+		return false;
+	}
 }

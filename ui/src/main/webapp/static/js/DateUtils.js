@@ -63,6 +63,11 @@ function parseDate(dateStr,format){
 		//date+=hour*60*60000;
 		 
 	}date.setHours(hour);
+	if(/(H+)/.test(format)){
+    		 hour=parseInt(dateStr.substr(format.indexOf(RegExp.$1),RegExp.$1.length));
+    		//date+=hour*60*60000;
+
+    	}date.setHours(hour);
 	if(/(m+)/.test(format)){
 		 minute=parseInt(dateStr.substr(format.indexOf(RegExp.$1),RegExp.$1.length));
 //		date+=minute*60000;

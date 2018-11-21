@@ -17,14 +17,14 @@ public class EmailUtil {
 
             // 发送激活邮件
             MailSenderInfo mailInfo = new MailSenderInfo();
-            mailInfo.setMailServerHost("smtp.163.com");
-            mailInfo.setMailServerPort("25");
+            mailInfo.setMailServerHost("smtp.189.cn");
+            mailInfo.setMailServerPort("587");
             mailInfo.setValidate(true);
-            mailInfo.setUserName("likegadfly");
-            mailInfo.setPassword("wangyi216568");// 您的邮箱密码
-            mailInfo.setFromAddress("likegadfly@163.com");
+            mailInfo.setUserName("13958173965@189.cn");
+            mailInfo.setPassword("123456qqsh");// 您的邮箱密码
+            mailInfo.setFromAddress("13958173965@189.cn");
             mailInfo.setToAddress(email);
-            mailInfo.setSubject("帐号激活");
+            mailInfo.setSubject("ssc财务机器人");
             //mailInfo.setContent("请点击下面的链接进行激活</br><a href=''>http://127.0.0.1:8080/calendar/active.htm?activeid="
             //	+ active.getActiveid() + "</a>");
             mailInfo.setContent(content);
@@ -39,5 +39,13 @@ public class EmailUtil {
             }
         }
 
+    }
+
+    public static void main(String args[]){
+        try {
+            EmailUtil.send("371452875@qq.com","test");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

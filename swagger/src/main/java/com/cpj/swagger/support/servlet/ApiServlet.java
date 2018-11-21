@@ -97,6 +97,7 @@ public class ApiServlet extends HttpServlet implements Constants {
 		Properties props = new Properties();
 		InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
 		props.load(is);
+		is.close();
 		String path = request.getContextPath();
 		String host = request.getServerName() + ":" + request.getServerPort() + path;
 		props.setProperty("apiHost", host);

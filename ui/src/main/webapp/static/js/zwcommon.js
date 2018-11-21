@@ -11,7 +11,7 @@
 
 // AJAX璋冪敤 濡傦細ACWS.ajax('common/service/UserSelect/Init', inputData,
 // afterInit,{async:false});
-var PATH="/advertsrv";
+var PATH="/home";
 String.prototype.trim= function(){
     // 用正则表达式将前后空格
     // 用空字符串替代。
@@ -272,7 +272,7 @@ var Ajax={
          		if((typeof outputData=="object" && outputData.r=="504" )|| (typeof outputData=="string" && outputData.indexOf("504")!=-1)){
 
                     dialog.confirm("请重新登录 正为你跳转登录页面",function(){
-                        window.location=PATH+"/index.htm#/login";
+                        window.location=PATH+"/sys/auth/login.htm?pre="+window.location;
                     });
 
          		  //  alert("请重新登录 正为你跳转登录页面");
@@ -1560,60 +1560,61 @@ var dialog={
 
     window:function(url,flag){
 
-        var that =this;
-        window.data={};
-        //截取参数
-        var position=url.indexOf("?");
-        if(position>0){
-        var paramsStr= url.substring(position+1);
-        console.log("paramsStr:"+paramsStr);
-        var arr= paramsStr.split("&");
-
-        for(var i=0;i<arr.length;i++){
-            var keyVal=arr[i].split("=");
-            var key=keyVal[0];
-            var val=keyVal[1];
-            console.log(keyVal[0]+":"+keyVal[1]);
-            window.data[key]=val;
-        }
-        }
-
-//        window.location= "#"+PATH+url;
+//        var that =this;
+//        window.data={};
+//        //截取参数
+//        var position=url.indexOf("?");
+//        if(position>0){
+//        var paramsStr= url.substring(position+1);
+//        console.log("paramsStr:"+paramsStr);
+//        var arr= paramsStr.split("&");
 //
-//        return;
-        //  jLoading.start();
-
-        $.ajax({
-            type: 'GET',
-            url: PATH+url,
-            dataType: 'html',
-            success: function(data){
-                //jLoading.close();
-                if(flag){
-
-                   //页面层
-                   var index= layer.open({
-                     type: 1,
-                     skin: 'layui-layer-rim', //加上边框
-                     area: ['600px', '640px'], //宽高
-                     content:data
-                   });
-                   that.windowIndex= index;
-                    return index;
-
-                }else{
-                     window.location= "#"+PATH+url;
-
-                   // $(".main").html(data);
-                }
-
-                if(typeof fun == 'function') fun();
-            },
-            error: function(){
-                //jLoading.close();
-                //jDialog.alert('加载页面失败', '系统错误')
-            }
-        });
+//        for(var i=0;i<arr.length;i++){
+//            var keyVal=arr[i].split("=");
+//            var key=keyVal[0];
+//            var val=keyVal[1];
+//            console.log(keyVal[0]+":"+keyVal[1]);
+//            window.data[key]=val;
+//        }
+//        }
+//
+////        window.location= "#"+PATH+url;
+////
+////        return;
+//        //  jLoading.start();
+//
+//        $.ajax({
+//            type: 'GET',
+//            url: PATH+url,
+//            dataType: 'html',
+//            success: function(data){
+//                //jLoading.close();
+//                if(flag){
+//
+//                   //页面层
+//                   alert(630)
+//                   var index= layer.open({
+//                     type: 1,
+//                     skin: 'layui-layer-rim', //加上边框
+//                     area: ['600px', '340px'], //宽高
+//                     content:data
+//                   });
+//                   that.windowIndex= index;
+//                    return index;
+//
+//                }else{
+//                     window.location= "#"+PATH+url;
+//
+//                   // $(".main").html(data);
+//                }
+//
+//                if(typeof fun == 'function') fun();
+//            },
+//            error: function(){
+//                //jLoading.close();
+//                //jDialog.alert('加载页面失败', '系统错误')
+//            }
+//        });
     }
 }
 var globalWidgetId=0;
@@ -1882,7 +1883,132 @@ function showDialogue(url,modal){
     }
 }
 
+function zImageWindow(jso){
+    dialog.showMask()
+    	if(StringUtil.isBlank(jso.title)){
+    		jso.title="提示";
+    	}
+    	var alreadyDom = document.getElementById("zImageWindow");
+    	if(alreadyDom){
+    	alreadyDom.parentNode.remove(alreadyDom);
+    	}
+    	var html="<div id='zImageWindow' class=\"zwindow \">"+
+    	"<div class=\"zwindow_hd\"><span>图片预览</span> <a class='zclose'  onclick=\"this.parentNode.parentNode.style.display='none';document.getElementsByClassName('mask')[0].style.display='none'\">X</a></div>"+//<i class=' fa fa-close'>X</i>
+    	"<div class=\"zwindow_bd \" >"+
+                    "<img style='width:100%' src=\""+jso.img+"\" />"+
+    	"</div>"+
+    	"</div>";
 
+
+    	   widget=document.createElement("div");
+    	    widget.setAttribute("class","widget");
+    	    widget.className="widget";
+    	    widget.innerHTML=html;
+    	      document.body.appendChild(widget);
+    	      globalWidgetId++;
+              	widget.id=globalWidgetId;
+    	      widget.style.display="block";
+
+//尽量保持居中
+
+widget.childNodes[0].style.height=3/5* getWinHeight()+"px";
+widget.childNodes[0].style.top=1/5* getWinHeight()+"px";
+
+    	var mask =document.getElementsByClassName("mask");
+
+    	//yxMobileSlider(document.getElementById("imgList") ,{width:getWinWidth()||340,height:220,during:3000});
+
+}
+
+
+function zImagesWindow(jso){
+    dialog.showMask()
+    	if(StringUtil.isBlank(jso.title)){
+    		jso.title="提示";
+    	}
+    	var alreadyDom = document.getElementById("zImageWindow");
+    	if(alreadyDom){
+    	alreadyDom.parentNode.remove(alreadyDom);
+    	}
+    	var html="<div id='zImageWindow' class=\"zwindow \">"+
+    	"<div class=\"zwindow_hd\"><span>图片预览</span> <a class='zclose'  onclick=\"this.parentNode.parentNode.style.display='none';document.getElementsByClassName('mask')[0].style.display='none'\">X</a></div>"+//<i class=' fa fa-close'>X</i>
+    	"<div class=\"zwindow_bd \" >"+
+
+    	"<div  id=\"imgList\" class=\"slider\">"+
+              "    <ul id=\"sa\">";
+
+
+
+               for(var i=0;i<jso.imgs.length;i++){
+                   html+=    "   <li >"+     "<a href=\"http://www.internetke.com\" target=\"_blank\">"+"<img src=\""+jso.imgs[i]+"\" />"+"</a></li>";
+               }
+
+              html+=
+                 " </ul>"+
+                 " </div>"+
+
+
+    	"</div>"+
+    	"</div>";
+
+
+    	   widget=document.createElement("div");
+    	    widget.setAttribute("class","widget");
+    	    widget.className="widget";
+    	    widget.innerHTML=html;
+    	      document.body.appendChild(widget);
+    	      globalWidgetId++;
+              	widget.id=globalWidgetId;
+    	      widget.style.display="block";
+
+//尽量保持居中
+
+widget.childNodes[0].style.height=3/5* getWinHeight()+"px";
+widget.childNodes[0].style.top=1/5* getWinHeight()+"px";
+
+    	var mask =document.getElementsByClassName("mask");
+
+    	yxMobileSlider(document.getElementById("imgList") ,{width:getWinWidth()||340,height:220,during:3000});
+
+}
+
+function zwindow(jso){
+    dialog.showMask()
+    	if(StringUtil.isBlank(jso.title)){
+    		jso.title="提示";
+    	}
+    	var html="<div class=\"zwindow \">"+
+    	"<div class=\"zwindow_hd\"><span>图片预览</span> <a class='zclose'  onclick=\"this.parentNode.parentNode.style.display='none';document.getElementsByClassName('mask')[0].style.display='none'\">X</a></div>"+//<i class=' fa fa-close'>X</i>
+    	"<div class=\"zwindow_bd \" >"+
+
+    	"<div  id=\"imgList\" class=\"slider\">"+
+              "    <ul id=\"sa\">"+
+
+               "   <li v-for=\"item in imglist \"><a href=\"http://www.internetke.com\" target=\"_blank\"><img :src=\"item.pic\" alt=\"科e互联网站建设团队\"/></a></li>"+
+                 " </ul>"+
+                 " </div>"+
+
+    	"<img class='center middle' style='width:100%;height:100%' src=\""+jso.url+"\">"+
+    	"</div>"+
+    	"</div>";
+
+
+    	   widget=document.createElement("div");
+    	    widget.setAttribute("class","widget");
+    	    widget.className="widget";
+    	    widget.innerHTML=html;
+    	      document.body.appendChild(widget);
+    	      globalWidgetId++;
+              	widget.id=globalWidgetId;
+    	      widget.style.display="block";
+
+//尽量保持居中
+
+widget.childNodes[0].style.height=3/5* getWinHeight()+"px";
+widget.childNodes[0].style.top=1/5* getWinHeight()+"px";
+    	var mask =document.getElementsByClassName("mask");
+
+}
 var setting = {
            check: {
                enable: true
@@ -2432,8 +2558,8 @@ return map;
 }
 
 function getDiyQueryString(name) {
-
-console.log(window.location);
+//alert(location.href.search());
+//console.log(window.location);
 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 
 
@@ -2446,7 +2572,7 @@ function getQueryString(name) {
 
 console.log(window.location);
 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-
+//alert(window.location.search);
 
 var r = window.location.search.substr(1).match(reg);
 if (r != null) return unescape(r[2]); return null;
@@ -2538,13 +2664,15 @@ function getCookie (c_name) {
 }
 //设置cookie值
 function setCookie (c_name, value, expiredays) {
-    console.log("expiredays:"+expiredays);
-	var exdate = new Date();
-	exdate.setDate(exdate.getDate() + expiredays);
-	console.log(c_name + "=" + escape(value)
-			+ ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString()));
-	document.cookie = c_name + "=" + escape(value)
-			+ ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+    console.log("准备设置cookie :"+c_name+" value:" +value);
+        console.log("expiredays:"+expiredays);
+    	var exdate = new Date();
+    	exdate.setDate(exdate.getDate() + expiredays);
+    	console.log(c_name + "=" + escape(value)
+    			+ ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString()));
+    	document.cookie = c_name + "=" + escape(value)
+    			+ ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+        console.log("读取设置的cookie值:"+this.getCookie(c_name));
 }
 
 function getJSON(data){
@@ -2565,4 +2693,25 @@ now = new Date();
 if (now.getTime() > exitTime)
 return;
 }
+}
+
+function getPathValue(value){
+if(!value){
+    return "";
+}
+
+ if(value.indexOf("http")==0){
+                return value;
+            }
+            if(value.substr(0,1)=='/'){
+                   return PATH+value;
+            }
+            return PATH+"/"+value;
+}
+
+function getLoginUser(){
+    return getCookie("userId");
+}
+function goLoginPage(){
+    window.location=PATH+"/sys/auth/login.htm?preUrl="+this.window.location;
 }

@@ -16,8 +16,8 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 const PATHS={
-    app:path.resolve(__dirname,'./app/app.js'),//组件库
-    phoneApp:path.resolve(__dirname,'./app/phoneApp.js'),//手机端主界面
+    example:path.resolve(__dirname,'./app/example.js'),//组件库
+    vuePhoneIndex:path.resolve(__dirname,'./app/vuePhoneIndex.js'),//手机端主界面  vuePhoneIndex
      zhihuijiating:path.resolve(__dirname,'./app/zhihuijiating.js'),//智慧家庭
       blog:path.resolve(__dirname,'./app/blog.js'),//blog主界面
     build:path.resolve(__dirname,'../src/main/webapp/static/js/'),
@@ -30,19 +30,19 @@ module.exports = {
 
      entry : {
         "index": PATHS.index,//pc端管理主界面
-        "blog": PATHS.blog,//pc端管理主界面
-        "app": PATHS.app,//组件库
-        "zhihuijiating":PATHS.zhihuijiating,//智慧家庭
-        "phoneApp":PATHS.phoneApp,//手机端
+        //"blog": PATHS.blog,//pc端管理主界面
+       "example": PATHS.example,//组件库
+        //"zhihuijiating":PATHS.zhihuijiating,//智慧家庭
+        "vuePhoneIndex":PATHS.vuePhoneIndex,//手机端
        //   "phoneIndex":PATHS.phoneIndex//手机端
      },
      output: {
          path:PATHS.build,//会生成到这个目录下
          publicPath: "assets",//引入静态文件需要加这个前缀
-         //filename: 'bundle.js'
+       //  filename: 'bundle.js'
 
           filename: "[name].js",
-             chunkFilename: "[name].js"
+         chunkFilename: "[name].js"
      },
       devServer: {
       historyApiFallback: true,
@@ -78,6 +78,13 @@ module.exports = {
               test: /\.(scss|sass)$/,
              loader: 'style-loader!css-loader!sass-loader'
           },*/
+
+          {test: /\.(svg|ttf|eot|woff|woff2)$/,
+          　　loader: 'file-loader',
+          　　options:{
+          　　　　name:'fonts/[name].[ext]'
+          　　}
+          },
            {
               test: /\.scss$/,
               // loader: 'vue-style-loader!css-loader!sass-loader'

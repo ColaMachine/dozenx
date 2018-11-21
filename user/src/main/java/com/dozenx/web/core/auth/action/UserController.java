@@ -52,6 +52,7 @@ public class UserController extends BaseController{
         sessionUser.setBirthday(new Date().getTime());
         sessionUser.setSex(1);
         sessionUser.setFace("/images/icon/face.png");*/
+
         return this.getResult(sysUser);
     }
 

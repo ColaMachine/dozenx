@@ -663,6 +663,7 @@ public class HttpRequestUtil {
         StringBuffer result = new StringBuffer("");
         try {
             URL realUrl = new URL(url);
+            logger.debug("send post :"+ realUrl);
             // 打开和URL之间的连接
             HttpURLConnection conn = (HttpURLConnection) realUrl
                     .openConnection();
@@ -1189,10 +1190,11 @@ public class HttpRequestUtil {
 
         try {
             String bodyString = MapUtils.join(params, "=", "&");
-            System.out.println(bodyString);
+           // System.out.println(bodyString);
             byte[] body = bodyString
                     .getBytes("utf-8");// ("[" + JSON.toJSONString(params) + "]")
             URL realUrl = new URL(url);
+            logger.debug("post:"+realUrl);
             // 打开和URL之间的连接
             HttpURLConnection conn = (HttpURLConnection) realUrl
                     .openConnection();
@@ -1227,7 +1229,7 @@ public class HttpRequestUtil {
             while ((line = in.readLine()) != null) {
                 result.append(line);
             }
-            System.out.println(result.toString());
+            //System.out.println(result.toString());
             conn.disconnect();
         } catch (Exception e) {
             // //System.out.println("发送 POST 请求出现异常！" + e);
@@ -2294,7 +2296,8 @@ public class HttpRequestUtil {
 
         URL uri = new URL(actionUrl);
         HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
-        conn.setReadTimeout(60 * 1000); // 缓存的最长时间
+        conn.setConnectTimeout(300 * 1000);
+        conn.setReadTimeout(300 * 1000); // 缓存的最长时间
         conn.setDoInput(true);// 允许输入
         conn.setDoOutput(true);// 允许输出
         conn.setUseCaches(false); // 不允许使用缓存
@@ -2388,7 +2391,8 @@ public class HttpRequestUtil {
 
         URL uri = new URL(actionUrl);
         HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
-        conn.setReadTimeout(6 * 1000); // 缓存的最长时间
+        conn.setConnectTimeout(60* 1000); // 缓存的最长时间
+        conn.setReadTimeout(60* 1000); // 缓存的最长时间
         conn.setDoInput(true);// 允许输入
         conn.setDoOutput(true);// 允许输出
         conn.setUseCaches(false); // 不允许使用缓存

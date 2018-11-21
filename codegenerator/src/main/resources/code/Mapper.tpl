@@ -8,18 +8,18 @@ import java.util.Map;
 import ${table.pkg}.${abc}.bean.${Abc};
 
 public interface ${Abc}Mapper {
-    
+    <#if !table.mapper??>
     int deleteByPrimaryKey(<@javaType>${table.pk.type}</@javaType> ${table.pk.name});
-
+   </#if>
     
     int insert(${Abc} record);
 
    
     int insertSelective(${Abc}  record);
 
-    
+     <#if !table.mapper??>
     ${Abc}  selectByPrimaryKey(<@javaType>${table.pk.type}</@javaType> id);
-
+  </#if>
     /**
      * 说明:根据主键修改所存在属性内容
      * @param ${abc}

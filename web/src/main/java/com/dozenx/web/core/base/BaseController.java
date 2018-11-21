@@ -2,6 +2,7 @@ package com.dozenx.web.core.base;
 
 
 import com.dozenx.core.exception.InterfaceException;
+import com.dozenx.core.exception.MyException;
 import com.dozenx.core.exception.ParamException;
 import com.dozenx.util.JsonUtil;
 import com.dozenx.util.StringUtil;
@@ -39,7 +40,7 @@ public class BaseController extends ResultAction {
 	 * @return
 	 * @author 宋展辉
 	 */
-	@ExceptionHandler({ Exception.class })
+	@ExceptionHandler({ Exception.class ,RuntimeException.class})
 	// @ResponseBody
 	public Object exception(Exception e, HttpServletRequest request, HttpServletResponse response) {
 		// 记录当前用户id
@@ -84,7 +85,7 @@ public class BaseController extends ResultAction {
 		} else if (e instanceof MissingServletRequestParameterException) {
 			result = getWrongResultFromCfg("err.err.param.null");
 		} else if (e instanceof ParamException) {
-			result = new ResultDTO(((ParamException)e).code,((ParamException)e).msg);
+			result = new ResultDTO(Integer.valueOf(((MyException)e).code),((MyException)e).msg);
 		}else if (e instanceof InterfaceException) {
 			result = new ResultDTO(Integer.valueOf(((InterfaceException)e).code),((InterfaceException)e).msg);
 		}else {

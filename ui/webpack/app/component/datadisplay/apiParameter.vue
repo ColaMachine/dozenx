@@ -6,7 +6,9 @@
                {{item.name}}
                </td>
                 <td >
-               <textarea :name="item.name"  :type="isFile(item)" width="200px"></textarea>
+
+               <textarea v-if="!isFile(item)"  :name="item.name"  :type="isFile(item)" width="200px"></textarea>
+               <input v-if="isFile(item)" input :name="item.name"  :type="isFile(item)" width="200px"></input>
                </td>
                 <td >
                {{item.description}}

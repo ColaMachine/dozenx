@@ -4,7 +4,7 @@
  <div  ref="wrap" class="slider">
  <ul id="sa">
 
- <li v-for="item in imglist "><a href="http://www.internetke.com" target="_blank"><img :src="item.pic" alt="科e互联网站建设团队"/></a></li>
+ <li v-for="item in imglist "><a :href="item.url" target="_blank"><img :src="item.pic" alt="科e互联网站建设团队"/></a></li>
  </ul>
  </div>
 </template>
@@ -25,9 +25,19 @@ export default {
         computed: {
 
         },
+        /*  watch: {
+          imglist(val, oldVal) {
+          console.log("crousle is changed");
+                console.log("inputVal = " + val + " , oldValue = " + oldVal)
+
+              }
+              },*/
+        updated(){
+              yxMobileSlider(this.$refs.wrap ,{width:this.width||340,height:this.height||220,during:3000});
+         },
         mounted () {
             console.log(this.$refs.wrap );
-            yxMobileSlider(this.$refs.wrap ,{width:this.width||340,height:this.height||220,during:3000});
+          //  yxMobileSlider(this.$refs.wrap ,{width:this.width||340,height:this.height||220,during:3000});
 
         },
         methods: {
@@ -103,12 +113,16 @@ export default {
 
             }
             var oFocus = oFocusContainer.getElementsByTagName("span");
+            if(oFocus.length==0){
+                            return;
+                        }
             css(oFocusContainer,{
                 minHeight: oFocus.height * 2,
                 position: 'absolute',
                 bottom: 0,
                 background: 'rgba(0,0,0,0.5)'
             })
+
            css(oFocus,{
                 display: 'block',
                 float: 'left',
@@ -152,7 +166,9 @@ export default {
             window.onload=resize();
 
             //页面加载完毕BANNER自动滚动
-           autoMove();
+            if(s.autoMove){//如果配置文件里默认的是自动移动的话
+                           autoMove();
+                      }
             //PC机下焦点切换
             if (!isMobile()) {
                 for(var i=0;i<oFocus.length;i++){

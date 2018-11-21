@@ -56,7 +56,7 @@ CalendarView.prototype.render = function() {
 						+ this.getCalendarStr()
 					+ "</div>"
 				+ "</td>"
-					+"<td id=div_CalendarEventView_" + this.index + ">"
+					+"<td class='inlinewidth100' id=div_CalendarEventView_" + this.index + ">"
 			+this.getCalendarScheduleStr() +
 					"</td>" +
 			"</tr>" + "</table>"+this.getCalendarEventDialogStr();//

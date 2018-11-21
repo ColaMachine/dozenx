@@ -2,9 +2,8 @@ package com.dozenx.web.util;
 
 import com.dozenx.core.config.Config;
 import com.dozenx.core.exception.ValidException;
-import com.dozenx.util.FilePathUtil;
-import com.dozenx.util.FileUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.util.*;
+import com.dozenx.util.encrypt.Base64Decoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -82,5 +84,44 @@ public class WebImageUtil {
         }
     }
 
+
+    /**
+     * Image的Unique的唯一判断
+     * @param image      //文件
+     * @param imageSize   //文件大小
+     * @param imgOrgnalName //文件名
+     * @return
+     * @throws Exception
+     * @author: 王作品
+     * @date: 2017/9/26 0026 下午 14:24
+     */
+
+    public static String  getImageMD5(MultipartFile image, Long imageSize, String imgOrgnalName )throws  Exception {
+        if(imageSize==0){
+            imageSize=image.getSize();
+        }
+        InputStream in =  image.getInputStream();
+        byte[] buf = new byte[1024];
+        int len=0;
+        try {
+            len =in.read(buf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }finally {
+            in.close();
+        }
+        return  MD5Util.getStringMD5String(new String(buf,0,len)+imageSize+imgOrgnalName+"Awifi");
+    }
+    public static void main(String[] args){
+        String base64 = ImageUtil.ImageToBase64ByLocal("G:\\workspace\\dozenx\\ui\\src\\main\\webapp\\upload\\2018\\11\\20\\1542706015319.png");
+        byte[] bytes = Base64Decoder.decodeToBytes(base64);
+        InputStream sbs = new ByteArrayInputStream(bytes);
+        try {
+            BufferedImage bufferedImage = ImageIO.read(sbs);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

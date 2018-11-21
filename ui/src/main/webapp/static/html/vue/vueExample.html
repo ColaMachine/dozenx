@@ -79,6 +79,8 @@
 <script src="../../../static/js/jquery.min.js" type="text/javascript"
             charset="utf-8"></script>
 
+<script src="../../../static/js/jquery.form.js"></script>
+
 <script src="../../../static/js/grid1.js" type="text/javascript"
         charset="utf-8"></script>
 
@@ -106,13 +108,31 @@
 
 <!--
 <script src="/static/js/zhihuijiating.js"></script>
+<script src="/assets/example.js"></script>
+-->
+<script src="http://192.168.120.80:7079/assets/example.js"></script>
+
+
+
+<!--
+webpack.config.js
+
+
+   app:path.resolve(__dirname,'./app/app.js'),//组件库
+
+
+import head from './module/web/example.vue'
+
+
+example web show
+app.js ==>
+./module/phone/index.vue
+访问url
+http://127.0.0.1/home/static/html/vue/vuePhoneIndex.html#/phoneMain
+phoneMain对应的是
+import phoneMain from '../../module/phone/main.vue';
+
 
 -->
-
-
-
-<script src="http://192.168.120.80:7079/assets/app.js"></script>
-
-
 
 </body>

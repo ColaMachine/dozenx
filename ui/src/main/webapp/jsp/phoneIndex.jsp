@@ -114,7 +114,7 @@
 
 
 
-<script src="http://192.168.120.80:7079/assets/phoneIndex.js"></script>
+<script src="http://www.dapark.top:7079/assets/phoneIndex.js"></script>
 
 
 

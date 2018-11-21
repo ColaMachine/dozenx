@@ -134,7 +134,7 @@ export default {
         this.tags=newTags;
     },
         getApiData:function(){
-            window.APIPATH="/proxy";
+            window.APIPATH=PATH+"/proxy";
             window.APIDOMAIN=this.apiUrlStr;
 
             var url = APIPATH+"/api?url="+this.apiUrlStr+"&host="+this.host;

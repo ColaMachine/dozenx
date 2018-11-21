@@ -24,4 +24,19 @@ public class PhoneRule extends Rule {
 		}
 	}
 
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value == null || value.equals("")){
+			return true;
+		}else{
+			if (StringUtil.isPhone(value.toString())) {
+				return true;
+			}
+			else {
+				this.setMessage("请输入正确的手机号码");
+				return false;
+			}
+		}
+	}
+
 }

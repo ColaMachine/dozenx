@@ -36,6 +36,7 @@ export default {
             Ajax.get(PATH+"/artical/list",{curPage:1,pageSiez:10},this.showData);
         },
         showData:function(result){
+
             this.blogList=result.data;
         }
         },

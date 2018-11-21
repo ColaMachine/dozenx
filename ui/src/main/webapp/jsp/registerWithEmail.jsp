@@ -74,6 +74,20 @@
                         <span  style="margin:0;padding:0" class="input-group-addon bg-white"><img style=" height:28px"  id="regPicCaptchaImg"
                                 src="" alt="点击获取验证码"/></span>
                 </div>
+ </div>
+
+
+                  <div class="form-group">
+                                    <label for="emailCode" class="sr-only">邮箱验证码</label>
+                                    <div class="input-group">
+                                        <div style="position:relative;overflow:hidden">
+                                        <input type="text" id="emailCode" name="emailCode" class="form-control" placeholder="邮箱验证码">
+                                        </div>
+                                        <span  style="margin:0;padding:0" class="input-group-addon bg-white"> <button type="button" id="getEmailCodeBtn" class="btn btn-primary ">获取邮箱验证码</button></span>
+                                    </div>
+                                 </div>
+
+
                 <div class="form-group">
                            <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> 同意此协议 </label></div>
 
@@ -88,7 +102,7 @@
     </div>
 
 
-
+<!--
 <div class="modal fade" id="smsValidDiv"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <form id="smsValidForm" >
     <div class="modal-dialog modal-dialog-small" role="document">
@@ -162,7 +176,7 @@
         </form>
 </div>
 
-
+-->
     <!-- Mainly scripts -->
 
     <!-- iCheck -->

@@ -25,14 +25,15 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
         <result column="account" jdbcType="VARCHAR" property="account" />
+        <result column="outId" jdbcType="BIGINT" property="outId" />
     </resultMap>
     <sql id="Base_Column_List">
         sys_user.`id` ,sys_user.`username` ,sys_user.`password` ,sys_user.`nkname` ,sys_user.`type` ,sys_user.`status` ,sys_user.`email` ,sys_user.`telno` ,sys_user.`idcard` ,sys_user.`sex` ,sys_user.`birth` ,sys_user.`integral` ,sys_user.`address` ,sys_user.`wechat` ,sys_user.`qq` ,sys_user.`face` ,sys_user.`remark` ,sys_user.`create_time` ,sys_user.`update_time`
-        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`
+        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`,sys_user.`outId`
     </sql>
     <sql id="Base_Column_List_no_pwd">
         sys_user.`id` ,sys_user.`username`  ,sys_user.`nkname` ,sys_user.`type` ,sys_user.`status` ,sys_user.`email` ,sys_user.`telno` ,sys_user.`idcard` ,sys_user.`sex` ,sys_user.`birth` ,sys_user.`integral` ,sys_user.`address` ,sys_user.`wechat` ,sys_user.`qq` ,sys_user.`face` ,sys_user.`remark` ,sys_user.`create_time` ,sys_user.`update_time`
-        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`
+        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`,sys_user.`outId`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -72,6 +73,7 @@
         ,#{city,jdbcType=INTEGER}
         ,#{county,jdbcType=INTEGER}
         ,#{account,jdbcType=INTEGER}
+        ,#{outId,jdbcType=BIGINT}
         )
     </insert>
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >
@@ -146,6 +148,9 @@
             <if test="account != null" >
                 `account`,
             </if>
+            <if test="outId != null" >
+                `outId`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -216,6 +221,9 @@
             </if>
             <if test="account != null" >
                 #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="outId != null" >
+                #{outId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -317,8 +325,8 @@
         `face`=#{face,jdbcType=VARCHAR},
         `remark`=#{remark,jdbcType=VARCHAR},
         `createTime`=#{createTime,jdbcType=TIMESTAMP},
-        `updateTime`=#{updateTime,jdbcType=TIMESTAMP}
-
+        `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+        `outId`=#{outId,jdbcType=BIGINT}
 
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -439,7 +447,9 @@
         <if test="account != null and account != '' ">
             and `account` = #{account}
         </if>
-
+        <if test="outId != null and outId != '' ">
+            and sys_user.`outId`  = #{outId}
+        </if>
     </select>
     <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
         select
@@ -565,7 +575,9 @@
         <if test="accountLike != null and accountLike != '' ">
             and sys_user.`account`  like "%"#{accountLike}"%"
         </if>
-
+        <if test="outId != null and outId != '' ">
+            and sys_user.`outId`  != #{outId}
+        </if>
     </select>
     <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
         select
@@ -685,6 +697,9 @@
         </if>
         <if test="accountLike != null and accountLike != '' ">
             and sys_user.`accountLike`  like "%"#{accountLike}"%"
+        </if>
+        <if test="outId != null and outId != '' ">
+            and sys_user.`outId`  != #{outId}
         </if>
     </select>
     <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
@@ -968,6 +983,9 @@
     <select id="selectUserByEmail" parameterType="string" resultMap="BaseResultMap">
         select * from sys_user where email = #{email} limit 1
     </select>
+    <select id="countUserByEmail" parameterType="string" resultType="java.lang.Integer">
+        select count(*) from sys_user where email = #{email}
+    </select>
     <select id="selectUserByTelno" parameterType="string" resultMap="BaseResultMap">
         select * from sys_user where telno = #{telno} limit 1
     </select>
@@ -1002,5 +1020,11 @@
     </select>
     <!--  查询单条记录	-->
 
+    <select id="selectUserByOutId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where sys_user.outId =   #{id,jdbcType=BIGINT} limit 1
+    </select>
 
 </mapper>

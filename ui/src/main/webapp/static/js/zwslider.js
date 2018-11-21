@@ -1,11 +1,12 @@
 ﻿
 
-    yxMobileSlider = function(id,settings){
+   var yxMobileSlider = function(id,settings){
         var defaultSettings = {
             width: 640, //容器宽度
             height: 320, //容器高度
             during: 5000, //间隔时间
-            speed:30 //滑动速度
+            speed:30 ,//滑动速度
+            autoMove:true
         }
         settings = extend(  defaultSettings, settings);//将个性化的配置覆盖默认配置
         return  function(){
@@ -109,7 +110,9 @@
             window.onload=resize();
 
             //页面加载完毕BANNER自动滚动
-           autoMove();
+            if(s.autoMove){//如果配置文件里默认的是自动移动的话
+                autoMove();
+           }
             //PC机下焦点切换
             if (!isMobile()) {
                 for(var i=0;i<oFocus.length;i++){

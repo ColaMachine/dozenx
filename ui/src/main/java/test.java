@@ -1,7 +1,4 @@
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.MD5Util;
-import com.dozenx.util.MapUtils;
+import com.dozenx.util.*;
 import com.dozenx.web.util.EmailUtil;
 import com.google.gson.JsonObject;
 import org.slf4j.LoggerFactory;
@@ -24,6 +21,7 @@ public class test {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(test.class);
     public static void main(String args[]) {
+        System.out.println(RegexUtil.match("37145@12@178.cn" , "^[0-9a-zA-Z_@\\.]+$"));
         String[] domainList = new String[]{"http://ad.51awifi.com", "http://202.100.244.186:83"};
         while(true) {
             for (int i = 0; i < domainList.length; i++) {
@@ -41,6 +39,8 @@ public class test {
                         EmailUtil.send("371452875@qq.com", domainList[i]+result+nowTime);
                         HttpRequestUtil.sendGetWithException(reconnectUrl);
                     }
+System.out.println(URLEncoder.encode(URLEncoder.encode("正在处理履约计划列账及付款 卢超群(B)省本部网络发展部20180727-009022")));
+                    System.out.println(URLDecoder.decode("http://alpha-ad.51awifi.com/webrobot/result/list?curPage=1&pageSize=10&name=%C2%C4%D4%BC%BC%C6%BB%AE%C1%D0%D5%CB%BC%B0%B8%B6%BF%EE%C2%AC%B3%AC%C8%BA%28B%29%CA%A1%B1%BE%B2%BF%CD%F8%C2%E7%B7%A2%D5%B9%B2%BF20180727-009022"));
 
 //
 //                    result = HttpRequestUtil.sendGetWithException(adsUrl+nowTime);

@@ -1,0 +1,346 @@
+ <div class="ibox float-e-margins">
+    <form id="myPlaceEditForm" class="form-horizontal" method="post" action="/placesrv/place/save.json" enctype="multipart/form-data">
+        <!--<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">场地编辑</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <textarea  id="name" name="name"  class="form-control input-sm"   maxlength="500"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="code" name="code"  class="form-control input-sm"   maxlength="20"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="province" class="col-sm-2 control-label">省:</label>
+        <div class="col-sm-10">
+            <input type="number" id="province" name="province"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="city" class="col-sm-2 control-label">市:</label>
+        <div class="col-sm-10">
+            <input type="number" id="city" name="city"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="county" class="col-sm-2 control-label">区:</label>
+        <div class="col-sm-10">
+            <input type="number" id="county" name="county"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="price" class="col-sm-2 control-label">价格:</label>
+        <div class="col-sm-10">
+            <input type="number" id="price" name="price"  class="form-control input-sm"  onkeyup="chkFloat(this,11,2)" onafterpaste="chkFloat(this,11,2)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address" class="col-sm-2 control-label">详细地址:</label>
+        <div class="col-sm-10">
+            <textarea  id="address" name="address"  class="form-control input-sm"   maxlength="500"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="cover" class="col-sm-2 control-label">封面:</label>
+        <div class="col-sm-10">
+            <textarea  id="cover" name="cover"  class="form-control input-sm"   maxlength="100"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pic" class="col-sm-2 control-label">图片:</label>
+        <div class="col-sm-10">
+            <textarea  id="pic" name="pic"  class="form-control input-sm"   maxlength="500"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建日期:</label>
+        <div class="input-group date">
+            <span class="input-group-addon" for="createTime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="createTime" name="createTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updateTime" class="col-sm-2 control-label">更新日期:</label>
+        <div class="input-group date">
+            <span class="input-group-addon" for="updateTime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="updateTime" name="updateTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="telno" class="col-sm-2 control-label">联系电话:</label>
+        <div class="col-sm-10">
+            <input  type="text"  id="telno" name="telno"  class="form-control input-sm"   maxlength="11"  ></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createUser" class="col-sm-2 control-label">创建人:</label>
+        <div class="col-sm-10">
+            <input type="number" id="createUser" name="createUser"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lng" class="col-sm-2 control-label">经度:</label>
+        <div class="col-sm-10">
+            <input type="number" id="lng" name="lng"  class="form-control input-sm"  onkeyup="chkFloat(this,5,5)" onafterpaste="chkFloat(this,5,5)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lat" class="col-sm-2 control-label">纬度:</label>
+        <div class="col-sm-10">
+            <input type="number" id="lat" name="lat"  class="form-control input-sm"  onkeyup="chkFloat(this,5,5)" onafterpaste="chkFloat(this,5,5)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="comments" class="col-sm-2 control-label">评论:</label>
+        <div class="col-sm-10">
+            <input type="number" id="comments" name="comments"  class="form-control input-sm"  maxlength="7" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="score" class="col-sm-2 control-label">评分:</label>
+        <div class="col-sm-10">
+            <input type="number" id="score" name="score"  class="form-control input-sm"  onkeyup="chkFloat(this,5,2)" onafterpaste="chkFloat(this,5,2)"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lable" class="col-sm-2 control-label">标签:</label>
+        <div class="col-sm-10">
+            <textarea  id="lable" name="lable"  class="form-control input-sm"   maxlength="500"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <textarea  id="remark" name="remark"  class="form-control input-sm"   maxlength="500"  ></textarea>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-sm-4 col-sm-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+               <button type="button" class="btn btn-white cancelBtn">取消</button>
+           </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var myPlaceEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#myPlaceEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        name:{
+            maxlength:500
+        },
+        code:{
+            maxlength:20
+        },
+        province:{
+            digits:true
+        },
+        city:{
+            digits:true
+        },
+        county:{
+            digits:true
+        },
+        price:{
+            number:true
+        },
+        address:{
+            maxlength:500
+        },
+        cover:{
+            maxlength:100
+        },
+        pic:{
+            maxlength:500
+        },
+        createTime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+        updateTime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+        telno:{
+            maxlength:11
+        },
+        createUser:{
+            digits:true
+        },
+        lng:{
+            number:true
+        },
+        lat:{
+            number:true
+        },
+        comments:{
+            digits:true
+        },
+        score:{
+            number:true
+        },
+        lable:{
+            maxlength:500
+        },
+        remark:{
+            maxlength:500
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        name:{
+            maxlength:"名称不能多于500个字符"
+        },
+        code:{
+            maxlength:"编号不能多于20个字符"
+        },
+        province:{
+            digits:"必须输入整数"
+        },
+        city:{
+            digits:"必须输入整数"
+        },
+        county:{
+            digits:"必须输入整数"
+        },
+        price:{
+            number:"必须输入合法的数字（负数，小数）"
+        },
+        address:{
+            maxlength:"详细地址不能多于500个字符"
+        },
+        cover:{
+            maxlength:"封面不能多于100个字符"
+        },
+        pic:{
+            maxlength:"图片不能多于500个字符"
+        },
+        createTime:{
+            ymd:"必须输入合法日期"
+        },
+        updateTime:{
+            ymd:"必须输入合法日期"
+        },
+        telno:{
+            maxlength:"联系电话不能多于11个字符"
+        },
+        createUser:{
+            digits:"必须输入整数"
+        },
+        lng:{
+            number:"必须输入合法的数字（负数，小数）"
+        },
+        lat:{
+            number:"必须输入合法的数字（负数，小数）"
+        },
+        comments:{
+            digits:"必须输入整数"
+        },
+        score:{
+            number:"必须输入合法的数字（负数，小数）"
+        },
+        lable:{
+            maxlength:"标签不能多于500个字符"
+        },
+        remark:{
+            maxlength:"备注不能多于500个字符"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#myPlaceEditForm").validate(this.validParam);
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/myPlace/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#myPlaceEditForm",data.data.bean);
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("myPlace/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#myPlaceEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#myPlaceEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#myPlaceEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("myPlace/list.htm");
+
+                    if(that.modal){
+                        $("#MyPlaceGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+        if(this.modal){
+           // $("#mymodal").modal("toggle");
+            dialog.closeWindow(this.windowIndex);
+        }else{
+            goPage("myPlace/list.htm");
+        }
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    myPlaceEdit.init();
+
+});
+</script>

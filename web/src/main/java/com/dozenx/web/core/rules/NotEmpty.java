@@ -18,4 +18,15 @@ public class NotEmpty extends Rule {
 			}
 		
 	}
+
+	@Override
+	public boolean valid(Object value) throws Exception{
+		if(value == null || value.toString().trim().equals("") ){
+			message = "不能为空";
+			return false;
+		}else {
+			return true;
+		}
+
+	}
 }

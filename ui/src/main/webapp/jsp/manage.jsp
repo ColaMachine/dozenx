@@ -382,6 +382,7 @@ var menuList=[
 {id:38,name:"地图",url:"",icon:"fa fa-bar-chart",pid:0},
 {id:381,name:"地图数据",url:"/mapdata/list.htm",icon:"fa fa-bar-chart",pid:38},
 {id:382,name:"地图展示",url:"window:/static/html/weixin/tecent_map.html",icon:"fa fa-bar-chart",pid:38},
+{id:39,name:"场地管理",url:"/placesrv/place/list.htm",icon:"fa fa-bar-chart",pid:0},
 ]
 
 

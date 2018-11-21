@@ -1,11 +1,12 @@
 package com.dozenx.web.core.mail;
 
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.*;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -86,10 +87,29 @@ public class SimpleMailSender  {
       // MiniMultipart类是一个容器类，包含MimeBodyPart类型的对象    
       Multipart mainPart = new MimeMultipart();    
       // 创建一个包含HTML内容的MimeBodyPart    
-      BodyPart html = new MimeBodyPart();    
-      // 设置HTML内容    
+      BodyPart html = new MimeBodyPart();
+
+
+
+
+        // 设置HTML内容
       html.setContent(mailInfo.getContent(), "text/html; charset=utf-8");    
-      mainPart.addBodyPart(html);    
+      mainPart.addBodyPart(html);
+
+        if(mailInfo.getAttachFileNames()!=null ){
+
+          for(String fileName: mailInfo.getAttachFileNames()){
+            BodyPart fileBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource(fileName);
+            html.setDataHandler(new DataHandler(source));
+            try {
+              fileBodyPart.setFileName(MimeUtility.encodeText(fileName));
+            } catch (UnsupportedEncodingException e) {
+              e.printStackTrace();
+            }
+            mainPart.addBodyPart(fileBodyPart);
+          }
+        }
       // 将MiniMultipart对象设置为邮件内容    
       mailMessage.setContent(mainPart);    
       // 发送邮件    
@@ -100,5 +120,7 @@ public class SimpleMailSender  {
           throw ex;
       }    
 
-    }    
+    }
+
+
 }   

@@ -841,7 +841,7 @@ public class StringUtil {
     }
 
     public static void main(String args[]) {
-
+        System.out.println(getKuoHaoValue("ssdfasdf(123)asdf"));
         try {
             String s = StringUtil.buling(3, 11);
             System.out.println(s);
@@ -918,7 +918,15 @@ public class StringUtil {
                 || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
                 || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
     }
-
+    public  static String getKuoHaoValue(String s){
+        if(StringUtil.isBlank(s)){
+            return null;
+        }
+        int firstKuoHao = s.indexOf("(");
+        int sendKuoHao =s.indexOf(")");
+        String value = s.substring(firstKuoHao+1,sendKuoHao);
+        return value;
+    }
     /**
      * 过滤emoji 或者 其他非文字类型的字符
      *

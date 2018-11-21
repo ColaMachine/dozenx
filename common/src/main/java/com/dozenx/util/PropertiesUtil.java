@@ -38,7 +38,7 @@ public class PropertiesUtil {
      */
 	public static Properties load(String filePath){
 
-			Properties confProperties = new Properties();
+			 confProperties = new Properties();
 
 /*
 		InputStream in = ClassLoader.getSystemResourceAsStream(filePath);

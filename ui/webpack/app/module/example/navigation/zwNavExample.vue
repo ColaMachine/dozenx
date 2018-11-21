@@ -15,7 +15,9 @@
             <zwBox class="">
 
               <div slot="zwCodeBoxDemo">
-                <zwAppTopBar mode="horizontal" color="white"></zwAppTopBar>
+                <zwAppTopBar mode="horizontal" color="white">
+
+                </zwAppTopBar>
               </div>
               <div slot="zwCodeBoxMeta" title="顶部导航">
 

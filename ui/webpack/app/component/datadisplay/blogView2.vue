@@ -1,17 +1,17 @@
 
 <template>
-<div style="width:100%;">
-<div style="width:100%;display:flex;position:relative;background-color:white;margin-top:15px;min-height:100px;">
+<div style="width:98%;">
+<div style="width:98%;display:flex;position:relative;background-color:white;margin-top:15px;min-height:100px;">
 
     <div class="app-li-it-pic">
-        <img style="width:50px;height:50px;float:left" v-bind:src="data.face" ></img>
+        <img style="width:50px;height:50px;float:left" :src="getPathValue(data.face)" ></img>
     </div>
     <div class="app-li-it-content">
          <span style="color:#333">{{data.creatorname}}</span>
          <p style="color:gray;font-size:8px">{{data.createtime}}</p>
 
         <p style="margin-top:5px"> {{data.content}}</p>
-          <zwDropDown trigger="click" style="position:absolute;right:0px;top:0px;" placement="bottomRight">
+          <zwDropDown  v-if="isMyArtical(data)" trigger="click" style="position:absolute;right:10px;top:10px;" placement="bottomRight">
           <zwButton slot="button"  type="default" icon="down" ></zwButton>
           <zwMenu slot="menu">
           <zwMenuItem key="1">删除</zwMenuItem>
@@ -22,7 +22,7 @@
             <ul style="background-color:white;" class="clearfix">
                <li style="width:100px;height:100px;float:left;position:relative"  v-for="item in images">
 
-                    <img style="width:100px;height:100px" :src="item"/>
+                    <img style="width:100px;height:100px" :src="getPathValue(item)"/>
                      <a style="position:absolute;width:10px;height:10px;font-size:10px;top:5px;right:5px" v-on:click="deletePic(item)" > <zwIcon type="close"></zwIcon></a>
                </li>
 
@@ -48,7 +48,7 @@
                             <span class="pos">
                                 <span class="line S_line1" >
                                     <span>
-                                        <em class="W_ficon ficon_favorite S_ficon"></em>
+                                       <!-- <em class="W_ficon ficon_favorite S_ficon"></em>-->
                                         <em>收藏</em>
                                     </span>
                                 </span>
@@ -60,8 +60,8 @@
                             <span class="pos">
                                 <span class="line S_line1" node-type="forward_btn_text">
                                     <span>
-                                        <em class="W_ficon ficon_forward S_ficon"></em>
-                                        <em>21</em>
+                                       <!-- <em></em>-->
+                                        <em>转0</em>
                                     </span>
                                 </span>
                             </span>
@@ -72,7 +72,7 @@
                             <span class="pos">
                                 <span class="line S_line1" >
                                     <span>
-                                        <em class="W_ficon ficon_repeat S_ficon"></em>
+                                       <!--  <em class="W_ficon ficon_repeat S_ficon"></em>-->
                                         <em>评论({{data.comment_count}})</em>
                                     </span>
                                 </span>
@@ -86,8 +86,8 @@
                             <span class="pos">
                                 <span class="line S_line1">
                                     <span node-type="like_status" class="">
-                                        <em class="W_ficon ficon_praised S_txt2"></em>
-                                        <em>21</em>
+                                        <em >赞</em>
+                                        <em>0</em>
                                     </span>
                                 </span>
                             </span>
@@ -135,6 +135,7 @@ export default {
         },
         computed: {
 
+
         },
         mounted () {
         if(this.data.pic && this.data.pic.length>0){
@@ -145,6 +146,20 @@ export default {
             console.log(this.data);
         },
         methods: {
+        getPathValue:function(value){
+            return getPathValue(value);
+        },
+        isMyArtical:function(data){
+            console.log(data.creator);
+            console.log(getLoginUser());
+            if(data.creator = getLoginUser()){
+                return true;
+            }
+            return false;
+        },
+              getPathValue:function(value){
+                       return getPathValue(value);
+                     },
  showOrHideComment:function(){
             this.commentShow=!this.commentShow;
         }

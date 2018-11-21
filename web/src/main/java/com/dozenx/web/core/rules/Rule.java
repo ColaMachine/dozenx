@@ -21,4 +21,6 @@ public abstract class Rule{
 	}
 
 	public abstract boolean valid() throws Exception;
+
+	public abstract boolean valid(Object value) throws Exception;
 }

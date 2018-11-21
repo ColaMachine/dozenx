@@ -1,0 +1,277 @@
+
+<div id="MyPlaceList" class="table-responsive">
+   <!-- <div class="main-hd ibox-title">| 场地</div>-->
+
+
+    <div class="main-bd ">
+        <div class="body_top " >
+            <form class="form-inline app-search">
+                    <label for="id">编号</label>
+            <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="编号"></input>
+        <label for="name">名称</label>
+            <input type="text" id="nameLike" name="nameLike"  class="form-control input-sm"   maxlength="500" placeholder="名称" ></input>
+        <label for="code">编号</label>
+            <input type="text" id="codeLike" name="codeLike"  class="form-control input-sm"   maxlength="20" placeholder="编号" ></input>
+        <label for="province">省</label>
+            <input type="number" id="province" name="province"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="省"></input>
+        <label for="city">市</label>
+            <input type="number" id="city" name="city"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="市"></input>
+        <label for="county">区</label>
+            <input type="number" id="county" name="county"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="区"></input>
+        <label for="price">价格</label>
+            <input type="number" id="price" name="price"  class="form-control input-sm"  onkeyup="chkFloat(this,11,2)" onafterpaste="chkFloat(this,11,2)" placeholder="价格" ></input>
+        <label for="address">详细地址</label>
+            <input type="text" id="addressLike" name="addressLike"  class="form-control input-sm"   maxlength="500" placeholder="详细地址" ></input>
+        <label for="cover">封面</label>
+            <input type="text" id="coverLike" name="coverLike"  class="form-control input-sm"   maxlength="100" placeholder="封面" ></input>
+        <label for="pic">图片</label>
+            <input type="text" id="picLike" name="picLike"  class="form-control input-sm"   maxlength="500" placeholder="图片" ></input>
+        <label for="createTime">创建日期</label>
+        <div class="input-group">
+            <input type="text" id="createTime" name="createTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="创建日期" ></input>
+            <label class="input-group-addon" for="createTime" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="createTimeBegin">创建日期开始</label>
+        <div class="input-group">
+            <input type="text" id="createTimeBegin" name="createTimeBegin"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="创建日期开始" ></input>
+            <label class="input-group-addon" for="createTimeBegin" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="createTimeEnd">创建日期结束</label>
+        <div class="input-group">
+            <input type="text" id="createTimeEnd" name="createTimeEnd"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="创建日期结束" ></input>
+            <label class="input-group-addon" for="createTimeEnd" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="updateTime">更新日期</label>
+        <div class="input-group">
+            <input type="text" id="updateTime" name="updateTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="更新日期" ></input>
+            <label class="input-group-addon" for="updateTime" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="updateTimeBegin">更新日期开始</label>
+        <div class="input-group">
+            <input type="text" id="updateTimeBegin" name="updateTimeBegin"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="更新日期开始" ></input>
+            <label class="input-group-addon" for="updateTimeBegin" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="updateTimeEnd">更新日期结束</label>
+        <div class="input-group">
+            <input type="text" id="updateTimeEnd" name="updateTimeEnd"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  datatype="date" format="yyyy-MM-dd"  placeholder="更新日期结束" ></input>
+            <label class="input-group-addon" for="updateTimeEnd" ><i class="fa fa-calendar"></i></label>        </div>
+        <label for="telno">联系电话</label>
+            <input type="text" id="telnoLike" name="telnoLike"  class="form-control input-sm"   maxlength="11" placeholder="联系电话" ></input>
+        <label for="createUser">创建人</label>
+            <input type="number" id="createUser" name="createUser"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="创建人"></input>
+        <label for="lng">经度</label>
+            <input type="number" id="lng" name="lng"  class="form-control input-sm"  onkeyup="chkFloat(this,5,5)" onafterpaste="chkFloat(this,5,5)" placeholder="经度" ></input>
+        <label for="lat">纬度</label>
+            <input type="number" id="lat" name="lat"  class="form-control input-sm"  onkeyup="chkFloat(this,5,5)" onafterpaste="chkFloat(this,5,5)" placeholder="纬度" ></input>
+        <label for="comments">评论</label>
+            <input type="number" id="comments" name="comments"  class="form-control input-sm"  maxlength="7" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)" placeholder="评论"></input>
+        <label for="score">评分</label>
+            <input type="number" id="score" name="score"  class="form-control input-sm"  onkeyup="chkFloat(this,5,2)" onafterpaste="chkFloat(this,5,2)" placeholder="评分" ></input>
+        <label for="lable">标签</label>
+            <input type="text" id="lableLike" name="lableLike"  class="form-control input-sm"   maxlength="500" placeholder="标签" ></input>
+        <label for="remark">备注</label>
+            <input type="text" id="remarkLike" name="remarkLike"  class="form-control input-sm"   maxlength="500" placeholder="备注" ></input>
+
+            <button type="button"  class="btn btn-primary searchBtn">查询</button>
+            <button class="btn btn-secondary addBtn" ><i class="fa fa-plus"></i>新增</button>
+                        <!--<button class="btn btn-primary deleteBtn"><i class="fa fa-plus"></i>删除</button>-->
+                        <!--<button class="btn btn-primary exportBtn"><i class="fa fa-plus"></i>导出</button>-->
+            </form>
+
+
+        </div>
+        <table id="MyPlaceGrid" class="grid table"></table>
+        <div id="MyPlaceGrid-Pager" class="pager"></div>
+    </div>
+</div>
+<script>
+var myPlaceList={
+    modal:true,
+    mygrid:null,
+    treeObj:null,
+    dqData:null,
+    root:$("#MyPlaceList"),
+
+    init:function(){
+
+        setTitle("场地");
+        this.mygrid =this.root.find(".grid").jqGrid(this.gridParam);
+        this.addEventListener();
+        this.loadData();
+    },
+    loadData:function(){
+    },
+    addEventListener:function(){
+        $(this.root).find(".addBtn").click(this.addInfo.Apply(this));
+          $(this.root).find(".editBtn").click(this.editSelectInfo.Apply(this));
+        $(this.root).find(".deleteBtn").click(this.multiDelete.Apply(this));
+        $(this.root).find(".searchBtn").click(this.searchInfo.Apply(this));
+    },
+    gridParam:{
+        datatype: "json",
+        viewrecords: true, sortorder: "desc", caption:"",
+        rowNum:10,
+        rowList:[10,20,30],
+        multiselect : false,
+        url : PATH+'/placesrv/place/list.json',
+        autowidth:true,
+        grid:"#MyPlaceGrid",
+        pager:"#MyPlaceGrid-Pager",
+        jsonReader:jsonReader,
+        colNames : [
+        "编号","名称","编号","省","市","区","价格","详细地址","封面","图片","创建日期","更新日期","联系电话","创建人","经度","纬度","评论","评分","标签","备注" , '操作' ],
+        colModel : [
+            {   name : 'id',width : 80,
+
+            } ,
+            {   name : 'name',width : 80,
+
+            } ,
+            {   name : 'code',width : 80,
+
+            } ,
+            {   name : 'province',width : 80,
+
+            } ,
+            {   name : 'city',width : 80,
+
+            } ,
+            {   name : 'county',width : 80,
+
+            } ,
+            {   name : 'price',width : 80,
+
+            } ,
+            {   name : 'address',width : 80,
+
+            } ,
+            {   name : 'cover',width : 80,
+
+            } ,
+            {   name : 'pic',width : 80,
+
+            } ,
+            {   name : 'createTime',width : 80,
+
+            } ,
+            {   name : 'updateTime',width : 80,
+
+            } ,
+            {   name : 'telno',width : 80,
+
+            } ,
+            {   name : 'createUser',width : 80,
+
+            } ,
+            {   name : 'lng',width : 80,
+
+            } ,
+            {   name : 'lat',width : 80,
+
+            } ,
+            {   name : 'comments',width : 80,
+
+            } ,
+            {   name : 'score',width : 80,
+
+            } ,
+            {   name : 'lable',width : 80,
+
+            } ,
+            {   name : 'remark',width : 80,
+
+            } ,
+
+            {   name : 'operation',
+                width : 150,
+                formatter : function(value, grid, rows) {
+                    return gridHelper.getViewHtml(rows.id,"myPlaceList")+gridHelper.getEditHtml(rows.id,"myPlaceList")+gridHelper.getDelHtml(rows.id,"myPlaceList");
+                }
+            }
+        ],
+        onSelectRow: function(id){ //alert("单击选中"+id);
+        },
+        loadComplete:function(data){
+            dqData=data;
+        }
+    },
+
+    saveInfo:function(){
+    },
+    addInfo:function (){
+        dialog.window('/placesrv/place/edit.htm',this.modal);
+    },
+    editSelectInfo:function(){
+        var rowid =this.mygrid.jqGrid("getGridParam","selrow");
+        var rowData = this.mygrid.jqGrid('getRowData',rowid);
+        var id = rowData["id"];
+        if(StringUtil.isBlank(id)){
+            dialog.alert("请选中一行数据");
+        }else{
+            dialog.window("/placesrv/place/edit.htm?id="+id,this.modal);
+        }
+    },
+    editInfo:function (id){
+        dialog.window("/placesrv/place/edit.htm?id="+id,this.modal);
+    },
+    searchInfo:function (){
+        var jso = changeForm2Jso(".app-search");
+
+        this.mygrid.jqGrid("setGridParam", { search: true ,"postData":jso}).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
+    },
+    viewInfo:function (id){
+        dialog.window("/placesrv/place/view.htm?id="+id,this.modal);
+    },
+    exportInfo:function (){
+        var jso= changeForm2Jso(".app-search");
+        Ajax.getJSON(PATH+"/placesrv/place/export.json",jso,function(data){
+            if(data.r==AJAX_SUCC){
+                window.location=PATH+"/"+data.data;
+            }else{
+                dialog.error(data.msg,"导出失败",null);
+            }
+        })
+    },
+    deleteInfo:function (id){
+        var that =this;
+         //弹窗
+        dialog.confirm("确定删除数据:"+id,function(){
+            Ajax.post(PATH+"/placesrv/place/del.json",{id:id},function(result){
+                result=ajaxResultHandler(result);
+                if(result.r==AJAX_SUCC){
+                    var did=dialog.alert("删除成功，数据："+id,function(index){
+                    that.mygrid.trigger("reloadGrid");
+                    dialog.close(did);
+                });
+                }else {
+                    dialog.error(result.msg,"提醒");
+                }
+            });
+        });
+    },
+    multiDelete:function (){
+        //获取ids字符串
+        var ids=this.mygrid.jqGrid("getGridParam","selarrrow");
+        if(ids.length==0){
+            dialog.alert("请勾选数据");
+            return;
+        }
+        for(var i=0;i<ids.length;i++){
+            var data= this.mygrid.jqGrid("getRowData",ids[i]);
+            ids[i]=data["id"];
+        }
+        //弹窗
+        var that=this;
+        var dialogid= dialog.confirm("确定删除数据:"+ids.join(","),function(){
+            Ajax.post(PATH+"/placesrv/place/mdel.json?",{ids:ids.join(",")},function(result){
+                result=ajaxResultHandler(result);
+                if(result.r==AJAX_SUCC){
+                    dialogid=dialog.alert("删除成功，数据："+ids.join(","),function(index){
+                    that.mygrid.trigger("reloadGrid");
+                    dialog.close(dialogid);
+                });
+                }else {
+                    dialog.error(result.msg);
+                }
+            });
+        });
+    }
+};
+myPlaceList.init()
+</script>
+

@@ -93,224 +93,245 @@ $screen-xs-max: 3000px;
 }
 @media (max-width: $screen-xs-max) {}
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-    .zw-sm-col-1 {
+    .zw-col-sm-1 {
         @include col(1);
     }
-    .zw-sm-col-2 {
+    .zw-col-sm-2 {
         @include col(2);
     }
-    .zw-sm-col-3 {
+    .zw-col-sm-3 {
         @include col(3);
     }
-    .zw-sm-col-4 {
+    .zw-col-sm-4 {
         @include col(4);
     }
-    .zw-sm-col-5 {
+    .zw-col-sm-5 {
         @include col(5);
     }
-    .zw-sm-col-6 {
+    .zw-col-sm-6 {
         @include col(6);
     }
-    .zw-sm-col-7 {
+    .zw-col-sm-7 {
         @include col(7);
     }
-    .zw-sm-col-8 {
+    .zw-col-sm-8 {
         @include col(8);
     }
-    .zw-sm-col-9 {
+    .zw-col-sm-9 {
         @include col(9);
     }
-    .zw-sm-col-10 {
+    .zw-col-sm-10 {
         @include col(10);
     }
-    .zw-sm-col-11 {
+    .zw-col-sm-11 {
         @include col(11);
     }
-    .zw-sm-col-12 {
+    .zw-col-sm-12 {
         @include col(12);
     }
-    .zw-sm-col-13 {
+    .zw-col-sm-13 {
         @include col(13);
     }
-    .zw-sm-col-14 {
+    .zw-col-sm-14 {
         @include col(14);
     }
-    .zw-sm-col-15 {
+    .zw-col-sm-15 {
         @include col(15);
     }
-    .zw-sm-col-16 {
+    .zw-col-sm-16 {
         @include col(16);
     }
-    .zw-sm-col-17 {
+    .zw-col-sm-17 {
         @include col(17);
     }
-    .zw-sm-col-18 {
+    .zw-col-sm-18 {
         @include col(18);
     }
-    .zw-sm-col-19 {
+    .zw-col-sm-19 {
         @include col(19);
     }
-    .zw-sm-col-20 {
+    .zw-col-sm-20 {
         @include col(20);
     }
-    .zw-sm-col-21 {
+    .zw-col-sm-21 {
         @include col(21);
     }
-    .zw-sm-col-22 {
+    .zw-col-sm-22 {
         @include col(22);
     }
-    .zw-sm-col-23 {
+    .zw-col-sm-23 {
         @include col(23);
     }
-    .zw-sm-col-24 {
+    .zw-col-sm-24 {
         @include col(24);
     }
 }
 @media (min-width: $screen-md-min) and (max-width:$screen-md-max) {
-    .zw-md-col-1 {
+    .zw-col-md-1 {
         @include col(1);
     }
-    .zw-md-col-2 {
+    .zw-col-md-2 {
         @include col(2);
     }
-    .zw-md-col-3 {
+    .zw-col-md-3 {
         @include col(3);
     }
-    .zw-md-col-4 {
+    .zw-col-md-4 {
         @include col(4);
     }
-    .zw-md-col-5 {
+    .zw-col-md-5 {
         @include col(5);
     }
-    .zw-md-col-6 {
+    .zw-col-md-6 {
         @include col(6);
     }
-    .zw-md-col-7 {
+    .zw-col-md-7 {
         @include col(7);
     }
-    .zw-md-col-8 {
+    .zw-col-md-8 {
         @include col(8);
     }
-    .zw-md-col-9 {
+    .zw-col-md-9 {
         @include col(9);
     }
-    .zw-md-col-10 {
+    .zw-col-md-10 {
         @include col(10);
     }
-    .zw-md-col-11 {
+    .zw-col-md-11 {
         @include col(11);
     }
-    .zw-md-col-12 {
+    .zw-col-md-12 {
         @include col(12);
     }
-    .zw-md-col-13 {
+    .zw-col-md-13 {
         @include col(13);
     }
-    .zw-md-col-14 {
+    .zw-col-md-14 {
         @include col(14);
     }
-    .zw-md-col-15 {
+    .zw-col-md-15 {
         @include col(15);
     }
-    .zw-md-col-16 {
+    .zw-col-md-16 {
         @include col(16);
     }
-    .zw-md-col-17 {
+    .zw-col-md-17 {
         @include col(17);
     }
-    .zw-md-col-18 {
+    .zw-col-md-18 {
         @include col(18);
     }
-    .zw-md-col-19 {
+    .zw-col-md-19 {
         @include col(19);
     }
-    .zw-md-col-20 {
+    .zw-col-md-20 {
         @include col(20);
     }
-    .zw-md-col-21 {
+    .zw-col-md-21 {
         @include col(21);
     }
-    .zw-md-col-22 {
+    .zw-col-md-22 {
         @include col(22);
     }
-    .zw-md-col-23 {
+    .zw-col-md-23 {
         @include col(23);
     }
-    .zw-md-col-24 {
+    .zw-col-md-24 {
         @include col(24);
     }
 }
+
+.w-grid-5 {
+     width: calc(100%/5);
+ }
+
+ @media screen and (max-width: 60em) and (min-width: 30em){
+ .w-grid-4-m {
+     width: calc(100%/4);
+ }
+
+
+ }
+  .w-grid-4 {
+      width: calc(100%/4);
+  }
+   .w-grid-3 {
+       width: calc(100%/3);
+   }
+  .w-grid-2 {
+      width: calc(100%/2);
+  }
 @media (min-width: $screen-lg-min) {
-    .zw-lg-col-1 {
+    .zw-col-lg-1 {
         @include col(1);
     }
-    .zw-lg-col-2 {
+    .zw-col-lg-2 {
         @include col(2);
     }
-    .zw-lg-col-3 {
+    .zw-col-lg-3 {
         @include col(3);
     }
-    .zw-lg-col-4 {
+    .zw-col-lg-4 {
         @include col(4);
     }
-    .zw-lg-col-5 {
+    .zw-col-lg-5 {
         @include col(5);
     }
-    .zw-lg-col-6 {
+    .zw-col-lg-6 {
         @include col(6);
     }
-    .zw-lg-col-7 {
+    .zw-col-lg-7 {
         @include col(7);
     }
-    .zw-lg-col-8 {
+    .zw-col-lg-8 {
         @include col(8);
     }
-    .zw-lg-col-9 {
+    .zw-col-lg-9 {
         @include col(9);
     }
-    .zw-lg-col-10 {
+    .zw-col-lg-10 {
         @include col(10);
     }
-    .zw-lg-col-11 {
+    .zw-col-lg-11 {
         @include col(11);
     }
-    .zw-lg-col-12 {
+    .zw-col-lg-12 {
         @include col(12);
     }
-    .zw-lg-col-13 {
+    .zw-col-lg-13 {
         @include col(13);
     }
-    .zw-lg-col-14 {
+    .zw-col-lg-14 {
         @include col(14);
     }
-    .zw-lg-col-15 {
+    .zw-col-lg-15 {
         @include col(15);
     }
-    .zw-lg-col-16 {
+    .zw-col-lg-16 {
         @include col(16);
     }
-    .zw-lg-col-17 {
+    .zw-col-lg-17 {
         @include col(17);
     }
-    .zw-lg-col-18 {
+    .zw-col-lg-18 {
         @include col(18);
     }
-    .zw-lg-col-19 {
+    .zw-col-lg-19 {
         @include col(19);
     }
-    .zw-lg-col-20 {
+    .zw-col-lg-20 {
         @include col(20);
     }
-    .zw-lg-col-21 {
+    .zw-col-lg-21 {
         @include col(21);
     }
-    .zw-lg-col-22 {
+    .zw-col-lg-22 {
         @include col(22);
     }
-    .zw-lg-col-23 {
+    .zw-col-lg-23 {
         @include col(23);
     }
-    .zw-lg-col-24 {
+    .zw-col-lg-24 {
         @include col(24);
     }
 }
@@ -543,6 +564,10 @@ a {
 .zw-menu-item-group-title {}
 .zw-app-list li {
     padding-left: 15px;
+}
+.zw-app-list li a{
+    display:inline-block;
+
 }
 /**app-img-list */
 li {

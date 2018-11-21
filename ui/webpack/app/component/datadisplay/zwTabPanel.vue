@@ -1,7 +1,8 @@
 
 <template>
 
- <div v-on:click="clickFunction" role="tabpanel" aria-hidden="false" class="zw-tabs-tabpane zw-tabs-tabpane-active"><slot></slot></div>
+ <div v-on:click="clickFunction" role="tabpanel" aria-hidden="false" class="zw-tabs-tabpane zw-tabs-tabpane-active">
+ <slot></slot></div>
 </template>
 <script type="text/javascript">
 import zwIcon from '../icon/zwIcon.vue';

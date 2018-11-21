@@ -43,4 +43,20 @@ public class Regex extends Rule {
 			return true;
 		}
 	}
+
+
+	@Override
+	public boolean valid(Object value) throws Exception {
+		if(value != null && !value.equals("")) {
+			Matcher matcher = this.pattern.matcher(value.toString());
+			if(!matcher.matches()) {
+				message = "格式不正确";
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
 }

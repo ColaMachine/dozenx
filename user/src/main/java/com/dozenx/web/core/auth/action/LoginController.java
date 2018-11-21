@@ -179,7 +179,7 @@ public class LoginController extends BaseController {
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ResultDTO loginWidthAccountAndPwdAndCaptcha(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) {
+    public ResultDTO loginWithAccountAndPwdAndCaptcha(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) {
 
         // Map cookies = HttpRequestUtil.ReadCookieMap(request);
         String userAgent = request.getHeader("user-agent");
@@ -273,6 +273,106 @@ public class LoginController extends BaseController {
         return result;
     }
 
+
+
+
+    @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
+    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+    @RequestMapping(value = "/login/sms", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public ResultDTO loginWithSmsAndTel(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) {
+
+        // Map cookies = HttpRequestUtil.ReadCookieMap(request);
+        String userAgent = request.getHeader("user-agent");
+        String type = TerminalUtil.getTerminalType(userAgent);
+        logger.info("user login os:登录的操作系统为:" + type);//打印用户的操作系统
+        String account = MapUtils.getString(bodyParam, "loginName");//用户名
+        String pwd = MapUtils.getString(bodyParam, "pwd");//密码加密后的md5密码
+        String imgCaptcha = MapUtils.getString(bodyParam, "picCaptcha");//图片验证码
+
+        //为了防止用户暴力碰库 验证码验证用户提交信息安全与否
+        //如果用OpmsRedirect会出现sessionId是空
+        ResultDTO result = validCodeService.imgValidCode("calendar", (String) request.getSession().getAttribute("uid"), imgCaptcha);
+        if (!result.isRight()) {
+            return result;
+        }
+        //
+
+        result = this.userService.loginValidWithEncryptedPwd(account, pwd);
+        if (result.isRight()) {
+            SysUser user = (SysUser) result.getData();
+            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            //获取这个人的所有权限
+            //List<SysPermission> permissions = authService.listPermissionByUserid(user.getId());
+            List<String> permissions = authService.listPermissionStrByUserid(user.getId());
+            List<SysRole> sysRoles = authService.listRolesByUserid(user.getId());
+            if (sysRoles != null && sysRoles.size() > 0) {
+                String[] roleCodesAry = new String[sysRoles.size()];
+                for (int i = 0; i < sysRoles.size(); i++) {
+                    if (sysRoles != null) {
+                        roleCodesAry[i] = sysRoles.get(i).getCode();
+
+                    }
+
+                }
+                request.getSession().setAttribute(Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
+            }
+
+
+            request.getSession().setAttribute(Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
+            //   List<SysMenu> menus = authService.listMenusByUserid(user.getId());
+
+
+            //result.setData(null);//不能把用户信息传给前端 会泄漏信息
+
+            Long userId = this.getUserId(request);
+            //根据用户id查找菜单
+
+            List<SysMenu> sysMenuTree = sysMenuService.selectAllMenu();
+
+            List<SysMenu> finalList = new ArrayList<SysMenu>();//最终返回前台的list
+
+            //组装成树状结构
+            for (int i = sysMenuTree.size() - 1; i >= 0; i--) {//倒序 方便找到后删除
+                SysMenu sysMenu = sysMenuTree.get(i);
+
+                if (sysMenu.getPid() == 0) {
+                    finalList.add(sysMenu);
+                    sysMenu.childs = new ArrayList<>();
+                    for (int j = sysMenuTree.size() - 1; j >= 0; j--) {//倒序 方便找到后删除
+
+                        //判断当前的人是否有这个菜单的权限
+
+
+                        SysMenu childMenu = sysMenuTree.get(j);//遍历所有的项目查找所有子项
+
+                        if (!permissions.contains(childMenu.getPermission())) {
+                            continue;
+
+                        }
+                        if (childMenu.getPid() == sysMenu.getId()) {
+                            sysMenu.childs.add(childMenu);//塞入到childs中 并从集合中删除
+                            // sysMenuTree.remove(j);
+                        }
+                    }
+                    // sysMenuTree.remove(i);
+                }
+            }
+            //排除没有子节点的菜单
+            for (int i = finalList.size() - 1; i >= 0; i--) {
+                SysMenu sysMenu = finalList.get(i);
+                if (sysMenu.childs == null || sysMenu.childs.size() == 0) {
+                    finalList.remove(i);
+                }
+            }
+            request.getSession().setAttribute(Constants.SESSION_MENUS, finalList);//塞入到用户session中
+
+
+        }
+
+        //若果密码输入多次 增加 验证码 和锁定功能
+        return result;
+    }
 
     /**
      * 说明:登录提交
@@ -436,7 +536,7 @@ public class LoginController extends BaseController {
 
             request.getSession().setAttribute("resourceList", resStr);
             request.getSession().setAttribute("resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
-            result.setData(null);//不能把用户信息传给前端 会泄漏信息
+            result.setData(user.getId());//不能把用户信息传给前端 会泄漏信息
         }
 
         //若果密码输入多次 增加 验证码 和锁定功能
@@ -798,9 +898,10 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/active.htm", method = RequestMethod.GET)
     public String active(HttpServletRequest request) {
         String activeid = request.getParameter("activeid");
+        String account = request.getParameter("account");
         ResultDTO result;
         if (StringUtil.isNotBlank(activeid)) {
-            result = this.userService.updateUserActive(activeid);
+            result = this.userService.updateUserActive(activeid,account,"register");
         } else {
             request.setAttribute("msg", "激活url无效");
             return "/error.jsp";

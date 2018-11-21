@@ -168,7 +168,7 @@ public class Generator {
         // this.readFile2Str("src/main/resources/code/ViewHtml.tpl");
         temp.putTemplate("service", serviceTpl);
         temp.putTemplate("bean", beanTpl);
-        temp.putTemplate("controller", controllerTpl);
+        temp.putTemplate("action", controllerTpl);
         temp.putTemplate("mapper", mapperTpl);
         temp.putTemplate("sql", sqlTpl);
         temp.putTemplate("mapperXml", mapperXmlTpl);
@@ -375,6 +375,8 @@ public class Generator {
            return sb.toString();
     }
 
+
+
     /**
      * 在controller 中提取参数
      * @return
@@ -499,7 +501,7 @@ return ymd;
     public void genController() throws IOException, TemplateException {
         String pkg= table.getPkg();
         pkg=pkg.replaceAll("\\.","/");
-        writeFile("src/main/java/"+pkg+"/"+StringUtil.getabc(table.getName())+"/action",table.getName() + "Controller.java", "controller");
+        writeFile("src/main/java/"+pkg+"/"+StringUtil.getabc(table.getName())+"/action",table.getName() + "Controller.java", "action");
     }
 
     private String getCtrlViewM() {
@@ -537,6 +539,9 @@ return ymd;
 
     }
     public void genService() throws IOException, TemplateException {
+//        if(table.getMapper()!=null){
+//            return;
+//        }
         logger.info("genservice:"+table.getName());
         String pkg= table.getPkg();
         pkg=pkg.replaceAll("\\.","/");
@@ -706,7 +711,10 @@ return ymd;
             }
             sql.append(" COMMENT '"+column.getRemark()+"',").append(ctrl);
         }
-        sql.append("PRIMARY KEY (`"+table.getPk().getName()+"`)").append(ctrl);
+        if(table.getPk()!=null){
+            sql.append("PRIMARY KEY (`"+table.getPk().getName()+"`)").append(ctrl);
+        }
+
         sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='"+table.getRemark()+"';");
         root.put("sql", sql);
 
@@ -1124,8 +1132,24 @@ return ymd;
     }
     public static void main(String[] args) {
         Generator generator =new Generator();
-        generator.generate(new String[]{"PhoneGroup"});
-        generator.generate(new String[]{"ArtUrl","ArtComment","SightComment","SightArtical","SightUrl","HotelComment","HotelUrl"});
+       // generator.generate(new String[]{"SysUser"});
+        generator.generate(new String[]{"CheckinLate"});
+       // generator.generate(new String[]{"CheckinOut"});
+//        generator.generate(new String[]{"SSCFilterForm"});
+      //  generator.generate(new String[]{"SendRule"});
+       // generator.generate(new String[]{"OperResult"});
+      //  generator.generate(new String[]{"SmsRecord"});
+       // generator.generate(new String[]{"Shop","Goods"});
+        //generator.generate(new String[]{"Calendar","Event","Instance"});
+        //generator.generate(new String[]{"Contacts"});
+      //  generator.generate(new String[]{"SysUser","SysRole"});
+       //generator.generate(new String[]{"SysUser","SysDepart","SysUserDepart"});
+       // generator.generate(new String[]{"Active"});
+      //  generator.generate(new String[]{"SSCFilterForm"});
+       // generator.generate(new String[]{"EmailUser"});
+       // generator.generate(new String[]{"MyPlace","PubImage"});
+        //generator.generate(new String[]{"PhoneGroup"});
+        //generator.generate(new String[]{"ArtUrl","ArtComment","SightComment","SightArtical","SightUrl","HotelComment","HotelUrl"});
         //generator.generate(new String[]{"BlogComment"});
         //generator.generate(new String[]{"EzkMacTel"});
         //generator.generate(new String[]{"SmsTemplate"});
@@ -1147,11 +1171,11 @@ return ymd;
       //  Generator.generate(new String[]{"MerchantExtends","DeviceExtends" });
        // Generator.generate(new String[]{"SysLogTag" });
        //Generator.generate(new String[]{"SmsRecord" });
-        //Generator.generate(new String[]{"Activity" });
+    //    Generator.generate(new String[]{"Activity" });
         //Generator.generate(new String[]{"MerchantPic","MerchantNews","MerchantNotice" });
        // Generator.generate(new String[]{"Consume","Order","OrderDetail","Item","ItemInfo" ,"Merchant"});
 
-        //Generator.generate(new String[]{"OperLog"});
+       // Generator.generate(new String[]{"OperLog"});
        // Generator.generate(new String[]{"ApiCategory","ApiUrl","ApiParameter"});
        // Generator.generate(new String[]{"MapData"});
         //Generator.generate(new String[]{"Device","Gateway"});

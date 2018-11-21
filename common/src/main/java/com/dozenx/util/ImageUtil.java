@@ -15,6 +15,7 @@ import com.dozenx.util.encrypt.Base64Util;
 import com.sun.imageio.plugins.jpeg.JPEGImageWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -28,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.file.Path;
 
@@ -1090,6 +1092,258 @@ public class ImageUtil {
         }
 
     }
+
+    /***
+     *
+     * 批量移动图片到另一个文件夹
+     * @param startFile 起始文件夹
+     * @param endFile   移动的文件夹
+     * @param imgPathName   文件名
+     *@author: 王作品
+     *@date: 2017/9/25 0025 下午 18:30
+     */
+
+    public static void removeFile(String startFile,String endFile,String imgPathName){
+        File file=new File(startFile);
+        for (String filpath: file.list()) {
+            File dataFile=new File(startFile+filpath+"/"+imgPathName);
+            File targetFile=new File(endFile+filpath+"/"+imgPathName);
+            long imageSize = dataFile.getTotalSpace();
+            if(imageSize==0){
+                continue;
+            }
+            try {
+                FileUtil.copyFile(dataFile,targetFile);
+                FileUtil.deleteDir(dataFile);
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    /***
+     *
+     * 批量删除文件
+     *
+     * @param filePath 文件目录
+     * @param imgPathName  文件名 null 为删除文件夹， ！null 删除文件
+     * @param  quietly  true 本身一起删除 ，false  删除本身下的说有文件文件夹
+     *@author: 王作品
+     *@date: 2017/9/25 0025 下午 18:30
+     */
+
+    public static void deleteFile(String filePath,String imgPathName,boolean quietly) throws Exception{
+        //删除文件夹
+        if(imgPathName==null && quietly){
+            FileUtil.deleteDir(new File(filePath));
+            return;
+        }
+        //删除文件夹下的文件下的文件夹，及文件
+        File file=new File(filePath);
+        if(imgPathName==null && !quietly){
+            if(file!=null && file.list()!=null){
+                for (String filpath: file.list()) {
+                    FileUtil.deleteDir(new File(filePath+filpath));
+                }
+            }
+            return;
+        }
+        //删除文件
+        for (String filpath: file.list()) {
+            File dataFile=new File(filePath+filpath+"/"+imgPathName);
+            long imageSize = dataFile.getTotalSpace();
+            if(imageSize==0){
+                continue;
+            }
+            try{
+                FileUtil.deleteDir(dataFile);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * Image的Unique的唯一判断
+     * @param image      //文件
+     * @param imageSize   //文件大小
+     * @param imgOrgnalName //文件名
+     * @return
+     * @throws Exception
+     * @author: 王作品
+     * @date: 2017/9/26 0026 下午 14:24
+     */
+
+//    public static String  getImageMD5(MultipartFile image, Long imageSize, String imgOrgnalName )throws  Exception {
+//        if(imageSize==0){
+//            imageSize=image.getSize();
+//        }
+//        InputStream in =  image.getInputStream();
+//        byte[] buf = new byte[1024];
+//        int len=0;
+//        try {
+//            len =in.read(buf);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }finally {
+//            in.close();
+//        }
+//        return  MD5Util.getStringMD5String(new String(buf,0,len)+imageSize+imgOrgnalName+"Awifi");
+//    }
+
+
+
+
+//    /**
+//     * 图片处理生成水印图片
+//     *
+//     * @param iconPath     水印图片
+//     * @param srcImgPath   要添加水印的目标图片
+//     * @param targerPath   生成水印后的目标图片
+//     * @param degree       水印图片的旋转角度
+//     * @param alpha        水印图片的透明度
+//     * @param positionWidth 水印开始画的横坐标
+//     * @param positionHeight 水印开始画的纵坐标
+//     * @author: 王作品
+//     * @date: 2017/9/27 0027 上午 10:33
+//     */
+//
+//    public static void markImageByIcon(String iconPath, String srcImgPath,
+//                                       String targerPath, Integer degree,Float alpha ,
+//                                       int positionWidth, int positionHeight) {
+//        OutputStream os = null;
+//        try {
+//            Image srcImg = ImageIO.read(new File(srcImgPath));
+//
+//            BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),
+//                    srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
+//
+//            // 1、得到画笔对象
+//            Graphics2D g = buffImg.createGraphics();
+//
+//            // 2、设置对线段的锯齿状边缘处理
+//            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+//                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+//
+//            g.drawImage(
+//                    srcImg.getScaledInstance(srcImg.getWidth(null),
+//                            srcImg.getHeight(null), Image.SCALE_SMOOTH), 0, 0,
+//                    null);
+//            // 3、设置水印旋转
+//            if (null != degree) {
+//                g.rotate(Math.toRadians(degree),
+//                        (double) buffImg.getWidth() / 2,
+//                        (double) buffImg.getHeight() / 2);
+//            }
+//
+//            // 4、水印图片的路径 水印图片一般为gif或者png的，这样可设置透明度
+//            ImageIcon imgIcon = new ImageIcon(iconPath);
+//
+//            // 5、得到Image对象。
+//            Image img = imgIcon.getImage();
+//
+//            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
+//                    alpha));
+//
+//            // 6、水印图片的位置
+//            g.drawImage(img, positionWidth, positionHeight, null);
+//            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+//            // 7、释放资源
+//            g.dispose();
+//
+//            // 8、生成图片
+//            os = new FileOutputStream(targerPath);
+//
+//            ImageIO.write(buffImg, "JPG", os);
+//
+//            System.out.println("图片完成添加水印图片");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (null != os)
+//                    os.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+
+    /**
+     * 本地图片转换成base64字符串
+     * @param imgFile	图片本地路径
+     * @return
+     *
+     * @author ZHANGJL
+     * @dateTime 2018-02-23 14:40:46
+     */
+    public static String ImageToBase64ByLocal(String imgFile) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
+
+
+        InputStream in = null;
+        byte[] data = null;
+
+        // 读取图片字节数组
+        try {
+            in = new FileInputStream(imgFile);
+
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 对字节数组Base64编码
+        BASE64Encoder encoder = new BASE64Encoder();
+
+        return encoder.encode(data);// 返回Base64编码过的字节数组字符串
+    }
+
+
+
+    /**
+     * 在线图片转换成base64字符串
+     *
+     * @param imgURL	图片线上路径
+     * @return
+     *
+     * @author ZHANGJL
+     * @dateTime 2018-02-23 14:43:18
+     */
+    public static String ImageToBase64ByOnline(String imgURL) {
+        ByteArrayOutputStream data = new ByteArrayOutputStream();
+        try {
+            // 创建URL
+            URL url = new URL(imgURL);
+            byte[] by = new byte[1024];
+            // 创建链接
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            InputStream is = conn.getInputStream();
+            // 将内容读取内存中
+            int len = -1;
+            while ((len = is.read(by)) != -1) {
+                data.write(by, 0, len);
+            }
+            // 关闭流
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 对字节数组Base64编码
+        BASE64Encoder encoder = new BASE64Encoder();
+        return encoder.encode(data.toByteArray());
+    }
+
+
 
 
 }

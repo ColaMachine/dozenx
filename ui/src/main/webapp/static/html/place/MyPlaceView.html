@@ -1,0 +1,314 @@
+<div id="MyPlaceView" class="ibox float-e-margins">
+    <form id="MyPlaceViewForm" class="form-horizontal" >
+      <!--  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">场地查看</h4>
+        </div>-->
+        <div class="ibox-content">
+                <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span name="code" id="code"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="province" class="col-sm-2 control-label">省:</label>
+        <div class="col-sm-10">
+            <span  name="province" id="province" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="city" class="col-sm-2 control-label">市:</label>
+        <div class="col-sm-10">
+            <span  name="city" id="city" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="county" class="col-sm-2 control-label">区:</label>
+        <div class="col-sm-10">
+            <span  name="county" id="county" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="price" class="col-sm-2 control-label">价格:</label>
+        <div class="col-sm-10">
+            <span  name="price" id="price" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address" class="col-sm-2 control-label">详细地址:</label>
+        <div class="col-sm-10">
+            <span name="address" id="address"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="cover" class="col-sm-2 control-label">封面:</label>
+        <div class="col-sm-10">
+            <span name="cover" id="cover"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pic" class="col-sm-2 control-label">图片:</label>
+        <div class="col-sm-10">
+            <span name="pic" id="pic"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建日期:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd" name="createTime" id="createTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updateTime" class="col-sm-2 control-label">更新日期:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd" name="updateTime" id="updateTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="telno" class="col-sm-2 control-label">联系电话:</label>
+        <div class="col-sm-10">
+            <span name="telno" id="telno"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createUser" class="col-sm-2 control-label">创建人:</label>
+        <div class="col-sm-10">
+            <span  name="createUser" id="createUser" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lng" class="col-sm-2 control-label">经度:</label>
+        <div class="col-sm-10">
+            <span  name="lng" id="lng" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lat" class="col-sm-2 control-label">纬度:</label>
+        <div class="col-sm-10">
+            <span  name="lat" id="lat" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="comments" class="col-sm-2 control-label">评论:</label>
+        <div class="col-sm-10">
+            <span  name="comments" id="comments" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="score" class="col-sm-2 control-label">评分:</label>
+        <div class="col-sm-10">
+            <span  name="score" id="score" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lable" class="col-sm-2 control-label">标签:</label>
+        <div class="col-sm-10">
+            <span name="lable" id="lable"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <span name="remark" id="remark"  class="form-control"  ></span>
+        </div>
+    </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+
+<!--<div class="body_title">| 场地编辑</div>
+<form id="editForm" class="form-horizontal" method="post" action="/myPlace/save.json" enctype="multipart/form-data">
+     <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span  name="id" id="id" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称:</label>
+        <div class="col-sm-10">
+            <span name="name" id="name"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <span name="code" id="code"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="province" class="col-sm-2 control-label">省:</label>
+        <div class="col-sm-10">
+            <span  name="province" id="province" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="city" class="col-sm-2 control-label">市:</label>
+        <div class="col-sm-10">
+            <span  name="city" id="city" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="county" class="col-sm-2 control-label">区:</label>
+        <div class="col-sm-10">
+            <span  name="county" id="county" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="price" class="col-sm-2 control-label">价格:</label>
+        <div class="col-sm-10">
+            <span  name="price" id="price" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address" class="col-sm-2 control-label">详细地址:</label>
+        <div class="col-sm-10">
+            <span name="address" id="address"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="cover" class="col-sm-2 control-label">封面:</label>
+        <div class="col-sm-10">
+            <span name="cover" id="cover"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pic" class="col-sm-2 control-label">图片:</label>
+        <div class="col-sm-10">
+            <span name="pic" id="pic"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createTime" class="col-sm-2 control-label">创建日期:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd" name="createTime" id="createTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="updateTime" class="col-sm-2 control-label">更新日期:</label>
+        <div class="col-sm-10">
+            <span class="form-control" datatype="date" format="yyyy-MM-dd" name="updateTime" id="updateTime" ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="telno" class="col-sm-2 control-label">联系电话:</label>
+        <div class="col-sm-10">
+            <span name="telno" id="telno"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="createUser" class="col-sm-2 control-label">创建人:</label>
+        <div class="col-sm-10">
+            <span  name="createUser" id="createUser" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lng" class="col-sm-2 control-label">经度:</label>
+        <div class="col-sm-10">
+            <span  name="lng" id="lng" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lat" class="col-sm-2 control-label">纬度:</label>
+        <div class="col-sm-10">
+            <span  name="lat" id="lat" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="comments" class="col-sm-2 control-label">评论:</label>
+        <div class="col-sm-10">
+            <span  name="comments" id="comments" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="score" class="col-sm-2 control-label">评分:</label>
+        <div class="col-sm-10">
+            <span  name="score" id="score" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lable" class="col-sm-2 control-label">标签:</label>
+        <div class="col-sm-10">
+            <span name="lable" id="lable"  class="form-control"  ></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-sm-2 control-label">备注:</label>
+        <div class="col-sm-10">
+            <span name="remark" id="remark"  class="form-control"  ></span>
+        </div>
+    </div>
+
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+       <button type="button"   class="btn btn-default cancelBtn">返回</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>-->
+<script type="text/javascript">
+var myPlaceView={
+    modal:true,
+    windowIndex:null,
+    root:$("#MyPlaceView"),
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        var that = this;
+        this.addEventListener();
+        //获取传入参数
+        if(!StringUtil.isBlank(getParam("id"))){
+            Ajax.getJSON("myPlace/view.json?id="+getParam("id"),null,function(data){
+                if(data.r==AJAX_SUCC){
+                    fillJso2FormSpan("#MyPlaceView",data.data.bean);
+                }else{
+                    dialog.error("获取信息失败"+data.msg,function(index){
+                        that.cancel();
+                        dialog.close(index);
+                    });
+                }
+
+            });
+
+        }
+    },
+    loadData:function(){
+    },
+    cancel:function(){
+        if(myPlaceView.modal){
+            dialog.closeWindow("myPlaceView");
+        }else{
+            goPage("myPlace/list.htm");
+        }
+    },
+    addEventListener:function(){
+        $(this.root).find(".cancelBtn").click(myPlaceView.cancel);
+    }
+}
+$(document).ready(function() {
+    myPlaceView.init();
+});
+   
+
+</script>

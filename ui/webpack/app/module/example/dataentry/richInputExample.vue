@@ -27,11 +27,59 @@
 <zwCol span=12>
 </zwCol>
 </zwRow>
+
+
+
+<zwRow >
+<zwCol span=24>
+         <zwBox class="">
+                    <div slot="zwCodeBoxDemo">
+                        <zwMarkDown />
+                    </div>
+                     <div slot="zwCodeBoxMeta"  title="markdown editor">
+                    </div>
+                    <div slot="zwCodeBoxPanel"  >
+                        <textarea ref="textarea" id="textarea" name="textarea">
+
+                         <mavonEditor v-model="value"/>
+                        </textarea>
+                    </div>
+                </zwBox>
+</zwCol>
+
+</zwRow>
+
+
+
+<zwRow >
+<zwCol span=24>
+         <zwBox class="">
+                    <div slot="zwCodeBoxDemo">
+                        <div id="marked">{message_text}</div>
+                    </div>
+                     <div slot="zwCodeBoxMeta"  title="markdown editor">
+                    </div>
+                    <div slot="zwCodeBoxPanel"  >
+                        <textarea ref="textarea" id="textarea" name="textarea">
+
+                         <div id="marked"/>
+                        </textarea>
+                    </div>
+                </zwBox>
+</zwCol>
+
+</zwRow>
 </section>
 </article>
 </div>
 </template>
 <script>
+
+import Vue from 'vue';
+
+
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 import zwButton from '../../../component/button/zwButton.vue';
 import zwButtonGroup from '../../../component/button/zwButtonGroup.vue';
 import zwIcon from '../../../component/icon/zwIcon.vue';
@@ -47,13 +95,17 @@ import zwPanel from '../../../component/datadisplay/zwPanel.vue';
 
 import zwRichInput from '../../../component/dataentry/zwRichInput.vue';
 
+
+import zwMarkDown from '../../../component/dataentry/zwMarkDown.vue';
 export default {
-    components:{zwButton,zwIcon,zwBox,zwRow,zwCol,zwDropDown,zwMenu,zwMenuItem,zwButtonGroup,zwInput,zwPanel,zwRichInput},
+    components:{zwMarkDown,zwButton,zwIcon,zwBox,zwRow,zwCol,zwDropDown,zwMenu,zwMenuItem,zwButtonGroup,zwInput,zwPanel,zwRichInput},
     data () {
 
         return {
             msg: 'Hello World!',
             loading:false,
+            value:"",
+            message_text:''
         }
     }
     ,
@@ -61,6 +113,9 @@ export default {
         getLoadingVal:function(){
             return this.loading;
         }
+    },
+    mounted(){
+
     },
     methods:{
         saveContent:function( content){

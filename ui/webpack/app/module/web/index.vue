@@ -31,27 +31,30 @@
             </zwSubMenu>
 
             <zwMenuItem >
-              <a href="/manage.htm" target="_blank" rel="noopener noreferrer">管理系统</a>
+                <a href="/home/static/html/PhoneCalendarView.html" target="_blank" rel="noopener noreferrer">日历</a>
+            </zwMenuItem>
+            <zwMenuItem >
+              <a href="/home/manage.htm" target="_blank" rel="noopener noreferrer">管理系统</a>
             </zwMenuItem>
 
              <zwMenuItem >
-              <a href="/static/html/vue/vueExample.html#/" target="_blank" rel="noopener noreferrer">组件库</a>
+              <a href="/home/static/html/vue/vueExample.html#/" target="_blank" rel="noopener noreferrer">组件库</a>
             </zwMenuItem>
              <zwMenuItem >
-                  <a href="/static/html/vue/vuePhoneIndex.html#/phoneMain" target="_blank" rel="noopener noreferrer">手机</a>
+                  <a href="/home/static/html/vue/vuePhoneIndex.html#/phoneMain" target="_blank" rel="noopener noreferrer">手机</a>
                 </zwMenuItem>
 
             <zwMenuItem>
 
               <zwMenuItem v-show="!isLogin" >
-                              <a href="javascript:void(0)"  click="goLogin" >登录</a>
+                              <a href="javascript:void(0)"  @click="goLogin" >登录</a>
                             </zwMenuItem>
 
 
               <!--  <zwDropDown v-show="!isLogin">
                 <zwButton slot="button" sizeNum="">
 
-                <a href="javascript:void(0)"  click="goLogin" >登录</a>
+                <a href="javascript:void(0)"  @click="goLogin" >登录</a>
 
                 </zwButton>
                 <div class="zw-menu bg-white" slot="menu">
@@ -108,7 +111,7 @@
       <zwContent  :style="getWinWidth">
         <div id="router">
                 <zwRow style="margin:12px;">
-<zwCol  style="min-width:300px" class="zw-sm-col-24 pull-left" span=6>
+<zwCol  style="min-width:300px" class="zw-col-sm-24 pull-left" span=6>
 
 
             <zwPanel :canFold=false state="open" style="">
@@ -132,7 +135,7 @@
                          </zwCol>
 
 
-<zwCol  style="min-width:300px" class="zw-sm-col-24 pull-left" span=12>
+<zwCol  style="min-width:300px" class="zw-col-sm-24 pull-left" span=12>
 
  <zwPanel :canFold=false state="open" style="">
                                                    <span slot="title" name="title">发布消息</span>
@@ -155,7 +158,7 @@
 
                          </zwCol>
 
-                         <zwCol   style="min-width:300px" class="zw-sm-col-10 pull-left" span=6>
+                         <zwCol   style="min-width:300px" class="zw-col-sm-10 pull-left" span=6>
 
 
                          <zwPanel :canFold=false state="open" style="">
@@ -260,7 +263,7 @@ import blogViewList from '../../component/datadisplay/blogViewList2.vue';
       }
     },
     methods:{
-    goLogin:function(){
+    goLogin:function(){alert(123);
       window.location=PATH+"/sys/auth/login.htm";
     },
         refreshBlogView:function(){

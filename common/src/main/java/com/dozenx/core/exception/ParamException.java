@@ -4,8 +4,6 @@ package com.dozenx.core.exception;
  * Created by dozen.zhang on 2017/2/24.
  */
 public class ParamException extends  MyException {
-    public int code ;
-    public String msg;
     public ParamException(String code, String msg) {
         super(code,msg);
 
