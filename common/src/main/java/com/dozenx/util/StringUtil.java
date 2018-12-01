@@ -960,4 +960,11 @@ public class StringUtil {
             }
         }
     }
+    public static String getStringValue(String s){
+        if(s==null){
+            return "";
+        }else{
+            return s;
+        }
+    }
 }

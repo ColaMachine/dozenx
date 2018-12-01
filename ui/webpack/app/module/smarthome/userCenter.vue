@@ -2,14 +2,12 @@
 <div>
     <zwRow>
         <zwCol  span=24>
-            <div  style="background-color:yellow" class="mubu smart-home-device-view-head-bg" >
+            <div  style="background-color:yellow;background:url('/home/static/img/smarthome/背景板.png') no-repeat fixed center" class="mubu smart-home-device-view-head-bg" >
                 <div class="center-block ">
                     <div class="user-circle">
-
-                        <img :src='getImg("/static/img/smarthome/个人中心1.png")' ></img>
-
+                       <a href="#/userInfo" > <img :src='getImg("/static/img/smarthome/个人中心1.png")' ></img></a>
                     </div>
-                     <h3>
+                    <h3>
                             {{user?user.userName:""}}     {{user?user.telno:""}}
                     </h3>
                 </div>
@@ -34,7 +32,7 @@
   </zwCol>
 
   </zwRow>
-
+  <zwBottomBar> </zwBottomBar>
 </div>
 
 </template>
@@ -52,11 +50,11 @@ import zwButton from '../../component/button/zwButton.vue';
 import zwChocolatePanel from '../../component/datadisplay/zwChocolatePanel.vue';
 import zwTabs from '../../component/datadisplay/zwTabs.vue';
 import zwTabPanel from '../../component/datadisplay/zwTabPanel.vue';
-import bottomBar from '../smarthome/bottomBar.vue';
+import zwBottomBar from '../phone/bottomBar.vue';
 /**登录注册页面**/
 export default {
     name:"lockPwdModify",
-    components:{zwRow,zwCol,zwIcon,zwButton,zwInput,zwAppTitle,zwFormItem,zwForm,zwChocolatePanel,zwTabs,zwTabPanel,bottomBar
+    components:{zwRow,zwCol,zwIcon,zwButton,zwInput,zwAppTitle,zwFormItem,zwForm,zwChocolatePanel,zwTabs,zwTabPanel,zwBottomBar
     },
     data () {
 

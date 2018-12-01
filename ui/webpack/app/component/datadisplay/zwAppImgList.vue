@@ -1,22 +1,25 @@
 <template>
 
-  <ul class="app-li">
-    <li v-for="result in list" key={{result.id}} class="zw-app-box app-li-it ">
+  <ul class="app-ul">
+    <li v-for="result in list" key={{result.id}} class="zw-app-box  app-li-it ">
+    <a :href='"?id="+ result.id +"#placeView"' >
+    <div class=" app-card " >
       <div class="app-li-it-pic">
         <a :href='"?id="+ result.id +"#placeView"'><img onerror="" :src='getPathValue( result.pic)' /></a>
       </div>
       <div class="app-li-it-content">
-        
+       <div class="app-li-it-content-head">
+         <h1>{{result.title}}</h1>
 
-
+       </div>
         <div class="app-li-it-content-body">
-            <h1>{{result.title}}</h1>
+
           <h2>{{result.subtitle}}</h2>
           <h3><span v-for="item in result.tag1">{{item}} |</span></h3>
           <h4><span v-for="item in result.tag2">{{item}} |</span></h4>
           <h5><span v-for="item in result.tag3">{{item}} |</span></h5>
         </div>
-   <div style=" color:red" class="">
+        <div style=" color:red" class="">
           <span><h1>${{result.price}}起</h1></span>
         </div>
         <div class="app-li-it-content-foot">
@@ -24,6 +27,8 @@
           <div class="app-li-it-text"><span className="src-net">{{result.src}}</span><span className="comment-num">评论:{{result.comments}}</span><span className="goods-score">评分:{{result.score}}</span></div>
         </div>
       </div>
+      </div>
+      </a>
     </li>
 
   </ul>

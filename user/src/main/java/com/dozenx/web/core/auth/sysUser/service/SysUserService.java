@@ -609,7 +609,7 @@ public class SysUserService extends BaseService {
             EmailUtil.send(email, "你的邮件验证码:" + code + "");
             activeService.save(email,"register",code);
         }catch (Exception e){
-            logger.error("发送邮件失败");
+            logger.error("发送邮件失败",e);
             LogUtilFeichu.system(serviceCode,218,email,e.getMessage()+" 发送邮件失败","");
             return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 219, "SEND_FAIL");
         }

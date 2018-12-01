@@ -27,11 +27,18 @@ import com.dozenx.web.core.rules.DateValue;
 import com.dozenx.web.core.rules.Digits;
 import com.dozenx.web.core.rules.NotEmpty;
 import com.dozenx.web.core.rules.Rule;
+import com.dozenx.web.module.checkin.checkinLate.bean.CheckinLate;
+import com.dozenx.web.module.checkin.checkinLate.service.CheckinLateService;
 import com.dozenx.web.module.checkin.checkinOut.bean.CheckinOut;
 import com.dozenx.web.module.checkin.checkinOut.bean.FinishTask;
 import com.dozenx.web.module.checkin.checkinOut.bean.FinishTaskData;
 import com.dozenx.web.module.checkin.checkinOut.service.CheckinOutService;
+import com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut;
+import com.dozenx.web.module.checkin.faceCheckinOut.service.FaceCheckinOutService;
+import com.dozenx.web.module.checkin.faceInfo.service.VirtualWeixinService;
 import com.dozenx.web.util.*;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +49,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.Result;
 import java.io.File;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.Calendar;
+
+import static org.quartz.JobBuilder.newJob;
 
 @APIs(description = "考勤")
 @Controller
@@ -63,6 +73,14 @@ public class CheckinOutController extends BaseController {
      **/
     @Autowired
     private CheckinOutService checkinOutService;
+
+    @Autowired
+    private CheckinLateService checkinLateService;
+
+
+    @Autowired
+    private FaceCheckinOutService faceCheckinOutService;
+
     @Autowired
     private SysUserService sysUserService;
 
@@ -135,7 +153,6 @@ public class CheckinOutController extends BaseController {
     }
 
 
-
     @API(summary = "考勤列表接口",
             description = "考勤列表接口",
             parameters = {
@@ -161,15 +178,14 @@ public class CheckinOutController extends BaseController {
         }
 
         String userId = request.getParameter("userId");
-       SysUser sysUser  = sysUserService.getUserById(Long.valueOf(userId));
-        if(sysUser==null){
-           return this.getResult(30801163,"该用户不存在");
+        SysUser sysUser = sysUserService.getUserById(Long.valueOf(userId));
+        if (sysUser == null) {
+            return this.getResult(30801163, "该用户不存在");
         }
         Long otherUserId = sysUser.getOutId();
-        if(otherUserId==null ){
-            return this.getResult(30801163,"该用户的考勤模块不存在");
-        }else
-       {
+        if (otherUserId == null) {
+            return this.getResult(30801163, "该用户的考勤模块不存在");
+        } else {
             params.put("userId", otherUserId);
         }
         String checkType = request.getParameter("checkType");
@@ -202,19 +218,19 @@ public class CheckinOutController extends BaseController {
         }
 
         params.put("page", page);
-        List<CheckinOut> checkinOuts = checkinOutService.listByParams4Page(params);
+        List<CheckinOut> checkinOuts = checkinOutService.listByParams(params);
         List finalList = new ArrayList<>();
 
-        for(CheckinOut checkinOut : checkinOuts){
+        for (CheckinOut checkinOut : checkinOuts) {
             HashMap map = new HashMap();
-            map.put("isdel",false);
-            map.put("title","签到"+DateUtil.toDateStr(new Date(checkinOut.getCheckTime().getTime()),"yyyy-MM-dd HH:mm:ss"));
-            map.put("id",checkinOut.getId());
-            map.put("startTime",checkinOut.getCheckTime().getTime()/60000);
-            map.put("endTime",checkinOut.getCheckTime().getTime()/60000);
-            map.put("userId",otherUserId);
-            map.put("type",9);
-            map.put("edit",0);
+            map.put("isdel", false);
+            map.put("title", "签到" + DateUtil.toDateStr(new Date(checkinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+            map.put("id", checkinOut.getId());
+            map.put("startTime", checkinOut.getCheckTime().getTime() / 60000);
+            map.put("endTime", checkinOut.getCheckTime().getTime() / 60000);
+            map.put("userId", otherUserId);
+            map.put("type", 9);
+            map.put("edit", 0);
 //            "isdel": false,
 //                    "title": "写学习博客",
 //                    "id": 2018111245,
@@ -224,6 +240,48 @@ public class CheckinOutController extends BaseController {
 //                    "type": 0,
 //                    "privacy": 0
 
+            finalList.add(map);
+        }
+
+
+
+        params.put("userId", sysUser.getId());
+        List<CheckinLate> checkinLates = checkinLateService.listByParams(params);
+
+
+        for (CheckinLate checkinLate : checkinLates) {
+            HashMap map = new HashMap();
+            map.put("isdel", false);
+            if(checkinLate.getCheckType()==1){
+                map.put("title", "迟到" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+
+            }else{
+                map.put("title", "未打卡" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+
+            }
+             map.put("id", checkinLate.getId());
+            map.put("startTime", checkinLate.getCheckTime().getTime() / 60000);
+            map.put("endTime", checkinLate.getCheckTime().getTime() / 60000);
+            map.put("userId", otherUserId);
+            map.put("type", 10);
+            map.put("edit", 0);
+            finalList.add(map);
+        }
+
+
+        List<FaceCheckinOut> faceCheckinOuts = faceCheckinOutService.listByParams(params);
+
+
+        for (FaceCheckinOut faceCheckinOut : faceCheckinOuts) {
+            HashMap map = new HashMap();
+            map.put("isdel", false);
+            map.put("title", "摄像头打卡" + DateUtil.toDateStr(new Date(faceCheckinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+            map.put("id", faceCheckinOut.getId());
+            map.put("startTime", faceCheckinOut.getCheckTime().getTime() / 60000);
+            map.put("endTime", faceCheckinOut.getCheckTime().getTime() / 60000);
+            map.put("userId", otherUserId);
+            map.put("type", 9);
+            map.put("edit", 0);
             finalList.add(map);
         }
         return ResultUtil.getResult(finalList, page);
@@ -358,17 +416,17 @@ public class CheckinOutController extends BaseController {
         if(!StringUtil.isBlank(id)){
             checkinOut.setId(Long.valueOf(id)) ;
         }
-        
+
         String userId = request.getParameter("userId");
         if(!StringUtil.isBlank(userId)){
             checkinOut.setUserId(Long.valueOf(userId)) ;
         }
-        
+
         String checkType = request.getParameter("checkType");
         if(!StringUtil.isBlank(checkType)){
             checkinOut.setCheckType(Integer.valueOf(checkType)) ;
         }
-        
+
         String checkTime = request.getParameter("checkTime");
         if(!StringUtil.isBlank(checkTime)){
             checkinOut.setCheckTime(Timestamp.valueOf(checkTime)) ;
@@ -439,17 +497,17 @@ public class CheckinOutController extends BaseController {
             if(!StringUtil.isBlank(id)){
                 checkinOut.setId(Long.valueOf(id)) ;
             }
-            
+
             String userId = request.getParameter("userId");
             if(!StringUtil.isBlank(userId)){
                 checkinOut.setUserId(Long.valueOf(userId)) ;
             }
-            
+
             String checkType = request.getParameter("checkType");
             if(!StringUtil.isBlank(checkType)){
                 checkinOut.setCheckType(Integer.valueOf(checkType)) ;
             }
-            
+
             String checkTime = request.getParameter("checkTime");
             if(!StringUtil.isBlank(checkTime)){
                 checkinOut.setCheckTime(Timestamp.valueOf(checkTime)) ;
@@ -520,17 +578,17 @@ public class CheckinOutController extends BaseController {
                     if(!StringUtil.isBlank(id)){
                         checkinOut.setId(Long.valueOf(id)) ;
                     }
-                    
+
                     String userId = request.getParameter("userId");
                     if(!StringUtil.isBlank(userId)){
                         checkinOut.setUserId(Long.valueOf(userId)) ;
                     }
-                    
+
                     String checkType = request.getParameter("checkType");
                     if(!StringUtil.isBlank(checkType)){
                         checkinOut.setCheckType(Integer.valueOf(checkType)) ;
                     }
-                    
+
                     String checkTime = request.getParameter("checkTime");
                     if(!StringUtil.isBlank(checkTime)){
                         checkinOut.setCheckTime(Timestamp.valueOf(checkTime)) ;
@@ -1295,6 +1353,11 @@ public class CheckinOutController extends BaseController {
                 try {
                     CheckinOut bean = getInfoFromMap(map);
                     //查看这个outId是否有了
+
+                    if (bean.getUserId() == null)
+                        continue;
+
+
                     HashMap confilicMap = new HashMap();
                     confilicMap.put("userId", bean.getUserId());
                     confilicMap.put("checkTime", bean.getCheckTime());
@@ -1305,21 +1368,20 @@ public class CheckinOutController extends BaseController {
                         continue;
                     }
                     //  logger.info("");
-                    if (bean.getUserId() == null)
-                        continue;
+
                     checkinOutService.save(bean);
 
                     SysUser sysUser = sysUserService.getUserByOutId(bean.getUserId());
                     //根据userid 获得username
                     if (sysUser != null) {
 
-                        if (StringUtil.isNotBlank(sysUser.getWechat())) {
-                            RedisUtil.lpush("checkinList", sysUser.getWechat() + " 恭喜你成功打卡" + DateUtil.toDateStr(new Date(bean.getCheckTime().getTime()), "yyyy-MM-dd-HH:mm:ss"));
+                        //if (StringUtil.isNotBlank(sysUser.getWechat())) {
+                          //  RedisUtil.lpush("checkinList", sysUser.getWechat() + " 恭喜你成功打卡" + DateUtil.toDateStr(new Date(bean.getCheckTime().getTime()), "yyyy-MM-dd-HH:mm:ss"));
 
-                        } else {
-                            RedisUtil.lpush("checkinList", sysUser.getUsername() + " 恭喜你成功打卡" + DateUtil.toDateStr(new Date(bean.getCheckTime().getTime()), "yyyy-MM-dd-HH:mm:ss"));
+                        //} else {
+                            RedisUtil.lpush("checkinList", sysUser.getUsername() + " 打卡成功" + DateUtil.toDateStr(new Date(bean.getCheckTime().getTime()), "yyyy-MM-dd-HH:mm:ss"));
 
-                        }
+                       // }
 
                         logger.info("打卡者:" + sysUser.getUsername());
                     }
@@ -1434,34 +1496,34 @@ public class CheckinOutController extends BaseController {
         public List<String> list = new ArrayList<>();
     }
 
-    public static void main(String args[]){
-        HashMap map =new HashMap();
+    public static void main(String args[]) {
+        HashMap map = new HashMap();
         map.put("image", URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("g://wangzuoping3.jpg")));
-        map.put("maxFaceNum","11");
-        map.put("faceFields","embedding");
-        map.put("filename","wangzuoping.jpg");
-        String result = HttpRequestUtil.sendPost("http://127.0.0.1:8080/atomsrv/face/recog/face",map);
-        ResultDTO resultDTO = JsonUtil.toJavaBean(result,ResultDTO.class);
-        JSONObject jsonObject = (JSONObject)resultDTO.getData();
-        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject,FinishTaskData.class);
+        map.put("maxFaceNum", "11");
+        map.put("faceFields", "embedding");
+        map.put("filename", "wangzuoping.jpg");
+        String result = HttpRequestUtil.sendPost("http://127.0.0.1:8080/atomsrv/face/recog/face", map);
+        ResultDTO resultDTO = JsonUtil.toJavaBean(result, ResultDTO.class);
+        JSONObject jsonObject = (JSONObject) resultDTO.getData();
+        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
 
 
-        for(int i=0;i<finishTaskData.getResult().size();i++){
-            FinishTask finishTask =finishTaskData.getResult().get(i);
-            if(finishTask.getLocation().getWidth()<100)continue;
+        for (int i = 0; i < finishTaskData.getResult().size(); i++) {
+            FinishTask finishTask = finishTaskData.getResult().get(i);
+            if (finishTask.getLocation().getWidth() < 100) continue;
             Double[] thisMan = finishTask.getEmbedding();
 
-            double sum=0;
-            double[] wangzuoping =new double[]{-0.008701,0.148611,0.058275,-0.08266,-0.079701,0.160656,0.064619,-0.017223,0.017382,-0.048058,0.180767,0.124326,0.067978,-0.063315,-0.016848,0.075297,-0.02827,0.008627,0.088819,-0.056016,0.051633,-0.082347,0.080371,0.06307,0.081415,0.011967,-0.001232,-0.166948,0.007133,-0.106017,0.048015,0.207153,-0.148783,-0.099527,0.067234,-0.021443,-0.000009,0.186995,0.085177,0.042677,-0.005818,0.195454,0.22936,0.076654,0.042842,-0.011548,0.104181,-0.028195,-0.0386,-0.203294,-0.020634,0.148309,-0.048626,0.023338,0.036419,-0.102889,-0.023942,0.068996,-0.031568,0.035257,-0.089888,0.102456,0.054087,0.076793,0.133463,-0.017299,-0.077482,-0.035074,0.019985,-0.03882,-0.01904,0.044068,0.004656,-0.088485,-0.13872,-0.049296,0.004236,-0.119121,0.170487,-0.000908,-0.088348,0.023045,0.017032,0.010858,-0.079928,0.07815,0.095446,0.10186,0.036595,-0.096792,0.052386,0.246397,0.004021,-0.115781,0.038569,0.071648,-0.094515,-0.095816,0.031187,0.012754,0.000567,-0.15687,-0.063205,0.013722,0.020087,0.131345,0.103935,-0.082715,-0.071745,0.074268,0.104169,0.011771,-0.091282,-0.067506,0.027194,0.058555,0.034997,0.003118,-0.066417,-0.079658,-0.21855,-0.068168,-0.015519,-0.044153,0.058829,-0.002689,-0.07084,-0.043101};
+            double sum = 0;
+            double[] wangzuoping = new double[]{-0.008701, 0.148611, 0.058275, -0.08266, -0.079701, 0.160656, 0.064619, -0.017223, 0.017382, -0.048058, 0.180767, 0.124326, 0.067978, -0.063315, -0.016848, 0.075297, -0.02827, 0.008627, 0.088819, -0.056016, 0.051633, -0.082347, 0.080371, 0.06307, 0.081415, 0.011967, -0.001232, -0.166948, 0.007133, -0.106017, 0.048015, 0.207153, -0.148783, -0.099527, 0.067234, -0.021443, -0.000009, 0.186995, 0.085177, 0.042677, -0.005818, 0.195454, 0.22936, 0.076654, 0.042842, -0.011548, 0.104181, -0.028195, -0.0386, -0.203294, -0.020634, 0.148309, -0.048626, 0.023338, 0.036419, -0.102889, -0.023942, 0.068996, -0.031568, 0.035257, -0.089888, 0.102456, 0.054087, 0.076793, 0.133463, -0.017299, -0.077482, -0.035074, 0.019985, -0.03882, -0.01904, 0.044068, 0.004656, -0.088485, -0.13872, -0.049296, 0.004236, -0.119121, 0.170487, -0.000908, -0.088348, 0.023045, 0.017032, 0.010858, -0.079928, 0.07815, 0.095446, 0.10186, 0.036595, -0.096792, 0.052386, 0.246397, 0.004021, -0.115781, 0.038569, 0.071648, -0.094515, -0.095816, 0.031187, 0.012754, 0.000567, -0.15687, -0.063205, 0.013722, 0.020087, 0.131345, 0.103935, -0.082715, -0.071745, 0.074268, 0.104169, 0.011771, -0.091282, -0.067506, 0.027194, 0.058555, 0.034997, 0.003118, -0.066417, -0.079658, -0.21855, -0.068168, -0.015519, -0.044153, 0.058829, -0.002689, -0.07084, -0.043101};
 
 
-            for(int j=0;j<thisMan.length;j++){
-                sum+=wangzuoping[j]*thisMan[j];
+            for (int j = 0; j < thisMan.length; j++) {
+                sum += wangzuoping[j] * thisMan[j];
             }
             System.out.println(sum);
         }
 
-       // System.out.println(result);
+        // System.out.println(result);
 
         //遍历结果 获取width 大的那张然后和数据库去比对
         //先写死一个
@@ -1470,26 +1532,72 @@ public class CheckinOutController extends BaseController {
     }
 
 
-
     @API(summary = "kq03 通知迟到人员(每天四个点)",
             description = "",
             parameters = {
             })
-    @RequestMapping(value = "/notifyLate")
-    @ResponseBody
+//    @RequestMapping(value = "/notifyLate")
+//    @ResponseBody
 //@PostConstruct
     //@Scheduled(cron = "0 */1 * * * ?")
-    @Scheduled(cron = "0 22 12 * * ?")
-    @Scheduled(cron = "0 32 8 * * ?")
-    @Scheduled(cron = "0 51 13 * * ?")
-    @Scheduled(cron = "0 0 10 * * ?")
+//    @Scheduled(cron = "0 22 12 * * ?")
+//    @Scheduled(cron = "0 32 8 * * ?")
+//    @Scheduled(cron = "0 51 13 * * ?")
+//    @Scheduled(cron = "0 0 10 * * ?")
     //=08:30-06:00-08:31,12:18-11:50-12:21,13:50-13:20-13:51,18:30-17:30-18:30
+//    @PostConstruct
+//    public ResultDTO notifyLateTickTack() throws Exception {
+//        //创建scheduler
+//          Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+//        //定义一个Trigger
+//
+//        Properties properties  =  PropertiesUtil.load( PathManager.getInstance().getClassPath().resolve("main.properties").toFile());
+//        String timeStr= properties.getProperty("late.check.time");
+//        String[] timeSecAry = timeStr.split(",");
+//        for(int i=0;i<timeSecAry.length;i++){
+//            String timeSec=timeSecAry[i];
+//            if(StringUtil.isBlank(timeSec)){
+//                continue;
+//            }
+//            String[] shijianFanWeiAry = timeSec.split("-");
+//            if(shijianFanWeiAry.length<=2){
+//                logger.error("late.check.time is error format"+ timeStr);
+//            }
+//
+//            String[] time = shijianFanWeiAry[0].split(":");
+//
+//            JobDetail job = newJob(NotifyLate.class) //定义Job类为HelloQuartz类，这是真正的执行逻辑所在
+//                    .withIdentity("job"+i, "group1") //定义name/group
+//                    .usingJobData("time", timeSec) //定义属性
+//                    .usingJobData("begin", shijianFanWeiAry[1]) //定义属性
+//                    .usingJobData("end", shijianFanWeiAry[2]) //定义属性
+//                    .build();
+//
+//
+//            //创建一trigger
+//            Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger_"+i, "group_2")
+//                    .startNow().withSchedule(CronScheduleBuilder.cronSchedule("0 "+ Integer.valueOf(time[2])+" "+Integer.valueOf(time[1])+" * * ?")).build();
+//
+//
+//            scheduler.scheduleJob(job, trigger);
+//        }
+//        return  this.getResult();
+////
+////        Calendar calendar = Calendar.getInstance();
+////        String timeStrAry[] = ConfigUtil.getConfig("late.check.time").split(",");
+////        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+////        if(hour = )
+////        logger.info("开始查询" + date + " " + begin + " " + end + "");
+////
+////        return this.getResult();
+//    }
+    @Scheduled(cron = "0 */1 * * * ?")
     public ResultDTO notifyLate() throws Exception {
-        Calendar calendar =Calendar.getInstance();
-        String timeStrAry[]  = ConfigUtil.getConfig("late.check.time").split(",");
+        Calendar calendar = Calendar.getInstance();
+        String timeStrAry[] = ConfigUtil.getConfig("late.check.time").split(",");
         logger.info("PushByChidaoThread run");
         if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-            return null;//如果是双休日不提醒
+           // return null;//如果是双休日不提醒
 
         }
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -1503,88 +1611,169 @@ public class CheckinOutController extends BaseController {
         for (int i = 0; i < timeStrAry.length; i++) {
             String hourAndMin[] = timeStrAry[i].split("-")[0].split(":");
             if (hour == Integer.valueOf(hourAndMin[0]) && minute == Integer.valueOf(hourAndMin[1])) {//正好在这个点上面 就进行验证
-
+                logger.error("it's time to check late  " + timeStrAry[i]);
             } else {//否则到下个点去校验
                 //TODO delete
                 continue;
             }
             begin = timeStrAry[i].split("-")[1];
+            if (begin == null) {
+                logger.error("error in begin ");
+            }
             end = timeStrAry[i].split("-")[2];
+            if (begin == null) {
+                logger.error("error in end ");
+            }
             Calendar calendar1 = Calendar.getInstance();
             calendar1.set(Integer.valueOf(date.split("-")[0]), Integer.valueOf(date.split("-")[1]), Integer.valueOf(date.split("-")[2]), Integer.valueOf(end.split(":")[0]), Integer.valueOf(end.split(":")[1]));
-//                calendar1.set(Calendar.HOUR_OF_DAY,Integer.valueOf(hourAndMin[0]));
-//                calendar1.set(Calendar.MINUTE,Integer.valueOf(hourAndMin[1]));
-//            if (calendar1.getTimeInMillis() < System.currentTimeMillis()) {
-//                //TODO delete
-//                break;
-//            }
-//            if (DateUtil.parseToDate(date + " " + end + ":00", "yyyy-MM-dd HH:mm:ss").getTime() > System.currentTimeMillis()) {
-//                //TODO delete
-//                break;
-//            }
             logger.info("开始查询" + date + " " + begin + " " + end + "");
-            process(date, begin, end, hour + ":" + minute);
-            //break;
-            //  } else {
-            //  }
+            computeLate(date, begin, end, timeStrAry[i].split("-")[3]);
         }
-        if (begin == null) {
-            // continue;
-        }
+
         return this.getResult();
     }
 
-    public void process(String date, String begin, String end, String now) {
+    public void computeLate(String date, String begin, String end, String now) {
         logger.info(date + " " + begin + " " + end);
-        try {
 
 
-            //查询整个事件段的考勤数据
-            // String dateStr = getTodayDate();
-            // String dateStr = "2018-10-17";
+        //查询整个事件段的考勤数据
+        // String dateStr = getTodayDate();
+        // String dateStr = "2018-10-17";
+        //纯粹的考勤记录检查迟到 如果要加上摄像头 考勤签到的话 需要加入 摄像头考勤数据监测
+        List<SysUser> lateUserList = checkinOutService.listUsersNotCheckIn2(date + " " + begin + ":00", date + " " + end + ":00");
+        List<SysUser> secondLateUserList = checkinOutService.listUsersNotCheckIn2(date + " " + end + ":00", date + " " + now + ":00");
 
-            List<SysUser> lateUser = checkinOutService.listUsersNotCheckIn2(date + " " + begin + ":00",date + " " + begin + ":00");
+        //给每个人发通知
+        for (SysUser sysUser : lateUserList) {
+            //插入一条迟到数据库记录
 
-            //给每个人发通知
-            for(SysUser sysUser:lateUser){
-                //插入一条数据库记录
+            //如果在一个小时内都还没有打卡 就是未打卡 否则是迟到
+            boolean late=true;
+
+            //去查她下一个时间段有没有打卡
+            for(SysUser secondUser: secondLateUserList){//遍历下一个时间未打卡的人员
+                if(secondUser.getId() == sysUser .getId()){//如果都没出现
+                    //迟到
+                    late =false;//说明这个人是未打卡
+                    break;
+                }
             }
 
-            //EmailUtil.send("371452875@qq.com", sb.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+            //去查 摄像头签到 这个人是否有记录
+            try {
+
+                CheckinLate checkinLate = new CheckinLate();
+                checkinLate.setKqUserId(sysUser.getOutId());//考勤机用户id
+                checkinLate.setCheckType(late?1:2);//1迟到 2未打卡
+                checkinLate.setUserName(sysUser.getUsername());
+                checkinLate.setUserId(sysUser.getId());//系统用户id
+                checkinLate.setCheckTime(new Timestamp(new Date().getTime()));//DateUtil.parseToDate(date + " " + end + ":00", DateUtil.YYYY_MM_DD_HH_MM_SS).getTime()
+                checkinLateService.save(checkinLate);//保存迟到记录
+
+
+                //查询有没有迟到的记录
+              //  List<SysUser > lateUserList = checkinOutService.listUsersNotCheckIn2(date + " " + begin + ":00", date + " " + begin + ":00");
+
+                //发送迟到通知
+                //    CheckinMessageService.sendMsg();
+                VirtualWeixinService.sendMsg(sysUser.getUsername(), DateUtil.toDateStr(new Date(),DateUtil.YYYY_MM_DD_HH_MM_DASH)+ (late?"迟到":"未打卡"));//date + " " + begin + ":00" + "未打卡"
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //
+
         }
+
+        //EmailUtil.send("371452875@qq.com", sb.toString());
+
         //readFileACCESS(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
         //getUserMap(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
     }
-    public ResultDTO getImgFromServerEvery1seconds(HttpServletRequest request ){
 
-        HashMap map =new HashMap();
+    public ResultDTO getImgFromServerEvery1seconds(HttpServletRequest request) {
+
+        HashMap map = new HashMap();
         map.put("image", URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("g://wangzuoping3.jpg")));
-        map.put("maxFaceNum","11");
-        map.put("faceFields","embedding");
-        map.put("filename","wangzuoping.jpg");
-        String result = HttpRequestUtil.sendPost("http://127.0.0.1:8080/atomsrv/face/recog/face",map);
-        ResultDTO resultDTO = JsonUtil.toJavaBean(result,ResultDTO.class);
-        JSONObject jsonObject = (JSONObject)resultDTO.getData();
-        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject,FinishTaskData.class);
+        map.put("maxFaceNum", "11");
+        map.put("faceFields", "embedding");
+        map.put("filename", "wangzuoping.jpg");
+        String result = HttpRequestUtil.sendPost("http://127.0.0.1:8080/atomsrv/face/recog/face", map);
+        ResultDTO resultDTO = JsonUtil.toJavaBean(result, ResultDTO.class);
+        JSONObject jsonObject = (JSONObject) resultDTO.getData();
+        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
 
 
-        for(int i=0;i<finishTaskData.getResult().size();i++){
-            FinishTask finishTask =finishTaskData.getResult().get(i);
-            if(finishTask.getLocation().getWidth()<100)continue;
+        for (int i = 0; i < finishTaskData.getResult().size(); i++) {
+            FinishTask finishTask = finishTaskData.getResult().get(i);
+            if (finishTask.getLocation().getWidth() < 100) continue;
             Double[] thisMan = finishTask.getEmbedding();
 
-            double sum=0;
-            double[] wangzuoping =new double[]{-0.008701,0.148611,0.058275,-0.08266,-0.079701,0.160656,0.064619,-0.017223,0.017382,-0.048058,0.180767,0.124326,0.067978,-0.063315,-0.016848,0.075297,-0.02827,0.008627,0.088819,-0.056016,0.051633,-0.082347,0.080371,0.06307,0.081415,0.011967,-0.001232,-0.166948,0.007133,-0.106017,0.048015,0.207153,-0.148783,-0.099527,0.067234,-0.021443,-0.000009,0.186995,0.085177,0.042677,-0.005818,0.195454,0.22936,0.076654,0.042842,-0.011548,0.104181,-0.028195,-0.0386,-0.203294,-0.020634,0.148309,-0.048626,0.023338,0.036419,-0.102889,-0.023942,0.068996,-0.031568,0.035257,-0.089888,0.102456,0.054087,0.076793,0.133463,-0.017299,-0.077482,-0.035074,0.019985,-0.03882,-0.01904,0.044068,0.004656,-0.088485,-0.13872,-0.049296,0.004236,-0.119121,0.170487,-0.000908,-0.088348,0.023045,0.017032,0.010858,-0.079928,0.07815,0.095446,0.10186,0.036595,-0.096792,0.052386,0.246397,0.004021,-0.115781,0.038569,0.071648,-0.094515,-0.095816,0.031187,0.012754,0.000567,-0.15687,-0.063205,0.013722,0.020087,0.131345,0.103935,-0.082715,-0.071745,0.074268,0.104169,0.011771,-0.091282,-0.067506,0.027194,0.058555,0.034997,0.003118,-0.066417,-0.079658,-0.21855,-0.068168,-0.015519,-0.044153,0.058829,-0.002689,-0.07084,-0.043101};
+            double sum = 0;
+            double[] wangzuoping = new double[]{-0.008701, 0.148611, 0.058275, -0.08266, -0.079701, 0.160656, 0.064619, -0.017223, 0.017382, -0.048058, 0.180767, 0.124326, 0.067978, -0.063315, -0.016848, 0.075297, -0.02827, 0.008627, 0.088819, -0.056016, 0.051633, -0.082347, 0.080371, 0.06307, 0.081415, 0.011967, -0.001232, -0.166948, 0.007133, -0.106017, 0.048015, 0.207153, -0.148783, -0.099527, 0.067234, -0.021443, -0.000009, 0.186995, 0.085177, 0.042677, -0.005818, 0.195454, 0.22936, 0.076654, 0.042842, -0.011548, 0.104181, -0.028195, -0.0386, -0.203294, -0.020634, 0.148309, -0.048626, 0.023338, 0.036419, -0.102889, -0.023942, 0.068996, -0.031568, 0.035257, -0.089888, 0.102456, 0.054087, 0.076793, 0.133463, -0.017299, -0.077482, -0.035074, 0.019985, -0.03882, -0.01904, 0.044068, 0.004656, -0.088485, -0.13872, -0.049296, 0.004236, -0.119121, 0.170487, -0.000908, -0.088348, 0.023045, 0.017032, 0.010858, -0.079928, 0.07815, 0.095446, 0.10186, 0.036595, -0.096792, 0.052386, 0.246397, 0.004021, -0.115781, 0.038569, 0.071648, -0.094515, -0.095816, 0.031187, 0.012754, 0.000567, -0.15687, -0.063205, 0.013722, 0.020087, 0.131345, 0.103935, -0.082715, -0.071745, 0.074268, 0.104169, 0.011771, -0.091282, -0.067506, 0.027194, 0.058555, 0.034997, 0.003118, -0.066417, -0.079658, -0.21855, -0.068168, -0.015519, -0.044153, 0.058829, -0.002689, -0.07084, -0.043101};
 
 
-            for(int j=0;j<thisMan.length;j++){
-                sum+=wangzuoping[j]*thisMan[j];
+            for (int j = 0; j < thisMan.length; j++) {
+                sum += wangzuoping[j] * thisMan[j];
             }
             System.out.println(sum);
         }
         return this.getResult();
 
     }
+//
+//    public class NotifyLate implements  Job{
+//
+//        @Override
+//        public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+//                Calendar calendar  =Calendar.getInstance();
+//            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//            String date = DateUtil.toDateStr(calendar.getTime(),DateUtil.YYYY_MM_DD);
+//            String begin = jobExecutionContext.getJobDetail().getJobDataMap().getString("begin");
+//            String end = jobExecutionContext.getJobDetail().getJobDataMap().getString("end");
+//            this.process(date,begin,end,"");
+//        }
+//
+//
+//        public void process(String date, String begin, String end, String now) {
+//            logger.info(date + " " + begin + " " + end);
+//
+//
+//            //查询整个事件段的考勤数据
+//            // String dateStr = getTodayDate();
+//            // String dateStr = "2018-10-17";
+//            //纯粹的考勤记录检查迟到 如果要加上摄像头 考勤签到的话 需要加入 摄像头考勤数据监测
+//            List<SysUser> lateUser = checkinOutService.listUsersNotCheckIn2(date + " " + begin + ":00", date + " " + begin + ":00");
+//
+//            //给每个人发通知
+//            for (SysUser sysUser : lateUser) {
+//                //插入一条迟到数据库记录
+//
+//                //去查 摄像头签到 这个人是否有记录
+//                try {
+//
+//                    CheckinLate checkinLate = new CheckinLate();
+//                    checkinLate.setKqUserId(sysUser.getOutId());//考勤机用户id
+//                    checkinLate.setCheckType(1);//1暂时无用
+//                    checkinLate.setUserName(sysUser.getUsername());
+//                    checkinLate.setUserId(sysUser.getId());//系统用户id
+//                    checkinLate.setCheckTime(new Timestamp(DateUtil.parseToDate(date + " " + begin + ":00", DateUtil.YYYY_MM_DD_HH_MM_SS).getTime()));
+//                    checkinLateService.save(checkinLate);//保存迟到记录
+//
+//                    //发送迟到通知
+//                    //    CheckinMessageService.sendMsg();
+//                    VirtualWeixinService.sendMsg(sysUser.getUsername(), date + " " + begin + ":00" + "未打卡");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                //
+//
+//            }
+//
+//            //EmailUtil.send("371452875@qq.com", sb.toString());
+//
+//            //readFileACCESS(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
+//            //getUserMap(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
+//        }
+//    }
 }

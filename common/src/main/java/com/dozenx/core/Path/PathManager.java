@@ -1,6 +1,7 @@
 package com.dozenx.core.Path;
 
 import com.dozenx.core.config.Config;
+import com.dozenx.util.ExcelUtil;
 import com.dozenx.util.FilePathUtil;
 import com.dozenx.util.LogUtil;
 import com.dozenx.util.StringUtil;
@@ -19,7 +20,6 @@ import java.nio.file.Paths;
 
 /**
  * @author dozen.zhang
- *
  */
 public final class PathManager {
     /**
@@ -37,45 +37,45 @@ public final class PathManager {
     /**
      * 根目录
      */
-    private Path homePath;				
+    private Path homePath;
     /**
-     * web root 目录 
+     * web root 目录
      */
-    private Path webRootPath;			
+    private Path webRootPath;
     /**
      * 临时目录
      */
-    private Path tmpPath;				
+    private Path tmpPath;
     /**
      * 二维码目录
      */
-    private Path qrcodePath;	
+    private Path qrcodePath;
     /**
      * 验证码目录
      */
-    private Path vcodePath;    
+    private Path vcodePath;
     /**
      * 海报目录
      */
-    private Path posterPath;			
+    private Path posterPath;
     /**
      * zip目录
      */
-    private Path posterZipPath;			
+    private Path posterZipPath;
     /**
-     * 图片目录 
+     * 图片目录
      */
-    private Path imagePath;				
+    private Path imagePath;
 
 
     /**
-     * 临时目录名 
+     * 临时目录名
      */
-    private static final String TMP_DIR = "tmp";		
+    private static final String TMP_DIR = "tmp";
     /**
      * classes 目录名
      */
-    private static final String CLASS_DIR = "classes";	
+    private static final String CLASS_DIR = "classes";
     /**
      * webinf目录名
      */
@@ -84,8 +84,7 @@ public final class PathManager {
     // private static final String QRCODE_DIR="qrcode";
     // private static final String POSTER_DIR="poster";
     // private static final String POSTER_ZIP_DIR="poster-zip";
-    
-  
+
 
     static {
         PathManager.getInstance();
@@ -106,7 +105,7 @@ public final class PathManager {
         // Are we running on a JDK 1.2 or later system?
         Method method = null;
         try {
-           //获得当前线程的类加载容器
+            //获得当前线程的类加载容器
             method = Thread.class.getMethod("getContextClassLoader", null);
         } catch (NoSuchMethodException e) {
             // We are running on JDK 1.1
@@ -115,6 +114,7 @@ public final class PathManager {
 
         return (ClassLoader) method.invoke(Thread.currentThread(), null);
     }
+
     static private boolean java1 = true;
 
     static private boolean ignoreTCL = false;
@@ -124,50 +124,51 @@ public final class PathManager {
         URL url = null;
 
         try {
-            if(!java1 && !ignoreTCL) {
+            if (!java1 && !ignoreTCL) {
                 LogUtil.debug("  enter tcl");
                 classLoader = getTCL();
-                if(classLoader != null) {
-                   LogUtil.debug("Trying to find ["+resource+"] using context classloader "
-                            +classLoader+".");
+                if (classLoader != null) {
+                    LogUtil.debug("Trying to find [" + resource + "] using context classloader "
+                            + classLoader + ".");
                     url = classLoader.getResource(resource);
 
-                    LogUtil.debug("classLoader.getResource(resource) "+url);
-                    if(url != null) {
+                    LogUtil.debug("classLoader.getResource(resource) " + url);
+                    if (url != null) {
                         return url;
                     }
                 }
             }
 
 
-        } catch(IllegalAccessException t) {
-            LogUtil.println("error when getTCL in pathManager."+t);
-        } catch(InvocationTargetException t) {
+        } catch (IllegalAccessException t) {
+            LogUtil.println("error when getTCL in pathManager." + t);
+        } catch (InvocationTargetException t) {
             if (t.getTargetException() instanceof InterruptedException
                     || t.getTargetException() instanceof InterruptedIOException) {
                 Thread.currentThread().interrupt();
             }
             LogUtil.warn(t.getMessage());
-        } catch(Throwable t) {
+        } catch (Throwable t) {
             //
             //  can't be InterruptedException or InterruptedIOException
             //    since not declared, must be error or RuntimeError.
-            logger.warn( t.getMessage());
+            logger.warn(t.getMessage());
         }
 
         // Last ditch attempt: get the resource from the class path. It
         // may be the case that clazz was loaded by the Extentsion class
         // loader which the parent of the system class loader. Hence the
         // code below.
-        logger.debug("Trying to find ["+resource+
+        logger.debug("Trying to find [" + resource +
                 "] using ClassLoader.getSystemResource().");
         return ClassLoader.getSystemResource(resource);
     }
+
     private PathManager() {
 
 
         System.out.println(PathManager.getResource("config.properties"));
-      //  String protectDomain = PathManager.class.getProtectionDomain().getCodeSource().getLocation().toString();
+        //  String protectDomain = PathManager.class.getProtectionDomain().getCodeSource().getLocation().toString();
         PathManager.getResource("");
         try {
 
@@ -175,7 +176,7 @@ public final class PathManager {
             URL urlToSource = PathManager.getResource("");//PathManager.class.getProtectionDomain().getCodeSource().getLocation();
             logger.info("protectionDomain:" + PathManager.class.getProtectionDomain().getCodeSource().getLocation());
             //protectionDomain:file:/D:/apache-tomcat-8.5.34/selenium_jar/common-1.0-SNAPSHOT.jar
-            logger.info("classLoader resource:" +  PathManager.getResource(""));
+            logger.info("classLoader resource:" + PathManager.getResource(""));
             // classLoader resource:file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 向上找到classes目录
             logger.info("getResource(\"\") :" + urlToSource);
@@ -184,7 +185,7 @@ public final class PathManager {
 
             String path = urlToSource.toString();
             //file:/D:/apache-tomcat-8.5.34/selenium_jar/
-            if(path.indexOf("classes")!=-1){
+            if (path.indexOf("classes") != -1) {
                 path = path.substring(0, path.indexOf("classes") + 7);
             }
 
@@ -218,7 +219,7 @@ public final class PathManager {
         logger.debug("classPath:" + classPath);
 
     }
-    
+
     public Path getHomePath() {
         return homePath;
     }
@@ -230,14 +231,15 @@ public final class PathManager {
     public Path getClassPath() {
         return classPath;
     }
-    
+
     public Path getImagePath() {
         return imagePath;
     }
-    
+
     public Path getTmpPath() {
         return tmpPath;
     }
+
     public Path getVcodePath() {
         return vcodePath;
     }
@@ -255,16 +257,16 @@ public final class PathManager {
      * @throws IOException 抛出异常
      */
     public void updateDirs(Config config) throws IOException {
-
-        tmpPath = webRootPath.resolve(TMP_DIR);
-        Files.createDirectories(tmpPath);
-        if (StringUtil.isBlank(config.getInstance().getImage().getServerDir())) {
-            imagePath = webRootPath;
-        } else{
-            imagePath=webRootPath.resolve(config.getInstance().getImage().getServerDir());
-        }
+        try {
+            tmpPath = webRootPath.resolve(TMP_DIR);
+            Files.createDirectories(tmpPath);
+            if (StringUtil.isBlank(config.getInstance().getImage().getServerDir())) {
+                imagePath = webRootPath;
+            } else {
+                imagePath = webRootPath.resolve(config.getInstance().getImage().getServerDir());
+            }
             //imagePath = Paths.get(chantToUrl(config.getInstance().getImage().getServerDir()));
-        Files.createDirectories(imagePath);
+            Files.createDirectories(imagePath);
 
 //        qrcodePath = imagePath.resolve(config.getInstance().getImage().getQrcodeDir());
 //        Files.createDirectories(qrcodePath);
@@ -275,8 +277,11 @@ public final class PathManager {
 //        posterZipPath = imagePath.resolve(config.getInstance().getImage().getPosterZipDir());
 //        Files.createDirectories(posterZipPath);
 
-        vcodePath = webRootPath.resolve(config.getInstance().getImage().getVcodeDir());
-        Files.createDirectories(vcodePath);
+            vcodePath = webRootPath.resolve(config.getInstance().getImage().getVcodeDir());
+            Files.createDirectories(vcodePath);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -292,7 +297,7 @@ public final class PathManager {
      * @return PathManager
      */
     public static PathManager getInstance() {
-        if (INSTANCE == null){
+        if (INSTANCE == null) {
             INSTANCE = new PathManager();
         }
         return INSTANCE;
@@ -300,7 +305,7 @@ public final class PathManager {
 
     /**
      * 根据给点的路劲进行修正
-     * 
+     *
      * @param path 参数
      * @return String
      */
@@ -310,7 +315,7 @@ public final class PathManager {
 
     /**
      * 改成符合url的路径
-     * 
+     *
      * @param path 参数
      * @return String
      */

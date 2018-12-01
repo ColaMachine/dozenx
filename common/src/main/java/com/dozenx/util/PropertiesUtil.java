@@ -57,19 +57,15 @@ public class PropertiesUtil {
 		}
 		return confProperties;
 	}
-
 	/**
 	 *
-	 * @param filePath the path relative to web system
+	 * @param file the path relative to web system
 	 * @return
 	 */
 	public static Properties load(File file){
-
 		Properties confProperties = new Properties();
-
 		if(!file.exists()) {
 			System.out.println("加载properties的路径有问题:" + file.getAbsolutePath());
-
 		}
 		try {
 			confProperties.load(new FileInputStream(file));
@@ -112,6 +108,17 @@ public class PropertiesUtil {
 	public static String get(String key) throws Exception{
 		if(confProperties == null){
 			init();
+		}
+		return confProperties.getProperty(key);
+	}
+
+	public static String get(String key,String file) {
+		if(confProperties == null){
+			confProperties= load(file);
+		}
+		String value = confProperties.getProperty(key);
+		if(StringUtil.isBlank(value )){
+			confProperties.putAll(load(file));
 		}
 		return confProperties.getProperty(key);
 	}

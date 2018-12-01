@@ -49,7 +49,7 @@ init:function(selector,context){
             dom.find=find;
         }
         return dom;
-    }
+    }else
     if(selector[0]=='.'){
         var dom = document.getElementById(selector.replace(".",''));
                 if(dom){
@@ -57,6 +57,13 @@ init:function(selector,context){
                     return dom;
                 }
                 return dom;
+    }else{
+            var dom = document.getElementById(selector.replace("#",''));
+            if(dom){
+                dom.find=find;
+            }
+            return dom;
+
     }
 
 
@@ -461,4 +468,27 @@ function getRelativeInfo(o){//取得坐标
 
 function show(dom){
     dom.style.display="block";
+}
+
+function toggle(dom){
+    if( dom.style.display=="block" || dom.style.display=="" || dom.style.display=="undefined"  ){
+         dom.style.display="none";
+    }else{
+         dom.style.display="block";
+    }
+
+}
+
+
+function getRadioValueByName(str) {
+    var radios = document.getElementsByName(str);
+    var value;
+    for(var i=0;i<radios .length;i++){
+        if(radios[i].checked){
+          value = radios[i].value;
+            break;
+        }
+    }
+    return value;
+
 }

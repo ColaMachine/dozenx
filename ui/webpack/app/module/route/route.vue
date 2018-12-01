@@ -57,6 +57,7 @@ import loginSmsStep1 from '../smarthome/loginSmsStep1.vue';//登录输入图片�
 import loginUP from '../smarthome/loginUP.vue';//登录输入图片验证码页面
 import loginSmsStep2 from '../smarthome/loginSmsStep2.vue';//登录输入短信验证码页面
 import userCenter from '../smarthome/userCenter.vue';
+import userInfo from '../../module/phone/userinfo.vue';
 import zwNavExample from '../../module/example/navigation/zwNavExample.vue';
 import alertExample from '../../module/example/feedback/alertExample.vue';
 import phoneMain from '../../module/phone/phoneMain.vue';
@@ -113,7 +114,7 @@ const routes = [
 { path: '/wangluoguanli', component:wangluoguanli },
 
 { path: '/navbar', component:zwNavExample },
-
+{ path: '/userInfo', component:userInfo },
 //web页面展示
 
 //手机页面展示

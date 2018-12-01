@@ -5,6 +5,8 @@ import com.dozenx.core.Path.PathManager;
 import com.dozenx.service.CheckinOutService;
 import com.dozenx.util.*;
 import org.apache.log4j.Logger;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +15,15 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 /**
  * @Author: dozen.zhang
  * @Description:
@@ -137,21 +143,15 @@ public class ReadAccess {
     //"2018/10/17 06:00:00", "2018/10/17 08:30:59"
 
     public static void main(String[] args) {
-
-
         ReadAccess readAccess = new ReadAccess();
         // readAccess.init(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));//开始连接数据库
-
-
         readAccess.mainLoop();
-
-
         //readFileACCESS(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
         //getUserMap(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
     }
 
     File mdbFile = null;
-
+    public static CheckinOutService checkinOutService =new CheckinOutService();
     public void mainLoop() {
         try {
             String propertiesPath = PathManager.getInstance().getClassPath().resolve("properties/config.properties").toString();
@@ -159,38 +159,29 @@ public class ReadAccess {
             PropertiesUtil.load(propertiesPath);
             Calendar calendar = Calendar.getInstance();
             mdbFile = new File(PropertiesUtil.get("access.path"));
-            CheckinOutService checkinOutService =new CheckinOutService();
+//            CheckinOutService checkinOutService =new CheckinOutService();
             checkinOutService.initConnection2Access(mdbFile);
            // initConnection2Access(mdbFile);//开始连接数据库
-
-
             checkinOutService.initUser();//根据userInfo 获取有效用户
-
-
-
-            ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
-
-
+           ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
             // 从现在开始1秒钟之后，每隔1秒钟执行一次job1
-            service.scheduleAtFixedRate(
+           service.scheduleAtFixedRate(
                     new PushByModifyThread(checkinOutService), 60,
-                    5, TimeUnit.SECONDS);
-
-
-            // 从现在开始2秒钟之后，每隔2秒钟执行一次job2
+                   5, TimeUnit.SECONDS);
+//            // 从现在开始2秒钟之后，每隔2秒钟执行一次job2
+//
+//
             service.scheduleWithFixedDelay(
                     new PushBy10minThread(checkinOutService), 1,
                     8*60, TimeUnit.SECONDS);//
-
-
+////            service.scheduleWithFixedDelay(
+////                    new PushUserThread(checkinOutService), 1,
+////                    *60*60, TimeUnit.SECONDS);//
 //            service.scheduleWithFixedDelay(
-//                    new PushUserThread(checkinOutService), 1,
-//                    *60*60, TimeUnit.SECONDS);//
+//                    new PushByChidaoThread(checkinOutService), 1,
+//                    60, TimeUnit.SECONDS);//1分钟确保只执行一次
 
 
-            service.scheduleWithFixedDelay(
-                    new PushByChidaoThread(checkinOutService), 1,
-                    60, TimeUnit.SECONDS);//1分钟确保只执行一次
 
 //            Long lastTime = calendar.getTimeInMillis();
 //            while (true) {
@@ -205,6 +196,71 @@ public class ReadAccess {
 //                    e.printStackTrace();
 //                }
 //            }
+
+
+
+
+
+
+
+
+            //创建scheduler
+            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+            //定义一个Trigger
+            String timeStr= PropertiesUtil.get("late.check.time");
+            String[] timeSecAry = timeStr.split(",");
+
+
+
+
+
+            for(int i=0;i<timeSecAry.length;i++){
+                String timeSec=timeSecAry[i];
+                if(StringUtil.isBlank(timeSec)){
+                    continue;
+                }
+                String[] shijianFanWeiAry = timeSec.split("-");
+                if(shijianFanWeiAry.length==0){
+                    logger.error("late.check.time is error format"+ timeStr);
+                }
+
+                String[] time = shijianFanWeiAry[0].split(":");
+
+                JobDetail job = newJob(Push4TimeOneDayJob.class) //定义Job类为HelloQuartz类，这是真正的执行逻辑所在
+                        .withIdentity("job"+i, "group1") //定义name/group
+                        .usingJobData("name", timeSec) //定义属性
+                        .build();
+
+                //创建一trigger
+                Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger_"+i, "group_2")
+                        .startNow().withSchedule(CronScheduleBuilder.cronSchedule("0 "+time[1]+" "+time[0]+" * * ?")).build();
+
+
+                scheduler.scheduleJob(job, trigger);
+            }
+
+//            Trigger trigger8 = cronSchedule("0 31 8 * * ?") // 每天8:00-17:00，每隔2分钟执行一次
+//                    .build();
+//            Trigger trigger12 = cronSchedule("0 21 12 * * ?") // 每天8:00-17:00，每隔2分钟执行一次
+//                    .build();
+//            Trigger trigger13 = cronSchedule("0 51 13 * * ?") // 每天8:00-17:00，每隔2分钟执行一次
+//                    .build();
+//            Trigger trigger23 = cronSchedule("0 55 23 * * ?") // 每天8:00-17:00，每隔2分钟执行一次
+//                    .build();
+
+
+
+//            scheduler.scheduleJob(job, trigger8);
+//
+//            scheduler.scheduleJob(job, trigger12);
+//
+//            scheduler.scheduleJob(job, trigger13);
+//
+//            scheduler.scheduleJob(job, trigger23);
+
+            scheduler.start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

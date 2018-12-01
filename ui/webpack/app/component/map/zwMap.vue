@@ -113,8 +113,8 @@ export default {
 
         },
         mounted () {
-MyMap.componentDidMount(this.$refs.container);
-        this.$refs.container.style.height=getWinHeight()+"px";
+            MyMap.componentDidMount(this.$refs.container);
+            this.$refs.container.style.height=getWinHeight()+"px";
         },
         methods: {
             getPathValue:function(value){

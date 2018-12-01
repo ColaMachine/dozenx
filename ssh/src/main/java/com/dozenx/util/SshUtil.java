@@ -557,6 +557,8 @@ public class SshUtil {
 
     }
 
+
+
     public static void main(String args[]) {
         //
         // SshUtil.testExecCmd();
@@ -582,7 +584,7 @@ public class SshUtil {
 //        String remoteRootPathStr = "/data/service/tomcat-ezhike-biz-8085/awifi-ezhike-web/WEB-INF/classes";
 //        String tomcatPath = "/data/service/tomcat-ezhike-biz-8085";
 //
-     //   SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
+        SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
 
         SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
         //  SshUtil .updateTomecatWebappAndRestart();

@@ -2,7 +2,7 @@
  * 版权所有：公众信息
  * 项目名称:calendar
  * 创建者: dozen.zhang
- * 创建日期: @date 2018-11-21 15:30:03
+ * 创建日期: @date 2018-11-21 16:42:27
  * 文件说明: 
  */
 
@@ -67,7 +67,7 @@ public class CheckinLateController extends BaseController{
     /**
      * 说明:ajax请求CheckinLate信息
      * @author dozen.zhang
-     * @date 2018-11-21 15:30:03
+     * @date 2018-11-21 16:42:27
      * @return String
      */
        @API(summary="考勤迟到表列表接口",
@@ -77,6 +77,7 @@ public class CheckinLateController extends BaseController{
                  @Param(name="curPage", description="当前页", dataType= DataType.INTEGER,required = true),
                     @Param(name="id" , description="编号",dataType = DataType.LONG,required =false),// false
                     @Param(name="userId" , description="用户Id",dataType = DataType.LONG,required =false),// true
+                    @Param(name="userName" , description="用户名",dataType = DataType.STRING,required =false),// true
                     @Param(name="checkType" , description="考勤类型",dataType = DataType.INTEGER,required =false),// true
                     @Param(name="checkTime" , description="检查时间",dataType = DataType.DATE_TIME,required =false),// false
                     @Param(name="kqUserId" , description="考勤机用户id",dataType = DataType.LONG,required =false),// true
@@ -97,6 +98,14 @@ public class CheckinLateController extends BaseController{
         String userId = request.getParameter("userId");
         if(!StringUtil.isBlank(userId)){
             params.put("userId",userId);
+        }
+        String userName = request.getParameter("userName");
+        if(!StringUtil.isBlank(userName)){
+            params.put("userName",userName);
+        }
+        String userNameLike = request.getParameter("userNameLike");
+        if(!StringUtil.isBlank(userNameLike)){
+            params.put("userNameLike",userNameLike);
         }
         String checkType = request.getParameter("checkType");
         if(!StringUtil.isBlank(checkType)){
@@ -140,7 +149,7 @@ public class CheckinLateController extends BaseController{
     * 说明:ajax请求CheckinLate信息 无分页版本
     * @return ResultDTO 返回结果
     * @author dozen.zhang
-    * @date 2018-11-21 15:30:03
+    * @date 2018-11-21 16:42:27
     */
     @RequestMapping(value = "/listAll.json")
     @ResponseBody
@@ -153,6 +162,14 @@ public class CheckinLateController extends BaseController{
         String userId = request.getParameter("userId");
         if(!StringUtil.isBlank(userId)){
             params.put("userId",userId);
+        }
+        String userName = request.getParameter("userName");
+        if(!StringUtil.isBlank(userName)){
+            params.put("userName",userName);
+        }
+        String userNameLike = request.getParameter("userNameLike");
+        if(!StringUtil.isBlank(userNameLike)){
+            params.put("userNameLike",userNameLike);
         }
         String checkType = request.getParameter("checkType");
         if(!StringUtil.isBlank(checkType)){
@@ -196,7 +213,7 @@ public class CheckinLateController extends BaseController{
     * @param request 发请求
     * @return String
     * @author dozen.zhang
-    * @date 2018-11-21 15:30:03
+    * @date 2018-11-21 16:42:27
     */
      @API( summary="根据id查询单个考勤迟到表信息",
                description = "根据id查询单个考勤迟到表信息",
@@ -222,7 +239,7 @@ public class CheckinLateController extends BaseController{
         * @param request 发请求
         * @return String
         * @author dozen.zhang
-        * @date 2018-11-21 15:30:03
+        * @date 2018-11-21 16:42:27
         */
       @API( summary="根据id查询单个考勤迟到表信息",
                description = "根据id查询单个考勤迟到表信息",
@@ -247,13 +264,14 @@ public class CheckinLateController extends BaseController{
      * @throws Exception
      * @return ResultDTO
      * @author dozen.zhang
-     * @date 2018-11-21 15:30:03
+     * @date 2018-11-21 16:42:27
      */
       @API( summary="更新id更新单个考勤迟到表信息",
         description = "更新id更新单个考勤迟到表信息",
         parameters={
            @Param(name="id" , description="编号",type="LONG",required = false),
            @Param(name="userId" , description="用户Id",type="LONG",required = true),
+           @Param(name="userName" , description="用户名",type="STRING",required = true),
            @Param(name="checkType" , description="考勤类型",type="INTEGER",required = true),
            @Param(name="checkTime" , description="检查时间",type="DATE_TIME",required = false),
            @Param(name="kqUserId" , description="考勤机用户id",type="LONG",required = true),
@@ -272,6 +290,11 @@ public class CheckinLateController extends BaseController{
         String userId = request.getParameter("userId");
         if(!StringUtil.isBlank(userId)){
             checkinLate.setUserId(Long.valueOf(userId)) ;
+        }
+        
+        String userName = request.getParameter("userName");
+        if(!StringUtil.isBlank(userName)){
+            checkinLate.setUserName(String.valueOf(userName)) ;
         }
         
         String checkType = request.getParameter("checkType");
@@ -297,6 +320,10 @@ public class CheckinLateController extends BaseController{
         if(!StringUtil.isBlank(userId)){
             checkinLate.setUserId(Long.valueOf(userId));
         }
+        String userName = request.getParameter("userName");
+        if(!StringUtil.isBlank(userName)){
+            checkinLate.setUserName(userName);
+        }
         String checkType = request.getParameter("checkType");
         if(!StringUtil.isBlank(checkType)){
             checkinLate.setCheckType(Integer.valueOf(checkType));
@@ -319,6 +346,7 @@ public class CheckinLateController extends BaseController{
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(15,0)});
         vu.add("userId", userId, "用户Id",  new Rule[]{new Digits(13,0),new NotEmpty()});
+        vu.add("userName", userName, "用户名",  new Rule[]{new Length(20),new NotEmpty()});
         vu.add("checkType", checkType, "考勤类型",  new Rule[]{new Digits(3,0),new NotEmpty()});
         vu.add("checkTime", checkTime, "检查时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         vu.add("kqUserId", kqUserId, "考勤机用户id",  new Rule[]{new Digits(13,0),new NotEmpty()});
@@ -338,7 +366,7 @@ public class CheckinLateController extends BaseController{
          * @throws Exception
          * @return ResultDTO
          * @author dozen.zhang
-         * @date 2018-11-21 15:30:03
+         * @date 2018-11-21 16:42:27
          */
         // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
         @API( summary="添加单个考勤迟到表信息",
@@ -346,6 +374,7 @@ public class CheckinLateController extends BaseController{
             parameters={
                @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
                @Param(name="userId" , description="用户Id",dataType = DataType.LONG,required = true),
+               @Param(name="userName" , description="用户名",dataType = DataType.STRING,required = true),
                @Param(name="checkType" , description="考勤类型",dataType = DataType.INTEGER,required = true),
                @Param(name="checkTime" , description="检查时间",dataType = DataType.DATE_TIME,required = false),
                @Param(name="kqUserId" , description="考勤机用户id",dataType = DataType.LONG,required = true),
@@ -363,6 +392,11 @@ public class CheckinLateController extends BaseController{
             String userId = request.getParameter("userId");
             if(!StringUtil.isBlank(userId)){
                 checkinLate.setUserId(Long.valueOf(userId)) ;
+            }
+            
+            String userName = request.getParameter("userName");
+            if(!StringUtil.isBlank(userName)){
+                checkinLate.setUserName(String.valueOf(userName)) ;
             }
             
             String checkType = request.getParameter("checkType");
@@ -388,6 +422,10 @@ public class CheckinLateController extends BaseController{
         if(!StringUtil.isBlank(userId)){
             checkinLate.setUserId(Long.valueOf(userId));
         }
+        String userName = request.getParameter("userName");
+        if(!StringUtil.isBlank(userName)){
+            checkinLate.setUserName(userName);
+        }
         String checkType = request.getParameter("checkType");
         if(!StringUtil.isBlank(checkType)){
             checkinLate.setCheckType(Integer.valueOf(checkType));
@@ -410,6 +448,7 @@ public class CheckinLateController extends BaseController{
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(15,0)});
         vu.add("userId", userId, "用户Id",  new Rule[]{new Digits(13,0),new NotEmpty()});
+        vu.add("userName", userName, "用户名",  new Rule[]{new Length(20),new NotEmpty()});
         vu.add("checkType", checkType, "考勤类型",  new Rule[]{new Digits(3,0),new NotEmpty()});
         vu.add("checkTime", checkTime, "检查时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         vu.add("kqUserId", kqUserId, "考勤机用户id",  new Rule[]{new Digits(13,0),new NotEmpty()});
@@ -429,7 +468,7 @@ public class CheckinLateController extends BaseController{
                  * @throws Exception
                  * @return ResultDTO
                  * @author dozen.zhang
-                 * @date 2018-11-21 15:30:03
+                 * @date 2018-11-21 16:42:27
                  */
                 // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
                 @API( summary="添加单个考勤迟到表信息",
@@ -437,6 +476,7 @@ public class CheckinLateController extends BaseController{
                     parameters={
                        @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
                        @Param(name="userId" , description="用户Id",dataType = DataType.LONG,required = true),
+                       @Param(name="userName" , description="用户名",dataType = DataType.STRING,required = true),
                        @Param(name="checkType" , description="考勤类型",dataType = DataType.INTEGER,required = true),
                        @Param(name="checkTime" , description="检查时间",dataType = DataType.DATE_TIME,required = false),
                        @Param(name="kqUserId" , description="考勤机用户id",dataType = DataType.LONG,required = true),
@@ -454,6 +494,11 @@ public class CheckinLateController extends BaseController{
                     String userId = request.getParameter("userId");
                     if(!StringUtil.isBlank(userId)){
                         checkinLate.setUserId(Long.valueOf(userId)) ;
+                    }
+                    
+                    String userName = request.getParameter("userName");
+                    if(!StringUtil.isBlank(userName)){
+                        checkinLate.setUserName(String.valueOf(userName)) ;
                     }
                     
                     String checkType = request.getParameter("checkType");
@@ -479,6 +524,10 @@ public class CheckinLateController extends BaseController{
         if(!StringUtil.isBlank(userId)){
             checkinLate.setUserId(Long.valueOf(userId));
         }
+        String userName = request.getParameter("userName");
+        if(!StringUtil.isBlank(userName)){
+            checkinLate.setUserName(userName);
+        }
         String checkType = request.getParameter("checkType");
         if(!StringUtil.isBlank(checkType)){
             checkinLate.setCheckType(Integer.valueOf(checkType));
@@ -501,6 +550,7 @@ public class CheckinLateController extends BaseController{
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(15,0)});
         vu.add("userId", userId, "用户Id",  new Rule[]{new Digits(13,0),new NotEmpty()});
+        vu.add("userName", userName, "用户名",  new Rule[]{new Length(20),new NotEmpty()});
         vu.add("checkType", checkType, "考勤类型",  new Rule[]{new Digits(3,0),new NotEmpty()});
         vu.add("checkTime", checkTime, "检查时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         vu.add("kqUserId", kqUserId, "考勤机用户id",  new Rule[]{new Digits(13,0),new NotEmpty()});
@@ -519,7 +569,7 @@ public class CheckinLateController extends BaseController{
      * @throws Exception
      * @return ResultDTO
      * @author dozen.zhang
-     * @date 2018-11-21 15:30:03
+     * @date 2018-11-21 16:42:27
      */
      @API( summary="根据id删除单个考勤迟到表信息",
         description = "根据id删除单个考勤迟到表信息",
@@ -544,7 +594,7 @@ public class CheckinLateController extends BaseController{
          * @throws Exception
          * @return ResultDTO
          * @author dozen.zhang
-         * @date 2018-11-21 15:30:03
+         * @date 2018-11-21 16:42:27
          */
          @API( summary="根据id删除单个考勤迟到表信息",
             description = "根据id删除单个考勤迟到表信息",
@@ -612,6 +662,14 @@ public class CheckinLateController extends BaseController{
         if(!StringUtil.isBlank(userId)){
             params.put("userId",userId);
         }
+        String userName = request.getParameter("userName");
+        if(!StringUtil.isBlank(userName)){
+            params.put("userName",userName);
+        }
+        String userNameLike = request.getParameter("userNameLike");
+        if(!StringUtil.isBlank(userNameLike)){
+            params.put("userNameLike",userNameLike);
+        }
         String checkType = request.getParameter("checkType");
         if(!StringUtil.isBlank(checkType)){
             params.put("checkType",checkType);
@@ -665,6 +723,7 @@ public class CheckinLateController extends BaseController{
         LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
         colTitle.put("id", "编号");
         colTitle.put("userId", "用户Id");
+        colTitle.put("userName", "用户名");
         colTitle.put("checkType", "考勤类型");
         colTitle.put("checkTime", "检查时间");
         colTitle.put("kqUserId", "考勤机用户id");
@@ -674,6 +733,7 @@ public class CheckinLateController extends BaseController{
             HashMap<String,Object> map = new HashMap<String,Object>();
             map.put("id",  list.get(i).getId());
             map.put("userId",  list.get(i).getUserId());
+            map.put("userName",  list.get(i).getUserName());
             map.put("checkType",  list.get(i).getCheckType());
             map.put("checkTime",  list.get(i).getCheckTime());
             map.put("kqUserId",  list.get(i).getKqUserId());
@@ -811,7 +871,7 @@ public class CheckinLateController extends BaseController{
      * @param request 发请求
      * @return String
      * @author dozen.zhang
-     * @date 2018-11-21 15:30:03
+     * @date 2018-11-21 16:42:27
      */
     @RequestMapping(value = "/edit.htm",method = RequestMethod.GET)
     public String editHtml( HttpServletRequest request) {
@@ -823,7 +883,7 @@ public class CheckinLateController extends BaseController{
          * @param request 发请求
          * @return String
          * @author dozen.zhang
-         * @date 2018-11-21 15:30:03
+         * @date 2018-11-21 16:42:27
          */
     @RequestMapping(value = "/view.htm",method = RequestMethod.GET)
     public String viewHtml( HttpServletRequest request) {
@@ -842,6 +902,10 @@ public class CheckinLateController extends BaseController{
         String userId = MapUtils.getString(bodyParam,"userId");
         if(!StringUtil.isBlank(userId)){
                 checkinLate.setUserId(Long.valueOf(userId));
+        }
+        String userName = MapUtils.getString(bodyParam,"userName");
+        if(!StringUtil.isBlank(userName)){
+                checkinLate.setUserName(String.valueOf(userName));
         }
         String checkType = MapUtils.getString(bodyParam,"checkType");
         if(!StringUtil.isBlank(checkType)){
@@ -865,6 +929,7 @@ public class CheckinLateController extends BaseController{
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(15,0)});
         vu.add("userId", userId, "用户Id",  new Rule[]{new Digits(13,0),new NotEmpty()});
+        vu.add("userName", userName, "用户名",  new Rule[]{new Length(20),new NotEmpty()});
         vu.add("checkType", checkType, "考勤类型",  new Rule[]{new Digits(3,0),new NotEmpty()});
         vu.add("checkTime", checkTime, "检查时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         vu.add("kqUserId", kqUserId, "考勤机用户id",  new Rule[]{new Digits(13,0),new NotEmpty()});
@@ -884,7 +949,7 @@ public class CheckinLateController extends BaseController{
                      * @throws Exception
                      * @return ResultDTO
                      * @author dozen.zhang
-                     * @date 2018-11-21 15:30:03
+                     * @date 2018-11-21 16:42:27
                      */
                     // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
                     @API( summary="添加单个考勤迟到表信息",
@@ -892,6 +957,7 @@ public class CheckinLateController extends BaseController{
                         parameters={
                            @Param(name="id" , description="编号",in=InType.body,dataType = DataType.LONG,required = false),
                            @Param(name="userId" , description="用户Id",in=InType.body,dataType = DataType.LONG,required = true),
+                           @Param(name="userName" , description="用户名",in=InType.body,dataType = DataType.STRING,required = true),
                            @Param(name="checkType" , description="考勤类型",in=InType.body,dataType = DataType.INTEGER,required = true),
                            @Param(name="checkTime" , description="检查时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
                            @Param(name="kqUserId" , description="考勤机用户id",in=InType.body,dataType = DataType.LONG,required = true),
@@ -913,7 +979,7 @@ public class CheckinLateController extends BaseController{
     * @throws Exception
     * @return ResultDTO
     * @author dozen.zhang
-    * @date 2018-11-21 15:30:03
+    * @date 2018-11-21 16:42:27
     */
     // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
     @API( summary="更新单个考勤迟到表信息",
@@ -921,6 +987,7 @@ public class CheckinLateController extends BaseController{
     parameters={
         @Param(name="id" , description="编号",in=InType.body,dataType = DataType.LONG,required = false),
         @Param(name="userId" , description="用户Id",in=InType.body,dataType = DataType.LONG,required = true),
+        @Param(name="userName" , description="用户名",in=InType.body,dataType = DataType.STRING,required = true),
         @Param(name="checkType" , description="考勤类型",in=InType.body,dataType = DataType.INTEGER,required = true),
         @Param(name="checkTime" , description="检查时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
         @Param(name="kqUserId" , description="考勤机用户id",in=InType.body,dataType = DataType.LONG,required = true),
@@ -935,7 +1002,7 @@ public class CheckinLateController extends BaseController{
 /**
      * 说明:ajax请求CheckinLate信息
      * @author dozen.zhang
-     * @date 2018-11-21 15:30:03
+     * @date 2018-11-21 16:42:27
      * @return String
      */
        @API(summary="考勤迟到表列表接口",
@@ -945,6 +1012,7 @@ public class CheckinLateController extends BaseController{
                  @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
                     @Param(name="id" , description="编号",in=InType.params,dataType = DataType.LONG,required =false),// false
                     @Param(name="userId" , description="用户Id",in=InType.params,dataType = DataType.LONG,required =false),// true
+                    @Param(name="userName" , description="用户名",in=InType.params,dataType = DataType.STRING,required =false),// true
                     @Param(name="checkType" , description="考勤类型",in=InType.params,dataType = DataType.INTEGER,required =false),// true
                     @Param(name="checkTime" , description="检查时间",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
                     @Param(name="kqUserId" , description="考勤机用户id",in=InType.params,dataType = DataType.LONG,required =false),// true
@@ -966,6 +1034,14 @@ public class CheckinLateController extends BaseController{
         String userId = MapUtils.getString(params,"userId");
         if(!StringUtil.isBlank(userId)){
             params.put("userId",userId);
+        }
+        String userName = MapUtils.getString(params,"userName");
+        if(!StringUtil.isBlank(userName)){
+            params.put("userName",userName);
+        }
+        String userNameLike = MapUtils.getString(params,"userNameLike");
+        if(!StringUtil.isBlank(userNameLike)){
+            params.put("userNameLike",userNameLike);
         }
         String checkType = MapUtils.getString(params,"checkType");
         if(!StringUtil.isBlank(checkType)){
@@ -1020,6 +1096,7 @@ public class CheckinLateController extends BaseController{
           @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
              @Param(name="id" , description="编号",in=InType.params,dataType = DataType.LONG,required =false),// false
              @Param(name="userId" , description="用户Id",in=InType.params,dataType = DataType.LONG,required =false),// true
+             @Param(name="userName" , description="用户名",in=InType.params,dataType = DataType.STRING,required =false),// true
              @Param(name="checkType" , description="考勤类型",in=InType.params,dataType = DataType.INTEGER,required =false),// true
              @Param(name="checkTime" , description="检查时间",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
              @Param(name="kqUserId" , description="考勤机用户id",in=InType.params,dataType = DataType.LONG,required =false),// true
@@ -1041,6 +1118,14 @@ public class CheckinLateController extends BaseController{
         String userId = MapUtils.getString(params,"userId");
         if(!StringUtil.isBlank(userId)){
             params.put("userId",userId);
+        }
+        String userName = MapUtils.getString(params,"userName");
+        if(!StringUtil.isBlank(userName)){
+            params.put("userName",userName);
+        }
+        String userNameLike = MapUtils.getString(params,"userNameLike");
+        if(!StringUtil.isBlank(userNameLike)){
+            params.put("userNameLike",userNameLike);
         }
         String checkType = MapUtils.getString(params,"checkType");
         if(!StringUtil.isBlank(checkType)){
@@ -1098,6 +1183,7 @@ public class CheckinLateController extends BaseController{
             LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
             colTitle.put("id", "编号");
             colTitle.put("userId", "用户Id");
+            colTitle.put("userName", "用户名");
             colTitle.put("checkType", "考勤类型");
             colTitle.put("checkTime", "检查时间");
             colTitle.put("kqUserId", "考勤机用户id");
@@ -1107,6 +1193,7 @@ public class CheckinLateController extends BaseController{
                 HashMap<String,Object> map = new HashMap<String,Object>();
                 map.put("id",  list.get(i).getId());
                 map.put("userId",  list.get(i).getUserId());
+                map.put("userName",  list.get(i).getUserName());
                 map.put("checkType",  list.get(i).getCheckType());
                 map.put("checkTime",  list.get(i).getCheckTime());
                 map.put("kqUserId",  list.get(i).getKqUserId());

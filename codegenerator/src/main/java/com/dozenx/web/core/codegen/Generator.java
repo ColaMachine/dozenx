@@ -1133,7 +1133,8 @@ return ymd;
     public static void main(String[] args) {
         Generator generator =new Generator();
        // generator.generate(new String[]{"SysUser"});
-        generator.generate(new String[]{"CheckinLate"});
+      //  generator.generate(new String[]{"CheckinLate"});
+        generator.generate(new String[]{"FaceCheckinOut"});
        // generator.generate(new String[]{"CheckinOut"});
 //        generator.generate(new String[]{"SSCFilterForm"});
       //  generator.generate(new String[]{"SendRule"});

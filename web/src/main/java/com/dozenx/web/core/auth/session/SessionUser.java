@@ -18,6 +18,33 @@ public class SessionUser implements Serializable {
     private String role;
 
     private String phone;
+    private int sex;
+    private String address;
+    private String birth;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
 
     public String getNick() {
         return nick;

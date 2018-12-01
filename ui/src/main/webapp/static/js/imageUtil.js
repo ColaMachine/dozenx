@@ -525,6 +525,7 @@ function zImageUtil5(config) {
                     if (_this.preShow) {
                         console.log("img pre show");
                         //$(_this.imgDom).attr("src", data);
+                        _this.imgDom.src=data;
                         //console.log(_this.imgDom);
                     }
                     console.log("begin send img");
@@ -597,24 +598,29 @@ function zImageUtil5(config) {
 			this.postUrl = jso.postUrl||(PATH+"/image/upload.json");
 			var that =this;
 			this.callback = jso.callback||function(result){
-                $(that.input).val(result.data);
+                that.input.value=result.data;
+                this.imgDom.src=PATH+"/"+result.data;
 			};
 			this.fileInput=parseDom("<input type=\"file\" style=\"display:none\"/>");
 			this.input =$$("#"+jso.input);
             this.imgDom.src=this.input.value;
-			//this.input.parentNode.appendChild(this.imgDom);
-			//this.input.parentNode.appendChild(this.fileInput);
+			this.input.parentNode.appendChild(this.imgDom);
+			this.input.parentNode.appendChild(this.fileInput);
             this.fileInput.addEventListener("change",function(){
 
               //  console.log("imgDom:"+nowImg);
                 //var imageUtil= new zImageUtil({imgDom:nowImg,postUrl:"/calendar/image/upload.json",maxWidth:633,maxHeight:300});
+
                 that.fileChange(this);
             });
-
+            this.imgDom.addEventListener("click",function(){
+                             var evt = new MouseEvent("click", { bubbles: false, cancelable: true, view: window });
+                           that.fileInput.dispatchEvent(evt);
+                        });
 
             //this.imgDom.addEventListener("click",function(){
-               var evt = new MouseEvent("click", { bubbles: false, cancelable: true, view: window });
-               this.fileInput.dispatchEvent(evt);
+             //  var evt = new MouseEvent("click", { bubbles: false, cancelable: true, view: window });
+            //   this.fileInput.dispatchEvent(evt);
            // });
 
 

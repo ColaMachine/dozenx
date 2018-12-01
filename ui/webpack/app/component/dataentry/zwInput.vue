@@ -9,12 +9,16 @@
   <span v-if="this.$slots.prepend" :style="getComputedHeight" class="zw-input-group-prepend .zw-input-group-addon"><slot name="prepend" ></slot></span>
 
   <span v-if="this.$slots.prefix" :style="getComputedHeight" class="zw-input-prefix "><slot  name="prefix"></slot></span>
+ <!-- <template v-if="type=='date'">
+      <input :placeholder="placeholder" :id="id" :name="name" ref="text" :style="getComputedHeight" v-model="textvalue" type="date" class="zw-input" />
+    </template>
   <template v-if="type=='password'">
     <input :placeholder="placeholder" :id="id" :name="name" ref="text" :style="getComputedHeight" v-model="textvalue" type="password" class="zw-input" />
   </template>
-  <template v-if="type!='password'">
+  <template v-if="type=='text'|| type==''|| !type">
     <input :id="id" :name="name" @change="onchange" :style="getComputedHeight" :placeholder="placeholder" ref="text" v-model="textvalue" type="text" class="zw-input" />
-  </template>
+  </template>-->
+  <input :id="id" :value="value" @input="handleInput"  :name="name" @change="onchange" :style="getComputedHeight" :placeholder="placeholder" ref="text" :type="type" class="zw-input" />
   <span v-if="this.closeSee" :style="getComputedHeight" class="zw-input-suffix " v-on:click="clearContent"><zwIcon  name="suffix" type="close"></zwIcon></span>
   <span v-if="this.$slots.suffix" :style="getComputedHeight" class="zw-input-suffix "><slot  name="suffix"></slot></span>
   <span v-if="this.$slots.append" :style="getComputedHeight" class="zw-input-group-append zw-input-group-addon"><slot  name="append"></slot></span>
@@ -30,7 +34,7 @@
     components: {
       zwIcon
     },
-    props: ["icon", "placeholder", "type", "clear", "id", "name", "defaultValue", "lineHeight", "id", "name"],
+    props: {value:{type:String},icon:{type:String},type:{type:String,default:"text"}, placeholder:{type:String,default:""},  clear:{type:Boolean,default:false}, id:{type:String}, name:{type:String}, defaultValue:{type:String}, lineHeight:{type:String}},
     data() {
       return {
         ok: false,
@@ -104,6 +108,10 @@
 
     },
     methods: {
+     handleInput(event) {
+          var value = event.target.value;
+          this.$emit('input', value); //触发 input 事件，并传入新值
+        },
       onchange: function() {
         console.log("onchange");
         this.$emit('onchange', this.textvalue);

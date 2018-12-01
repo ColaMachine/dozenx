@@ -5,12 +5,10 @@ import com.dozenx.util.MapUtils;
 import com.dozenx.util.StringUtil;
 import com.dozenx.util.db.MysqlUtil;
 import com.dozenx.web.util.ConfigUtil;
-import org.aspectj.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -196,8 +194,6 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
                     //   zk = connectServer(ip,path);
                     //从zk从获取所有配置参数
                 }
-
-
 
 
                 // }

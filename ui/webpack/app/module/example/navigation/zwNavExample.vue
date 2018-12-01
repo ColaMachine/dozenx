@@ -15,9 +15,17 @@
             <zwBox class="">
 
               <div slot="zwCodeBoxDemo">
-                <zwAppTopBar mode="horizontal" color="white">
+                <zwAppTopBar >
+                    <a slot="left" :href="getPathValue('/static/html/vue/vuePhoneIndex.html#/phoneMain')">
+                  <img  class=""  :src="getPathValue('/static/img/header/back.png')">
+                  </a>
+                <span slot="middle"> 商品详情</span>
 
+                           <a slot="right" href="">
+                <img  class="" :src="getPathValue('/static/img/header/information.png')">
+                </a>
                 </zwAppTopBar>
+
               </div>
               <div slot="zwCodeBoxMeta" title="顶部导航">
 
@@ -124,6 +132,9 @@
       }
     },
     methods: {
+    getPathValue:function(value){
+                    return getPathValue(value);
+                },
       changeLoading: function() {
         console.log("123");
         this.loading = !this.loading;

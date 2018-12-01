@@ -6,6 +6,7 @@
  * 文件说明: 
  */
 package com.dozenx.web.core.auth.sysUser.bean;
+import com.dozenx.util.DateUtil;
 import com.dozenx.web.core.auth.session.SessionUser;
 
 import javax.mail.Session;
@@ -220,6 +221,9 @@ public class SysUser implements Serializable {
         SessionUser sessionUser =new SessionUser();
         sessionUser.setUserId(this.getId());
         sessionUser.setPhone(getTelno());
+        sessionUser.setAddress(getAddress());
+        sessionUser.setBirth(getBirth()==null?"": DateUtil.toDateStr(getBirth(),DateUtil.YYYY_MM_DD));
+        sessionUser.setSex(getSex()==null ? 0:getSex());
         sessionUser.setFace(this.getFace());
         sessionUser.setUserName(this.getUsername());
         return sessionUser;

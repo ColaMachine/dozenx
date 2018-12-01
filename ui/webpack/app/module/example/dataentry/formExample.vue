@@ -246,7 +246,65 @@
           </zwCol>
 
         </zwRow>
+  <zwRow>
+          <zwCol span=24>
 
+            <zwBox class="">
+              <div slot="zwCodeBoxDemo">
+                <zwForm>
+                  <zwFormItem   >
+
+
+                    <div class="app-li-it">
+
+                         <div class="app-li-it-pic">
+                                <img  src="/home/static/img/smarthome/个人中心1.png" ></img>
+                            </div>
+                            <div class="app-li-it-content clearfix" >
+                                 <span style="color:#333">张智威</span>
+                                 <p style="color:gray;font-size:8px"> 账号:371452875@qq.com</p>
+
+
+
+                            </div>
+                    </div>
+                  </zwFormItem>
+                  <zwFormItem >
+                    <zwInput placeholder="password">
+
+                    </zwInput>
+                  </zwFormItem>
+                  <zwFormItem label="头像">
+                  <div style="width:100px;float:right;margin-right:50px" >
+<input  id="face" name="face"  value="/home/static/img/timg.jpeg" style="display:none" class="form-control input-sm"   maxlength="100"></input></div>
+                  </zwFormItem>
+                  <zwFormItem label="昵称">
+                    <zwInput> </zwInput>
+                  </zwFormItem>
+                  <zwFormItem label="联系电话">
+                    <zwInput> </zwInput>
+                  </zwFormItem>
+                  <zwFormItem label="地址">
+                    <zwInput>
+                    </zwInput>
+                  </zwFormItem>
+
+                </zwForm>
+              </div>
+              <div slot="zwCodeBoxMeta" title="基本使用">
+                基本使用
+              </div>
+              <div slot="zwCodeBoxPanel">
+
+                <textarea ref="textarea" id="textarea" name="textarea">
+                                               <zwInput placeholder="Basic usage"></zwInput>
+                                                 </textarea>
+
+              </div>
+            </zwBox>
+          </zwCol>
+
+        </zwRow>
       </section>
     </article>
   </div>
@@ -329,7 +387,7 @@
         extend(this.valid,BaseValidator);
           this.validator= validator(this.$refs.registerForm.$el,this.valid);
      //       this.doms.form.validate(this.valid);
-
+ var imageUtil=new zImageUtil2({"input":"face"});
     },
     computed: {
 getPicCaptchaBtnText(){

@@ -573,17 +573,27 @@ a {
 li {
     list-style: none;
 }
-
-.app-li-it {
+ .img-upload{
+    max-width:50px;
+    
+ }
+ .app-ul{
+ background-color: #eee;
+ }
+.app-card {
+    margin: 0 0 10px;
+    padding: 15px 10px;
+    background-color: #fff;
     display: flex !important;
     padding: 10px;
     min-height: 50px;
-    /* justify-content:flex-start;
+    justify-content:flex-start;
         align-content:stretch;
-        align-items:stretch;*/
+        align-items:stretch;
     .app-li-it-pic {
         display: block;
         /* width:30%;*/
+       /* float:left; w图片居左;*/
         max-width: 33.3%;
         /*
               手机上不超过30% 的屏幕
@@ -703,7 +713,7 @@ li {
     margin-left:30px;
 }
 
-.zw-app-box{
+.zw-app-box1{
     border: 1px solid #e9e9e9;
     border-radius: 4px;
     display: inline-block;

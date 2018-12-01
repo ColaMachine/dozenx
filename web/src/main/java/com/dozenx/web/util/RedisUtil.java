@@ -5,7 +5,6 @@ import com.dozenx.core.config.Config;
 import com.dozenx.util.DateUtil;
 import com.dozenx.util.MapUtils;
 import com.dozenx.util.StringUtil;
-import com.sun.javafx.binding.StringFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
@@ -15,36 +14,55 @@ import java.util.*;
 
 public final class RedisUtil {
     private static Logger logger = LoggerFactory.getLogger(RedisUtil.class);
-    /** Redis服务器IP */
+    /**
+     * Redis服务器IP
+     */
     private static String ADDR = null;// Config.getInstance().getCache().getRedis().getAddr();
 
-    /** Redis的端口号 */
-    private static int PORT =  6639;//Config.getInstance().getCache().getRedis().getPort();
+    /**
+     * Redis的端口号
+     */
+    private static int PORT = 6639;//Config.getInstance().getCache().getRedis().getPort();
 
 
-    /** Redis index */
-    private static int INDEX =  1;
+    /**
+     * Redis index
+     */
+    private static int INDEX = 1;
 
 
-    /** 访问密码 */
-    private static String AUTH =null;
+    /**
+     * 访问密码
+     */
+    private static String AUTH = null;
 
-    /** 可用连接实例的最大数目，默认值为8；
-     *如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
+    /**
+     * 可用连接实例的最大数目，默认值为8；
+     * 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
      */
     private static int MAX_ACTIVE = 8;
 
-    /** 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。 */
+    /**
+     * 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。
+     */
     private static int MAX_IDLE = 8;
 
-    /** 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException； */
+    /**
+     * 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
+     */
     private static int MAX_WAIT = -1;
-    /** 连接超时 */
+    /**
+     * 连接超时
+     */
     private static int TIMEOUT = 30;
 
-    /** 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的； */
+    /**
+     * 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
+     */
     private static boolean TEST_ON_BORROW = true;
-    /** 声明 */
+    /**
+     * 声明
+     */
     public static JedisPool jedisPool = null;
 
     /**
@@ -58,46 +76,46 @@ public final class RedisUtil {
             ADDR = ConfigUtil.getConfig("cache.redis.ip");// Config.getInstance().getCache().getRedis().getAddr();
 
             /** Redis的端口号 */
-             PORT =  Integer.valueOf(ConfigUtil.getConfig("cache.redis.port"));//Config.getInstance().getCache().getRedis().getPort();
+            PORT = Integer.valueOf(ConfigUtil.getConfig("cache.redis.port"));//Config.getInstance().getCache().getRedis().getPort();
 
 
             /** Redis index */
-             int INDEX =  Integer.valueOf(ConfigUtil.getConfig("cache.redis.database.index"));
+            int INDEX = Integer.valueOf(ConfigUtil.getConfig("cache.redis.database.index"));
 
-            logger.debug("redis connect ip:"+ADDR+" port:"+PORT+" index:"+INDEX);
+            logger.debug("redis connect ip:" + ADDR + " port:" + PORT + " index:" + INDEX);
 
 
             /** 访问密码 */
-              AUTH =Config.getInstance().getCache().getRedis().getAuth();
+            AUTH = Config.getInstance().getCache().getRedis().getAuth();
 
             /** 可用连接实例的最大数目，默认值为8；
              *如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
              */
-             MAX_ACTIVE = Config.getInstance().getCache().getRedis().getMaxActive();
+            MAX_ACTIVE = Config.getInstance().getCache().getRedis().getMaxActive();
 
             /** 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。 */
-             MAX_IDLE = Config.getInstance().getCache().getRedis().getMaxIdle();
+            MAX_IDLE = Config.getInstance().getCache().getRedis().getMaxIdle();
 
             /** 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException； */
-             MAX_WAIT = Config.getInstance().getCache().getRedis().getMaxWait();
+            MAX_WAIT = Config.getInstance().getCache().getRedis().getMaxWait();
             /** 连接超时 */
-             TIMEOUT = Config.getInstance().getCache().getRedis().getTimeout();
-            TEST_ON_BORROW= Config.getInstance().getCache().getRedis().isTestOnBorrow();
+            TIMEOUT = Config.getInstance().getCache().getRedis().getTimeout();
+            TEST_ON_BORROW = Config.getInstance().getCache().getRedis().isTestOnBorrow();
             JedisPoolConfig config = new JedisPoolConfig();
-           // config.setMaxActive(MAX_ACTIVE);
+            // config.setMaxActive(MAX_ACTIVE);
             config.setMaxTotal(MAX_ACTIVE);
             config.setMaxIdle(MAX_IDLE);
 
             config.setMaxWaitMillis(1000);
-           // config.setSoftMinEvictableIdleTimeMillis();
+            // config.setSoftMinEvictableIdleTimeMillis();
             config.setMinEvictableIdleTimeMillis(3000);
             config.setSoftMinEvictableIdleTimeMillis(3000);
-          //  config.setMaxWait(MAX_WAIT);
+            //  config.setMaxWait(MAX_WAIT);
             config.setTestOnBorrow(TEST_ON_BORROW);
-           // logger.debug(String.format("初始化redis ADDR:%s"));
-         //   jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
+            // logger.debug(String.format("初始化redis ADDR:%s"));
+            //   jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
             jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH, INDEX);
-            if(getJedis()==null){
+            if (getJedis() == null) {
                 logger.error("redis can't get jedis  redis启动失败");
                 System.exit(0);
             }
@@ -108,6 +126,7 @@ public final class RedisUtil {
 
     /**
      * 获取Jedis实例
+     *
      * @return Jedis
      */
     public static synchronized Jedis getJedis() {
@@ -130,7 +149,7 @@ public final class RedisUtil {
     public static void returnResource(final Jedis jedis) {
         if (jedis != null) {
             jedis.close();
-          //  jedis.close();
+            //  jedis.close();
         }
     }
 
@@ -189,20 +208,21 @@ public final class RedisUtil {
      * @param key
      * @return
      */
-    public static void setex(String key,String value,int seconds){
+    public static void setex(String key, String value, int seconds) {
         JedisPool pool = null;
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            jedis.setex(key,seconds,value);
-            logger.debug("redis setex key:"+key+" seconds:"+seconds+" value:"+value);
+            jedis.setex(key, seconds, value);
+            logger.debug("redis setex key:" + key + " seconds:" + seconds + " value:" + value);
         } catch (Exception e) {
             //释放redis对象
-            jedis.close();;
+            jedis.close();
+            ;
             e.printStackTrace();
         } finally {
             //返还到连接池
-            returnResource( jedis);
+            returnResource(jedis);
         }
     }
 
@@ -212,24 +232,25 @@ public final class RedisUtil {
      * @param key
      * @return
      */
-    public static void del(String key){
-        if(StringUtil.isNotBlank(key)) {
+    public static void del(String key) {
+        if (StringUtil.isNotBlank(key)) {
             Jedis jedis = null;
-            boolean success =true;
+            boolean success = true;
             try {
                 jedis = jedisPool.getResource();
 
                 jedis.del(key);
-                logger.debug("redis del key:"+key);
+                logger.debug("redis del key:" + key);
             } catch (Exception e) {
                 //释放redis对象
-                if(jedis != null){
-                    jedis.close();;
+                if (jedis != null) {
+                    jedis.close();
+                    ;
                 }
                 e.printStackTrace();
                 throw e;
             } finally {
-                if(success && jedis != null){
+                if (success && jedis != null) {
                     jedis.close();
                 }
                 //返还到连接池
@@ -241,21 +262,23 @@ public final class RedisUtil {
 
     public static Set<String> hkeys(String key) {
         Set<String> retValue = null;
-        boolean success =true;
+        boolean success = true;
         if (StringUtil.isNotBlank(key)) {
-            Jedis jedis =null;
-            try {jedis= jedisPool.getResource();
-                Set<String> result = jedis.hkeys(key);
-                logger.debug("Redis.hkeys : result({}).", result);
+            Jedis jedis = null;
+            try {
+                jedis = jedisPool.getResource();
+                retValue= jedis.hkeys(key);
+                logger.debug("Redis.hkeys : result({}).", retValue);
             } catch (Exception e) {
-                success  = false;
-                if(jedis != null){
-                    jedis.close();;
+                success = false;
+                if (jedis != null) {
+                    jedis.close();
+                    ;
                 }
-                logger.error("redis",e);
+                logger.error("redis", e);
                 throw e;
-            }finally{
-                if(success && jedis != null){
+            } finally {
+                if (success && jedis != null) {
                     jedis.close();
                 }
             }
@@ -265,20 +288,22 @@ public final class RedisUtil {
 
     public static void expire(String key, int seconds) {
         if (StringUtil.isNotBlank(key)) {
-            Jedis jedis=null;
-            boolean success =true;
-            try { jedis= jedisPool.getResource();
+            Jedis jedis = null;
+            boolean success = true;
+            try {
+                jedis = jedisPool.getResource();
                 Long result = jedis.expire(key, seconds);
-                logger.debug("Redis.expire result for key: key({}), result({}).",key, result);
+                logger.debug("Redis.expire result for key: key({}), result({}).", key, result);
             } catch (Exception e) {
-                success  = false;
-                if(jedis != null){
-                    jedis.close();;
+                success = false;
+                if (jedis != null) {
+                    jedis.close();
+                    ;
                 }
-                logger.error("redis",e);
+                logger.error("redis", e);
                 throw e;
-            }finally{
-                if(success && jedis != null){
+            } finally {
+                if (success && jedis != null) {
                     jedis.close();
                 }
             }
@@ -286,7 +311,7 @@ public final class RedisUtil {
     }
 
 	/*public static InputStream readProperties() throws FileNotFoundException {
-		// Properties props = new Properties();
+        // Properties props = new Properties();
 		InputStream in = ClassLoader.getSystemResourceAsStream(configFilePath);
 		if (in == null) {
 			try {
@@ -306,83 +331,89 @@ public final class RedisUtil {
 
     /**
      * hset + 还连接
+     *
      * @param key
      * @param field
      * @param value
      * @author dozen.zhang
      */
-    public static void hset(String key ,String field,String value){
+    public static void hset(String key, String field, String value) {
         Jedis jedis = null;
-        boolean success =true;
+        boolean success = true;
         try {
             jedis = jedisPool.getResource();
-            jedis.hset(key,field,value);
-            logger.debug("hset "+key+" field"+field+" value"+value);
+            jedis.hset(key, field, value);
+            logger.debug("hset " + key + " field" + field + " value" + value);
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
+            success = false;
+            if (jedis != null) {
                 jedis.close();
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
             }
         }
     }
+
     /**
      * 强制归还资源的hget
+     *
      * @param key
      * @param field
      * @author dozen.zhang
      */
-    public static String hget(String key ,String field){
+    public static String hget(String key, String field) {
         Jedis jedis = null;
-        String value=null;
-        boolean success =true;
+        String value = null;
+        boolean success = true;
         try {
             jedis = jedisPool.getResource();
-            value=jedis.hget(key,field);
+            value = jedis.hget(key, field);
 
-            logger.debug("redis hget "+key+" field"+field+" value"+value);
+            logger.debug("redis hget " + key + " field" + field + " value" + value);
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
-                jedis.close();;
+            success = false;
+            if (jedis != null) {
+                jedis.close();
+                ;
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
             }
         }
         return value;
     }
+
     /**
      * 获取数据 归还资源
      *
      * @param key
      * @return
      */
-    public static String get(String key){
+    public static String get(String key) {
         String value = null;
         Jedis jedis = null;
-        boolean success =true;
+        boolean success = true;
         try {
             jedis = jedisPool.getResource();
             value = jedis.get(key);
-            logger.debug("redis get "+key+" value"+value);
+            logger.debug("redis get " + key + " value" + value);
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
-                jedis.close();;
+            success = false;
+            if (jedis != null) {
+                jedis.close();
+                ;
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
             }
         }
@@ -392,8 +423,8 @@ public final class RedisUtil {
 
     public static synchronized Jedis getResource() throws Exception {
         //logger.info("jedis pool:" + (pool == null));
-        Jedis temp =  null;
-        for (int i = 0; i < 3; i ++) {
+        Jedis temp = null;
+        for (int i = 0; i < 3; i++) {
             temp = jedisPool.getResource();
 
             if (temp != null) {
@@ -413,52 +444,54 @@ public final class RedisUtil {
 
         return temp;
     }
+
     public static void hdel(String key, String field) throws Exception {
         if (StringUtil.isNotBlank(key) && StringUtil.isNotBlank(field)) {
-            Jedis jedis=null;
-            boolean success =true;
+            Jedis jedis = null;
+            boolean success = true;
             try {
-                jedis= getResource();
+                jedis = getResource();
                 long result = jedis.hdel(key, field);
-                logger.debug("Redis.hdel {0} set: result({1}).",key, result);
+                logger.debug("Redis.hdel {0} set: result({1}).", key, result);
             } catch (Exception e) {
-                success  = false;
-                if(jedis != null){
+                success = false;
+                if (jedis != null) {
                     jedis.close();
 //	                pool.returnBrokenResource(jedis);
                 }
-                logger.error("redis",e);
+                logger.error("redis", e);
                 throw e;
-            }finally{
-                if(success && jedis != null){
+            } finally {
+                if (success && jedis != null) {
                     jedis.close();
 //	                pool.returnResource(jedis);
                 }
             }
         }
     }
+
     /**
      * 获取数据 归还连接
      *
      * @param key
      * @return
      */
-    private static void set(String key,String value){
+    private static void set(String key, String value) {
         Jedis jedis = null;
         boolean success = true;
         try {
             jedis = jedisPool.getResource();
-            jedis.set(key,value);
-            logger.debug("redis set {0} value {1}",key,value);
+            jedis.set(key, value);
+            logger.debug("redis set {0} value {1}", key, value);
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
+            success = false;
+            if (jedis != null) {
                 jedis.close();
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
             }
         }
@@ -471,22 +504,22 @@ public final class RedisUtil {
      * @param key
      * @return
      */
-    public static void setByteAry(String key,byte[] value){
+    public static void setByteAry(String key, byte[] value) {
         Jedis jedis = null;
         boolean success = true;
         try {
             jedis = jedisPool.getResource();
-            jedis.set(key.getBytes(),value);
+            jedis.set(key.getBytes(), value);
 
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
+            success = false;
+            if (jedis != null) {
                 jedis.close();
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
             }
         }
@@ -500,29 +533,27 @@ public final class RedisUtil {
      * @param key
      * @return
      */
-    public static byte[] getByteAry(String key,byte[] value){
+    public static byte[] getByteAry(String key, byte[] value) {
         Jedis jedis = null;
         boolean success = true;
         try {
             jedis = jedisPool.getResource();
-          return   jedis.get(key.getBytes());
+            return jedis.get(key.getBytes());
 
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
+            success = false;
+            if (jedis != null) {
                 jedis.close();
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
             }
         }
 
     }
-
-
 
 
     /*
@@ -532,9 +563,9 @@ public final class RedisUtil {
         jedisPool.returnBrokenResource(resource);
     }
 
-    public static void  main (String args[]){
-        int i=0;
-        while(true){
+    public static void main(String args[]) {
+        int i = 0;
+        while (true) {
             try {
                 System.out.println("begin");
                 Jedis jedis = RedisUtil.getJedis();
@@ -543,10 +574,10 @@ public final class RedisUtil {
                 } else {
                     System.out.println("jedis is null");
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println(DateUtil.formatToString(new java.util.Date(),"yyyy-MM-dd hh:mm:ss"));
+            System.out.println(DateUtil.formatToString(new java.util.Date(), "yyyy-MM-dd hh:mm:ss"));
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -557,28 +588,27 @@ public final class RedisUtil {
 
     /**
      * 自增
-     *
      */
 
 
-    public static Long incr(String key) throws Exception{
+    public static Long incr(String key) throws Exception {
         Long value = null;
         Jedis jedis = null;
-        boolean success =true;
+        boolean success = true;
         try {
             jedis = getResource();
             value = jedis.incr(key);
-            logger.debug("redis incr "+key);
+            logger.debug("redis incr " + key);
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
+            success = false;
+            if (jedis != null) {
                 jedis.close();
 //                pool.returnBrokenResource(jedis);
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
 //                pool.returnResource(jedis);
             }
@@ -586,25 +616,26 @@ public final class RedisUtil {
 
         return value;
     }
-    public static Long incr(String key,int timeout) throws Exception{
+
+    public static Long incr(String key, int timeout) throws Exception {
         Long value = null;
         Jedis jedis = null;
-        boolean success =true;
+        boolean success = true;
         try {
             jedis = getResource();
             value = jedis.incr(key);
-            jedis.expire(key,timeout);
-            logger.debug("redis incr "+key);
+            jedis.expire(key, timeout);
+            logger.debug("redis incr " + key);
         } catch (Exception e) {
-            success  = false;
-            if(jedis != null){
+            success = false;
+            if (jedis != null) {
                 jedis.close();
 //                pool.returnBrokenResource(jedis);
             }
-            logger.error("redis",e);
+            logger.error("redis", e);
             throw e;
-        }finally{
-            if(success && jedis != null){
+        } finally {
+            if (success && jedis != null) {
                 jedis.close();
 //                pool.returnResource(jedis);
             }
@@ -616,7 +647,8 @@ public final class RedisUtil {
 
     /**
      * Hash键值 字段 get操作
-     * @param key 键
+     *
+     * @param key    键
      * @param fields 字段(可多个)
      * @return 结果
      * @author 尤小平
@@ -644,8 +676,11 @@ public final class RedisUtil {
         }
     }
 
+
+
     /**
      * 批量Hash键值设置操作
+     *
      * @param dataMap map
      * @param seconds 有效时间
      * @return 结果
@@ -662,8 +697,8 @@ public final class RedisUtil {
             for (Map.Entry<String, Map<String, String>> entry : dataMap.entrySet()) {
                 String key = entry.getKey();
                 Map<String, String> value = entry.getValue();
-                if(StringUtil.isBlank(key) || value.size()==0 ){
-                    logger.error("key or value 不能为空");
+                if (StringUtil.isBlank(key) || value.size() == 0) {
+                    logger.error("key or value 不能为空 "+key+" "+value);
                 }
 
                 //遍历删除值为null的元素
@@ -692,12 +727,59 @@ public final class RedisUtil {
     }
 
     /**
+     * 批量Hash键值设置操作
+     *
+     * @param dataMap map
+     * @param seconds 有效时间
+     * @return 结果
+     * @author 尤小平
+     * @date 2018年2月6日 下午2:50:35
+     */
+    public static String hmset(String key, Map<String, String> dataMap, Integer seconds) {
+        logger.error("hmset key :"+key+" "+seconds+"s" );
+        Jedis jedis = null;
+        boolean success = true;
+        try {
+            jedis = jedisPool.getResource();
+            Pipeline pipeline = jedis.pipelined();
+            boolean secondsNotNull = seconds != null;
+
+
+            if (StringUtil.isBlank(key) || dataMap == null || dataMap.size() == 0) {
+                logger.error("key or value 不能为空");
+            } else {
+                pipeline.hmset(key, dataMap);
+                if (secondsNotNull) {
+                    pipeline.expire(key, seconds);
+                }
+                pipeline.sync();
+            }
+            //遍历删除值为null的元素
+
+            closePipeline(pipeline);
+            return null;
+        } catch (Exception e) {
+            success = false;
+            if (jedis != null) {
+                jedis.close();
+            }
+            logger.error("redis", e);
+            throw e;
+        } finally {
+            if (success && jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    /**
      * 关闭 管道
+     *
      * @param pipeline 管道
      * @author 尤小平
      * @date 2018年2月6日 下午2:50:56
      */
-    private static void closePipeline(Pipeline pipeline){
+    private static void closePipeline(Pipeline pipeline) {
         try {
             if (pipeline == null) {
                 return;
@@ -709,6 +791,7 @@ public final class RedisUtil {
 
     /**
      * 判断keys是否存在
+     *
      * @param key key
      * @return true 存在、false 不存在
      * @author 尤小平
@@ -720,7 +803,7 @@ public final class RedisUtil {
         try {
             jedis = jedisPool.getResource();
             Boolean isExists = jedis.exists(key);
-            logger.debug("redis exists {0}  {1}",key,isExists);
+            logger.debug("redis exists {0}  {1}", key, isExists);
             return isExists;
         } catch (Exception e) {
             success = false;
@@ -739,9 +822,10 @@ public final class RedisUtil {
     /**
      * 加锁
      * author 王作品
-     * @param locaName  锁的key
-     * @param acquireTimeout  获取超时时间
-     * @param timeout   锁的超时时间
+     *
+     * @param locaName       锁的key
+     * @param acquireTimeout 获取超时时间
+     * @param timeout        锁的超时时间
      * @return 锁标识
      */
     public static String lockWithTimeout(String locaName,
@@ -756,7 +840,7 @@ public final class RedisUtil {
             // 锁名，即key值
             String lockKey = "lock:" + locaName;
             // 超时时间，上锁后超过此时间则自动释放锁
-            int lockExpire = (int)(timeout / 1000);
+            int lockExpire = (int) (timeout / 1000);
             // 获取锁的超时时间，超过这个时间则放弃获取锁
             long end = System.currentTimeMillis() + acquireTimeout;
             while (System.currentTimeMillis() < end) {//当获取超时了 就返回null
@@ -773,12 +857,12 @@ public final class RedisUtil {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
-                    logger.error("线程报错 +e "+e.getMessage());
+                    logger.error("线程报错 +e " + e.getMessage());
                     Thread.currentThread().interrupt();
                 }
             }
         } catch (JedisException e) {
-            logger.error("JedisException报错 +e "+e.getMessage());
+            logger.error("JedisException报错 +e " + e.getMessage());
             e.printStackTrace();
         } finally {
             if (conn != null) {
@@ -791,8 +875,9 @@ public final class RedisUtil {
     /**
      * 释放锁
      * author 王作品
-     * @param lockName 锁的key
-     * @param identifier    释放锁的标识
+     *
+     * @param lockName   锁的key
+     * @param identifier 释放锁的标识
      * @return
      */
     public static boolean releaseLock(String lockName, String identifier) {
@@ -818,7 +903,7 @@ public final class RedisUtil {
                 break;
             }
         } catch (JedisException e) {
-            logger.error("JedisException报错 +e "+e.getMessage());
+            logger.error("JedisException报错 +e " + e.getMessage());
             e.printStackTrace();
         } finally {
             if (conn != null) {
@@ -831,17 +916,18 @@ public final class RedisUtil {
     /**
      * 释放锁
      * author 王作品
-     * @param key 锁的key
-     * @param value    释放锁的标识
+     *
+     * @param key   锁的key
+     * @param value 释放锁的标识
      * @return
      */
-    public static void lpush(String key ,String value) {
+    public static void lpush(String key, String value) {
         Jedis conn = null;
         try {
             conn = RedisUtil.getJedis();
-            conn.lpush(key,value);
+            conn.lpush(key, value);
         } catch (JedisException e) {
-            logger.error("JedisException报错 +e "+e.getMessage());
+            logger.error("JedisException报错 +e " + e.getMessage());
             e.printStackTrace();
         } finally {
             if (conn != null) {
@@ -851,13 +937,13 @@ public final class RedisUtil {
 
     }
 
-    public static String rpop(String key ) {
+    public static String rpop(String key) {
         Jedis conn = null;
         try {
             conn = RedisUtil.getJedis();
             return conn.rpop(key);
         } catch (JedisException e) {
-            logger.error("JedisException报错 +e "+e.getMessage());
+            logger.error("JedisException报错 +e " + e.getMessage());
             e.printStackTrace();
         } finally {
             if (conn != null) {

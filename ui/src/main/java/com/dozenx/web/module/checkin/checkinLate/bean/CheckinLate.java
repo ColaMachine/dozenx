@@ -25,6 +25,13 @@ public class CheckinLate {
     }    public void setUserId(Long userId){
         this.userId=userId;
     }
+/**用户名**/
+    private String userName;
+    public String getUserName(){
+        return userName;
+    }    public void setUserName(String userName){
+        this.userName=userName;
+    }
 /**考勤类型**/
     private Integer checkType;
     public Integer getCheckType(){

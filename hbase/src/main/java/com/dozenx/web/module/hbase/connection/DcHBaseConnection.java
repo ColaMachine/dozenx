@@ -1,5 +1,6 @@
 package com.dozenx.web.module.hbase.connection;
 
+import com.dozenx.util.PropertiesUtil;
 import com.dozenx.web.util.ConfigUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -43,7 +44,8 @@ public class DcHBaseConnection {
     private static Connection CONN;
 
     private static Integer lock = 0;
-    public static final boolean kerbrosEnable = false;
+
+    public static final boolean kerbrosEnable = Boolean.valueOf(PropertiesUtil.get("kerbrosEnable","hbase.properties"));//这里改成false 了还需要更改alpha下面的core-site.xml 和 hbase-*.xml文件 删除掉
 
     static final String UTF8 = "UTF-8";
 
@@ -112,7 +114,7 @@ public class DcHBaseConnection {
                     logger.debug("user:" + user);
                     logger.debug("keyPath:" + keytabPath);
                     logger.debug("krbPath:" + krbPath);
-
+                    System.setProperty("sun.security.krb5.debug", "true");
                     System.setProperty("java.security.krb5.conf", krbPath);
                     conf.set("hbase.hconnection.threads.max", "100");//最大线程数设置为100
                     conf.set("hbase.hconnection.threads.core", "50");//核心线程数设置为50
@@ -197,7 +199,7 @@ public class DcHBaseConnection {
             logger.debug("create HBase table OK...table name:" + tableName + ",family name:s");
             return true;
         } catch (IOException e) {
-            logger.debug("create HBase table error... message:" + e.getMessage());
+            logger.error("create HBase table error... message:" , e);
         } finally {
             if (null != admin) {
                 try {

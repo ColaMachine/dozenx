@@ -1,26 +1,21 @@
 package com.dozenx.web.module.hbase.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.alibaba.fastjson.JSON;
+import com.dozenx.util.StringUtil;
 import com.dozenx.web.module.hbase.connection.DcHBaseConnection;
-import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.CellUtil;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
-
-import org.apache.hadoop.hbase.TableName;
+import com.google.common.collect.Lists;
+import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
+import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
-import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -36,7 +31,7 @@ public class DcHBaseService {
     /** 日志 */
     private static final Logger LOG = LoggerFactory.getLogger(DcHBaseService.class);
     /** connection */
-    //  private static  Connection CONN =null;
+  //  private static  Connection CONN =null;
 
     public static Connection getCONN() {
 
@@ -151,7 +146,7 @@ public class DcHBaseService {
         }
     }
     public static boolean checkAndPut(String tableName,byte[] row, byte[] family, byte[] qualifier,
-                                      byte[] value, Put put) {
+                                   byte[] value, Put put) {
         HTable table = null;
         try {
             LOG.debug("inserting into HBase...");
@@ -205,7 +200,7 @@ public class DcHBaseService {
      * @param rowkey
      * @return
      */
-    public static Result getColumnValue(String tableName,String rowkey,byte[] family,byte[] column){
+    public static Result getColumnValue(String tableName, String rowkey, byte[] family, byte[] column){
         try {
             HTable table=(HTable) getCONN().getTable(TableName.valueOf(tableName));
             Get get=new Get(Bytes.toBytes(rowkey));
@@ -220,7 +215,7 @@ public class DcHBaseService {
     }
 
     /**
-     *
+     * 
      * @Title: scanAll
      * @Description: 查询表里面所有数据
      * @param tableName String
@@ -260,7 +255,7 @@ public class DcHBaseService {
 
 
     /**
-     *
+     * 
      * @Title: scanAllBySubstringKeyWordPaged
      * @Description: 根据条件分页查询HBase包含param的结果
      * @param params Map<String, Object>
@@ -360,8 +355,8 @@ public class DcHBaseService {
      * @param familys
      */
     public static  void columnValueScan(String tableName, String rowPrefix, CallBack callBack,
-                                        SingleColumnValueFilter valueFilter,Integer limit,
-                                        Integer cache,byte[] ...familys ){
+                                        SingleColumnValueFilter valueFilter, Integer limit,
+                                        Integer cache, byte[] ...familys ){
 
         HTable table= null;
         if(limit==null ||limit==0){
@@ -430,7 +425,7 @@ public class DcHBaseService {
      * @param familys
      */
     public static  void pageScan(String tableName, String rowPrefix, int pageSize,
-                                 CallBack callBack, Integer cache,byte[] ...familys ){
+                                 CallBack callBack, Integer cache, byte[] ...familys ){
 
         byte[] POSTFIX = new byte[] { 0x00 };
         HTable table= null;
@@ -464,7 +459,7 @@ public class DcHBaseService {
         byte[] lastRow=null;
         while (true){
             if(lastRow!=null){
-                byte[] startRow=Bytes.add(lastRow,POSTFIX);
+                byte[] startRow= Bytes.add(lastRow,POSTFIX);
                 scan.setStartRow(startRow);
             }
             try {
@@ -496,7 +491,7 @@ public class DcHBaseService {
 
     /**
      * 根据rowKey查询一条记录
-     *
+     * 
      * @param rowKey
      */
     public static List<Cell> queryByRowKey(String tableName, String rowKey) throws Exception {
@@ -508,9 +503,9 @@ public class DcHBaseService {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
+        
         Result r = table.get(get);
-
+        
         if (!r.isEmpty()) {
             /*System.out.println("获得rowKey:" + new String(r.getRow()));
             for (Cell cell : r.rawCells()) {
@@ -521,10 +516,10 @@ public class DcHBaseService {
         }
         return Lists.newArrayList();
     }
-
+    
     /**
      * 是否存在rowKey
-     *
+     * 
      * @param rowKey
      */
     public static Boolean isExistenceByRowKey(String tableName, String rowKey) throws Exception {
@@ -535,7 +530,7 @@ public class DcHBaseService {
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }
+        } 
         Result r = table.get(get);
         if (!r.isEmpty()) {
             return true;
@@ -548,6 +543,126 @@ public class DcHBaseService {
     }
 
     public static boolean testHbase(){
-        return DcHBaseConnection .testHbase(getCONN());
+        return DcHBaseConnection.testHbase(getCONN());
     }
+
+    /**
+     * @param tableName
+     * @param rowPrefix rowkey前缀
+     * @param pageSize
+     * @param cache     查询缓存
+     * @param familys
+     */
+    public static List<Result> searchByPrefix(String tableName, String rowPrefix, int pageSize,
+                                              Integer cache, byte[]... familys) {
+
+        byte[] POSTFIX = new byte[]{0x00};
+        HTable table = null;
+        try {
+            table = (HTable) DcHBaseService.getCONN().getTable(TableName.valueOf(tableName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        Scan scan = new Scan();
+        if (familys != null) {
+            for (int i = 0; i < familys.length; i++) {
+                scan.addFamily(familys[i]);
+            }
+        }
+        List<Filter> filters = new ArrayList<>();
+        Filter pageFilter = new PageFilter(pageSize);
+        filters.add(pageFilter);
+        Filter filter = new PrefixFilter(Bytes.toBytes(rowPrefix));
+        filters.add(filter);
+
+        FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ALL, filters);
+        scan.setFilter(filterList);
+
+        /**设置查询缓存**/
+        if (cache != null) {
+            scan.setCaching(cache < pageSize ? cache : pageSize);
+        }
+
+        ResultScanner scanner = null;
+        byte[] lastRow = null;
+        List<Result> list = new ArrayList<>();
+        while (true) {
+            if (lastRow != null) {
+                byte[] startRow = Bytes.add(lastRow, POSTFIX);
+                scan.setStartRow(startRow);
+            }
+            try {
+                scanner = table.getScanner(scan);
+                Result result = null;
+                int localRows = 0;
+                while ((result = scanner.next()) != null) {
+                    localRows++;
+                    lastRow = result.getRow();
+                    list.add(result);
+                }
+                if (localRows == 0) break;
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } finally {
+                if (scanner != null) {
+                    scanner.close();
+                }
+
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 查询表数据
+     *
+     * @param params
+     * @return
+     */
+    public static List<Map> scanByParams(Map<String, Object> params) {
+        List<Map> resultList = new ArrayList<>();
+        HTable table = null;
+        try {
+            LOG.debug("scan HBase...");
+            /** 从Map中获取参数 */
+            String tableName = (String) params.get("tableName");
+            String startRow = (String) params.get("startRow");
+            String stopRow = (String) params.get("stopRow");
+
+            table = (HTable) getCONN().getTable(TableName.valueOf(tableName));
+            Scan scan = new Scan();
+            // 设置扫描的范围
+            if (StringUtil.isNotBlank(startRow)) {
+                scan.setStartRow(startRow.getBytes());
+            }
+            if (StringUtil.isNotBlank(stopRow)) {
+                scan.setStopRow(stopRow.getBytes());
+            }
+            ResultScanner result = table.getScanner(scan);
+            for (Result r : result) {
+                Map cellMaps = (Map) JSON.parse(new String(r.value()));
+                resultList.add(cellMaps);
+            }
+
+            table.setAutoFlushTo(false);// 设置不自动flush
+            table.flushCommits();
+            return resultList;
+        } catch (IOException e) {
+            e.printStackTrace();
+            LOG.error("scan HBase error... message:" + e.getMessage(), e);
+            return null;
+        } finally {
+            if (null != table) {
+                try {
+                    table.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
 }

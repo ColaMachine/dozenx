@@ -46,12 +46,12 @@
             <version>${dozenx.version}</version>
 
         </dependency>
-       <!-- <dependency>
-            <groupId>com.dozenx</groupId>
-            <artifactId>CheckinServer</artifactId>
-            <version>${dozenx.version}</version>
+        <!-- <dependency>
+             <groupId>com.dozenx</groupId>
+             <artifactId>CheckinServer</artifactId>
+             <version>${dozenx.version}</version>
 
-        </dependency>-->
+         </dependency>-->
         <!-- <dependency>
              <groupId>com.dozenx</groupId>
              <artifactId>spider</artifactId>
@@ -64,15 +64,12 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
             <scope>provided</scope>
-
         </dependency>
-
-
-      <!--  <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>7.0.0.jre10</version>
-        </dependency>-->
+        <!--  <dependency>
+              <groupId>com.microsoft.sqlserver</groupId>
+              <artifactId>mssql-jdbc</artifactId>
+              <version>7.0.0.jre10</version>
+          </dependency>-->
         <!-- <dependency>
              <groupId>javax</groupId>
              <artifactId>javaee-api</artifactId>
@@ -93,7 +90,32 @@
         </dependency>
 
     </dependencies>
-
+    <profiles>
+        <profile>
+            <!-- 本地开发环境 -->
+            <id>alpha</id>
+            <properties>
+                <profiles.active>alpha</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <!-- 测试环境 -->
+            <id>beta</id>
+            <properties>
+                <profiles.active>beta</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 生产环境 -->
+            <id>prd</id>
+            <properties>
+                <profiles.active>prd</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -109,7 +131,84 @@
                     <server>tomcat7</server>
                 </configuration>
             </plugin>
-        </plugins>
 
+            <!-- 打war包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/resources/${profiles.active}</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                        <resource>
+                            <directory>${project.build.directory}/classes</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <excludes>
+                                <exclude>src/main/resources/${profiles.active}/*</exclude>
+                                <filtering>true</filtering>
+                            </excludes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>6.6</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.cfg</include>
+                    <include>**/*.au3</include>
+                    <include>**/*.properties</include>
+                </includes>
+                <excludes>
+                    <exclude>env/alpha/*</exclude>
+                    <exclude>env/beta/*</exclude>
+                    <exclude>env/prd/*</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${profiles.active}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>src/main/resources/${profiles.active}</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </testResource>
+        </testResources>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
     </build>
 </project>

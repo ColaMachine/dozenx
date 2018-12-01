@@ -526,7 +526,10 @@ public class ImageUtil {
             } else if (imageData.startsWith("+")) {
                 imageData = imageData.substring(1);
             }
-            imageData = imageData.substring(imageData.indexOf("iVBO"));
+            int ivboIndex= imageData.indexOf("iVBO");
+            if(ivboIndex!=-1){
+                imageData = imageData.substring(ivboIndex);
+            }
             if(imageData.indexOf("base64")>0){
                 imageData = imageData.substring(imageData.indexOf("base64")+7);
             }

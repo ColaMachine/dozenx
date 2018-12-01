@@ -90,7 +90,7 @@
                        <zwMenuItem key="setting:1">
 
                          <zwIcon type="sign-out" />
-                            <a href="/sys/auth/logout.htm">退出登录 </a>
+                            <a href="#" click="goLoginOut()">退出登录 </a>
                          </zwMenuItem>
                        <zwMenuItemGroup title="购物">
                          <zwMenuItem key="setting:1">我的收藏</zwMenuItem>
@@ -263,7 +263,10 @@ import blogViewList from '../../component/datadisplay/blogViewList2.vue';
       }
     },
     methods:{
-    goLogin:function(){alert(123);
+      goLoginOut:function(){
+          window.location=PATH+"/sys/auth/logout.htm";
+        },
+    goLogin:function(){
       window.location=PATH+"/sys/auth/login.htm";
     },
         refreshBlogView:function(){

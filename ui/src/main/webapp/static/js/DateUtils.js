@@ -349,6 +349,7 @@ function getPreYear (day){
 	return day;
 }
 
+
 function getNextYear (day) {
 	//var day = this.dummyDay;
 	var y = day.getYear();
@@ -494,6 +495,39 @@ function getPreDay(day){//date
 	return myDate;
 }
 
+/**
+ * 获取指定日期的前一天
+ * @param day
+ * @returns {Date}
+ */
+function getPreWeek(day){//date
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var d=day.getDate();
+
+	var myDate=new Date();
+	myDate.setYear(y);
+	myDate.setMonth(m);
+	myDate.setDate(day.getDate()-7);
+	return myDate;
+}
+
+/**
+ * 获取指定日期的前一天
+ * @param day
+ * @returns {Date}
+ */
+function getNextWeek(day){//date
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var d=day.getDate();
+
+	var myDate=new Date();
+	myDate.setYear(y);
+	myDate.setMonth(m);
+	myDate.setDate(day.getDate()+7);
+	return myDate;
+}
 function eqToday(date){
 	var now =new Date();
 	if(date.getFullYear()==now.getFullYear() && 

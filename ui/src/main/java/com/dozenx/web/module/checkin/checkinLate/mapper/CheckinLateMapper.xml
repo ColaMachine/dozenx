@@ -4,12 +4,13 @@
   <resultMap id="BaseResultMap" type="com.dozenx.web.module.checkin.checkinLate.bean.CheckinLate">
       <id column="id" jdbcType="BIGINT" property="id" />
       <result column="userId" jdbcType="BIGINT" property="userId" />
+      <result column="userName" jdbcType="VARCHAR" property="userName" />
       <result column="checkType" jdbcType="INTEGER" property="checkType" />
       <result column="checkTime" jdbcType="TIMESTAMP" property="checkTime" />
       <result column="kqUserId" jdbcType="BIGINT" property="kqUserId" />
   </resultMap>
   <sql id="Base_Column_List">
-    CheckinLate.`id` ,CheckinLate.`userId` ,CheckinLate.`checkType` ,CheckinLate.`checkTime` ,CheckinLate.`kqUserId` 
+    CheckinLate.`id` ,CheckinLate.`userId` ,CheckinLate.`userName` ,CheckinLate.`checkType` ,CheckinLate.`checkTime` ,CheckinLate.`kqUserId` 
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -27,6 +28,7 @@
     values (
 #{id,jdbcType=BIGINT}
 ,#{userId,jdbcType=BIGINT}
+,#{userName,jdbcType=VARCHAR}
 ,#{checkType,jdbcType=INTEGER}
 ,#{checkTime,jdbcType=TIMESTAMP}
 ,#{kqUserId,jdbcType=BIGINT}
@@ -40,6 +42,9 @@
         </if>  
         <if test="userId != null" >  
            `userId`,
+        </if>  
+        <if test="userName != null" >  
+           `userName`,
         </if>  
         <if test="checkType != null" >  
            `checkType`,
@@ -57,6 +62,9 @@
         </if>  
         <if test="userId != null" >  
           #{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="userName != null" >  
+          #{userName,jdbcType=VARCHAR},
         </if>  
         <if test="checkType != null" >  
           #{checkType,jdbcType=INTEGER},
@@ -78,6 +86,9 @@
         <if test="userId != null" >  
              `userId`=#{userId,jdbcType=BIGINT},
         </if>  
+        <if test="userName != null" >  
+             `userName`=#{userName,jdbcType=VARCHAR},
+        </if>  
         <if test="checkType != null" >  
              `checkType`=#{checkType,jdbcType=INTEGER},
         </if>  
@@ -94,6 +105,7 @@
     update CheckinLate
     set 
               `userId`=#{userId,jdbcType=BIGINT},
+              `userName`=#{userName,jdbcType=VARCHAR},
               `checkType`=#{checkType,jdbcType=INTEGER},
               `checkTime`=#{checkTime,jdbcType=TIMESTAMP},
               `kqUserId`=#{kqUserId,jdbcType=BIGINT}
@@ -109,6 +121,12 @@ where id = #{id,jdbcType=BIGINT}
         <if test="userId != null and userId != '' ">  
            and `userId` = #{userId}
         </if>  
+        <if test="userName != null and userName != '' ">  
+           and `userName` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">
+             and `userName` like "%"#{userNameLike}"%"
+        </if>   
         <if test="checkType != null and checkType != '' ">  
            and `checkType` = #{checkType}
         </if>  
@@ -117,7 +135,15 @@ where id = #{id,jdbcType=BIGINT}
         </if>  
         <if test="kqUserId != null and kqUserId != '' ">  
            and `kqUserId` = #{kqUserId}
-        </if>  
+        </if>
+
+          <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+              and `checkTime` &gt;= #{checkTimeBegin}
+          </if>
+
+          <if test="checkTimeEnd != null and checkTimeEnd != '' ">
+              and `checkTime` &lt;= #{checkTimeEnd}
+          </if>
   </select>
    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
     select 
@@ -131,6 +157,12 @@ where id = #{id,jdbcType=BIGINT}
         <if test="userId != null and userId != '' ">  
            and CheckinLate.`userId` = #{userId}
         </if>  
+        <if test="userName != null and userName != '' ">  
+           and CheckinLate.`userName` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and CheckinLate.`userName` like "%"#{userNameLike}"%"
+        </if>   
         <if test="checkType != null and checkType != '' ">  
            and CheckinLate.`checkType` = #{checkType}
         </if>  
@@ -151,6 +183,12 @@ where id = #{id,jdbcType=BIGINT}
         <if test="userId != null and userId != '' ">  
            and CheckinLate.`userId` = #{userId}
         </if>  
+        <if test="userName != null and userName != '' ">  
+           and CheckinLate.`userName` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and CheckinLate.`userName` like "%"#{userNameLike}"%"
+        </if>   
         <if test="checkType != null and checkType != '' ">  
            and CheckinLate.`checkType` = #{checkType}
         </if>  
@@ -170,6 +208,9 @@ where id = #{id,jdbcType=BIGINT}
         </if>
         <if test="userId != null and userId != '' ">
            or `userId` = #{userId}
+        </if>
+        <if test="userName != null and userName != '' ">
+           or `userName` = #{userName}
         </if>
         <if test="checkType != null and checkType != '' ">
            or `checkType` = #{checkType}

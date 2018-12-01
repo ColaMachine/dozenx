@@ -30,16 +30,20 @@ import com.dozenx.web.module.checkin.checkinOut.bean.CheckinOut;
 import com.dozenx.web.module.checkin.checkinOut.bean.FinishTask;
 import com.dozenx.web.module.checkin.checkinOut.bean.FinishTaskData;
 import com.dozenx.web.module.checkin.checkinOut.service.CheckinOutService;
+import com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut;
+import com.dozenx.web.module.checkin.faceCheckinOut.service.FaceCheckinOutService;
 import com.dozenx.web.module.checkin.faceInfo.bean.FaceInfo;
 import com.dozenx.web.module.checkin.faceInfo.service.FaceInfoService;
 import com.dozenx.web.module.checkin.faceInfo.service.VirtualDoorService;
 import com.dozenx.web.module.checkin.faceInfo.service.VirtualWeixinService;
 import com.dozenx.web.util.*;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,7 +60,7 @@ import java.util.*;
 
 @APIs(description = "人脸信息")
 @Controller
-@RequestMapping("/checkin/face")
+@RequestMapping("/checkin/faceinfo")
 public class FaceInfoController extends BaseController {
     /**
      * 日志
@@ -65,6 +69,10 @@ public class FaceInfoController extends BaseController {
     /**
      * 权限service
      **/
+
+
+    @Autowired
+    FaceCheckinOutService faceCheckinOutService;
     @Autowired
     private FaceInfoService faceInfoService;
     @Autowired
@@ -1018,9 +1026,29 @@ public class FaceInfoController extends BaseController {
 
 
     }
+    String accessToken ="";
+
+    public void getAccessToken(){
+        String url="http://192.168.188.8:3502/atomsrv/access_token";
+        HashMap map =new HashMap();
+        map.put("appid","0001");
+
+        String currentTime =""+ System.currentTimeMillis()/1000;
+        map.put("timestamp",currentTime);
+        try {
+            String token =MD5Util.getStringMD5String("0001_"+"Awifi_Ai_Biz_Image_Key_"+currentTime);
+            map.put("token",token);
+            String result = HttpRequestUtil.sendGet(url, map);//http://192.168.188.8:3502
+            JSONObject jsonObject = (JSONObject)JSON.parse(result);
+            JSONObject obj = (JSONObject)jsonObject.get("data");
+            accessToken =obj.getString("access_token");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-
+    }
     @API(summary = "kq02 每秒人脸识别接口",
             description = "//参考https://blog.csdn.net/nfmsr/article/details/78559930 " +
                     "利用python 脚本获取摄像头图片每次获取一下图片 " +
@@ -1032,17 +1060,28 @@ public class FaceInfoController extends BaseController {
     @RequestMapping(value = "/recognize")
     @ResponseBody
     public ResultDTO recognizeByBase64(HttpServletRequest request) throws Exception {
-
         HashMap map = new HashMap();
         String data = request.getParameter("data");
         //logger.info(data);
-        map.put("image", URLEncoder.encode(data));
+        map.put("image", data);
+        String camera = request.getParameter("camera");
         map.put("maxFaceNum", "1");
         map.put("faceFields", "embedding");
         map.put("filename", DateUtil.getNow() + ".jpg");
-        String result = HttpRequestUtil.sendPost("http://127.0.0.1:8080/atomsrv/face/recog/face", map);
-        ResultDTO resultDTO = JsonUtil.toJavaBean(result, ResultDTO.class);
-        JSONObject jsonObject = (JSONObject) resultDTO.getData();
+        getAccessToken();
+        String result  = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, JsonUtil.toJson(map));
+        logger.info(result);
+        //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502
+        HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
+        String code =MapUtils.getString(resultMap,"code") ;
+
+
+        if (!code.equals("0")) {
+            String msg  = MapUtils.getString(resultMap,"msg");
+
+            return null;
+        }
+        JSONObject jsonObject = (JSONObject) resultMap.get("data");
         FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
         if(finishTaskData.getResultNum()==0)
             return this.getResult();
@@ -1060,15 +1099,31 @@ public class FaceInfoController extends BaseController {
                 if (sum > 0.65) {
                     logger.info(faceInfo.getUserId() + "score" + sum);
                     //查出这个人是谁 并插入一条考勤记录表
-                    CheckinOut checkinOut = new CheckinOut();
+                    FaceCheckinOut checkinOut = new FaceCheckinOut();
                     checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
                     checkinOut.setUserId(faceInfo.getUserId());
                     checkinOut.setCheckType(3);//人脸考勤
-                    checkinOutService.save(checkinOut);
+                    checkinOut.setCamera("0");
+                    checkinOut.setScore((float)sum);
+                    checkinOut.setCamera(camera==null?"0":camera);
+                    checkinOut.setUserName(faceInfo.getSysUser().getUsername());
 
-                    VirtualDoorService.open();//开门加上消息推送
-                    VirtualWeixinService.sendMsg(faceInfo.getSysUser().getUsername(), "摄像头签到成功");
+                    //如果这个时间段已经有过人脸打卡了 那么就不人脸识别了
+                    boolean hasFaceCheckIn = hasFaceCheckIn(faceInfo.getUserId());
+                    faceCheckinOutService.save(checkinOut);
 
+                    if(faceInfo.getId() == null){
+                        logger.error("发生错误 faceInfo的id 为空");
+                    }
+                    ImageUtil.saveBase64Image(PathManager.getInstance().getImagePath().resolve("checkin").toString(),checkinOut.getId()+".png",data);
+
+
+                    try {
+                        VirtualDoorService.open();//开门加上消息推送
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    VirtualWeixinService.sendMsg(faceInfo.getSysUser().getUsername(), "识别成功"+ DateUtil.toDateStr(new Date(), "yyyy-MM-dd-HH:mm:ss"));
                     break;
                 }
                 System.out.println(sum);
@@ -1078,4 +1133,87 @@ public class FaceInfoController extends BaseController {
         return this.getResult();
     }
 
+
+    @API(summary = "kq02 更新人脸之后算出这人的人脸特征",
+            description = "当用户上传个人的头像后需要更新这个人的人脸特征"
+                    ,
+            parameters = {
+            })
+    @RequestMapping(value = "/updateByUserFace")
+    @ResponseBody
+    public ResultDTO updateByUserFace(HttpServletRequest request) throws Exception {
+        String userId = request.getParameter("userId");
+        if(StringUtil.isBlank(userId))
+            throw new BizException(50105125,"用户id不能为空");
+        SysUser sysUser = sysUserService.getUserById(Long.valueOf(userId));
+        if(sysUser== null)
+            throw new BizException(50105128,"查无此用户");
+        String faceUrl = sysUser.getFace();
+        File file = PathManager.getInstance().getWebRootPath().resolve(faceUrl).toFile();
+        if(!file.exists())
+            throw new BizException(50105132,"查无此用户头像");
+        String base64 = ImageUtil.ImageToBase64ByLocal(file.getAbsolutePath());
+        HashMap postMap = new HashMap();
+        //logger.info(data);
+        postMap.put("image", base64);
+        postMap.put("maxFaceNum", "1");
+        postMap.put("faceFields", "embedding");
+        postMap.put("filename", DateUtil.getNow() + ".jpg");
+        getAccessToken();
+        String result  = HttpRequestUtil.sendPost(ConfigUtil.getConfig("ai.face")+"?access_token="+accessToken, JsonUtil.toJson(postMap));
+        //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502
+        HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
+        String code =MapUtils.getString(resultMap,"code") ;
+        if (!code.equals("0")) {
+            logger.error("人脸录入调用ai接口报错"+result);
+
+            return this.getResult(50104148,result);
+        }
+        JSONObject jsonObject = (JSONObject) resultMap.get("data");
+        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
+        if(finishTaskData.getResultNum()==0)
+            return this.getResult();
+        for (int i = 0; i < finishTaskData.getResult().size(); i++) {
+            FinishTask finishTask = finishTaskData.getResult().get(i);
+            if (finishTask.getLocation().getWidth() < 100) continue;
+            Double[] thisMan = finishTask.getEmbedding();
+
+            String value = JSON.toJSONString(thisMan);
+            FaceInfo faceInfo =new FaceInfo();
+            faceInfo.setUserId(sysUser.getId());
+            HashMap<String,Object> params  =new HashMap();
+
+            params.put("userId",userId);
+           List<FaceInfo >  faceInfoList = faceInfoService.listByParams(params);
+            if(faceInfoList!=null && faceInfoList.size()>0){
+                faceInfo= faceInfoList.get(0);
+            }
+            faceInfo.setFace(value);
+            faceInfoService.save(faceInfo);
+
+            //faceInfo.getId();
+            //  System.out.println(sum);
+        }
+        return this.getResult();
+    }
+    public boolean hasFaceCheckIn(Long userId){
+        return false;
+        //根据时间判断是否是早上
+
+        //吃饭前 睡完觉后
+
+        //下班后
+
+
+    }
+        @Test
+    public  void test(){
+        String url="http://127.0.0.1:80/home/checkin/faceinfo/recognize";
+        HashMap map =new HashMap();
+       // map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal(PathManager.getInstance().getHomePath().resolve("src/main/webapp/upload/1543074868872.png").toString())));
+
+            map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\mmexport1543151210973.jpg")));
+
+            HttpRequestUtil.sendPost(url,map);
+    }
 }
