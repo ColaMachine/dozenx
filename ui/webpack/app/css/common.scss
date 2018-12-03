@@ -1,7 +1,10 @@
 /*color*/
 @import 'base';
 @CHARSET "UTF-8";
-
+html {
+    font-size: 14px;
+    background-color: #eee;
+}
 body{
     margin:0px;
     padding:0px;

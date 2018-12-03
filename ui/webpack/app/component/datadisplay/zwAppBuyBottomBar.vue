@@ -77,7 +77,7 @@ color:#333;
 line-height:1.5rem;
 }
 
-.v-icon-txt i,img{
+.v-icon-txt i,.v-icon-txt  img{
     width:1rem;
 line-height:1rem;
 }

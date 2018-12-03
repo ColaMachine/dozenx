@@ -93,13 +93,21 @@
     <profiles>
         <profile>
             <!-- 本地开发环境 -->
-            <id>alpha</id>
+            <id>bijiben</id>
             <properties>
-                <profiles.active>alpha</profiles.active>
+                <profiles.active>bijiben</profiles.active>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <!-- 本地开发环境 -->
+            <id>alpha</id>
+            <properties>
+                <profiles.active>alpha</profiles.active>
+            </properties>
+
         </profile>
         <profile>
             <!-- 测试环境 -->
@@ -125,7 +133,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/home</path>
-                    <port>80</port>
+                    <port>8081</port>
                     <uriEncoding>UTF-8</uriEncoding>
                     <url>http://localhost:80/manager/html</url>
                     <server>tomcat7</server>

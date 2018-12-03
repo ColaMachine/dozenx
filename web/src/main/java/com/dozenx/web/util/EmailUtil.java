@@ -17,12 +17,12 @@ public class EmailUtil {
 
             // 发送激活邮件
             MailSenderInfo mailInfo = new MailSenderInfo();
-            mailInfo.setMailServerHost("smtp.189.cn");
-            mailInfo.setMailServerPort("587");
+            mailInfo.setMailServerHost(ConfigUtil.getConfig("email.send.server.host"));
+            mailInfo.setMailServerPort(ConfigUtil.getConfig("email.send.server.port"));
             mailInfo.setValidate(true);
-            mailInfo.setUserName("13958173965@189.cn");
-            mailInfo.setPassword("123456qqsh");// 您的邮箱密码
-            mailInfo.setFromAddress("13958173965@189.cn");
+            mailInfo.setUserName(ConfigUtil.getConfig("email.send.username"));
+            mailInfo.setPassword(ConfigUtil.getConfig("email.send.pwd"));// 您的邮箱密码
+            mailInfo.setFromAddress(ConfigUtil.getConfig("email.send.username"));
             mailInfo.setToAddress(email);
             mailInfo.setSubject("ssc财务机器人");
             //mailInfo.setContent("请点击下面的链接进行激活</br><a href=''>http://127.0.0.1:8080/calendar/active.htm?activeid="

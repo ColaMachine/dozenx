@@ -1,610 +1,838 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dozenx.web.module.goods.dao.GoodsMapper">
-  <resultMap id="BaseResultMap" type="com.dozenx.web.module.goods.bean.Goods">
-      <id column="id" jdbcType="BIGINT" property="id" />
-      <result column="shopId" jdbcType="BIGINT" property="shopId" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="subName" jdbcType="VARCHAR" property="subName" />
-      <result column="detail" jdbcType="VARCHAR" property="detail" />
-      <result column="address" jdbcType="VARCHAR" property="address" />
-      <result column="telno" jdbcType="VARCHAR" property="telno" />
-      <result column="img" jdbcType="VARCHAR" property="img" />
-      <result column="img1" jdbcType="VARCHAR" property="img1" />
-      <result column="img2" jdbcType="VARCHAR" property="img2" />
-      <result column="img3" jdbcType="VARCHAR" property="img3" />
-      <result column="remark" jdbcType="VARCHAR" property="remark" />
-      <result column="status" jdbcType="INTEGER" property="status" />
-      <result column="price" jdbcType="INTEGER" property="price" />
-      <result column="creator" jdbcType="BIGINT" property="creator" />
-      <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
-      <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    Goods.`id` ,Goods.`shopId` ,Goods.`name` ,Goods.`subName` ,Goods.`detail` ,Goods.`address` ,Goods.`telno` ,Goods.`img` ,Goods.`img1` ,Goods.`img2` ,Goods.`img3` ,Goods.`remark` ,Goods.`status` ,Goods.`price` ,Goods.`creator` ,Goods.`createTime` ,Goods.`updateTime` 
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from Goods
-    where Goods.id =   #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from Goods
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
- <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.goods.bean.Goods" >
+    <resultMap id="BaseResultMap" type="com.dozenx.web.module.goods.bean.Goods">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="shopId" jdbcType="BIGINT" property="shopId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="subName" jdbcType="VARCHAR" property="subName" />
+        <result column="detail" jdbcType="VARCHAR" property="detail" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="telno" jdbcType="VARCHAR" property="telno" />
+        <result column="img" jdbcType="VARCHAR" property="img" />
+        <result column="img1" jdbcType="VARCHAR" property="img1" />
+        <result column="img2" jdbcType="VARCHAR" property="img2" />
+        <result column="img3" jdbcType="VARCHAR" property="img3" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="price" jdbcType="INTEGER" property="price" />
+        <result column="priceDesc" jdbcType="VARCHAR" property="priceDesc" />
+        <result column="creator" jdbcType="BIGINT" property="creator" />
+        <result column="creatorName" jdbcType="VARCHAR" property="creatorName" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="comments" jdbcType="INTEGER" property="comments" />
+        <result column="score" jdbcType="FLOAT" property="score" />
+        <result column="link" jdbcType="VARCHAR" property="link" />
+        <result column="up" jdbcType="INTEGER" property="up" />
+        <result column="down" jdbcType="INTEGER" property="down" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        Goods.`id` ,Goods.`shopId` ,Goods.`name` ,Goods.`subName` ,Goods.`detail` ,Goods.`address` ,Goods.`telno` ,Goods.`img` ,Goods.`img1` ,Goods.`img2` ,Goods.`img3` ,Goods.`remark` ,Goods.`status` ,Goods.`price` ,Goods.`priceDesc` ,Goods.`creator` ,Goods.`creatorName` ,Goods.`platform` ,Goods.`comments` ,Goods.`score` ,Goods.`link` ,Goods.`up` ,Goods.`down` ,Goods.`createTime` ,Goods.`updateTime`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from Goods
+        where Goods.id =   #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from Goods
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.goods.bean.Goods" >
 
-    insert into Goods (  <include refid="Base_Column_List" />)
-    values (
-#{id,jdbcType=BIGINT}
-,#{shopId,jdbcType=BIGINT}
-,#{name,jdbcType=VARCHAR}
-,#{subName,jdbcType=VARCHAR}
-,#{detail,jdbcType=VARCHAR}
-,#{address,jdbcType=VARCHAR}
-,#{telno,jdbcType=VARCHAR}
-,#{img,jdbcType=VARCHAR}
-,#{img1,jdbcType=VARCHAR}
-,#{img2,jdbcType=VARCHAR}
-,#{img3,jdbcType=VARCHAR}
-,#{remark,jdbcType=VARCHAR}
-,#{status,jdbcType=INTEGER}
-,#{price,jdbcType=INTEGER}
-,#{creator,jdbcType=BIGINT}
-,#{createTime,jdbcType=TIMESTAMP}
-,#{updateTime,jdbcType=TIMESTAMP}
-    )
-  </insert>
-   <insert id="insertSelective" parameterType="com.dozenx.web.module.goods.bean.Goods" >
-    insert into Goods
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-        <if test="id != null" >  
-           `id`,
-        </if>  
-        <if test="shopId != null" >  
-           `shopId`,
-        </if>  
-        <if test="name != null" >  
-           `name`,
-        </if>  
-        <if test="subName != null" >  
-           `subName`,
-        </if>  
-        <if test="detail != null" >  
-           `detail`,
-        </if>  
-        <if test="address != null" >  
-           `address`,
-        </if>  
-        <if test="telno != null" >  
-           `telno`,
-        </if>  
-        <if test="img != null" >  
-           `img`,
-        </if>  
-        <if test="img1 != null" >  
-           `img1`,
-        </if>  
-        <if test="img2 != null" >  
-           `img2`,
-        </if>  
-        <if test="img3 != null" >  
-           `img3`,
-        </if>  
-        <if test="remark != null" >  
-           `remark`,
-        </if>  
-        <if test="status != null" >  
-           `status`,
-        </if>  
-        <if test="price != null" >  
-           `price`,
-        </if>  
-        <if test="creator != null" >  
-           `creator`,
-        </if>  
-        <if test="createTime != null" >  
-           `createTime`,
-        </if>  
-        <if test="updateTime != null" >  
-           `updateTime`,
-        </if>  
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-        <if test="id != null" >  
-          #{id,jdbcType=BIGINT},
-        </if>  
-        <if test="shopId != null" >  
-          #{shopId,jdbcType=BIGINT},
-        </if>  
-        <if test="name != null" >  
-          #{name,jdbcType=VARCHAR},
-        </if>  
-        <if test="subName != null" >  
-          #{subName,jdbcType=VARCHAR},
-        </if>  
-        <if test="detail != null" >  
-          #{detail,jdbcType=VARCHAR},
-        </if>  
-        <if test="address != null" >  
-          #{address,jdbcType=VARCHAR},
-        </if>  
-        <if test="telno != null" >  
-          #{telno,jdbcType=VARCHAR},
-        </if>  
-        <if test="img != null" >  
-          #{img,jdbcType=VARCHAR},
-        </if>  
-        <if test="img1 != null" >  
-          #{img1,jdbcType=VARCHAR},
-        </if>  
-        <if test="img2 != null" >  
-          #{img2,jdbcType=VARCHAR},
-        </if>  
-        <if test="img3 != null" >  
-          #{img3,jdbcType=VARCHAR},
-        </if>  
-        <if test="remark != null" >  
-          #{remark,jdbcType=VARCHAR},
-        </if>  
-        <if test="status != null" >  
-          #{status,jdbcType=INTEGER},
-        </if>  
-        <if test="price != null" >  
-          #{price,jdbcType=INTEGER},
-        </if>  
-        <if test="creator != null" >  
-          #{creator,jdbcType=BIGINT},
-        </if>  
-        <if test="createTime != null" >  
-          #{createTime,jdbcType=TIMESTAMP},
-        </if>  
-        <if test="updateTime != null" >  
-          #{updateTime,jdbcType=TIMESTAMP},
-        </if>  
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.goods.bean.Goods" >
-    update Goods
-    <set >
-        <if test="id != null" >  
-             `id`=#{id,jdbcType=BIGINT},
-        </if>  
-        <if test="shopId != null" >  
-             `shopId`=#{shopId,jdbcType=BIGINT},
-        </if>  
-        <if test="name != null" >  
-             `name`=#{name,jdbcType=VARCHAR},
-        </if>  
-        <if test="subName != null" >  
-             `subName`=#{subName,jdbcType=VARCHAR},
-        </if>  
-        <if test="detail != null" >  
-             `detail`=#{detail,jdbcType=VARCHAR},
-        </if>  
-        <if test="address != null" >  
-             `address`=#{address,jdbcType=VARCHAR},
-        </if>  
-        <if test="telno != null" >  
-             `telno`=#{telno,jdbcType=VARCHAR},
-        </if>  
-        <if test="img != null" >  
-             `img`=#{img,jdbcType=VARCHAR},
-        </if>  
-        <if test="img1 != null" >  
-             `img1`=#{img1,jdbcType=VARCHAR},
-        </if>  
-        <if test="img2 != null" >  
-             `img2`=#{img2,jdbcType=VARCHAR},
-        </if>  
-        <if test="img3 != null" >  
-             `img3`=#{img3,jdbcType=VARCHAR},
-        </if>  
-        <if test="remark != null" >  
-             `remark`=#{remark,jdbcType=VARCHAR},
-        </if>  
-        <if test="status != null" >  
-             `status`=#{status,jdbcType=INTEGER},
-        </if>  
-        <if test="price != null" >  
-             `price`=#{price,jdbcType=INTEGER},
-        </if>  
-        <if test="creator != null" >  
-             `creator`=#{creator,jdbcType=BIGINT},
-        </if>  
-        <if test="createTime != null" >  
-             `createTime`=#{createTime,jdbcType=TIMESTAMP},
-        </if>  
-        <if test="updateTime != null" >  
-             `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
-        </if>  
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.goods.bean.Goods" >
-    update Goods
-    set 
-              `shopId`=#{shopId,jdbcType=BIGINT},
-              `name`=#{name,jdbcType=VARCHAR},
-              `subName`=#{subName,jdbcType=VARCHAR},
-              `detail`=#{detail,jdbcType=VARCHAR},
-              `address`=#{address,jdbcType=VARCHAR},
-              `telno`=#{telno,jdbcType=VARCHAR},
-              `img`=#{img,jdbcType=VARCHAR},
-              `img1`=#{img1,jdbcType=VARCHAR},
-              `img2`=#{img2,jdbcType=VARCHAR},
-              `img3`=#{img3,jdbcType=VARCHAR},
-              `remark`=#{remark,jdbcType=VARCHAR},
-              `status`=#{status,jdbcType=INTEGER},
-              `price`=#{price,jdbcType=INTEGER},
-              `creator`=#{creator,jdbcType=BIGINT},
-              `createTime`=#{createTime,jdbcType=TIMESTAMP},
-              `updateTime`=#{updateTime,jdbcType=TIMESTAMP}
-where id = #{id,jdbcType=BIGINT}
-  </update>
-  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from Goods where 1=1
-        <if test="id != null and id != '' ">  
-           and `id` = #{id}
-        </if>  
-        <if test="shopId != null and shopId != '' ">  
-           and `shopId` = #{shopId}
-        </if>  
-        <if test="name != null and name != '' ">  
-           and `name` = #{name}
-        </if>  
-        <if test="nameLike != null and nameLike != '' ">
-             and `name` like "%"#{nameLike}"%"
-        </if>   
-        <if test="subName != null and subName != '' ">  
-           and `subName` = #{subName}
-        </if>  
-        <if test="subNameLike != null and subNameLike != '' ">
-             and `subName` like "%"#{subNameLike}"%"
-        </if>   
-        <if test="detail != null and detail != '' ">  
-           and `detail` = #{detail}
-        </if>  
-        <if test="detailLike != null and detailLike != '' ">
-             and `detail` like "%"#{detailLike}"%"
-        </if>   
-        <if test="address != null and address != '' ">  
-           and `address` = #{address}
-        </if>  
-        <if test="addressLike != null and addressLike != '' ">
-             and `address` like "%"#{addressLike}"%"
-        </if>   
-        <if test="telno != null and telno != '' ">  
-           and `telno` = #{telno}
-        </if>  
-        <if test="telnoLike != null and telnoLike != '' ">
-             and `telno` like "%"#{telnoLike}"%"
-        </if>   
-        <if test="img != null and img != '' ">  
-           and `img` = #{img}
-        </if>  
-        <if test="imgLike != null and imgLike != '' ">
-             and `img` like "%"#{imgLike}"%"
-        </if>   
-        <if test="img1 != null and img1 != '' ">  
-           and `img1` = #{img1}
-        </if>  
-        <if test="img1Like != null and img1Like != '' ">
-             and `img1` like "%"#{img1Like}"%"
-        </if>   
-        <if test="img2 != null and img2 != '' ">  
-           and `img2` = #{img2}
-        </if>  
-        <if test="img2Like != null and img2Like != '' ">
-             and `img2` like "%"#{img2Like}"%"
-        </if>   
-        <if test="img3 != null and img3 != '' ">  
-           and `img3` = #{img3}
-        </if>  
-        <if test="img3Like != null and img3Like != '' ">
-             and `img3` like "%"#{img3Like}"%"
-        </if>   
-        <if test="remark != null and remark != '' ">  
-           and `remark` = #{remark}
-        </if>  
-        <if test="remarkLike != null and remarkLike != '' ">
-             and `remark` like "%"#{remarkLike}"%"
-        </if>   
-        <if test="status != null and status != '' ">  
-           and `status` = #{status}
-        </if>  
-        <if test="price != null and price != '' ">  
-           and `price` = #{price}
-        </if>  
-        <if test="creator != null and creator != '' ">  
-           and `creator` = #{creator}
-        </if>  
-        <if test="createTime != null and createTime != '' ">  
-           and `createTime` = #{createTime}
-        </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
-             and `createTime` &gt;= #{createTimeBegin}
-        </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
-             and `createTime` &lt;= #{createTimeEnd}
-        </if> 
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
-             and `createTime` &gt;= #{createTimeBegin}
-        </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
-             and `createTime` &lt;= #{createTimeEnd}
-        </if> 
-        <if test="updateTime != null and updateTime != '' ">  
-           and `updateTime` = #{updateTime}
-        </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
-             and `updateTime` &gt;= #{updateTimeBegin}
-        </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
-             and `updateTime` &lt;= #{updateTimeEnd}
-        </if> 
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
-             and `updateTime` &gt;= #{updateTimeBegin}
-        </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
-             and `updateTime` &lt;= #{updateTimeEnd}
-        </if> 
-  </select>
-   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from Goods
-
-    where 1=1
-        <if test="id != null and id != '' ">  
-           and Goods.`id` = #{id}
-        </if>  
-        <if test="shopId != null and shopId != '' ">  
-           and Goods.`shopId` = #{shopId}
-        </if>  
-        <if test="name != null and name != '' ">  
-           and Goods.`name` = #{name}
-        </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and Goods.`name` like "%"#{nameLike}"%"
-        </if>   
-        <if test="subName != null and subName != '' ">  
-           and Goods.`subName` = #{subName}
-        </if>  
-        <if test="subNameLike != null and subNameLike != '' ">  
-             and Goods.`subName` like "%"#{subNameLike}"%"
-        </if>   
-        <if test="detail != null and detail != '' ">  
-           and Goods.`detail` = #{detail}
-        </if>  
-        <if test="detailLike != null and detailLike != '' ">  
-             and Goods.`detail` like "%"#{detailLike}"%"
-        </if>   
-        <if test="address != null and address != '' ">  
-           and Goods.`address` = #{address}
-        </if>  
-        <if test="addressLike != null and addressLike != '' ">  
-             and Goods.`address` like "%"#{addressLike}"%"
-        </if>   
-        <if test="telno != null and telno != '' ">  
-           and Goods.`telno` = #{telno}
-        </if>  
-        <if test="telnoLike != null and telnoLike != '' ">  
-             and Goods.`telno` like "%"#{telnoLike}"%"
-        </if>   
-        <if test="img != null and img != '' ">  
-           and Goods.`img` = #{img}
-        </if>  
-        <if test="imgLike != null and imgLike != '' ">  
-             and Goods.`img` like "%"#{imgLike}"%"
-        </if>   
-        <if test="img1 != null and img1 != '' ">  
-           and Goods.`img1` = #{img1}
-        </if>  
-        <if test="img1Like != null and img1Like != '' ">  
-             and Goods.`img1` like "%"#{img1Like}"%"
-        </if>   
-        <if test="img2 != null and img2 != '' ">  
-           and Goods.`img2` = #{img2}
-        </if>  
-        <if test="img2Like != null and img2Like != '' ">  
-             and Goods.`img2` like "%"#{img2Like}"%"
-        </if>   
-        <if test="img3 != null and img3 != '' ">  
-           and Goods.`img3` = #{img3}
-        </if>  
-        <if test="img3Like != null and img3Like != '' ">  
-             and Goods.`img3` like "%"#{img3Like}"%"
-        </if>   
-        <if test="remark != null and remark != '' ">  
-           and Goods.`remark` = #{remark}
-        </if>  
-        <if test="remarkLike != null and remarkLike != '' ">  
-             and Goods.`remark` like "%"#{remarkLike}"%"
-        </if>   
-        <if test="status != null and status != '' ">  
-           and Goods.`status` = #{status}
-        </if>  
-        <if test="price != null and price != '' ">  
-           and Goods.`price` = #{price}
-        </if>  
-        <if test="creator != null and creator != '' ">  
-           and Goods.`creator` = #{creator}
-        </if>  
-        <if test="createTime != null and createTime != '' ">  
-           and Goods.`createTime` = #{createTime}
-        </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
-             and Goods.`createTime` &gt;= #{createTimeBegin}
-        </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
-             and Goods.`createTime` &lt;= #{createTimeEnd}
-        </if> 
-        <if test="updateTime != null and updateTime != '' ">  
-           and Goods.`updateTime` = #{updateTime}
-        </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
-             and Goods.`updateTime` &gt;= #{updateTimeBegin}
-        </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
-             and Goods.`updateTime` &lt;= #{updateTimeEnd}
-        </if> 
-  </select>
-   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
-    select 
-    count(1) 
-    from Goods where 1=1
-        <if test="id != null and id != '' ">  
-           and Goods.`id` = #{id}
-        </if>  
-        <if test="shopId != null and shopId != '' ">  
-           and Goods.`shopId` = #{shopId}
-        </if>  
-        <if test="name != null and name != '' ">  
-           and Goods.`name` = #{name}
-        </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and Goods.`name` like "%"#{nameLike}"%"
-        </if>   
-        <if test="subName != null and subName != '' ">  
-           and Goods.`subName` = #{subName}
-        </if>  
-        <if test="subNameLike != null and subNameLike != '' ">  
-             and Goods.`subName` like "%"#{subNameLike}"%"
-        </if>   
-        <if test="detail != null and detail != '' ">  
-           and Goods.`detail` = #{detail}
-        </if>  
-        <if test="detailLike != null and detailLike != '' ">  
-             and Goods.`detail` like "%"#{detailLike}"%"
-        </if>   
-        <if test="address != null and address != '' ">  
-           and Goods.`address` = #{address}
-        </if>  
-        <if test="addressLike != null and addressLike != '' ">  
-             and Goods.`address` like "%"#{addressLike}"%"
-        </if>   
-        <if test="telno != null and telno != '' ">  
-           and Goods.`telno` = #{telno}
-        </if>  
-        <if test="telnoLike != null and telnoLike != '' ">  
-             and Goods.`telno` like "%"#{telnoLike}"%"
-        </if>   
-        <if test="img != null and img != '' ">  
-           and Goods.`img` = #{img}
-        </if>  
-        <if test="imgLike != null and imgLike != '' ">  
-             and Goods.`img` like "%"#{imgLike}"%"
-        </if>   
-        <if test="img1 != null and img1 != '' ">  
-           and Goods.`img1` = #{img1}
-        </if>  
-        <if test="img1Like != null and img1Like != '' ">  
-             and Goods.`img1` like "%"#{img1Like}"%"
-        </if>   
-        <if test="img2 != null and img2 != '' ">  
-           and Goods.`img2` = #{img2}
-        </if>  
-        <if test="img2Like != null and img2Like != '' ">  
-             and Goods.`img2` like "%"#{img2Like}"%"
-        </if>   
-        <if test="img3 != null and img3 != '' ">  
-           and Goods.`img3` = #{img3}
-        </if>  
-        <if test="img3Like != null and img3Like != '' ">  
-             and Goods.`img3` like "%"#{img3Like}"%"
-        </if>   
-        <if test="remark != null and remark != '' ">  
-           and Goods.`remark` = #{remark}
-        </if>  
-        <if test="remarkLike != null and remarkLike != '' ">  
-             and Goods.`remark` like "%"#{remarkLike}"%"
-        </if>   
-        <if test="status != null and status != '' ">  
-           and Goods.`status` = #{status}
-        </if>  
-        <if test="price != null and price != '' ">  
-           and Goods.`price` = #{price}
-        </if>  
-        <if test="creator != null and creator != '' ">  
-           and Goods.`creator` = #{creator}
-        </if>  
-        <if test="createTime != null and createTime != '' ">  
-           and Goods.`createTime` = #{createTime}
-        </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
-             and Goods.`createTime` &gt;= #{createTimeBegin}
-        </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
-             and Goods.`createTime` &lt;= #{createTimeEnd}
-        </if> 
-        <if test="updateTime != null and updateTime != '' ">  
-           and Goods.`updateTime` = #{updateTime}
-        </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
-             and Goods.`updateTime` &gt;= #{updateTimeBegin}
-        </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
-             and Goods.`updateTime` &lt;= #{updateTimeEnd}
-        </if> 
-  </select>
- <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
-    select
-    count(1)
-    from Goods where 1!=1
+        insert into Goods (  <include refid="Base_Column_List" />)
+        values (
+        #{id,jdbcType=BIGINT}
+        ,#{shopId,jdbcType=BIGINT}
+        ,#{name,jdbcType=VARCHAR}
+        ,#{subName,jdbcType=VARCHAR}
+        ,#{detail,jdbcType=VARCHAR}
+        ,#{address,jdbcType=VARCHAR}
+        ,#{telno,jdbcType=VARCHAR}
+        ,#{img,jdbcType=VARCHAR}
+        ,#{img1,jdbcType=VARCHAR}
+        ,#{img2,jdbcType=VARCHAR}
+        ,#{img3,jdbcType=VARCHAR}
+        ,#{remark,jdbcType=VARCHAR}
+        ,#{status,jdbcType=INTEGER}
+        ,#{price,jdbcType=INTEGER}
+        ,#{priceDesc,jdbcType=VARCHAR}
+        ,#{creator,jdbcType=BIGINT}
+        ,#{creatorName,jdbcType=VARCHAR}
+        ,#{platform,jdbcType=VARCHAR}
+        ,#{comments,jdbcType=INTEGER}
+        ,#{score,jdbcType=FLOAT}
+        ,#{link,jdbcType=VARCHAR}
+        ,#{up,jdbcType=INTEGER}
+        ,#{down,jdbcType=INTEGER}
+        ,#{createTime,jdbcType=TIMESTAMP}
+        ,#{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dozenx.web.module.goods.bean.Goods" >
+        insert into Goods
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                `id`,
+            </if>
+            <if test="shopId != null" >
+                `shopId`,
+            </if>
+            <if test="name != null" >
+                `name`,
+            </if>
+            <if test="subName != null" >
+                `subName`,
+            </if>
+            <if test="detail != null" >
+                `detail`,
+            </if>
+            <if test="address != null" >
+                `address`,
+            </if>
+            <if test="telno != null" >
+                `telno`,
+            </if>
+            <if test="img != null" >
+                `img`,
+            </if>
+            <if test="img1 != null" >
+                `img1`,
+            </if>
+            <if test="img2 != null" >
+                `img2`,
+            </if>
+            <if test="img3 != null" >
+                `img3`,
+            </if>
+            <if test="remark != null" >
+                `remark`,
+            </if>
+            <if test="status != null" >
+                `status`,
+            </if>
+            <if test="price != null" >
+                `price`,
+            </if>
+            <if test="priceDesc != null" >
+                `priceDesc`,
+            </if>
+            <if test="creator != null" >
+                `creator`,
+            </if>
+            <if test="creatorName != null" >
+                `creatorName`,
+            </if>
+            <if test="platform != null" >
+                `platform`,
+            </if>
+            <if test="comments != null" >
+                `comments`,
+            </if>
+            <if test="score != null" >
+                `score`,
+            </if>
+            <if test="link != null" >
+                `link`,
+            </if>
+            <if test="up != null" >
+                `up`,
+            </if>
+            <if test="down != null" >
+                `down`,
+            </if>
+            <if test="createTime != null" >
+                `createTime`,
+            </if>
+            <if test="updateTime != null" >
+                `updateTime`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="shopId != null" >
+                #{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="subName != null" >
+                #{subName,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null" >
+                #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="telno != null" >
+                #{telno,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="img1 != null" >
+                #{img1,jdbcType=VARCHAR},
+            </if>
+            <if test="img2 != null" >
+                #{img2,jdbcType=VARCHAR},
+            </if>
+            <if test="img3 != null" >
+                #{img3,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="price != null" >
+                #{price,jdbcType=INTEGER},
+            </if>
+            <if test="priceDesc != null" >
+                #{priceDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null" >
+                #{creator,jdbcType=BIGINT},
+            </if>
+            <if test="creatorName != null" >
+                #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null" >
+                #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="comments != null" >
+                #{comments,jdbcType=INTEGER},
+            </if>
+            <if test="score != null" >
+                #{score,jdbcType=FLOAT},
+            </if>
+            <if test="link != null" >
+                #{link,jdbcType=VARCHAR},
+            </if>
+            <if test="up != null" >
+                #{up,jdbcType=INTEGER},
+            </if>
+            <if test="down != null" >
+                #{down,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.goods.bean.Goods" >
+        update Goods
+        <set >
+            <if test="id != null" >
+                `id`=#{id,jdbcType=BIGINT},
+            </if>
+            <if test="shopId != null" >
+                `shopId`=#{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                `name`=#{name,jdbcType=VARCHAR},
+            </if>
+            <if test="subName != null" >
+                `subName`=#{subName,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null" >
+                `detail`=#{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                `address`=#{address,jdbcType=VARCHAR},
+            </if>
+            <if test="telno != null" >
+                `telno`=#{telno,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null" >
+                `img`=#{img,jdbcType=VARCHAR},
+            </if>
+            <if test="img1 != null" >
+                `img1`=#{img1,jdbcType=VARCHAR},
+            </if>
+            <if test="img2 != null" >
+                `img2`=#{img2,jdbcType=VARCHAR},
+            </if>
+            <if test="img3 != null" >
+                `img3`=#{img3,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                `remark`=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                `status`=#{status,jdbcType=INTEGER},
+            </if>
+            <if test="price != null" >
+                `price`=#{price,jdbcType=INTEGER},
+            </if>
+            <if test="priceDesc != null" >
+                `priceDesc`=#{priceDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null" >
+                `creator`=#{creator,jdbcType=BIGINT},
+            </if>
+            <if test="creatorName != null" >
+                `creatorName`=#{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null" >
+                `platform`=#{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="comments != null" >
+                `comments`=#{comments,jdbcType=INTEGER},
+            </if>
+            <if test="score != null" >
+                `score`=#{score,jdbcType=FLOAT},
+            </if>
+            <if test="link != null" >
+                `link`=#{link,jdbcType=VARCHAR},
+            </if>
+            <if test="up != null" >
+                `up`=#{up,jdbcType=INTEGER},
+            </if>
+            <if test="down != null" >
+                `down`=#{down,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                `createTime`=#{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.goods.bean.Goods" >
+        update Goods
+        set
+        `shopId`=#{shopId,jdbcType=BIGINT},
+        `name`=#{name,jdbcType=VARCHAR},
+        `subName`=#{subName,jdbcType=VARCHAR},
+        `detail`=#{detail,jdbcType=VARCHAR},
+        `address`=#{address,jdbcType=VARCHAR},
+        `telno`=#{telno,jdbcType=VARCHAR},
+        `img`=#{img,jdbcType=VARCHAR},
+        `img1`=#{img1,jdbcType=VARCHAR},
+        `img2`=#{img2,jdbcType=VARCHAR},
+        `img3`=#{img3,jdbcType=VARCHAR},
+        `remark`=#{remark,jdbcType=VARCHAR},
+        `status`=#{status,jdbcType=INTEGER},
+        `price`=#{price,jdbcType=INTEGER},
+        `priceDesc`=#{priceDesc,jdbcType=VARCHAR},
+        `creator`=#{creator,jdbcType=BIGINT},
+        `creatorName`=#{creatorName,jdbcType=VARCHAR},
+        `platform`=#{platform,jdbcType=VARCHAR},
+        `comments`=#{comments,jdbcType=INTEGER},
+        `score`=#{score,jdbcType=FLOAT},
+        `link`=#{link,jdbcType=VARCHAR},
+        `up`=#{up,jdbcType=INTEGER},
+        `down`=#{down,jdbcType=INTEGER},
+        `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        `updateTime`=#{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from Goods where 1=1
         <if test="id != null and id != '' ">
-           or `id` = #{id}
+            and `id` = #{id}
         </if>
         <if test="shopId != null and shopId != '' ">
-           or `shopId` = #{shopId}
+            and `shopId` = #{shopId}
         </if>
         <if test="name != null and name != '' ">
-           or `name` = #{name}
+            and `name` = #{name}
+        </if>
+        <if test="nameLike != null and nameLike != '' ">
+            and `name` like CONCAT('%',#{nameLike},'%')
         </if>
         <if test="subName != null and subName != '' ">
-           or `subName` = #{subName}
+            and `subName` = #{subName}
+        </if>
+        <if test="subNameLike != null and subNameLike != '' ">
+            and `subName` like CONCAT('%',#{subNameLike},'%')
         </if>
         <if test="detail != null and detail != '' ">
-           or `detail` = #{detail}
+            and `detail` = #{detail}
+        </if>
+        <if test="detailLike != null and detailLike != '' ">
+            and `detail` like CONCAT('%',#{detailLike},'%')
         </if>
         <if test="address != null and address != '' ">
-           or `address` = #{address}
+            and `address` = #{address}
+        </if>
+        <if test="addressLike != null and addressLike != '' ">
+            and `address` like CONCAT('%',#{addressLike},'%')
         </if>
         <if test="telno != null and telno != '' ">
-           or `telno` = #{telno}
+            and `telno` = #{telno}
+        </if>
+        <if test="telnoLike != null and telnoLike != '' ">
+            and `telno` like CONCAT('%',#{telnoLike},'%')
         </if>
         <if test="img != null and img != '' ">
-           or `img` = #{img}
+            and `img` = #{img}
+        </if>
+        <if test="imgLike != null and imgLike != '' ">
+            and `img` like CONCAT('%',#{imgLike},'%')
         </if>
         <if test="img1 != null and img1 != '' ">
-           or `img1` = #{img1}
+            and `img1` = #{img1}
+        </if>
+        <if test="img1Like != null and img1Like != '' ">
+            and `img1` like CONCAT('%',#{img1Like},'%')
         </if>
         <if test="img2 != null and img2 != '' ">
-           or `img2` = #{img2}
+            and `img2` = #{img2}
+        </if>
+        <if test="img2Like != null and img2Like != '' ">
+            and `img2` like CONCAT('%',#{img2Like},'%')
         </if>
         <if test="img3 != null and img3 != '' ">
-           or `img3` = #{img3}
+            and `img3` = #{img3}
+        </if>
+        <if test="img3Like != null and img3Like != '' ">
+            and `img3` like CONCAT('%',#{img3Like},'%')
         </if>
         <if test="remark != null and remark != '' ">
-           or `remark` = #{remark}
+            and `remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and `remark` like CONCAT('%',#{remarkLike},'%')
         </if>
         <if test="status != null and status != '' ">
-           or `status` = #{status}
+            and `status` = #{status}
         </if>
         <if test="price != null and price != '' ">
-           or `price` = #{price}
+            and `price` = #{price}
+        </if>
+        <if test="priceDesc != null and priceDesc != '' ">
+            and `priceDesc` = #{priceDesc}
+        </if>
+        <if test="priceDescLike != null and priceDescLike != '' ">
+            and `priceDesc` like CONCAT('%',#{priceDescLike},'%')
         </if>
         <if test="creator != null and creator != '' ">
-           or `creator` = #{creator}
+            and `creator` = #{creator}
+        </if>
+        <if test="creatorName != null and creatorName != '' ">
+            and `creatorName` = #{creatorName}
+        </if>
+        <if test="creatorNameLike != null and creatorNameLike != '' ">
+            and `creatorName` like CONCAT('%',#{creatorNameLike},'%')
+        </if>
+        <if test="platform != null and platform != '' ">
+            and `platform` = #{platform}
+        </if>
+        <if test="platformLike != null and platformLike != '' ">
+            and `platform` like CONCAT('%',#{platformLike},'%')
+        </if>
+        <if test="comments != null and comments != '' ">
+            and `comments` = #{comments}
+        </if>
+        <if test="score != null and score != '' ">
+            and `score` = #{score}
+        </if>
+        <if test="link != null and link != '' ">
+            and `link` = #{link}
+        </if>
+        <if test="linkLike != null and linkLike != '' ">
+            and `link` like CONCAT('%',#{linkLike},'%')
+        </if>
+        <if test="up != null and up != '' ">
+            and `up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            and `down` = #{down}
         </if>
         <if test="createTime != null and createTime != '' ">
-           or `createTime` = #{createTime}
+            and `createTime` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `createTime` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `createTime` &lt;= #{createTimeEnd}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `createTime` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `createTime` &lt;= #{createTimeEnd}
         </if>
         <if test="updateTime != null and updateTime != '' ">
-           or `updateTime` = #{updateTime}
+            and `updateTime` = #{updateTime}
         </if>
-  </select>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and `updateTime` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and `updateTime` &lt;= #{updateTimeEnd}
+        </if>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and `updateTime` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and `updateTime` &lt;= #{updateTimeEnd}
+        </if>
+    </select>
+    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from Goods
+
+        where 1=1
+        <if test="id != null and id != '' ">
+            and Goods.`id` = #{id}
+        </if>
+        <if test="shopId != null and shopId != '' ">
+            and Goods.`shopId` = #{shopId}
+        </if>
+        <if test="name != null and name != '' ">
+            and Goods.`name` = #{name}
+        </if>
+        <if test="nameLike != null and nameLike != '' ">
+            and Goods.`name` like CONCAT('%',#{nameLike},'%')
+        </if>
+        <if test="subName != null and subName != '' ">
+            and Goods.`subName` = #{subName}
+        </if>
+        <if test="subNameLike != null and subNameLike != '' ">
+            and Goods.`subName` like CONCAT('%',#{subNameLike},'%')
+        </if>
+        <if test="detail != null and detail != '' ">
+            and Goods.`detail` = #{detail}
+        </if>
+        <if test="detailLike != null and detailLike != '' ">
+            and Goods.`detail` like CONCAT('%',#{detailLike},'%')
+        </if>
+        <if test="address != null and address != '' ">
+            and Goods.`address` = #{address}
+        </if>
+        <if test="addressLike != null and addressLike != '' ">
+            and Goods.`address` like CONCAT('%',#{addressLike},'%')
+        </if>
+        <if test="telno != null and telno != '' ">
+            and Goods.`telno` = #{telno}
+        </if>
+        <if test="telnoLike != null and telnoLike != '' ">
+            and Goods.`telno` like CONCAT('%',#{telnoLike},'%')
+        </if>
+        <if test="img != null and img != '' ">
+            and Goods.`img` = #{img}
+        </if>
+        <if test="imgLike != null and imgLike != '' ">
+            and Goods.`img` like CONCAT('%',#{imgLike},'%')
+        </if>
+        <if test="img1 != null and img1 != '' ">
+            and Goods.`img1` = #{img1}
+        </if>
+        <if test="img1Like != null and img1Like != '' ">
+            and Goods.`img1` like CONCAT('%',#{img1Like},'%')
+        </if>
+        <if test="img2 != null and img2 != '' ">
+            and Goods.`img2` = #{img2}
+        </if>
+        <if test="img2Like != null and img2Like != '' ">
+            and Goods.`img2` like CONCAT('%',#{img2Like},'%')
+        </if>
+        <if test="img3 != null and img3 != '' ">
+            and Goods.`img3` = #{img3}
+        </if>
+        <if test="img3Like != null and img3Like != '' ">
+            and Goods.`img3` like CONCAT('%',#{img3Like},'%')
+        </if>
+        <if test="remark != null and remark != '' ">
+            and Goods.`remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and Goods.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>
+        <if test="status != null and status != '' ">
+            and Goods.`status` = #{status}
+        </if>
+        <if test="price != null and price != '' ">
+            and Goods.`price` = #{price}
+        </if>
+        <if test="priceDesc != null and priceDesc != '' ">
+            and Goods.`priceDesc` = #{priceDesc}
+        </if>
+        <if test="priceDescLike != null and priceDescLike != '' ">
+            and Goods.`priceDesc` like CONCAT('%',#{priceDescLike},'%')
+        </if>
+        <if test="creator != null and creator != '' ">
+            and Goods.`creator` = #{creator}
+        </if>
+        <if test="creatorName != null and creatorName != '' ">
+            and Goods.`creatorName` = #{creatorName}
+        </if>
+        <if test="creatorNameLike != null and creatorNameLike != '' ">
+            and Goods.`creatorName` like CONCAT('%',#{creatorNameLike},'%')
+        </if>
+        <if test="platform != null and platform != '' ">
+            and Goods.`platform` = #{platform}
+        </if>
+        <if test="platformLike != null and platformLike != '' ">
+            and Goods.`platform` like CONCAT('%',#{platformLike},'%')
+        </if>
+        <if test="comments != null and comments != '' ">
+            and Goods.`comments` = #{comments}
+        </if>
+        <if test="score != null and score != '' ">
+            and Goods.`score` = #{score}
+        </if>
+        <if test="link != null and link != '' ">
+            and Goods.`link` = #{link}
+        </if>
+        <if test="linkLike != null and linkLike != '' ">
+            and Goods.`link` like CONCAT('%',#{linkLike},'%')
+        </if>
+        <if test="up != null and up != '' ">
+            and Goods.`up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            and Goods.`down` = #{down}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and Goods.`createTime` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and Goods.`createTime` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and Goods.`createTime` &lt;= #{createTimeEnd}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+            and Goods.`updateTime` = #{updateTime}
+        </if>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and Goods.`updateTime` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and Goods.`updateTime` &lt;= #{updateTimeEnd}
+        </if>
+    </select>
+    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from Goods where 1=1
+        <if test="id != null and id != '' ">
+            and Goods.`id` = #{id}
+        </if>
+        <if test="shopId != null and shopId != '' ">
+            and Goods.`shopId` = #{shopId}
+        </if>
+        <if test="name != null and name != '' ">
+            and Goods.`name` = #{name}
+        </if>
+        <if test="nameLike != null and nameLike != '' ">
+            and Goods.`name` like CONCAT('%',#{nameLike},'%')
+        </if>
+        <if test="subName != null and subName != '' ">
+            and Goods.`subName` = #{subName}
+        </if>
+        <if test="subNameLike != null and subNameLike != '' ">
+            and Goods.`subName` like CONCAT('%',#{subNameLike},'%')
+        </if>
+        <if test="detail != null and detail != '' ">
+            and Goods.`detail` = #{detail}
+        </if>
+        <if test="detailLike != null and detailLike != '' ">
+            and Goods.`detail` like CONCAT('%',#{detailLike},'%')
+        </if>
+        <if test="address != null and address != '' ">
+            and Goods.`address` = #{address}
+        </if>
+        <if test="addressLike != null and addressLike != '' ">
+            and Goods.`address` like CONCAT('%',#{addressLike},'%')
+        </if>
+        <if test="telno != null and telno != '' ">
+            and Goods.`telno` = #{telno}
+        </if>
+        <if test="telnoLike != null and telnoLike != '' ">
+            and Goods.`telno` like CONCAT('%',#{telnoLike},'%')
+        </if>
+        <if test="img != null and img != '' ">
+            and Goods.`img` = #{img}
+        </if>
+        <if test="imgLike != null and imgLike != '' ">
+            and Goods.`img` like CONCAT('%',#{imgLike},'%')
+        </if>
+        <if test="img1 != null and img1 != '' ">
+            and Goods.`img1` = #{img1}
+        </if>
+        <if test="img1Like != null and img1Like != '' ">
+            and Goods.`img1` like CONCAT('%',#{img1Like},'%')
+        </if>
+        <if test="img2 != null and img2 != '' ">
+            and Goods.`img2` = #{img2}
+        </if>
+        <if test="img2Like != null and img2Like != '' ">
+            and Goods.`img2` like CONCAT('%',#{img2Like},'%')
+        </if>
+        <if test="img3 != null and img3 != '' ">
+            and Goods.`img3` = #{img3}
+        </if>
+        <if test="img3Like != null and img3Like != '' ">
+            and Goods.`img3` like CONCAT('%',#{img3Like},'%')
+        </if>
+        <if test="remark != null and remark != '' ">
+            and Goods.`remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and Goods.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>
+        <if test="status != null and status != '' ">
+            and Goods.`status` = #{status}
+        </if>
+        <if test="price != null and price != '' ">
+            and Goods.`price` = #{price}
+        </if>
+        <if test="priceDesc != null and priceDesc != '' ">
+            and Goods.`priceDesc` = #{priceDesc}
+        </if>
+        <if test="priceDescLike != null and priceDescLike != '' ">
+            and Goods.`priceDesc` like CONCAT('%',#{priceDescLike},'%')
+        </if>
+        <if test="creator != null and creator != '' ">
+            and Goods.`creator` = #{creator}
+        </if>
+        <if test="creatorName != null and creatorName != '' ">
+            and Goods.`creatorName` = #{creatorName}
+        </if>
+        <if test="creatorNameLike != null and creatorNameLike != '' ">
+            and Goods.`creatorName` like CONCAT('%',#{creatorNameLike},'%')
+        </if>
+        <if test="platform != null and platform != '' ">
+            and Goods.`platform` = #{platform}
+        </if>
+        <if test="platformLike != null and platformLike != '' ">
+            and Goods.`platform` like CONCAT('%',#{platformLike},'%')
+        </if>
+        <if test="comments != null and comments != '' ">
+            and Goods.`comments` = #{comments}
+        </if>
+        <if test="score != null and score != '' ">
+            and Goods.`score` = #{score}
+        </if>
+        <if test="link != null and link != '' ">
+            and Goods.`link` = #{link}
+        </if>
+        <if test="linkLike != null and linkLike != '' ">
+            and Goods.`link` like CONCAT('%',#{linkLike},'%')
+        </if>
+        <if test="up != null and up != '' ">
+            and Goods.`up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            and Goods.`down` = #{down}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and Goods.`createTime` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and Goods.`createTime` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and Goods.`createTime` &lt;= #{createTimeEnd}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+            and Goods.`updateTime` = #{updateTime}
+        </if>
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+            and Goods.`updateTime` &gt;= #{updateTimeBegin}
+        </if>
+        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+            and Goods.`updateTime` &lt;= #{updateTimeEnd}
+        </if>
+    </select>
+    <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from Goods where 1!=1
+        <if test="id != null and id != '' ">
+            or `id` = #{id}
+        </if>
+        <if test="shopId != null and shopId != '' ">
+            or `shopId` = #{shopId}
+        </if>
+        <if test="name != null and name != '' ">
+            or `name` = #{name}
+        </if>
+        <if test="subName != null and subName != '' ">
+            or `subName` = #{subName}
+        </if>
+        <if test="detail != null and detail != '' ">
+            or `detail` = #{detail}
+        </if>
+        <if test="address != null and address != '' ">
+            or `address` = #{address}
+        </if>
+        <if test="telno != null and telno != '' ">
+            or `telno` = #{telno}
+        </if>
+        <if test="img != null and img != '' ">
+            or `img` = #{img}
+        </if>
+        <if test="img1 != null and img1 != '' ">
+            or `img1` = #{img1}
+        </if>
+        <if test="img2 != null and img2 != '' ">
+            or `img2` = #{img2}
+        </if>
+        <if test="img3 != null and img3 != '' ">
+            or `img3` = #{img3}
+        </if>
+        <if test="remark != null and remark != '' ">
+            or `remark` = #{remark}
+        </if>
+        <if test="status != null and status != '' ">
+            or `status` = #{status}
+        </if>
+        <if test="price != null and price != '' ">
+            or `price` = #{price}
+        </if>
+        <if test="priceDesc != null and priceDesc != '' ">
+            or `priceDesc` = #{priceDesc}
+        </if>
+        <if test="creator != null and creator != '' ">
+            or `creator` = #{creator}
+        </if>
+        <if test="creatorName != null and creatorName != '' ">
+            or `creatorName` = #{creatorName}
+        </if>
+        <if test="platform != null and platform != '' ">
+            or `platform` = #{platform}
+        </if>
+        <if test="comments != null and comments != '' ">
+            or `comments` = #{comments}
+        </if>
+        <if test="score != null and score != '' ">
+            or `score` = #{score}
+        </if>
+        <if test="link != null and link != '' ">
+            or `link` = #{link}
+        </if>
+        <if test="up != null and up != '' ">
+            or `up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            or `down` = #{down}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            or `createTime` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+            or `updateTime` = #{updateTime}
+        </if>
+    </select>
 </mapper>

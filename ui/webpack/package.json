@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server  --progress --colors --open --env dev --host 192.168.120.80   --port 7079  --content-base ../src/main/webapp/ ",
+    "dev": "webpack-dev-server  --progress --colors --open --env dev --host 127.0.0.1  --port 7079  --content-base ../src/main/webapp/ ",
     "build": "webpack --progress --colors",
     "build_react": "webpack --config webpack.config.prod.js",
     "dev_react": "webpack-dev-server --config webpack.config.dev.js  --port 7079  --content-base ./src"
@@ -49,6 +49,9 @@
     "node-sass": "^4.5.3",
     "react-router-dom": "^4.2.2",
     "transform-runtime": "0.0.0",
-    "vue": "^2.3.3"
+    "vue": "^2.3.3",
+    "vue-router": "^2.8.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^2.9.0"
   }
 }

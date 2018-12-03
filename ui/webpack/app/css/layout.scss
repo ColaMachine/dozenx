@@ -345,7 +345,7 @@ $screen-xs-max: 3000px;
     padding-left: 15px;
     padding-right: 15px;
 }
-.zw-header {
+.example .zw-header {
     background-color: rgba(0, 160, 233, .7);
 }
 .zw-content {
@@ -357,10 +357,15 @@ $screen-xs-max: 3000px;
     flex: auto;
 }
 .zw-footer {
-    background-color: rgba(0, 160, 233, .3);
-    @include height_size(65px);
+    /**background-color: rgba(0, 160, 233, .3);**/
+    /** @include height_size(65px);**/
     flex: 0 0 auto;
 }
+.example .zw-footer {
+            background-color: rgba(0, 160, 233, .3);
+             @include height_size(65px);
+
+         }
 .zw-layout {
     display: -webkit-box;
     display: -webkit-flex;
@@ -375,8 +380,14 @@ $screen-xs-max: 3000px;
     -webkit-flex: auto;
     -ms-flex: auto;
     flex: auto;
-    /*overflow: auto;*/
+    /*overflow: auto;
+
     background: #ececec;
+    */
+
+}
+.example .zw-layout{
+background: #ececec;
 }
 .zw-layout.zw-layout-has-sider {
     -webkit-box-orient: horizontal;
@@ -386,12 +397,19 @@ $screen-xs-max: 3000px;
     flex-direction: row;
 }
 .zw-sider {
-    background-color: rgba(0, 160, 233, .1);
+    /** background-color: rgba(0, 160, 233, .1);
     background-color: $light-black;
-    @include height_size(120px);
+     @include height_size(120px);
+    */
+
     width: 200px;
     flex: 0 0 200px;
 }
+.example .zw-sider {
+  background-color: rgba(0, 160, 233, .1);
+ background-color: $light-black;
+  @include height_size(120px);
+ }
 .zw-collapse {
     /* background-color:$lighter-gray;*/
     /* border-radius: 4px;*/
@@ -579,6 +597,7 @@ li {
  }
  .app-ul{
  background-color: #eee;
+
  }
 .app-card {
     margin: 0 0 10px;
@@ -590,7 +609,23 @@ li {
     justify-content:flex-start;
         align-content:stretch;
         align-items:stretch;
-    .app-li-it-pic {
+
+    /* min-width:30px;
+        max-width:20%;*/
+    /*display:table-cell;*/
+}
+.app-li{
+
+
+}
+.app-li-it{
+justify-content:flex-start;
+         align-content:stretch;
+         align-items:stretch;
+          display: flex !important;
+}
+
+ .app-li-it-pic {
         display: block;
         /* width:30%;*/
        /* float:left; w图片居左;*/
@@ -655,7 +690,7 @@ li {
     .app-li-it-text {
         width: 80%;
         font-size: 12px;
-        
+
         color: gray;
         display: flex;
         padding-right: 50px;
@@ -674,10 +709,6 @@ li {
             width: 30%;
         }
     }
-    /* min-width:30px;
-        max-width:20%;*/
-    /*display:table-cell;*/
-}
 .app-li.pc {
     .app-li-it{
         .app-li-it-content-body{

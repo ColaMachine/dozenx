@@ -1,12 +1,12 @@
 <template>
 
-<div class="zw-jumbotron-wrap clearfix" :style="getComputeStyle">
+<div class="zw-jumbotron-wrap clearfix" :style="getComputeStyle" style="text-align:center">
 
 <h1 class="zw-jumbotron-title pull-left" >
 
 {{title}}</h1>
 
- <img style="width:100%;height:" :src="img" :style="getImgStyle" />
+ <img  :src="img" :style="getImgStyle" />
 <span class="zw-jumbotron-btn pull-right"  >
 
      <zwDropDown trigger="click" placement="bottomRight">
@@ -80,10 +80,10 @@ export default {
 .zw-jumbotron-wrap{
 min-height:150px;
 line-height:150px;
-/*background-color:#dfdf1d;*/
+background-color:#FFF;
 
 
-background:url(/weixin/static/img/smarthome/背景板.png);
+/*background:url(/weixin/static/img/smarthome/背景板.png);*/
 background-size:100% 180px;
 background-repeat:no-repeat;
 }

@@ -39,13 +39,16 @@ export default {
                     return "zw-icon  fa fa-plus";
                 }
                   if(this.type=="shopping-cart"){
-                                    return "zw-icon  zw-icon-arrow fa fa-shopping-cart ";
-                                }
-                                 if(this.type=="suitcase"){
-                                                                    return "zw-icon  zw-icon-arrow fa fa-suitcase ";
-                                                                }
+                    return "zw-icon  zw-icon-arrow fa fa-shopping-cart ";
+                }
+                 if(this.type=="suitcase"){
+                    return "zw-icon  zw-icon-arrow fa fa-suitcase ";
+                }
                 if(this.type=="user"){
                     return "zw-icon  zw-icon-user fa fa-user";
+                }
+                if(this.type=="star"){
+                    return "zw-icon  zw-icon-star fa fa-star";
                 }
                 if(this.type=="lock"){
                     return "zw-icon  zw-icon-user fa fa-lock";

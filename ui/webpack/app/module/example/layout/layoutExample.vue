@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="example">
 <article>
 <section>
 <h2>Layout布局</h2>

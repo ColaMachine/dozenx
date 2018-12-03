@@ -65,6 +65,7 @@ public final class RedisUtil {
      */
     public static JedisPool jedisPool = null;
 
+    public static String  PWD = null;
     /**
      * 初始化Redis连接池
      */
@@ -78,6 +79,8 @@ public final class RedisUtil {
             /** Redis的端口号 */
             PORT = Integer.valueOf(ConfigUtil.getConfig("cache.redis.port"));//Config.getInstance().getCache().getRedis().getPort();
 
+            /** Redis的端口号 */
+
 
             /** Redis index */
             int INDEX = Integer.valueOf(ConfigUtil.getConfig("cache.redis.database.index"));
@@ -86,7 +89,10 @@ public final class RedisUtil {
 
 
             /** 访问密码 */
-            AUTH = Config.getInstance().getCache().getRedis().getAuth();
+            //AUTH = Config.getInstance().getCache().getRedis().getAuth();
+            AUTH = String.valueOf(ConfigUtil.getConfig("cache.redis.pwd"));//Config.getInstance().getCache().getRedis().getPort();
+
+            //Config.getInstance().getCache().getRedis().getAuth();
 
             /** 可用连接实例的最大数目，默认值为8；
              *如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
@@ -112,6 +118,7 @@ public final class RedisUtil {
             config.setSoftMinEvictableIdleTimeMillis(3000);
             //  config.setMaxWait(MAX_WAIT);
             config.setTestOnBorrow(TEST_ON_BORROW);
+
             // logger.debug(String.format("初始化redis ADDR:%s"));
             //   jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
             jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH, INDEX);
@@ -133,6 +140,7 @@ public final class RedisUtil {
         try {
             if (jedisPool != null) {
                 Jedis resource = jedisPool.getResource();
+              //  resource.auth(PWD);
                 return resource;
             } else {
                 return null;

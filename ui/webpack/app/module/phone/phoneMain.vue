@@ -109,7 +109,7 @@
 </zwRow>
 <zwRow style="margin-top:0px;" >
 <zwCol span=24>
- <zwAppImgList :list="imgList2"></zwAppImgList>
+ <zwAppImgList :list="goodsList"></zwAppImgList>
 
 </zwCol>
 
@@ -307,7 +307,9 @@
       }
     },
     mounted() {
-     Ajax.getJSON(PATH+"/placesrv/place/list?pageSize=20&curPage=1", null, function(result) {
+     //Ajax.getJSON(PATH+"/placesrv/place/list?pageSize=20&curPage=1", null, function(result) {
+     Ajax.getJSON(PATH+"/goods/list.json?pageSize=20&curPage=1", null, function(result) {
+
                     if(result.r == AJAX_SUCC && result.data) {
 
                     var ary=new Array(result.data.length);

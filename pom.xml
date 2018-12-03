@@ -241,10 +241,24 @@
         </testResources>
         <testSourceDirectory>src/test/java</testSourceDirectory>
     </build>
-    <repositories>
+    <repositories><!-- 代码库 -->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+<!--
 
 
-        <!-- maven私库 -->
+
+        &lt;!&ndash; maven私库 &ndash;&gt;
 
         <repository>
             <id>aWiFi-rep</id>
@@ -257,6 +271,7 @@
             <name>aWiFi Private Repository</name>
             <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
         </repository>
+-->
 
 
     </repositories>

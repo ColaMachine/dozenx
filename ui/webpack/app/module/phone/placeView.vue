@@ -20,7 +20,7 @@
 </zwRow>
     <zwRow>
       <zwCol class="pull-right" span=24>
-            <zwJumbotron style="margin-top:40px" title="" img="http://img.zcool.cn/community/0100785859056fa8012060c8c2bbc0.JPG@1280w_1l_2o_100sh.jpg"></zwJumbotron>
+            <zwJumbotron style="margin-top:40px" title="" img="https://y.zdmimg.com/201801/18/5a608117f29b1794.jpg_d480.jpg"></zwJumbotron>
       </zwCol>
 
     </zwRow>

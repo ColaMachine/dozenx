@@ -97,11 +97,18 @@ public class CalendarController extends BaseController {
             List activities = activityService.getActivities(startDate, endDate,
                     userId);
 
-
-            String url = ConfigUtil.getConfig("calendar.subscribe.url");
-            url=url.replace("${userId}",""+getUserId(request)).replace("${begin}",DateUtil.toString(new Date(startDate*60000),"yyyy-MM-dd%20HH:mm:ss")).replace("${end}",DateUtil.toString(new Date(endDate*60000),"yyyy-MM-dd%20HH:mm:ss"));
-            String result = HttpRequestUtil.sendGet(url);
-
+            try {
+                String url = ConfigUtil.getConfig("calendar.subscribe.url");
+                url = url.replace("${userId}", "" + getUserId(request)).replace("${begin}", DateUtil.toString(new Date(startDate * 60000), "yyyy-MM-dd%20HH:mm:ss")).replace("${end}", DateUtil.toString(new Date(endDate * 60000), "yyyy-MM-dd%20HH:mm:ss"));
+                String result = HttpRequestUtil.sendGet(url);
+                ResultDTO resultDTO = JsonUtil.toJavaBean(result,ResultDTO.class);
+                if(resultDTO.isRight()) {
+                    List<HashMap> list = JsonUtil.toList(resultDTO.getData().toString(), HashMap.class);
+                    activities.addAll(list);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
         /*    {
                 "r": 0,
@@ -132,158 +139,10 @@ public class CalendarController extends BaseController {
                         "userId": 207,
                         "type": 0,
                         "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "探针部署方案删除手机号码功能",
-                        "id": 20181112203,
-                        "startTime": 25701540,
-                        "endTime": 25698720,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "增加明细报表",
-                        "id": 20181112270,
-                        "startTime": 25701300,
-                        "endTime": 25699920,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "联系钮晓峰严刑俊说 门卡的事情要找你 ",
-                        "id": 20181112379,
-                        "startTime": 25699920,
-                        "endTime": 25698540,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "季度考核目标",
-                        "id": 20181112436,
-                        "startTime": 25700400,
-                        "endTime": 25700460,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "把水杯带回家",
-                        "id": 20181112682,
-                        "startTime": 25700310,
-                        "endTime": 25700400,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "履约计划列账及付款李挺(B)温州网络建设部20181105-001010",
-                        "id": 20181112713,
-                        "startTime": 25700010,
-                        "endTime": 25700070,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "讨论广告报表的设计,需要调整 2个接口 一个是固化接口 一个是报表接口",
-                        "id": 20181112753,
-                        "startTime": 25700100,
-                        "endTime": 25700160,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "禅道任务构建",
-                        "id": 20181112783,
-                        "startTime": 25699860,
-                        "endTime": 25699920,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "大屏开发评审 接口文档 遗漏工作总结",
-                        "id": 20181112806,
-                        "startTime": 25701360,
-                        "endTime": 25701420,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "钮晓峰说下午给到我门卡接口",
-                        "id": 20181113555,
-                        "startTime": 25701690,
-                        "endTime": 25701750,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "广告报表接口给到郝旭",
-                        "id": 20181113613,
-                        "startTime": 25701750,
-                        "endTime": 25701810,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "更新的时后没有生成日历实例 已完成",
-                        "id": 20181113794,
-                        "startTime": 25701660,
-                        "endTime": 25698840,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "拦截的永远是最近3条",
-                        "id": 20181113870,
-                        "startTime": 25701210,
-                        "endTime": 25701270,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "重跑机制",
-                        "id": 20181114162,
-                        "startTime": 25703190,
-                        "endTime": 25703250,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "地下室拿热水瓶",
-                        "id": 20181114205,
-                        "startTime": 25703280,
-                        "endTime": 25703340,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
-            }, {
-                "isdel": false,
-                        "title": "错误编码重新整理",
-                        "id": 20181114521,
-                        "startTime": 25702590,
-                        "endTime": 25703160,
-                        "userId": 207,
-                        "type": 0,
-                        "privacy": 0
             }],
                 "right": true
             }*/
-            ResultDTO resultDTO = JsonUtil.toJavaBean(result,ResultDTO.class);
-           if(resultDTO.isRight()) {
-               List<HashMap> list = JsonUtil.toList(resultDTO.getData().toString(), HashMap.class);
-               activities.addAll(list);
-           }
+
             return this.getResult(activities);
             // returnMap.put("LIST", activities);
             // returnMap.put(SysConfig.AJAX_RESULT, SysConfig.AJAX_SUCC);
