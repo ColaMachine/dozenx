@@ -446,6 +446,45 @@ public class SshUtil {
         }
 
     }
+    public static void AlphaKqUpdateTomecatWebappAndRestart() {
+//
+
+        String serverIps[] = new String[]{"192.168.212.90"};
+
+
+        String localRootPathStr = "G:\\workspace\\dozenx\\ui\\target\\classes";
+        String remoteRootPathStr = "/data/service/tomcat-kq-8087/awifi_kq/WEB-INF/classes";
+        String tomcatPath = "/data/service/tomcat-kq-8087";
+
+
+
+
+        String userName = "root";
+        String pwd = "awifi@123";
+        String relativePath = "com";
+        Path localRootPath = Paths.get(localRootPathStr);
+        localRootPath.resolve(relativePath);
+        //List<File> file = FileUtil.listFile(localRootPath.resolve(relativePath).toFile());
+        //  List<File> fileList =new ArrayList<>();
+        //   File file =new File("G:\\advert-workspace\\code\\trunk\\advert\\target\\classes\\com");
+        //   fileList.add(file);
+        String folderPath = localRootPath.resolve(relativePath).toString();
+        System.out.println("正在对folderPath进行打包" + folderPath);
+
+        for (int i = 0; i < serverIps.length; i++) {
+            String serverIp = serverIps[i];
+            try {
+                com.dozenx.util.ZipUtil.foldToZip(folderPath, localRootPathStr + "\\a.zip");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //把文件上传到服务器指定的目录
+            SshUtil.upload(localRootPathStr, remoteRootPathStr, tomcatPath, "a.zip", userName, pwd, serverIp);
+            SshUtil.restartTomcat(serverIp, userName, pwd, tomcatPath);
+        }
+
+    }
 
 
     public static void update(String serverIp, String localZipFolder, String tomcatPath, String webappName, String userName, String pwd) {
@@ -584,9 +623,9 @@ public class SshUtil {
 //        String remoteRootPathStr = "/data/service/tomcat-ezhike-biz-8085/awifi-ezhike-web/WEB-INF/classes";
 //        String tomcatPath = "/data/service/tomcat-ezhike-biz-8085";
 //
-        SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
-
-        SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
+     // SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
+      //  SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
+      SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
         //  SshUtil .updateTomecatWebappAndRestart();
     }
 }

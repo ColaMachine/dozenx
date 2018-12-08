@@ -32,7 +32,7 @@ public class PushByChidaoThread implements Runnable {
 
     @Override
     public void run() {
-        logger.info("PushByChidaoThread run");
+       // logger.info("PushByChidaoThread run");
         Calendar calendar = Calendar.getInstance();
         if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
             return;//如果是双休日不提醒

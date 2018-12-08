@@ -89,8 +89,9 @@ public final class RedisUtil {
 
 
             /** 访问密码 */
-            //AUTH = Config.getInstance().getCache().getRedis().getAuth();
-            AUTH = String.valueOf(ConfigUtil.getConfig("cache.redis.pwd"));//Config.getInstance().getCache().getRedis().getPort();
+            AUTH = Config.getInstance().getCache().getRedis().getAuth();
+
+           // AUTH = ConfigUtil.getConfig("cache.redis.pwd");//Config.getInstance().getCache().getRedis().getPort();
 
             //Config.getInstance().getCache().getRedis().getAuth();
 

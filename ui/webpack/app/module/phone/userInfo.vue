@@ -14,7 +14,7 @@
           <zwForm style="margin-top:22px; padding-top:30px">
            <zwFormItem label="头像">
            <div style="width:50%;float:right;margin-right:0px" >
-           <zwUploadImg v-model="user.face" ></zwUploadImg>
+           <zwUploadImg  v-model="user.face" ></zwUploadImg>
                 <!--<input  id="face" name="face"  v-model="user.face"   style="display:none" class="form-control input-sm"   maxlength="100"></input>-->
 
                 </div>
@@ -51,7 +51,6 @@
 
   </zwRow>
 
-  <zwBottomBar> </zwBottomBar>
 </div>
 
 </template>
@@ -110,6 +109,9 @@ export default {
     },
 
     methods:{
+    changeFace:function(img){alert("changed");
+        this.user.face =""+img;
+    },
         getImg:function(img){
             return PATH+img;
         },
@@ -126,10 +128,10 @@ export default {
                         return getPathValue(value);
                     },
          save:function(){
-            var address= $$("address").value;
+           /* var address= $$("address").value;
              var birthday= $$("birthday").value;
             var nick = $$("nick").value;
-            var sex =getRadioValueByName("sex");
+            var sex =getRadioValueByName("sex");*/
             var json=this.user;//{birthday:birthday,address:address,nick:nick,sex:sex,face:$$("#face").value};
             console.log(json);
              Ajax.post(PATH+"/user/face/update",json,function(result){

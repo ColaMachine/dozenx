@@ -179,13 +179,19 @@ label {
     right: 0;
     bottom: 0;
     left:50%;
-    margin-left:-150px;
+
     z-index: 1040;
    /* width:300px;*/
     display: none;
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
     outline: 0;
+}
+
+@media (min-width: 768px)
+.modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
 }
 
 .modal.fade .modal-dialog {
@@ -204,8 +210,9 @@ label {
 }
 @media (min-width: 768px)
 .modal-content {
-    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
-    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+  .modal {
+    margin-left:-150px;
+  }
 }
 .modal-content {
     position: relative;

@@ -12,7 +12,8 @@
     components: {
       zwIcon
     },
-    props: {value:{type:String}},
+    props: {value:{type:String},
+    img:{type:String}},
     data() {
       return {
         ok: false,
@@ -36,8 +37,8 @@
     },
     methods: {
     getPathValue:function(value){
-                    return getPathValue(value);
-                },
+        return getPathValue(value);
+    },
     fileChange: function(e) {
     			var f = e.files[0]; //一次只上传1个文件，其实可以上传多个的
     			var FR = new FileReader();
@@ -47,12 +48,9 @@
 
     				_this.compressImg(this.result, 300, function(data,originalWidth,originalHeight) {
     					console.log("压缩完成后执行的callback");
-
                         if (_this.preShow) {
                             console.log("img pre show");
-
                             _this.imgDom.src=data;
-
                         }
                         console.log("begin send img");
                         var json = {};
@@ -62,7 +60,6 @@
                         Ajax.post(_this.postUrl,
                             json,
                             function(data) {console.log("ajax return");
-
                                 if (_this.callback != null)
                                     _this.callback(data);
                             }
@@ -109,7 +106,9 @@
             			this.callback = jso.callback||function(result){
                             //that.src=result.data;
                                that.$emit('input', result.data); //触发 input 事件，并传入新值
-
+// that.$emit('inputChange', result.data);
+that.value=result.data;
+// that.img=result.data;
             			};
             			this.fileInput=this.$refs.input;//parseDom("<input type=\"file\" style=\"display:none\"/>");
                         this.fileInput.addEventListener("change",function(){

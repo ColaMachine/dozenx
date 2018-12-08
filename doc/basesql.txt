@@ -96,7 +96,7 @@ CREATE TABLE `pwdrst` (
   `idpwdrst` varchar(45) NOT NULL COMMENT '重置code',
   `userid` int(11) NOT NULL COMMENT '发送人id',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `resttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP   COMMENT '重置时间',
+  `resettime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP   COMMENT '重置时间',
   `used` tinyint(1) DEFAULT NULL COMMENT '是否使用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='密码重置';
