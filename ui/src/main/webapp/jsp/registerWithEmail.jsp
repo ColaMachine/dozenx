@@ -42,11 +42,11 @@
         <div>
             <div>
 
-                <h1 style="font-size:40px" class="logo-name">公园＋</h1>
+                <h1 style="font-size:40px;display:none" class="logo-name">公园＋</h1>
 
             </div>
-            <h3>注册 to </h3>
-            <p>注　册　一　个　账　号　瞧　瞧　吧.</p>
+            <h2 style="font-size:30px">注册  </h2>
+            <p style="display:none">注　册　一　个　账　号　瞧　瞧　吧.</p>
             <form id="registerForm" class="m-t" role="form" action="/sys/auth/registerPost.json">
 
 

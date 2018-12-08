@@ -304,47 +304,47 @@ public class TiduxiajiangController extends BaseController {
     @Test
     public  void test( ){
         String pngPath = "C:\\Users\\dozen.zhang\\Desktop\\test.png";
-        File file = new File(pngPath);
+//        File file = new File(pngPath);
         List<Pointf>  exampleList =new ArrayList<Pointf>();
-
-
-        int minDistance =10;
-        try {
-            int[][] matrix = getGrayPicture(pngPath);
-            for(int x=0;x<matrix[0].length;x++){
-                for(int y=matrix.length-1;y>=0;y--){
-                    if(matrix[y][x]<10){//说明他是黑色
-                        boolean taijin=false;
-                        for(Pointf point:exampleList){
-                            //如果距离太近不算
-
-                            if(Math.abs(point.x *point.x+ point.y*point.y  -  x*x-y*y ) <minDistance*minDistance ){
-                                taijin=true;
-                                break;
-                            }
-
-                        }
-
-                        if(!taijin){
-                            exampleList.add(new Pointf(x,matrix.length-y));
-                        }
-
-                        if(exampleList.size()>30){
-                            System.out.println("distance 不够长 导致样本过多 请调整distance:"+exampleList.size());
-                            System.exit(0);
-                        }
-                    }
-                }
-            }
-            if(exampleList.size()==0){
-                System.out.println("样本为空 结束");
-                System.exit(0);
-            }
-            System.out.println("example size:"+exampleList.size());
-
-            for(Pointf point: exampleList){
-                System.out.println("point "+point);
-            }
+//
+//
+//        int minDistance =10;
+       // try {
+//            int[][] matrix = getGrayPicture(pngPath);
+//            for(int x=0;x<matrix[0].length;x++){
+//                for(int y=matrix.length-1;y>=0;y--){
+//                    if(matrix[y][x]<10){//说明他是黑色
+//                        boolean taijin=false;
+//                        for(Pointf point:exampleList){
+//                            //如果距离太近不算
+//
+//                            if(Math.abs(point.x *point.x+ point.y*point.y  -  x*x-y*y ) <minDistance*minDistance ){
+//                                taijin=true;
+//                                break;
+//                            }
+//
+//                        }
+//
+//                        if(!taijin){
+//                            exampleList.add(new Pointf(x,matrix.length-y));
+//                        }
+//
+//                        if(exampleList.size()>30){
+//                            System.out.println("distance 不够长 导致样本过多 请调整distance:"+exampleList.size());
+//                            System.exit(0);
+//                        }
+//                    }
+//                }
+//            }
+//            if(exampleList.size()==0){
+//                System.out.println("样本为空 结束");
+//                System.exit(0);
+//            }
+//            System.out.println("example size:"+exampleList.size());
+//
+//            for(Pointf point: exampleList){
+//                System.out.println("point "+point);
+//            }
             exampleList.clear();
             exampleList.add(new Pointf(1,1));
             exampleList.add(new Pointf(2,2));
@@ -360,15 +360,19 @@ public class TiduxiajiangController extends BaseController {
             while(true){
                 float xielv0= qiuDaoA0(a0,a1,exampleList);
                 float xielv1= qiuDaoA1(a0,a1,exampleList);
-                if(Math.abs(xielv0)<0.01 && Math.abs(xielv1)<0.01){
-                    System.out.println("a0:"+a0+" a1:"+a1);
-                    break;
-                }
+
                 System.out.println("xielv0:"+xielv0+" xielv1:"+xielv1);
                 a0= a0-step*xielv0;
                 a1= a1-step*xielv1;;
                 System.out.println("a0:"+a0+" a1:"+a1);
                 System.out.println("costFUnction:"+costFunction(a0,a1,exampleList));
+
+                if(costFunction(a0,a1,exampleList)<0.0005){
+                    System.out.println("a0:"+a0+" a1:"+a1);
+                    break;
+                }
+
+
                 System.out.println("第"+(index++)+"次");
 //                try {
 //                    Thread.sleep(1000);
@@ -384,9 +388,9 @@ public class TiduxiajiangController extends BaseController {
             //获取灰度图片
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
     }
