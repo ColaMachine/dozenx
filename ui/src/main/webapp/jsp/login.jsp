@@ -52,10 +52,10 @@
         <div class="row">
 
             <div class="col-md-6">
-                <h2 class="font-bold">欢迎来到 Welcome to </h2>
-                <h1 style="font-size:80px;color: #e6e6e6;font-weight: 800;    letter-spacing: -10px;">微智＋</h1>
-                <p>
-                    <span style="font-weight:bold">微智平台</span>，是新一代智能平台
+                <h2 class="font-bold">欢迎 Welcome  </h2>
+                <h1 style="display:none;font-size:80px;color: #e6e6e6;font-weight: 800;    letter-spacing: -10px;">微智＋</h1>
+                <p style="display:none;">
+                    <span  style="font-weight:bold">微智平台</span>，是新一代智能平台
                 </p>
                 <p>
 
@@ -90,7 +90,7 @@
                         <button id="loginBtn" type="button" class="btn btn-primary block full-width m-b">登录</button>
 
 
-                          <div class="checkbox i-checks"><label> <input id="rememberme" type="checkbox"><i></i> 记住我 </label></div>
+                          <div class="checkbox i-checks"><label> <input id="rememberme" checked type="checkbox"><i></i> 记住我 </label></div>
 
     <div><a id="forgetLink" href="javascript:void(0)" style="float: right"><small>忘记密码?</small></a></div>
 

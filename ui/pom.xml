@@ -46,12 +46,12 @@
             <version>${dozenx.version}</version>
 
         </dependency>
-        <!-- <dependency>
+        <dependency>
              <groupId>com.dozenx</groupId>
              <artifactId>CheckinServer</artifactId>
              <version>${dozenx.version}</version>
 
-         </dependency>-->
+         </dependency>
         <!-- <dependency>
              <groupId>com.dozenx</groupId>
              <artifactId>spider</artifactId>
@@ -97,9 +97,7 @@
             <properties>
                 <profiles.active>bijiben</profiles.active>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+
         </profile>
         <profile>
             <!-- 本地开发环境 -->
@@ -107,7 +105,9 @@
             <properties>
                 <profiles.active>alpha</profiles.active>
             </properties>
-
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <profile>
             <!-- 测试环境 -->
@@ -133,7 +133,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/home</path>
-                    <port>8081</port>
+                    <port>80</port>
                     <uriEncoding>UTF-8</uriEncoding>
                     <url>http://localhost:80/manager/html</url>
                     <server>tomcat7</server>

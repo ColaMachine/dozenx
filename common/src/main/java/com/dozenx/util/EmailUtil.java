@@ -254,13 +254,13 @@ public class EmailUtil {
 
 
             // Set Subject: 主题文字
-            message.setSubject(subject);
+            message.setSubject(MimeUtility.encodeText(subject,MimeUtility.mimeCharset("utf-8"),null));
 
             // 创建消息部分
             BodyPart messageBodyPart = new MimeBodyPart();
 
             // 消息
-            messageBodyPart.setText(msg);
+            messageBodyPart.setText(MimeUtility.encodeText(msg,MimeUtility.mimeCharset("utf-8"),null));
 
             // 创建多重消息
             Multipart multipart = new MimeMultipart();

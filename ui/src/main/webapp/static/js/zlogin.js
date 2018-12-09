@@ -85,7 +85,7 @@ var loginForm={
 
     //登录按扭提交
     submit:function(){
-       
+
         if(!this.validator.valid(this.doms.form)){
             return;
         }
@@ -119,6 +119,7 @@ var loginForm={
 
             this.setCookie('password', jso.pwd, 365);
         }
+        var that =this;
         Ajax.post(PATH + "/sys/auth/loginPost.json", jso, function(data) {console.log(data);//alert(data);
             if (data[AJAX_RESULT] == AJAX_SUCC) {
                 this.setCookie('userId', data.data, 7);
@@ -130,8 +131,10 @@ var loginForm={
                 window.location = PATH + "/index.htm";
 
             } else {
-            dialog.close(dialogId);
-            dialog.alert(data.msg);
+                //刷新验证码
+                that.getPicCaptcha();
+                dialog.close(dialogId);
+                dialog.alert(data.msg);
            // alert(data.msg);
               /*  var ul = $$("#login_form").find(".failure").find("ul");
                 ul.empty();

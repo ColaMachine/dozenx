@@ -32,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * 二维码生成海报
@@ -1028,6 +1029,12 @@ public class ImageUtil {
     public static   BufferedImage saveImageFromUrl(String url ,Path path,String fileName) throws Exception {
         logger.debug("url:"+url);
         logger.debug("fileName:"+fileName);
+
+        File folder = path.toFile();
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
+
         InputStream inputStream =null;
         try {
              inputStream = HttpRequestUtil.getInputStream(url);//获取输入流 在final里关闭
@@ -1058,14 +1065,22 @@ public class ImageUtil {
 
     }
 
+
     /**
      * 从url 下载图片
-     * @param file
-     * @throws Exception  非图片 url 不可读  写文件失败
+     * @param fromFile
+     * @param path
+     * @param fileName
+     * @return
+     * @throws Exception   非图片 url 不可读  写文件失败
      */
     public static   BufferedImage saveImageFromFile(File fromFile ,Path path,String fileName) throws Exception {
 
         logger.debug("fileName:"+fileName);
+        File folder = path.toFile();
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
         InputStream inputStream =null;
         try {
             inputStream = new FileInputStream(fromFile);//获取输入流 在final里关闭

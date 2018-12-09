@@ -22,4 +22,6 @@ public class RedisConstants {
     public static final int DAY_SECONDS=24*60*60;
 
     public static final int HOUR_SECONDS=60*60;
+
+    public static final String TOKEN_REDIS_KEY="token_redis_key";
 }

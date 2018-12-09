@@ -118,9 +118,8 @@ public class LoginController extends BaseController {
      * @date 2015年5月14日上午11:33:39
      */
     @RequestMapping(value = "/login/sms/request.json", method = RequestMethod.POST)
-    public
     @ResponseBody
-    ResultDTO sendSmsValidCode4LoginDirectRegister(HttpServletRequest request) throws Exception {
+    public ResultDTO sendSmsValidCode4LoginDirectRegister(HttpServletRequest request) throws Exception {
         String ip = RequestUtil.getIp(request);
         String phone = request.getParameter("phone");
         String helloSms = (String) request.getSession().getAttribute("hellosms");

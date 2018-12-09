@@ -10,6 +10,7 @@ import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -157,6 +158,8 @@ public class UpgradeController extends BaseController {
         }
         return this.getResult();
     }
+
+
 
 
 }

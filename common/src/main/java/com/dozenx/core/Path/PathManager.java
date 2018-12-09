@@ -92,7 +92,7 @@ public final class PathManager {
             Config config = Config.getInstance();
 
             INSTANCE.updateDirs(config);
-            logger.error("PathManager load complete 3ks to zzw ");
+            logger.error("PathManager load complete zzw ");
         } catch (Exception e) {
             logger.error("维护系统默认目录出错", e);
         }

@@ -10,6 +10,28 @@ public class InterfaceException extends MyException{
         super(code,msg);
 
     }
+
+    public InterfaceException(String code, String msg,String url,String param) {
+        super(code,msg+" url:"+url+" param:"+param);
+
+    }
+
+    public InterfaceException(String msg,String url,String param,Exception e) {
+        super("\"E2000078\", ",msg+" url:"+url+" param:"+param);
+
+    }
+
+
+    public InterfaceException(String code, String msg,String url,String param,Exception e) {
+        super(code,msg+" url:"+url+" param:"+param);
+
+    }
+    public InterfaceException(String code, String msg,String url,String param,String result ,Exception e) {
+        super(code,msg+" url:"+url+" param:"+param);
+
+    }
+
+
     public InterfaceException(int code, String msg) {
         super(code,msg);
 
