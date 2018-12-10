@@ -1151,4 +1151,6 @@ public class FaceInfoController extends BaseController {
 
             HttpRequestUtil.sendPost(url,map);
     }
+
+
 }

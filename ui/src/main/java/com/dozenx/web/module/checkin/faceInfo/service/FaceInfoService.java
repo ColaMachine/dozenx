@@ -27,6 +27,8 @@ import com.dozenx.web.module.checkin.checkinOut.bean.FinishTaskData;
 import com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut;
 import com.dozenx.web.module.checkin.faceCheckinOut.service.FaceCheckinOutService;
 import com.dozenx.web.module.checkin.faceInfo.action.FaceInfoController;
+import com.dozenx.web.util.BeanUtil;
+import com.dozenx.web.util.ConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,12 +177,13 @@ public void getAccessToken(){
 }
     @Async
     public void recognize(String camera,String data,HashMap map ){
+      //  TokenServiceImpl tokenService = BeanUtil.getBean("tokenService";
         //getAccessToken();
-        AuthHttpRequest.sendPostRequest()
-        String result  = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+FaceInfoController.accessToken, JsonUtil.toJson(map));
+        Map<String,Object> resultMap = AuthHttpRequest.sendPostRequest(ConfigUtil.getConfig("ai.face.recogize.url"),JsonUtil.toJson(map));
+       // String result  = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+FaceInfoController.accessToken, JsonUtil.toJson(map));
         //logger.info(result);
         //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502
-        HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
+       // HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
         String code = MapUtils.getString(resultMap,"code") ;
 
 
@@ -201,6 +204,10 @@ public void getAccessToken(){
             for (int j = 0; j < FaceInfoController.employeList.size(); j++) {
                 double sum = 0;
                 FaceInfo faceInfo = FaceInfoController.employeList.get(j);
+
+                if(System.currentTimeMillis()-faceInfo.lastCheckinTime<Integer.valueOf(ConfigUtil.getConfig("chekcin.face.interval"))*1000){
+                    continue;//如果时间小于最小建个时间 不匹配
+                }
                 for (int k = 0; k < 128; k++) {
                     sum += faceInfo.getFaceAry()[k] * thisMan[k];
                 }
@@ -224,7 +231,7 @@ public void getAccessToken(){
                         logger.error("发生错误 faceInfo的id 为空");
                     }
                     try {
-                        ImageUtil.saveBase64Image(PathManager.getInstance().getImagePath().resolve("checkin").toString(),checkinOut.getId()+".png",data);
+                        ImageUtil.saveBase64Image(PathManager.getInstance().getHomePath().resolve("checkin").toString(),checkinOut.getId()+".png",data);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

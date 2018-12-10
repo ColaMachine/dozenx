@@ -48,7 +48,7 @@ public class AuthHttpRequest {
     public static Map<String, Object> sendPostRequest(String url, String params){
         //1.发送请求(第一次)
         String priURL = TokenHttpUtil.urlAddAccessToken(url);//请求参数添加access_token
-        HttpResult httpResult = HttpUtil.post(priURL, params);//发送get请求
+        HttpResult httpResult = HttpUtil.postBody(priURL, params);//发送get请求
         //2.分析请求返回结果（第一次）
         TokenHttpResult tokenHttpResult = TokenHttpUtil.analysisPriResult(httpResult, priURL, params);//分析第一次发送请求结果
         if(tokenHttpResult.getCode() == 403){//状态码为403，代表access_token已经失效
@@ -79,7 +79,7 @@ public class AuthHttpRequest {
         if(resultMap == null || resultMap.isEmpty()){//未得到结果
             throw new InterfaceException("E046401201",ErrorMessage.getErrorMsg("E2000009"),interfaceUrl, interfaceParam);//接口返回值转map后为空！
         }
-        String resultCode = (String) resultMap.get("resultCode");
+        String resultCode = (String) resultMap.get("code");
         if(StringUtils.isBlank(resultCode) || !resultCode.equals("0")){
             throw new InterfaceException((String) resultMap.get("message"), interfaceUrl, interfaceParam, interfaceResult);
         }

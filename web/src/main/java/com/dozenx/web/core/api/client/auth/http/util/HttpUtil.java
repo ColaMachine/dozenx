@@ -290,9 +290,15 @@ public class HttpUtil {
             log.append("请求url（").append(url).append("），");
         }
         if(StringUtils.isNotBlank(params)){
+            if(params.length()>300){
+                params=params.substring(0,300);
+            }
             log.append("请求参数（").append(params).append("），");
         }
         if(StringUtils.isNotBlank(bodyParams)){
+            if(bodyParams.length()>300){
+                bodyParams=bodyParams.substring(0,300);
+            }
             log.append("请求体参数（").append(bodyParams).append("），");
         }
         if(httpResultNotNull){

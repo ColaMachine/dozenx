@@ -1,7 +1,7 @@
 package com.dozenx.web.core.api.client.auth.http.util;
 
 import com.dozenx.web.core.RedisConstants;
-import com.dozenx.web.core.api.client.auth.http.service.TokenService;
+import com.dozenx.web.core.api.client.auth.token.service.TokenService;
 import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +29,8 @@ public class TokenClient {
      */
     public static TokenService getTokenService(){
         if(tokenService == null){
-            tokenService = (TokenService) BeanUtil.getBean("tokenService");
+            Object object = BeanUtil.getBean("tokenService");
+            tokenService = (TokenService)object;
         }
         return tokenService;
     }

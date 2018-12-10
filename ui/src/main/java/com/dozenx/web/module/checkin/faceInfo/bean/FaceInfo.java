@@ -87,4 +87,6 @@ public class FaceInfo {
     public void setSysUser(SysUser sysUser) {
         this.sysUser = sysUser;
     }
+
+    public Long lastCheckinTime =0l;
 }
