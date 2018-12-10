@@ -640,4 +640,8 @@ public class JsonUtil {
         }
         return arr;
     }
+
+    public static Map<String,Object> toMap (String str){
+       return  toJavaBean(str,HashMap.class);
+    }
 }

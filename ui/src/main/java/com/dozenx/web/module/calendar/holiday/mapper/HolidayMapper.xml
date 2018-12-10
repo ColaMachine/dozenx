@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.calendar.holiday.dao.HolidayMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.calendar.holiday.bean.Holiday">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="date" jdbcType="DATE" property="date" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="nl" jdbcType="VARCHAR" property="nl" />
+      <result column="yl" jdbcType="VARCHAR" property="yl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    holiday.`id` ,holiday.`date` ,holiday.`type` ,holiday.`remark` ,holiday.`name` ,holiday.`nl` ,holiday.`yl` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from holiday
+    where holiday.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from holiday
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.calendar.holiday.bean.Holiday" >
+
+    insert into holiday (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{date,jdbcType=DATE}
+,#{type,jdbcType=INTEGER}
+,#{remark,jdbcType=VARCHAR}
+,#{name,jdbcType=VARCHAR}
+,#{nl,jdbcType=VARCHAR}
+,#{yl,jdbcType=VARCHAR}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.calendar.holiday.bean.Holiday" >
+    insert into holiday
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="date != null" >  
+           `date`,
+        </if>  
+        <if test="type != null" >  
+           `type`,
+        </if>  
+        <if test="remark != null" >  
+           `remark`,
+        </if>  
+        <if test="name != null" >  
+           `name`,
+        </if>  
+        <if test="nl != null" >  
+           `nl`,
+        </if>  
+        <if test="yl != null" >  
+           `yl`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="date != null" >  
+          #{date,jdbcType=DATE},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="nl != null" >  
+          #{nl,jdbcType=VARCHAR},
+        </if>  
+        <if test="yl != null" >  
+          #{yl,jdbcType=VARCHAR},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.calendar.holiday.bean.Holiday" >
+    update holiday
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="date != null" >  
+             `date`=#{date,jdbcType=DATE},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="nl != null" >  
+             `nl`=#{nl,jdbcType=VARCHAR},
+        </if>  
+        <if test="yl != null" >  
+             `yl`=#{yl,jdbcType=VARCHAR},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.calendar.holiday.bean.Holiday" >
+    update holiday
+    set 
+              `date`=#{date,jdbcType=DATE},
+              `type`=#{type,jdbcType=INTEGER},
+              `remark`=#{remark,jdbcType=VARCHAR},
+              `name`=#{name,jdbcType=VARCHAR},
+              `nl`=#{nl,jdbcType=VARCHAR},
+              `yl`=#{yl,jdbcType=VARCHAR}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from holiday where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="date != null and date != '' ">  
+           and `date` = #{date}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="nl != null and nl != '' ">  
+           and `nl` = #{nl}
+        </if>  
+        <if test="nlLike != null and nlLike != '' ">
+             and `nl` like CONCAT('%',#{nlLike},'%')
+        </if>   
+        <if test="yl != null and yl != '' ">  
+           and `yl` = #{yl}
+        </if>  
+        <if test="ylLike != null and ylLike != '' ">
+             and `yl` like CONCAT('%',#{ylLike},'%')
+        </if>   
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from holiday
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and holiday.`id` = #{id}
+        </if>  
+        <if test="date != null and date != '' ">  
+           and holiday.`date` = #{date}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and holiday.`type` = #{type}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and holiday.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and holiday.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="name != null and name != '' ">  
+           and holiday.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and holiday.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="nl != null and nl != '' ">  
+           and holiday.`nl` = #{nl}
+        </if>  
+        <if test="nlLike != null and nlLike != '' ">  
+             and holiday.`nl` like CONCAT('%',#{nlLike},'%')
+        </if>   
+        <if test="yl != null and yl != '' ">  
+           and holiday.`yl` = #{yl}
+        </if>  
+        <if test="ylLike != null and ylLike != '' ">  
+             and holiday.`yl` like CONCAT('%',#{ylLike},'%')
+        </if>   
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from holiday where 1=1
+        <if test="id != null and id != '' ">  
+           and holiday.`id` = #{id}
+        </if>  
+        <if test="date != null and date != '' ">  
+           and holiday.`date` = #{date}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and holiday.`type` = #{type}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and holiday.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and holiday.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="name != null and name != '' ">  
+           and holiday.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and holiday.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="nl != null and nl != '' ">  
+           and holiday.`nl` = #{nl}
+        </if>  
+        <if test="nlLike != null and nlLike != '' ">  
+             and holiday.`nl` like CONCAT('%',#{nlLike},'%')
+        </if>   
+        <if test="yl != null and yl != '' ">  
+           and holiday.`yl` = #{yl}
+        </if>  
+        <if test="ylLike != null and ylLike != '' ">  
+             and holiday.`yl` like CONCAT('%',#{ylLike},'%')
+        </if>   
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from holiday where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="date != null and date != '' ">
+           or `date` = #{date}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="nl != null and nl != '' ">
+           or `nl` = #{nl}
+        </if>
+        <if test="yl != null and yl != '' ">
+           or `yl` = #{yl}
+        </if>
+  </select>
+</mapper>

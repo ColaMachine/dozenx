@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.dozenx.util.DateUtil;
 import com.dozenx.util.HttpRequestUtil;
 import com.dozenx.util.JsonUtil;
+import com.dozenx.util.MapUtils;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
@@ -13,6 +14,7 @@ import com.dozenx.web.util.ConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -20,14 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 /**
  * Created by dozen.zhang on 2017/3/29.
  */
@@ -309,6 +310,27 @@ public class CalendarController extends BaseController {
         return getResult();
         // returnMap.put("RESULT", true);
         // return returnMap;
+    }
+    @PostConstruct
+    @Scheduled(cron="0 0 0 * * *")
+    public void holiday(){
+        //尽量将全年的节假日安排放到一张holiday的表中
+        //如果实在查询不到的话 就每天早上调用接口 但是这个接口会有问题,到时候就麻烦了
+
+
+        String holidayUrl = ConfigUtil.getConfig("holiday.url");
+       String today =  DateUtil.getTodayDate();
+        holidayUrl = holidayUrl.replace("{date}",today);
+        String result = HttpRequestUtil.sendGet(holidayUrl);
+
+        Map resultMap = JsonUtil.toMap(result);
+        if(MapUtils.getString(resultMap,"code").equals("0")){
+
+            Object holiday = resultMap.get("holiday");
+            if(holiday!=null){
+                CalendarState . TodayIsWorkDay =false;
+            }
+        }
     }
 
 

@@ -1134,7 +1134,7 @@ return ymd;
         Generator generator =new Generator();
        // generator.generate(new String[]{"SysUser"});
       //  generator.generate(new String[]{"CheckinLate"});
-        generator.generate(new String[]{"FaceInfo"});
+        generator.generate(new String[]{"Holiday"});
 //        generator.generate(new String[]{"FaceCheckinOut"});
        // generator.generate(new String[]{"CheckinOut"});
 //        generator.generate(new String[]{"SSCFilterForm"});

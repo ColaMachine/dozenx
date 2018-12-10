@@ -176,7 +176,7 @@ public void getAccessToken(){
     @Async
     public void recognize(String camera,String data,HashMap map ){
         //getAccessToken();
-        AuthHttpRequest.sendPostRequest()
+       // AuthHttpRequest.sendPostRequest()
         String result  = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+FaceInfoController.accessToken, JsonUtil.toJson(map));
         //logger.info(result);
         //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502

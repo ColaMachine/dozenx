@@ -167,16 +167,16 @@ public final class PathManager {
     private PathManager() {
 
 
-        System.out.println(PathManager.getResource("config.properties"));
+        //System.out.println(PathManager.getResource("config.properties"));
         //  String protectDomain = PathManager.class.getProtectionDomain().getCodeSource().getLocation().toString();
-        PathManager.getResource("");
+        //PathManager.getResource("");
         try {
 
 
             URL urlToSource = PathManager.getResource("");//PathManager.class.getProtectionDomain().getCodeSource().getLocation();
             logger.info("protectionDomain:" + PathManager.class.getProtectionDomain().getCodeSource().getLocation());
             //protectionDomain:file:/D:/apache-tomcat-8.5.34/selenium_jar/common-1.0-SNAPSHOT.jar
-            logger.info("classLoader resource:" + PathManager.getResource(""));
+            logger.info("classLoader resource:" + urlToSource);
             // classLoader resource:file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 向上找到classes目录
             logger.info("getResource(\"\") :" + urlToSource);

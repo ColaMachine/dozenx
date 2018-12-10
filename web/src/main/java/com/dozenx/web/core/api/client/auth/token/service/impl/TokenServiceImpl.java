@@ -9,6 +9,7 @@ import com.dozenx.util.JsonUtil;
 import com.dozenx.web.core.api.client.auth.token.service.TokenService;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.util.ConfigUtil;
+import com.dozenx.web.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +54,7 @@ public class TokenServiceImpl implements TokenService {
         //Long loseTimestamp = (Long) data.get("loseTimestamp");//token失效时间
         // int seconds = (int) ((loseTimestamp-oauthTimestamp)/1000);//access_token有效时间
         int seconds = (int) data.get("expiresIn");
-        RedisUtil.set(key, oauthToken, seconds);//access_token存到redis
+        RedisUtil.setex(key, oauthToken, seconds);//access_token存到redis
         return oauthToken;//返回access_token
     }
 }
