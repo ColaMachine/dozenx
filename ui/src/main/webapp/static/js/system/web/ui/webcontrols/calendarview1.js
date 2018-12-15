@@ -141,6 +141,9 @@ CalendarView.prototype.render = function() {
 
       "<div class='dp_type_div' id=''><span  class='dp_types_icon_sp' style='background-color:#c3d9ff'></span><span style='width:3px'></span>" +
                "<span class='dp_types_title'>考勤</span><span class='dp_types_arrow'></span></div>" +
+
+                 "<div class='dp_type_div' id=''><span  class='dp_types_icon_sp' style='background-color:#000'></span><span style='width:3px'></span>" +
+                       "<span class='dp_types_title'>迟到</span><span class='dp_types_arrow'></span></div>" +
       "<div class='dp_type_div' id=''><span  class='dp_types_icon_sp' style='background-color:#F6C4CE'></span><span style='width:3px'></span>" +
         "<span class='dp_types_title'>计划</span><span class='dp_types_arrow'></span></div>" +
 
@@ -321,7 +324,15 @@ CalendarView.prototype.getCalendarEventDialogView = function() {
     "').deleteCalendarEventAction()\"></input>" +
     "<input type=\"button\" value=\"详细\" onClick=\"Instance('" +
     this.index +
-    "').editCalendarEventAction()\"></input><select id='event_type'><option value=0>工作</option><option value=1>生活</option><option value=2>学习</option><option value=9>考勤</option><option value=10>迟到</option><option value=11>计划</option><option value=12>正在做</option><option value=13>带校验</option><option value=14>已完成</option></select>" +
+    "').editCalendarEventAction()\"></input><select id='event_type'>"+
+"<option value=0>工作</option>"+
+" <option value=1>生活</option>"+
+"<option value=2>学习</option>"+
+//"<option value=9>考勤</option><option value=10>迟到</option>"+
+"<option value=11>计划</option>"+
+"<option value=12>正在做</option>"+
+"<option value=13>带校验</option>"+
+"<option value=14>已完成</option></select>" +
     "</td></tr>" +
     "</table></div>";
   return str;
