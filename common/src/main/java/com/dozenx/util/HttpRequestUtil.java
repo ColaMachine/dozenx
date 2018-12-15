@@ -256,7 +256,7 @@ public class HttpRequestUtil {
             logger.info("success to httpget \n" + urlNameString + " \n cost time:" + (endTime - startTime) + "\n result:" + result);
 
         } catch (Exception e) {
-            // System.out.println("发送GET请求出现异常！" + e);
+            // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
             //   logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
@@ -305,7 +305,7 @@ public class HttpRequestUtil {
             Long endTime = System.currentTimeMillis();
             logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (IOException e) {
-            // System.out.println("发送GET请求出现异常！" + e);
+            // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
             //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
@@ -356,7 +356,7 @@ public class HttpRequestUtil {
             Long endTime = System.currentTimeMillis();
             logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
-            // System.out.println("发送GET请求出现异常！" + e);
+            // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
             //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
@@ -410,7 +410,7 @@ public class HttpRequestUtil {
             Long endTime = System.currentTimeMillis();
             logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
-            // System.out.println("发送GET请求出现异常！" + e);
+            // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
             //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
@@ -466,7 +466,7 @@ public class HttpRequestUtil {
             Long endTime = System.currentTimeMillis();
             logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
-            // System.out.println("发送GET请求出现异常！" + e);
+            // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
             //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
@@ -583,7 +583,7 @@ public class HttpRequestUtil {
             for (Iterator iterator = set.iterator(); iterator.hasNext();) {
                 String key = (String) iterator.next();
                 if ("Set-Cookie".equals(key)) {
-                    System.out.println("key=" + key+",开始获取cookie");
+                    logger.debug("key=" + key+",开始获取cookie");
                     List<String> list = headdMap.get(key);
                    // StringBuilder builder = new StringBuilder();
                     for (String str : list) {
@@ -595,13 +595,13 @@ public class HttpRequestUtil {
                     }
 
                    // firstCookie=builder.toString();
-                   // System.out.println("第一次得到的cookie="+firstCookie);
+                   // logger.debug("第一次得到的cookie="+firstCookie);
                 }
             }
 
             logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
-            // System.out.println("发送GET请求出现异常！" + e);
+            // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
             //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
@@ -698,7 +698,7 @@ public class HttpRequestUtil {
             }
             conn.disconnect();
         } catch (Exception e) {
-            // //System.out.println("发送 POST 请求出现异常！" + e);
+            // //logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
             return "400";
         }
@@ -761,7 +761,7 @@ public class HttpRequestUtil {
             logger.info("session_value" + session_value);
             conn.disconnect();
         } catch (Exception e) {
-            // //System.out.println("发送 POST 请求出现异常！" + e);
+            // //logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
             return "400";
         }
@@ -828,7 +828,7 @@ public class HttpRequestUtil {
             }
             conn.disconnect();
         } catch (Exception e) {
-            // //System.out.println("发送 POST 请求出现异常！" + e);
+            // //logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
             return "400";
         }
@@ -889,7 +889,7 @@ public class HttpRequestUtil {
             }
             conn.disconnect();
         } catch (Exception e) {
-            // //System.out.println("发送 POST 请求出现异常！" + e);
+            // //logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
             return "400";
         }
@@ -953,7 +953,7 @@ public class HttpRequestUtil {
             cookieMap.putAll(newCookieMap);
             conn.disconnect();
         } catch (Exception e) {
-            // //System.out.println("发送 POST 请求出现异常！" + e);
+            // //logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
             return "400";
         }
@@ -1017,7 +1017,7 @@ public class HttpRequestUtil {
         reader.close();
         l_reader.close();
         l_urlStream.close();
-        // //System.out.println(sTotalString);
+        // //logger.debug(sTotalString);
         return sTotalString.toString();
     }
 
@@ -1060,7 +1060,7 @@ public class HttpRequestUtil {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！" + e);
+          //  logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
         }
         // 使用finally块来关闭输出流、输入流
@@ -1145,14 +1145,14 @@ public class HttpRequestUtil {
         try {
             uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
             httppost.setEntity(uefEntity);
-            System.out.println("executing request " + httppost.getURI());
+            //logger.debug("executing request " + httppost.getURI());
             CloseableHttpResponse response = httpclient.execute(httppost);
             try {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     System.out
                             .println("--------------------------------------");
-                    System.out.println("Response content: "
+                    logger.debug("Response content: "
                             + EntityUtils.toString(entity, "UTF-8"));
                     System.out
                             .println("--------------------------------------");
@@ -1190,7 +1190,7 @@ public class HttpRequestUtil {
 
         try {
             String bodyString = MapUtils.join(params, "=", "&");
-           // System.out.println(bodyString);
+           // logger.debug(bodyString);
             byte[] body = bodyString
                     .getBytes("utf-8");// ("[" + JSON.toJSONString(params) + "]")
             URL realUrl = new URL(url);
@@ -1219,7 +1219,7 @@ public class HttpRequestUtil {
             out.flush();
             out.close();
             // 定义BufferedReader输入流来读取URL的响应
-            System.out.println(conn.getResponseCode());
+            logger.debug(conn.getResponseCode()+"");
             if (conn.getResponseCode() != 200) {
                 return "400";
             }
@@ -1229,10 +1229,10 @@ public class HttpRequestUtil {
             while ((line = in.readLine()) != null) {
                 result.append(line);
             }
-            //System.out.println(result.toString());
+            //logger.debug(result.toString());
             conn.disconnect();
         } catch (Exception e) {
-            // //System.out.println("发送 POST 请求出现异常！" + e);
+            // //logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
             return "400";
         }
@@ -1266,7 +1266,7 @@ public class HttpRequestUtil {
 
         try {
             String bodyString = MapUtils.join(params, "=", "&");
-            System.out.println(bodyString);
+            logger.debug(bodyString);
             byte[] body = bodyString
                     .getBytes("utf-8");// ("[" + JSON.toJSONString(params) + "]")
             URL realUrl = new URL(url);
@@ -1288,7 +1288,7 @@ public class HttpRequestUtil {
             // 设置请求内容类型
             conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
           //  conn.setConnectTimeout(asdf);
-            System.out.println("Content-Type"+ "multipart/form-data; boundary=" + boundary+LINEND);
+            logger.debug("Content-Type"+ "multipart/form-data; boundary=" + boundary+LINEND);
            /* conn.setRequestProperty("Content-Length",
                     String.valueOf(body.length));*/
 
@@ -1336,7 +1336,7 @@ public class HttpRequestUtil {
             //out.flush();
             //  out.close();
             // 定义BufferedReader输入流来读取URL的响应
-            System.out.println(conn.getResponseCode());
+            logger.debug(conn.getResponseCode()+"");
             if (conn.getResponseCode() != 200) {
                 return "400";
             }
@@ -1346,10 +1346,10 @@ public class HttpRequestUtil {
             while ((line = in.readLine()) != null) {
                 result.append(line);
             }
-            System.out.println(result.toString());
+            logger.debug(result.toString());
             conn.disconnect();
         } catch (Exception e) {
-            // //System.out.println("发送 POST 请求出现异常！" + e);
+            // //logger.debug("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
             return "400";
         }
@@ -1395,7 +1395,7 @@ public class HttpRequestUtil {
             if (key.equalsIgnoreCase("set-cookie")) {
 
                 cookieVal = conn.getHeaderField(i);
-                System.out.println("cookieVal:" + cookieVal);
+                logger.debug("cookieVal:" + cookieVal);
                 cookieVal = cookieVal.substring(0, cookieVal.indexOf(";"));
                 cookieStr = cookieStr + cookieVal + ";";
             }
@@ -1548,7 +1548,7 @@ public class HttpRequestUtil {
             e.printStackTrace();
         }
         InetAddress addr = InetAddress.getByName(host);
-        System.out.println(addr.getHostAddress());
+        logger.debug(addr.getHostAddress());
         Socket socket = new Socket(addr.getHostAddress(), 80);
         OutputStreamWriter streamWriter = new OutputStreamWriter(socket.getOutputStream(), charset);
         BufferedWriter bufferedWriter = new BufferedWriter(streamWriter);
@@ -1613,7 +1613,7 @@ public class HttpRequestUtil {
         //logger.info(sb.toString());
         boolean bodyStart = false;
         boolean chunked = false;
-        // System.out.println("get开始接收数据");
+        // logger.debug("get开始接收数据");
         logger.info("get begin receive , timelapse:" + (System.currentTimeMillis() - startTime));
         while (null != (s = bufferedReader.readLine())) {
             logger.info(s);
@@ -1696,7 +1696,7 @@ public class HttpRequestUtil {
      */
     public static String doPost(HttpHeader header, String posturl, HashMap params, String charset) throws IOException {
         Long startTime = System.currentTimeMillis();
-        System.out.println("开始post请求");
+        logger.debug("开始post请求");
         String url = posturl;
         String formdata = "formhash=afabcdb9&referer=index.php&loginfield=username&username=zjlgdxfj&password=123456fj&questionid=0&answer=&cookietime=2592000&loginmode=&styleid=&loginsubmit=%CC%E1+%26%23160%3B+%BD%BB";
         int contentLength = formdata.length();
@@ -1720,7 +1720,7 @@ public class HttpRequestUtil {
             e.printStackTrace();
         }
         InetAddress addr = InetAddress.getByName(host);
-        System.out.println(addr.getHostAddress());
+        logger.debug(addr.getHostAddress());
         Socket socket = new Socket(/*addr.getHostAddress()*/"173.192.169.27", 80);
         OutputStreamWriter streamWriter = new OutputStreamWriter(socket.getOutputStream(), charset);
         BufferedWriter bufferedWriter = new BufferedWriter(streamWriter);
@@ -1783,7 +1783,7 @@ public class HttpRequestUtil {
         while (null != (s = bufferedReader.readLine())) {
 
             //logger.info(s);
-            //  System.out.println(s);
+            //  logger.debug(s);
             logger.info("post receive:" + s);
             if (bodyStart) {
                 if (chunked) {
@@ -1838,7 +1838,7 @@ public class HttpRequestUtil {
         String formdata = "formhash=afabcdb9&referer=index.php&loginfield=username&username=zjlgdxfj&password=123456fj&questionid=0&answer=&cookietime=2592000&loginmode=&styleid=&loginsubmit=%CC%E1+%26%23160%3B+%BD%BB";
         int contentLength = formdata.length();
         Socket socket = new Socket("173.192.169.27", 80);
-        System.out.println("contentLength" + contentLength);
+        logger.debug("contentLength" + contentLength);
         OutputStreamWriter streamWriter = new OutputStreamWriter(socket.getOutputStream(), "gbk");
         BufferedWriter bufferedWriter = new BufferedWriter(streamWriter);
         // InputStreamReader streamReader = new InputStreamReader(new FileInputStream(new File("/Users/luying/Documents/workspace/calendar/src/main/java/pachong/zhongwen.txt")),"utf-8");
@@ -1849,12 +1849,12 @@ public class HttpRequestUtil {
         bufferedWriter.write(headerTxt);
         bufferedWriter.write(formdata);
         bufferedWriter.flush();
-        System.out.println(headerTxt);
+        logger.debug(headerTxt);
         StringBuffer receiveData = new StringBuffer();
         String s = "";
         while (null != (s = bufferedReader.readLine())) {
             //s= new String(s.getBytes("gbk"), "gbk");
-            System.out.println(s);
+            logger.debug(s);
             receiveData.append(s);
         }
         String loginConent = receiveData.toString();
@@ -2461,7 +2461,7 @@ public class HttpRequestUtil {
                 {
                     sb2.append((char) ch);
                 }
-                System.out.println(sb2.toString());
+                logger.debug(sb2.toString());
             }
             outStream.close();
             conn.disconnect();
@@ -2482,7 +2482,7 @@ public class HttpRequestUtil {
 //        String url = "http://192.168.41.53/sms-service/sms/send?mobile=18368729738&msg=%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%A4%B1%E8%B4%A5&access_token=5aaf89c1bfaed238e1eea6c1";
 //
 //        String result = HttpRequestUtil.sendGet(url);
-//        System.out.println(result);
+//        logger.debug(result);
 
 //        String url = "http://pic-bucket.nosdn.127.net/photo/0001/2018-04-07/DEQ8E03N00AP0001NOS.jpg";
 //
@@ -2492,7 +2492,7 @@ public class HttpRequestUtil {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        System.out.println(result);
+//        logger.debug(result);
      /*   javax.servlet.http.HttpServletRequest requets;
         String url = "http://127.0.0.1/timebuysrv/image/uploadSubmit.json";
         try {
@@ -2515,10 +2515,10 @@ public class HttpRequestUtil {
         String url ="http://hotels.ctrip.com/Domestic/tool/AjaxHotelCommentList.aspx?MasterHotelID=436543&hotel=436543&NewOpenCount=0&AutoExpiredCount=0&RecordCount=3671&OpenDate=&card=-1&property=-1&userType=-1&productcode=&keyword=&roomName=&orderBy=2&currentPage=2&viewVersion=c&contyped=0&eleven=58533f54d5b03dfe2ac58984234f97b3b0c3e869a72b129321b5863ee57a82e3&callback=CASVhrenqketVsbXP&_=1533526730862";
         String html = HttpRequestUtil.UrlRead(url,"hotels.ctrip.com","http://hotels.ctrip.com/hotel/436543.html",cookieMap);
 
-        System.out.println(html);
+        //logger.debug(html);
 
 
-        System.out.println();
+        //logger.debug();
 //
 //        try {
 //            HashMap<String,File> map =new HashMap<>();

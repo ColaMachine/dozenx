@@ -181,21 +181,22 @@ public void getAccessToken(){
         //getAccessToken();
         Map<String,Object> resultMap = AuthHttpRequest.sendPostRequest(ConfigUtil.getConfig("ai.face.recogize.url"),JsonUtil.toJson(map));
        // String result  = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+FaceInfoController.accessToken, JsonUtil.toJson(map));
+
         //logger.info(result);
         //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502
        // HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
         String code = MapUtils.getString(resultMap,"code") ;
 
 
-        if (!code.equals("0")) {
+        if (!code.equals("0")) {//如果调用ai接口不成功成功
             String msg  = MapUtils.getString(resultMap,"msg");
 
             return ;
         }
         JSONObject jsonObject = (JSONObject) resultMap.get("data");
-        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
+        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);    //去的结果
         if(finishTaskData.getResultNum()==0)
-            return ;
+            return ;            //如果没有识别到
         for (int i = 0; i < finishTaskData.getResult().size(); i++) {
             FinishTask finishTask = finishTaskData.getResult().get(i);
             if (finishTask.getLocation().getWidth() < 10) continue;
@@ -212,7 +213,7 @@ public void getAccessToken(){
                     sum += faceInfo.getFaceAry()[k] * thisMan[k];
                 }
                 if (sum > 0.5) {
-                    logger.info(faceInfo.getSysUser().getUsername()+faceInfo.getUserId() + "score" + sum);
+                    logger.info(DateUtil.getNow()+" "+faceInfo.getSysUser().getUsername()+faceInfo.getUserId() + "score" + sum);
                     //查出这个人是谁 并插入一条考勤记录表
                     FaceCheckinOut checkinOut = new FaceCheckinOut();
                     checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
@@ -222,7 +223,7 @@ public void getAccessToken(){
                     checkinOut.setScore((float)sum);
                     checkinOut.setCamera(camera==null?"0":camera);
                     checkinOut.setUserName(faceInfo.getSysUser().getUsername());
-
+                    faceInfo.lastCheckinTime=System.currentTimeMillis();
                     //如果这个时间段已经有过人脸打卡了 那么就不人脸识别了
                     boolean hasFaceCheckIn = hasFaceCheckIn(faceInfo.getUserId());
                     faceCheckinOutService.save(checkinOut);
@@ -236,16 +237,16 @@ public void getAccessToken(){
                         e.printStackTrace();
                     }
                     try {
-                        logger.info("开门");
+                        logger.info("open door开门");
                         VirtualDoorService.open();//开门加上消息推送
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-                    logger.info("微信推送"+faceInfo.getSysUser().getUsername(), "识别成功");
+                    logger.info("push weixin msg face recog 微信推送"+faceInfo.getSysUser().getUsername(), "识别成功");
                     VirtualWeixinService.sendMsg(faceInfo.getSysUser().getUsername(), "识别成功"+ DateUtil.toDateStr(new Date(), "yyyy-MM-dd-HH:mm:ss"));
                     break;
                 }
-                System.out.println(sum);
+                //System.out.println(sum);
             }
             //  System.out.println(sum);
         }

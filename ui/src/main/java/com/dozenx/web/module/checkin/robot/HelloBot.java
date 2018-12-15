@@ -44,9 +44,9 @@ public class HelloBot extends WeChatBot {
         if (StringUtils.isNotEmpty(message.getName())) {
            // logger.info("接收到 [{}] 的消息: {}", message.getName(), message.getText());
 
-            if (message.getFromUserName().equals("@ff89f7940737c5a1c4f9aebccf2b269e3a3af343a97a19bbdfd38a99177e8017")) {
-                this.sendMsg(message.getFromUserName(), "自动回复:你在说什么呢 " + message.getText());
-            }
+//            if (message.getFromUserName().equals("@ff89f7940737c5a1c4f9aebccf2b269e3a3af343a97a19bbdfd38a99177e8017")) {
+//                this.sendMsg(message.getFromUserName(), "自动回复:你在说什么呢 " + message.getText());
+//            }
             // this.sendMsg(message.getFromUserName(), "自动回复:你在说什么呢 " + message.getText());
         }
     }

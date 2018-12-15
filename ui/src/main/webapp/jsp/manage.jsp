@@ -322,7 +322,7 @@ var menuList=[
 {id:12,name:"alert",url:"/static/html/example/alert.html",icon:"fa fa-spinner",pid:8},
 /* {id:13,name:"短信",url:"/smsBatch/list.htm",icon:"fa fa-spinner",pid:0},
 {id:14,name:"合作伙伴",url:"/PartnerUserlist.htm",icon:"fa fa-spinner",pid:0},*/
-{id:15,name:"用户",url:"/sysUser/list.htm",icon:"fa fa-spinner",pid:5},
+{id:15,name:"用户",url:"/sys/auth/user/list.htm",icon:"fa fa-spinner",pid:5},
 {id:16,name:"角色",url:"/sysRole/list.htm",icon:"fa fa-spinner",pid:5},
 /* {id:17,name:"资源",url:"/sysResource/list.htm",icon:"fa fa-spinner",pid:5},*/
 {id:50017,name:"权限",url:"/sysPermission/list.htm",icon:"fa fa-spinner",pid:5},

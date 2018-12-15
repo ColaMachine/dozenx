@@ -1,6 +1,4 @@
-易智客部署文档
-一、易智客系统部署文档
-创建一个新的数据库awifi_opms库 并执行awifi_probe.sql 脚本
+创建一个新的数据库awifi_ssc库 并执行awifi_ssc.sql 脚本
 
 新建一个tomcat
 /service/tomcat-npbiz-ezhike-8096/

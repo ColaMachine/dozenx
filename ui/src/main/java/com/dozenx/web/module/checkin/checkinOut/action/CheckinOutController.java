@@ -1525,7 +1525,6 @@ public class CheckinOutController extends BaseController {
     }
 
 
-
 //    @RequestMapping(value = "/notifyLate")
 //    @ResponseBody
 //@PostConstruct
@@ -1615,15 +1614,15 @@ public class CheckinOutController extends BaseController {
                 //TODO delete
                 continue;
             }
-            begin = timeStrAry[i].split("-")[1];
+            begin = timeStrAry[i].split("-")[1];//正常的考勤时间开始时间
             if (begin == null) {
                 logger.error("error in begin ");
             }
-            end = timeStrAry[i].split("-")[2];
+            end = timeStrAry[i].split("-")[2];//正常的考勤时间结束时间
             if (begin == null) {
                 logger.error("error in end ");
             }
-            noCheckinTime = timeStrAry[i].split("-")[3];
+            noCheckinTime = timeStrAry[i].split("-")[3];//未打卡的截止时间
             Calendar calendar1 = Calendar.getInstance();
             calendar1.set(Integer.valueOf(date.split("-")[0]), Integer.valueOf(date.split("-")[1]), Integer.valueOf(date.split("-")[2]), Integer.valueOf(end.split(":")[0]), Integer.valueOf(end.split(":")[1]));
             logger.info("开始查询" + date + " " + begin + " " + end + "");
@@ -1635,6 +1634,7 @@ public class CheckinOutController extends BaseController {
 
     /**
      * 计算这个人是 正常考勤 迟到 还是缺勤(忘记打卡)
+     *
      * @param date
      * @param begin
      * @param end
@@ -1684,6 +1684,8 @@ public class CheckinOutController extends BaseController {
 
                 //发送迟到通知
                 //    CheckinMessageService.sendMsg();
+
+                logger.info("准备发送迟到 未打卡  消息" + sysUser.getUsername() + DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH) + (late ? "迟到" : "未打卡"));
                 VirtualWeixinService.sendMsg(sysUser.getUsername(), DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH) + (late ? "迟到" : "未打卡"));//date + " " + begin + ":00" + "未打卡"
             } catch (Exception e) {
                 e.printStackTrace();

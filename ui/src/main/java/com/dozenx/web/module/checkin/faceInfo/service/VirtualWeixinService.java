@@ -15,6 +15,7 @@ import java.util.Date;
  */
 public class VirtualWeixinService {
 
+
     public static void sendMsg(String userName ,String msg){
 
         RedisUtil.lpush("checkinList", userName + " "+msg.trim() );

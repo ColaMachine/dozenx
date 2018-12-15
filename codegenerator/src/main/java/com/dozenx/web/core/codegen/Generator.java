@@ -149,8 +149,8 @@ public class Generator {
 
         cfg = new Configuration();
         StringTemplateLoader temp = new StringTemplateLoader();
-
         String serviceTpl = this.readFile2Str("src/main/resources/code/Service.tpl");
+        String serviceImplTpl = this.readFile2Str("src/main/resources/code/ServiceImpl.tpl");
         String beanTpl = this.readFile2Str("src/main/resources/code/Bean.tpl");
         String controllerTpl = this.readFile2Str("src/main/resources/code/Controller.tpl");
         String mapperTpl = this.readFile2Str("src/main/resources/code/Mapper.tpl");
@@ -166,6 +166,7 @@ public class Generator {
         // this.readFile2Str("src/main/resources/code/EditHtml.tpl");
         // String viewHtmlTpl =
         // this.readFile2Str("src/main/resources/code/ViewHtml.tpl");
+        temp.putTemplate("serviceImpl", serviceImplTpl);
         temp.putTemplate("service", serviceTpl);
         temp.putTemplate("bean", beanTpl);
         temp.putTemplate("action", controllerTpl);
@@ -546,11 +547,13 @@ return ymd;
         String pkg= table.getPkg();
         pkg=pkg.replaceAll("\\.","/");
 
-        writeFile("src/main/java/"+pkg+"/"+StringUtil.getabc(table.getName())+"/service",table.getName() + "Service.java", "service");
+        writeFile("src/main/java/"+pkg+"/"+StringUtil.getabc(table.getName())+"/service/impl/",table.getName() + "ServiceImpl.java", "serviceImpl");
+
+        writeFile("src/main/java/"+pkg+"/"+StringUtil.getabc(table.getName())+"/service/",table.getName() + "Service.java", "service");
 
 
 
-       // writeFile("src/main/java/cola/machine/service/",table.getName() + "Service.java", "service");
+        // writeFile("src/main/java/cola/machine/service/",table.getName() + "Service.java", "service");
     }
     public void preGenMapper() throws IOException, TemplateException {
 
@@ -1134,7 +1137,8 @@ return ymd;
         Generator generator =new Generator();
        // generator.generate(new String[]{"SysUser"});
       //  generator.generate(new String[]{"CheckinLate"});
-        generator.generate(new String[]{"FaceInfo"});
+        generator.generate(new String[]{"RiskRule","RiskRuleChild"});
+        //generator.generate(new String[]{"Holiday"});
 //        generator.generate(new String[]{"FaceCheckinOut"});
        // generator.generate(new String[]{"CheckinOut"});
 //        generator.generate(new String[]{"SSCFilterForm"});

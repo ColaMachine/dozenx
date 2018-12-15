@@ -457,7 +457,7 @@ CREATE TABLE `Goods` (
  `up` int(11)   DEFAULT 0  COMMENT '顶',
  `down` int(11)   DEFAULT 0  COMMENT '踩',
  `createTime` timestamp   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '创建时间',
- `updateTime` timestamp    COMMENT '更新时间',
+ `updateTime` timestamp   DEFAULT CURRENT_TIMESTAMP  COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品';
 

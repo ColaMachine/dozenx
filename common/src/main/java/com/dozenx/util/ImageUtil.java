@@ -571,7 +571,7 @@ public class ImageUtil {
         } else if (base64Str.startsWith("+")) {
             base64Str = base64Str.substring(1);
         }
-        base64Str = base64Str.substring(base64Str.indexOf("iVBO"));
+       // base64Str = base64Str.substring(base64Str.indexOf("iVBO"));
 
         if(base64Str.startsWith("data")){
             base64Str= base64Str.substring(base64Str.indexOf(","));

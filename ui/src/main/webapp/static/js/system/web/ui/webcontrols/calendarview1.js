@@ -80,7 +80,7 @@ CalendarView.prototype.render = function() {
     "').closeCalendarEventDialog()\" style=\"z-index:100;display:none;position:absolute;height:200%;width:100%;background-color:#000000;filter:alpha  (opacity:20) ;\"></div>" +
     "<div>" +
     "<div>" +
-    "<div  ><input type='date' /><button onClick=\"window.location='/home/sys/auth/login.htm'\">登录</button>" +
+    "<div  ><input type='date' style='display:none' /><button onClick=\"window.location='/home/sys/auth/login.htm'\">登录</button>" +
     "<button style='display:none' onClick=\"Instance('" +
     this.index +
     "').addEvent(null);event.cancelBubble=true;\">创建</button>" +

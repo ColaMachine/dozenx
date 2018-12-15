@@ -1062,6 +1062,12 @@ public class FaceInfoController extends BaseController {
         String data = request.getParameter("data");
         //logger.info(data);
         map.put("image", data);
+//        if(data.startsWith("b'")){
+//            data=data.substring(2);
+//        }
+
+//       BufferedImage imageBuffer =  ImageUtil.base64ToImage(data);
+//        ImageUtil.saveBase64Image("g://zzw",System.currentTimeMillis()+".png",data);
         String camera = request.getParameter("camera");
         map.put("maxFaceNum", "1");
         map.put("faceFields", "embedding");
