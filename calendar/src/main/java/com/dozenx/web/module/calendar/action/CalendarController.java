@@ -1,15 +1,13 @@
 package com.dozenx.web.module.calendar.action;
 
 import com.alibaba.fastjson.JSON;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.MapUtils;
+import com.dozenx.util.*;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.module.calendar.bean.Activity;
 import com.dozenx.web.module.calendar.service.ActivityService;
+import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.ConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,21 +93,38 @@ public class CalendarController extends BaseController {
 //            Long userid = user.getId();
 
             Long userId = this.getUserId(request);
-            List activities = activityService.getActivities(startDate, endDate,
+            List<HashMap> activities = activityService.getActivities(startDate, endDate,
                     userId);
 
             try {
-                String url = ConfigUtil.getConfig("calendar.subscribe.url");
-                url = url.replace("${userId}", "" + getUserId(request)).replace("${begin}", DateUtil.toString(new Date(startDate * 60000), "yyyy-MM-dd%20HH:mm:ss")).replace("${end}", DateUtil.toString(new Date(endDate * 60000), "yyyy-MM-dd%20HH:mm:ss"));
-                String result = HttpRequestUtil.sendGet(url);
-                ResultDTO resultDTO = JsonUtil.toJavaBean(result,ResultDTO.class);
-                if(resultDTO.isRight()) {
-                    List<HashMap> list = JsonUtil.toList(resultDTO.getData().toString(), HashMap.class);
-                    activities.addAll(list);
-                }
+                String service = ConfigUtil.getConfig("calendar.subscribe.service");
+               if(StringUtil.isNotBlank(service)) {
+                   ActivityService activityService = (ActivityService) BeanUtil.getBean(service);
+
+                List<HashMap>  results = activityService.getActivities(startDate,endDate,userId);
+                activities.addAll(results);
+               }
             }catch (Exception e){
                 e.printStackTrace();
             }
+
+
+            try {
+                String url = ConfigUtil.getConfig("calendar.subscribe.url");
+                    if(StringUtil.isNotBlank(url)) {
+                        url = url.replace("${userId}", "" + getUserId(request)).replace("${begin}", DateUtil.toString(new Date(startDate * 60000), "yyyy-MM-dd%20HH:mm:ss")).replace("${end}", DateUtil.toString(new Date(endDate * 60000), "yyyy-MM-dd%20HH:mm:ss"));
+                        String result = HttpRequestUtil.sendGet(url);
+                        ResultDTO resultDTO = JsonUtil.toJavaBean(result, ResultDTO.class);
+                        if (resultDTO.isRight()) {
+                            List<HashMap> list = JsonUtil.toList(resultDTO.getData().toString(), HashMap.class);
+                            activities.addAll(list);
+                        }
+                    }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
 
         /*    {
                 "r": 0,

@@ -429,3 +429,45 @@ widht:500px;
 border:1px solid red;
 z-index:2000;
 }
+
+.monthHead{
+
+background-color: #E8EEF7;
+
+color: #446688;
+border-bottom: 1px solid #DDDDDD;
+/* border-right: 1px solid #DDDDDD; */
+font-size: 12px;
+padding-left: 18px;
+padding-right: 3px;
+height: 39px;
+
+}
+.monthBody{
+
+
+background-color: #fff;
+
+color: #446688;
+border-bottom: 1px solid #DDDDDD;
+/* border-right: 1px solid #DDDDDD; */
+font-size: 12px;
+padding-left: 18px;
+padding-right: 3px;
+height: 39px;
+}
+
+.monthBody .calendarEventBar{
+display:inline-block;
+width:auto;
+height:40px;
+margin-left:20px;
+}
+.monthBody .calendarEventBar DD {
+
+    line-height: 16px;
+    font-size: 16px;
+}
+.month-list{
+width:98%;
+}

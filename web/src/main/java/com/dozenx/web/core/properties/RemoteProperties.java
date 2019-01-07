@@ -246,8 +246,8 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
 //        cache.redis.port=6379
 //        cache.redis.database.index=1
 //        cache.redis.pwd=123456
-        logger.info("mysql:"+properties.get("db.jdbc.url")+" user:"+properties.get("db.jdbc.user"));
-        logger.info("redis:"+properties.get("cache.redis.ip")+" port:"+properties.get("cache.redis.port")+" index:"+properties.get("cache.redis.auth")+" port"+ Config.getInstance().getCache().getRedis().getAuth());
+        logger.info("=====mysql:"+properties.get("db.jdbc.url")+" user:"+properties.get("db.jdbc.user"));
+        logger.info("=====redis:"+properties.get("cache.redis.ip")+" port:"+properties.get("cache.redis.port")+" index:"+properties.get("cache.redis.auth")+" port"+ Config.getInstance().getCache().getRedis().getAuth());
         ConfigUtil.properties = properties;
     }
 
