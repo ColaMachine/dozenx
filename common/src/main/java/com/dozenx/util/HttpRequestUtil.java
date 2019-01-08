@@ -113,6 +113,12 @@ public class HttpRequestUtil {
      * @modificationHistory.
      */
     public static String sendGetWithCookie(String url, Map map, Map<String, Cookie> cookieMap) {
+        if(url.indexOf("{")>-1){
+            url=url.replace("{","%7B");
+        }
+        if(url.indexOf("}")>-1){
+            url=url.replace("}","%7D");
+        }
         StringBuffer result = new StringBuffer("");
         BufferedReader in = null;
         Long startTime = System.currentTimeMillis();

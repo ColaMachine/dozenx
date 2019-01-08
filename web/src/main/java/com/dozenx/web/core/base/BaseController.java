@@ -84,11 +84,11 @@ public class BaseController extends ResultAction {
 			result = getWrongResultFromCfg("err.param.type");
 		} else if (e instanceof MissingServletRequestParameterException) {
 			result = getWrongResultFromCfg("err.err.param.null");
-		} else if (e instanceof ParamException) {
+		} else if (e instanceof MyException) {
 			result = new ResultDTO(Integer.valueOf(((MyException)e).code),((MyException)e).msg);
-		}else if (e instanceof InterfaceException) {
+		}/*else if (e instanceof InterfaceException) {
 			result = new ResultDTO(Integer.valueOf(((InterfaceException)e).code),((InterfaceException)e).msg);
-		}else {
+		}*/else {
 			result = getWrongResultFromCfg(e.getMessage());
 		}
 		String json = request.getParameter("json");

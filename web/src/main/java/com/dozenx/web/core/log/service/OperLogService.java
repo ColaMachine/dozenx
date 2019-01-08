@@ -32,7 +32,7 @@ public interface OperLogService {
      * @date 2017年9月29日 下午2:24:22
      */
 
-    List<OperLog> getListByParam(String keywords, String userName, String date,String startTime, String endTime, Integer userId, Page page);
+    List<OperLog> getListByParam(String keywords, String userName, String date,String createTimeBegin, String createTimeEnd, Integer userId, Page page);
 
 
     /**

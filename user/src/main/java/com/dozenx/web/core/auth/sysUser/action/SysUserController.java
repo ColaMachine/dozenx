@@ -19,7 +19,6 @@ import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.annotation.RequiresPermission;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
-import com.dozenx.web.core.auth.sysUserDepart.bean.SysUserDepart;
 import com.dozenx.web.core.auth.sysUserDepart.service.SysUserDepartService;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ErrorMessage;
@@ -32,7 +31,6 @@ import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -51,9 +49,13 @@ import java.util.*;
 @Controller
 @RequestMapping(Constants.WEBROOT + "/sys/auth/user")
 public class SysUserController extends BaseController {
-    /** 日志 **/
+    /**
+     * 日志
+     **/
     private static final Logger logger = LoggerFactory.getLogger(SysUserController.class);
-    /** 权限service **/
+    /**
+     * 权限service
+     **/
     @Autowired
     private SysUserService sysUserService;
 
@@ -63,7 +65,6 @@ public class SysUserController extends BaseController {
     /**
      * 说明: 跳转到角色列表页面
      *
-     * @return
      * @return String
      * @author dozen.zhang
      * @date 2015年11月15日下午12:30:45
@@ -81,7 +82,7 @@ public class SysUserController extends BaseController {
 
     /**
      * 说明:ajax请求角色信息
-     * @return
+     *
      * @return Object
      * @author dozen.zhang
      * @date 2015年11月15日下午12:31:55
@@ -282,6 +283,7 @@ public class SysUserController extends BaseController {
 
     /**
      * 说明:ajax请求角色信息 无分页版本
+     *
      * @return Object
      * @author dozen.zhang
      * @date 2015年11月15日下午12:31:55
@@ -510,9 +512,8 @@ public class SysUserController extends BaseController {
      * 说明:保存角色信息
      *
      * @param request
-     * @return
-     * @throws Exception
      * @return Object
+     * @throws Exception
      * @author dozen.zhang
      * @date 2015年11月15日下午1:33:00
      */
@@ -752,6 +753,7 @@ public class SysUserController extends BaseController {
 
     /**
      * 多行删除
+     *
      * @param request
      * @return
      * @author dozen.zhang
@@ -789,6 +791,7 @@ public class SysUserController extends BaseController {
 
     /**
      * 导出
+     *
      * @param request
      * @return
      * @author dozen.zhang
@@ -1060,7 +1063,7 @@ public class SysUserController extends BaseController {
             })
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO importExcel(@RequestParam("file") MultipartFile file){
+    public ResultDTO importExcel(@RequestParam("file") MultipartFile file) {
         // 将spring 的file 装成 普通file
         File xlsFile = null;
         if (file != null) {
@@ -1128,7 +1131,7 @@ public class SysUserController extends BaseController {
             if (StringUtil.isNotBlank(errorMsg.toString()) && fail > 0) {
                 throw new BizException("E2000016", "导入失败, 失败" + fail + "条。" + errorMsg.toString());
             }
-            return this.getResult(3090182,"导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
+            return this.getResult(3090182, "导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1152,7 +1155,7 @@ public class SysUserController extends BaseController {
             })
     @RequestMapping(value = "/sync", method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO sync(HttpServletRequest request){
+    public ResultDTO sync(HttpServletRequest request) {
         // 将spring 的file 装成 普通file
 
         String result = "";
@@ -1168,19 +1171,18 @@ public class SysUserController extends BaseController {
 
             String params = request.getParameter("params");
 
-            List<HashMap> list =  JSON.parseArray(params,HashMap.class);
-           // List<Map<String, String>> list = ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
+            List<HashMap> list = JSON.parseArray(params, HashMap.class);
+            // List<Map<String, String>> list = ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
             for (int i = 0; i < list.size(); i++) {
-
 
 
                 Map<String, Object> map = list.get(i);
 
-                String userId = MapUtils.getString(map,"id");
-                String name = MapUtils.getString(map,"name");
-                String telno = MapUtils.getString(map,"telno");
-                String remark = MapUtils.getString(map,"remark");
-                String email = MapUtils.getString(map,"email");
+                String userId = MapUtils.getString(map, "id");
+                String name = MapUtils.getString(map, "name");
+                String telno = MapUtils.getString(map, "telno");
+                String remark = MapUtils.getString(map, "remark");
+                String email = MapUtils.getString(map, "email");
 //                String wechat = MapUtils.getString(map,"wechat");
 //                String nkname = MapUtils.getString(map,"nkname");
                 // 检验手机号是否符合规范,不符合continue
@@ -1196,7 +1198,6 @@ public class SysUserController extends BaseController {
                 //  int count = contactsService.countByParams(params);//检查邮箱地址是否存在
 
 
-
                 //  if (count > 0) {
 
                 //      logger.warn("邮箱已经存在:" + email);
@@ -1208,10 +1209,10 @@ public class SysUserController extends BaseController {
                 try {
                     SysUser bean = getInfoFromMap(map);
                     //查看这个outId是否有了
-                    HashMap outIdMap =new HashMap();
-                    outIdMap.put("outId",bean.getOutId());
-                    List<SysUser>  sysUsers  = sysUserService.listByParams(outIdMap);
-                    if(sysUsers!=null && sysUsers.size()>0){
+                    HashMap outIdMap = new HashMap();
+                    outIdMap.put("outId", bean.getOutId());
+                    List<SysUser> sysUsers = sysUserService.listByParams(outIdMap);
+                    if (sysUsers != null && sysUsers.size() > 0) {
                         bean.setId(sysUsers.get(0).getId());
                     }
                     sysUserService.save(bean);
@@ -1227,7 +1228,7 @@ public class SysUserController extends BaseController {
             if (StringUtil.isNotBlank(errorMsg.toString()) && fail > 0) {
                 throw new BizException("E2000016", "导入失败, 失败" + fail + "条。" + errorMsg.toString());
             }
-            return this.getResult(3090182,"导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
+            return this.getResult(3090182, "导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1245,7 +1246,7 @@ public class SysUserController extends BaseController {
 
     /**
      * 说明:ajax请求用户信息
-     * @return
+     *
      * @return Object
      * @author dozen.zhang
      * @date 2015年11月15日下午12:31:55
@@ -1318,9 +1319,8 @@ public class SysUserController extends BaseController {
      * 说明:保存角色信息
      *
      * @param request
-     * @return
-     * @throws Exception
      * @return Object
+     * @throws Exception
      * @author dozen.zhang
      * @date 2015年11月15日下午1:33:00
      */
@@ -1371,13 +1371,13 @@ public class SysUserController extends BaseController {
         ResultDTO result = null;
 //        if (depart != null) {
 //            logger.info("添加组织关系");
-            result = sysUserService.saveWithRoleInfo(sysUser);
+        result = sysUserService.saveWithRoleInfo(sysUser);
 //            SysUserDepart sysUserDepart = new SysUserDepart();
 //            sysUserDepart.setUserId(sysUser.getId());
 //            sysUserDepart.setDepartId(depart);
 //            result = sysUserDepartService.save(sysUserDepart);
 //        }
-        OperLogUtil.add(request, "用户", "添加", sysUser.getAccount() + sysUser.getUsername());
+        OperLogUtil.add(request, "系统管理", "账号管理","添加账号"+ sysUser.getAccount() + sysUser.getUsername());
         return result;
 
     }
@@ -1432,6 +1432,8 @@ public class SysUserController extends BaseController {
         //获取角色id
 
         sysUser.setPassword(null);
+
+        OperLogUtil.add(request, "系统管理", "账号管理","更新用户"+ sysUser.getAccount() + sysUser.getUsername());
         return sysUserService.saveWithRoleInfo(sysUser);
     }
 
@@ -1452,7 +1454,15 @@ public class SysUserController extends BaseController {
             return this.getResult(10202003, ErrorMessage.getErrorMsg("err.param.null", "用户id"));
         }
 
+
+        SysUser sysUser = sysUserService.getUserById(id);
+        if (sysUser == null) {
+            return this.getResult(10205460, ErrorMessage.getErrorMsg("err.param.null", "用户不存在"));
+        }
+        OperLogUtil.add(request, "系统管理", "账号管理", "删除账号"+ sysUser.getAccount() + sysUser.getUsername());
+
         sysUserService.delete(id);//将状态为改成9
+
         return this.getResult(SUCC);
     }
 
@@ -1545,6 +1555,18 @@ public class SysUserController extends BaseController {
         if (!StringUtil.isBlank(remark)) {
             sysUser.setRemark(remark);
         }
+        String code = MapUtils.getString(bodyParam, "code");
+        if (!StringUtil.isBlank(code)) {
+            sysUser.setCode(code);
+        }
+        String org = MapUtils.getString(bodyParam, "org");
+        if (!StringUtil.isBlank(org)) {
+            sysUser.setOrg(org);
+        }
+        String depart = MapUtils.getString(bodyParam, "depart");
+        if (!StringUtil.isBlank(depart)) {
+            sysUser.setDepart(depart);
+        }
 
         Integer province = MapUtils.getInteger(bodyParam, "province");
         if (province != null && province > 0) {
@@ -1612,14 +1634,15 @@ public class SysUserController extends BaseController {
                     , dataType = DataType.STRING, in = InType.body, required = true),
 
     })
+
+    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+    /**
+     * 修改密码
+     */
     @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
     @RequiresLogin
     @RequestMapping(value = "/pwd/update", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
-
-
-    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
-
     public Object updatePwd(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
 
         String oldPassword = MapUtils.getString(bodyParam, "oldPassword");
@@ -1631,10 +1654,12 @@ public class SysUserController extends BaseController {
         vu.add("oldPassword", oldPassword, "旧密码", new Rule[]{new Required(), new Length(6, 20)});
 
         Long userId = this.getUserId(request);
+        String userName = this.getUserName(request);
         sysUserService.getUserById(userId);
-
+        OperLogUtil.add(request, "系统管理", "账号管理", "修改密码"+userName);
         return sysUserService.updateUserPwd(userId, oldPassword, newPassword);
     }
-    public static void main(String args[]){
+
+    public static void main(String args[]) {
     }
 }

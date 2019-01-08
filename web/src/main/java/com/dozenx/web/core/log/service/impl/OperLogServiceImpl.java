@@ -38,15 +38,15 @@ public class OperLogServiceImpl implements OperLogService {
      * 操作日志分页查询
      */
     @Override
-    public List<OperLog> getListByParam(String keywords, String userName, String date,String createTimeStart,String createTimeEnd,Integer userId, Page page) {
-        logger.debug("系统操作日志：service传入----:: " + "关键字----" + keywords + "用户名----" + userName + "开始时间----" + createTimeStart
+    public List<OperLog> getListByParam(String keywords, String userName, String date,String createTimeBegin,String createTimeEnd,Integer userId, Page page) {
+        logger.debug("系统操作日志：service传入----:: " + "关键字----" + keywords + "用户名----" + userName + "开始时间----" + createTimeBegin
                 + "page---" + page);
         HashMap params =new HashMap();
         params.put("keywords",keywords);
         params.put("userName",userName);
         params.put("page",page);
         params.put("date",date);
-        params.put("createTimeStart",createTimeStart);
+        params.put("createTimeBegin",createTimeBegin);
         params.put("createTimeEnd",createTimeEnd);
         List<OperLog> operLogList = operLogMapper.listByParams4Page(params);
         return operLogList;

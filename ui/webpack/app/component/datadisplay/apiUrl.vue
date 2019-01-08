@@ -176,6 +176,11 @@ export default {
                            // json = json["body请求体"];//eval('{'++'}');
                            // break;
                            bodyJsonFlag=true;
+                           if(json[this.content.parameters[i].name]){//alert("怎么会有数组的");
+                               if(json[this.content.parameters[i].name].indexOf("[")!=-1  ){
+                                   json[this.content.parameters[i].name] = eval('('+json[this.content.parameters[i].name]+')');//如果有数组参数就转换成字符串json格式
+                               }
+                           }
                        }
                        //if(this.content.parameters[i].in.toLocaleLowerCase()=='params' ){
                           // json = json["body请求体"];//eval('{'++'}');

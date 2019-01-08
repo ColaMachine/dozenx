@@ -608,7 +608,7 @@ public class ExcelUtil {
      */
     public static Sheet getExcelSheetFromInputStream(InputStream stream) throws IOException {
         try {
-            Workbook wb = getWorkBook(stream, "excel");
+            Workbook wb = getWorkBook(stream, "excel.xls");
             Sheet sheet = wb.getSheetAt(0);
             return sheet;
         } finally {

@@ -53,6 +53,19 @@ public class Config {
     private static Config CONFIG;
 
     /**
+     * 单例 配置
+     */
+//    private static EmailConfig emailConfig =new EmailConfig();
+//
+//    public static EmailConfig getEmailConfig() {
+//        return emailConfig;
+//    }
+//
+//    public static void setEmailConfig(EmailConfig emailConfig) {
+//        Config.emailConfig = emailConfig;
+//    }
+
+    /**
      * 单例配置获取
      * @return Config 
      */

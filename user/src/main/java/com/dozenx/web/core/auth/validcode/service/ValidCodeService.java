@@ -245,7 +245,7 @@ public class ValidCodeService {
             HashMap map = new HashMap();
             map.put("code", finalCode);
             try {
-                EmailUtil.send(email, finalCode);
+                EmailUtil.send(email, "邮箱验证码",finalCode);
             }catch(Exception e){
                 LogUtil.system(serviceCode,218,email+finalCode,e.getMessage()+" 发送邮件失败","");
                 return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 219, "SEND_FAIL");

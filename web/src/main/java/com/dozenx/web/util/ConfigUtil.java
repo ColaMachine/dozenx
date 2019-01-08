@@ -37,6 +37,9 @@ public class ConfigUtil {
             // throw new Exception("config param is null");
         }
         //直接从配置文件中读取
+        if(properties.size()==0){
+            new ConfigUtil().loadProperty();
+        }
         String value = (String) properties.get(name);
         if (StringUtil.isNotBlank(value)) {
             return value;

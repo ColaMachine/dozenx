@@ -10,10 +10,8 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -21,27 +19,19 @@ import java.util.Properties;
  * Created by dozen.zhang on 2016/5/13.
  */
 public class EmailUtil {
-    public static void send(String email, String content) throws MessagingException {
+    public static void send(String email, String title, String content) throws Exception {
         if (StringUtil.isNotBlank(email)) {
 
             // 发送激活邮件
             MailSenderInfo mailInfo = new MailSenderInfo();
-//            mailInfo.setMailServerHost("smtp.189.cn");
-//            mailInfo.setMailServerPort("587");
-//            mailInfo.setValidate(true);
-//            mailInfo.setUserName("13958173965@189.cn");
-//            mailInfo.setPassword("123456qqsh");// 您的邮箱密码
-//            mailInfo.setFromAddress("13958173965@189.cn");
-
-
-            mailInfo.setMailServerHost("smtp.163.com");
-            mailInfo.setMailServerPort("25");
+            mailInfo.setMailServerHost(PropertiesUtil.get("mail.smtp.host"));
+            mailInfo.setMailServerPort(PropertiesUtil.get("mail.smtp.port"));
             mailInfo.setValidate(true);
-            mailInfo.setUserName("likegadfly");
-            mailInfo.setPassword("wangyi216568");// 您的邮箱密码
-            mailInfo.setFromAddress("likegadfly@163.com");
+            mailInfo.setUserName(PropertiesUtil.get("mail.username"));
+            mailInfo.setPassword(PropertiesUtil.get("mail.pwd"));// 您的邮箱密码
+            mailInfo.setFromAddress(PropertiesUtil.get("mail.from"));
             mailInfo.setToAddress(email);
-            mailInfo.setSubject("帐号激活");
+            mailInfo.setSubject(title);
 
             //mailInfo.setContent("请点击下面的链接进行激活</br><a href=''>http://127.0.0.1:8080/calendar/active.htm?activeid="
             //	+ active.getActiveid() + "</a>");
@@ -59,25 +49,18 @@ public class EmailUtil {
 
     }
 
-    public static void sendMail2(String receive, String subject, String msg, String filename) throws MessagingException {
+    public static void sendMail2(String receive, String subject, String msg, String filename) throws Exception {
         if (StringUtil.isNotBlank(receive)) {
 
             // 发送激活邮件
             MailSenderInfo mailInfo = new MailSenderInfo();
-//            mailInfo.setMailServerHost("smtp.189.cn");
-//            mailInfo.setMailServerPort("587");
-//            mailInfo.setValidate(true);
-//            mailInfo.setUserName("13958173965@189.cn");
-//            mailInfo.setPassword("123456qqsh");// 您的邮箱密码
-//            mailInfo.setFromAddress("13958173965@189.cn");
 
-
-            mailInfo.setMailServerHost("smtp.163.com");
-            mailInfo.setMailServerPort("25");
+            mailInfo.setMailServerHost(PropertiesUtil.get("mail.smtp.host"));
+            mailInfo.setMailServerPort(PropertiesUtil.get("mail.smtp.port"));
             mailInfo.setValidate(true);
-            mailInfo.setUserName("likegadfly");
-            mailInfo.setPassword("wangyi216568");// 您的邮箱密码
-            mailInfo.setFromAddress("likegadfly@163.com");
+            mailInfo.setUserName(PropertiesUtil.get("mail.username"));
+            mailInfo.setPassword(PropertiesUtil.get("mail.pwd"));// 您的邮箱密码
+            mailInfo.setFromAddress(PropertiesUtil.get("mail.from"));
             mailInfo.setToAddress(receive);
             mailInfo.setSubject(subject);
             mailInfo.setAttachFileNames(new String[]{filename});
@@ -108,28 +91,26 @@ public class EmailUtil {
      * @throws GeneralSecurityException
      */
     public static boolean sendMail(String receive, String subject, String msg, String filename)
-            throws GeneralSecurityException {
+            throws Exception {
 
         if (StringUtil.isBlank(receive)) {
             return false;
         }
-        // 发件人电子邮箱
-        final String from = "likegadfly@163.com";
+        final String from = PropertiesUtil.get("mail.from");//"likegadfly@163.com";
         // 发件人电子邮箱密码
-        final String pass = "wangyi216568";
-        // 指定发送邮件的主机为 smtp.qq.com
-        String host = "smtp.163.com"; // 邮件服务器
-
+        final String pass = PropertiesUtil.get("mail.pwd");//"wangyi216568";
         // 获取系统属性
         Properties properties = System.getProperties();
-        properties.setProperty("mail.transport.protocol", "smtp");// 设置传输协议
-        properties.put("mail.smtp.host", "smtp.163.com");// 设置发信邮箱的smtp地址
-        properties.setProperty("mail.smtp.auth", "true"); // 验证
-//        properties.put("mail.debug", "true");//便于调试
+        properties.setProperty("mail.transport.protocol", PropertiesUtil.get("mail.transport.protocol"));// 设置传输协议
+        properties.put("mail.smtp.host", PropertiesUtil.get("mail.smtp.host"));// 设置发信邮箱的smtp地址
+        properties.setProperty("mail.smtp.auth", PropertiesUtil.get("mail.smtp.auth")); // 验证
+        properties.put("mail.debug", PropertiesUtil.get("mail.debug"));//便于调试
         // 设置邮件服务器
-        properties.setProperty("mail.smtp.host", host);
-        properties.put("mail.smtp.port", 25);
-        properties.put("mail.smtp.auth", "true");
+
+        properties.put("mail.smtp.port", Integer.valueOf(PropertiesUtil.get("mail.smtp.port")));
+        properties.put("mail.smtp.auth", PropertiesUtil.get("mail.smtp.auth"));
+
+
         properties.put("mail.smtp.ssl.enable", "true");
 
         MailSSLSocketFactory sf = new MailSSLSocketFactory();
@@ -197,28 +178,28 @@ public class EmailUtil {
     }
 
 
-    public static boolean sendMail(List<String> receives, String subject, String msg, String filePath,String filename)
-            throws GeneralSecurityException {
-        if (receives==null || receives.size()==0) {
+    public static boolean sendMail(List<String> receives, String subject, String msg, String filePath, String filename)
+            throws Exception {
+        if (receives == null || receives.size() == 0) {
             return false;
         }
         // 发件人电子邮箱
-        final String from = "likegadfly@163.com";
+        final String from = PropertiesUtil.get("mail.from");//"likegadfly@163.com";
         // 发件人电子邮箱密码
-        final String pass = "wangyi216568";
+        final String pass = PropertiesUtil.get("mail.pwd");//"wangyi216568";
         // 指定发送邮件的主机为 smtp.qq.com
-        String host = "smtp.163.com"; // 邮件服务器
+        // String host = "smtp.163.com"; // 邮件服务器
 
         // 获取系统属性
         Properties properties = System.getProperties();
-        properties.setProperty("mail.transport.protocol", "smtp");// 设置传输协议
-        properties.put("mail.smtp.host", "smtp.163.com");// 设置发信邮箱的smtp地址
-        properties.setProperty("mail.smtp.auth", "true"); // 验证
-        properties.put("mail.debug", "true");//便于调试
+        properties.setProperty("mail.transport.protocol", PropertiesUtil.get("mail.transport.protocol"));// 设置传输协议
+        properties.put("mail.smtp.host", PropertiesUtil.get("mail.smtp.host"));// 设置发信邮箱的smtp地址
+        properties.setProperty("mail.smtp.auth", PropertiesUtil.get("mail.smtp.auth")); // 验证
+        properties.put("mail.debug", PropertiesUtil.get("mail.debug"));//便于调试
         // 设置邮件服务器
-        properties.setProperty("mail.smtp.host", host);
-        properties.put("mail.smtp.port", 25);
-        properties.put("mail.smtp.auth", "true");
+
+        properties.put("mail.smtp.port", Integer.valueOf(PropertiesUtil.get("mail.smtp.port")));
+        properties.put("mail.smtp.auth", PropertiesUtil.get("mail.smtp.auth"));
 //        properties.put("mail.smtp.ssl.enable", "true");
 //
 //        MailSSLSocketFactory sf = new MailSSLSocketFactory();
@@ -248,19 +229,19 @@ public class EmailUtil {
             if (receives != null && receives.size() > 1) {
                 String toListStr = getMailList(receives);
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toListStr));
-            }else{
+            } else {
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(receives.get(0)));
             }
 
 
             // Set Subject: 主题文字
-            message.setSubject(MimeUtility.encodeText(subject,MimeUtility.mimeCharset("utf-8"),null));
+            message.setSubject(MimeUtility.encodeText(subject, MimeUtility.mimeCharset("utf-8"), null));
 
             // 创建消息部分
             BodyPart messageBodyPart = new MimeBodyPart();
 
             // 消息
-            messageBodyPart.setText(MimeUtility.encodeText(msg,MimeUtility.mimeCharset("utf-8"),null));
+            messageBodyPart.setText(MimeUtility.encodeText(msg, MimeUtility.mimeCharset("utf-8"), null));
 
             // 创建多重消息
             Multipart multipart = new MimeMultipart();
