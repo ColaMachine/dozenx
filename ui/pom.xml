@@ -46,12 +46,12 @@
             <version>${dozenx.version}</version>
 
         </dependency>
-        <dependency>
+        <!--<dependency>
              <groupId>com.dozenx</groupId>
              <artifactId>CheckinServer</artifactId>
              <version>${dozenx.version}</version>
 
-         </dependency>
+         </dependency>-->
         <!-- <dependency>
              <groupId>com.dozenx</groupId>
              <artifactId>spider</artifactId>
@@ -86,7 +86,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
-            <version>4.3.9.RELEASE</version>
+            <version>5.1.3.RELEASE</version>
         </dependency>
 
     </dependencies>

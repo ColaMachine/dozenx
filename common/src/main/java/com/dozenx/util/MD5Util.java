@@ -68,6 +68,8 @@ public class MD5Util {
 
 	public static void main(String args[]){
 		try {
+			System.out.println(MD5Util.getStringMD5String("123456"));
+			System.out.println(MD5Util.getStringMD5String("awifi@123"));
 			System.out.println(MD5Util.getStringMD5String(MD5Util.getStringMD5String("awifi@123")));
 		} catch (Exception e) {
 			e.printStackTrace();

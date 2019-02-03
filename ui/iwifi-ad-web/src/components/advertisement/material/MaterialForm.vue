@@ -89,7 +89,7 @@ import Vue from "vue";
     },
     computed:{
       uploadAction(){
-        return `/advertsrv/image/upload/submit`
+        return `/home/image/upload/submit`
       }
     },
     methods: {
@@ -121,7 +121,7 @@ import Vue from "vue";
       //     this.formData = {};
       //
       //   } else {
-      //     $http.get(`/advertsrv/sys/auth/role/view/${id}`).then((data) => {
+      //     $http.get(`/home/sys/auth/role/view/${id}`).then((data) => {
       //       this.formData = data.data;
       //       this.$refs.roleForm.resetFields();
       //     }).catch((error) => {

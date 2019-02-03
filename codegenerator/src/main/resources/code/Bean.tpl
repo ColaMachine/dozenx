@@ -7,6 +7,7 @@
  */
 package ${table.pkg}.${abc}.bean;
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.Date;
 <#assign abc="${table.name[0]?lower_case}${table.name[1..]}">
 <#assign Abc="${table.name[0]?upper_case}${table.name[1..]}">

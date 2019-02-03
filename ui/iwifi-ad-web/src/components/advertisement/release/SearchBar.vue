@@ -32,7 +32,7 @@
         this.$emit('on-search');
       },
       getPartnerList() {
-        $http.get('/advertsrv/sys/auth/user/select').then(({data}) => {
+        $http.get('/home/sys/auth/user/select').then(({data}) => {
           this.partnerList = data;
         });
       }

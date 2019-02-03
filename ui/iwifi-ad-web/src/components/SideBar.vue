@@ -80,7 +80,7 @@
         setSessionObj('openMenus', openMenus);
       },
       getMenuList() {
-        $http.get('/advertsrv/sys/auth/menu/tree/my').then((data) => {
+        $http.get('/home/sys/auth/menu/tree/my').then((data) => {
           this.menuList = data.data;
           //bug fix
           //!!!!防止死循环调用

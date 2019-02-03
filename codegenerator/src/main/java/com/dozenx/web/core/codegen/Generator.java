@@ -599,7 +599,7 @@ public class Generator {
         String typeName = "";
         for (ZColum col : table.getCols()) {
             type = col.getType().toLowerCase();
-            sb.append("    /**" + col.getRemark() + " "+col.getComment()+ "**/").append(ctrl);
+            sb.append("    /**" + col.getRemark() + " " + col.getComment() + "**/").append(ctrl);
             typeName = GenCodeHelper.changeMySqlType2JavaType(type);
             sb.append("    private " + typeName + " " + col.getName() + ";").append(ctrl);
             sb2.append("    public " + typeName + " get" + StringUtil.getAbc(col.getName()) + "(){").append(ctrl)
@@ -1145,7 +1145,9 @@ public class Generator {
         Generator generator = new Generator();
         // generator.generate(new String[]{"SysUser"});
         //  generator.generate(new String[]{"CheckinLate"});
-        generator.generate(new String[]{"RiskRule", "RiskNotice","JudgeRule","JudgeRuleSubject","JudgeRuleCheckField"});
+        generator.generate(new String[]{"RiskRule", "RiskNotice", "JudgeRule", "JudgeRuleSubject", "JudgeRuleCheckField", "RiskTaxCheck",
+                "WriteoffInstance" ,"MssWriteoffInstToSupplier"
+                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
         //generator.generate(new String[]{"Holiday"});
 //        generator.generate(new String[]{"FaceCheckinOut"});
         // generator.generate(new String[]{"CheckinOut"});
@@ -1155,7 +1157,7 @@ public class Generator {
         //  generator.generate(new String[]{"SmsRecord"});
         //   generator.generate(new String[]{"Goods"});
         //generator.generate(new String[]{"Calendar","Event","Instance"});
-        //generator.generate(new String[]{"Contacts"});
+        generator.generate(new String[]{"Contacts"});
         //  generator.generate(new String[]{"SysUser","SysRole"});
         //generator.generate(new String[]{"SysUser","SysDepart","SysUserDepart"});
 //        generator.generate(new String[]{"Active"});

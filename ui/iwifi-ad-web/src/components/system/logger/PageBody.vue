@@ -77,7 +77,7 @@
         } else {
           params.date = DateFormat.format.date(params.date, 'yyyy-MM-dd');
         }
-        $http.get('/advertsrv/log/oper/list', {
+        $http.get('/home/log/oper/list', {
           params: {
             params: params
           }

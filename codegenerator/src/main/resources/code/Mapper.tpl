@@ -89,4 +89,7 @@ public interface ${Abc}Mapper {
     int deleteExtra(HashMap map);
      </#if>
      </#if>
+
+
+     void insertBatch(List<${Abc}> list);
 }

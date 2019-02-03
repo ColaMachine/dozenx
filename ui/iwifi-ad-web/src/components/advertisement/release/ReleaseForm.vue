@@ -174,14 +174,14 @@
         });
       },
       getAdPositionList() {
-        $http.get('/advertsrv/advertspace/all').then((data) => {
+        $http.get('/home/advertspace/all').then((data) => {
           this.adPositionList = data.data;
         });
       },
       getAdAreaList() {
       let _this =this;
       if(this.formData.id){
-        $http.get('/advertsrv/advertstrategy/areas/'+this.formData.id).then((data) => {
+        $http.get('/home/advertstrategy/areas/'+this.formData.id).then((data) => {
           _this.formData.areaList= data.data;
         if( data.data.length !=0 ){
           var select =[];
@@ -201,7 +201,7 @@
       getAdIndustryList() {
       let _this =this;
       if(this.formData.id){
-        $http.get('/advertsrv/advertstrategy/industrys/'+this.formData.id).then((data) => {
+        $http.get('/home/advertstrategy/industrys/'+this.formData.id).then((data) => {
           _this.formData.industryList=data.data;
         if(data.data.length !=0 ){
           var select =[];
@@ -221,7 +221,7 @@
         sessionStorage.setItem(key,JSON.stringify(value));
       },
       getAdMaterialList() {
-        $http.get('/advertsrv/material/auditing/list', {
+        $http.get('/home/material/auditing/list', {
           params: {
             params: {
               curPage: 1,
@@ -262,7 +262,7 @@
       //     this.formData = {};
       //
       //   } else {
-      //     $http.get(`/advertsrv/sys/auth/role/view/${id}`).then((data) => {
+      //     $http.get(`/home/sys/auth/role/view/${id}`).then((data) => {
       //       this.formData = data.data;
       //       this.$refs.releaseForm.resetFields();
       //     }).catch((error) => {

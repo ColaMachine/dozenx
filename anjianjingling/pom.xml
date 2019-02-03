@@ -25,11 +25,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+      <!--  <dependency>
             <groupId>org.opencv</groupId>
             <artifactId>openCVLibrary</artifactId>
             <version>3.4.0</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
 

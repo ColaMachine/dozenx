@@ -14,7 +14,9 @@ import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.core.auth.validcode.service.ValidCodeService;
 import com.dozenx.web.core.base.BaseController;
+import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.log.ResultDTO;
+import com.dozenx.web.core.log.bean.OperLog;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.util.RequestUtil;
 import com.dozenx.web.util.ResultUtil;
@@ -238,15 +240,10 @@ public class LoginController extends BaseController {
                     finalList.add(sysMenu);
                     sysMenu.childs = new ArrayList<>();
                     for (int j = sysMenuTree.size() - 1; j >= 0; j--) {//倒序 方便找到后删除
-
                         //判断当前的人是否有这个菜单的权限
-
-
                         SysMenu childMenu = sysMenuTree.get(j);//遍历所有的项目查找所有子项
-
                         if (!permissions.contains(childMenu.getPermission())) {
                             continue;
-
                         }
                         if (childMenu.getPid() == sysMenu.getId()) {
                             sysMenu.childs.add(childMenu);//塞入到childs中 并从集合中删除
@@ -267,7 +264,7 @@ public class LoginController extends BaseController {
 
 
         }
-
+        OperLogUtil.add(request,"登录","用户名密码登录","登录账号:"+account);
         //若果密码输入多次 增加 验证码 和锁定功能
         return result;
     }

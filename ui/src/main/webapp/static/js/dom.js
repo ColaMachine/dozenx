@@ -272,12 +272,19 @@ function getHeight(obj){
     return parseInt(obj.style.height||obj.height||obj.offsetHeight);
 }
 function setSelectValue(id,value){
+var ele = document.getElementById(id) ;
+if(ele){
+    ele.value =value;
+}
+
 var selid = document.getElementById(id).childNodes;
 for(var i=0;i<selid.length;i++){
   if(selid[i].value == value){//content.belong_type为后台返回来的值
         selid[i].selected = true;
 }else{
-      selid[i].removeAttribute("selected");
+    if(selid[i].nodeType!=3 && selid[i].getAttribute("selected")){
+         selid[i].removeAttribute("selected");
+    }
 }
 }
 

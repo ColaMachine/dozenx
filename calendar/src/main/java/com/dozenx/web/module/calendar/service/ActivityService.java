@@ -53,7 +53,9 @@ public interface ActivityService {
     /**
      * @Title: getActivities
      * @Description:根据开始时间结束时间获得区间内的活动
-     * @param:
+     * @param: startDate 开始时间分钟记
+     * @param: endDate 结束时间记
+     * @param: userid 用户id
      * @return List<HashMap>    返回类型
      * @author zhangzw
      * @date 2014年4月17日

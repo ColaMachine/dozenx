@@ -36,7 +36,7 @@ export default {
         this.sessionStoragePut('industry',this.d_value);
         //获取投放行业
         let _this=this
-        $http.get('/advertsrv/industry/list',{
+        $http.get('/home/industry/list',{
              params:{
                 params:{parentCode:Number}
             }

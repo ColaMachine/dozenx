@@ -121,4 +121,7 @@ public interface ${Abc}Service  {
         public ResultDTO msave(String ${table.mapper.parentid}s,String ${table.mapper.childid}s) ;
       </#if>
       </#if>
+
+
+       public ResultDTO insertList(List<${Abc}> ${abc}) ;
 }

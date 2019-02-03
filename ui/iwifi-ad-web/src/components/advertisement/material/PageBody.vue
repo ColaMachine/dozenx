@@ -147,7 +147,7 @@
         if (curPage) {
           this.searchParams.curPage = curPage;
         }
-        $http.get('/advertsrv/material/list', {
+        $http.get('/home/material/list', {
           params: {
             params: this.searchParams
           }
@@ -215,7 +215,7 @@
           formData.auditStatusName ="未审核";
         }
         let isEdit = formData.id ? true : false;
-        let url = `/advertsrv/material`;
+        let url = `/home/material`;
         let method = isEdit ? 'put' : 'post';
         // let method = 'post';
         let title = `${isEdit ? '修改' : '新增'}素材成功`;
@@ -245,7 +245,7 @@
         });
       },
       del(id) {
-        $http.delete(`/advertsrv/material/${id}`).then(() => {
+        $http.delete(`/home/material/${id}`).then(() => {
           this.$Notice.success({
             title: '删除素材成功',
           });
@@ -253,7 +253,7 @@
         });
       },
       // getAccount(id) {
-      //   $http.get(`/advertsrv/sys/auth/user/view/${id}`).then(({data}) => {
+      //   $http.get(`/home/sys/auth/user/view/${id}`).then(({data}) => {
       //     data.fullLocation = [data.province, data.city, data.county];
       //     this.currentRecord = data;
       //     this.showFormModal();

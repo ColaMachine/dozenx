@@ -187,11 +187,11 @@
           _tblData: "tblData",
           _totalRecord: "totalRecord"
         };
-        $http.list("/advertsrv/advertstrategy/list", httpConfig);
+        $http.list("/home/advertstrategy/list", httpConfig);
       },
       searchStrategy(id) {
         let _this = this;
-        $http2.get(`/advertsrv/advertstrategy/${id}`).then(function (resp) {
+        $http2.get(`/home/advertstrategy/${id}`).then(function (resp) {
           _this.formValidate = resp.data;
         });
       },
@@ -213,7 +213,7 @@
       // 修改策略
       editAd(row) {
         let _this = this;
-        $http2.get(`/advertsrv/advertstrategy/${row.id}`).then(function (resp) {
+        $http2.get(`/home/advertstrategy/${row.id}`).then(function (resp) {
           _this.details = true;
           _this.formValidate = resp.data;
           _this.title = "修改策略";
@@ -234,7 +234,7 @@
       //详情策略
       detailAd(row) {
         let _this = this;
-        $http2.get(`/advertsrv/advertstrategy/${row.id}`).then(function (resp) {
+        $http2.get(`/home/advertstrategy/${row.id}`).then(function (resp) {
           _this.formValidate = resp.data;
           _this.flag = true;
           _this.details = false;

@@ -258,7 +258,7 @@ where id = #{id,jdbcType=INTEGER}
              and oper_log.`createTime` &lt;= #{createTimeEnd}
         </if>
        <if test="keywords != null and keywords != '' ">
-           and (oper_log.`moduleName` like "%"#{keywords}"%" or oper_log.`detail` like "%"#{keywords}"%" or oper_log.`compName` like "%"#{keywords}"%" )
+           and oper_log.`moduleName` like "%"#{keywords}"%"
        </if>
         order by createTime desc
   </select>

@@ -123,6 +123,7 @@ public final class RedisUtil {
             // logger.debug(String.format("初始化redis ADDR:%s"));
             //   jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
             jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH, INDEX);
+            logger.info("connect to redis:"+ADDR+" port:"+PORT +" pwd:"+AUTH);
             if (getJedis() == null) {
                 logger.error("redis can't get jedis  redis启动失败");
                 System.exit(0);

@@ -3,6 +3,7 @@ package com.dozenx.web.core.page;
 
 import com.dozenx.util.MapUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class PageUtil {
@@ -105,5 +106,17 @@ public class PageUtil {
         page.setCurPage(curPage);
         page.setPageSize(pageSize);
         return page;
+    }
+
+    /**
+     * 分页工具 初始化分页参数
+     * @param params
+     * @param totalCount
+     */
+    public static void startPage(HashMap params, int totalCount){
+        Page page = (Page)params.get("page");
+        init(page,page.getPageSize(),page.getCurPage(),totalCount);
+        params.put("begin",page.getBeginIndex());
+        params.put("pageSize",page.getPageSize());
     }
 }

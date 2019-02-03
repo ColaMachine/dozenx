@@ -79,6 +79,15 @@ public final class DateUtil {
     }
 
     /**
+     * 返回昨天日期
+     * @return
+     */
+    public static Date getYesterday(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,-1);
+        return calendar.getTime();
+    }
+    /**
      * 说明: 字符串转日期
      *
      * @param s

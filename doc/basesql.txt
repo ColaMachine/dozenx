@@ -231,8 +231,7 @@ CREATE TABLE `sys_user_role` (
 INSERT INTO `sys_user` (`id`, `username`, `password`, `status`, `email`, `telno`, `address`, `face`, `create_time`, `update_time`, `remark`, `province`, `city`, `county`,`account`) VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '1', '371452875@qq.com', '13999991235', '', '', '2018-03-06 19:08:43', '2018-03-06 19:08:43', '', '31', '384', '3245','admin');
 
 INSERT INTO `sys_role` (`id`, `name`, `code`, `order_no`, `status`, `remark`) VALUES ('1', '管理员', 'SUPERADMIN', '1', '1', '管理员1');
-INSERT INTO `sys_role` (`id`, `name`, `code`, `status`, `remark`) VALUES ('2', '普通管理员', 'SUBADMIN', '1', '只有查询权限');
-INSERT INTO `sys_role` (`id`, `name`, `code`, `status`, `remark`) VALUES ('3', '广告商', 'MERCHANT', '1', '负责广告投放');
+INSERT INTO `sys_role` (`id`, `name`, `code`, `status`, `remark`) VALUES ('2', '普通用户', 'SUBADMIN', '1', '只有查询权限');
 
 
 INSERT INTO `sys_menu` (`id`, `pid`, `name`, `code`, `permission`, `url`, `order_no`, `status`, `remark`, `icon`) VALUES ('2', '0', '广告管理', '', 'advert:pos', '/ad', '0', '0', '1级1备注', 'icon-ad');
@@ -250,9 +249,6 @@ INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `s
 
 
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES ('1', '1');
-
-
-
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '2');
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '3');
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '4');
@@ -265,27 +261,7 @@ INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '10');
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '11');
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '12');
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '13');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '2');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '3');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '4');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '5');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '6');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '7');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '8');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '9');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '10');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '11');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '12');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('2', '13');
 
-
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('3', '2');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('3', '4');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('3', '5');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('3', '6');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('3', '9');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('3', '10');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('3', '12');
 
 
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('3', '0', '角色服务', 'role', '', '1');
@@ -299,42 +275,8 @@ INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALU
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('11', '7', '用户角色关联', 'user:rolle:add', '/advertsrv/sys/auth/user/role/update:PUT', '1');
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('12', '7', '用户列表', 'user:list', '/advertsrv/sys/auth/user/list:GET', '1');
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('13', '3', '角色列表', 'role:list', '/advertsrv/sys/auth/role/list:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `status`) VALUES ('14', '0', '广告位管理', 'advertspace', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('15', '14', '广告位列表', 'advertspace:list', '/advertsrv/advertspace/list:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('16', '14', '广告位新增', 'advertspace:add', '/advertsrv/advertspace:POST', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('17', '14', '广告位删除', 'advertspace:del', '/advertsrv/advertspace:DELETE', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('18', '14', '广告位更新', 'advertspace:update', '/advertsrv/advertspace:PUT', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('19', '0', '广告策略', 'advertstrategy', '', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('20', '19', '广告策略新增', 'advertstrategy:add', '/advertsrv/advertstrategy:POST', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('21', '19', '广告策略更新', 'advertstrategy:update', '/advertsrv/advertstrategy:PUT', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('22', '19', '广告策略删除', 'advertstrategy:delete', '/advertsrv/advertstrategy/{id}:DELETE', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('23', '19', '广告策略列表', 'advertstrategy:list', '/advertsrv/advertstrategy/list:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('24', '19', '广告策略查看', 'advertstrategy:view', '/advertsrv/advertstrategy/{id}:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `status`) VALUES ('25', '0', '合作平台管理', 'advertsrvpartner', '9');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('26', '25', '合作平台查询', 'advertsrvpartner:get', '/advertsrv/partner:GET', '9');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('27', '25', '合作平台录入', 'advertsrvpartner:add', '/advertsrv/partner:POST', '9');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('28', '25', '合作平台更新', 'advertsrvpartner:edi', '/advertsrv/partner:PUT', '9');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('29', '25', '合作平台删除', 'advertsrvpartner:del', '/advertsrv/partner:DETELE', '9');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('30', '25', '合作方列表', 'advertsrvpartner:lis', '/advertsrv/partner/list:GET', '9');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('31', '25', '合作平台名称列表', 'advertsrvpartner:lis', '/advertsrv/partner/platform/list:GET', '9');
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('32', '7', '用户查看', 'user:view', '/advertsrv/sys/auth/user/view/{id}:GET', '1');
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('33', '3', '角色查看', 'role:del', '/advertsrv/sys/auth/role/view/{id}:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `status`) VALUES ('34', '0', '日报表', 'advertsrvlunchlog', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('35', '34', '获取报表列表', 'advertsrvlunchlog:ge', '/advertsrv/report/lunch/log/list:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('36', '34', '获取每日详细列表', 'advertsrvlunchlog:ge', '/advertsrv/report/lunch/log/detail:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `status`) VALUES ('37', '0', '广告素材', 'advertsrvmaterial', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('38', '37', '新增广告素材', 'advertsrvmaterial:ge', '/advertsrv/material:POST', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('39', '37', '修改广告素材', 'advertsrvmaterial:pu', '/advertsrv/material:PUT', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('40', '37', '广告素材列表', 'advertsrvmaterial:li', '/advertsrv/material/list:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('41', '37', '广告素材查看', 'advertsrvmaterial:ge', '/advertsrv/material/{id}:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('42', '37', '广告素材删除', 'advertsrvmaterial:de', '/advertsrv/material/{id}:DELETE', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('43', '19', '广告策略启用', 'advertstrategy:enabl', '/advertsrv/advertstrategy/enable/{id}:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('44', '19', '广告策略停用', 'advertstrategy:disab', '/advertsrv/advertstrategy/disable/{id}:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('45', '37', '广告素材全部获取', 'advertsrvmaterial:ge', '/advertsrv/material/name/list:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `status`) VALUES ('46', '0', '素材审核', 'advertauditing', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('47', '46', '素材审核列表', 'advertauditing:list', '/advertsrv/auditing/list:GET', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('48', '46', '素材审核', 'advertauditing:put', '/advertsrv/auditing:PUT', '1');
-INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('49', '46', '素材审核修改', 'advertauditing:put', '/advertsrv/auditing/edit:PUT', '1');
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('51', '0', '操作日志', 'operlog', '', '1');
 INSERT INTO `sys_permission` (`id`, `pid`, `name`, `code`, `url`, `status`) VALUES ('52', '51', '操作日志列表', 'operlog:list', '/advertsrv/log/oper/list:GET', '1');
 
@@ -374,32 +316,11 @@ INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '41'
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '42');
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '43');
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '44');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('2', '15');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('2', '23');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('2', '24');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('2', '35');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('2', '36');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('2', '40');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('2', '41');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '20');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '21');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '22');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '23');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '24');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '35');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '36');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '38');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '39');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '40');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '41');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '42');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '43');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('3', '44');
 
 
 
 ALTER TABLE `sys_user`
-ADD COLUMN `outId` BIGINT(13) NULL DEFAULT NULL AFTER `county`,
+
 ADD COLUMN `code` VARCHAR(45) NULL DEFAULT NULL AFTER `outId`,
 ADD COLUMN `org` VARCHAR(45) NULL DEFAULT NULL AFTER `code`,
 ADD COLUMN `depart` VARCHAR(45) NULL DEFAULT NULL AFTER `org`;
@@ -407,6 +328,11 @@ ADD COLUMN `depart` VARCHAR(45) NULL DEFAULT NULL AFTER `org`;
 
 ALTER TABLE `oper_log`
 ADD COLUMN `result` TEXT NULL AFTER `createTime`;
+
+ALTER TABLE `oper_log`
+ADD COLUMN `params` TEXT NULL AFTER `result`;
+
+
 
 
 

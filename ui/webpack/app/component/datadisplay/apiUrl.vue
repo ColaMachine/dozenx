@@ -304,10 +304,14 @@ export default {
                    if(bodyJsonFlag){
                     json=JSON.stringify(json);
                    }
+                   console.log(json);
+                   if(this.content.httpType=="get"){
+                        json=null;//防止给get 请求 加请求体 forbiden to add body json to request
+                   }
                     $.ajax({
                         type : this.content.httpType,
                        // url :  window.APIPATH+url+"&url="+window.APIDOMAIN,
-                         url : window.APIPATH+"?url="+encodeURIComponent(url+"&userId=1")+"&host="+window.host,//加上前缀 加上url 加上 代理url
+                         url : window.APIPATH+"?url="+url+"&userId=1"+"&host="+window.host,//加上前缀 加上url 加上 代理url
 
                         data : json,
                         type:this.content.httpType,

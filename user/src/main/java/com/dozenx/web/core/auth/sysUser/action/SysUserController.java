@@ -1271,8 +1271,14 @@ public class SysUserController extends BaseController {
         Map<String, Object> params = JsonUtil.fromJson(paramStr, Map.class);
         Page page = RequestUtil.getPage(params);
         params.put("page", page);
-        params.put("accountLike", MapUtils.getStringValue(params, "name"));
-        params.remove("name");
+
+        String nameLike = MapUtils.getStringValue(params, "name");
+        if(StringUtil.isNotBlank(nameLike)){
+            params.put("accountLike", nameLike);//账号关键字查询
+            params.remove("name");
+        }
+       // params.put("userNameLike", MapUtils.getStringValue(params, "userNameLike"));//姓名查询
+
         List<HashMap<String, Object>> sysUsers = sysUserService.listWithRoleInfoByParams4Page(params);
         return ResultUtil.getResult(sysUsers, page);
     }
@@ -1377,7 +1383,7 @@ public class SysUserController extends BaseController {
 //            sysUserDepart.setDepartId(depart);
 //            result = sysUserDepartService.save(sysUserDepart);
 //        }
-        OperLogUtil.add(request, "系统管理", "账号管理","添加账号"+ sysUser.getAccount() + sysUser.getUsername());
+        OperLogUtil.add(request, "系统管理", "账号管理","添加账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
         return result;
 
     }
@@ -1433,7 +1439,7 @@ public class SysUserController extends BaseController {
 
         sysUser.setPassword(null);
 
-        OperLogUtil.add(request, "系统管理", "账号管理","更新用户"+ sysUser.getAccount() + sysUser.getUsername());
+        OperLogUtil.add(request, "系统管理", "账号管理","修改账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
         return sysUserService.saveWithRoleInfo(sysUser);
     }
 
@@ -1459,7 +1465,7 @@ public class SysUserController extends BaseController {
         if (sysUser == null) {
             return this.getResult(10205460, ErrorMessage.getErrorMsg("err.param.null", "用户不存在"));
         }
-        OperLogUtil.add(request, "系统管理", "账号管理", "删除账号"+ sysUser.getAccount() + sysUser.getUsername());
+        OperLogUtil.add(request, "系统管理", "账号管理", "删除账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
 
         sysUserService.delete(id);//将状态为改成9
 

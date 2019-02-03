@@ -195,6 +195,13 @@ public class OperLogController extends BaseController {
         String date = (String) paramsMap.get("date"); //时间
         Integer userId = (Integer) paramsMap.get("userId");
         Page page = RequestUtil.getPage(paramsMap);
+
+        if(StringUtil.isNotBlank(createTimeBegin)){
+            createTimeBegin+=" 00:00:00";
+        }
+        if(StringUtil.isNotBlank(createTimeEnd)){
+            createTimeEnd+=" 23:59:59";
+        }
         // ValidUtil.valid("开始日期[startTime]", createTimeBegin, "required");//日期
 
 //        Date date = DateUtil.parseToDate(createTime,"yyyy-MM-dd");

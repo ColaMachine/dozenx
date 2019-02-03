@@ -1038,22 +1038,7 @@ public class ImageUtil {
         InputStream inputStream =null;
         try {
              inputStream = HttpRequestUtil.getInputStream(url);//获取输入流 在final里关闭
-            BufferedImage bufferedImage = ImageIO.read(inputStream);//将流转化成图片 如果不是图片这里会报错 直接爆出异常给调用者
-            if(bufferedImage==null){
-                throw new IOException("图片读取失败 iamge read failed!:"+url);
-            }
-            int width = bufferedImage.getWidth();//获取个宽度
-            int height = bufferedImage.getHeight();//获取高度
-            logger.debug("读取网络图片成功 read image from url succ:" + url + "成功 width:" + width + "height:" + height);
-
-            File file = path.resolve(fileName).toFile();//获取文件位置 尝试创建目录
-            if(!file.getParentFile().exists()){
-                file.getParentFile().mkdirs();
-            }
-            ImageIO.write(bufferedImage,"jpeg",file);//开始写文件
-            //保存完图片
-            logger.debug("save image file to disk  succ 下载图片:" +file.getAbsolutePath());
-            return bufferedImage;
+            return returnImage(inputStream,path,fileName);
         }catch ( Exception e){
             logger.error( "saveImageFromUrl",e);
             throw e;
@@ -1064,7 +1049,6 @@ public class ImageUtil {
         }
 
     }
-
 
     /**
      * 从url 下载图片
@@ -1084,22 +1068,7 @@ public class ImageUtil {
         InputStream inputStream =null;
         try {
             inputStream = new FileInputStream(fromFile);//获取输入流 在final里关闭
-            BufferedImage bufferedImage = ImageIO.read(inputStream);//将流转化成图片 如果不是图片这里会报错 直接爆出异常给调用者
-            if(bufferedImage==null){
-                throw new IOException("图片读取失败 iamge read failed!:");
-            }
-            int width = bufferedImage.getWidth();//获取个宽度
-            int height = bufferedImage.getHeight();//获取高度
-            logger.debug("读取网络图片成功 read image from url succ:成功 width:" + width + "height:" + height);
-
-            File file = path.resolve(fileName).toFile();//获取文件位置 尝试创建目录
-            if(!file.getParentFile().exists()){
-                file.getParentFile().mkdirs();
-            }
-            ImageIO.write(bufferedImage,"jpeg",file);//开始写文件
-            //保存完图片
-            logger.debug("save image file to disk  succ 下载图片:" +file.getAbsolutePath());
-            return bufferedImage;
+            return returnImage(inputStream,path,fileName);
         }catch ( Exception e){
             logger.error( "saveImageFromUrl",e);
             throw e;
@@ -1111,6 +1080,30 @@ public class ImageUtil {
 
     }
 
+    public static BufferedImage returnImage(InputStream inputStream,Path path,String fileName )throws  Exception {
+        BufferedImage source = ImageIO.read(inputStream);//将流转化成图片 如果不是图片这里会报错 直接爆出异常给调用者
+        if(source==null){
+            throw new IOException("图片读取失败 iamge read failed!:");
+        }
+        int width = source.getWidth();//获取个宽度
+        int height = source.getHeight();//获取高度
+        logger.debug("读取网络图片成功 read image from url succ:成功 width:" + width + "height:" + height);
+
+        File file = path.resolve(fileName).toFile();//获取文件位置 尝试创建目录
+        if(!file.getParentFile().exists()){
+            file.getParentFile().mkdirs();
+        }
+
+
+        // create a blank, RGB, same width and height, and a white background
+        BufferedImage newBufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        newBufferedImage.createGraphics().drawImage(source, 0, 0, Color.WHITE, null);
+
+        ImageIO.write(newBufferedImage,"jpeg",file);//开始写文件
+        //保存完图片
+        logger.debug("save image file to disk  succ 下载图片:" +file.getAbsolutePath());
+        return newBufferedImage;
+    }
     /***
      *
      * 批量移动图片到另一个文件夹

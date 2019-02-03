@@ -150,6 +150,8 @@ public class BaseController extends ResultAction {
 	 * @Date:17:02 2018/1/2
 	 */
 	public Long getUserId(HttpServletRequest request){
+
+
 		HttpSession session = request.getSession();
 		SessionUser sessionUser = (SessionUser) session.getAttribute(Constants.SESSION_USER);
 //		SessionUser sessionUser = null;

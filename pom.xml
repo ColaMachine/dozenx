@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>common</module>
-        <module>anjianjingling</module>
+     <!--   <module>anjianjingling</module>-->
         <module>user</module>
         <module>web</module>
         <module>swagger</module>
@@ -242,7 +242,7 @@
         <testSourceDirectory>src/test/java</testSourceDirectory>
     </build>
     <repositories><!-- 代码库 -->
-        <repository>
+      <!--  <repository>
             <id>maven-ali</id>
             <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
             <releases>
@@ -253,10 +253,10 @@
                 <updatePolicy>always</updatePolicy>
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
-        </repository>
+        </repository>-->
 <!-- &lt;!&ndash; maven私库 &ndash;&gt; -->
 
-        <repository>
+       <repository>
             <id>aWiFi-rep</id>
             <name>aWiFi Private Repository</name>
             <url>http://192.168.41.25:8081/nexus/content/groups/public/</url>

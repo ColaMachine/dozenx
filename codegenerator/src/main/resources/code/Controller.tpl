@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.math.BigDecimal;
 import com.cpj.swagger.annotation.*;
 import java.util.LinkedHashMap;
 import com.dozenx.util.*;
@@ -716,7 +717,7 @@ ${validCode}
              @Param(name="${col.name}" , description="${col.remark} ${col.comment!}",in=InType.params,dataType = DataType.<@apiType>${col.type}</@apiType>,required =false),// ${col.nn?c}
             </#list>
           })
-        @RequestMapping(value = "/export")
+        @RequestMapping(value = "/export", method = RequestMethod.GET)
         @ResponseBody
         public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
 

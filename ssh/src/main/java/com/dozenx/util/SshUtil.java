@@ -665,10 +665,10 @@ public class SshUtil {
 //        String remoteRootPathStr = "/data/service/tomcat-ezhike-biz-8085/awifi-ezhike-web/WEB-INF/classes";
 //        String tomcatPath = "/data/service/tomcat-ezhike-biz-8085";
 //
-// SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
+//SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
 //       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
-     SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
-   //     SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
+//SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
+        SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
         //  SshUtil .updateTomecatWebappAndRestart();
     }
 }

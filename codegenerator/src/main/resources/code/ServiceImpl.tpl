@@ -318,4 +318,12 @@ public class ${Abc}ServiceImpl extends BaseService implements ${Abc}Service {
         }
           </#if>
               </#if>
+
+
+
+    @Override
+    public ResultDTO insertList(List<${Abc}> list) {
+       ${abc}Mapper.insertBatch(list);
+        return null;
+    }
 }

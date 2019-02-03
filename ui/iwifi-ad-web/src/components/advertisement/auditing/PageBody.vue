@@ -121,7 +121,7 @@
         if (curPage) {
           this.searchParams.curPage = curPage;
         }
-        $http.get('/advertsrv/auditing/list', {
+        $http.get('/home/auditing/list', {
           params: {
             params:  this.searchParams
           }
@@ -176,9 +176,9 @@
       },
       onFormSubmit(formData) {
         if(this.isAudit){
-          var url = `/advertsrv/auditing`;
+          var url = `/home/auditing`;
         }else{
-          var url = `/advertsrv/auditing/edit`;
+          var url = `/home/auditing/edit`;
         }
         let title = `审核结果提交成功`;
         var form = {

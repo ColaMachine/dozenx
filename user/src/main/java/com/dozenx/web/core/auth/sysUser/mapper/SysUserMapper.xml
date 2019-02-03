@@ -78,8 +78,8 @@
         ,#{account,jdbcType=INTEGER}
         ,#{outId,jdbcType=BIGINT}
         ,#{code,jdbcType=VARCHAR}
-        ,#{org,jdbcType=org}
-        ,#{depart,jdbcType=depart}
+        ,#{org,jdbcType=VARCHAR}
+        ,#{depart,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >

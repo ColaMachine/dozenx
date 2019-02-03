@@ -289,4 +289,19 @@ where ${table.pk.name} = ${r'#{'}${table.pk.name},jdbcType=<@jdbcType>${table.pk
     </#list>
   </select>
         </#if>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into ${table.tableName} (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+ <#list table.cols as col>
+      <#if col_index==0><#else>,</#if>${r'#{'}record.${col.name},jdbcType=<@jdbcType>${col.type}</@jdbcType>}
+    </#list>
+)
+        </foreach >
+    </insert>
 </mapper>
