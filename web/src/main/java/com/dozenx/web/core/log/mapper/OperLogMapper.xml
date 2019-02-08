@@ -257,6 +257,9 @@ where id = #{id,jdbcType=INTEGER}
          <if test="createTimeEnd != null and createTimeEnd != '' ">
              and oper_log.`createTime` &lt;= #{createTimeEnd}
         </if>
+       <if test="keywords != null and keywords != '' ">
+           and oper_log.`moduleName` like "%"#{keywords}"%"
+       </if>
         order by createTime desc
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">

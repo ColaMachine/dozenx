@@ -35,7 +35,7 @@
     methods: {
       getProvince() {
         console.log('getProvince');
-        $http.get('/advertsrv/db/location/provinces').then((data) => {
+        $http.get('/home/db/location/provinces').then((data) => {
           this.provinceList = data.data;
         });
       },
@@ -46,7 +46,7 @@
           this.cityList = [];
           return;
         }
-        $http.get('/advertsrv/db/location/cities', {
+        $http.get('/home/db/location/cities', {
           params: {
             parentid: this.location[0]
           }
@@ -61,7 +61,7 @@
           this.areaList = [];
           return;
         }
-        $http.get('/advertsrv/db/location/areas', {
+        $http.get('/home/db/location/areas', {
           params: {
             parentid: this.location[1]
           }

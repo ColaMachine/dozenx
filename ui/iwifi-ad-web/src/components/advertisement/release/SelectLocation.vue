@@ -54,7 +54,7 @@ export default {
               _this:this,
               _key:'provinceIdOption'
           }
-          $http.get('/advertsrv/db/location/provinces',httpConfig,function(data){
+          $http.get('/home/db/location/provinces',httpConfig,function(data){
             let country = {"areaName":"全国","fullName":"全国","parentId":1,"type":"PROVINCE","id":0 };
             _this.provinceIdOption.unshift(country);
 
@@ -68,7 +68,7 @@ export default {
             _this:this,
             _key:'cityIdOption'
         }
-        $http.get('/advertsrv/db/location/cities',httpConfig)
+        $http.get('/home/db/location/cities',httpConfig)
       },
       //添加省市县
       addLocation(){

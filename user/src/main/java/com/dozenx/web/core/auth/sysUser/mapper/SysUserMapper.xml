@@ -26,14 +26,17 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
         <result column="account" jdbcType="VARCHAR" property="account" />
         <result column="outId" jdbcType="BIGINT" property="outId" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="org" jdbcType="VARCHAR" property="org" />
+        <result column="depart" jdbcType="VARCHAR" property="depart" />
     </resultMap>
     <sql id="Base_Column_List">
         sys_user.`id` ,sys_user.`username` ,sys_user.`password` ,sys_user.`nkname` ,sys_user.`type` ,sys_user.`status` ,sys_user.`email` ,sys_user.`telno` ,sys_user.`idcard` ,sys_user.`sex` ,sys_user.`birth` ,sys_user.`integral` ,sys_user.`address` ,sys_user.`wechat` ,sys_user.`qq` ,sys_user.`face` ,sys_user.`remark` ,sys_user.`create_time` ,sys_user.`update_time`
-        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`,sys_user.`outId`
+        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`,sys_user.`outId`,sys_user.`code`,sys_user.`org`,sys_user.`depart`
     </sql>
     <sql id="Base_Column_List_no_pwd">
         sys_user.`id` ,sys_user.`username`  ,sys_user.`nkname` ,sys_user.`type` ,sys_user.`status` ,sys_user.`email` ,sys_user.`telno` ,sys_user.`idcard` ,sys_user.`sex` ,sys_user.`birth` ,sys_user.`integral` ,sys_user.`address` ,sys_user.`wechat` ,sys_user.`qq` ,sys_user.`face` ,sys_user.`remark` ,sys_user.`create_time` ,sys_user.`update_time`
-        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`,sys_user.`outId`
+        ,sys_user.`province`,sys_user.`city`,sys_user.`county`,sys_user.`account`,sys_user.`outId`,sys_user.`code`,sys_user.`org`,sys_user.`depart`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -74,6 +77,9 @@
         ,#{county,jdbcType=INTEGER}
         ,#{account,jdbcType=INTEGER}
         ,#{outId,jdbcType=BIGINT}
+        ,#{code,jdbcType=VARCHAR}
+        ,#{org,jdbcType=VARCHAR}
+        ,#{depart,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >
@@ -151,6 +157,15 @@
             <if test="outId != null" >
                 `outId`,
             </if>
+            <if test="code != null" >
+                `code`,
+            </if>
+            <if test="org != null" >
+                `org`,
+            </if>
+            <if test="depart != null" >
+                `depart`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -224,6 +239,16 @@
             </if>
             <if test="outId != null" >
                 #{outId,jdbcType=BIGINT},
+            </if>
+
+            <if test="code != null" >
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="org != null" >
+                #{org,jdbcType=VARCHAR},
+            </if>
+            <if test="depart != null" >
+                #{depart,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -299,6 +324,16 @@
             <if test="account != null" >
                 `account`=#{account,jdbcType=VARCHAR},
             </if>
+            <if test="code != null" >
+                `code`=#{code,jdbcType=VARCHAR},
+            </if>
+            <if test="org != null" >
+                `org`=#{org,jdbcType=VARCHAR},
+            </if>
+            <if test="depart != null" >
+                `depart`=#{depart,jdbcType=VARCHAR},
+            </if>
+
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -326,7 +361,11 @@
         `remark`=#{remark,jdbcType=VARCHAR},
         `createTime`=#{createTime,jdbcType=TIMESTAMP},
         `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
-        `outId`=#{outId,jdbcType=BIGINT}
+        `outId`=#{outId,jdbcType=BIGINT},
+        `code`=#{code,jdbcType=TIMESTAMP},
+        `org`=#{org,jdbcType=TIMESTAMP},
+        `depart`=#{depart,jdbcType=BIGINT}
+
 
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -578,6 +617,16 @@
         <if test="outId != null and outId != '' ">
             and sys_user.`outId`  != #{outId}
         </if>
+        <if test="code != null and code != '' ">
+            and sys_user.`code`  != #{code}
+        </if>
+        <if test="org != null and org != '' ">
+            and sys_user.`org`  != #{org}
+        </if>
+        <if test="depart != null and depart != '' ">
+            and sys_user.`depart`  != #{depart}
+        </if>
+
     </select>
     <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
         select
@@ -700,6 +749,15 @@
         </if>
         <if test="outId != null and outId != '' ">
             and sys_user.`outId`  != #{outId}
+        </if>
+        <if test="code != null and code != '' ">
+            and sys_user.`code`  != #{code}
+        </if>
+        <if test="org != null and org != '' ">
+            and sys_user.`org`  != #{org}
+        </if>
+        <if test="depart != null and depart != '' ">
+            and sys_user.`depart`  != #{depart}
         </if>
     </select>
     <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">

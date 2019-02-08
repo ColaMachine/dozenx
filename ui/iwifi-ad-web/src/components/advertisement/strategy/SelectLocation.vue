@@ -55,7 +55,7 @@ export default {
               _this:this,
               _key:'provinceIdOption'
           }
-          $http.get('/advertsrv/db/location/provinces',httpConfig);
+          $http.get('/home/db/location/provinces',httpConfig);
 
       },
       //获取市
@@ -66,7 +66,7 @@ export default {
             _this:this,
             _key:'cityIdOption'
         }
-        $http.get('/advertsrv/db/location/cities',httpConfig)
+        $http.get('/home/db/location/cities',httpConfig)
       },
       //获取县
       getLocation(value){
@@ -76,7 +76,7 @@ export default {
             _this:this,
             _key:'locationIdOption'
         }
-        $http.get('/advertsrv/db/location/areas',httpConfig)
+        $http.get('/home/db/location/areas',httpConfig)
       },
       //添加省市县
       addLocation(){

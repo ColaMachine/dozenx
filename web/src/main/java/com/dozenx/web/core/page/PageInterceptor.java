@@ -8,6 +8,7 @@ import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
@@ -15,6 +16,7 @@ import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,10 +29,12 @@ import java.util.Properties;
  * 通过拦截<code>StatementHandler</code>的<code>prepare</code>方法，重写sql语句实现物理分页。
  * 老规矩，签名里要拦截的类型只能是接口。
  * 
- * @author 湖畔微风
+ * @author
  * 
  */
-@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})})
+@Component
+@Intercepts({@Signature(type = StatementHandler.class, method = "prepare",
+        args = {Connection.class,Integer.class})})
 public class PageInterceptor implements Interceptor {
     private static final Log logger = LogFactory.getLog(PageInterceptor.class);
     private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
@@ -43,16 +47,16 @@ public class PageInterceptor implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
         MetaObject metaStatementHandler = MetaObject.forObject(statementHandler, DEFAULT_OBJECT_FACTORY,
-                DEFAULT_OBJECT_WRAPPER_FACTORY);
+                DEFAULT_OBJECT_WRAPPER_FACTORY,new DefaultReflectorFactory());
         // 分离代理对象链(由于目标类可能被多个拦截器拦截，从而形成多次代理，通过下面的两次循环可以分离出最原始的的目标类)
         while (metaStatementHandler.hasGetter("h")) {
             Object object = metaStatementHandler.getValue("h");
-            metaStatementHandler = MetaObject.forObject(object, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY);
+            metaStatementHandler = MetaObject.forObject(object, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY,new DefaultReflectorFactory());
         }
         // 分离最后一个代理对象的目标类
         while (metaStatementHandler.hasGetter("target")) {
             Object object = metaStatementHandler.getValue("target");
-            metaStatementHandler = MetaObject.forObject(object, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY);
+            metaStatementHandler = MetaObject.forObject(object, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY,new DefaultReflectorFactory());
         }
         dialect=defaultDialect;pageSqlId=defaultPageSqlId;
        /* Configuration configuration = (Configuration) metaStatementHandler.getValue("delegate.configuration");

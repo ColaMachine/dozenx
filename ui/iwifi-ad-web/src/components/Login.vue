@@ -31,7 +31,7 @@
     },
     methods: {
       login() {
-        $http.post('/advertsrv/sys/auth/login', {
+        $http.post('/home/sys/auth/login', {
           loginName: this.formData.userName,
           pwd: md5(this.formData.password),
           picCaptcha: this.formData.code

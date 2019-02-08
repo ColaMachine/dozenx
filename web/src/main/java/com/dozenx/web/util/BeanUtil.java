@@ -1,5 +1,6 @@
 package com.dozenx.web.util;
 
+import com.dozenx.web.core.spring.ApplicationContextRegister;
 import org.springframework.aop.Advisor;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
@@ -26,8 +27,8 @@ public class BeanUtil {
      */
     public static Object getBean(String name) {
 
-
-        return getContext().getBean(name);//Advisor.class
+        return  ApplicationContextRegister.getApplicationContext() .getBean(name);
+        // getContext().getBean(name);//Advisor.class
     }
 
     public static Object getBean(Class c){

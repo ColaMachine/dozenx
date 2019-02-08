@@ -18,7 +18,7 @@
           &nbsp;
           </Col>
           <Col span="6">
-          <ValidateCode ref="validateCode" url="/advertsrv/sys/auth/login/pic/captcha"/>
+          <ValidateCode ref="validateCode" url="/home/sys/auth/login/pic/captcha"/>
           </Col>
         </Row>
       </FormItem>

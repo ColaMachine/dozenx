@@ -1155,7 +1155,8 @@ public class FaceInfoController extends BaseController {
 
             map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\mmexport1543151210973.jpg")));
 
-            HttpRequestUtil.sendPost(url,map);
+           String result =  HttpRequestUtil.sendPost(url,map);
+            System.out.println(result);
     }
 
 

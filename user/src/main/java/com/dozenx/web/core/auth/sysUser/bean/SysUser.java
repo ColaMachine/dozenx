@@ -54,6 +54,33 @@ public class SysUser implements Serializable {
     /*账号*/
     private String account;
 
+    private String code;
+    private String org;
+    private String depart;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getOrg() {
+        return org;
+    }
+
+    public void setOrg(String org) {
+        this.org = org;
+    }
+
+    public String getDepart() {
+        return depart;
+    }
+
+    public void setDepart(String depart) {
+        this.depart = depart;
+    }
 
     public String getAccount() {
         return account;

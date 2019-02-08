@@ -126,7 +126,7 @@
         if (curPage) {
           this.searchParams.curPage = curPage;
         }
-        $http.get('/advertsrv/sys/auth/user/list', {
+        $http.get('/home/sys/auth/user/list', {
           params: {
             params: this.searchParams
           }
@@ -167,7 +167,7 @@
       },
       onFormSubmit() {
         let isEdit = this.currentRecord.id ? true : false;
-        let url = isEdit ? `/advertsrv/sys/auth/user/update/${this.currentRecord.id}` : '/advertsrv/sys/auth/user/add';
+        let url = isEdit ? `/home/sys/auth/user/update/${this.currentRecord.id}` : '/home/sys/auth/user/add';
         let method = isEdit ? 'put' : 'post';
         // let method = 'post';
         let title = `${isEdit ? '修改' : '新增'}账号成功`;
@@ -201,7 +201,7 @@
         });
       },
       del(id) {
-        $http.delete(`/advertsrv/sys/auth/user/del/${id}`).then(() => {
+        $http.delete(`/home/sys/auth/user/del/${id}`).then(() => {
           this.$Notice.success({
             title: '删除账号成功',
           });
@@ -209,7 +209,7 @@
         });
       },
       getAccount(id) {
-        $http.get(`/advertsrv/sys/auth/user/view/${id}`).then(({data}) => {
+        $http.get(`/home/sys/auth/user/view/${id}`).then(({data}) => {
           data.fullLocation = [data.province, data.city, data.county];
           this.currentRecord = data;
           this.showFormModal();

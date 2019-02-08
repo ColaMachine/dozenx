@@ -3,6 +3,7 @@ package com.dozenx.web.core.properties;
 import com.dozenx.core.Path.PathManager;
 import com.dozenx.core.config.Config;
 import com.dozenx.util.MapUtils;
+import com.dozenx.util.PropertiesUtil;
 import com.dozenx.util.StringUtil;
 import com.dozenx.util.db.MysqlUtil;
 import com.dozenx.web.util.ConfigUtil;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -92,6 +94,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
         this.url = url;
     }
 
+    @PostConstruct
     private void loadProperty() {//其实此种方式并不合适从properties 中读取配置,应为spring 已经支持了http远程加载配置文件的方式,那么此种方式在通过http请求就显得多余了,此种自定义Properties加载方式目前唯一的好处是可以从数据库中读取配置信息 或者可以通过加密的方式获取配置信息
 
 //        logger.info("" + properties.size());
@@ -109,7 +112,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
             for (File file : files) {
                 try {
                     if (file.getName().endsWith(".properties")) {
-                        logger.info("load porperties from "+file.getAbsolutePath());
+                        logger.info("load porperties from " + file.getAbsolutePath());
                         properties.load(new FileInputStream(file));
                     }
                 } catch (IOException e) {
@@ -122,7 +125,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
         // this.properties = propertiesFromFile;
         String readFrom = (String) properties.get("readfrom");
         if (StringUtil.isNotBlank(readFrom)) {
-            logger.info("load properties from "+readFrom);
+            logger.info("load properties from " + readFrom);
             String[] readFromAry = readFrom.split(",");//一般有两个值config 或者db config 表示从properties 文件获取 db表示从数据库获取
 
             for (String s : readFromAry) {
@@ -134,23 +137,23 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
                         //优先加载properties 文件夹
                         File basePropertiesFolder = PathManager.getInstance().getClassPath().resolve(basePropertiesPath).toFile();
                         if (basePropertiesFolder != null && basePropertiesFolder.exists()) {
-                            logger.info("load porperties from basePropertiesFolder "+basePropertiesPath);
+                            logger.info("load porperties from basePropertiesFolder " + basePropertiesPath);
                             files = com.dozenx.util.FileUtil.listFile(basePropertiesFolder);
-                            if (files != null)
+                            if (files != null) {
                                 for (File file : files) {
-
                                     if (file.getName().endsWith(".properties")) {
-                                        logger.info("load porperties from "+file.getAbsolutePath());
+                                        logger.info("load porperties from " + file.getAbsolutePath());
                                         properties.load(new FileInputStream(file));
                                     }
                                     //need to test if override add the add File content
                                     // properties.putAll(properties);
                                 }
+                            }
                         }
 
                         //===========加载主目录addPropertiesPath下所有properties 文件==================
                         if (StringUtil.isNotBlank(addPropertiesPath)) {
-                            logger.info("load porperties from addPropertiesPath "+addPropertiesPath);
+                            logger.info("load porperties from addPropertiesPath " + addPropertiesPath);
                             File addPropertiesFolder = PathManager.getInstance().getClassPath().resolve(addPropertiesPath).toFile();
                             if (addPropertiesFolder != null && addPropertiesFolder.exists()) {
                                 //先从主文件获取配置文件
@@ -162,7 +165,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
 
                                     logger.debug("begin load properties:" + file.getAbsolutePath() + file.getName());
                                     if (file.getName().endsWith(".properties")) {
-                                        logger.info("load porperties from "+file.getAbsolutePath());
+                                        logger.info("load porperties from " + file.getAbsolutePath());
                                         properties.load(new FileInputStream(file));
                                     }
                                     //need to test if override add the add File content
@@ -246,9 +249,10 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
 //        cache.redis.port=6379
 //        cache.redis.database.index=1
 //        cache.redis.pwd=123456
-        logger.info("=====mysql:"+properties.get("db.jdbc.url")+" user:"+properties.get("db.jdbc.user"));
-        logger.info("=====redis:"+properties.get("cache.redis.ip")+" port:"+properties.get("cache.redis.port")+" index:"+properties.get("cache.redis.auth")+" port"+ Config.getInstance().getCache().getRedis().getAuth());
+        logger.info("=====mysql:" + properties.get("db.jdbc.url") + " user:" + properties.get("db.jdbc.user"));
+        logger.info("=====redis:" + properties.get("cache.redis.ip") + " port:" + properties.get("cache.redis.port") + " index:" + properties.get("cache.redis.database.index") + " port" + Config.getInstance().getCache().getRedis().getAuth());
         ConfigUtil.properties = properties;
+        PropertiesUtil.confProperties = properties;
     }
 
 //

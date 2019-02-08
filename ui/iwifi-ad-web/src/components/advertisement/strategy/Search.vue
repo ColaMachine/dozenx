@@ -28,7 +28,7 @@ export default {
     methods: {
       search(){
         let _this=this;
-         $http.get("/advertsrv/partner/platform/list").then(function(resp){
+         $http.get("/home/partner/platform/list").then(function(resp){
            _this.cityList=resp.data;
       })
       },
@@ -39,7 +39,7 @@ export default {
   mounted (){
     this.search();
   }
- 
+
 }
 </script>
 

@@ -250,7 +250,6 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
         response.setHeader("Cache-Control", "no-cache");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/json;charset=UTF-8");
-        response.setContentType("text/json;charset=UTF-8");
         logger.info(newUrl + "返回结果" + result);
         response.getWriter().println(result);
         response.getWriter().flush();

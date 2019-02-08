@@ -191,14 +191,18 @@ public class SysUserService extends BaseService {
     public ResultDTO saveWithRoleInfo(SysUser sysUser) throws Exception {
 
         ResultDTO result = this.save(sysUser);
-        if(!result.isRight()){
+        if (!result.isRight()) {
             return result;
 
         }
 
-        Long id  =sysUser.getId();
+        Long id = sysUser.getId();
         Long[] roleId = sysUser.getRoleIds();
-        sysUserRoleService.batchUpdate(new Long[]{id},roleId);
+        if (roleId == null || roleId.length == 0) {
+
+        } else{
+            sysUserRoleService.batchUpdate(new Long[]{id}, roleId);
+         }
         return  ResultUtil.getSuccResult();
     }
     /**

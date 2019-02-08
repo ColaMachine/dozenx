@@ -88,7 +88,7 @@
         this.$refs.form.resetFields();
       },
       getRoleList() {
-        $http.get('/advertsrv/sys/auth/role/drop/list', {
+        $http.get('/home/sys/auth/role/drop/list', {
           params: {
             params: {
               curPage: 1,
@@ -104,7 +104,7 @@
       //     this.formData = {};
       //
       //   } else {
-      //     $http.get(`/advertsrv/sys/auth/role/view/${id}`).then((data) => {
+      //     $http.get(`/home/sys/auth/role/view/${id}`).then((data) => {
       //       this.formData = data.data;
       //       this.$refs.roleForm.resetFields();
       //     }).catch((error) => {

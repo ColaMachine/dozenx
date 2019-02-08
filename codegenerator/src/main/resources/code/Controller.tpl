@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.math.BigDecimal;
 import com.cpj.swagger.annotation.*;
 import java.util.LinkedHashMap;
 import com.dozenx.util.*;
@@ -611,7 +612,7 @@ ${validCode}
                         description = "添加单个${table.remark}信息",
                         parameters={
                           <#list table.cols as col>
-                           @Param(name="${col.name}" , description="${col.remark}",in=InType.body,dataType = DataType.<@apiType>${col.type}</@apiType>,required = ${col.nn?c}),
+                           @Param(name="${col.name}" , description="${col.remark}${col.comment!}"  ,in=InType.body,dataType = DataType.<@apiType>${col.type}</@apiType>,required = ${col.nn?c}),
                           </#list>
                         })
                     @RequestMapping(value = "add",method = RequestMethod.POST)
@@ -648,7 +649,7 @@ ${validCode}
     description = "更新单个${table.remark}信息",
     parameters={
         <#list table.cols as col>
-        @Param(name="${col.name}" , description="${col.remark}",in=InType.body,dataType = DataType.<@apiType>${col.type}</@apiType>,required = ${col.nn?c}),
+        @Param(name="${col.name}" , description="${col.remark}  ${col.comment!}",in=InType.body,dataType = DataType.<@apiType>${col.type}</@apiType>,required = ${col.nn?c}),
         </#list>
     })
     @RequestMapping(value = "update",method = RequestMethod.PUT)
@@ -680,7 +681,7 @@ ${validCode}
                  @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
                  @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
                   <#list table.cols as col>
-                    @Param(name="${col.name}" , description="${col.remark}",in=InType.params,dataType = DataType.<@apiType>${col.type}</@apiType>,required =false),// ${col.nn?c}
+                    @Param(name="${col.name}" , description="${col.remark}  ${col.comment!}",in=InType.params,dataType = DataType.<@apiType>${col.type}</@apiType>,required =false),// ${col.nn?c}
                    </#list>
          })
     @RequestMapping(value = "/list" , method = RequestMethod.GET)
@@ -713,10 +714,10 @@ ${validCode}
           @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
           @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
            <#list table.cols as col>
-             @Param(name="${col.name}" , description="${col.remark}",in=InType.params,dataType = DataType.<@apiType>${col.type}</@apiType>,required =false),// ${col.nn?c}
+             @Param(name="${col.name}" , description="${col.remark} ${col.comment!}",in=InType.params,dataType = DataType.<@apiType>${col.type}</@apiType>,required =false),// ${col.nn?c}
             </#list>
           })
-        @RequestMapping(value = "/export")
+        @RequestMapping(value = "/export", method = RequestMethod.GET)
         @ResponseBody
         public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
 

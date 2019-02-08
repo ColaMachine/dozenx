@@ -73,7 +73,7 @@
         } else {
           this.searchParams.curPage = 1;
         }
-        $http.get(`/advertsrv/report/lunch/log/detail`, {
+        $http.get(`/home/report/lunch/log/detail`, {
           params: {
             lunchTime: this.currentRecord.date,
             strategy: this.currentRecord.strategy,

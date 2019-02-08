@@ -146,8 +146,8 @@
         //   _tblData: 'tblData',
         //   _totalRecord: 'totalRecord'
         // };
-        // $http.list('/advertsrv/advertspace/list', httpConfig);
-        $http.get('/advertsrv/advertspace/list', {
+        // $http.list('/home/advertspace/list', httpConfig);
+        $http.get('/home/advertspace/list', {
           params: {
             params: JSON.stringify(this.searchData)
           }

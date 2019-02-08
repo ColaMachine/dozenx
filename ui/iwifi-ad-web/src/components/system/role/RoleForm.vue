@@ -60,7 +60,7 @@
       //     this.formData = {};
       //
       //   } else {
-      //     $http.get(`/advertsrv/sys/auth/role/view/${id}`).then((data) => {
+      //     $http.get(`/home/sys/auth/role/view/${id}`).then((data) => {
       //       this.formData = data.data;
       //       this.$refs.roleForm.resetFields();
       //     }).catch((error) => {

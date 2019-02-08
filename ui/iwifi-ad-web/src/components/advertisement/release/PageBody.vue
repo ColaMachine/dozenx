@@ -165,7 +165,7 @@
         if (curPage) {
           this.searchParams.curPage = curPage;
         }
-        $http.get('/advertsrv/advertstrategy/list', {
+        $http.get('/home/advertstrategy/list', {
           params: {
             params: this.searchParams
           }
@@ -211,7 +211,7 @@
       },
       onFormSubmit(formData) {
         let isEdit = formData.id ? true : false;
-        let url = '/advertsrv/advertstrategy';
+        let url = '/home/advertstrategy';
         let method = isEdit ? 'put' : 'post';
         let title = `${isEdit ? '修改' : '新增'}投放策略成功`;
         $http({
@@ -252,7 +252,7 @@
         });
       },
       setState(row) {
-        let url = `/advertsrv/advertstrategy/${row.state ? 'disable' : 'enable'}/${row.id}`;
+        let url = `/home/advertstrategy/${row.state ? 'disable' : 'enable'}/${row.id}`;
         let actionText = row.state ? '暂停' : '启用';
         $http.get(url).then(() => {
           this.$Notice.success({
@@ -275,7 +275,7 @@
         });
       },
       deleteRelease(id) {
-        $http.delete(`/advertsrv/advertstrategy/${id}`).then(() => {
+        $http.delete(`/home/advertstrategy/${id}`).then(() => {
           this.$Notice.success({
             title: '删除投放策略成功',
           });

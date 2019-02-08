@@ -145,7 +145,7 @@
           params.endTime = DateFormat.format.date(params.endTime, 'yyyy-MM-dd');
         }
         console.log('params', params);
-        $http.get('/advertsrv/report/lunch/log/list', {
+        $http.get('/home/report/lunch/log/list', {
           params: params
         }).then((data) => {
           data.data.forEach((item) => {

@@ -64,7 +64,7 @@
         }
         this.$refs.form.validate((valid) => {
           if (valid) {
-            let url = "/advertsrv/sys/auth/user/pwd/update";
+            let url = "/home/sys/auth/user/pwd/update";
             let params ={
               "oldPassword": this.formData.oldPassword,
               "newPassword":this.formData.newPassword

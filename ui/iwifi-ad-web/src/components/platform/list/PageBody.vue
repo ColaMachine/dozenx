@@ -127,7 +127,7 @@
         if (curPage) {
           this.searchParams.curPage = curPage;
         }
-        $http.get('/advertsrv/partner/list', {
+        $http.get('/home/partner/list', {
           params: {
             params: this.searchParams
           }
@@ -166,7 +166,7 @@
       },
       onFormSubmit() {
         let isEdit = this.currentRecord.id ? true : false;
-        let url = '/advertsrv/partner';
+        let url = '/home/partner';
         let method = isEdit ? 'put' : 'post';
         let title = `${isEdit ? '编辑' : '新增'}合作平台成功`;
         $http({
@@ -195,7 +195,7 @@
         });
       },
       del(id) {
-        $http.delete('/advertsrv/partner', {
+        $http.delete('/home/partner', {
           params: {
             params: {
               id
@@ -209,7 +209,7 @@
         });
       },
       getPlatform(id) {
-        $http.get(`/advertsrv/partner`, {
+        $http.get(`/home/partner`, {
           params: {
             params: {
               id

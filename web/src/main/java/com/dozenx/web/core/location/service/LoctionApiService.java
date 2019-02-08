@@ -73,6 +73,7 @@ public class LoctionApiService extends BaseService {
 
 
     public synchronized void cacheJsonStr(){
+        //这里会导致再次启动系统就没有idNameMap值了
         String flag = RedisUtil.get(RedisConstants.LOCATION_CHILDS+1);
         if(StringUtil.isNotBlank(flag)){
             return ;

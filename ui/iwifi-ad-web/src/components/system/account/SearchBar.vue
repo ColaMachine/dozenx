@@ -15,6 +15,9 @@
     <li>
       <Input v-model="value.name" style="width:200px;" placeholder="请输入账号关键字" clearable></Input>
     </li>
+      <li>
+          <Input v-model="value.usernameLike" style="width:200px;" placeholder="请输入名称关键字" clearable></Input>
+        </li>
     <li>
       <Button type="ghost" class="search-btn" @click="search">查询</Button>
     </li>
@@ -39,7 +42,7 @@
         this.$emit('on-search');
       },
       getRoleList() {
-        $http.get('/advertsrv/sys/auth/role/drop/list', {
+        $http.get('/home/sys/auth/role/drop/list', {
           params: {
             params:
               {

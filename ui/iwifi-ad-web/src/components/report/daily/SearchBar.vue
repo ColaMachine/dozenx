@@ -81,12 +81,12 @@
         this.$emit('on-search');
       },
       // getPlatformList() {
-      //   $http.get('/advertsrv/partner/platform/list').then(({data}) => {
+      //   $http.get('/home/partner/platform/list').then(({data}) => {
       //     this.platformList = data;
       //   });
       // }
       getStrategyList() {
-        $http.get('/advertsrv/advertstrategy/code/list', {}).then(({data}) => {
+        $http.get('/home/advertstrategy/code/list', {}).then(({data}) => {
           this.strategyList = data;
         });
       }

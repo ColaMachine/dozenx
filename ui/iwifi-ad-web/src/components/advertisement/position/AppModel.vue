@@ -66,7 +66,7 @@
           if (valid) {
             let _this = this;
             let formparams = this.formValidate;
-            let url = '/advertsrv/advertspace';
+            let url = '/home/advertspace';
             let method = this.formValidate.id ? 'put' : 'post';
             let title = `${this.formValidate.id ? '修改' : '添加'}广告位成功`;
             $http({

@@ -178,7 +178,7 @@ public class OperLogController extends BaseController {
     @API(summary = "操作日志列表接口",
             description = "操作日志列表接口",
             parameters = {
-                    @Param(name = "params", description = "{keywords:'xxxx',userNameLike:'xxx',date:'2018-05-03',curPage=13,pageSize=20}", dataType = DataType.STRING, required = true),
+                    @Param(name = "params", description = "{keywords:'xxxx',userNameLike:'xxx',date:'2018-05-03',createTimeBegin:'2019-1-3',createTimeEnd:'2019-1-4',curPage=13,pageSize=20}", dataType = DataType.STRING, required = true),
             })
     @RequestMapping(method = RequestMethod.GET, value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -195,6 +195,13 @@ public class OperLogController extends BaseController {
         String date = (String) paramsMap.get("date"); //时间
         Integer userId = (Integer) paramsMap.get("userId");
         Page page = RequestUtil.getPage(paramsMap);
+
+        if(StringUtil.isNotBlank(createTimeBegin)){
+            createTimeBegin+=" 00:00:00";
+        }
+        if(StringUtil.isNotBlank(createTimeEnd)){
+            createTimeEnd+=" 23:59:59";
+        }
         // ValidUtil.valid("开始日期[startTime]", createTimeBegin, "required");//日期
 
 //        Date date = DateUtil.parseToDate(createTime,"yyyy-MM-dd");

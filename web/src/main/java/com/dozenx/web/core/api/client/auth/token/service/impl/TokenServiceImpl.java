@@ -47,12 +47,16 @@ public class TokenServiceImpl implements TokenService {
         String url = ConfigUtil.getConfig("token.url");
         String currentTime =""+ System.currentTimeMillis()/1000;
         String token ="";
+        String appId = ConfigUtil.getConfig("token.appid");
+        String appKey = ConfigUtil.getConfig("token.appkey");
+        String tokenUrl = ConfigUtil.getConfig("token.url");
+
         try {
-             token = MD5Util.getStringMD5String(appid+"_"+appkey+"_"+currentTime);
+             token = MD5Util.getStringMD5String(appId+"_"+appKey+"_"+currentTime);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String result = HttpRequestUtil.sendGet(HttpUtil.joinUrlAndParams(url,"token="+token+"&timestamp="+currentTime+"&appid="+appid));//接口返回值
+        String result = HttpRequestUtil.sendGet(HttpUtil.joinUrlAndParams(url,"token="+token+"&timestamp="+currentTime+"&appid="+appId));//接口返回值
         if(StringUtils.isBlank(result)){//如果为空
             throw new InterfaceException(ErrorMessage.getErrorMsg("err.net.http.result.null.code"),url);//抛接口异常 接口无返回值！
         }
@@ -76,12 +80,12 @@ public class TokenServiceImpl implements TokenService {
 
     Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
     /** 申请token的url */
-    @Value("${token.url}")
-    private String  tokenUrl; //申请token的url
-    @Value("${token.appid}")
-    private String  appid; //申请token的url
-    @Value("${token.appkey}")
-    private String  appkey; //申请token的url
+//    @Value("${token.url}")
+//    private String  tokenUrl; //申请token的url
+//    @Value("${token.appid}")
+//    private String  appid; //申请token的url
+//    @Value("${token.appkey}")
+//    private String  appkey; //申请token的url
 //    @Override
 //    public String getAccessToken(String redisKey) {
 //

@@ -77,13 +77,26 @@ public class PropertiesUtil {
 	public static void init() throws Exception {
 		File rootDirectory = new File(PropertiesUtil.class.getClassLoader().getResource("properties").getPath());
 	    File[] propertiesFiles = rootDirectory.listFiles(new FileNameSelector("properties"));
-		
+
+
+
 	    if(confProperties == null) {
 	    	confProperties = new Properties();
 	    }
 		for(File file : propertiesFiles) {
 			FileInputStream fis = new FileInputStream(file);
 			confProperties.load(fis);
+			fis.close();
+		}
+
+
+		 rootDirectory = new File(PropertiesUtil.class.getClassLoader().getResource("").getPath());
+		 propertiesFiles = rootDirectory.listFiles(new FileNameSelector("properties"));
+
+		for(File file : propertiesFiles) {
+			FileInputStream fis = new FileInputStream(file);
+			confProperties.load(fis);
+			fis.close();
 		}
 	}
 	

@@ -78,11 +78,11 @@
       search() {
         //获取所有的广告位
         let _this = this;
-        $http.get('/advertsrv/advertspace/all').then(function (resp) {
+        $http.get('/home/advertspace/all').then(function (resp) {
           _this.id = resp.data;
         })
         //获取合作方
-        $http.get("/advertsrv/partner/platform/list").then(function (resp) {
+        $http.get("/home/partner/platform/list").then(function (resp) {
           _this.partner = resp.data;
         })
       },
@@ -128,7 +128,7 @@
         let _this = this;
         this.formValidate.startTime = DateFormat.format.date(this.formValidate.effectStartTime, 'yyyy-MM-dd');
         this.formValidate.endTime = DateFormat.format.date(this.formValidate.effectEndTime, 'yyyy-MM-dd');
-        let url = '/advertsrv/advertstrategy';
+        let url = '/home/advertstrategy';
         let method = this.flag ? 'put' : 'post';
         let title = `${this.flag ? '修改' : '添加'}广告位成功`;
         $http({

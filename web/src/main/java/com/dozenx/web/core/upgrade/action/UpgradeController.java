@@ -42,7 +42,7 @@ public class UpgradeController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(UpgradeController.class);
 
     public static void main(String args[]) {
-        String pkgUrl = "http://alpha-ezhike.51awifi.com/ezhikesrv/a.zip";
+        String pkgUrl = "http://alpha-ezhike.51awifi.com/ezhikesrv/tmp/a.zip";
         try {
             System.out.println(PathManager.getInstance().getHomePath());
             HttpRequestUtil.saveFileFromUrl(pkgUrl, "a.zip", PathManager.getInstance().getHomePath());
@@ -57,7 +57,7 @@ public class UpgradeController extends BaseController {
             String md5 = DigestUtils.md5Hex(bts);
             String checkMd5 = md5 + bts.length;
             String version="a";
-            System.out.println("alpha-ad.51awifi.com/advertsrv/sys/upgrade/upload?version=a&pkgUrl=" + URLEncoder.encode(pkgUrl) + "&md5=" + checkMd5);
+            System.out.println("beta-advert.51awifi.com/advertsrv/sys/upgrade/upload?version=a&pkgUrl=" + URLEncoder.encode(pkgUrl) + "&md5=" + checkMd5);
         } else {
             System.out.println("file not exist");
         }

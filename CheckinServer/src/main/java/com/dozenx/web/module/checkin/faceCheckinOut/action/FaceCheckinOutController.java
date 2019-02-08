@@ -1008,35 +1008,35 @@ public class FaceCheckinOutController extends BaseController{
     }
 
 
-      /**
-                     * 说明:添加FaceCheckinOut信息
-                     * @param request
-                     * @throws Exception
-                     * @return ResultDTO
-                     * @author dozen.zhang
-                     * @date 2018-11-21 16:53:17
-                     */
-                    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
-                    @API( summary="添加单个考勤信息",
-                        description = "添加单个考勤信息",
-                        parameters={
-                           @Param(name="id" , description="编号",in=InType.body,dataType = DataType.LONG,required = false),
-                           @Param(name="userId" , description="用户Id",in=InType.body,dataType = DataType.LONG,required = true),
-                           @Param(name="userName" , description="用户姓名",in=InType.body,dataType = DataType.STRING,required = true),
-                           @Param(name="camera" , description="摄像机编号",in=InType.body,dataType = DataType.STRING,required = true),
-                           @Param(name="checkType" , description="考勤类型",in=InType.body,dataType = DataType.INTEGER,required = true),
-                           @Param(name="checkTime" , description="创建时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
-                           @Param(name="score" , description="人脸匹配度",in=InType.body,dataType = DataType.FLOAT,required = false),
-                        })
-                    @RequestMapping(value = "add",method = RequestMethod.POST)
-                    @ResponseBody
-                    public ResultDTO saveInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-                        FaceCheckinOut faceCheckinOut =    getInfoFromMap(bodyParam);
+    /**
+     * 说明:添加FaceCheckinOut信息
+     * @param request
+     * @throws Exception
+     * @return ResultDTO
+     * @author dozen.zhang
+     * @date 2018-11-21 16:53:17
+     */
+    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
+    @API( summary="添加单个考勤信息",
+        description = "添加单个考勤信息",
+        parameters={
+           @Param(name="id" , description="编号",in=InType.body,dataType = DataType.LONG,required = false),
+           @Param(name="userId" , description="用户Id",in=InType.body,dataType = DataType.LONG,required = true),
+           @Param(name="userName" , description="用户姓名",in=InType.body,dataType = DataType.STRING,required = true),
+           @Param(name="camera" , description="摄像机编号",in=InType.body,dataType = DataType.STRING,required = true),
+           @Param(name="checkType" , description="考勤类型",in=InType.body,dataType = DataType.INTEGER,required = true),
+           @Param(name="checkTime" , description="创建时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
+           @Param(name="score" , description="人脸匹配度",in=InType.body,dataType = DataType.FLOAT,required = false),
+        })
+    @RequestMapping(value = "add",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO saveInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+        FaceCheckinOut faceCheckinOut =    getInfoFromMap(bodyParam);
 
 
-                        return faceCheckinOutService.save(faceCheckinOut);
+        return faceCheckinOutService.save(faceCheckinOut);
 
-                    }
+    }
 
 
     /**

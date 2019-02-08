@@ -47,6 +47,8 @@ public class ControllerFactory extends DefaultGenCodeFactory {
                     sb.append("DateUtil.parseToDate("+zcol.getName()+", \""+StringUtil.getYMDStr(type)+"\"");
                 }
                 sb.append("));").append(ctrl).append(tab3+"}").append(ctrl);
+            }else if(type.startsWith("decimal")){
+                sb.append(tab4+StringUtil.getabc(table.getName())+".set"+StringUtil.getAbc(zcol.getName())+"(new BigDecimal("+zcol.getName()+"));").append(ctrl);
             }else{
                 sb.append(tab4+StringUtil.getabc(table.getName())+".set"+StringUtil.getAbc(zcol.getName())+"("+ GenCodeHelper.changeMySqlType2JavaType(type)+".valueOf("+zcol.getName()+"));").append(ctrl);
             }
@@ -124,7 +126,7 @@ public class ControllerFactory extends DefaultGenCodeFactory {
        // line(sb,"String id = request.getParameter(\"id\");");
         line(sb,"HashMap<String,Object> result =new HashMap</*String,Object*/>();");
         //line(sb,"if(!StringUtil.isBlank(id)){");
-        line(sb,"if(id > 0){");
+       // line(sb,"if(id > 0){");
         lineForw(sb,StringUtil.getAbc(table.getName())+" bean = "+StringUtil.getabc(table.getName())+"Service.selectByPrimaryKey("+GenCodeHelper.changeMySqlType2JavaType(table.getPk().getType())+".valueOf(id));");
         line(sb,"result.put(\"bean\", bean);");
             if(table.getMapper()!=null&& table.getName().equals(table.getMapper().getParent())){
@@ -133,7 +135,7 @@ public class ControllerFactory extends DefaultGenCodeFactory {
                 line(sb,"List<"+StringUtil.getAbc(table.getMapper().getMapper())+"> childMaps ="+StringUtil.getabc(table.getMapper().getMapper())+"Service.listByParams(new HashMap<String,String>());");
                 line(sb,"result.put(\"childMaps\", childMaps);");
             }
-            lineBack(sb,"}");
+          //  lineBack(sb,"}");
         if(table.getMapper()!=null&& table.getName().equals(table.getMapper().getParent())){
             line(sb,"List<"+StringUtil.getAbc(table.getMapper().getChild())+"> childs ="+StringUtil.getabc(table.getMapper().getChild())+"Service.listByParams(new HashMap<String,String>());");
             line(sb,"result.put(\"childs\", childs);");
@@ -458,6 +460,8 @@ public class ControllerFactory extends DefaultGenCodeFactory {
                  lineBack(sb,"}");
             }else if(type.startsWith("long")||type.startsWith("bigint")||type.startsWith("tinyint")||type.startsWith("float")){
                 lineForw(sb, String.format("%s.set%s(%s);",StringUtil.getabc(table.getName()),StringUtil.getAbc(zcol.getName()),  GenCodeHelper.changeMySqlType2JavaType(type)+".valueOf("+zcol.getName()+")"));
+            }else if(type.startsWith("decimal")){
+                lineForw(sb, String.format("%s.set%s(%s);",StringUtil.getabc(table.getName()),StringUtil.getAbc(zcol.getName()), "new BigDecimal("+zcol.getName()+")"));
             }else{
                 lineForw(sb, String.format("%s.set%s(%s);",StringUtil.getabc(table.getName()),StringUtil.getAbc(zcol.getName()), GenCodeHelper.changeStrVar2BeanType(type, zcol.getName())));
             }

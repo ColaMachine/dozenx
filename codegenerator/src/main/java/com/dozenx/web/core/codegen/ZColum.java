@@ -15,6 +15,16 @@ import java.util.Map;
 public class ZColum {
     private String name;
     private String colName;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    private String comment;
     private boolean nn;
 
     public String getColName() {

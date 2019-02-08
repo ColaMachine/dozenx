@@ -135,7 +135,7 @@
         if (curPage) {
           this.searchParams.curPage = curPage;
         }
-        $http.get('/advertsrv/sys/auth/role/list', {
+        $http.get('/home/sys/auth/role/list', {
           params: {
             params: this.searchParams
           }
@@ -187,7 +187,7 @@
       },
       onFormSubmit() {
         let isEdit = this.currentRole.id ? true : false;
-        let url = isEdit ? ('/advertsrv/sys/auth/role/update/'+this.currentRole.id) : '/advertsrv/sys/auth/role/add'
+        let url = isEdit ? ('/home/sys/auth/role/update/'+this.currentRole.id) : '/home/sys/auth/role/add'
         let method = isEdit ? 'put' : 'post';
         let title = `${isEdit ? '修改' : '新增'}角色成功`;
         $http({
@@ -216,7 +216,7 @@
         });
       },
       deleteRole(id) {
-        $http.delete(`/advertsrv/sys/auth/role/del/${id}`).then(() => {
+        $http.delete(`/home/sys/auth/role/del/${id}`).then(() => {
           this.$Notice.success({
             title: '删除角色成功',
           });
@@ -224,7 +224,7 @@
         });
       },
       getCurrentPermission(id) {
-        $http.get(`/advertsrv/sys/auth/role/permission/tree/${id}`).then((data) => {
+        $http.get(`/home/sys/auth/role/permission/tree/${id}`).then((data) => {
           this.currentPermission = [];
           data.data.forEach((item) => {
             if (!item.childs || !item.childs.length) {
@@ -246,7 +246,7 @@
         });
       },
       onPermissionSubmit(permissionData) {
-        $http.put('/advertsrv/sys/auth/role/permission/update', {
+        $http.put('/home/sys/auth/role/permission/update', {
           roleId: this.currentRole.id,
           permissionIds: permissionData
         }).then((data) => {

@@ -113,6 +113,12 @@ public class HttpRequestUtil {
      * @modificationHistory.
      */
     public static String sendGetWithCookie(String url, Map map, Map<String, Cookie> cookieMap) {
+        if(url.indexOf("{")>-1){
+            url=url.replaceAll("\\{","%7B");
+        }
+        if(url.indexOf("}")>-1){
+            url=url.replaceAll("}","%7D");
+        }
         StringBuffer result = new StringBuffer("");
         BufferedReader in = null;
         Long startTime = System.currentTimeMillis();
@@ -126,6 +132,33 @@ public class HttpRequestUtil {
                 }
             }
             return UrlRead(url, cookieMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "400";
+        }
+
+    }
+
+    public static String sendGetWithCookie(String url, Map map, String contentType ,Map<String, Cookie> cookieMap) {
+        if(url.indexOf("{")>-1){
+            url=url.replaceAll("\\{","%7B");
+        }
+        if(url.indexOf("}")>-1){
+            url=url.replaceAll("}","%7D");
+        }
+        StringBuffer result = new StringBuffer("");
+        BufferedReader in = null;
+        Long startTime = System.currentTimeMillis();
+        try {
+            if (map.size() > 0) {
+                String paramStr = MapUtils.join(map, "&");
+                if (url.indexOf("?") > 0) {
+                    url += "&" + paramStr;
+                } else {
+                    url += "?" + paramStr;
+                }
+            }
+            return UrlRead(url, contentType,cookieMap);
         } catch (Exception e) {
             e.printStackTrace();
             return "400";
@@ -430,8 +463,75 @@ public class HttpRequestUtil {
         }
         return result.toString();
     }
+    public static String UrlRead( String url, String contentType,Map<String, Cookie> cookieMap){
+        if(url.indexOf("{")>=0){
+            url.replace("{","%7B");
+        }
+        if(url.indexOf("}")>=0){
+            url.replace("}","%7D");
+        }
+        StringBuffer result = new StringBuffer("");
+        BufferedReader in = null;
+        Long startTime = System.currentTimeMillis();
+        try {
+            URL realUrl = new URL(url);
+            // 打开和URL之间的连接
+            URLConnection connection = realUrl.openConnection();
+            // 设置通用的请求属性
 
+
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("Content-Type", contentType);
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 建立实际的连接
+
+            HttpRequestUtil.setCookie(connection, cookieMap);
+            connection.connect();
+            // 定义 BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+
+            // String responseCookie = connection.getHeaderField("Set-Cookie");// 取到所用的Cookie
+
+            Map newCookieMap = GetCookieMap(connection);
+            cookieMap.putAll(newCookieMap);
+
+            Long endTime = System.currentTimeMillis();
+            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+        } catch (Exception e) {
+            // logger.debug("发送GET请求出现异常！" + e);
+            Long endTime = System.currentTimeMillis();
+            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
+            // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
+            logger.error("send http get error " + url, e);
+            return "400";
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return result.toString();
+    }
     public static String UrlRead(String url, Map<String, Cookie> cookieMap) {
+        if(url.indexOf("{")>=0){
+            url.replace("{","%7B");
+        }
+        if(url.indexOf("}")>=0){
+            url.replace("}","%7D");
+        }
         StringBuffer result = new StringBuffer("");
         BufferedReader in = null;
         Long startTime = System.currentTimeMillis();
@@ -542,6 +642,27 @@ public class HttpRequestUtil {
                 return HttpsConnection.doGet(url, null, 2000, 2000);
             } else
                 return UrlRead(url, cookieMap);
+        } catch (Exception e) {
+            return "400";
+        }
+    }
+
+    public static String sendGetWithCookie(String url, String param,String contentType, Map<String, Cookie> cookieMap) {
+
+        try {
+            if (!StringUtil.isBlank(param)) {
+
+                if (url.indexOf("?") > 0) {
+                    url += "&" + param;
+                } else {
+                    url += "?" + param;
+                }
+            }
+
+            if (url.startsWith("https")) {
+                return HttpsConnection.doGet(url, null, 2000, 2000);
+            } else
+                return UrlRead(url, contentType,cookieMap);
         } catch (Exception e) {
             return "400";
         }

@@ -177,6 +177,7 @@ public void getAccessToken(){
 }
     @Async
     public void recognize(String camera,String data,HashMap map ){
+        Long start= System.currentTimeMillis();
       //  TokenServiceImpl tokenService = BeanUtil.getBean("tokenService";
         //getAccessToken();
         Map<String,Object> resultMap = AuthHttpRequest.sendPostRequest(ConfigUtil.getConfig("ai.face.recogize.url"),JsonUtil.toJson(map));
@@ -237,7 +238,7 @@ public void getAccessToken(){
                         e.printStackTrace();
                     }
                     try {
-                        logger.info("open door开门");
+                        logger.info("open door开门 cost:"+(System.currentTimeMillis()-start));
                         VirtualDoorService.open();//开门加上消息推送
                     }catch (Exception e){
                         e.printStackTrace();

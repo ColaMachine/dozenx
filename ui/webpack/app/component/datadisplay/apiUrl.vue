@@ -176,6 +176,11 @@ export default {
                            // json = json["body请求体"];//eval('{'++'}');
                            // break;
                            bodyJsonFlag=true;
+                           if(json[this.content.parameters[i].name]){//alert("怎么会有数组的");
+                               if(json[this.content.parameters[i].name].indexOf("[")!=-1  ){
+                                   json[this.content.parameters[i].name] = eval('('+json[this.content.parameters[i].name]+')');//如果有数组参数就转换成字符串json格式
+                               }
+                           }
                        }
                        //if(this.content.parameters[i].in.toLocaleLowerCase()=='params' ){
                           // json = json["body请求体"];//eval('{'++'}');
@@ -299,10 +304,14 @@ export default {
                    if(bodyJsonFlag){
                     json=JSON.stringify(json);
                    }
+                   console.log(json);
+                   if(this.content.httpType=="get"){
+                        json=null;//防止给get 请求 加请求体 forbiden to add body json to request
+                   }
                     $.ajax({
                         type : this.content.httpType,
                        // url :  window.APIPATH+url+"&url="+window.APIDOMAIN,
-                         url : window.APIPATH+"?url="+encodeURIComponent(url+"&userId=1")+"&host="+window.host,//加上前缀 加上url 加上 代理url
+                         url : window.APIPATH+"?url="+url+"&userId=1"+"&host="+window.host,//加上前缀 加上url 加上 代理url
 
                         data : json,
                         type:this.content.httpType,
