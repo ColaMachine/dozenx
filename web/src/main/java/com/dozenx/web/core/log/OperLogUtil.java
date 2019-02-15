@@ -54,7 +54,7 @@ public class OperLogUtil {
                 SessionUser user = SessionUtil.getCurSessionUser(request);
                 if (user != null) {
                     operLog.setUserId(user.getUserId());
-                    operLog.setUserName(user.getUserName());
+                    operLog.setUserName(user.getAccount());
                 }
             } catch (Exception e) {
                 logger.error("取不到用户信息", e);

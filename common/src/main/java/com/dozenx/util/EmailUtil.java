@@ -10,6 +10,7 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -90,7 +91,7 @@ public class EmailUtil {
      * @return
      * @throws GeneralSecurityException
      */
-    public static boolean sendMail(String receive, String subject, String msg, String filename)
+    public static boolean sendMail(String receive, String subject, String msg, String fileAbsolutePathAndName)
             throws Exception {
 
         if (StringUtil.isBlank(receive)) {
@@ -111,14 +112,14 @@ public class EmailUtil {
         properties.put("mail.smtp.auth", PropertiesUtil.get("mail.smtp.auth"));
 
 
-        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.ssl.enable", "false");
 
-        MailSSLSocketFactory sf = new MailSSLSocketFactory();
-        properties.put("mail.smtp.ssl.socketFactory", sf);
+//        MailSSLSocketFactory sf = new MailSSLSocketFactory();
+//        properties.put("mail.smtp.ssl.socketFactory", sf);
 
 
-        sf.setTrustAllHosts(true);
-
+//        sf.setTrustAllHosts(true);
+        System.setProperty("mail.mime.splitlongparameters", "false");
         // 获取默认session对象
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             public PasswordAuthentication getPasswordAuthentication() { // qq邮箱服务器账户、第三方登录授权码
@@ -154,12 +155,13 @@ public class EmailUtil {
             // 附件部分
             messageBodyPart = new MimeBodyPart();
             // 设置要发送附件的文件路径
-            DataSource source = new FileDataSource(filename);
+            DataSource source = new FileDataSource(fileAbsolutePathAndName);
             messageBodyPart.setDataHandler(new DataHandler(source));
 
             // messageBodyPart.setFileName(filename);
             // 处理附件名称中文（附带文件路径）乱码问题
-            messageBodyPart.setFileName(MimeUtility.encodeText(filename));
+            String fileName = fileAbsolutePathAndName.substring(fileAbsolutePathAndName.lastIndexOf(File.separator));
+            messageBodyPart.setFileName(MimeUtility.encodeText(fileName));
             multipart.addBodyPart(messageBodyPart);
 
             // 发送完整消息

@@ -29,12 +29,27 @@ public class VirtualDoorService {
 
 
         logger.info("正在开门");
-        String cmd = "./getpsdata";
         try {
-            CmdUtil.execCommand(cmd, ConfigUtil.getConfig("door"));//"/data/service/tomcat-kq-8087/door_control"
-        } catch (IOException e) {
+            DatagramSocket datagramSocket = new DatagramSocket();
+
+            //准备数据，把数据封装到数据包中。
+            String data = "opendoor";
+            //创建了一个数据包
+            DatagramPacket packet = new DatagramPacket(data.getBytes(), 0, data.getBytes().length, new InetSocketAddress("127.0.0.1", 7099));
+            //调用udp的服务发送数据包
+            datagramSocket.send(packet);
+            //关闭资源 ---实际上就是释放占用的端口号
+            datagramSocket.close();
+            System.out.println("open door");
+        } catch (Exception e) {
             e.printStackTrace();
         }
+//        String cmd = "./getpsdata";
+//        try {
+//            CmdUtil.execCommand(cmd, ConfigUtil.getConfig("door"));//"/data/service/tomcat-kq-8087/door_control"
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void main(String args[]) {
@@ -45,11 +60,12 @@ public class VirtualDoorService {
             //准备数据，把数据封装到数据包中。
             String data = "opendoor";
             //创建了一个数据包
-            DatagramPacket packet = new DatagramPacket(data.getBytes(), 0, data.getBytes().length, new InetSocketAddress("192.168.212.90", 1324));
+            DatagramPacket packet = new DatagramPacket(data.getBytes(), 0, data.getBytes().length, new InetSocketAddress("127.0.0.1", 1324));
             //调用udp的服务发送数据包
             datagramSocket.send(packet);
             //关闭资源 ---实际上就是释放占用的端口号
             datagramSocket.close();
+            System.out.println("open door");
         } catch (Exception e) {
             e.printStackTrace();
         }

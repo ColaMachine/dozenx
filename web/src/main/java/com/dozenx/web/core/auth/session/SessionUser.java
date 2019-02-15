@@ -14,7 +14,19 @@ public class SessionUser implements Serializable {
     private Long userId;
     /** 用户名称 **/
     private String userName;
+    /** 用户账号 **/
+    private String account;
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
     /** 用户角色 **/
+
     private String role;
 
     private String phone;

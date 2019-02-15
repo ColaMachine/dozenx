@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Editable WYSIWYG</title>
+    <link href="../../../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../static/css/font-awesome-new.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.6.1/css/font-awesome.css" rel="stylesheet">
+
+    <style>
+        #editor {
+        resize:vertical;
+        overflow:auto;
+        border:1px solid silver;
+        border-radius:5px;
+        min-height:100px;
+        box-shadow: inset 0 0 10px silver;
+        padding:1em;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div class="container-fluid">
+        <div id='pad-wrapper'>
+            <div id="editparent">
+                <div id='editControls' class='span12' style='text-align:center; padding:5px;'>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='InsertImage' href='#'><i class='fa fa-image'></i></a>
+                        <a class='btn' data-role='RemoveFormat' href='#'><i class='fa fa-eraser'></i></a>
+                        <a class='btn' data-role='undo' href='#'><i class='fa fa-undo'></i></a>
+                        <a class='btn' data-role='redo' href='#'><i class='fa fa-repeat'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='bold' href='#'><b>Bold</b></a>
+                        <a class='btn' data-role='italic' href='#'><em>Italic</em></a>
+                        <a class='btn' data-role='underline' href='#'><u><b>U</b></u></a>
+                        <a class='btn' data-role='strikeThrough' href='#'><strike>abc</strike></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='justifyLeft' href='#'><i class='fa fa-align-left'></i></a>
+                        <a class='btn' data-role='justifyCenter' href='#'><i class='fa fa-align-center'></i></a>
+                        <a class='btn' data-role='justifyRight' href='#'><i class='fa fa-align-right'></i></a>
+                        <a class='btn' data-role='justifyFull' href='#'><i class='fa fa-align-justify'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='indent' href='#'><i class='fa fa-indent'></i></a>
+                        <a class='btn' data-role='outdent' href='#'><i class='fa fa-dedent'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='insertUnorderedList' href='#'><i class='fa fa-list-ul'></i></a>
+                        <a class='btn' data-role='insertOrderedList' href='#'><i class='fa fa-list-ol'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='h1' href='#'>h<sup>1</sup></a>
+                        <a class='btn' data-role='h2' href='#'>h<sup>2</sup></a>
+                        <a class='btn' data-role='p' href='#'>p</a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='subscript' href='#'><i class='fa fa-subscript'></i></a>
+                        <a class='btn' data-role='superscript' href='#'><i class='fa fa-superscript'></i></a>
+                    </div>
+                </div>
+                <div id='editor' class='span12' style='' contenteditable>
+                    <h1>This is a title!</h1>
+                    <p>This is just some example text to start us off</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script>
+
+            $(function() {
+                $('#editControls a').click(function(e) {
+                    switch($(this).data('role')) {
+                        case 'h1':
+                        case 'h2':
+
+                        case 'p':
+                            document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
+                            break;
+                         case 'InsertImage':
+                          //  document.execCommand('InsertImage', true, '/home/upload/machinelearning/46分类-训练集.jpg');
+
+                            document.execCommand('insertHtml', true, '<img onclick="changeImage(this)" src=\'/home/upload/machinelearning/46分类-训练集.jpg\'</img>');
+                            break;
+                        default:
+                            document.execCommand($(this).data('role'), false, null);
+                            break;
+                    }
+
+                })
+            });
+
+
+</script>
+
+
+<style>
+    * {
+    margin: 0;
+    padding: 0
+    }
+
+    .box {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    }
+
+    /*四边*/
+    .box .t,
+    .box .b,
+    .box .l,
+    .box .r {
+    position: absolute;
+    z-index: 1;
+    background:#666;
+    }
+
+    .box .l,
+    .box .r {
+    width: 10px;
+    height: 100%;
+    cursor: col-resize;
+    }
+
+    .box .t,
+    .box .b {
+    width: 100%;
+    height: 10px;
+    cursor: row-resize;
+    }
+
+    .box .t {
+    top: 0;
+    }
+
+    .box .b {
+    bottom: 0;
+    }
+
+    .box .l {
+    left: 0;
+    }
+
+    .box .r {
+    right: 0;
+    }
+
+    /*四角*/
+    .box .tl,
+    .box .bl,
+    .box .br,
+    .box .tr {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background: #CCC;
+    z-index: 2;
+    cursor: nwse-resize
+    }
+
+    .box .tl,
+    .box .bl {
+    left: -5px;
+    }
+
+    .box .tr,
+    .box .br {
+    right: -5px;
+    }
+
+    .box .br,
+    .box .bl {
+    bottom: -5px;
+    }
+
+    .box .tl,
+    .box .tr {
+    top: -5px;
+    }
+
+    .box .tr,
+    .box .bl {
+    cursor: nesw-resize;
+    }
+
+    /*图片*/
+    img {
+    width: 100%;
+    height: 100%;
+    }
+</style>
+<script>
+
+function getInfo(o){//取得坐标
+		if(isNull(o)){
+	     	alert("can't find it:"+o);
+
+     	}
+	   	var to=new Object();
+	   	to.left=to.right=to.top=to.bottom=0;
+
+	   	var twidth=o.offsetWidth;
+	   	var theight=o.offsetHeight;
+	   	while(o!=document.body && !isNull(o)){
+	   		if(isNull(o.offsetParent)){
+	     		alert("can't find it's parentNode1:"+o);
+	     	}
+	     	to.left+=o.offsetLeft;
+	     	to.top+=o.offsetTop;
+
+     		o=o.offsetParent;
+	   	}
+     	to.right=to.left+twidth;
+     	to.bottom=to.top+theight;
+	   	return to;
+}
+  function changeImage(image) {
+            var oDiv = document.getElementsByClassName('box')[0];
+
+            var posInfo = getInfo(image)
+
+            oDiv.style.width = image.offsetWidth+"px";
+            oDiv.style.height = image.offsetHeight+"px";
+
+            console.log(posInfo);
+            oDiv.style.top=posInfo.top+"px";
+            oDiv.style.left=posInfo.left+"px";
+            var aSpan = oDiv.getElementsByTagName('span');
+            for (var i = 0; i < aSpan.length; i++) {
+                dragFn(aSpan[i]);
+            }
+
+            function dragFn(obj) {
+                obj.onmousedown = function (ev) {
+                    var oEv = ev || event;
+
+                    var oldWidth = oDiv.offsetWidth;
+                    var oldHeight = oDiv.offsetHeight;
+                    var oldX = oEv.clientX;
+                    var oldY = oEv.clientY;
+                    var oldLeft = oDiv.offsetLeft;
+                    var oldTop = oDiv.offsetTop;
+
+                    document.onmousemove = function (ev) {
+
+                        var oEv = ev || event;
+
+
+
+
+
+
+                        if (obj.className == 'tl') {
+                            oDiv.style.width = oldWidth - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height=oldHeight-(oEv.clientY-oldY)+'px';
+                            oDiv.style.left = oldLeft + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.top = oldTop + (oEv.clientY - oldY) + 'px';
+                        }
+                        else if (obj.className == 'bl') {
+                            oDiv.style.width = oldWidth - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height=oldHeight+(oEv.clientY-oldY)+'px';
+                            oDiv.style.left = oldLeft + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.bottom = oldTop + (oEv.clientY + oldY) + 'px';
+                        }
+                        else if (obj.className == 'tr') {
+                            oDiv.style.width = oldWidth + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height = oldHeight - (oEv.clientY - oldY)+'px';
+                            oDiv.style.right = oldLeft - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.top = oldTop + (oEv.clientY - oldY) + 'px';
+                        }
+                        else if (obj.className == 'br') {
+                            oDiv.style.width = oldWidth + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height = oldHeight + (oEv.clientY - oldY)+'px';
+                            oDiv.style.right = oldLeft - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.bottom = oldTop + (oEv.clientY + oldY) + 'px';
+                        }
+                        else if (obj.className == 't') {
+                            oDiv.style.height=oldHeight-(oEv.clientY-oldY)+'px';
+                            oDiv.style.top = oldTop + (oEv.clientY - oldY) + 'px';
+                        }
+                        else if (obj.className == 'b') {
+                            oDiv.style.height = oldHeight + (oEv.clientY - oldY)+'px';
+                            oDiv.style.bottom = oldTop - (oEv.clientY + oldY) + 'px';
+                        }
+                        else if (obj.className == 'l') {
+                            oDiv.style.height = oldHeight + 'px';
+                            oDiv.style.width = oldWidth - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.left = oldLeft + (oEv.clientX - oldX) + 'px';
+                        }
+                        else if (obj.className == 'r') {
+                            oDiv.style.height = oldHeight + 'px';
+                            oDiv.style.width = oldWidth + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.right = oldLeft - (oEv.clientX - oldX) + 'px';
+                        }
+                                  var posInfo = getInfo(image)
+
+            image.style.width = oDiv.offsetWidth+"px";
+            image.style.height = oDiv.offsetHeight+"px";
+
+            console.log(posInfo);
+            oDiv.style.top=posInfo.top+"px";
+            oDiv.style.left=posInfo.left+"px";
+                    };
+
+                    document.onmouseup = function () {
+                        document.onmousemove = null;
+                    };
+                    return false;
+                };
+            }
+
+        };
+
+        window.onload = function () {
+            var oDiv = document.getElementsByClassName('box')[0];
+            oDiv.style.width = '500px';
+            var aSpan = oDiv.getElementsByTagName('span');
+            for (var i = 0; i < aSpan.length; i++) {
+                dragFn(aSpan[i]);
+            }
+
+            function dragFn(obj) {
+                obj.onmousedown = function (ev) {
+                    var oEv = ev || event;
+
+                    var oldWidth = oDiv.offsetWidth;
+                    var oldHeight = oDiv.offsetHeight;
+                    var oldX = oEv.clientX;
+                    var oldY = oEv.clientY;
+                    var oldLeft = oDiv.offsetLeft;
+                    var oldTop = oDiv.offsetTop;
+
+                    document.onmousemove = function (ev) {
+                        var oEv = ev || event;
+
+                        if (obj.className == 'tl') {
+                            oDiv.style.width = oldWidth - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height=oldHeight-(oEv.clientY-oldY)+'px';
+                            oDiv.style.left = oldLeft + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.top = oldTop + (oEv.clientY - oldY) + 'px';
+                        }
+                        else if (obj.className == 'bl') {
+                            oDiv.style.width = oldWidth - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height=oldHeight+(oEv.clientY-oldY)+'px';
+                            oDiv.style.left = oldLeft + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.bottom = oldTop + (oEv.clientY + oldY) + 'px';
+                        }
+                        else if (obj.className == 'tr') {
+                            oDiv.style.width = oldWidth + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height = oldHeight - (oEv.clientY - oldY)+'px';
+                            oDiv.style.right = oldLeft - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.top = oldTop + (oEv.clientY - oldY) + 'px';
+                        }
+                        else if (obj.className == 'br') {
+                            oDiv.style.width = oldWidth + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.height = oldHeight + (oEv.clientY - oldY)+'px';
+                            oDiv.style.right = oldLeft - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.bottom = oldTop + (oEv.clientY + oldY) + 'px';
+                        }
+                        else if (obj.className == 't') {
+                            oDiv.style.height=oldHeight-(oEv.clientY-oldY)+'px';
+                            oDiv.style.top = oldTop + (oEv.clientY - oldY) + 'px';
+                        }
+                        else if (obj.className == 'b') {
+                            oDiv.style.height = oldHeight + (oEv.clientY - oldY)+'px';
+                            oDiv.style.bottom = oldTop - (oEv.clientY + oldY) + 'px';
+                        }
+                        else if (obj.className == 'l') {
+                            oDiv.style.height = oldHeight + 'px';
+                            oDiv.style.width = oldWidth - (oEv.clientX - oldX) + 'px';
+                            oDiv.style.left = oldLeft + (oEv.clientX - oldX) + 'px';
+                        }
+                        else if (obj.className == 'r') {
+                            oDiv.style.height = oldHeight + 'px';
+                            oDiv.style.width = oldWidth + (oEv.clientX - oldX) + 'px';
+                            oDiv.style.right = oldLeft - (oEv.clientX - oldX) + 'px';
+                        }
+                    };
+
+                    document.onmouseup = function () {
+                        document.onmousemove = null;
+                    };
+                    return false;
+                };
+            }
+
+        };
+
+function isNull(str) {
+		if(typeof str != 'string'){
+			//alert("isNull 使用错误,参数是" +(typeof str));
+			if(typeof str == 'undefined' || null == str){
+				return true
+			}else{
+				return false;
+			}
+		}else
+	if (typeof str == 'undefined' || str == null || str.trim() == '')
+		return true;
+	else
+		return false;
+
+}
+
+</script>
+
+<div class="box">
+    <span class="r"></span>
+    <span class="l"></span>
+    <span class="t"></span>
+    <span class="b"></span>
+    <span class="br"></span>
+    <span class="bl"></span>
+    <span class="tr"></span>
+    <span class="tl"></span>
+    <img style="visibility:hidden" src="https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/iknow/730-350-0.jpg">
+</div>
+</body>
+</html>

@@ -247,6 +247,7 @@ public class SysUser implements Serializable {
     public SessionUser getSessionUser(){
         SessionUser sessionUser =new SessionUser();
         sessionUser.setUserId(this.getId());
+        sessionUser.setAccount(this.getAccount());
         sessionUser.setPhone(getTelno());
         sessionUser.setAddress(getAddress());
         sessionUser.setBirth(getBirth()==null?"": DateUtil.toDateStr(getBirth(),DateUtil.YYYY_MM_DD));

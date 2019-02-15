@@ -1147,6 +1147,16 @@ public class FaceInfoController extends BaseController {
         return this.getResult();
     }
 
+
+
+
+    @RequestMapping(value = "/opendoor")
+    @ResponseBody
+    public ResultDTO opendoor(HttpServletRequest request) throws Exception {
+        VirtualDoorService.open();
+        return this.getResult();
+    }
+
         @Test
     public  void test(){
         String url="http://127.0.0.1:80/home/checkin/faceinfo/recognize";

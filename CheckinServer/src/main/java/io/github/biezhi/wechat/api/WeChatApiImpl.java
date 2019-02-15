@@ -21,6 +21,8 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,9 +42,9 @@ import static io.github.biezhi.wechat.api.constant.Constant.*;
  * @author biezhi
  * @date 2018/1/21
  */
-@Slf4j
-public class WeChatApiImpl implements WeChatApi {
 
+public class WeChatApiImpl implements WeChatApi {
+    private static final Logger log = LoggerFactory.getLogger(WeChatApiImpl.class);
     private static final Pattern UUID_PATTERN          = Pattern.compile("window.QRLogin.code = (\\d+); window.QRLogin.uuid = \"(\\S+?)\";");
     private static final Pattern CHECK_LOGIN_PATTERN   = Pattern.compile("window.code=(\\d+)");
     private static final Pattern PROCESS_LOGIN_PATTERN = Pattern.compile("window.redirect_uri=\"(\\S+)\";");
