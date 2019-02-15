@@ -2708,7 +2708,7 @@ if(!value){
             }
             return PATH+"/"+value;
 }
-
+window.getPathValue=getPathValue;
 function getLoginUser(){
     return getCookie("userId");
 }
