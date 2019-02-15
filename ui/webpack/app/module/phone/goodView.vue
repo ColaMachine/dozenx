@@ -53,14 +53,21 @@
     <p></p>
         <blockquote class="baoliao">
 
-       <em class="title"> 值友爆料原文：</em><p><a href="https://go.smzdm.com/ee8008d56b674415/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">京东</a>目前35.9元每件 参加活动每满199减100 下单10件加凑单品和路雪 迷你梦龙 香草口味+松露巧克力口味 冰淇淋组合6支装 255g一件 可叠加PLUS专享199减100生鲜券 双重优惠后低至10元每件 近期好价 吃货的可以入手</p><p>凑单品：<a href="https://go.smzdm.com/6d167997a53401ac/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">梦龙</a></p>
-       <p>叠加优惠券：<a href="https://go.smzdm.com/5ebc67870e28af45/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">199减100券</a></p>
+       <em class="title"> 网友爆料原文：</em>
+       <p><a href="https://go.smzdm.com/ee8008d56b674415/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">京东</a>
 
+
+
+{{data.detail}}
+       </p>
+    <!--   <p>凑单品：<a href="https://go.smzdm.com/6d167997a53401ac/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">梦龙</a></p>
+       <p>叠加优惠券：<a href="https://go.smzdm.com/5ebc67870e28af45/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">199减100券</a></p>
+-->
        </blockquote>
 
 
         <!--item-boxs-->
-    <div class="item-boxs">
+   <!-- <div class="item-boxs">
                                 <div class="item-order clearfix">
             <span class="item-left">
                 <i class="icons icon-a ctivety"></i>
@@ -68,21 +75,19 @@
             </span>
             <img src="https://y.zdmimg.com/201812/02/5c030002186cd4568.jpg" class="order-img">
         </div>
-            </div>
+            </div> -->
     <!--item-boxs end-->
 
         </article>
 
-<ul class="tags-wrapper clearfix">
+<!--<ul class="tags-wrapper clearfix">
 <li class="tags"><a href="//m.smzdm.com/fenlei/bingqilin/"
 onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰淇淋'})">分类:冰淇淋</a></li>
-                                                                                                                                                                <li class="tags"><a href="//m.smzdm.com/tag/%E5%90%83%E8%B4%A7/youhui/" onclick="dataLayer.push({'event':'WAP优惠详情_标签','标签名':'吃货'})">话题:吃货</a></li>
-                                                                                                                                            <li class="tags"><a href="//m.smzdm.com/tag/%E4%BA%AC%E4%B8%9C%E9%A3%9F%E5%93%81%E8%B4%AD/youhui/" onclick="dataLayer.push({'event':'WAP优惠详情_标签','标签名':'京东食品购'})">话题:京东食品购</a></li>
-                                                                                                                                                                <li class="tags"><a href="//m.smzdm.com/mall/jd/" onclick="dataLayer.push({'event':'WAP优惠详情_商城','商城名':'京东'})">商城:京东</a></li>
-
-
+<li class="tags"><a href="//m.smzdm.com/tag/%E5%90%83%E8%B4%A7/youhui/" onclick="dataLayer.push({'event':'WAP优惠详情_标签','标签名':'吃货'})">话题:吃货</a></li>
+<li class="tags"><a href="//m.smzdm.com/tag/%E4%BA%AC%E4%B8%9C%E9%A3%9F%E5%93%81%E8%B4%AD/youhui/" onclick="dataLayer.push({'event':'WAP优惠详情_标签','标签名':'京东食品购'})">话题:京东食品购</a></li>
+<li class="tags"><a href="//m.smzdm.com/mall/jd/" onclick="dataLayer.push({'event':'WAP优惠详情_商城','商城名':'京东'})">商城:京东</a></li>
 <li class="tags"> <a href="//pinpai.m.smzdm.com/36035/" onclick="dataLayer.push({'event':'WAP优惠详情_品牌','品牌名':'WALL'S/和路雪'})">品牌:WALL'S/和路雪</a></li>
-</ul>
+</ul>-->
 
 
 
@@ -243,10 +248,10 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(re
                             this.data =result.data;
 
                             var ary =[];
-                            ary.push({url:'',pic:this.data.img});
-                             ary.push({url:'',pic:this.data.img1});
-                              ary.push({url:'',pic:this.data.img2});
-                               ary.push({url:'',pic:this.data.img3});
+                            ary.push({url:'',pic:window.getPathValue(this.data.img)});
+                             ary.push({url:'',pic:window.getPathValue(this.data.img1)});
+                              ary.push({url:'',pic:window.getPathValue(this.data.img2)});
+                               ary.push({url:'',pic:window.getPathValue(this.data.img3)});
                                this.imgList= ary;
                                console.log("---------------------------")
                                console.log(ary)
