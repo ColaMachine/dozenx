@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.zan.dao.ZanMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.zan.bean.Zan">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="pid" jdbcType="BIGINT" property="pid" />
+      <result column="userId" jdbcType="BIGINT" property="userId" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    zan.`id` ,zan.`pid` ,zan.`userId` ,zan.`type` ,zan.`createTime` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zan
+    where zan.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.zan.bean.Zan" >
+
+    insert into zan (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{pid,jdbcType=BIGINT}
+,#{userId,jdbcType=BIGINT}
+,#{type,jdbcType=INTEGER}
+,#{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.zan.bean.Zan" >
+    insert into zan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="pid != null" >  
+           `pid`,
+        </if>  
+        <if test="userId != null" >  
+           `userId`,
+        </if>  
+        <if test="type != null" >  
+           `type`,
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="userId != null" >  
+          #{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=INTEGER},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.zan.bean.Zan" >
+    update zan
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="userId != null" >  
+             `userId`=#{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=INTEGER},
+        </if>  
+        <if test="createTime != null" >  
+             `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.zan.bean.Zan" >
+    update zan
+    set 
+              `pid`=#{pid,jdbcType=BIGINT},
+              `userId`=#{userId,jdbcType=BIGINT},
+              `type`=#{type,jdbcType=INTEGER},
+              `createTime`=#{createTime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zan where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+        <if test="userId != null and userId != '' ">  
+           and `userId` = #{userId}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zan
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and zan.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and zan.`pid` = #{pid}
+        </if>  
+        <if test="userId != null and userId != '' ">  
+           and zan.`userId` = #{userId}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and zan.`type` = #{type}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and zan.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and zan.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and zan.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from zan where 1=1
+        <if test="id != null and id != '' ">  
+           and zan.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and zan.`pid` = #{pid}
+        </if>  
+        <if test="userId != null and userId != '' ">  
+           and zan.`userId` = #{userId}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and zan.`type` = #{type}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and zan.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and zan.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and zan.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from zan where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+        <if test="userId != null and userId != '' ">
+           or `userId` = #{userId}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `createTime` = #{createTime}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into zan (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=BIGINT}
+,#{record.pid,jdbcType=BIGINT}
+,#{record.userId,jdbcType=BIGINT}
+,#{record.type,jdbcType=INTEGER}
+,#{record.createTime,jdbcType=TIMESTAMP}
+)
+        </foreach >
+    </insert>
+</mapper>

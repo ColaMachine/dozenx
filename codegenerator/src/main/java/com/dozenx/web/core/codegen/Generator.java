@@ -1157,8 +1157,9 @@ public class Generator {
         //  generator.generate(new String[]{"SmsRecord"});
         //   generator.generate(new String[]{"Goods"});
         //generator.generate(new String[]{"Calendar","Event","Instance"});
+
         generator.generate(new String[]{"Contacts"});
-        generator.generate(new String[]{"Goods"});
+        generator.generate(new String[]{"Goods","zan","PubImageBelong","PubComment"});
         //  generator.generate(new String[]{"SysUser","SysRole"});
         //generator.generate(new String[]{"SysUser","SysDepart","SysUserDepart"});
 //        generator.generate(new String[]{"Active"});

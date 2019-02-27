@@ -22,7 +22,7 @@
     </zwDropDown>
 
     <zwDropDown trigger="click" placement="bottomRight">
-      <zwButton slot="button" type="primary" v-on:click="choosePicAndUpload" icon="down">图片</zwButton>
+      <zwButton slot="button" type="primary" icon="down">图片</zwButton>
       <div slot="menu">
         <zwPanel :hasHeader=false :canFold=false state="open" style="">
           <span style="display:none" slot="title" name="title">重大事件</span>
@@ -105,6 +105,7 @@
 
       choosePicAndUpload: function() {
         var imageUtil = new zImageUtil5({
+            "postUrl":"/home/pubimage/base64/upload",
           "input": "face",
           callback: this.uploadSucc,
           maxHeight: 200,

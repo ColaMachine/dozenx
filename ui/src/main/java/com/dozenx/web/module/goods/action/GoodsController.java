@@ -19,6 +19,12 @@ import com.dozenx.util.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+
+import com.dozenx.web.core.annotation.RequiresLogin;
+import com.dozenx.web.module.pubImageBelong.bean.PubImageBelong;
+import com.dozenx.web.module.pubImageBelong.service.PubImageBelongService;
+import com.dozenx.web.module.zan.bean.Zan;
+import com.dozenx.web.module.zan.service.ZanService;
 import org.slf4j.Logger;
 import com.dozenx.core.exception.ParamException;
 import org.slf4j.LoggerFactory;
@@ -1512,10 +1518,16 @@ public class GoodsController extends BaseController{
         if(StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302,validStr);
         }
+        String[] imgAry = request.getParameter("imageUrls").split(",");//new String[]{img,img1,img2,img3};
+        goodsService.save(goods);
 
-        return goodsService.save(goods);
+
+        return pubImageBelongService.save(goods.getId(),imgAry);
 
     }
+
+    @Resource
+    private PubImageBelongService pubImageBelongService;
 
     /**
      * 说明:删除Goods信息
@@ -2863,4 +2875,108 @@ public class GoodsController extends BaseController{
         return this.getResult(0, "数据为空，导出失败");
 
     }
+
+
+    /**
+     * 说明:ajax请求Goods信息
+     * @author dozen.zhang
+     * @date 2018-12-2 16:05:28
+     * @return String
+     */
+    @API(summary="商品列表接口",
+            description="商品列表接口",
+            parameters={
+            })
+    @RequestMapping(value = "/zan" , method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresLogin
+    public ResultDTO zan(HttpServletRequest request) throws Exception{
+        Long  goodsId = Long.valueOf(request.getParameter("pid"));
+
+        HashMap  map  =new HashMap();
+        map.put("pid",goodsId);
+        Long userId = this.getUserId(request);
+        if(userId==null){
+            return this.getResult(504, "未登录");
+        }
+
+        map.put("userId",userId);
+        List<Zan> zanList = zanService.listByParams(map);
+
+        if(zanList!=null && zanList.size()>0){
+            Zan zan = zanList.get(0);
+            if(zan.getType()==1) {
+                return this.getResult(30405001, "你已经点过了");
+            }else{
+                //更新
+                zan.setType(1);
+                zanService.save(zan);//更新为顶
+            }
+        }else {
+
+            Zan zan = new Zan();
+            //查看是否有重复点赞
+            zan.setType(1);
+            zan.setPid(goodsId);
+            zan.setUserId(this.getUserId(request));
+            zanService.save(zan);
+        }
+
+        //更新了总的点赞数目
+
+        goodsService.updateZan(goodsId);
+
+        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(goodsId));
+    }
+
+
+    @API(summary="商品列表接口",
+            description="商品列表接口",
+            parameters={
+            })
+    @RequestMapping(value = "/down" , method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresLogin
+    public ResultDTO down(HttpServletRequest request) throws Exception{
+        Long  goodsId = Long.valueOf(request.getParameter("pid"));
+
+        HashMap  map  =new HashMap();
+        map.put("pid",goodsId);
+        Long userId = this.getUserId(request);
+        if(userId==null){
+            return this.getResult(504, "未登录");
+        }
+        map.put("userId",userId);
+        List<Zan> zanList = zanService.listByParams(map);
+
+        if(zanList!=null && zanList.size()>0){
+            Zan zan = zanList.get(0);
+            if(zan.getType()==2) {
+                return this.getResult(30405001, "你已经点过了");
+            }else{
+                //更新
+                zan.setType(2);
+                zanService.save(zan);//更新为顶
+            }
+        }else {
+
+            Zan zan = new Zan();
+            //查看是否有重复点赞
+            zan.setType(2);
+            zan.setPid(goodsId);
+            zan.setUserId(this.getUserId(request));
+            zanService.save(zan);
+
+            //更新了总的点赞数目
+
+
+        }
+        goodsService.updateZan(goodsId);
+
+        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(goodsId));
+    }
+
+    @Resource
+    ZanService zanService ;
+
 }

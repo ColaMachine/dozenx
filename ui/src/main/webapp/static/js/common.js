@@ -802,7 +802,9 @@ function getCellValue(id, index) {
 }
 
 function goPage(currentPage, everyPage) {
-
+    if(currentPage.substring(0,1)!='/'){
+        currentPage="/"+currentPage;
+    }
     window.location="#"+PATH+currentPage;
     return;
 	console.log(currentPage);

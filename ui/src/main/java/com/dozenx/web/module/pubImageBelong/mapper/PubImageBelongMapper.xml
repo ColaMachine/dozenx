@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.pubImageBelong.dao.PubImageBelongMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.pubImageBelong.bean.PubImageBelong">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
+      <result column="creator" jdbcType="VARCHAR" property="creator" />
+      <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+      <result column="create_date" jdbcType="DATE" property="createDate" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="order" jdbcType="INTEGER" property="order" />
+      <result column="pid" jdbcType="INTEGER" property="pid" />
+      <result column="pub_image_id" jdbcType="INTEGER" property="pubImageId" />
+      <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pub_image_belong.`id` ,pub_image_belong.`url` ,pub_image_belong.`creator` ,pub_image_belong.`creator_name` ,pub_image_belong.`create_date` ,pub_image_belong.`status` ,pub_image_belong.`order` ,pub_image_belong.`pid` ,pub_image_belong.`pub_image_id` ,pub_image_belong.`type` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pub_image_belong
+    where pub_image_belong.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pub_image_belong
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.pubImageBelong.bean.PubImageBelong" >
+
+    insert into pub_image_belong (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{url,jdbcType=VARCHAR}
+,#{creator,jdbcType=VARCHAR}
+,#{creatorName,jdbcType=VARCHAR}
+,#{createDate,jdbcType=DATE}
+,#{status,jdbcType=INTEGER}
+,#{order,jdbcType=INTEGER}
+,#{pid,jdbcType=INTEGER}
+,#{pubImageId,jdbcType=INTEGER}
+,#{type,jdbcType=VARCHAR}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.pubImageBelong.bean.PubImageBelong" >
+    insert into pub_image_belong
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="url != null" >  
+           `url`,
+        </if>  
+        <if test="creator != null" >  
+           `creator`,
+        </if>  
+        <if test="creatorName != null" >  
+           `creator_name`,
+        </if>  
+        <if test="createDate != null" >  
+           `create_date`,
+        </if>  
+        <if test="status != null" >  
+           `status`,
+        </if>  
+        <if test="order != null" >  
+           `order`,
+        </if>  
+        <if test="pid != null" >  
+           `pid`,
+        </if>  
+        <if test="pubImageId != null" >  
+           `pub_image_id`,
+        </if>  
+        <if test="type != null" >  
+           `type`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="url != null" >  
+          #{url,jdbcType=VARCHAR},
+        </if>  
+        <if test="creator != null" >  
+          #{creator,jdbcType=VARCHAR},
+        </if>  
+        <if test="creatorName != null" >  
+          #{creatorName,jdbcType=VARCHAR},
+        </if>  
+        <if test="createDate != null" >  
+          #{createDate,jdbcType=DATE},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="order != null" >  
+          #{order,jdbcType=INTEGER},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=INTEGER},
+        </if>  
+        <if test="pubImageId != null" >  
+          #{pubImageId,jdbcType=INTEGER},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=VARCHAR},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.pubImageBelong.bean.PubImageBelong" >
+    update pub_image_belong
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="url != null" >  
+             `url`=#{url,jdbcType=VARCHAR},
+        </if>  
+        <if test="creator != null" >  
+             `creator`=#{creator,jdbcType=VARCHAR},
+        </if>  
+        <if test="creatorName != null" >  
+             `creator_name`=#{creatorName,jdbcType=VARCHAR},
+        </if>  
+        <if test="createDate != null" >  
+             `create_date`=#{createDate,jdbcType=DATE},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="order != null" >  
+             `order`=#{order,jdbcType=INTEGER},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=INTEGER},
+        </if>  
+        <if test="pubImageId != null" >  
+             `pub_image_id`=#{pubImageId,jdbcType=INTEGER},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=VARCHAR},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.pubImageBelong.bean.PubImageBelong" >
+    update pub_image_belong
+    set 
+              `url`=#{url,jdbcType=VARCHAR},
+              `creator`=#{creator,jdbcType=VARCHAR},
+              `creator_name`=#{creatorName,jdbcType=VARCHAR},
+              `create_date`=#{createDate,jdbcType=DATE},
+              `status`=#{status,jdbcType=INTEGER},
+              `order`=#{order,jdbcType=INTEGER},
+              `pid`=#{pid,jdbcType=INTEGER},
+              `pub_image_id`=#{pubImageId,jdbcType=INTEGER},
+              `type`=#{type,jdbcType=VARCHAR}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pub_image_belong where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="url != null and url != '' ">  
+           and `url` = #{url}
+        </if>  
+        <if test="urlLike != null and urlLike != '' ">
+             and `url` like CONCAT('%',#{urlLike},'%')
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and `creator` = #{creator}
+        </if>  
+        <if test="creatorLike != null and creatorLike != '' ">
+             and `creator` like CONCAT('%',#{creatorLike},'%')
+        </if>   
+        <if test="creatorName != null and creatorName != '' ">  
+           and `creator_name` = #{creatorName}
+        </if>  
+        <if test="creatorNameLike != null and creatorNameLike != '' ">
+             and `creator_name` like CONCAT('%',#{creatorNameLike},'%')
+        </if>   
+        <if test="createDate != null and createDate != '' ">  
+           and `create_date` = #{createDate}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="order != null and order != '' ">  
+           and `order` = #{order}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+        <if test="pubImageId != null and pubImageId != '' ">  
+           and `pub_image_id` = #{pubImageId}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">
+             and `type` like CONCAT('%',#{typeLike},'%')
+        </if>   
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pub_image_belong
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and pub_image_belong.`id` = #{id}
+        </if>  
+        <if test="url != null and url != '' ">  
+           and pub_image_belong.`url` = #{url}
+        </if>  
+        <if test="urlLike != null and urlLike != '' ">  
+             and pub_image_belong.`url` like CONCAT('%',#{urlLike},'%')
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and pub_image_belong.`creator` = #{creator}
+        </if>  
+        <if test="creatorLike != null and creatorLike != '' ">  
+             and pub_image_belong.`creator` like CONCAT('%',#{creatorLike},'%')
+        </if>   
+        <if test="creatorName != null and creatorName != '' ">  
+           and pub_image_belong.`creator_name` = #{creatorName}
+        </if>  
+        <if test="creatorNameLike != null and creatorNameLike != '' ">  
+             and pub_image_belong.`creator_name` like CONCAT('%',#{creatorNameLike},'%')
+        </if>   
+        <if test="createDate != null and createDate != '' ">  
+           and pub_image_belong.`create_date` = #{createDate}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and pub_image_belong.`status` = #{status}
+        </if>  
+        <if test="order != null and order != '' ">  
+           and pub_image_belong.`order` = #{order}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and pub_image_belong.`pid` = #{pid}
+        </if>  
+        <if test="pubImageId != null and pubImageId != '' ">  
+           and pub_image_belong.`pub_image_id` = #{pubImageId}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and pub_image_belong.`type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">  
+             and pub_image_belong.`type` like CONCAT('%',#{typeLike},'%')
+        </if>   
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from pub_image_belong where 1=1
+        <if test="id != null and id != '' ">  
+           and pub_image_belong.`id` = #{id}
+        </if>  
+        <if test="url != null and url != '' ">  
+           and pub_image_belong.`url` = #{url}
+        </if>  
+        <if test="urlLike != null and urlLike != '' ">  
+             and pub_image_belong.`url` like CONCAT('%',#{urlLike},'%')
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and pub_image_belong.`creator` = #{creator}
+        </if>  
+        <if test="creatorLike != null and creatorLike != '' ">  
+             and pub_image_belong.`creator` like CONCAT('%',#{creatorLike},'%')
+        </if>   
+        <if test="creatorName != null and creatorName != '' ">  
+           and pub_image_belong.`creator_name` = #{creatorName}
+        </if>  
+        <if test="creatorNameLike != null and creatorNameLike != '' ">  
+             and pub_image_belong.`creator_name` like CONCAT('%',#{creatorNameLike},'%')
+        </if>   
+        <if test="createDate != null and createDate != '' ">  
+           and pub_image_belong.`create_date` = #{createDate}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and pub_image_belong.`status` = #{status}
+        </if>  
+        <if test="order != null and order != '' ">  
+           and pub_image_belong.`order` = #{order}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and pub_image_belong.`pid` = #{pid}
+        </if>  
+        <if test="pubImageId != null and pubImageId != '' ">  
+           and pub_image_belong.`pub_image_id` = #{pubImageId}
+        </if>  
+        <if test="type != null and type != '' ">  
+           and pub_image_belong.`type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">  
+             and pub_image_belong.`type` like CONCAT('%',#{typeLike},'%')
+        </if>   
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from pub_image_belong where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="url != null and url != '' ">
+           or `url` = #{url}
+        </if>
+        <if test="creator != null and creator != '' ">
+           or `creator` = #{creator}
+        </if>
+        <if test="creatorName != null and creatorName != '' ">
+           or `creator_name` = #{creatorName}
+        </if>
+        <if test="createDate != null and createDate != '' ">
+           or `create_date` = #{createDate}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="order != null and order != '' ">
+           or `order` = #{order}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+        <if test="pubImageId != null and pubImageId != '' ">
+           or `pub_image_id` = #{pubImageId}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into pub_image_belong (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.url,jdbcType=VARCHAR}
+,#{record.creator,jdbcType=VARCHAR}
+,#{record.creatorName,jdbcType=VARCHAR}
+,#{record.createDate,jdbcType=DATE}
+,#{record.status,jdbcType=INTEGER}
+,#{record.order,jdbcType=INTEGER}
+,#{record.pid,jdbcType=INTEGER}
+,#{record.pubImageId,jdbcType=INTEGER}
+,#{record.type,jdbcType=VARCHAR}
+)
+        </foreach >
+    </insert>
+</mapper>

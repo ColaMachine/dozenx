@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.pubComment.dao.PubCommentMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.pubComment.bean.PubComment">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="pid" jdbcType="BIGINT" property="pid" />
+      <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="create_user" jdbcType="BIGINT" property="createUser" />
+      <result column="userName" jdbcType="VARCHAR" property="userName" />
+      <result column="face" jdbcType="VARCHAR" property="face" />
+      <result column="pic" jdbcType="VARCHAR" property="pic" />
+      <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+      <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pub_comment.`id` ,pub_comment.`pid` ,pub_comment.`content` ,pub_comment.`type` ,pub_comment.`status` ,pub_comment.`create_user` ,pub_comment.`userName` ,pub_comment.`face` ,pub_comment.`pic` ,pub_comment.`createtime` ,pub_comment.`updatetime` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pub_comment
+    where pub_comment.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from pub_comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
+
+    insert into pub_comment (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{pid,jdbcType=BIGINT}
+,#{content,jdbcType=VARCHAR}
+,#{type,jdbcType=INTEGER}
+,#{status,jdbcType=INTEGER}
+,#{createUser,jdbcType=BIGINT}
+,#{userName,jdbcType=VARCHAR}
+,#{face,jdbcType=VARCHAR}
+,#{pic,jdbcType=VARCHAR}
+,#{createtime,jdbcType=TIMESTAMP}
+,#{updatetime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
+    insert into pub_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="pid != null" >  
+           `pid`,
+        </if>  
+        <if test="content != null" >  
+           `content`,
+        </if>  
+        <if test="type != null" >  
+           `type`,
+        </if>  
+        <if test="status != null" >  
+           `status`,
+        </if>  
+        <if test="createUser != null" >  
+           `create_user`,
+        </if>  
+        <if test="userName != null" >  
+           `userName`,
+        </if>  
+        <if test="face != null" >  
+           `face`,
+        </if>  
+        <if test="pic != null" >  
+           `pic`,
+        </if>  
+        <if test="createtime != null" >  
+           `createtime`,
+        </if>  
+        <if test="updatetime != null" >  
+           `updatetime`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="content != null" >  
+          #{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="createUser != null" >  
+          #{createUser,jdbcType=BIGINT},
+        </if>  
+        <if test="userName != null" >  
+          #{userName,jdbcType=VARCHAR},
+        </if>  
+        <if test="face != null" >  
+          #{face,jdbcType=VARCHAR},
+        </if>  
+        <if test="pic != null" >  
+          #{pic,jdbcType=VARCHAR},
+        </if>  
+        <if test="createtime != null" >  
+          #{createtime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updatetime != null" >  
+          #{updatetime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
+    update pub_comment
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=BIGINT},
+        </if>  
+        <if test="content != null" >  
+             `content`=#{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="createUser != null" >  
+             `create_user`=#{createUser,jdbcType=BIGINT},
+        </if>  
+        <if test="userName != null" >  
+             `userName`=#{userName,jdbcType=VARCHAR},
+        </if>  
+        <if test="face != null" >  
+             `face`=#{face,jdbcType=VARCHAR},
+        </if>  
+        <if test="pic != null" >  
+             `pic`=#{pic,jdbcType=VARCHAR},
+        </if>  
+        <if test="createtime != null" >  
+             `createtime`=#{createtime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updatetime != null" >  
+             `updatetime`=#{updatetime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
+    update pub_comment
+    set 
+              `pid`=#{pid,jdbcType=BIGINT},
+              `content`=#{content,jdbcType=VARCHAR},
+              `type`=#{type,jdbcType=INTEGER},
+              `status`=#{status,jdbcType=INTEGER},
+              `create_user`=#{createUser,jdbcType=BIGINT},
+              `userName`=#{userName,jdbcType=VARCHAR},
+              `face`=#{face,jdbcType=VARCHAR},
+              `pic`=#{pic,jdbcType=VARCHAR},
+              `createtime`=#{createtime,jdbcType=TIMESTAMP},
+              `updatetime`=#{updatetime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pub_comment where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+        <if test="content != null and content != '' ">  
+           and `content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">
+             and `content` like CONCAT('%',#{contentLike},'%')
+        </if>   
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="createUser != null and createUser != '' ">  
+           and `create_user` = #{createUser}
+        </if>  
+        <if test="userName != null and userName != '' ">  
+           and `userName` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">
+             and `userName` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="face != null and face != '' ">  
+           and `face` = #{face}
+        </if>  
+        <if test="faceLike != null and faceLike != '' ">
+             and `face` like CONCAT('%',#{faceLike},'%')
+        </if>   
+        <if test="pic != null and pic != '' ">  
+           and `pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">
+             and `pic` like CONCAT('%',#{picLike},'%')
+        </if>   
+        <if test="createtime != null and createtime != '' ">  
+           and `createtime` = #{createtime}
+        </if>  
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and `createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and `createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and `createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and `createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and `updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pub_comment
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and pub_comment.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and pub_comment.`pid` = #{pid}
+        </if>  
+        <if test="content != null and content != '' ">  
+           and pub_comment.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and pub_comment.`content` like CONCAT('%',#{contentLike},'%')
+        </if>   
+        <if test="type != null and type != '' ">  
+           and pub_comment.`type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and pub_comment.`status` = #{status}
+        </if>  
+        <if test="createUser != null and createUser != '' ">  
+           and pub_comment.`create_user` = #{createUser}
+        </if>  
+        <if test="userName != null and userName != '' ">  
+           and pub_comment.`userName` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and pub_comment.`userName` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="face != null and face != '' ">  
+           and pub_comment.`face` = #{face}
+        </if>  
+        <if test="faceLike != null and faceLike != '' ">  
+             and pub_comment.`face` like CONCAT('%',#{faceLike},'%')
+        </if>   
+        <if test="pic != null and pic != '' ">  
+           and pub_comment.`pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">  
+             and pub_comment.`pic` like CONCAT('%',#{picLike},'%')
+        </if>   
+        <if test="createtime != null and createtime != '' ">  
+           and pub_comment.`createtime` = #{createtime}
+        </if>  
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and pub_comment.`createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and pub_comment.`createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and pub_comment.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and pub_comment.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and pub_comment.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from pub_comment where 1=1
+        <if test="id != null and id != '' ">  
+           and pub_comment.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and pub_comment.`pid` = #{pid}
+        </if>  
+        <if test="content != null and content != '' ">  
+           and pub_comment.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and pub_comment.`content` like CONCAT('%',#{contentLike},'%')
+        </if>   
+        <if test="type != null and type != '' ">  
+           and pub_comment.`type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and pub_comment.`status` = #{status}
+        </if>  
+        <if test="createUser != null and createUser != '' ">  
+           and pub_comment.`create_user` = #{createUser}
+        </if>  
+        <if test="userName != null and userName != '' ">  
+           and pub_comment.`userName` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and pub_comment.`userName` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="face != null and face != '' ">  
+           and pub_comment.`face` = #{face}
+        </if>  
+        <if test="faceLike != null and faceLike != '' ">  
+             and pub_comment.`face` like CONCAT('%',#{faceLike},'%')
+        </if>   
+        <if test="pic != null and pic != '' ">  
+           and pub_comment.`pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">  
+             and pub_comment.`pic` like CONCAT('%',#{picLike},'%')
+        </if>   
+        <if test="createtime != null and createtime != '' ">  
+           and pub_comment.`createtime` = #{createtime}
+        </if>  
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and pub_comment.`createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and pub_comment.`createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and pub_comment.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and pub_comment.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and pub_comment.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from pub_comment where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+        <if test="content != null and content != '' ">
+           or `content` = #{content}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="createUser != null and createUser != '' ">
+           or `create_user` = #{createUser}
+        </if>
+        <if test="userName != null and userName != '' ">
+           or `userName` = #{userName}
+        </if>
+        <if test="face != null and face != '' ">
+           or `face` = #{face}
+        </if>
+        <if test="pic != null and pic != '' ">
+           or `pic` = #{pic}
+        </if>
+        <if test="createtime != null and createtime != '' ">
+           or `createtime` = #{createtime}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+           or `updatetime` = #{updatetime}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into pub_comment (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=BIGINT}
+,#{record.pid,jdbcType=BIGINT}
+,#{record.content,jdbcType=VARCHAR}
+,#{record.type,jdbcType=INTEGER}
+,#{record.status,jdbcType=INTEGER}
+,#{record.createUser,jdbcType=BIGINT}
+,#{record.userName,jdbcType=VARCHAR}
+,#{record.face,jdbcType=VARCHAR}
+,#{record.pic,jdbcType=VARCHAR}
+,#{record.createtime,jdbcType=TIMESTAMP}
+,#{record.updatetime,jdbcType=TIMESTAMP}
+)
+        </foreach >
+    </insert>
+</mapper>

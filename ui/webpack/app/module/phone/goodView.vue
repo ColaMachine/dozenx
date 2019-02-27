@@ -54,13 +54,15 @@
         <blockquote class="baoliao">
 
        <em class="title"> 网友爆料原文：</em>
-       <p><a href="https://go.smzdm.com/ee8008d56b674415/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">京东</a>
+
+        <p v-html="data.detail"></p>
 
 
-
-{{data.detail}}
        </p>
-    <!--   <p>凑单品：<a href="https://go.smzdm.com/6d167997a53401ac/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">梦龙</a></p>
+    <!--
+        <p><a href="https://go.smzdm.com/ee8008d56b674415/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">京东</a>
+
+    <p>凑单品：<a href="https://go.smzdm.com/6d167997a53401ac/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">梦龙</a></p>
        <p>叠加优惠券：<a href="https://go.smzdm.com/5ebc67870e28af45/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">199减100券</a></p>
 -->
        </blockquote>
@@ -98,7 +100,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
                  <div class="tags-box" style="padding-left: 20px;padding-right: 20px; width: auto;">
 
                      <span class="J_zhi_like_fav z-group-data" data-type="zhi" data-zhi-type="1" data-channel="3" data-article="11792647" data-cid="1" data-atp="3" data-tagid="无">
-                         <a href="javascript:;">
+                         <a href="javascript:;" @click='zan()' >
                          <i class="z-icon-zhi">顶</i>
                          <span>{{data.up}}</span>
                          </a>
@@ -106,7 +108,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
 
 
                      <span class="J_zhi_like_fav z-group-data" data-type="zhi" data-zhi-type="-1" data-channel="3" data-article="11792647" data-cid="1" data-atp="3" data-tagid="无">
-                         <a href="javascript:;">
+                         <a href="javascript:;" @click='down()'>
                              <i class="z-icon-not">踩</i>
                              <span>{{data.down}}</span>
                          </a>
@@ -279,6 +281,32 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(re
 
     },
     methods: {
+        zan:function(){
+            Ajax.post(PATH+"/goods/zan",{"pid":getQueryString("id")},function(result){
+                console.log(result);
+                if(result.r==AJAX_SUCC){
+                    this.data.up=result.data.up;
+                    this.data.down=result.data.down;
+                }else{
+                     console.log(result.msg);
+                     alert(result.msg);
+                 }
+            }.Apply(this));
+
+        },
+        down:function(){
+            Ajax.post(PATH+"/goods/down",{"pid":getQueryString("id")},function(result){
+                            console.log(result);
+                            if(result.r==AJAX_SUCC){
+                                this.data.up=result.data.up;
+                                this.data.down=result.data.down;
+                            }else{
+                                 console.log(result.msg);
+                                 alert(result.msg);
+                             }
+                        }.Apply(this));
+
+        },
         refreshBlogView:function(){
            // this.$refs.blogViewList.refresh();
         }

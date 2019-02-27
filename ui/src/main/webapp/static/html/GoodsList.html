@@ -73,7 +73,7 @@
 </div>
 <script>
 var goodsList={
-    modal:true,
+    modal:false,
     mygrid:null,
     treeObj:null,
     dqData:null,
@@ -106,7 +106,7 @@ var goodsList={
         pager:"#GoodsGrid-Pager",
         jsonReader:jsonReader,
         colNames : [
-        "编号","商户id","名称","副标题","详细内容","地址","手机号码","图片0", '操作' ],
+        "编号","商户id","名称","副标题","地址","手机号码","图片0", '操作' ],
         colModel : [
             {   name : 'id',width : 80,
 
@@ -120,9 +120,7 @@ var goodsList={
             {   name : 'subName',width : 80,
 
             } ,
-            {   name : 'detail',width : 80,
 
-            } ,
             {   name : 'address',width : 80,
 
             } ,
@@ -150,7 +148,7 @@ var goodsList={
 
     saveInfo:function(){
     },
-    addInfo:function (){
+    addInfo:function (){console.log("addinfo");
         dialog.window('/goods/edit.htm',this.modal);
     },
     editSelectInfo:function(){

@@ -29,40 +29,13 @@
 
 	<script type="text/javascript">
 
-	 /*var websocket;
 
-        if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://" + document.location.host + "/home/webSocketServer");
-       		alert("dinwdow");
-        } else if ('MozWebSocket' in window) {
-        		alert("MozWebSocket");
-            websocket = new MozWebSocket("ws://" + document.location.host + "/webSocketServer");
-        } else {
-            websocket = new SockJS("http://" + document.location.host + "/sockjs/webSocketServer");
-        }
-
-         websocket.onopen = function(evnt) {};
-        websocket.onmessage = function(evnt) {
-            $("#test").html("(<font color='red'>" + evnt.data + "</font>)")
-        };
-
-        websocket.onerror = function(evnt) {};
-        websocket.onclose = function(evnt) {}
-
-
-         if (websocket.readyState == websocket.OPEN) {
-                var msg = $('#id').val();
-                //调用后台handleTextMessage方法
-                websocket.send(msg);
-            } else {
-                alert("连接失败!");
-            }*/
 
 
 		var name=document.getElementById('name').value;
 		var msgContainer=document.getElementById('message');
 		var text=document.getElementById('text');
-
+var ws;
 		function connect () {
 			var address="ws://" + document.location.host+document.getElementById('address').value;
 			
@@ -119,12 +92,7 @@
 			msgContainer.innerHTML="";
 		}
 
-		function team(){
-		console.log(Ajax);
-			Ajax.getJSON(PATH+"/chat/searchTeam",{},function(result){
 
-			})
-		}
 
 		function enter(event){
 			if(event.keyCode==13){
@@ -134,7 +102,6 @@
 	</script>
 
 
-	<script src="../../js/zwcommon.js" type="text/javascript"
-			charset="utf-8"></script>
+
 </body>
 </html>

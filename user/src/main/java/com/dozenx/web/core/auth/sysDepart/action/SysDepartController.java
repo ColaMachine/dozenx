@@ -46,7 +46,7 @@ import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.util.DateUtil;
 @APIs(description = "系统部门")
 @Controller
-@RequestMapping("/sys/auth/")
+@RequestMapping("/sys/auth/depart")
 public class SysDepartController extends BaseController{
     /** 日志 **/
     private Logger logger = LoggerFactory.getLogger(SysDepartController.class);

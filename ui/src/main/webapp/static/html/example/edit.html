@@ -83,9 +83,9 @@
                             document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
                             break;
                          case 'InsertImage':
-                          //  document.execCommand('InsertImage', true, '/home/upload/machinelearning/46分类-训练集.jpg');
+                          //  document.execCommand('InsertImage', true, 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1365155501,963298376&fm=173&app=25&f=JPEG?w=218&h=146&s=BFB151870E09305D14F4C8AF0300F003');
 
-                            document.execCommand('insertHtml', true, '<img onclick="changeImage(this)" src=\'/home/upload/machinelearning/46分类-训练集.jpg\'</img>');
+                            document.execCommand('insertHtml', true, '<img onclick="changeImage(this)" src=\'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1365155501,963298376&fm=173&app=25&f=JPEG?w=218&h=146&s=BFB151870E09305D14F4C8AF0300F003\'</img>');
                             break;
                         default:
                             document.execCommand($(this).data('role'), false, null);

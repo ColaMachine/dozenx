@@ -101,13 +101,13 @@
         </div>
 
          <h3>
-                    <zwBlogComment v-if="commentShow" style="" :pid="data.id" >
-                    </zwBlogComment>
+                    <zwPubComment v-if="commentShow" style="" :pid="data.id" >
+                    </zwPubComment>
                 </h3>
 </div>
 </template>
 <script type="text/javascript">
- import zwBlogComment from '../../component/datadisplay/zwBlogComment.vue';
+ import zwBlogComment from '../../component/datadisplay/zwPubComment.vue';
   import zwMenu from '../../component/navigation/menu/zwMenu.vue';
    import zwMenuItem from '../../component/navigation/menu/zwMenuItem.vue';
 
@@ -117,7 +117,7 @@
 
       import zwButton from '../../component/button/zwButton.vue';
 export default {
-         components:{zwBlogComment,zwButton,zwMenuItem,zwMenu,zwDropDown,zwIcon},
+         components:{zwPubComment,zwButton,zwMenuItem,zwMenu,zwDropDown,zwIcon},
         props:["data"],
         data () {
             return {

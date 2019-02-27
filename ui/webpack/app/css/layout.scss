@@ -596,6 +596,7 @@ li {
     
  }
  .app-ul{
+ padding-top:15px;
  background-color: #eee;
 
  }
@@ -619,14 +620,23 @@ li {
 
 }
 .app-li-it{
+/*因为子节点是a标签 所以不需要flex布局
+只需要a标签再包裹一个 app-card  结构
 justify-content:flex-start;
          align-content:stretch;
          align-items:stretch;
-          display: flex !important;
+          display: flex !important;*/
 }
 
  .app-li-it-pic {
         display: block;
+       position: relative;
+        min-width: 105px;
+        width:105px;
+
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: 105px;
         /* width:30%;*/
        /* float:left; w图片居左;*/
         max-width: 33.3%;

@@ -75,12 +75,12 @@ public class GoodsService extends BaseService {
         }*/
          //逻辑业务判断判断
        //判断是否有uq字段
-               HashMap params =new HashMap();
-        params.put("telno",goods.getTelno());
-        int count = goodsMapper.countByOrParams(params);
-        if(StringUtil.isNull(goods.getId())&& count>0||count>1 ){
-            return ResultUtil.getResult(302,"字段唯一不能重复");
-        }
+//               HashMap params =new HashMap();
+//        params.put("telno",goods.getTelno());
+//        int count = goodsMapper.countByOrParams(params);
+//        if(StringUtil.isNull(goods.getId())&& count>0||count>1 ){
+//            return ResultUtil.getResult(302,"字段唯一不能重复");
+//        }
 
        //判断是更新还是插入
         if (goods.getId()==null ||  this.selectByPrimaryKey(goods.getId())==null) {
@@ -92,6 +92,8 @@ public class GoodsService extends BaseService {
         }
         return ResultUtil.getSuccResult();
     }
+
+
     /**
     * 说明:根据主键删除数据
     * description:delete by key
@@ -124,5 +126,10 @@ public class GoodsService extends BaseService {
             goodsMapper.deleteByPrimaryKey(idAry[i]);
         }
         return ResultUtil.getSuccResult();
+    }
+
+    public void updateZan(Long id) {
+        goodsMapper.updateZan(id);
+
     }
 }

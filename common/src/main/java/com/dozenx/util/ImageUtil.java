@@ -565,27 +565,51 @@ public class ImageUtil {
      * @return
      * @throws Exception
      */
-    public static BufferedImage base64ToImage(String base64Str)throws  Exception{
-        if (base64Str.startsWith("%2B")) {
-            base64Str = URLDecoder.decode(base64Str, "UTF-8").substring(1);
-        } else if (base64Str.startsWith("+")) {
-            base64Str = base64Str.substring(1);
+    public static BufferedImage base64ToImage(String imageData)throws  Exception{
+
+
+
+
+
+        int success = 0;
+        String message = "";
+        if (null == imageData || imageData.length() < 100) {
+            // 数据太短，明显不合理
+            throw new IOException("err.upload.img.tooshort");
+            //  return ResultUtil.getWrongResultFromCfg("err.upload.img.tooshort");
         }
-       // base64Str = base64Str.substring(base64Str.indexOf("iVBO"));
+            if (imageData.startsWith("%2B")) {
+                imageData = URLDecoder.decode(imageData, "UTF-8").substring(1);
+            } else if (imageData.startsWith("+")) {
+                imageData = imageData.substring(1);
+            }
+            int ivboIndex = imageData.indexOf("iVBO");
+            if (ivboIndex != -1) {
+                imageData = imageData.substring(ivboIndex);
+            }
+            if (imageData.indexOf("base64") > 0) {
+                imageData = imageData.substring(imageData.indexOf("base64") + 7);
+            }
+            // 去除开头不合理的数据
+            // imageData = URLDecoder.decode(imageData, "UTF-8");
+            // imageData = imageData.substring(30);
+            // int position=imageData.indexOf(",");
+            // imageData=imageData.substring(position+1);
+            // data:image/jpeg;base64,/9j/4AAQSkZJRgABA
+            // data:image/png;base64,iVBORw0KGgoAAAANSUh
+            // System.out.println(imageData);
+            byte[] data = decodeBase64(imageData);
+            int len = data.length;
+            int len2 = imageData.length();
 
-        if(base64Str.startsWith("data")){
-            base64Str= base64Str.substring(base64Str.indexOf(","));
-        }
-
-
-        byte[] data = decodeBase64(base64Str);
         ByteArrayInputStream in = new ByteArrayInputStream(data);    //将b作为输入流；
         BufferedImage image = ImageIO.read( in);     //将in作为输入流，读取图片存入image中，而这里in可以为ByteArrayInputStream();
 
+        in.close();
         return image;
     }
     // references: http://blog.csdn.net/remote_roamer/article/details/2979822
-    private static boolean saveImageToDisk(byte[] data, String path, String imageName) throws IOException {
+    public static boolean saveImageToDisk(byte[] data, String path, String imageName) throws IOException {
         int len = data.length;
 
         File file =new File(path);
@@ -604,7 +628,7 @@ public class ImageUtil {
         return true;
     }
 
-    private static byte[] decodeBase64(String imageData) throws IOException {
+    public static byte[] decodeBase64(String imageData) throws IOException {
        /* sun.misc.BASE64Decoder decoder = new sun.misc.BASE64Decoder();
         return decoder.decodeBuffer(imageData)*/
 
@@ -1038,7 +1062,7 @@ public class ImageUtil {
         InputStream inputStream =null;
         try {
              inputStream = HttpRequestUtil.getInputStream(url);//获取输入流 在final里关闭
-            return returnImage(inputStream,path,fileName);
+            return saveAsJpg(inputStream,path,fileName);
         }catch ( Exception e){
             logger.error( "saveImageFromUrl",e);
             throw e;
@@ -1068,7 +1092,7 @@ public class ImageUtil {
         InputStream inputStream =null;
         try {
             inputStream = new FileInputStream(fromFile);//获取输入流 在final里关闭
-            return returnImage(inputStream,path,fileName);
+            return saveAsJpg(inputStream,path,fileName);
         }catch ( Exception e){
             logger.error( "saveImageFromUrl",e);
             throw e;
@@ -1080,7 +1104,15 @@ public class ImageUtil {
 
     }
 
-    public static BufferedImage returnImage(InputStream inputStream,Path path,String fileName )throws  Exception {
+    /**
+     * 由于之前的imageIo方法从png转成jpg会导致颜色失真 所以改造成这个方法了
+     * @param inputStream
+     * @param path
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+    public static BufferedImage saveAsJpg(InputStream inputStream,Path path,String fileName )throws  Exception {
         BufferedImage source = ImageIO.read(inputStream);//将流转化成图片 如果不是图片这里会报错 直接爆出异常给调用者
         if(source==null){
             throw new IOException("图片读取失败 iamge read failed!:");

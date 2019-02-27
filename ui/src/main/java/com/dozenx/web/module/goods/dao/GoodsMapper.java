@@ -75,5 +75,6 @@ public interface GoodsMapper {
 
     int countByOrParams(HashMap map);
 
-      
+
+    void updateZan(Long id);
 }

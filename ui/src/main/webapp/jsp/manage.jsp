@@ -26,8 +26,8 @@
 <script type="text/javascript" src="${path}/static/js/animation.js"></script>
 <script type="text/javascript" src="${path}/static/js/slider.js"></script>
 <script type="text/javascript" src="${path}/static/js/imageUtil.js"></script>
-<script src="/static/js/vue.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/css/slider.css" >
+<!-- <script src="/static/js/vue.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/slider.css" >  -->
 <%
 String path = request.getContextPath();
 
