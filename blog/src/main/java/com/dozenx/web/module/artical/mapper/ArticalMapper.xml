@@ -496,7 +496,7 @@ where id = #{id,jdbcType=BIGINT}
 
 
     <update id="updateCommentCountById" parameterType="java.lang.Long" >
-        update artical set comment_count=(select count(1) from blog_comment where pid = #{id,jdbcType=BIGINT})
+        update artical set comment_count=(select count(1) from pub_comment where pid = #{id,jdbcType=BIGINT})
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

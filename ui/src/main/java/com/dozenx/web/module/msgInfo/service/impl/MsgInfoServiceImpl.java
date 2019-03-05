@@ -6,7 +6,7 @@
  * 文件说明: 
  */
 
-package com.dozenx.web.module.pubComment.service.impl;
+package com.dozenx.web.module.msgInfo.service.impl;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.dozenx.web.module.pubComment.bean.PubComment;
-import com.dozenx.web.module.pubComment.dao.PubCommentMapper;
+import com.dozenx.web.module.msgInfo.bean.MsgInfo;
+import com.dozenx.web.module.msgInfo.dao.MsgInfoMapper;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.util.UUIDUtil;
 import com.dozenx.web.util.ValidateUtil;
@@ -28,25 +28,25 @@ import com.dozenx.util.StringUtil;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.web.module.pubComment.service.PubCommentService;
+import com.dozenx.web.module.msgInfo.service.MsgInfoService;
 
-@Service("pubCommentService")
-public class PubCommentServiceImpl extends BaseService implements PubCommentService {
+@Service("msgInfoService")
+public class MsgInfoServiceImpl extends BaseService implements MsgInfoService {
     private static final Logger logger = LoggerFactory
-            .getLogger(PubCommentService.class);
+            .getLogger(MsgInfoService.class);
     @Resource
-    private PubCommentMapper pubCommentMapper;
+    private MsgInfoMapper msgInfoMapper;
     /**
      * 说明:list by page and params根据参数返回列表
      * @return List<HashMap>
      * @author dozen.zhang
      * @date 2015年11月15日下午12:36:24
      */
-    public List<PubComment> listByParams4Page(HashMap params) {
-        return pubCommentMapper.listByParams4Page(params);
+    public List<MsgInfo> listByParams4Page(HashMap params) {
+        return msgInfoMapper.listByParams4Page(params);
     }
-    public List<PubComment> listByParams(HashMap params) {
-        return pubCommentMapper.listByParams(params);
+    public List<MsgInfo> listByParams(HashMap params) {
+        return msgInfoMapper.listByParams(params);
     }
 
      /**
@@ -56,21 +56,21 @@ public class PubCommentServiceImpl extends BaseService implements PubCommentServ
      * @date 2015年11月15日下午12:36:24
      */
     public int countByParams(HashMap params) {
-           return pubCommentMapper.countByParams(params);
+           return msgInfoMapper.countByParams(params);
     }
 
     /*
      * 说明:
-     * @param PubComment
+     * @param MsgInfo
      * @return
      * @return Object
      * @author dozen.zhang
      * @date 2015年11月15日下午1:33:54
      */
-    public ResultDTO save(PubComment pubComment) {
+    public ResultDTO save(MsgInfo msgInfo) {
         // 进行字段验证
-      /* ValidateUtil<PubComment> vu = new ValidateUtil<PubComment>();
-        ResultDTO result = vu.valid(pubComment);
+      /* ValidateUtil<MsgInfo> vu = new ValidateUtil<MsgInfo>();
+        ResultDTO result = vu.valid(msgInfo);
         if (result.getR() != 1) {
             return result;
         }*/
@@ -78,14 +78,14 @@ public class PubCommentServiceImpl extends BaseService implements PubCommentServ
        //判断是否有uq字段
        
        //判断是更新还是插入
-        if (pubComment.getId()==null ||  this.selectByPrimaryKey(pubComment.getId())==null) {
+        if (msgInfo.getId()==null ||  this.selectByPrimaryKey(msgInfo.getId())==null) {
 
-            pubCommentMapper.insert(pubComment);
+            msgInfoMapper.insert(msgInfo);
         } else {
-            pubComment.setUpdatetime(new Timestamp(new Date().getTime()));
-            pubCommentMapper.updateByPrimaryKeySelective(pubComment);
+            msgInfo.setUpdatetime(new Timestamp(new Date().getTime()));
+            msgInfoMapper.updateByPrimaryKeySelective(msgInfo);
         }
-        return ResultUtil.getSuccResult();
+        return ResultUtil.getDataResult(msgInfo);
     }
     /**
     * 说明:根据主键删除数据
@@ -96,7 +96,7 @@ public class PubCommentServiceImpl extends BaseService implements PubCommentServ
     * @date 2015年12月27日下午10:56:38
     */
     public void delete(Long  id){
-        pubCommentMapper.deleteByPrimaryKey(id);
+        msgInfoMapper.deleteByPrimaryKey(id);
     }   
     /**
     * 说明:根据主键获取数据
@@ -106,8 +106,8 @@ public class PubCommentServiceImpl extends BaseService implements PubCommentServ
     * @author dozen.zhang
     * @date 2015年12月27日下午10:56:38
     */
-    public PubComment selectByPrimaryKey(Long id){
-       return pubCommentMapper.selectByPrimaryKey(id);
+    public MsgInfo selectByPrimaryKey(Long id){
+       return msgInfoMapper.selectByPrimaryKey(id);
     }
     /**多id删除
      * @param idAry
@@ -116,7 +116,7 @@ public class PubCommentServiceImpl extends BaseService implements PubCommentServ
      */
     public ResultDTO multilDelete(Long[] idAry) {
         for(int i=0;i<idAry.length;i++){
-            pubCommentMapper.deleteByPrimaryKey(idAry[i]);
+            msgInfoMapper.deleteByPrimaryKey(idAry[i]);
         }
         return ResultUtil.getSuccResult();
     }
@@ -124,8 +124,18 @@ public class PubCommentServiceImpl extends BaseService implements PubCommentServ
 
 
     @Override
-    public ResultDTO insertList(List<PubComment> list) {
-       pubCommentMapper.insertBatch(list);
+    public ResultDTO insertList(List<MsgInfo> list) {
+       msgInfoMapper.insertBatch(list);
         return null;
+    }
+
+    @Override
+    public void updateCommmentCountById(Long id) {
+        msgInfoMapper.updateCommentCountById(id);
+    }
+
+    @Override
+    public void updateZan(Long id ){
+        msgInfoMapper.updateZan(id);
     }
 }

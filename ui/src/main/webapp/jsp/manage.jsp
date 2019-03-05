@@ -280,7 +280,7 @@ includeJS(jsAry);
 
 
 <script type="text/javascript" >
-Ajax.getJSON(PATH+"/auth/menu/list.json",null,function(result){
+Ajax.getJSON(PATH+"/sys/auth/menu/list.json",null,function(result){
     var menuList =result.data;
     <% HttpSession s= request.getSession();
         String resourceStr = (String)s.getAttribute("resourceStr");

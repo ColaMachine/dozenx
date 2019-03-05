@@ -2,8 +2,8 @@
  * 版权所有： dozen.zhang
  * 项目名称:calendar
  * 创建者: dozen.zhang
- * 创建日期: 2019年02月17日
- * 文件说明: 
+ * 创建日期: 2019年03月01日
+ * 文件说明:
  */
 package com.dozenx.web.module.zan.bean;
 import java.sql.Timestamp;
@@ -13,14 +13,16 @@ import java.util.Date;
  *赞实体类
  **/
 public class Zan {
-        /**编号 null**/
+    /**编号 null**/
     private Long id;
     /**商户id null**/
     private Long pid;
     /**用户id null**/
     private Long userId;
     /**类型 null**/
-    private Integer type;
+    private Byte type;
+    /**属于哪个模块 null**/
+    private Integer category;
     /**创建时间 null**/
     private Timestamp createTime;
     public Long getId(){
@@ -41,11 +43,17 @@ public class Zan {
     public void setUserId(Long userId){
         this.userId=userId;
     }
-    public Integer getType(){
+    public Byte getType(){
         return type;
     }
-    public void setType(Integer type){
+    public void setType(Byte type){
         this.type=type;
+    }
+    public Integer getCategory(){
+        return category;
+    }
+    public void setCategory(Integer category){
+        this.category=category;
     }
     public Timestamp getCreateTime(){
         return createTime;

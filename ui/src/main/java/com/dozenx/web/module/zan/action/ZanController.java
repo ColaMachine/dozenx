@@ -2,8 +2,8 @@
  * 版权所有：公众信息
  * 项目名称:calendar
  * 创建者: dozen.zhang
- * 创建日期: @date 2019-2-17 15:38:01
- * 文件说明: 
+ * 创建日期: @date 2019-3-1 14:47:20
+ * 文件说明:
  */
 
 package com.dozenx.web.module.zan.action;
@@ -62,34 +62,35 @@ public class ZanController extends BaseController{
     /** 权限service **/
     @Autowired
     private ZanService zanService;
-    
+
 
 
     /**
      * 说明:ajax请求zan信息
      * @author dozen.zhang
-     * @date 2019-2-17 15:38:01
+     * @date 2019-3-1 14:47:20
      * @return String
      */
-       @API(summary="赞列表接口",
-                 description="赞列表接口",
-                 parameters={
-                 @Param(name="pageSize", description="分页大小", dataType= DataType.INTEGER,required = true),
-                 @Param(name="curPage", description="当前页", dataType= DataType.INTEGER,required = true),
+    @API(summary="赞列表接口",
+            description="赞列表接口",
+            parameters={
+                    @Param(name="pageSize", description="分页大小", dataType= DataType.INTEGER,required = true),
+                    @Param(name="curPage", description="当前页", dataType= DataType.INTEGER,required = true),
                     @Param(name="id" , description="编号",dataType = DataType.LONG,required =false),// false
                     @Param(name="pid" , description="商户id",dataType = DataType.LONG,required =false),// false
                     @Param(name="userId" , description="用户id",dataType = DataType.LONG,required =false),// false
-                    @Param(name="type" , description="类型",dataType = DataType.INTEGER,required =false),// false
+                    @Param(name="type" , description="类型",dataType = DataType.BYTE,required =false),// false
+                    @Param(name="category" , description="属于哪个模块",dataType = DataType.INTEGER,required =false),// false
                     @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required =false),// false
-         })
+            })
     @RequestMapping(value = "/list.json" , method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO list(HttpServletRequest request) throws Exception{
         Page page = RequestUtil.getPage(request);
         if(page ==null){
-             return this.getWrongResultFromCfg("err.param.page");
+            return this.getWrongResultFromCfg("err.param.page");
         }
-        
+
         HashMap<String,Object> params= new HashMap<String,Object>();
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
@@ -106,6 +107,10 @@ public class ZanController extends BaseController{
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
             params.put("type",type);
+        }
+        String category = request.getParameter("category");
+        if(!StringUtil.isBlank(category)){
+            params.put("category",category);
         }
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -136,17 +141,17 @@ public class ZanController extends BaseController{
         List<Zan> zans = zanService.listByParams4Page(params);
         return ResultUtil.getResult(zans, page);
     }
-    
-   /**
-    * 说明:ajax请求zan信息 无分页版本
-    * @return ResultDTO 返回结果
-    * @author dozen.zhang
-    * @date 2019-2-17 15:38:01
-    */
+
+    /**
+     * 说明:ajax请求zan信息 无分页版本
+     * @return ResultDTO 返回结果
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
     @RequestMapping(value = "/listAll.json")
     @ResponseBody
     public ResultDTO listAll(HttpServletRequest request) {
-                HashMap<String,Object> params= new HashMap<String,Object>();
+        HashMap<String,Object> params= new HashMap<String,Object>();
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
@@ -162,6 +167,10 @@ public class ZanController extends BaseController{
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
             params.put("type",type);
+        }
+        String category = request.getParameter("category");
+        if(!StringUtil.isBlank(category)){
+            params.put("category",category);
         }
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -192,71 +201,72 @@ public class ZanController extends BaseController{
         return ResultUtil.getDataResult(zans);
     }
 
-   /**
-    * 说明:查看单条信息
-    * @param request 发请求
-    * @return String
-    * @author dozen.zhang
-    * @date 2019-2-17 15:38:01
-    */
-     @API( summary="根据id查询单个赞信息",
-               description = "根据id查询单个赞信息",
-               parameters={
-                       @Param(name="id" , description="id",in=InType.path,dataType= DataType.LONG,required = true),
-               })
-        @RequestMapping(value = "/view/{id}",method = RequestMethod.GET)
-        @ResponseBody
-        public ResultDTO getById(@PathVariable Long id,HttpServletRequest request) {
-                     HashMap<String,Object> result =new HashMap</*String,Object*/>();
-            Zan bean = zanService.selectByPrimaryKey(Long.valueOf(id));
-            result.put("bean", bean);
-            return this.getResult(result);
+    /**
+     * 说明:查看单条信息
+     * @param request 发请求
+     * @return String
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
+    @API( summary="根据id查询单个赞信息",
+            description = "根据id查询单个赞信息",
+            parameters={
+                    @Param(name="id" , description="id",in=InType.path,dataType= DataType.LONG,required = true),
+            })
+    @RequestMapping(value = "/view/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultDTO getById(@PathVariable Long id,HttpServletRequest request) {
+        HashMap<String,Object> result =new HashMap</*String,Object*/>();
+        Zan bean = zanService.selectByPrimaryKey(Long.valueOf(id));
+        result.put("bean", bean);
+        return this.getResult(result);
 
-        }
+    }
 
 
 
-     /**
-        * 说明:查看单条信息
-        * @param request 发请求
-        * @return String
-        * @author dozen.zhang
-        * @date 2019-2-17 15:38:01
-        */
-      @API( summary="根据id查询单个赞信息",
-               description = "根据id查询单个赞信息",
-               parameters={
-                       @Param(name="id" , description="id",dataType= DataType.LONG,required = true),
-               })
-        @RequestMapping(value = "/view.json",method = RequestMethod.GET)
-        @ResponseBody
-        public ResultDTO getById(HttpServletRequest request) {
-         String id = request.getParameter("id");
-            Zan bean = zanService.selectByPrimaryKey(Long.valueOf(id));
-          //  HashMap<String,ResultDTO> result =new HashMap<String,ResultDTO>();
-           // result.put("bean", bean);
-            return this.getResult(bean);
-        }
+    /**
+     * 说明:查看单条信息
+     * @param request 发请求
+     * @return String
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
+    @API( summary="根据id查询单个赞信息",
+            description = "根据id查询单个赞信息",
+            parameters={
+                    @Param(name="id" , description="id",dataType= DataType.LONG,required = true),
+            })
+    @RequestMapping(value = "/view.json",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultDTO getById(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        Zan bean = zanService.selectByPrimaryKey(Long.valueOf(id));
+        //  HashMap<String,ResultDTO> result =new HashMap<String,ResultDTO>();
+        // result.put("bean", bean);
+        return this.getResult(bean);
+    }
 
 
     /**
      * 说明:更新zan信息
-     * 
+     *
      * @param request
      * @throws Exception
      * @return ResultDTO
      * @author dozen.zhang
-     * @date 2019-2-17 15:38:01
+     * @date 2019-3-1 14:47:20
      */
-      @API( summary="更新id更新单个赞信息",
-        description = "更新id更新单个赞信息",
-        parameters={
-           @Param(name="id" , description="编号",type="LONG",required = false),
-           @Param(name="pid" , description="商户id",type="LONG",required = false),
-           @Param(name="userId" , description="用户id",type="LONG",required = false),
-           @Param(name="type" , description="类型",type="INTEGER",required = false),
-           @Param(name="createTime" , description="创建时间",type="DATE_TIME",required = false),
-        })
+    @API( summary="更新id更新单个赞信息",
+            description = "更新id更新单个赞信息",
+            parameters={
+                    @Param(name="id" , description="编号",type="LONG",required = false),
+                    @Param(name="pid" , description="商户id",type="LONG",required = false),
+                    @Param(name="userId" , description="用户id",type="LONG",required = false),
+                    @Param(name="type" , description="类型",type="BYTE",required = false),
+                    @Param(name="category" , description="属于哪个模块",type="INTEGER",required = false),
+                    @Param(name="createTime" , description="创建时间",type="DATE_TIME",required = false),
+            })
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     @RequestMapping(value = "update.json",method = RequestMethod.PUT)///{id}
     @ResponseBody
@@ -267,22 +277,27 @@ public class ZanController extends BaseController{
         if(!StringUtil.isBlank(id)){
             zan.setId(Long.valueOf(id)) ;
         }
-        
+
         String pid = request.getParameter("pid");
         if(!StringUtil.isBlank(pid)){
             zan.setPid(Long.valueOf(pid)) ;
         }
-        
+
         String userId = request.getParameter("userId");
         if(!StringUtil.isBlank(userId)){
             zan.setUserId(Long.valueOf(userId)) ;
         }
-        
+
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            zan.setType(Integer.valueOf(type)) ;
+            zan.setType(Byte.valueOf(type)) ;
         }
-        
+
+        String category = request.getParameter("category");
+        if(!StringUtil.isBlank(category)){
+            zan.setCategory(Integer.valueOf(category)) ;
+        }
+
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
             zan.setCreateTime(Timestamp.valueOf(createTime)) ;
@@ -302,7 +317,11 @@ public class ZanController extends BaseController{
         }
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            zan.setType(Integer.valueOf(type));
+            zan.setType(Byte.valueOf(type));
+        }
+        String category = request.getParameter("category");
+        if(!StringUtil.isBlank(category)){
+            zan.setCategory(Integer.valueOf(category));
         }
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -319,7 +338,8 @@ public class ZanController extends BaseController{
         vu.add("id", id, "编号",  new Rule[]{new Digits(9,0)});
         vu.add("pid", pid, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("userId", userId, "用户id",  new Rule[]{new Digits(9,0)});
-        vu.add("type", type, "类型",  new Rule[]{new Digits(2,0)});
+        vu.add("type", type, "类型",  new Rule[]{new Digits(10,0)});
+        vu.add("category", category, "属于哪个模块",  new Rule[]{new Digits(10,0)});
         vu.add("createTime", createTime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         validStr = vu.validateString();
         if(StringUtil.isNotBlank(validStr)) {
@@ -327,59 +347,65 @@ public class ZanController extends BaseController{
         }
 
         return zanService.save(zan);
-       
+
     }
 
 
-        /**
-         * 说明:添加zan信息
-         * @param request
-         * @throws Exception
-         * @return ResultDTO
-         * @author dozen.zhang
-         * @date 2019-2-17 15:38:01
-         */
-        // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
-        @API( summary="添加单个赞信息",
+    /**
+     * 说明:添加zan信息
+     * @param request
+     * @throws Exception
+     * @return ResultDTO
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
+    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+    @API( summary="添加单个赞信息",
             description = "添加单个赞信息",
             parameters={
-               @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
-               @Param(name="pid" , description="商户id",dataType = DataType.LONG,required = false),
-               @Param(name="userId" , description="用户id",dataType = DataType.LONG,required = false),
-               @Param(name="type" , description="类型",dataType = DataType.INTEGER,required = false),
-               @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
+                    @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
+                    @Param(name="pid" , description="商户id",dataType = DataType.LONG,required = false),
+                    @Param(name="userId" , description="用户id",dataType = DataType.LONG,required = false),
+                    @Param(name="type" , description="类型",dataType = DataType.BYTE,required = false),
+                    @Param(name="category" , description="属于哪个模块",dataType = DataType.INTEGER,required = false),
+                    @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
             })
-        @RequestMapping(value = "add.json",method = RequestMethod.POST)
-        @ResponseBody
-        public ResultDTO add(HttpServletRequest request) throws Exception {
-            Zan zan =new  Zan();
+    @RequestMapping(value = "add.json",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO add(HttpServletRequest request) throws Exception {
+        Zan zan =new  Zan();
             /*
             String id = request.getParameter("id");
             if(!StringUtil.isBlank(id)){
                 zan.setId(Long.valueOf(id)) ;
             }
-            
+
             String pid = request.getParameter("pid");
             if(!StringUtil.isBlank(pid)){
                 zan.setPid(Long.valueOf(pid)) ;
             }
-            
+
             String userId = request.getParameter("userId");
             if(!StringUtil.isBlank(userId)){
                 zan.setUserId(Long.valueOf(userId)) ;
             }
-            
+
             String type = request.getParameter("type");
             if(!StringUtil.isBlank(type)){
-                zan.setType(Integer.valueOf(type)) ;
+                zan.setType(Byte.valueOf(type)) ;
             }
-            
+
+            String category = request.getParameter("category");
+            if(!StringUtil.isBlank(category)){
+                zan.setCategory(Integer.valueOf(category)) ;
+            }
+
             String createTime = request.getParameter("createTime");
             if(!StringUtil.isBlank(createTime)){
                 zan.setCreateTime(Timestamp.valueOf(createTime)) ;
             }
             */
-            String id = request.getParameter("id");
+        String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             zan.setId(Long.valueOf(id));
         }
@@ -393,7 +419,11 @@ public class ZanController extends BaseController{
         }
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            zan.setType(Integer.valueOf(type));
+            zan.setType(Byte.valueOf(type));
+        }
+        String category = request.getParameter("category");
+        if(!StringUtil.isBlank(category)){
+            zan.setCategory(Integer.valueOf(category));
         }
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -404,73 +434,80 @@ public class ZanController extends BaseController{
             }
         }
 
-            //valid
-            ValidateUtil vu = new ValidateUtil();
+        //valid
+        ValidateUtil vu = new ValidateUtil();
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(9,0)});
         vu.add("pid", pid, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("userId", userId, "用户id",  new Rule[]{new Digits(9,0)});
-        vu.add("type", type, "类型",  new Rule[]{new Digits(2,0)});
+        vu.add("type", type, "类型",  new Rule[]{new Digits(10,0)});
+        vu.add("category", category, "属于哪个模块",  new Rule[]{new Digits(10,0)});
         vu.add("createTime", createTime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         validStr = vu.validateString();
         if(StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302,validStr);
         }
 
-            return zanService.save(zan);
+        return zanService.save(zan);
 
-        }
+    }
 
 
-          /**
-                 * 说明:添加zan信息
-                 * @param request
-                 * @throws Exception
-                 * @return ResultDTO
-                 * @author dozen.zhang
-                 * @date 2019-2-17 15:38:01
-                 */
-                // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
-                @API( summary="添加单个赞信息",
-                    description = "添加单个赞信息",
-                    parameters={
-                       @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
-                       @Param(name="pid" , description="商户id",dataType = DataType.LONG,required = false),
-                       @Param(name="userId" , description="用户id",dataType = DataType.LONG,required = false),
-                       @Param(name="type" , description="类型",dataType = DataType.INTEGER,required = false),
-                       @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
-                    })
-                @RequestMapping(value = "save.json",method = RequestMethod.POST)
-                @ResponseBody
-                public ResultDTO save(HttpServletRequest request) throws Exception {
-                    Zan zan =new  Zan();
+    /**
+     * 说明:添加zan信息
+     * @param request
+     * @throws Exception
+     * @return ResultDTO
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
+    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
+    @API( summary="添加单个赞信息",
+            description = "添加单个赞信息",
+            parameters={
+                    @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
+                    @Param(name="pid" , description="商户id",dataType = DataType.LONG,required = false),
+                    @Param(name="userId" , description="用户id",dataType = DataType.LONG,required = false),
+                    @Param(name="type" , description="类型",dataType = DataType.BYTE,required = false),
+                    @Param(name="category" , description="属于哪个模块",dataType = DataType.INTEGER,required = false),
+                    @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
+            })
+    @RequestMapping(value = "save.json",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO save(HttpServletRequest request) throws Exception {
+        Zan zan =new  Zan();
                     /*
                     String id = request.getParameter("id");
                     if(!StringUtil.isBlank(id)){
                         zan.setId(Long.valueOf(id)) ;
                     }
-                    
+
                     String pid = request.getParameter("pid");
                     if(!StringUtil.isBlank(pid)){
                         zan.setPid(Long.valueOf(pid)) ;
                     }
-                    
+
                     String userId = request.getParameter("userId");
                     if(!StringUtil.isBlank(userId)){
                         zan.setUserId(Long.valueOf(userId)) ;
                     }
-                    
+
                     String type = request.getParameter("type");
                     if(!StringUtil.isBlank(type)){
-                        zan.setType(Integer.valueOf(type)) ;
+                        zan.setType(Byte.valueOf(type)) ;
                     }
-                    
+
+                    String category = request.getParameter("category");
+                    if(!StringUtil.isBlank(category)){
+                        zan.setCategory(Integer.valueOf(category)) ;
+                    }
+
                     String createTime = request.getParameter("createTime");
                     if(!StringUtil.isBlank(createTime)){
                         zan.setCreateTime(Timestamp.valueOf(createTime)) ;
                     }
                     */
-                    String id = request.getParameter("id");
+        String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             zan.setId(Long.valueOf(id));
         }
@@ -484,7 +521,11 @@ public class ZanController extends BaseController{
         }
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            zan.setType(Integer.valueOf(type));
+            zan.setType(Byte.valueOf(type));
+        }
+        String category = request.getParameter("category");
+        if(!StringUtil.isBlank(category)){
+            zan.setCategory(Integer.valueOf(category));
         }
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -495,22 +536,23 @@ public class ZanController extends BaseController{
             }
         }
 
-                    //valid
-                    ValidateUtil vu = new ValidateUtil();
+        //valid
+        ValidateUtil vu = new ValidateUtil();
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(9,0)});
         vu.add("pid", pid, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("userId", userId, "用户id",  new Rule[]{new Digits(9,0)});
-        vu.add("type", type, "类型",  new Rule[]{new Digits(2,0)});
+        vu.add("type", type, "类型",  new Rule[]{new Digits(10,0)});
+        vu.add("category", category, "属于哪个模块",  new Rule[]{new Digits(10,0)});
         vu.add("createTime", createTime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         validStr = vu.validateString();
         if(StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302,validStr);
         }
 
-                    return zanService.save(zan);
+        return zanService.save(zan);
 
-                }
+    }
 
     /**
      * 说明:删除zan信息
@@ -518,13 +560,13 @@ public class ZanController extends BaseController{
      * @throws Exception
      * @return ResultDTO
      * @author dozen.zhang
-     * @date 2019-2-17 15:38:01
+     * @date 2019-3-1 14:47:20
      */
-     @API( summary="根据id删除单个赞信息",
-        description = "根据id删除单个赞信息",
-        parameters={
-         @Param(name="id" , description="编号",dataType= DataType.LONG,required = true),
-        })
+    @API( summary="根据id删除单个赞信息",
+            description = "根据id删除单个赞信息",
+            parameters={
+                    @Param(name="id" , description="编号",dataType= DataType.LONG,required = true),
+            })
     @RequestMapping(value = "/delete.json",method = RequestMethod.DELETE)//{id}
     @ResponseBody
     public ResultDTO delete(HttpServletRequest request) {//@PathVariable Long id,
@@ -537,26 +579,26 @@ public class ZanController extends BaseController{
         return this.getResult(SUCC);
     }
 
-     /**
-         * 说明:删除zan信息
-         * @param request
-         * @throws Exception
-         * @return ResultDTO
-         * @author dozen.zhang
-         * @date 2019-2-17 15:38:01
-         */
-         @API( summary="根据id删除单个赞信息",
+    /**
+     * 说明:删除zan信息
+     * @param request
+     * @throws Exception
+     * @return ResultDTO
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
+    @API( summary="根据id删除单个赞信息",
             description = "根据id删除单个赞信息",
             parameters={
-             @Param(name="id" , description="编号",in=InType.path,dataType= DataType.LONG,required = true),
+                    @Param(name="id" , description="编号",in=InType.path,dataType= DataType.LONG,required = true),
             })
-        @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)//{id}
-        @ResponseBody
-        public ResultDTO delete(@PathVariable Long id,HttpServletRequest request) {
-            zanService.delete(id);
-            return this.getResult(SUCC);
-        }
-     /**
+    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)//{id}
+    @ResponseBody
+    public ResultDTO delete(@PathVariable Long id,HttpServletRequest request) {
+        zanService.delete(id);
+        return this.getResult(SUCC);
+    }
+    /**
      * 多行删除
      * @param request
      * @return
@@ -575,7 +617,7 @@ public class ZanController extends BaseController{
             ValidateUtil vu = new ValidateUtil();
             String validStr="";
             String id = idStrAry[i];
-                    vu.add("id", id, "编号",  new Rule[]{});
+            vu.add("id", id, "编号",  new Rule[]{});
 
             try{
                 validStr=vu.validateString();
@@ -584,13 +626,13 @@ public class ZanController extends BaseController{
                 validStr="验证程序异常";
                 return ResultUtil.getResult(302,validStr);
             }
-            
+
             if(StringUtil.isNotBlank(validStr)) {
                 return ResultUtil.getResult(302,validStr);
             }
             idAry[i]=Long.valueOf(idStrAry[i]);
         }
-       return  zanService.multilDelete(idAry);
+        return  zanService.multilDelete(idAry);
     }
 
     /**
@@ -600,9 +642,9 @@ public class ZanController extends BaseController{
      * @author dozen.zhang
      */
     @RequestMapping(value = "/export.json")
-    @ResponseBody   
+    @ResponseBody
     public ResultDTO exportExcel(HttpServletRequest request){
-               HashMap<String,Object> params= new HashMap<String,Object>();
+        HashMap<String,Object> params= new HashMap<String,Object>();
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
@@ -618,6 +660,10 @@ public class ZanController extends BaseController{
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
             params.put("type",type);
+        }
+        String category = request.getParameter("category");
+        if(!StringUtil.isBlank(category)){
+            params.put("category",category);
         }
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -666,6 +712,7 @@ public class ZanController extends BaseController{
         colTitle.put("pid", "商户id");
         colTitle.put("userId", "用户id");
         colTitle.put("type", "类型");
+        colTitle.put("category", "属于哪个模块");
         colTitle.put("createTime", "创建时间");
         List<Map> finalList = new ArrayList<Map>();
         for (int i = 0; i < list.size(); i++) {
@@ -675,6 +722,7 @@ public class ZanController extends BaseController{
             map.put("pid",  list.get(i).getPid());
             map.put("userId",  list.get(i).getUserId());
             map.put("type",  list.get(i).getType());
+            map.put("category",  list.get(i).getCategory());
             map.put("createTime",  list.get(i).getCreateTime());
             finalList.add(map);
         }
@@ -691,118 +739,118 @@ public class ZanController extends BaseController{
             e.printStackTrace();
         }
         return this.getResult(0, "数据为空，导出失败");
-    
+
     }
 
-     @API(summary = "批量导入信息",
-                description = "批量导入信息",
-                consumes = "multipart/form-data",
-                parameters = {
-                        @Param(name = "file", description = "编号", in = InType.form, dataType = DataType.FILE, required = true),
-                })
+    @API(summary = "批量导入信息",
+            description = "批量导入信息",
+            consumes = "multipart/form-data",
+            parameters = {
+                    @Param(name = "file", description = "编号", in = InType.form, dataType = DataType.FILE, required = true),
+            })
     @RequestMapping(value = "/import", method = RequestMethod.POST)
-     @ResponseBody
+    @ResponseBody
     public ResultDTO importExcel(@RequestParam("file") MultipartFile file){
-          // 将spring 的file 装成 普通file
-                File xlsFile = null;
-                if (file != null) {
-                    try {
-                        String fileName = System.currentTimeMillis() + ".xls";//取一个随机的名称
-                        String s = PathManager.getInstance().getTmpPath().resolve(fileName).toString();//存入tmp文件夹
-                        Files.copy(file.getInputStream(), PathManager.getInstance().getTmpPath().resolve(fileName));//存到本地
-                        xlsFile = PathManager.getInstance().getTmpPath().resolve(fileName).toFile();//读取
-                    } catch (Exception e) {
-                        logger.error("文件上传出错", e);
-                        throw new BizException("E041412312", "文件上传出错");
-                    }
+        // 将spring 的file 装成 普通file
+        File xlsFile = null;
+        if (file != null) {
+            try {
+                String fileName = System.currentTimeMillis() + ".xls";//取一个随机的名称
+                String s = PathManager.getInstance().getTmpPath().resolve(fileName).toString();//存入tmp文件夹
+                Files.copy(file.getInputStream(), PathManager.getInstance().getTmpPath().resolve(fileName));//存到本地
+                xlsFile = PathManager.getInstance().getTmpPath().resolve(fileName).toFile();//读取
+            } catch (Exception e) {
+                logger.error("文件上传出错", e);
+                throw new BizException("E041412312", "文件上传出错");
+            }
+        }
+        String result = "";
+        try {
+
+            // 将导入的中文列名匹配至数据库对应字段
+            int success = 0;
+            int fail = 0;
+            StringBuffer errorMsg = new StringBuffer();//如果某行报错了 需要告知哪一行错误
+            //            Map<String, String> colMatch = new HashMap<String, String>();
+            //            colMatch.put("姓名", "name");
+            //            colMatch.put("单位", "org");
+            //            colMatch.put("邮箱", "email");
+
+
+            List<Map<String, String>> list = ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
+            for (int i = 0; i < list.size(); i++) {
+
+                Map<String, String> map = list.get(i);
+                String email = MapUtils.getStringValue(map, "邮箱");
+                // 检验手机号是否符合规范,不符合continue
+                if (!StringUtil.isEmail(email)) {
+                    //                    throw new ValidException("E2000016", MessageUtil.getMessage("E2000016", telphone));// 手机号码不符合一般格式。
+                    logger.info(" import conf ==> the telphone:" + email + " is not email");
+                    fail++;
+                    errorMsg.append("" + email + " 不是邮箱地址;");
+                    continue;
                 }
-                String result = "";
+                HashMap params = new HashMap();
+                params.put("email", email);
+                //  int count = contactsService.countByParams(params);//检查邮箱地址是否存在
+
+                Zan bean = getInfoFromMap(params);
+
+                //  if (count > 0) {
+
+                //      logger.warn("邮箱已经存在:" + email);
+                //     errorMsg.append("邮箱已经存在:" + email);
+                //   continue;
+
+                // }
+
                 try {
-
-                    // 将导入的中文列名匹配至数据库对应字段
-                    int success = 0;
-                    int fail = 0;
-                    StringBuffer errorMsg = new StringBuffer();//如果某行报错了 需要告知哪一行错误
-        //            Map<String, String> colMatch = new HashMap<String, String>();
-        //            colMatch.put("姓名", "name");
-        //            colMatch.put("单位", "org");
-        //            colMatch.put("邮箱", "email");
-
-
-                    List<Map<String, String>> list = ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
-                    for (int i = 0; i < list.size(); i++) {
-
-                        Map<String, String> map = list.get(i);
-                        String email = MapUtils.getStringValue(map, "邮箱");
-                        // 检验手机号是否符合规范,不符合continue
-                        if (!StringUtil.isEmail(email)) {
-        //                    throw new ValidException("E2000016", MessageUtil.getMessage("E2000016", telphone));// 手机号码不符合一般格式。
-                            logger.info(" import conf ==> the telphone:" + email + " is not email");
-                            fail++;
-                            errorMsg.append("" + email + " 不是邮箱地址;");
-                            continue;
-                        }
-                        HashMap params = new HashMap();
-                        params.put("email", email);
-                      //  int count = contactsService.countByParams(params);//检查邮箱地址是否存在
-
-                        Zan bean = getInfoFromMap(params);
-
-                      //  if (count > 0) {
-
-                      //      logger.warn("邮箱已经存在:" + email);
-                       //     errorMsg.append("邮箱已经存在:" + email);
-                         //   continue;
-
-                       // }
-
-                        try {
-                            zanService.save(bean);
-                            success++;//成功数增加
-                        } catch (Exception e) {
-
-                            fail++;//失败数增加
-                            logger.info("packageservice import conf ==> update fail ==>the telphone:" + email + "", e);
-                            errorMsg.append("the telphone:" + email + " update fail;");
-                        }
-
-                    }
-                    if (StringUtil.isNotBlank(errorMsg.toString()) && fail > 0) {
-                        throw new BizException("E2000016", "导入失败, 失败" + fail + "条。" + errorMsg.toString());
-                    }
-                    return this.getResult(3090182,"导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
-
+                    zanService.save(bean);
+                    success++;//成功数增加
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    logger.error("导入失败", e);
-                    if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
-                        throw new BizException("E041412313", "导入的excel需为2003版本");
-                    } else {
-                        throw new BizException("E041412313", e.getMessage());
-                    }
+
+                    fail++;//失败数增加
+                    logger.info("packageservice import conf ==> update fail ==>the telphone:" + email + "", e);
+                    errorMsg.append("the telphone:" + email + " update fail;");
                 }
+
+            }
+            if (StringUtil.isNotBlank(errorMsg.toString()) && fail > 0) {
+                throw new BizException("E2000016", "导入失败, 失败" + fail + "条。" + errorMsg.toString());
+            }
+            return this.getResult(3090182,"导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("导入失败", e);
+            if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
+                throw new BizException("E041412313", "导入的excel需为2003版本");
+            } else {
+                throw new BizException("E041412313", e.getMessage());
+            }
+        }
 
 
     }
 
 
-      /**
-         * 说明: 跳转到zan列表页面
-         *
-         * @return
-         * @return String
-         * @author dozen.zhang
-         * @date 2015年11月15日下午12:30:45
-         */
-        @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
-        public String listHtml() {
-            return "/static/html/ZanList.html";
-        }
+    /**
+     * 说明: 跳转到zan列表页面
+     *
+     * @return
+     * @return String
+     * @author dozen.zhang
+     * @date 2015年11月15日下午12:30:45
+     */
+    @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
+    public String listHtml() {
+        return "/static/html/ZanList.html";
+    }
 
-        @RequestMapping(value = "/listMapper.htm", method = RequestMethod.GET)
-        public String listMapperHtml() {
-            return "/static/html/ZanListMapper.html";
-        }
+    @RequestMapping(value = "/listMapper.htm", method = RequestMethod.GET)
+    public String listMapperHtml() {
+        return "/static/html/ZanListMapper.html";
+    }
 
 
     /**
@@ -810,7 +858,7 @@ public class ZanController extends BaseController{
      * @param request 发请求
      * @return String
      * @author dozen.zhang
-     * @date 2019-2-17 15:38:01
+     * @date 2019-3-1 14:47:20
      */
     @RequestMapping(value = "/edit.htm",method = RequestMethod.GET)
     public String editHtml( HttpServletRequest request) {
@@ -818,12 +866,12 @@ public class ZanController extends BaseController{
         return "/static/html/ZanEdit.html";
     }
     /**
-         * 说明:跳转查看页面
-         * @param request 发请求
-         * @return String
-         * @author dozen.zhang
-         * @date 2019-2-17 15:38:01
-         */
+     * 说明:跳转查看页面
+     * @param request 发请求
+     * @return String
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
     @RequestMapping(value = "/view.htm",method = RequestMethod.GET)
     public String viewHtml( HttpServletRequest request) {
         return "/static/html/ZanView.html";
@@ -832,23 +880,27 @@ public class ZanController extends BaseController{
 
 
     private Zan getInfoFromMap(Map<String, Object> bodyParam) throws Exception {
-       Zan zan =new  Zan();
+        Zan zan =new  Zan();
 
-                String id = MapUtils.getString(bodyParam,"id");
+        String id = MapUtils.getString(bodyParam,"id");
         if(!StringUtil.isBlank(id)){
-                zan.setId(Long.valueOf(id));
+            zan.setId(Long.valueOf(id));
         }
         String pid = MapUtils.getString(bodyParam,"pid");
         if(!StringUtil.isBlank(pid)){
-                zan.setPid(Long.valueOf(pid));
+            zan.setPid(Long.valueOf(pid));
         }
         String userId = MapUtils.getString(bodyParam,"userId");
         if(!StringUtil.isBlank(userId)){
-                zan.setUserId(Long.valueOf(userId));
+            zan.setUserId(Long.valueOf(userId));
         }
         String type = MapUtils.getString(bodyParam,"type");
         if(!StringUtil.isBlank(type)){
-                zan.setType(Integer.valueOf(type));
+            zan.setType(Byte.valueOf(type));
+        }
+        String category = MapUtils.getString(bodyParam,"category");
+        if(!StringUtil.isBlank(category)){
+            zan.setCategory(Integer.valueOf(category));
         }
         String createTime = MapUtils.getString(bodyParam,"createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -860,12 +912,13 @@ public class ZanController extends BaseController{
         }
 
         //valid
-                ValidateUtil vu = new ValidateUtil();
+        ValidateUtil vu = new ValidateUtil();
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(9,0)});
         vu.add("pid", pid, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("userId", userId, "用户id",  new Rule[]{new Digits(9,0)});
-        vu.add("type", type, "类型",  new Rule[]{new Digits(2,0)});
+        vu.add("type", type, "类型",  new Rule[]{new Digits(10,0)});
+        vu.add("category", category, "属于哪个模块",  new Rule[]{new Digits(10,0)});
         vu.add("createTime", createTime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         validStr = vu.validateString();
 
@@ -877,88 +930,91 @@ public class ZanController extends BaseController{
     }
 
 
-      /**
-                     * 说明:添加zan信息
-                     * @param request
-                     * @throws Exception
-                     * @return ResultDTO
-                     * @author dozen.zhang
-                     * @date 2019-2-17 15:38:01
-                     */
-                    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
-                    @API( summary="添加单个赞信息",
-                        description = "添加单个赞信息",
-                        parameters={
-                           @Param(name="id" , description="编号"  ,in=InType.body,dataType = DataType.LONG,required = false),
-                           @Param(name="pid" , description="商户id"  ,in=InType.body,dataType = DataType.LONG,required = false),
-                           @Param(name="userId" , description="用户id"  ,in=InType.body,dataType = DataType.LONG,required = false),
-                           @Param(name="type" , description="类型"  ,in=InType.body,dataType = DataType.INTEGER,required = false),
-                           @Param(name="createTime" , description="创建时间"  ,in=InType.body,dataType = DataType.DATE_TIME,required = false),
-                        })
-                    @RequestMapping(value = "add",method = RequestMethod.POST)
-                    @ResponseBody
-                    public ResultDTO saveInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-                        Zan zan =    getInfoFromMap(bodyParam);
+    /**
+     * 说明:添加zan信息
+     * @param request
+     * @throws Exception
+     * @return ResultDTO
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
+    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
+    @API( summary="添加单个赞信息",
+            description = "添加单个赞信息",
+            parameters={
+                    @Param(name="id" , description="编号"  ,in=InType.body,dataType = DataType.LONG,required = false),
+                    @Param(name="pid" , description="商户id"  ,in=InType.body,dataType = DataType.LONG,required = false),
+                    @Param(name="userId" , description="用户id"  ,in=InType.body,dataType = DataType.LONG,required = false),
+                    @Param(name="type" , description="类型"  ,in=InType.body,dataType = DataType.BYTE,required = false),
+                    @Param(name="category" , description="属于哪个模块"  ,in=InType.body,dataType = DataType.INTEGER,required = false),
+                    @Param(name="createTime" , description="创建时间"  ,in=InType.body,dataType = DataType.DATE_TIME,required = false),
+            })
+    @RequestMapping(value = "add",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO saveInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+        Zan zan =    getInfoFromMap(bodyParam);
 
 
-                        return zanService.save(zan);
+        return zanService.save(zan);
 
-                    }
+    }
 
 
     /**
-    * 说明:添加zan信息
-    * @param request
-    * @throws Exception
-    * @return ResultDTO
-    * @author dozen.zhang
-    * @date 2019-2-17 15:38:01
-    */
+     * 说明:添加zan信息
+     * @param request
+     * @throws Exception
+     * @return ResultDTO
+     * @author dozen.zhang
+     * @date 2019-3-1 14:47:20
+     */
     // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
     @API( summary="更新单个赞信息",
-    description = "更新单个赞信息",
-    parameters={
-        @Param(name="id" , description="编号  ",in=InType.body,dataType = DataType.LONG,required = false),
-        @Param(name="pid" , description="商户id  ",in=InType.body,dataType = DataType.LONG,required = false),
-        @Param(name="userId" , description="用户id  ",in=InType.body,dataType = DataType.LONG,required = false),
-        @Param(name="type" , description="类型  ",in=InType.body,dataType = DataType.INTEGER,required = false),
-        @Param(name="createTime" , description="创建时间  ",in=InType.body,dataType = DataType.DATE_TIME,required = false),
-    })
+            description = "更新单个赞信息",
+            parameters={
+                    @Param(name="id" , description="编号  ",in=InType.body,dataType = DataType.LONG,required = false),
+                    @Param(name="pid" , description="商户id  ",in=InType.body,dataType = DataType.LONG,required = false),
+                    @Param(name="userId" , description="用户id  ",in=InType.body,dataType = DataType.LONG,required = false),
+                    @Param(name="type" , description="类型  ",in=InType.body,dataType = DataType.BYTE,required = false),
+                    @Param(name="category" , description="属于哪个模块  ",in=InType.body,dataType = DataType.INTEGER,required = false),
+                    @Param(name="createTime" , description="创建时间  ",in=InType.body,dataType = DataType.DATE_TIME,required = false),
+            })
     @RequestMapping(value = "update",method = RequestMethod.PUT)
     @ResponseBody
     public ResultDTO updateInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-    Zan zan =    getInfoFromMap(bodyParam);
-    return zanService.save(zan);
+        Zan zan =    getInfoFromMap(bodyParam);
+        return zanService.save(zan);
 
     }
-/**
+    /**
      * 说明:ajax请求zan信息
      * @author dozen.zhang
-     * @date 2019-2-17 15:38:01
+     * @date 2019-3-1 14:47:20
      * @return String
      */
-       @API(summary="赞列表接口",
-                 description="赞列表接口",
-                 parameters={
-                 @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
-                 @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
+    @API(summary="赞列表接口",
+            description="赞列表接口",
+            parameters={
+                    @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
+                    @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
                     @Param(name="id" , description="编号  ",in=InType.params,dataType = DataType.LONG,required =false),// false
                     @Param(name="pid" , description="商户id  ",in=InType.params,dataType = DataType.LONG,required =false),// false
                     @Param(name="userId" , description="用户id  ",in=InType.params,dataType = DataType.LONG,required =false),// false
-                    @Param(name="type" , description="类型  ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+                    @Param(name="type" , description="类型  ",in=InType.params,dataType = DataType.BYTE,required =false),// false
+                    @Param(name="category" , description="属于哪个模块  ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
                     @Param(name="createTime" , description="创建时间  ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-         })
+            })
     @RequestMapping(value = "/list" , method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO list(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
 
         HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
-         Page page = RequestUtil.getPage(params);
+        Page page = RequestUtil.getPage(params);
         if(page ==null){
-             return this.getWrongResultFromCfg("err.param.page");
+            return this.getWrongResultFromCfg("err.param.page");
         }
 
-                String id = MapUtils.getString(params,"id");
+        String id = MapUtils.getString(params,"id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
         }
@@ -973,6 +1029,10 @@ public class ZanController extends BaseController{
         String type = MapUtils.getString(params,"type");
         if(!StringUtil.isBlank(type)){
             params.put("type",type);
+        }
+        String category = MapUtils.getString(params,"category");
+        if(!StringUtil.isBlank(category)){
+            params.put("category",category);
         }
         String createTime = MapUtils.getString(params,"createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -1006,34 +1066,35 @@ public class ZanController extends BaseController{
 
 
 
-       /**
-         * 导出
-         * @param request
-         * @return
-         * @author dozen.zhang
-         */
-        @API(summary="赞列表导出接口",
-          description="赞列表导出接口",
-          parameters={
-          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
-          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
-             @Param(name="id" , description="编号 ",in=InType.params,dataType = DataType.LONG,required =false),// false
-             @Param(name="pid" , description="商户id ",in=InType.params,dataType = DataType.LONG,required =false),// false
-             @Param(name="userId" , description="用户id ",in=InType.params,dataType = DataType.LONG,required =false),// false
-             @Param(name="type" , description="类型 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-             @Param(name="createTime" , description="创建时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-          })
-        @RequestMapping(value = "/export", method = RequestMethod.GET)
-        @ResponseBody
-        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
+    /**
+     * 导出
+     * @param request
+     * @return
+     * @author dozen.zhang
+     */
+    @API(summary="赞列表导出接口",
+            description="赞列表导出接口",
+            parameters={
+                    @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
+                    @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
+                    @Param(name="id" , description="编号 ",in=InType.params,dataType = DataType.LONG,required =false),// false
+                    @Param(name="pid" , description="商户id ",in=InType.params,dataType = DataType.LONG,required =false),// false
+                    @Param(name="userId" , description="用户id ",in=InType.params,dataType = DataType.LONG,required =false),// false
+                    @Param(name="type" , description="类型 ",in=InType.params,dataType = DataType.BYTE,required =false),// false
+                    @Param(name="category" , description="属于哪个模块 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+                    @Param(name="createTime" , description="创建时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
+            })
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
 
-             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
-              Page page = RequestUtil.getPage(params);
-             if(page ==null){
-                  return this.getWrongResultFromCfg("err.param.page");
-             }
+        HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
+        Page page = RequestUtil.getPage(params);
+        if(page ==null){
+            return this.getWrongResultFromCfg("err.param.page");
+        }
 
-                     String id = MapUtils.getString(params,"id");
+        String id = MapUtils.getString(params,"id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
         }
@@ -1048,6 +1109,10 @@ public class ZanController extends BaseController{
         String type = MapUtils.getString(params,"type");
         if(!StringUtil.isBlank(type)){
             params.put("type",type);
+        }
+        String category = MapUtils.getString(params,"category");
+        if(!StringUtil.isBlank(category)){
+            params.put("category",category);
         }
         String createTime = MapUtils.getString(params,"createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -1074,57 +1139,59 @@ public class ZanController extends BaseController{
             }
         }
 
-             params.put("page",page);
-             List<Zan> list = zanService.listByParams4Page(params);
-            // 存放临时文件
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "list.xlsx");
-              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
+        params.put("page",page);
+        List<Zan> list = zanService.listByParams4Page(params);
+        // 存放临时文件
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "list.xlsx");
+        String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
 
-            String folder = request.getSession().getServletContext()
-                    .getRealPath("/")
-                    + "xlstmp";
+        String folder = request.getSession().getServletContext()
+                .getRealPath("/")
+                + "xlstmp";
 
 
-            File folder_file = new File(folder);
-            if (!folder_file.exists()) {
-                folder_file.mkdir();
+        File folder_file = new File(folder);
+        if (!folder_file.exists()) {
+            folder_file.mkdir();
+        }
+        String fileName = folder + File.separator
+                + randomName;
+        // 得到导出Excle时清单的英中文map
+        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+        colTitle.put("id", "编号");
+        colTitle.put("pid", "商户id");
+        colTitle.put("userId", "用户id");
+        colTitle.put("type", "类型");
+        colTitle.put("category", "属于哪个模块");
+        colTitle.put("createTime", "创建时间");
+        List<Map> finalList = new ArrayList<Map>();
+        for (int i = 0; i < list.size(); i++) {
+            Zan sm = list.get(i);
+            HashMap<String,Object> map = new HashMap<String,Object>();
+            map.put("id",  list.get(i).getId());
+            map.put("pid",  list.get(i).getPid());
+            map.put("userId",  list.get(i).getUserId());
+            map.put("type",  list.get(i).getType());
+            map.put("category",  list.get(i).getCategory());
+            map.put("createTime",  list.get(i).getCreateTime());
+            finalList.add(map);
+        }
+        try {
+            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+                return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
             }
-            String fileName = folder + File.separator
-                      + randomName;
-            // 得到导出Excle时清单的英中文map
-            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-            colTitle.put("id", "编号");
-            colTitle.put("pid", "商户id");
-            colTitle.put("userId", "用户id");
-            colTitle.put("type", "类型");
-            colTitle.put("createTime", "创建时间");
-            List<Map> finalList = new ArrayList<Map>();
-            for (int i = 0; i < list.size(); i++) {
-                Zan sm = list.get(i);
-                HashMap<String,Object> map = new HashMap<String,Object>();
-                map.put("id",  list.get(i).getId());
-                map.put("pid",  list.get(i).getPid());
-                map.put("userId",  list.get(i).getUserId());
-                map.put("type",  list.get(i).getType());
-                map.put("createTime",  list.get(i).getCreateTime());
-                finalList.add(map);
-            }
-            try {
-                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
-                }
                 /*
                  * return new ResponseEntity<byte[]>(
                  * FileUtils.readFileToByteArray(new File(fileName)), headers,
                  * HttpStatus.CREATED);
                  */
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return this.getResult(0, "数据为空，导出失败");
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return this.getResult(0, "数据为空，导出失败");
+
+    }
 
 }

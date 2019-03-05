@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.dozenx.core.exception.BizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -127,5 +128,82 @@ public class ZanServiceImpl extends BaseService implements ZanService {
     public ResultDTO insertList(List<Zan> list) {
        zanMapper.insertBatch(list);
         return null;
+    }
+
+    @Override
+    public void up(Long userId, Long pid, int category) {
+        {
+            if(userId ==null){
+                throw new BizException(30102001,"未登录");
+            }
+            HashMap params = new HashMap();
+            params.put("userId",userId);
+            params.put("pid",pid);
+            params.put("category",category);
+            List<Zan> zanList = listByParams(params);
+
+            if(zanList!=null && zanList.size()>0){
+                Zan zan = zanList.get(0);
+                if(zan.getType()==1) {
+                    throw new BizException(30405001, "你已经点过了");
+                }else{
+                    //更新
+                    byte type =1;
+                    zan.setType(type);
+                    zan.setCategory(category);
+                    this.save(zan);//更新为顶
+                }
+            }else {
+
+                Zan zan = new Zan();
+                //查看是否有重复点赞
+                byte type =1;
+                zan.setType(type);
+                zan.setPid(pid);
+                zan.setCategory(category);
+                zan.setUserId(userId);
+                this.save(zan);
+            }
+
+        }
+    }
+
+
+    @Override
+    public void down(Long userId, Long pid, int category) {
+        {
+            if(userId ==null){
+                throw new BizException(30102001,"未登录");
+            }
+            HashMap params = new HashMap();
+            params.put("userId",userId);
+            params.put("pid",pid);
+            params.put("category",category);
+            List<Zan> zanList = listByParams(params);
+
+            if(zanList!=null && zanList.size()>0){
+                Zan zan = zanList.get(0);
+                if(zan.getType()==2) {
+                    throw new BizException(30405001, "你已经点过了");
+                }else{
+                    //更新
+                    byte type =2;
+                    zan.setType(type);
+                    zan.setCategory(category);
+                    this.save(zan);//更新为顶
+                }
+            }else {
+
+                Zan zan = new Zan();
+                //查看是否有重复点赞
+                byte type =1;
+                zan.setType(type);
+                zan.setPid(pid);
+                zan.setCategory(category);
+                zan.setUserId(userId);
+                this.save(zan);
+            }
+
+        }
     }
 }

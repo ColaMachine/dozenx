@@ -5,7 +5,7 @@
 
 <zwCol class="pull-right" span=24>
 <zwAppTopBar >
-    <a slot="left" :href="getPathValue('/static/html/vue/vuePhoneIndex.html#/phoneMain')">
+    <a slot="left" :href="getPathValue('/static/html/vue/shopIndex.html#/shopMain')">
   <img  class=""  :src="getPathValue('/static/img/header/back.png')">
   </a>
 <span slot="middle"> 商品详情</span>
@@ -121,20 +121,10 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
 <zwRow  style="display:block">
 <zwCol  style="min-width:300px" class="zw-col-sm-24 pull-left" span=12>
 
- <zwPanel :canFold=false state="open" style="">
-                                                   <span slot="title" name="title">评论</span>
-                                                    <p  slot="body" name="body">
-
-                                                         <blogInput @submitCallBack="refreshBlogView"></blogInput>
-                                                     </p>
-
-                                                 </zwPanel>
-
-<zwPanel :canFold=false state="open" style="">
+<zwPanel :canFold=false state="open" >
 <span slot="title" name="title">最新评论</span>
 <p  slot="body" name="body">
-
-<blogViewList   ref="blogViewList" ></blogViewList>
+<Comments v-bind:pid="id" ></Comments>
 </p>
 
 </zwPanel>
@@ -143,7 +133,6 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
                          </zwCol>
      </zwRow>
 
-     <hr/><hr/>
      <br></br><br></br><br></br>
      <div class="footer-wrap fixed-bottom lrBot flex">
                  <div class="btn-l">
@@ -200,8 +189,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
   import zwForm from '../../component/dataentry/zwForm.vue';
   import zwFormItem from '../../component/dataentry/zwFormItem.vue';
 
-  import blogInput from '../../module/example/dataentry/blogInput.vue';
-  import blogViewList from '../../component/datadisplay/blogViewList2.vue';
+  import Comments from '../../component/datadisplay/Comments.vue';
   import zwBase from '../../component/zwBase.vue';
  import zwPanel from '../../component/datadisplay/zwPanel.vue';
   import zwAlbum from '../../component/datadisplay/zwAlbum.vue';
@@ -226,13 +214,15 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
       zwInput,
       zwAppTopBar,
       zwJumbotron,
-      zwForm,zwAlbum,
-      zwFormItem,blogInput,blogViewList,zwAppBuyBottomBar
+      zwForm,zwAlbum,Comments,
+      zwFormItem,zwAppBuyBottomBar
     },
     name: "phoneMain",
     data() {
 
       return {
+      id:getQueryString("id"),
+
       images:[],
         user:{},
        data:{
@@ -244,7 +234,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
 
     },
     created(){
-Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(result) {
+Ajax.getJSON(PATH+"/goods/view.json?id="+this.id, null, function(result) {
                         if(result.r == AJAX_SUCC && result.data) {
 
                             this.data =result.data;
@@ -263,19 +253,7 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(re
     mounted() {
 
 
-     /*  Ajax.getJSON(PATH+"/pubimage/list?pid="+getQueryString("id"), {curPage:1,pageSize:10}, function(result) {
-                          if(result.r == AJAX_SUCC && result.data) {
-                                var ary = result.data;
-                                var fianlAry = [];
-                                for(var i=0;i<ary.length;i++){
-                                    var jso = {};
-                                    jso.id=ary[i].id;
-                                    jso.url=ary[i].relPath+"/"+ary[i].name;
-                                    fianlAry.push(jso);
-                                }
-                              this.images =fianlAry;
-                          }
-                        }.Apply(this));*/
+
     },
     computed: {
 
@@ -289,7 +267,7 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(re
                     this.data.down=result.data.down;
                 }else{
                      console.log(result.msg);
-                     alert(result.msg);
+                     dialog.alert(result.msg);
                  }
             }.Apply(this));
 
@@ -306,10 +284,8 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(re
                              }
                         }.Apply(this));
 
-        },
-        refreshBlogView:function(){
-           // this.$refs.blogViewList.refresh();
         }
+
     }
   }
 </script>

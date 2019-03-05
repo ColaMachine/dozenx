@@ -2883,97 +2883,52 @@ public class GoodsController extends BaseController{
      * @date 2018-12-2 16:05:28
      * @return String
      */
-    @API(summary="商品列表接口",
-            description="商品列表接口",
+    @API(summary="支持",
+            description="支持",
             parameters={
+
             })
     @RequestMapping(value = "/zan" , method = RequestMethod.POST)
     @ResponseBody
     @RequiresLogin
     public ResultDTO zan(HttpServletRequest request) throws Exception{
-        Long  goodsId = Long.valueOf(request.getParameter("pid"));
+        Long  pid = Long.valueOf(request.getParameter("pid"));
 
         HashMap  map  =new HashMap();
-        map.put("pid",goodsId);
+        map.put("pid",pid);
         Long userId = this.getUserId(request);
         if(userId==null){
             return this.getResult(504, "未登录");
         }
+        zanService.up(userId,pid,1);
 
-        map.put("userId",userId);
-        List<Zan> zanList = zanService.listByParams(map);
+        goodsService.updateZan(pid);
 
-        if(zanList!=null && zanList.size()>0){
-            Zan zan = zanList.get(0);
-            if(zan.getType()==1) {
-                return this.getResult(30405001, "你已经点过了");
-            }else{
-                //更新
-                zan.setType(1);
-                zanService.save(zan);//更新为顶
-            }
-        }else {
-
-            Zan zan = new Zan();
-            //查看是否有重复点赞
-            zan.setType(1);
-            zan.setPid(goodsId);
-            zan.setUserId(this.getUserId(request));
-            zanService.save(zan);
-        }
-
-        //更新了总的点赞数目
-
-        goodsService.updateZan(goodsId);
-
-        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(goodsId));
+        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(pid));
     }
 
 
-    @API(summary="商品列表接口",
-            description="商品列表接口",
+    @API(summary="反对",
+            description="反对",
             parameters={
             })
     @RequestMapping(value = "/down" , method = RequestMethod.POST)
     @ResponseBody
     @RequiresLogin
     public ResultDTO down(HttpServletRequest request) throws Exception{
-        Long  goodsId = Long.valueOf(request.getParameter("pid"));
+        Long  pid = Long.valueOf(request.getParameter("pid"));
 
         HashMap  map  =new HashMap();
-        map.put("pid",goodsId);
+        map.put("pid",pid);
         Long userId = this.getUserId(request);
         if(userId==null){
             return this.getResult(504, "未登录");
         }
-        map.put("userId",userId);
-        List<Zan> zanList = zanService.listByParams(map);
+        zanService.down(userId,pid,1);
 
-        if(zanList!=null && zanList.size()>0){
-            Zan zan = zanList.get(0);
-            if(zan.getType()==2) {
-                return this.getResult(30405001, "你已经点过了");
-            }else{
-                //更新
-                zan.setType(2);
-                zanService.save(zan);//更新为顶
-            }
-        }else {
+        goodsService.updateZan(pid);
 
-            Zan zan = new Zan();
-            //查看是否有重复点赞
-            zan.setType(2);
-            zan.setPid(goodsId);
-            zan.setUserId(this.getUserId(request));
-            zanService.save(zan);
-
-            //更新了总的点赞数目
-
-
-        }
-        goodsService.updateZan(goodsId);
-
-        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(goodsId));
+        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(pid));
     }
 
     @Resource

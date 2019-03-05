@@ -1,113 +1,55 @@
 
 <template>
-<div style="width:98%;">
-<div style="width:98%;display:flex;position:relative;background-color:white;margin-top:15px;min-height:100px;">
+<div>
+      <div class="user">
+               <a title="软媒通行证数字ID：1565223" href="https://m.ithome.com/user/1565223">
+               <div class="user-hd">
+                    <img :src="getPathValue(data.face)" width="45" height="45" onerror="this.src='//img.ithome.com/m/images/user/noavatar.png'">
+               </div><span class="lv">Lv.1</span>
+               </a>
+               </div>
 
-    <div class="app-li-it-pic">
-        <img style="width:50px;height:50px;float:left" :src="getPathValue(data.face)" ></img>
-    </div>
-    <div class="app-li-it-content">
-         <span style="color:#333">{{data.creatorname}}</span>
-         <p style="color:gray;font-size:8px">{{data.createtime}}</p>
+               <div class="review-con">
+                   <div class="user-mes"><a title="软媒通行证数字ID：1565223" href="https://m.ithome.com/user/1565223"><span class="user-name">{{data.userName}}</span></a><span
+                           class="mobile android"><a target="_blank" href="https://m.ithome.com/html/app/appdown.html">华为 p90</a></span><span class="user-floor">7楼</span></div>
+                   <div class="user-write-msg"><span class="user-ip"></span><span class="user-write-time">{{data.createtime}}</span></div>
+                   <div class="user-review">{{data.content}}</div>
+                   <div class="review-footer">
 
-        <p style="margin-top:5px"> {{data.content}}</p>
-          <zwDropDown  v-if="isMyArtical(data)" trigger="click" style="position:absolute;right:10px;top:10px;" placement="bottomRight">
-          <zwButton slot="button"  type="default" icon="down" ></zwButton>
-          <zwMenu slot="menu">
-          <zwMenuItem key="1">删除</zwMenuItem>
-          <zwMenuItem key="2">举报</zwMenuItem>
-          <zwMenuItem key="3">屏蔽</zwMenuItem>
-          </zwMenu>
-          </zwDropDown>
-            <ul style="background-color:white;" class="clearfix">
-               <li style="width:100px;height:100px;float:left;position:relative"  v-for="item in images">
+                   <span class="collapse" data-collapsed="" role="button">评论({{this.comments.length}})</span>
 
-                    <img style="width:100px;height:100px" :src="getPathValue(item)"/>
-                     <a style="position:absolute;width:10px;height:10px;font-size:10px;top:5px;right:5px" v-on:click="deletePic(item)" > <zwIcon type="close"></zwIcon></a>
-               </li>
+                   <span class="review-ft-fr">
+                   <span @click="up" class="stand-by">支持({{data.up}})</span><span @click="down(data.id)"  class="oppose">反对({{data.down}})</span>
+                        <span @click="reply()" class="reply">回复</span></span></div>
+                   <ul>
+                       <li v-bind:key="item.id"  v-for="item in this.comments"  class="placeholder deputy-floor" data-comment-id="40422725">
+                           <div class="user"><a title="软媒通行证数字ID：794314" href="https://m.ithome.com/user/794314">
+                               <div class="user-hd"><img data-original="https://avatar.ithome.com/avatars/000/79/43/14_60.jpg"
+                                                         width="45" height="45"
+                                                         onerror="this.src='//img.ithome.com/m/images/user/noavatar.png'"
+                                                         :src="item.face"
+                                                         style="display: inline;"></div>
+                               <span class="lv">Lv.40</span></a></div>
+                           <div class="review-con">
+                               <div class="user-mes"><a title="软媒通行证数字ID：794314" href="https://m.ithome.com/user/794314"><span
+                                       class="user-name">{{item.userName}}</span></a><span class="mobile android"><a target="_blank"
+                                                                                                       href="https://m.ithome.com/html/app/appdown.html">诺基亚
+                                   X6</a></span><span class="user-floor">1#</span></div>
+                               <div class="user-write-msg"><span class="user-ip">IT之家江苏苏州网友</span><span
+                                       class="user-write-time">08:14</span></div>
+                               <div class="user-review">{{item.content}}</div>
+                               <div class="review-footer"><span class="review-ft-fr"><span @click="up(item.id)"   class="stand-by">支持({{item.up}})</span><span
+                                      @click="down(item.id)"   class="oppose">反对({{item.down}})</span><span class="reply">回复</span></span></div>
+                           </div>
+                       </li>
 
-            </ul>
-
-
-
-
-
-
-
-
-    </div>
-
-
-</div>
-
-<div class="WB_feed_handle" sytle="font:normal">
-            <div class="WB_handle">
-                <ul class="WB_row_line WB_row_r4 clearfix S_line2">
-                    <li>
-                        <a class="S_txt2">
-                            <span class="pos">
-                                <span class="line S_line1" >
-                                    <span>
-                                       <!-- <em class="W_ficon ficon_favorite S_ficon"></em>-->
-                                        <em>收藏</em>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="S_txt2" href="javascript:void(0);" >
-                            <span class="pos">
-                                <span class="line S_line1" node-type="forward_btn_text">
-                                    <span>
-                                       <!-- <em></em>-->
-                                        <em>转0</em>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a @click="showOrHideComment" class="S_txt2" >
-                            <span class="pos">
-                                <span class="line S_line1" >
-                                    <span>
-                                       <!--  <em class="W_ficon ficon_repeat S_ficon"></em>-->
-                                        <em>评论({{data.comment_count}})</em>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-
-                    </li>
-                    <li class="">
-                        <!--cuslike用于前端判断是否显示个性赞，1:显示 -->
-                        <a href="javascript:void(0);" class="S_txt2"  title="赞">
-                            <span class="pos">
-                                <span class="line S_line1">
-                                    <span node-type="like_status" class="">
-                                        <em >赞</em>
-                                        <em>0</em>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-
-
-
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-         <h3>
-                    <zwBlogComment v-if="commentShow" style="" :pid="data.id" >
-                    </zwBlogComment>
-                </h3>
+                   </ul>
+               </div>
 </div>
 </template>
 <script type="text/javascript">
- import zwBlogComment from '../../component/datadisplay/zwBlogComment.vue';
+ import zwPubComment from '../../component/datadisplay/zwPubComment.vue';
+ import zwAppComment from '../../component/datadisplay/zwAppComment.vue';
   import zwMenu from '../../component/navigation/menu/zwMenu.vue';
    import zwMenuItem from '../../component/navigation/menu/zwMenuItem.vue';
 
@@ -117,19 +59,14 @@
 
       import zwButton from '../../component/button/zwButton.vue';
 export default {
-         components:{zwBlogComment,zwButton,zwMenuItem,zwMenu,zwDropDown,zwIcon},
+         components:{zwPubComment,zwButton,zwMenuItem,zwMenu,zwDropDown,zwIcon,zwAppComment},
         props:["data"],
         data () {
             return {
                  commentShow:false,
                  images:[],
                  comments:[
-                    { id:1,
-                     content:"123",
-                     userName:"123123123",
-                     face:'https://tvax1.sinaimg.cn/crop.0.0.200.200.180/a8d43f7ely1fnxs86j4maj205k05k74f.jpg',
-                     createTime:'2018年 10月 12日'
-                     },
+
                  ]
             };
         },
@@ -140,12 +77,51 @@ export default {
         mounted () {
         if(this.data.pic && this.data.pic.length>0){
          this.images=this.data.pic.split(",");
-        }
+        };
 
+
+this.getCommentList();
 
             console.log(this.data);
         },
         methods: {
+         getCommentList:function(){
+                                  Ajax.getJSON(PATH+"/msginfo/list.json?curpage=1&pagesize=10",{pid:this.data.id,curPage:1,pageSize:10},function(result){
+                                      if(result.r==AJAX_SUCC){
+                                          for(var i=0;i<result.data.length;i++){
+                                              if(result.data[i].face){
+                                               result.data[i].face=PATH+ result.data[i].face;
+                                              }
+
+
+                                          }
+                                          this.comments=result.data;
+                                      }
+                                  }.Apply(this));
+                            },
+        reply:function(){
+            document.getElementsByClassName("post-comment")[0].style.display="block";
+            document.getElementById("pid").value=this.data.id;
+            document.getElementById("commentType").value="pubCOmment";
+        },
+        down:function(id){
+            Ajax.post(PATH+"/msginfo/down",{"pid":id,"type":2,"category":2},function(result){
+                if(result.r==AJAX_SUCC){
+                this.data=result.data
+                }else{
+                    alert(result.msg);
+                }
+            })
+        },
+        up:function(id){
+                    Ajax.post(PATH+"/msginfo/up",{"pid":id,"type":1,"category":2},function(result){
+                        if(result.r==AJAX_SUCC){
+                        this.data=result.data
+                        }else{
+                            alert(result.msg);
+                        }
+                    })
+                },
         getPathValue:function(value){
             return getPathValue(value);
         },
@@ -160,7 +136,7 @@ export default {
               getPathValue:function(value){
                        return getPathValue(value);
                      },
- showOrHideComment:function(){
+        showOrHideComment:function(){
             this.commentShow=!this.commentShow;
         }
         },
@@ -177,6 +153,10 @@ export default {
 .zw-comment-bottom-bar.zw-menu-horizontal > li {
     width:25%;
     text-align:center;
+}
+.app-card .app-li-it-pic{
+    min-width:50px;
+     flex-basis: 50px;
 }
 
 </style>

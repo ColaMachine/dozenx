@@ -10,12 +10,11 @@
       <result column="create_user" jdbcType="BIGINT" property="createUser" />
       <result column="userName" jdbcType="VARCHAR" property="userName" />
       <result column="face" jdbcType="VARCHAR" property="face" />
-      <result column="pic" jdbcType="VARCHAR" property="pic" />
       <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
       <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    pub_comment.`id` ,pub_comment.`pid` ,pub_comment.`content` ,pub_comment.`type` ,pub_comment.`status` ,pub_comment.`create_user` ,pub_comment.`userName` ,pub_comment.`face` ,pub_comment.`pic` ,pub_comment.`createtime` ,pub_comment.`updatetime` 
+    pub_comment.`id` ,pub_comment.`pid` ,pub_comment.`content` ,pub_comment.`type` ,pub_comment.`status` ,pub_comment.`create_user` ,pub_comment.`userName` ,pub_comment.`face` ,pub_comment.`createtime` ,pub_comment.`updatetime` 
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -39,7 +38,6 @@
 ,#{createUser,jdbcType=BIGINT}
 ,#{userName,jdbcType=VARCHAR}
 ,#{face,jdbcType=VARCHAR}
-,#{pic,jdbcType=VARCHAR}
 ,#{createtime,jdbcType=TIMESTAMP}
 ,#{updatetime,jdbcType=TIMESTAMP}
     )
@@ -48,37 +46,34 @@
     insert into pub_comment
     <trim prefix="(" suffix=")" suffixOverrides="," >
         <if test="id != null" >  
-           `id`,
+           `id`, 
         </if>  
         <if test="pid != null" >  
-           `pid`,
+           `pid`, 
         </if>  
         <if test="content != null" >  
-           `content`,
+           `content`, 
         </if>  
         <if test="type != null" >  
-           `type`,
+           `type`, 
         </if>  
         <if test="status != null" >  
-           `status`,
+           `status`, 
         </if>  
         <if test="createUser != null" >  
-           `create_user`,
+           `createUser`, 
         </if>  
         <if test="userName != null" >  
-           `userName`,
+           `userName`, 
         </if>  
         <if test="face != null" >  
-           `face`,
-        </if>  
-        <if test="pic != null" >  
-           `pic`,
+           `face`, 
         </if>  
         <if test="createtime != null" >  
-           `createtime`,
+           `createtime`, 
         </if>  
         <if test="updatetime != null" >  
-           `updatetime`,
+           `updatetime`, 
         </if>  
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -105,9 +100,6 @@
         </if>  
         <if test="face != null" >  
           #{face,jdbcType=VARCHAR},
-        </if>  
-        <if test="pic != null" >  
-          #{pic,jdbcType=VARCHAR},
         </if>  
         <if test="createtime != null" >  
           #{createtime,jdbcType=TIMESTAMP},
@@ -144,9 +136,6 @@
         <if test="face != null" >  
              `face`=#{face,jdbcType=VARCHAR},
         </if>  
-        <if test="pic != null" >  
-             `pic`=#{pic,jdbcType=VARCHAR},
-        </if>  
         <if test="createtime != null" >  
              `createtime`=#{createtime,jdbcType=TIMESTAMP},
         </if>  
@@ -166,7 +155,6 @@
               `create_user`=#{createUser,jdbcType=BIGINT},
               `userName`=#{userName,jdbcType=VARCHAR},
               `face`=#{face,jdbcType=VARCHAR},
-              `pic`=#{pic,jdbcType=VARCHAR},
               `createtime`=#{createtime,jdbcType=TIMESTAMP},
               `updatetime`=#{updatetime,jdbcType=TIMESTAMP}
 where id = #{id,jdbcType=BIGINT}
@@ -185,7 +173,7 @@ where id = #{id,jdbcType=BIGINT}
            and `content` = #{content}
         </if>  
         <if test="contentLike != null and contentLike != '' ">
-             and `content` like CONCAT('%',#{contentLike},'%')
+             and `content` like "%"#{contentLike}"%"
         </if>   
         <if test="type != null and type != '' ">  
            and `type` = #{type}
@@ -194,25 +182,19 @@ where id = #{id,jdbcType=BIGINT}
            and `status` = #{status}
         </if>  
         <if test="createUser != null and createUser != '' ">  
-           and `create_user` = #{createUser}
+           and `createUser` = #{createUser}
         </if>  
         <if test="userName != null and userName != '' ">  
            and `userName` = #{userName}
         </if>  
         <if test="userNameLike != null and userNameLike != '' ">
-             and `userName` like CONCAT('%',#{userNameLike},'%')
+             and `userName` like "%"#{userNameLike}"%"
         </if>   
         <if test="face != null and face != '' ">  
            and `face` = #{face}
         </if>  
         <if test="faceLike != null and faceLike != '' ">
-             and `face` like CONCAT('%',#{faceLike},'%')
-        </if>   
-        <if test="pic != null and pic != '' ">  
-           and `pic` = #{pic}
-        </if>  
-        <if test="picLike != null and picLike != '' ">
-             and `pic` like CONCAT('%',#{picLike},'%')
+             and `face` like "%"#{faceLike}"%"
         </if>   
         <if test="createtime != null and createtime != '' ">  
            and `createtime` = #{createtime}
@@ -261,7 +243,7 @@ where id = #{id,jdbcType=BIGINT}
            and pub_comment.`content` = #{content}
         </if>  
         <if test="contentLike != null and contentLike != '' ">  
-             and pub_comment.`content` like CONCAT('%',#{contentLike},'%')
+             and pub_comment.`content` like "%"#{contentLike}"%"
         </if>   
         <if test="type != null and type != '' ">  
            and pub_comment.`type` = #{type}
@@ -276,19 +258,13 @@ where id = #{id,jdbcType=BIGINT}
            and pub_comment.`userName` = #{userName}
         </if>  
         <if test="userNameLike != null and userNameLike != '' ">  
-             and pub_comment.`userName` like CONCAT('%',#{userNameLike},'%')
+             and pub_comment.`userName` like "%"#{userNameLike}"%"
         </if>   
         <if test="face != null and face != '' ">  
            and pub_comment.`face` = #{face}
         </if>  
         <if test="faceLike != null and faceLike != '' ">  
-             and pub_comment.`face` like CONCAT('%',#{faceLike},'%')
-        </if>   
-        <if test="pic != null and pic != '' ">  
-           and pub_comment.`pic` = #{pic}
-        </if>  
-        <if test="picLike != null and picLike != '' ">  
-             and pub_comment.`pic` like CONCAT('%',#{picLike},'%')
+             and pub_comment.`face` like "%"#{faceLike}"%"
         </if>   
         <if test="createtime != null and createtime != '' ">  
            and pub_comment.`createtime` = #{createtime}
@@ -323,7 +299,7 @@ where id = #{id,jdbcType=BIGINT}
            and pub_comment.`content` = #{content}
         </if>  
         <if test="contentLike != null and contentLike != '' ">  
-             and pub_comment.`content` like CONCAT('%',#{contentLike},'%')
+             and pub_comment.`content` like "%"#{contentLike}"%"
         </if>   
         <if test="type != null and type != '' ">  
            and pub_comment.`type` = #{type}
@@ -338,19 +314,13 @@ where id = #{id,jdbcType=BIGINT}
            and pub_comment.`userName` = #{userName}
         </if>  
         <if test="userNameLike != null and userNameLike != '' ">  
-             and pub_comment.`userName` like CONCAT('%',#{userNameLike},'%')
+             and pub_comment.`userName` like "%"#{userNameLike}"%"
         </if>   
         <if test="face != null and face != '' ">  
            and pub_comment.`face` = #{face}
         </if>  
         <if test="faceLike != null and faceLike != '' ">  
-             and pub_comment.`face` like CONCAT('%',#{faceLike},'%')
-        </if>   
-        <if test="pic != null and pic != '' ">  
-           and pub_comment.`pic` = #{pic}
-        </if>  
-        <if test="picLike != null and picLike != '' ">  
-             and pub_comment.`pic` like CONCAT('%',#{picLike},'%')
+             and pub_comment.`face` like "%"#{faceLike}"%"
         </if>   
         <if test="createtime != null and createtime != '' ">  
            and pub_comment.`createtime` = #{createtime}
@@ -399,9 +369,6 @@ where id = #{id,jdbcType=BIGINT}
         <if test="face != null and face != '' ">
            or `face` = #{face}
         </if>
-        <if test="pic != null and pic != '' ">
-           or `pic` = #{pic}
-        </if>
         <if test="createtime != null and createtime != '' ">
            or `createtime` = #{createtime}
         </if>
@@ -409,27 +376,4 @@ where id = #{id,jdbcType=BIGINT}
            or `updatetime` = #{updatetime}
         </if>
   </select>
-
-
-
-<insert id="insertBatch"   parameterType="java.util.List" >
-    insert into pub_comment (  <include refid="Base_Column_List" />)
-        values
-
-        <foreach collection ="list" item="record" index= "index" separator =",">
-         (
-#{record.id,jdbcType=BIGINT}
-,#{record.pid,jdbcType=BIGINT}
-,#{record.content,jdbcType=VARCHAR}
-,#{record.type,jdbcType=INTEGER}
-,#{record.status,jdbcType=INTEGER}
-,#{record.createUser,jdbcType=BIGINT}
-,#{record.userName,jdbcType=VARCHAR}
-,#{record.face,jdbcType=VARCHAR}
-,#{record.pic,jdbcType=VARCHAR}
-,#{record.createtime,jdbcType=TIMESTAMP}
-,#{record.updatetime,jdbcType=TIMESTAMP}
-)
-        </foreach >
-    </insert>
 </mapper>

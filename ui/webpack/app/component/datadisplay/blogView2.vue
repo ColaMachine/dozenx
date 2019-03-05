@@ -1,10 +1,10 @@
 
 <template>
 <div style="width:98%;">
-<div style="width:98%;display:flex;position:relative;background-color:white;margin-top:15px;min-height:100px;">
+<div class="app-card" >
 
     <div class="app-li-it-pic">
-        <img style="width:50px;height:50px;float:left" :src="getPathValue(data.face)" ></img>
+        <img  :src="getPathValue(data.face)" ></img>
     </div>
     <div class="app-li-it-content">
          <span style="color:#333">{{data.creatorname}}</span>
@@ -73,7 +73,7 @@
                                 <span class="line S_line1" >
                                     <span>
                                        <!--  <em class="W_ficon ficon_repeat S_ficon"></em>-->
-                                        <em>评论({{data.comment_count}})</em>
+                                        <em>评论({{data.commentCount}})</em>
                                     </span>
                                 </span>
                             </span>
@@ -86,7 +86,7 @@
                             <span class="pos">
                                 <span class="line S_line1">
                                     <span node-type="like_status" class="">
-                                        <em >赞</em>
+                                        <em >赞12312</em>
                                         <em>0</em>
                                     </span>
                                 </span>
@@ -100,14 +100,15 @@
             </div>
         </div>
 
-         <h3>
-                    <zwPubComment v-if="commentShow" style="" :pid="data.id" >
-                    </zwPubComment>
-                </h3>
+         <h3 >
+                    <zwAppComment v-if="commentShow" style="" :pid="data.id" >
+                    </zwAppComment>
+        </h3>
 </div>
 </template>
 <script type="text/javascript">
- import zwBlogComment from '../../component/datadisplay/zwPubComment.vue';
+ import zwPubComment from '../../component/datadisplay/zwPubComment.vue';
+ import zwAppComment from '../../component/datadisplay/zwAppComment.vue';
   import zwMenu from '../../component/navigation/menu/zwMenu.vue';
    import zwMenuItem from '../../component/navigation/menu/zwMenuItem.vue';
 
@@ -117,7 +118,7 @@
 
       import zwButton from '../../component/button/zwButton.vue';
 export default {
-         components:{zwPubComment,zwButton,zwMenuItem,zwMenu,zwDropDown,zwIcon},
+         components:{zwPubComment,zwButton,zwMenuItem,zwMenu,zwDropDown,zwIcon,zwAppComment},
         props:["data"],
         data () {
             return {
@@ -177,6 +178,10 @@ export default {
 .zw-comment-bottom-bar.zw-menu-horizontal > li {
     width:25%;
     text-align:center;
+}
+.app-card .app-li-it-pic{
+    min-width:50px;
+     flex-basis: 50px;
 }
 
 </style>

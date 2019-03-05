@@ -1145,9 +1145,9 @@ public class Generator {
         Generator generator = new Generator();
         // generator.generate(new String[]{"SysUser"});
         //  generator.generate(new String[]{"CheckinLate"});
-        generator.generate(new String[]{"RiskRule", "RiskNotice", "JudgeRule", "JudgeRuleSubject", "JudgeRuleCheckField", "RiskTaxCheck",
-                "WriteoffInstance" ,"MssWriteoffInstToSupplier"
-                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
+//        generator.generate(new String[]{"RiskRule", "RiskNotice", "JudgeRule", "JudgeRuleSubject", "JudgeRuleCheckField", "RiskTaxCheck",
+//                "WriteoffInstance" ,"MssWriteoffInstToSupplier"
+//                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
         //generator.generate(new String[]{"Holiday"});
 //        generator.generate(new String[]{"FaceCheckinOut"});
         // generator.generate(new String[]{"CheckinOut"});
@@ -1158,8 +1158,8 @@ public class Generator {
         //   generator.generate(new String[]{"Goods"});
         //generator.generate(new String[]{"Calendar","Event","Instance"});
 
-        generator.generate(new String[]{"Contacts"});
-        generator.generate(new String[]{"Goods","zan","PubImageBelong","PubComment"});
+      //  generator.generate(new String[]{"Contacts"});
+        generator.generate(new String[]{"Goods","zan","PubImageBelong","PubComment","MsgInfo"});
         //  generator.generate(new String[]{"SysUser","SysRole"});
         //generator.generate(new String[]{"SysUser","SysDepart","SysUserDepart"});
 //        generator.generate(new String[]{"Active"});

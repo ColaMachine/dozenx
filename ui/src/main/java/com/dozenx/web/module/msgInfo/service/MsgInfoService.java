@@ -6,7 +6,7 @@
  * 文件说明: 
  */
 
-package com.dozenx.web.module.zan.service;
+package com.dozenx.web.module.msgInfo.service;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.dozenx.web.module.zan.bean.Zan;
-import com.dozenx.web.module.zan.dao.ZanMapper;
+import com.dozenx.web.module.msgInfo.bean.MsgInfo;
+import com.dozenx.web.module.msgInfo.dao.MsgInfoMapper;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.util.UUIDUtil;
 import com.dozenx.web.util.ValidateUtil;
@@ -29,9 +29,9 @@ import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
 
-public interface ZanService  {
+public interface MsgInfoService  {
     static final Logger logger = LoggerFactory
-            .getLogger(ZanService.class);
+            .getLogger(MsgInfoService.class);
 
     /**
      * 说明:list by page and params根据参数返回列表
@@ -39,8 +39,8 @@ public interface ZanService  {
      * @author dozen.zhang
      * @date 2015年11月15日下午12:36:24
      */
-    public List<Zan> listByParams4Page(HashMap params) ;
-    public List<Zan> listByParams(HashMap params);
+    public List<MsgInfo> listByParams4Page(HashMap params) ;
+    public List<MsgInfo> listByParams(HashMap params);
 
      /**
      * 说明:countByParams 根据参数提取个数
@@ -52,13 +52,13 @@ public interface ZanService  {
 
     /*
      * 说明:
-     * @param Zan
+     * @param MsgInfo
      * @return
      * @return Object
      * @author dozen.zhang
      * @date 2015年11月15日下午1:33:54
      */
-    public ResultDTO save(Zan zan) ;
+    public ResultDTO save(MsgInfo msgInfo) ;
     /**
     * 说明:根据主键删除数据
     * description:delete by key
@@ -76,7 +76,7 @@ public interface ZanService  {
     * @author dozen.zhang
     * @date 2015年12月27日下午10:56:38
     */
-    public Zan selectByPrimaryKey(Long id);
+    public MsgInfo selectByPrimaryKey(Long id);
     /**多id删除
      * @param idAry
      * @return
@@ -85,9 +85,9 @@ public interface ZanService  {
     public ResultDTO multilDelete(Long[] idAry) ;
 
 
-       public ResultDTO insertList(List<Zan> zan) ;
+       public ResultDTO insertList(List<MsgInfo> msgInfo) ;
 
+    public void updateCommmentCountById(Long id);
 
-    public void up(Long userId,Long pid,int category);
-    public void down(Long userId,Long pid,int category);
+    public void updateZan(Long id );
 }

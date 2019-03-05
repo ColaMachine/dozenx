@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.msgInfo.dao.MsgInfoMapper">
+    <resultMap id="BaseResultMap" type="com.dozenx.web.module.msgInfo.bean.MsgInfo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="pid" jdbcType="BIGINT" property="pid" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="commented_count" jdbcType="INTEGER" property="commentedCount" />
+        <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+        <result column="transferred_count" jdbcType="INTEGER" property="transferredCount" />
+        <result column="transfer_count" jdbcType="INTEGER" property="transferCount" />
+        <result column="up" jdbcType="INTEGER" property="up" />
+        <result column="down" jdbcType="INTEGER" property="down" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="create_user" jdbcType="BIGINT" property="createUser" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+        <result column="face" jdbcType="VARCHAR" property="face" />
+        <result column="pic" jdbcType="VARCHAR" property="pic" />
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        msg_info.`id` ,msg_info.`pid` ,msg_info.`content` ,msg_info.`type` ,msg_info.`commented_count` ,msg_info.`comment_count` ,msg_info.`transferred_count` ,msg_info.`transfer_count` ,msg_info.`up` ,msg_info.`down` ,msg_info.`status` ,msg_info.`create_user` ,msg_info.`userName` ,msg_info.`face` ,msg_info.`pic` ,msg_info.`createtime` ,msg_info.`updatetime`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from msg_info
+        where msg_info.id =   #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from msg_info
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.msgInfo.bean.MsgInfo" >
+
+        insert into msg_info (  <include refid="Base_Column_List" />)
+        values (
+        #{id,jdbcType=BIGINT}
+        ,#{pid,jdbcType=BIGINT}
+        ,#{content,jdbcType=VARCHAR}
+        ,#{type,jdbcType=INTEGER}
+        ,#{commentedCount,jdbcType=INTEGER}
+        ,#{commentCount,jdbcType=INTEGER}
+        ,#{transferredCount,jdbcType=INTEGER}
+        ,#{transferCount,jdbcType=INTEGER}
+        ,#{up,jdbcType=INTEGER}
+        ,#{down,jdbcType=INTEGER}
+        ,#{status,jdbcType=INTEGER}
+        ,#{createUser,jdbcType=BIGINT}
+        ,#{userName,jdbcType=VARCHAR}
+        ,#{face,jdbcType=VARCHAR}
+        ,#{pic,jdbcType=VARCHAR}
+        ,#{createtime,jdbcType=TIMESTAMP}
+        ,#{updatetime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dozenx.web.module.msgInfo.bean.MsgInfo" >
+        insert into msg_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                `id`,
+            </if>
+            <if test="pid != null" >
+                `pid`,
+            </if>
+            <if test="content != null" >
+                `content`,
+            </if>
+            <if test="type != null" >
+                `type`,
+            </if>
+            <if test="commentedCount != null" >
+                `commented_count`,
+            </if>
+            <if test="commentCount != null" >
+                `comment_count`,
+            </if>
+            <if test="transferredCount != null" >
+                `transferred_count`,
+            </if>
+            <if test="transferCount != null" >
+                `transfer_count`,
+            </if>
+            <if test="up != null" >
+                `up`,
+            </if>
+            <if test="down != null" >
+                `down`,
+            </if>
+            <if test="status != null" >
+                `status`,
+            </if>
+            <if test="createUser != null" >
+                `create_user`,
+            </if>
+            <if test="userName != null" >
+                `userName`,
+            </if>
+            <if test="face != null" >
+                `face`,
+            </if>
+            <if test="pic != null" >
+                `pic`,
+            </if>
+            <if test="createtime != null" >
+                `createtime`,
+            </if>
+            <if test="updatetime != null" >
+                `updatetime`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pid != null" >
+                #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="commentedCount != null" >
+                #{commentedCount,jdbcType=INTEGER},
+            </if>
+            <if test="commentCount != null" >
+                #{commentCount,jdbcType=INTEGER},
+            </if>
+            <if test="transferredCount != null" >
+                #{transferredCount,jdbcType=INTEGER},
+            </if>
+            <if test="transferCount != null" >
+                #{transferCount,jdbcType=INTEGER},
+            </if>
+            <if test="up != null" >
+                #{up,jdbcType=INTEGER},
+            </if>
+            <if test="down != null" >
+                #{down,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createUser != null" >
+                #{createUser,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="face != null" >
+                #{face,jdbcType=VARCHAR},
+            </if>
+            <if test="pic != null" >
+                #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.msgInfo.bean.MsgInfo" >
+        update msg_info
+        <set >
+            <if test="id != null" >
+                `id`=#{id,jdbcType=BIGINT},
+            </if>
+            <if test="pid != null" >
+                `pid`=#{pid,jdbcType=BIGINT},
+            </if>
+            <if test="content != null" >
+                `content`=#{content,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                `type`=#{type,jdbcType=INTEGER},
+            </if>
+            <if test="commentedCount != null" >
+                `commented_count`=#{commentedCount,jdbcType=INTEGER},
+            </if>
+            <if test="commentCount != null" >
+                `comment_count`=#{commentCount,jdbcType=INTEGER},
+            </if>
+            <if test="transferredCount != null" >
+                `transferred_count`=#{transferredCount,jdbcType=INTEGER},
+            </if>
+            <if test="transferCount != null" >
+                `transfer_count`=#{transferCount,jdbcType=INTEGER},
+            </if>
+            <if test="up != null" >
+                `up`=#{up,jdbcType=INTEGER},
+            </if>
+            <if test="down != null" >
+                `down`=#{down,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                `status`=#{status,jdbcType=INTEGER},
+            </if>
+            <if test="createUser != null" >
+                `create_user`=#{createUser,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null" >
+                `userName`=#{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="face != null" >
+                `face`=#{face,jdbcType=VARCHAR},
+            </if>
+            <if test="pic != null" >
+                `pic`=#{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                `createtime`=#{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null" >
+                `updatetime`=#{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.msgInfo.bean.MsgInfo" >
+        update msg_info
+        set
+        `pid`=#{pid,jdbcType=BIGINT},
+        `content`=#{content,jdbcType=VARCHAR},
+        `type`=#{type,jdbcType=INTEGER},
+        `commented_count`=#{commentedCount,jdbcType=INTEGER},
+        `comment_count`=#{commentCount,jdbcType=INTEGER},
+        `transferred_count`=#{transferredCount,jdbcType=INTEGER},
+        `transfer_count`=#{transferCount,jdbcType=INTEGER},
+        `up`=#{up,jdbcType=INTEGER},
+        `down`=#{down,jdbcType=INTEGER},
+        `status`=#{status,jdbcType=INTEGER},
+        `create_user`=#{createUser,jdbcType=BIGINT},
+        `userName`=#{userName,jdbcType=VARCHAR},
+        `face`=#{face,jdbcType=VARCHAR},
+        `pic`=#{pic,jdbcType=VARCHAR},
+        `createtime`=#{createtime,jdbcType=TIMESTAMP},
+        `updatetime`=#{updatetime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from msg_info where 1=1
+        <if test="id != null and id != '' ">
+            and `id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+            and `pid` = #{pid}
+        </if>
+        <if test="content != null and content != '' ">
+            and `content` = #{content}
+        </if>
+        <if test="contentLike != null and contentLike != '' ">
+            and `content` like CONCAT('%',#{contentLike},'%')
+        </if>
+        <if test="type != null and type != '' ">
+            and `type` = #{type}
+        </if>
+        <if test="commentedCount != null and commentedCount != '' ">
+            and `commented_count` = #{commentedCount}
+        </if>
+        <if test="commentCount != null and commentCount != '' ">
+            and `comment_count` = #{commentCount}
+        </if>
+        <if test="transferredCount != null and transferredCount != '' ">
+            and `transferred_count` = #{transferredCount}
+        </if>
+        <if test="transferCount != null and transferCount != '' ">
+            and `transfer_count` = #{transferCount}
+        </if>
+        <if test="up != null and up != '' ">
+            and `up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            and `down` = #{down}
+        </if>
+        <if test="status != null and status != '' ">
+            and `status` = #{status}
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            and `create_user` = #{createUser}
+        </if>
+        <if test="userName != null and userName != '' ">
+            and `userName` = #{userName}
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
+            and `userName` like CONCAT('%',#{userNameLike},'%')
+        </if>
+        <if test="face != null and face != '' ">
+            and `face` = #{face}
+        </if>
+        <if test="faceLike != null and faceLike != '' ">
+            and `face` like CONCAT('%',#{faceLike},'%')
+        </if>
+        <if test="pic != null and pic != '' ">
+            and `pic` = #{pic}
+        </if>
+        <if test="picLike != null and picLike != '' ">
+            and `pic` like CONCAT('%',#{picLike},'%')
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            and `createtime` = #{createtime}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and `createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and `createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and `createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and `createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            and `updatetime` = #{updatetime}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and `updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and `updatetime` &lt;= #{updatetimeEnd}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and `updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and `updatetime` &lt;= #{updatetimeEnd}
+        </if>
+    </select>
+    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from msg_info
+
+        where 1=1
+        <if test="id != null and id != '' ">
+            and msg_info.`id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+            and msg_info.`pid` = #{pid}
+        </if>
+        <if test="content != null and content != '' ">
+            and msg_info.`content` = #{content}
+        </if>
+        <if test="contentLike != null and contentLike != '' ">
+            and msg_info.`content` like CONCAT('%',#{contentLike},'%')
+        </if>
+        <if test="type != null and type != '' ">
+            and msg_info.`type` = #{type}
+        </if>
+        <if test="commentedCount != null and commentedCount != '' ">
+            and msg_info.`commented_count` = #{commentedCount}
+        </if>
+        <if test="commentCount != null and commentCount != '' ">
+            and msg_info.`comment_count` = #{commentCount}
+        </if>
+        <if test="transferredCount != null and transferredCount != '' ">
+            and msg_info.`transferred_count` = #{transferredCount}
+        </if>
+        <if test="transferCount != null and transferCount != '' ">
+            and msg_info.`transfer_count` = #{transferCount}
+        </if>
+        <if test="up != null and up != '' ">
+            and msg_info.`up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            and msg_info.`down` = #{down}
+        </if>
+        <if test="status != null and status != '' ">
+            and msg_info.`status` = #{status}
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            and msg_info.`create_user` = #{createUser}
+        </if>
+        <if test="userName != null and userName != '' ">
+            and msg_info.`userName` = #{userName}
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
+            and msg_info.`userName` like CONCAT('%',#{userNameLike},'%')
+        </if>
+        <if test="face != null and face != '' ">
+            and msg_info.`face` = #{face}
+        </if>
+        <if test="faceLike != null and faceLike != '' ">
+            and msg_info.`face` like CONCAT('%',#{faceLike},'%')
+        </if>
+        <if test="pic != null and pic != '' ">
+            and msg_info.`pic` = #{pic}
+        </if>
+        <if test="picLike != null and picLike != '' ">
+            and msg_info.`pic` like CONCAT('%',#{picLike},'%')
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            and msg_info.`createtime` = #{createtime}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and msg_info.`createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and msg_info.`createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            and msg_info.`updatetime` = #{updatetime}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and msg_info.`updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and msg_info.`updatetime` &lt;= #{updatetimeEnd}
+        </if>
+    </select>
+    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from msg_info where 1=1
+        <if test="id != null and id != '' ">
+            and msg_info.`id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+            and msg_info.`pid` = #{pid}
+        </if>
+        <if test="content != null and content != '' ">
+            and msg_info.`content` = #{content}
+        </if>
+        <if test="contentLike != null and contentLike != '' ">
+            and msg_info.`content` like CONCAT('%',#{contentLike},'%')
+        </if>
+        <if test="type != null and type != '' ">
+            and msg_info.`type` = #{type}
+        </if>
+        <if test="commentedCount != null and commentedCount != '' ">
+            and msg_info.`commented_count` = #{commentedCount}
+        </if>
+        <if test="commentCount != null and commentCount != '' ">
+            and msg_info.`comment_count` = #{commentCount}
+        </if>
+        <if test="transferredCount != null and transferredCount != '' ">
+            and msg_info.`transferred_count` = #{transferredCount}
+        </if>
+        <if test="transferCount != null and transferCount != '' ">
+            and msg_info.`transfer_count` = #{transferCount}
+        </if>
+        <if test="up != null and up != '' ">
+            and msg_info.`up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            and msg_info.`down` = #{down}
+        </if>
+        <if test="status != null and status != '' ">
+            and msg_info.`status` = #{status}
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            and msg_info.`create_user` = #{createUser}
+        </if>
+        <if test="userName != null and userName != '' ">
+            and msg_info.`userName` = #{userName}
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
+            and msg_info.`userName` like CONCAT('%',#{userNameLike},'%')
+        </if>
+        <if test="face != null and face != '' ">
+            and msg_info.`face` = #{face}
+        </if>
+        <if test="faceLike != null and faceLike != '' ">
+            and msg_info.`face` like CONCAT('%',#{faceLike},'%')
+        </if>
+        <if test="pic != null and pic != '' ">
+            and msg_info.`pic` = #{pic}
+        </if>
+        <if test="picLike != null and picLike != '' ">
+            and msg_info.`pic` like CONCAT('%',#{picLike},'%')
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            and msg_info.`createtime` = #{createtime}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and msg_info.`createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and msg_info.`createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            and msg_info.`updatetime` = #{updatetime}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and msg_info.`updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and msg_info.`updatetime` &lt;= #{updatetimeEnd}
+        </if>
+    </select>
+    <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from msg_info where 1!=1
+        <if test="id != null and id != '' ">
+            or `id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+            or `pid` = #{pid}
+        </if>
+        <if test="content != null and content != '' ">
+            or `content` = #{content}
+        </if>
+        <if test="type != null and type != '' ">
+            or `type` = #{type}
+        </if>
+        <if test="commentedCount != null and commentedCount != '' ">
+            or `commented_count` = #{commentedCount}
+        </if>
+        <if test="commentCount != null and commentCount != '' ">
+            or `comment_count` = #{commentCount}
+        </if>
+        <if test="transferredCount != null and transferredCount != '' ">
+            or `transferred_count` = #{transferredCount}
+        </if>
+        <if test="transferCount != null and transferCount != '' ">
+            or `transfer_count` = #{transferCount}
+        </if>
+        <if test="up != null and up != '' ">
+            or `up` = #{up}
+        </if>
+        <if test="down != null and down != '' ">
+            or `down` = #{down}
+        </if>
+        <if test="status != null and status != '' ">
+            or `status` = #{status}
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            or `create_user` = #{createUser}
+        </if>
+        <if test="userName != null and userName != '' ">
+            or `userName` = #{userName}
+        </if>
+        <if test="face != null and face != '' ">
+            or `face` = #{face}
+        </if>
+        <if test="pic != null and pic != '' ">
+            or `pic` = #{pic}
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            or `createtime` = #{createtime}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            or `updatetime` = #{updatetime}
+        </if>
+    </select>
+
+
+
+    <insert id="insertBatch"   parameterType="java.util.List" >
+        insert into msg_info (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+            (
+            #{record.id,jdbcType=BIGINT}
+            ,#{record.pid,jdbcType=BIGINT}
+            ,#{record.content,jdbcType=VARCHAR}
+            ,#{record.type,jdbcType=INTEGER}
+            ,#{record.commentedCount,jdbcType=INTEGER}
+            ,#{record.commentCount,jdbcType=INTEGER}
+            ,#{record.transferredCount,jdbcType=INTEGER}
+            ,#{record.transferCount,jdbcType=INTEGER}
+            ,#{record.up,jdbcType=INTEGER}
+            ,#{record.down,jdbcType=INTEGER}
+            ,#{record.status,jdbcType=INTEGER}
+            ,#{record.createUser,jdbcType=BIGINT}
+            ,#{record.userName,jdbcType=VARCHAR}
+            ,#{record.face,jdbcType=VARCHAR}
+            ,#{record.pic,jdbcType=VARCHAR}
+            ,#{record.createtime,jdbcType=TIMESTAMP}
+            ,#{record.updatetime,jdbcType=TIMESTAMP}
+            )
+        </foreach >
+    </insert>
+
+    <update id="updateCommentCountById" parameterType="java.lang.Long" >
+        update msg_info set comment_count=(select count(1) from pub_comment where pid = #{id,jdbcType=BIGINT})
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="updateZan"  >
+        update msg_info
+        set
+        `up` =(select count(*) from zan where pid =#{id,jdbcType=BIGINT} and type =1 and category =2),
+        `down`=(select count(*) from zan where pid =#{id,jdbcType=BIGINT} and type =2 and category =2)
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+</mapper>

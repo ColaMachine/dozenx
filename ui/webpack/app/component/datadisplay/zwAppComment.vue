@@ -6,20 +6,21 @@
         <input type ="text"  style="height:30px;width:90%" ref="pinglun"></input>
         <zwButton style="float:right;"   sizeNum="small" @clickFn="submitComment" type="primary"> 评论</zwButton>
     </li>
-    <li   style="border-bottom:1px solid gray" v-for="result in list" key={{result.id}} class="app-li-it">
-      <div class="app-card">
-        <div style="width:30px" class="app-li-it-pic">
+    <li   style="" v-for="result in list" key={{result.id}} class="app-li-it">
+
+       <!-- <div style="width:30px" class="app-li-it-pic">
             <img style="width:30px"  :src='result.face'/>
-        </div>
+        </div>-->
         <div class="app-li-it-content">
             <div class="app-li-it-title">
-            <a >
-                <span>{{result.userName}}:</span><span>{{result.content}}</span>
-            </a>
+                <a >
+                    <span>{{result.userName}}:</span><span>{{result.content}}</span>
+                </a>
+            </div>
+            <!--<div class="app-li-it-text" style="font-size:10px"><span className="src-net">{{result.createtime}}</span><span className="comment-num">回复:</span><span className="goods-score">点赞</span></div>
+            -->
         </div>
-        <div class="app-li-it-text" style="font-size:10px"><span className="src-net">{{result.createtime}}</span><span className="comment-num">回复:</span><span className="goods-score">点赞</span></div>
-        </div>
-        </div>
+
     </li>
 </ul>
 
