@@ -970,7 +970,7 @@ public class FaceInfoController extends BaseController {
             })
     @RequestMapping(value = "/recognizeByFile")
     @ResponseBody
-    public ResultDTO recognizeByFile(HttpServletRequest request, @RequestParam(value = "file") MultipartFile image) throws Exception {
+    public ResultDTO recognizeByFile(HttpServletRequest request, @RequestParam(value = "file") MultipartFile image,@RequestParam(value="camera") Integer cameraPort) throws Exception {
 
 
         HashMap map = new HashMap();
@@ -1012,7 +1012,7 @@ public class FaceInfoController extends BaseController {
                     checkinOut.setCheckType(3);//人脸考勤
                     checkinOutService.save(checkinOut);
 
-                    VirtualDoorService.open();//开门加上消息推送
+                    VirtualDoorService.open(cameraPort);//开门加上消息推送
                     VirtualWeixinService.sendMsg(faceInfo.getSysUser().getUsername(), "摄像头签到成功");
 
                     break;
@@ -1153,7 +1153,7 @@ public class FaceInfoController extends BaseController {
     @RequestMapping(value = "/opendoor")
     @ResponseBody
     public ResultDTO opendoor(HttpServletRequest request) throws Exception {
-        VirtualDoorService.open();
+        VirtualDoorService.open(Integer.valueOf(request.getParameter("camera")));
         return this.getResult();
     }
 

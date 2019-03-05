@@ -4,6 +4,7 @@ package com.dozenx.core.mail;
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
+import java.io.UnsupportedEncodingException;
 
 public class MyAuthenticator extends Authenticator{   
     String userName=null;   
@@ -37,6 +38,8 @@ public class MyAuthenticator extends Authenticator{
         try {
             sms.sendHtmlMail(mailInfo);//发送html格式
         } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         System.out.println("发送完毕");

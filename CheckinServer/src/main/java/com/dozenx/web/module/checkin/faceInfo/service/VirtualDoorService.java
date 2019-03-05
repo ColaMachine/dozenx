@@ -22,7 +22,7 @@ public class VirtualDoorService {
     static Long lastOpenTime = System.currentTimeMillis();
     static int minInterval = 7 * 1000;
 
-    public static void open() {
+    public static void open(int port) {
         if (System.currentTimeMillis() - lastOpenTime < minInterval) {
             return;
         }

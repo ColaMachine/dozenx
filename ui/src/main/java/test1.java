@@ -1,7 +1,8 @@
 import com.dozenx.util.HttpRequestUtil;
+import com.dozenx.util.ImageUtil;
 import com.dozenx.util.JsonUtil;
 import com.dozenx.util.MapUtils;
-import com.dozenx.web.util.EmailUtil;
+//import com.dozenx.web.util.EmailUtil;
 import org.slf4j.LoggerFactory;
 
 import java.net.URLDecoder;
@@ -18,8 +19,18 @@ public class test1 {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(test.class);
     public static void main(String args[]) {
-     System.out.println(URLDecoder.decode(URLDecoder.decode("%25e5%258f%25a4%25e5%25a0%25b0")));
-        System.out.println(URLEncoder.encode("%25e5%258f%25a4%25e5%25a0%25b0"));
+
+
+            String url="http://kq.dapark.top/home/checkin/faceinfo/recognize";
+            HashMap map =new HashMap();
+            // map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal(PathManager.getInstance().getHomePath().resolve("src/main/webapp/upload/1543074868872.png").toString())));
+
+            map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\TIM图片20190305100724.jpg")));
+        map.put("camera",7098);
+            String result =  HttpRequestUtil.sendPost(url,map);
+            System.out.println(result);
+//     System.out.println(URLDecoder.decode(URLDecoder.decode("%25e5%258f%25a4%25e5%25a0%25b0")));
+//        System.out.println(URLEncoder.encode("%25e5%258f%25a4%25e5%25a0%25b0"));
   }
 //    public static void main(String args[]){
 //

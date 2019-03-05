@@ -90,7 +90,7 @@ public class PropertiesUtil {
 		}
 
 
-		 rootDirectory = new File(PropertiesUtil.class.getClassLoader().getResource("").getPath());
+		 rootDirectory = new File(PropertiesUtil.class.getClassLoader().getResource("/").getPath());
 		 propertiesFiles = rootDirectory.listFiles(new FileNameSelector("properties"));
 
 		for(File file : propertiesFiles) {

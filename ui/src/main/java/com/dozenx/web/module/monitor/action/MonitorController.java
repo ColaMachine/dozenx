@@ -10,7 +10,6 @@ import com.dozenx.util.MapUtils;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.web.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -51,52 +50,52 @@ public class MonitorController extends BaseController {
     @ResponseBody
     public ResultDTO list(HttpServletRequest request) throws Exception {
         //检测广告系统是否正常
-        String url = "http://ad.51awifi.com/advertsrv/ads/req?usermac=D8C46A555609&adpos=4&devid=RADIUS-RADIUS-20150203-44ffb97d&devmac=50DA00D16B80&t=1532393604072";
-        try {
-            String result = HttpRequestUtil.sendGetWithException(url);
-            HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
-            int r = MapUtils.getInteger(resultMap, "r");
-            if (r != 0) {
-                logger.info(result);
-                EmailUtil.send("371452875@qq.com", result);
-            }
-        } catch (Exception e) {
-            e.getMessage();
-            EmailUtil.send("371452875@qq.com", e.getMessage());
-        }
-
-
-        String hianan = "http://ad.51awifi.com/advertsrv/ads/req?usermac=D8C46A555609&adpos=4&devid=RADIUS-RADIUS-20150203-44ffb97d&devmac=50DA00D16B80&t=1532393604072";
-        try {
-            String result = HttpRequestUtil.sendGetWithException(url);
-            HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
-            int r = MapUtils.getInteger(resultMap, "r");
-            if (r != 0) {
-                logger.info(result);
-                EmailUtil.send("371452875@qq.com", result);
-            }
-        } catch (Exception e) {
-            e.getMessage();
-            EmailUtil.send("371452875@qq.com", e.getMessage());
-        }
-
-
-        try {
-            String hbaseTestUrl = "http://ad.51awifi.com/advertsrv/hbase/test";
-            String result = HttpRequestUtil.sendGetWithException(hbaseTestUrl);
-            logger.info(result);
-            HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
-            int r = MapUtils.getInteger(resultMap, "r");
-            if (r != 0) {
-                EmailUtil.send("371452875@qq.com", result);
-                String reconnectUrl = "http://ad.51awifi.com/advertsrv/hbase/reconnect";
-                HttpRequestUtil.sendGetWithException(reconnectUrl);
-            }
-
-        } catch (Exception e) {
-            e.getMessage();
-            EmailUtil.send("371452875@qq.com", e.getMessage());
-        }
+//        String url = "http://ad.51awifi.com/advertsrv/ads/req?usermac=D8C46A555609&adpos=4&devid=RADIUS-RADIUS-20150203-44ffb97d&devmac=50DA00D16B80&t=1532393604072";
+//        try {
+//            String result = HttpRequestUtil.sendGetWithException(url);
+//            HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
+//            int r = MapUtils.getInteger(resultMap, "r");
+//            if (r != 0) {
+//                logger.info(result);
+//                EmailUtil.send("371452875@qq.com", result);
+//            }
+//        } catch (Exception e) {
+//            e.getMessage();
+//            EmailUtil.send("371452875@qq.com", e.getMessage());
+//        }
+//
+//
+//        String hianan = "http://ad.51awifi.com/advertsrv/ads/req?usermac=D8C46A555609&adpos=4&devid=RADIUS-RADIUS-20150203-44ffb97d&devmac=50DA00D16B80&t=1532393604072";
+//        try {
+//            String result = HttpRequestUtil.sendGetWithException(url);
+//            HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
+//            int r = MapUtils.getInteger(resultMap, "r");
+//            if (r != 0) {
+//                logger.info(result);
+//                EmailUtil.send("371452875@qq.com", result);
+//            }
+//        } catch (Exception e) {
+//            e.getMessage();
+//            EmailUtil.send("371452875@qq.com", e.getMessage());
+//        }
+//
+//
+//        try {
+//            String hbaseTestUrl = "http://ad.51awifi.com/advertsrv/hbase/test";
+//            String result = HttpRequestUtil.sendGetWithException(hbaseTestUrl);
+//            logger.info(result);
+//            HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
+//            int r = MapUtils.getInteger(resultMap, "r");
+//            if (r != 0) {
+//                EmailUtil.send("371452875@qq.com", result);
+//                String reconnectUrl = "http://ad.51awifi.com/advertsrv/hbase/reconnect";
+//                HttpRequestUtil.sendGetWithException(reconnectUrl);
+//            }
+//
+//        } catch (Exception e) {
+//            e.getMessage();
+//            EmailUtil.send("371452875@qq.com", e.getMessage());
+//        }
 
         return this.getResult();
     }
@@ -105,46 +104,46 @@ public class MonitorController extends BaseController {
     public static void main(String args[]) {
         String[] domainList = new String[]{"http://ad.51awifi.com"/*, "http://202.100.244.186:83"*/};
 
-       while(true) {
-           for (int i = 0; i < domainList.length; i++) {
-               String adsUrl = domainList[i] + "/advertsrv/ads/req?usermac=D8C46A555609&adpos=4&devid=RADIUS-RADIUS-20150203-44ffb97d&devmac=50DA00D16B80&t=1532393604072";
-               String testUrl = domainList[i] + "/advertsrv/hbase/test";
-               String reconnectUrl = domainList[i] + "/advertsrv/hbase/reconnect";
-               try {
-                   String result = HttpRequestUtil.sendGetWithException(testUrl);
-                   logger.info(result);
-                   HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
-                   int r = MapUtils.getInteger(resultMap, "r");
-                   if (r != 0) {
-                       EmailUtil.send("371452875@qq.com", result);
-                       HttpRequestUtil.sendGetWithException(reconnectUrl);
-                   }
-
-
-                   result = HttpRequestUtil.sendGetWithException(adsUrl);
-                   logger.info(result);
-                   resultMap = JsonUtil.fromJson(result, HashMap.class);
-                   r = MapUtils.getInteger(resultMap, "r");
-                   if (r != 0) {
-                       EmailUtil.send("371452875@qq.com", result);
-                       HttpRequestUtil.sendGetWithException(reconnectUrl);
-                   }
-               } catch (Exception e) {
-                   e.getMessage();
-                   try {
-                       EmailUtil.send("371452875@qq.com", e.getMessage());
-                   } catch (Exception e1) {
-                       e1.printStackTrace();
-                   }
-               }
-
-
-           }
-           try {
-               Thread.sleep(10000);
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
-       }
+//       while(true) {
+//           for (int i = 0; i < domainList.length; i++) {
+//               String adsUrl = domainList[i] + "/advertsrv/ads/req?usermac=D8C46A555609&adpos=4&devid=RADIUS-RADIUS-20150203-44ffb97d&devmac=50DA00D16B80&t=1532393604072";
+//               String testUrl = domainList[i] + "/advertsrv/hbase/test";
+//               String reconnectUrl = domainList[i] + "/advertsrv/hbase/reconnect";
+//               try {
+//                   String result = HttpRequestUtil.sendGetWithException(testUrl);
+//                   logger.info(result);
+//                   HashMap resultMap = JsonUtil.fromJson(result, HashMap.class);
+//                   int r = MapUtils.getInteger(resultMap, "r");
+//                   if (r != 0) {
+//                       EmailUtil.send("371452875@qq.com", result);
+//                       HttpRequestUtil.sendGetWithException(reconnectUrl);
+//                   }
+//
+//
+//                   result = HttpRequestUtil.sendGetWithException(adsUrl);
+//                   logger.info(result);
+//                   resultMap = JsonUtil.fromJson(result, HashMap.class);
+//                   r = MapUtils.getInteger(resultMap, "r");
+//                   if (r != 0) {
+//                       EmailUtil.send("371452875@qq.com", result);
+//                       HttpRequestUtil.sendGetWithException(reconnectUrl);
+//                   }
+//               } catch (Exception e) {
+//                   e.getMessage();
+//                   try {
+//                       EmailUtil.send("371452875@qq.com", e.getMessage());
+//                   } catch (Exception e1) {
+//                       e1.printStackTrace();
+//                   }
+//               }
+//
+//
+//           }
+//           try {
+//               Thread.sleep(10000);
+//           } catch (InterruptedException e) {
+//               e.printStackTrace();
+//           }
+//       }
     }
 }

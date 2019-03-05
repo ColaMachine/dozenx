@@ -35,11 +35,16 @@ public class ErrorMessage {
         if(msgProp != null){
             return ;
         }
+        msgProp = new Properties();
         try {
-            msgProp = new Properties();
             msgProp.load(new FileInputStream(FilePathUtil.getAbsolutePathWithClass() + "/properties/message.properties"));
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                msgProp.load(new FileInputStream(FilePathUtil.getAbsolutePathWithClass() + "/message.properties"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+//            e.printStackTrace();
         }
     }
 

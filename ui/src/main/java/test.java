@@ -1,5 +1,4 @@
 import com.dozenx.util.*;
-import com.dozenx.web.util.EmailUtil;
 import com.dozenx.web.util.RedisUtil;
 import com.google.gson.JsonObject;
 import org.apache.poi.ss.usermodel.Sheet;

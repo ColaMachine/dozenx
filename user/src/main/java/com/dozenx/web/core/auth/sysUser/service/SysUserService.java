@@ -27,8 +27,8 @@ import com.dozenx.web.core.base.BaseService;
 
 import com.dozenx.web.core.location.service.LocationService;
 import com.dozenx.web.core.log.*;
+import com.dozenx.web.module.email.email.service.EmailSendService;
 import com.dozenx.web.util.ConfigUtil;
-import com.dozenx.web.util.EmailUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidUtil;
 import org.slf4j.Logger;
@@ -582,7 +582,7 @@ public class SysUserService extends BaseService {
                 sysUserRoleMapper.insert(sysUserRole);//给当前用户赋值一个普通角色
                 // 发送激活邮件
                 try {
-                    EmailUtil.send(user.getEmail(), "你的邮件验证码:" + code + "");
+                    emailSendService.sendEmail(user.getEmail(),"邮件验证码" ,"你的邮件验证码:" + code + "");
                 }catch (Exception e){
                     logger.error("发送邮件失败");
                     LogUtilFeichu.system(serviceCode,218,user.getEmail()+code,e.getMessage()+" 发送邮件失败","");
@@ -593,6 +593,8 @@ public class SysUserService extends BaseService {
             // }
         }
     }
+    @Resource
+    EmailSendService emailSendService;
     public ResultDTO sendEmailCode(String email ){
         //首先去判断有没有用户是用这个email 了
         int num = sysUserMapper.countUserByEmail(email);
@@ -610,7 +612,7 @@ public class SysUserService extends BaseService {
 
         try {
             String code = UUIDUtil.getUUID().substring(0,6);
-            EmailUtil.send(email, "你的邮件验证码:" + code + "");
+            emailSendService.sendEmail(email,"邮件验证码", "你的邮件验证码:" + code + "");
             activeService.save(email,"register",code);
         }catch (Exception e){
             logger.error("发送邮件失败",e);
@@ -737,8 +739,8 @@ public class SysUserService extends BaseService {
 
         // sms.sendTextMail(mailInfo);//发送文体格式
         try {
-            EmailUtil.send(email,pwdrst.getIdpwdrst());
-        } catch (MessagingException e) {
+            emailSendService.sendEmail(email,"重置密码",pwdrst.getIdpwdrst());
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultUtil.getResult(30105101,"发送邮件失败");
         }

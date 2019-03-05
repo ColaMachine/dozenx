@@ -90,7 +90,7 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.baidu.ueditor/ueditor-mini -->
-        <dependency>
+       <!-- <dependency>
             <groupId>com.baidu.ueditor</groupId>
             <artifactId>ueditor</artifactId>
             <version>1.0</version>
@@ -106,7 +106,7 @@
             <scope>system</scope>
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/json.jar</systemPath>
 
-        </dependency>
+        </dependency>-->
 
     </dependencies>
     <profiles>

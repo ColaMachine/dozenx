@@ -485,7 +485,7 @@ CalendarView.prototype.getMonthView = function() {
   var _index = 0;
   var _date = 1;
   var _rows = 1;
-  var str = "<table  class='wk_mv_table wk-scrolltimedevents'  id='scrolltimedeventswk'>" +
+  var str = "<table  class='month wk_mv_table wk-scrolltimedevents'  id='scrolltimedeventswk'>" +
     "<tr class='dp_title_tr'  >" +
     "<th id='dp_ym_th' class='dp_ym_th' colspan=5 ><span class='zippy-arrow' unselectable='on'></span><span> " +
     y +

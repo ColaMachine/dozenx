@@ -22,7 +22,6 @@ import java.util.Properties;
 public class EmailUtil {
     public static void send(String email, String title, String content) throws Exception {
         if (StringUtil.isNotBlank(email)) {
-
             // 发送激活邮件
             MailSenderInfo mailInfo = new MailSenderInfo();
             mailInfo.setMailServerHost(PropertiesUtil.get("mail.smtp.host"));
@@ -33,7 +32,6 @@ public class EmailUtil {
             mailInfo.setFromAddress(PropertiesUtil.get("mail.from"));
             mailInfo.setToAddress(email);
             mailInfo.setSubject(title);
-
             //mailInfo.setContent("请点击下面的链接进行激活</br><a href=''>http://127.0.0.1:8080/calendar/active.htm?activeid="
             //	+ active.getActiveid() + "</a>");
             mailInfo.setContent(content);
@@ -87,7 +85,7 @@ public class EmailUtil {
      * @param receive  收件人
      * @param subject  邮件主题
      * @param msg      邮件内容
-     * @param filename 附件地址
+     * @param fileAbsolutePathAndName 附件地址
      * @return
      * @throws GeneralSecurityException
      */
@@ -240,27 +238,36 @@ public class EmailUtil {
             message.setSubject(MimeUtility.encodeText(subject, MimeUtility.mimeCharset("utf-8"), null));
 
             // 创建消息部分
-            BodyPart messageBodyPart = new MimeBodyPart();
+            BodyPart textMimeBodyPart = new MimeBodyPart();
 
             // 消息
-            messageBodyPart.setText(MimeUtility.encodeText(msg, MimeUtility.mimeCharset("utf-8"), null));
+            textMimeBodyPart.setText(MimeUtility.encodeText(msg, MimeUtility.mimeCharset("utf-8"), null));
 
+
+            /**MimeMessage
+             *          ->MimeMultipart
+             *                  ->MimeBodyPart   textMimeBodyPart
+             *                                  ->text 文本消息
+             *                  ->MimeBodyPart   fileMimeBodyPart
+             *                                  ->FileName ==>文件名
+             *                                  ->DataHandler ==> file
+             */
             // 创建多重消息
             Multipart multipart = new MimeMultipart();
 
             // 设置文本消息部分
-            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(textMimeBodyPart);
 
             // 附件部分
-            messageBodyPart = new MimeBodyPart();
+            BodyPart fileMimeBodyPart = new MimeBodyPart();
             // 设置要发送附件的文件路径
             DataSource source = new FileDataSource(filePath);
-            messageBodyPart.setDataHandler(new DataHandler(source));
+            fileMimeBodyPart.setDataHandler(new DataHandler(source));
 
             // messageBodyPart.setFileName(filename);
             // 处理附件名称中文（附带文件路径）乱码问题
-            messageBodyPart.setFileName(MimeUtility.encodeText(filename));
-            multipart.addBodyPart(messageBodyPart);
+            fileMimeBodyPart.setFileName(MimeUtility.encodeText(filename));
+            multipart.addBodyPart(fileMimeBodyPart);
 
             // 发送完整消息
             message.setContent(multipart);

@@ -471,3 +471,7 @@ margin-left:20px;
 .month-list{
 width:98%;
 }
+
+.month .calendarEventBar dd{
+      line-height:24px;
+       }

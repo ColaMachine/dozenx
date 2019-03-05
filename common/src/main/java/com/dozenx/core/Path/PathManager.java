@@ -179,14 +179,18 @@ public final class PathManager {
             logger.info("classLoader resource:" + urlToSource);
             // classLoader resource:file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 向上找到classes目录
+
             logger.info("getResource(\"\") :" + urlToSource);
             // getResource("") :file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 这个目录是正确的
 
             String path = urlToSource.toString();
             //file:/D:/apache-tomcat-8.5.34/selenium_jar/
-            if (path.indexOf("classes") != -1) {
-                path = path.substring(0, path.indexOf("classes") + 7);
+            if (path.indexOf("/classes") != -1) {
+                path = path.substring(0, path.indexOf("classes") + 8);
+            }
+            if(urlToSource.toString().indexOf("test-classes")>0){
+                path = path.substring(0, path.indexOf("test-classes") )+"/classes";
             }
 
 

@@ -239,7 +239,7 @@ public void getAccessToken(){
                     }
                     try {
                         logger.info("open door开门 cost:"+(System.currentTimeMillis()-start));
-                        VirtualDoorService.open();//开门加上消息推送
+                        VirtualDoorService.open(Integer.valueOf(camera));//开门加上消息推送
                     }catch (Exception e){
                         e.printStackTrace();
                     }

@@ -446,6 +446,7 @@ public class SshUtil {
         }
 
     }
+
     public static void AlphaKqUpdateTomecatWebappAndRestart() {
 //
 
@@ -455,8 +456,6 @@ public class SshUtil {
         String localRootPathStr = "G:\\workspace\\dozenx\\ui\\target\\classes";
         String remoteRootPathStr = "/data/service/tomcat-kq-8087/awifi_kq/WEB-INF/classes";
         String tomcatPath = "/data/service/tomcat-kq-8087";
-
-
 
 
         String userName = "root";
@@ -591,11 +590,10 @@ public class SshUtil {
 
             //把文件上传到服务器指定的目录
             SshUtil.upload(localRootPathStr, remoteRootPathStr, tomcatPath, "a.zip", userName, pwd, serverIp);
-          // SshUtil.restartTomcat(serverIp, userName, pwd, tomcatPath);
+            // SshUtil.restartTomcat(serverIp, userName, pwd, tomcatPath);
         }
 
     }
-
 
 
     public static void AlphaSSCRISKUpdateTomecatWebappAndRestart() {
@@ -640,6 +638,7 @@ public class SshUtil {
         }
 
     }
+
     public static void main(String args[]) {
         //
         // SshUtil.testExecCmd();
@@ -666,9 +665,9 @@ public class SshUtil {
 //        String tomcatPath = "/data/service/tomcat-ezhike-biz-8085";
 //
 //SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
-//       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
-//SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
-        SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
+       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
+//        SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
+    //    SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
         //  SshUtil .updateTomecatWebappAndRestart();
     }
 }
