@@ -835,4 +835,13 @@
             or `updateTime` = #{updateTime}
         </if>
     </select>
+
+    <update id="updateZan"  >
+        update Goods
+        set
+        `up` =(select count(*) from zan where pid =#{id,jdbcType=BIGINT} and type =1  and category = 1),
+        `down`=(select count(*) from zan where pid =#{id,jdbcType=BIGINT} and type =2  and category = 1)
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
 </mapper>

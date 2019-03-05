@@ -174,7 +174,10 @@ var zMenu = {
         		}else{
         		url="/"+url;
         		}
-            Ajax.get(PATH+url, null, function(data) {
+        		if(PATH!=''&& url.indexOf(PATH)==-1){
+        		    url=PATH+url;
+        		}
+            Ajax.get(url, null, function(data) {
                 $('.main').html(data);
                 //$('.main').append(ibox.render(data,"新窗口"));
                 //if (typeof fun == 'function') fun();

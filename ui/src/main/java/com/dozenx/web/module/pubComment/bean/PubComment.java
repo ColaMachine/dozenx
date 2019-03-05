@@ -5,11 +5,10 @@
  * 创建日期: 2015年11月15日
  * 文件说明: 
  */
-package com.dozenx.web.module.blogComment.bean;
+package com.dozenx.web.module.pubComment.bean;
 import java.sql.Timestamp;
-import java.util.Date;
 
-public class BlogComment {
+public class PubComment {
     
 /**主键**/
     private Long id;
@@ -81,4 +80,5 @@ public class BlogComment {
     }    public void setUpdatetime(Timestamp updatetime){
         this.updatetime=updatetime;
     }
+
 }

@@ -26,8 +26,8 @@
 <script type="text/javascript" src="${path}/static/js/animation.js"></script>
 <script type="text/javascript" src="${path}/static/js/slider.js"></script>
 <script type="text/javascript" src="${path}/static/js/imageUtil.js"></script>
-<script src="/static/js/vue.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/css/slider.css" >
+<!-- <script src="/static/js/vue.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/slider.css" >  -->
 <%
 String path = request.getContextPath();
 
@@ -280,7 +280,7 @@ includeJS(jsAry);
 
 
 <script type="text/javascript" >
-Ajax.getJSON(PATH+"/auth/menu/list.json",null,function(result){
+Ajax.getJSON(PATH+"/sys/auth/menu/list.json",null,function(result){
     var menuList =result.data;
     <% HttpSession s= request.getSession();
         String resourceStr = (String)s.getAttribute("resourceStr");

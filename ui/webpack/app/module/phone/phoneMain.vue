@@ -62,7 +62,7 @@
       </zwCol>
 
     </zwRow>
-<zwRow style="margin-top:0px;" >
+<!--<zwRow style="margin-top:0px;" >
 <zwCol span=24>
  <zwCrousel style="height:150px;" height=150 :imglist="imglist"> </zwCrousel>
 
@@ -70,8 +70,8 @@
 
 </zwCol>
 
-</zwRow>
-<zwRow style="margin-top:0px;" >
+</zwRow>-->
+<!--<zwRow style="margin-top:0px;" >
 <zwCol span=24>
     <zwTabs>
 
@@ -91,22 +91,22 @@
 
 </zwCol>
 
-</zwRow>
-<zwRow style="margin-top:0px;" >
+</zwRow>-->
+<!--<zwRow style="margin-top:0px;" >
 <zwCol span=24>
        <zwSliderText :list="noticeList"> </zwSliderText>
 
 </zwCol>
 
-</zwRow>
-
+</zwRow>-->
+<!--
 <zwRow style="margin-top:0px;" >
 <zwCol span=24>
  <zwAppImgBlocks :list="goodsList"></zwAppImgBlocks>
 
 </zwCol>
 
-</zwRow>
+</zwRow>-->
 <zwRow style="margin-top:0px;" >
 <zwCol span=24>
  <zwAppImgList :list="goodsList"></zwAppImgList>
@@ -123,9 +123,9 @@
 
 </zwRow>
 
-
+<!--
  <zwBottomBar> </zwBottomBar>
-
+-->
   </div>
 
 </template>

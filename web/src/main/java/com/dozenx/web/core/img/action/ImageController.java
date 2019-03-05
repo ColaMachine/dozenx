@@ -92,6 +92,9 @@ public class ImageController extends BaseController {
         //imageData=URLDecoder.decode(imageData);
         //  imageData= URLEncoder.encode(imageData);
         String imageName = ImageUtil.saveBase64Image(PathManager.getInstance().getImagePath().toFile().getAbsolutePath(), "", imageData);
+
+
+
         return this.getResult(Config.getInstance().getImage().getServerUrl() + "/" + imageName);
 
     }

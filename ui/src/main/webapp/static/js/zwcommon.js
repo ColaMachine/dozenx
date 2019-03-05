@@ -1335,8 +1335,12 @@ function showWait(msg){
 function hideWait(index){
 	//hideWaitTrue();
 	///setTimeout("hideWaitTrue()",100);
+      var eles = document.getElementsByClassName("wait");
+    if(eles&& eles.length>0){
+    eles[0].style.display="none";
+    }
 
-	document.getElementsByClassName("wait")[0].style.display="none";
+
 	if(index){
         layer.close(index);
         }

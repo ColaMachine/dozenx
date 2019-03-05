@@ -1147,7 +1147,7 @@ public class Generator {
         //  generator.generate(new String[]{"CheckinLate"});
         generator.generate(new String[]{"RiskRule", "RiskNotice", "JudgeRule", "JudgeRuleSubject", "JudgeRuleCheckField", "RiskTaxCheck",
                 "WriteoffInstance" ,"MssWriteoffInstToSupplier"
-                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail","WfMessageDone","WfBizProcInst"});
+                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
         //generator.generate(new String[]{"Holiday"});
 //        generator.generate(new String[]{"FaceCheckinOut"});
         // generator.generate(new String[]{"CheckinOut"});

@@ -7,7 +7,11 @@
  */
 
 package com.dozenx.web.module.pubImage.action;
-import java.io.File;
+import java.awt.*;
+import java.io.*;
+import java.net.URLDecoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +25,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,8 +84,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -1628,6 +1631,149 @@ public class PubImageController extends BaseController{
     }
 
 
+    /**
+     * 2.图片上传
+     *@author: 王作品
+     */
+    @RequestMapping(value = "/base64/upload", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public ResultDTO base64Upload(@RequestParam(value="access_token",required=true)String accessToken,@RequestParam(value = "imageData",required = true) String base64,
+                                    @RequestParam(value = "width",required = true) Integer width, @RequestParam(value = "height", required = true) Integer height,
+                                    HttpServletRequest request) throws Exception{
+        logger.debug("PubImageController传入参数" +"width+height"+width+height);
+//        String orignalFilePath= Config.getInstance().getImage().getServerDir();  // 从配置文件中读取储存文件路径
+//        String widthAndHeightPath=Config.getInstance().getImage().getServerDir()+"/"+width+"_"+height; //生成具有宽高的文件路径
+//        String originalFileName=request.getParameter("original_file_name"); //读取原始文件名称
+//        long imageSize = image.getSize(); //文件大小
+//        BufferedImage thumbImg,img = ImageIO.read(image.getInputStream());//读取image的流
+//        String contentType = image.getContentType();//文件类型 image/jpeg ...
+//        SessionUser user = SessionUtil.getCurSessionUser(request);
+//
+  //      Integer max_img_size = CastUtil.toInteger(ConfigUtil.getConfig("max_img_size"));//获取配置文件大小
+        //判断 image 是否 符合规范
+        if (StringUtil.isBlank(base64)) {
+            throw new ValidException("E3300002","上传的图片为空!");
+        }
+
+
+        //================================
+        BufferedImage bufferedImage;
+        int success = 0;
+        String message = "";
+
+
+
+
+        //ByteArrayInputStream in = new ByteArrayInputStream(data);    //将b作为输入流；
+
+       // FileUtil.writeFileFromStream(in,"2.png", Paths.get("/home/colamachine/workspace/code/java/dozenx/ui/src/main/webapp/uploadoriginal/"));
+        //bufferedImage = ImageIO.read( new FileInputStream(new File("/home/colamachine/workspace/code/java/dozenx/ui/src/main/webapp/uploadoriginal/"+"1.png")));     //将in作为输入流，读取图片存入image中，而这里in可以为ByteArrayInputStream();
+//        bufferedImage = ImageIO.read(in);
+        //bufferedImage.flush();
+//        in.close();
+
+        //=========================================
+
+//        if(StringUtils.isBlank(contentType)){
+//            throw new ValidException("E5071010","图片格式不正确!");
+//        }
+//        if ( !"image/jpeg".equals(contentType) && !"image/png".equals(contentType) && !"image/bmp".equals(contentType)) {
+//            throw new ValidException("E5071010","图片格式不正确!");
+//        }
+
+
+        //这里要对文件名提供加密方式System.currentTimeMillis()
+        String fileName= MD5Util.getStringMD5String(CastUtil.toString(System.currentTimeMillis()+"Awifi"));
+        String aliasName= MD5Util.getStringMD5String(MD5Util.getStringMD5String(CastUtil.toString(System.currentTimeMillis()+"Awifi")))+".jpg";
+        String imgUnique= MD5Util.getStringMD5String(base64);
+        PubImage pubImage=new PubImage();
+        //通过唯一表示判断是否已经上传这张图片
+        HashMap<String,Object> params = new HashMap<>();
+        params.put("figure",imgUnique);
+
+        List<PubImage> pubImageList = pubImageService.listByParams(params);
+        String imgPathName=null;//pubImageService.judgeByImgUnique(imgUnique);
+        //如果不存在 则从新将图片 宽高图片写入到磁盘
+        if(pubImageList !=null &&  pubImageList.size()!=0){
+            pubImage= pubImageList.get(0);
+        }else {
+            try {
+
+                //================================
+                //得到原始文件路径
+                Path rootPath = PathManager.getInstance().getWebRootPath().resolve(Config.getInstance().getImage().getServerDir());
+
+
+                Path originalPath = rootPath.resolve("original");
+                pubImage.setAbsPath(originalPath.toString());
+                File originalDir = originalPath.toFile();
+                Path thumbPath = rootPath.resolve("thumb");
+                File thumbDir = thumbPath.toFile();
+                Path formatPath = rootPath.resolve("jpg");
+                File formatDir = formatPath.toFile();
+                ImageUtil.saveBase64Image(originalPath.toString(),fileName+".png",base64);
+
+
+                //得到图片缩略图路径
+                if(!originalDir.exists()){
+                    originalDir.mkdirs();
+                }
+                if(!thumbDir.exists()){
+                    thumbDir.mkdirs();
+                }
+                if(!formatDir.exists()){
+                    formatDir.mkdirs();
+                }
+                File file =originalPath.resolve(fileName+".png").toFile();
+
+                //bufferedImage = ImageUtil.fixSize(bufferedImage, bufferedImage.getWidth(), bufferedImage.getHeight());
+                 bufferedImage = ImageUtil.saveAsJpg(new FileInputStream(file),formatPath,fileName+".jpg");
+//              //  BufferedImage formatImg = ImageUtil.fixSize(bufferedImage, width, width);
+//                ImageIO.write(bufferedImage, "png",  new File(formatDir,fileName));
+                logger.info("存储文件位置"+formatPath+"/"+fileName);
+
+                BufferedImage thumbImg = ImageUtil.fixSize(bufferedImage, 50, 50);
+
+                ImageIO.write(thumbImg, "jpg", new File(thumbDir, fileName+".jpg"));
+                logger.info("存储缩略图文件位置"+thumbPath+"/"+fileName);
+            } catch (Exception e) {
+                logger.error("图片保存到磁盘失败!" + e.getMessage());
+                e.printStackTrace();
+                return this.getResult(30102005,"图片保存到磁盘失败");
+            }
+
+
+        pubImage.setName(fileName+".jpg");
+        //为对象添加属性
+//        pubImage.setOriName(orig);
+        pubImage.setRelPath(Config.getInstance().getImage().getServerDir());
+        pubImage.setRemark(aliasName);
+        if(imgPathName !=null) {
+            pubImage.setAbsPath(imgPathName);
+        }
+        pubImage.setFigure(imgUnique);
+//        merchantImage.setCreateBy(user.getId());
+//        merchantImage.setCreateByName(user.getUserName());
+        pubImage.setCreateDate(new Timestamp(new Date().getTime()));
+        pubImage.setUploadIp(request.getRemoteAddr());
+        pubImage.setStatus(0);
+        SessionUser sessionUser  =this.getUser(request);
+        pubImage.setCreator(sessionUser.getUserId()+"");
+        pubImage.setCreatorName(sessionUser.getUserName());
+        pubImageService.save(pubImage);
+
+
+        //返回前端用户的信息
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("imgName",fileName);
+        resultMap.put("imgAliasName",aliasName);
+        resultMap.put("imgPath",pubImage.getAbsPath());
+        resultMap.put("id",pubImage.getId());
+        resultMap.put("url",Config.getInstance().getImage().getServerUrl() + "/jpg/" + fileName+".jpg");
+        }
+//        resultMap.put("imgTimePathName", imgWidthAndHeightPath+"/"+imgTimePathName);
+        return this.getResult(Config.getInstance().getImage().getServerUrl() + "/jpg/" + pubImage.getName());
+    }
 
     /**
      * 3.通过Id和Id的类型获取图片的信息

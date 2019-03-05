@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label for="detail" class="col-sm-2 control-label">详细内容:</label>
                 <div class="col-sm-10">
-                    <textarea  id="detail" name="detail"  class="form-control input-sm"   maxlength="500"  ></textarea>
+                    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>            <textarea  id="detail" name="detail"  class="form-control input-sm"   maxlength="50000" style="display:none" ></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -66,6 +66,8 @@
                 <label for="img3" class="col-sm-2 control-label">图片3:</label>
                 <div class="col-sm-10">
                     <input  id="img3" name="img3"  value="null" style="display:none" class="form-control input-sm"   maxlength="100"></input>        </div>
+                <div id="multiUpload">
+                    </div>
             </div>
             <div class="form-group">
                 <label for="remark" class="col-sm-2 control-label">备注:</label>
@@ -182,9 +184,10 @@
 
 var goodsEdit={
     form:null,
-    modal:true,
+    modal:false,
     windowIndex:null,
     formId:"#goodsEditForm",
+       ue:null,
     validParam:{
         rules: {
                    id:{
@@ -200,7 +203,7 @@ var goodsEdit={
             maxlength:50,required:true
         },
         detail:{
-            maxlength:500,required:true
+            maxlength:50000,required:true
         },
         address:{
             maxlength:200
@@ -281,7 +284,7 @@ var goodsEdit={
             maxlength:"副标题不能多于50个字符"
         },
         detail:{
-            maxlength:"详细内容不能多于500个字符"
+            maxlength:"详细内容不能多于50000个字符"
         },
         address:{
             maxlength:"地址不能多于200个字符"
@@ -358,23 +361,43 @@ var goodsEdit={
         this.form=$(this.formId);
         this.addEventListener();
         $("#goodsEditForm").validate(this.validParam);
-        new zImageUtil2({"input":"img"});
-        new zImageUtil2({"input":"img1"});
-        new zImageUtil2({"input":"img2"});
-        var imageUtil=new zImageUtil2({"input":"img3"});
+
+
+
         var that =this;
 
+        UE.delEditor('editor');
+        this.ue=UE.getEditor('editor');
+        this.ue.addListener("ready", function () {
             that.loadData();
+        });
+        this.wrap=$$("#multiUpload");
+        this.MultiImg();
 
     },
-    loadData:function(){
-        var that =this;
+  imgList :[],
+     deletePic: function() {
+        this.nowDeleteImg.remove();
+      },
 
+      uploadSucc: function(result) {
+        this.addImgDiv(this.wrap,null);
+
+      },
+    loadData:function(){console.log("loadData");
+        var that =this;
         Ajax.getJSON(PATH+"/goods/view.json?id="+getParam("id"),null,function(data){
+        console.log(data);
             if(data.r==AJAX_SUCC){
                 if(data.data){
                     fillJso2Form("#goodsEditForm",data.data);
-                    $("#img3").parent().find("img").attr("src",$("#img3").val());
+                    that.ue.setContent(data.data.detail);
+                  //  $("#img3").parent().find("img").attr("src",$("#img3").val());
+
+                     var imageUtil=new zImageUtil5({"input":"img"});
+        var imageUtil=new zImageUtil5({"input":"img1"});
+        var imageUtil=new zImageUtil5({"input":"img2"});
+
                 }
             }else{
                 dialog.error("获取信息失败"+data.msg,function(index){
@@ -384,14 +407,71 @@ var goodsEdit={
             }
         });
     },
+    addImgDiv:function(wrap,url){
+         var div =document.createElement("span");
+            var input =document.createElement("input");
 
+            input.type="hidden";
+            input.value=url;
+            input.name="multi_upload_input";
+            input.style.display="none";
+            div.appendChild(input);
+
+           var button =document.createElement("button");
+           button.innerText="删除";
+           button.style.fontSize="10px";
+           button.style.lineHeight="15px";
+           button.type="button";
+           var that =this;
+            button.onclick=function(){
+                that.nowDeleteImg=div;
+                div.parentNode.removeChild(div);
+
+            }
+            div.appendChild(button);
+            wrap.appendChild(div);
+            var imageUtil = zImageUtil5({"input":input, callback: this.uploadSucc.Apply(this),});
+
+
+    },
+    MultiImg:function(){
+        if(getParam("id")){
+
+            Ajax.getJSON(PATH+"/pubimage/belong/list.json",{"pid":getParam("id"),"pageSize":10,"curPage":1},function(result){
+                this.imgList= result.data;
+                 for(var i=0;i<this.imgList.length;i++){
+                    this.addImgDiv(this.wrap,this.imgList[i].url);
+
+                }
+                this.addImgDiv(this.wrap,null);
+            }.Apply(this));
+
+
+        }else{
+            this.addImgDiv(this.wrap,null);
+        }
+
+
+    },
     saveInfo:function(){
     var that =this;
+        $("#detail").val(this.ue.getContent());
         if (!$("#goodsEditForm").valid())
             return;
         var jso = changeForm2Jso("#goodsEditForm");
         var dialogId=dialog.showWait();
         var that=this;
+
+        //获取多图
+
+        //
+        var multi_upload_input_list = document.getElementsByName("multi_upload_input");
+        var imageUrls =[];
+        for(var i=0;i<multi_upload_input_list.length;i++){
+            imageUrls.push(multi_upload_input_list[i].value);
+
+        }
+        jso.imageUrls=imageUrls.join(",");
         Ajax.post(PATH+$("#goodsEditForm").attr("action"),jso,function(data){
             dialog.hideWait(dialogId);
             if(data.r==0){

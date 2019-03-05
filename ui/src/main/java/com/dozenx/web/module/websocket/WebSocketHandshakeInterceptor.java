@@ -27,15 +27,15 @@ public class WebSocketHandshakeInterceptor extends HttpSessionHandshakeIntercept
         String userName ="";
         if (request instanceof ServletServerHttpRequest) {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest)request;
-            HttpSession session = servletRequest.getServletRequest().getSession(false);
+            HttpSession session = servletRequest.getServletRequest().getSession(true);
             if (session !=null) { //使用userName区分WebSocketHandler，以便定向发送消息
                  SessionUser sessionUser =
-                (SessionUser) session.getAttribute(Constants.SESSION_USER);
+                (SessionUser) session.getAttribute(Constants.SESSION_USER);//这部分可以自己改造  用你自己的session对象 直接是一个用户名字符串也可以的 ^_^
                 if(sessionUser == null) {
                     return false;
 
                 }
-                attributes.put(Constants.SESSION_USER, sessionUser);
+                attributes.put(Constants.SESSION_USER, sessionUser);//标识用户已经登录
 
             }else{
                 return false;

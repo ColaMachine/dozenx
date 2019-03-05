@@ -27,12 +27,12 @@
                 <zwIcon type="appstore" />功能3</template>
 
               <zwMenuItemGroup title="Item 1">
-                <zwMenuItem key="setting:1">功能3</zwMenuItem>
-                <zwMenuItem key="setting:2">Option 2</zwMenuItem>
+                <zwMenuItem key="gn3">功能3</zwMenuItem>
+                <zwMenuItem key="xx2">Option 2</zwMenuItem>
               </zwMenuItemGroup>
               <zwMenuItemGroup title="Item 2">
-                <zwMenuItem key="setting:3">Option 3</zwMenuItem>
-                <zwMenuItem key="setting:4">Option 4</zwMenuItem>
+                <zwMenuItem key="xx3">Option 3</zwMenuItem>
+                <zwMenuItem key="xx4">Option 4</zwMenuItem>
               </zwMenuItemGroup>
 
             </zwSubMenu>
@@ -74,17 +74,17 @@
             </zwMenuItem>
             <zwSubMenu>
               <template slot="title"> dozenx</template>
-              <zwMenuItem key="setting:1">
+              <zwMenuItem key="xggrxx">
                 <zwIcon type="user" />修改个人信息</zwMenuItem>
-              <zwMenuItem key="setting:1">
+              <zwMenuItem key="tcdl">
                 <zwIcon type="sign-out" />退出登录</zwMenuItem>
               <zwMenuItemGroup title="购物">
-                <zwMenuItem key="setting:1">我的收藏</zwMenuItem>
-                <zwMenuItem key="setting:2">我的购物车</zwMenuItem>
+                <zwMenuItem key="wdsc">我的收藏</zwMenuItem>
+                <zwMenuItem key="wdgwc">我的购物车</zwMenuItem>
               </zwMenuItemGroup>
               <zwMenuItemGroup title="直播">
-                <zwMenuItem key="setting:3">我的收藏</zwMenuItem>
-                <zwMenuItem key="setting:4">我的观看记录</zwMenuItem>
+                <zwMenuItem key="wdsc">我的收藏</zwMenuItem>
+                <zwMenuItem key="wdgkjl">我的观看记录</zwMenuItem>
               </zwMenuItemGroup>
 
             </zwSubMenu>
@@ -99,22 +99,22 @@
       <zwSider>
 
         <zwMenu mode="inline">
-          <zwMenuItem key="grid">
+          <zwMenuItem key="mail">
             <zwIcon type="mail" /><a href="#api">api</a>
           </zwMenuItem>
-          <zwMenuItem key="grid">
+          <zwMenuItem key="layout">
             <zwIcon type="mail" /><a href="#layout">layout</a>
           </zwMenuItem>
           <zwMenuItem key="grid" disabled>
             <zwIcon type="appstore" /><a href="#grid">grid</a>
           </zwMenuItem>
-          <zwMenuItem key="grid" disabled>
+          <zwMenuItem key="输入框" disabled>
             <zwIcon type="appstore" /><a href="#input">输入框</a>
           </zwMenuItem>
-            <zwMenuItem key="grid" disabled>
+            <zwMenuItem key="form" disabled>
                       <zwIcon type="appstore" /><a href="#form">form</a>
                     </zwMenuItem>
-            <zwMenuItem key="grid" disabled>
+            <zwMenuItem key="富文本输入框" disabled>
                       <zwIcon type="appstore" /><a href="#richInputExample">富文本输入框</a>
                     </zwMenuItem>
 
@@ -125,36 +125,36 @@
             <template slot="title">
               <zwIcon type="search" />data display</template>
 
-            <zwMenuItem key="setting:1"><a href="#collapse">collapse</a></zwMenuItem>
-            <zwMenuItem key="setting:2"><a href="#tabs">Tabs 标签页</a></zwMenuItem>
-             <zwMenuItem key="setting:2"><a href="#appDialougeExample">手机端底部弹框</a></zwMenuItem>
-            <zwMenuItem key="setting:2"><a href="#tableExample">table</a></zwMenuItem>
-                <zwMenuItem key="setting:2"><a href="#crouselExample">滚动图片</a></zwMenuItem>
-                <zwMenuItem key="setting:2"><a href="#phoneAppExample">app</a></zwMenuItem>
-                <zwMenuItem key="setting:2"><a href="#iconListExample">小图标链接</a></zwMenuItem>
-                   <zwMenuItem key="setting:2"><a href="#sliderTextExample">滚动文字</a></zwMenuItem>
-                    <zwMenuItem key="setting:2"><a href="#appImgListExample">手机动态图片列表</a></zwMenuItem>
-                      <zwMenuItem key="setting:2"><a href="#zwAppBottomBarExample">手机底部工具栏</a></zwMenuItem>
-                        <zwMenuItem key="setting:2"><a href="#zwSlidPanelExample">手机可切换面板</a></zwMenuItem>
-                          <zwMenuItem key="setting:2"><a href="#zwJumbotronExample">巨幕</a></zwMenuItem>
-                           <zwMenuItem key="setting:2"><a href="#zhihuijiatingExample">智慧家庭</a></zwMenuItem>
+            <zwMenuItem key="collapse"><a href="#collapse">collapse</a></zwMenuItem>
+            <zwMenuItem key="Tabs"><a href="#tabs">Tabs 标签页</a></zwMenuItem>
+             <zwMenuItem key="手机端底部弹框"><a href="#appDialougeExample">手机端底部弹框</a></zwMenuItem>
+            <zwMenuItem key="table"><a href="#tableExample">table</a></zwMenuItem>
+                <zwMenuItem key="滚动图片"><a href="#crouselExample">滚动图片</a></zwMenuItem>
+                <zwMenuItem key="app"><a href="#phoneAppExample">app</a></zwMenuItem>
+                <zwMenuItem key="小图标链接"><a href="#iconListExample">小图标链接</a></zwMenuItem>
+                   <zwMenuItem key="滚动文字"><a href="#sliderTextExample">滚动文字</a></zwMenuItem>
+                    <zwMenuItem key="手机动态图片列表"><a href="#appImgListExample">手机动态图片列表</a></zwMenuItem>
+                      <zwMenuItem key="zwAppBottomBarExample"><a href="#zwAppBottomBarExample">手机底部工具栏</a></zwMenuItem>
+                        <zwMenuItem key="zwSlidPanelExample"><a href="#zwSlidPanelExample">手机可切换面板</a></zwMenuItem>
+                          <zwMenuItem key="zwJumbotronExample"><a href="#zwJumbotronExample">巨幕</a></zwMenuItem>
+                           <zwMenuItem key="zhihuijiatingExample"><a href="#zhihuijiatingExample">智慧家庭</a></zwMenuItem>
 
-                            <zwMenuItem key="setting:2"><a href="#lockPwdModify">密码设置</a></zwMenuItem>
+                            <zwMenuItem key="lockPwdModify"><a href="#lockPwdModify">密码设置</a></zwMenuItem>
           </zwSubMenu>
 
           <zwSubMenu>
             <template slot="title">
               <zwIcon type="search" />Navigation</template>
 
-            <zwMenuItem key="setting:1"><a href="#dropdownmenu">DropDown 下拉菜单</a></zwMenuItem>
-            <zwMenuItem key="setting:2"><a href="#menu">menu 导航菜单</a></zwMenuItem>
-            <zwMenuItem key="setting:2"><a href="#navbar"> 导航条</a></zwMenuItem>
+            <zwMenuItem key="dropdownmenu"><a href="#dropdownmenu">DropDown 下拉菜单</a></zwMenuItem>
+            <zwMenuItem key="menu"><a href="#menu">menu 导航菜单</a></zwMenuItem>
+            <zwMenuItem key="navbar"><a href="#navbar"> 导航条</a></zwMenuItem>
           </zwSubMenu>
              <zwSubMenu>
                 <template slot="title">
                     <zwIcon type="search" />feedback</template>
 
-                    <zwMenuItem key="setting:1"><a href="#alert">alert</a></zwMenuItem>
+                    <zwMenuItem key="alert"><a href="#alert">alert</a></zwMenuItem>
 
               </zwSubMenu>
         </zwMenu>

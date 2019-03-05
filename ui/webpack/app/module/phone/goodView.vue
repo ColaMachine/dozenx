@@ -5,7 +5,7 @@
 
 <zwCol class="pull-right" span=24>
 <zwAppTopBar >
-    <a slot="left" :href="getPathValue('/static/html/vue/vuePhoneIndex.html#/phoneMain')">
+    <a slot="left" :href="getPathValue('/static/html/vue/shopIndex.html#/shopMain')">
   <img  class=""  :src="getPathValue('/static/img/header/back.png')">
   </a>
 <span slot="middle"> 商品详情</span>
@@ -54,13 +54,15 @@
         <blockquote class="baoliao">
 
        <em class="title"> 网友爆料原文：</em>
-       <p><a href="https://go.smzdm.com/ee8008d56b674415/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">京东</a>
+
+        <p v-html="data.detail"></p>
 
 
-
-{{data.detail}}
        </p>
-    <!--   <p>凑单品：<a href="https://go.smzdm.com/6d167997a53401ac/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">梦龙</a></p>
+    <!--
+        <p><a href="https://go.smzdm.com/ee8008d56b674415/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">京东</a>
+
+    <p>凑单品：<a href="https://go.smzdm.com/6d167997a53401ac/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">梦龙</a></p>
        <p>叠加优惠券：<a href="https://go.smzdm.com/5ebc67870e28af45/cb_aa_yh_95_11787341_10124_36035_111_0" target="_blank" onclick="gtm();">199减100券</a></p>
 -->
        </blockquote>
@@ -98,7 +100,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
                  <div class="tags-box" style="padding-left: 20px;padding-right: 20px; width: auto;">
 
                      <span class="J_zhi_like_fav z-group-data" data-type="zhi" data-zhi-type="1" data-channel="3" data-article="11792647" data-cid="1" data-atp="3" data-tagid="无">
-                         <a href="javascript:;">
+                         <a href="javascript:;" @click='zan()' >
                          <i class="z-icon-zhi">顶</i>
                          <span>{{data.up}}</span>
                          </a>
@@ -106,7 +108,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
 
 
                      <span class="J_zhi_like_fav z-group-data" data-type="zhi" data-zhi-type="-1" data-channel="3" data-article="11792647" data-cid="1" data-atp="3" data-tagid="无">
-                         <a href="javascript:;">
+                         <a href="javascript:;" @click='down()'>
                              <i class="z-icon-not">踩</i>
                              <span>{{data.down}}</span>
                          </a>
@@ -119,20 +121,10 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
 <zwRow  style="display:block">
 <zwCol  style="min-width:300px" class="zw-col-sm-24 pull-left" span=12>
 
- <zwPanel :canFold=false state="open" style="">
-                                                   <span slot="title" name="title">评论</span>
-                                                    <p  slot="body" name="body">
-
-                                                         <blogInput @submitCallBack="refreshBlogView"></blogInput>
-                                                     </p>
-
-                                                 </zwPanel>
-
-<zwPanel :canFold=false state="open" style="">
+<zwPanel :canFold=false state="open" >
 <span slot="title" name="title">最新评论</span>
 <p  slot="body" name="body">
-
-<blogViewList   ref="blogViewList" ></blogViewList>
+<Comments v-bind:pid="id" ></Comments>
 </p>
 
 </zwPanel>
@@ -141,7 +133,6 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
                          </zwCol>
      </zwRow>
 
-     <hr/><hr/>
      <br></br><br></br><br></br>
      <div class="footer-wrap fixed-bottom lrBot flex">
                  <div class="btn-l">
@@ -198,8 +189,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
   import zwForm from '../../component/dataentry/zwForm.vue';
   import zwFormItem from '../../component/dataentry/zwFormItem.vue';
 
-  import blogInput from '../../module/example/dataentry/blogInput.vue';
-  import blogViewList from '../../component/datadisplay/blogViewList2.vue';
+  import Comments from '../../component/datadisplay/Comments.vue';
   import zwBase from '../../component/zwBase.vue';
  import zwPanel from '../../component/datadisplay/zwPanel.vue';
   import zwAlbum from '../../component/datadisplay/zwAlbum.vue';
@@ -224,13 +214,15 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
       zwInput,
       zwAppTopBar,
       zwJumbotron,
-      zwForm,zwAlbum,
-      zwFormItem,blogInput,blogViewList,zwAppBuyBottomBar
+      zwForm,zwAlbum,Comments,
+      zwFormItem,zwAppBuyBottomBar
     },
     name: "phoneMain",
     data() {
 
       return {
+      id:getQueryString("id"),
+
       images:[],
         user:{},
        data:{
@@ -242,7 +234,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
 
     },
     created(){
-Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(result) {
+Ajax.getJSON(PATH+"/goods/view.json?id="+this.id, null, function(result) {
                         if(result.r == AJAX_SUCC && result.data) {
 
                             this.data =result.data;
@@ -261,27 +253,39 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+getQueryString("id"), null, function(re
     mounted() {
 
 
-     /*  Ajax.getJSON(PATH+"/pubimage/list?pid="+getQueryString("id"), {curPage:1,pageSize:10}, function(result) {
-                          if(result.r == AJAX_SUCC && result.data) {
-                                var ary = result.data;
-                                var fianlAry = [];
-                                for(var i=0;i<ary.length;i++){
-                                    var jso = {};
-                                    jso.id=ary[i].id;
-                                    jso.url=ary[i].relPath+"/"+ary[i].name;
-                                    fianlAry.push(jso);
-                                }
-                              this.images =fianlAry;
-                          }
-                        }.Apply(this));*/
+
     },
     computed: {
 
     },
     methods: {
-        refreshBlogView:function(){
-           // this.$refs.blogViewList.refresh();
+        zan:function(){
+            Ajax.post(PATH+"/goods/zan",{"pid":getQueryString("id")},function(result){
+                console.log(result);
+                if(result.r==AJAX_SUCC){
+                    this.data.up=result.data.up;
+                    this.data.down=result.data.down;
+                }else{
+                     console.log(result.msg);
+                     dialog.alert(result.msg);
+                 }
+            }.Apply(this));
+
+        },
+        down:function(){
+            Ajax.post(PATH+"/goods/down",{"pid":getQueryString("id")},function(result){
+                            console.log(result);
+                            if(result.r==AJAX_SUCC){
+                                this.data.up=result.data.up;
+                                this.data.down=result.data.down;
+                            }else{
+                                 console.log(result.msg);
+                                 alert(result.msg);
+                             }
+                        }.Apply(this));
+
         }
+
     }
   }
 </script>

@@ -190,6 +190,7 @@ ul.zw-menu>li>a>.zw-icon {
 }
 .zw-menu-item-text {
     position: relative;
+    overflow:hidden;
     min-width: 100px;
     padding-right: 20px;
 }

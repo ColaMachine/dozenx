@@ -19,6 +19,12 @@ import com.dozenx.util.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+
+import com.dozenx.web.core.annotation.RequiresLogin;
+import com.dozenx.web.module.pubImageBelong.bean.PubImageBelong;
+import com.dozenx.web.module.pubImageBelong.service.PubImageBelongService;
+import com.dozenx.web.module.zan.bean.Zan;
+import com.dozenx.web.module.zan.service.ZanService;
 import org.slf4j.Logger;
 import com.dozenx.core.exception.ParamException;
 import org.slf4j.LoggerFactory;
@@ -1512,10 +1518,16 @@ public class GoodsController extends BaseController{
         if(StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302,validStr);
         }
+        String[] imgAry = request.getParameter("imageUrls").split(",");//new String[]{img,img1,img2,img3};
+        goodsService.save(goods);
 
-        return goodsService.save(goods);
+
+        return pubImageBelongService.save(goods.getId(),imgAry);
 
     }
+
+    @Resource
+    private PubImageBelongService pubImageBelongService;
 
     /**
      * 说明:删除Goods信息
@@ -2863,4 +2875,63 @@ public class GoodsController extends BaseController{
         return this.getResult(0, "数据为空，导出失败");
 
     }
+
+
+    /**
+     * 说明:ajax请求Goods信息
+     * @author dozen.zhang
+     * @date 2018-12-2 16:05:28
+     * @return String
+     */
+    @API(summary="支持",
+            description="支持",
+            parameters={
+
+            })
+    @RequestMapping(value = "/zan" , method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresLogin
+    public ResultDTO zan(HttpServletRequest request) throws Exception{
+        Long  pid = Long.valueOf(request.getParameter("pid"));
+
+        HashMap  map  =new HashMap();
+        map.put("pid",pid);
+        Long userId = this.getUserId(request);
+        if(userId==null){
+            return this.getResult(504, "未登录");
+        }
+        zanService.up(userId,pid,1);
+
+        goodsService.updateZan(pid);
+
+        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(pid));
+    }
+
+
+    @API(summary="反对",
+            description="反对",
+            parameters={
+            })
+    @RequestMapping(value = "/down" , method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresLogin
+    public ResultDTO down(HttpServletRequest request) throws Exception{
+        Long  pid = Long.valueOf(request.getParameter("pid"));
+
+        HashMap  map  =new HashMap();
+        map.put("pid",pid);
+        Long userId = this.getUserId(request);
+        if(userId==null){
+            return this.getResult(504, "未登录");
+        }
+        zanService.down(userId,pid,1);
+
+        goodsService.updateZan(pid);
+
+        return ResultUtil.getDataResult(goodsService.selectByPrimaryKey(pid));
+    }
+
+    @Resource
+    ZanService zanService ;
+
 }

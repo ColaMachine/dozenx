@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dozenx.web.module.blogComment.dao.BlogCommentMapper">
-  <resultMap id="BaseResultMap" type="com.dozenx.web.module.blogComment.bean.BlogComment">
+<mapper namespace="com.dozenx.web.module.pubComment.dao.PubCommentMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.pubComment.bean.PubComment">
       <id column="id" jdbcType="BIGINT" property="id" />
       <result column="pid" jdbcType="BIGINT" property="pid" />
       <result column="content" jdbcType="VARCHAR" property="content" />
@@ -14,21 +14,21 @@
       <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    blog_comment.`id` ,blog_comment.`pid` ,blog_comment.`content` ,blog_comment.`type` ,blog_comment.`status` ,blog_comment.`create_user` ,blog_comment.`userName` ,blog_comment.`face` ,blog_comment.`createtime` ,blog_comment.`updatetime` 
+    pub_comment.`id` ,pub_comment.`pid` ,pub_comment.`content` ,pub_comment.`type` ,pub_comment.`status` ,pub_comment.`create_user` ,pub_comment.`userName` ,pub_comment.`face` ,pub_comment.`createtime` ,pub_comment.`updatetime` 
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from blog_comment
-    where blog_comment.id =   #{id,jdbcType=BIGINT}
+    from pub_comment
+    where pub_comment.id =   #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from blog_comment
+    delete from pub_comment
     where id = #{id,jdbcType=BIGINT}
   </delete>
- <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.blogComment.bean.BlogComment" >
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
 
-    insert into blog_comment (  <include refid="Base_Column_List" />)
+    insert into pub_comment (  <include refid="Base_Column_List" />)
     values (
 #{id,jdbcType=BIGINT}
 ,#{pid,jdbcType=BIGINT}
@@ -42,8 +42,8 @@
 ,#{updatetime,jdbcType=TIMESTAMP}
     )
   </insert>
-   <insert id="insertSelective" parameterType="com.dozenx.web.module.blogComment.bean.BlogComment" >
-    insert into blog_comment
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
+    insert into pub_comment
     <trim prefix="(" suffix=")" suffixOverrides="," >
         <if test="id != null" >  
            `id`, 
@@ -109,8 +109,8 @@
         </if>  
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.blogComment.bean.BlogComment" >
-    update blog_comment
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
+    update pub_comment
     <set >
         <if test="id != null" >  
              `id`=#{id,jdbcType=BIGINT},
@@ -145,8 +145,8 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.blogComment.bean.BlogComment" >
-    update blog_comment
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.pubComment.bean.PubComment" >
+    update pub_comment
     set 
               `pid`=#{pid,jdbcType=BIGINT},
               `content`=#{content,jdbcType=VARCHAR},
@@ -162,7 +162,7 @@ where id = #{id,jdbcType=BIGINT}
   <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from blog_comment where 1=1
+    from pub_comment where 1=1
         <if test="id != null and id != '' ">  
            and `id` = #{id}
         </if>  
@@ -230,121 +230,121 @@ where id = #{id,jdbcType=BIGINT}
    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from blog_comment
+    from pub_comment
 
     where 1=1
         <if test="id != null and id != '' ">  
-           and blog_comment.`id` = #{id}
+           and pub_comment.`id` = #{id}
         </if>  
         <if test="pid != null and pid != '' ">  
-           and blog_comment.`pid` = #{pid}
+           and pub_comment.`pid` = #{pid}
         </if>  
         <if test="content != null and content != '' ">  
-           and blog_comment.`content` = #{content}
+           and pub_comment.`content` = #{content}
         </if>  
         <if test="contentLike != null and contentLike != '' ">  
-             and blog_comment.`content` like "%"#{contentLike}"%"
+             and pub_comment.`content` like "%"#{contentLike}"%"
         </if>   
         <if test="type != null and type != '' ">  
-           and blog_comment.`type` = #{type}
+           and pub_comment.`type` = #{type}
         </if>  
         <if test="status != null and status != '' ">  
-           and blog_comment.`status` = #{status}
+           and pub_comment.`status` = #{status}
         </if>  
         <if test="createUser != null and createUser != '' ">  
-           and blog_comment.`create_user` = #{createUser}
+           and pub_comment.`create_user` = #{createUser}
         </if>  
         <if test="userName != null and userName != '' ">  
-           and blog_comment.`userName` = #{userName}
+           and pub_comment.`userName` = #{userName}
         </if>  
         <if test="userNameLike != null and userNameLike != '' ">  
-             and blog_comment.`userName` like "%"#{userNameLike}"%"
+             and pub_comment.`userName` like "%"#{userNameLike}"%"
         </if>   
         <if test="face != null and face != '' ">  
-           and blog_comment.`face` = #{face}
+           and pub_comment.`face` = #{face}
         </if>  
         <if test="faceLike != null and faceLike != '' ">  
-             and blog_comment.`face` like "%"#{faceLike}"%"
+             and pub_comment.`face` like "%"#{faceLike}"%"
         </if>   
         <if test="createtime != null and createtime != '' ">  
-           and blog_comment.`createtime` = #{createtime}
+           and pub_comment.`createtime` = #{createtime}
         </if>  
         <if test="createtimeBegin != null and createtimeBegin != '' ">  
-             and blog_comment.`createtime` &gt;= #{createtimeBegin}
+             and pub_comment.`createtime` &gt;= #{createtimeBegin}
         </if>   
          <if test="createtimeEnd != null and createtimeEnd != '' ">  
-             and blog_comment.`createtime` &lt;= #{createtimeEnd}
+             and pub_comment.`createtime` &lt;= #{createtimeEnd}
         </if> 
         <if test="updatetime != null and updatetime != '' ">  
-           and blog_comment.`updatetime` = #{updatetime}
+           and pub_comment.`updatetime` = #{updatetime}
         </if>  
         <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
-             and blog_comment.`updatetime` &gt;= #{updatetimeBegin}
+             and pub_comment.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
          <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
-             and blog_comment.`updatetime` &lt;= #{updatetimeEnd}
+             and pub_comment.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
     select 
     count(1) 
-    from blog_comment where 1=1
+    from pub_comment where 1=1
         <if test="id != null and id != '' ">  
-           and blog_comment.`id` = #{id}
+           and pub_comment.`id` = #{id}
         </if>  
         <if test="pid != null and pid != '' ">  
-           and blog_comment.`pid` = #{pid}
+           and pub_comment.`pid` = #{pid}
         </if>  
         <if test="content != null and content != '' ">  
-           and blog_comment.`content` = #{content}
+           and pub_comment.`content` = #{content}
         </if>  
         <if test="contentLike != null and contentLike != '' ">  
-             and blog_comment.`content` like "%"#{contentLike}"%"
+             and pub_comment.`content` like "%"#{contentLike}"%"
         </if>   
         <if test="type != null and type != '' ">  
-           and blog_comment.`type` = #{type}
+           and pub_comment.`type` = #{type}
         </if>  
         <if test="status != null and status != '' ">  
-           and blog_comment.`status` = #{status}
+           and pub_comment.`status` = #{status}
         </if>  
         <if test="createUser != null and createUser != '' ">  
-           and blog_comment.`create_user` = #{createUser}
+           and pub_comment.`create_user` = #{createUser}
         </if>  
         <if test="userName != null and userName != '' ">  
-           and blog_comment.`userName` = #{userName}
+           and pub_comment.`userName` = #{userName}
         </if>  
         <if test="userNameLike != null and userNameLike != '' ">  
-             and blog_comment.`userName` like "%"#{userNameLike}"%"
+             and pub_comment.`userName` like "%"#{userNameLike}"%"
         </if>   
         <if test="face != null and face != '' ">  
-           and blog_comment.`face` = #{face}
+           and pub_comment.`face` = #{face}
         </if>  
         <if test="faceLike != null and faceLike != '' ">  
-             and blog_comment.`face` like "%"#{faceLike}"%"
+             and pub_comment.`face` like "%"#{faceLike}"%"
         </if>   
         <if test="createtime != null and createtime != '' ">  
-           and blog_comment.`createtime` = #{createtime}
+           and pub_comment.`createtime` = #{createtime}
         </if>  
         <if test="createtimeBegin != null and createtimeBegin != '' ">  
-             and blog_comment.`createtime` &gt;= #{createtimeBegin}
+             and pub_comment.`createtime` &gt;= #{createtimeBegin}
         </if>   
          <if test="createtimeEnd != null and createtimeEnd != '' ">  
-             and blog_comment.`createtime` &lt;= #{createtimeEnd}
+             and pub_comment.`createtime` &lt;= #{createtimeEnd}
         </if> 
         <if test="updatetime != null and updatetime != '' ">  
-           and blog_comment.`updatetime` = #{updatetime}
+           and pub_comment.`updatetime` = #{updatetime}
         </if>  
         <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
-             and blog_comment.`updatetime` &gt;= #{updatetimeBegin}
+             and pub_comment.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
          <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
-             and blog_comment.`updatetime` &lt;= #{updatetimeEnd}
+             and pub_comment.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
  <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
     select
     count(1)
-    from blog_comment where 1!=1
+    from pub_comment where 1!=1
         <if test="id != null and id != '' ">
            or `id` = #{id}
         </if>

@@ -6,16 +6,17 @@
  * 文件说明: 
  */
 
-package com.dozenx.web.module.blogComment.action;
+package com.dozenx.web.module.pubComment.action;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.*;
 
 import com.dozenx.util.*;
-import javax.annotation.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.dozenx.web.core.auth.session.SessionUser;
+import com.dozenx.web.module.pubComment.bean.PubComment;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
 import org.slf4j.Logger;
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,8 +32,7 @@ import com.cpj.swagger.annotation.API;
 import com.cpj.swagger.annotation.APIs;
 import com.cpj.swagger.annotation.DataType;
 import com.cpj.swagger.annotation.Param;
-import com.dozenx.web.module.blogComment.service.BlogCommentService;
-import com.dozenx.web.module.blogComment.bean.BlogComment;
+import com.dozenx.web.module.pubComment.service.PubCommentService;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseController;
@@ -44,13 +43,13 @@ import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.util.DateUtil;
 @APIs(description = "评论")
 @Controller
-@RequestMapping("/blog/comment")
-public class BlogCommentController extends BaseController{
+@RequestMapping("/pub/comment")
+public class PubCommentController extends BaseController{
     /** 日志 **/
-    private Logger logger = LoggerFactory.getLogger(BlogCommentController.class);
+    private Logger logger = LoggerFactory.getLogger(PubCommentController.class);
     /** 权限service **/
     @Autowired
-    private BlogCommentService blogCommentService;
+    private PubCommentService pubCommentService;
     
 
 
@@ -179,8 +178,8 @@ public class BlogCommentController extends BaseController{
         }
 
         params.put("page",page);
-        List<BlogComment> blogComments = blogCommentService.listByParams4Page(params);
-        return ResultUtil.getResult(blogComments, page);
+        List<PubComment> pubComments = pubCommentService.listByParams4Page(params);
+        return ResultUtil.getResult(pubComments, page);
     }
     
    /**
@@ -286,8 +285,8 @@ public class BlogCommentController extends BaseController{
             }
         }
 
-        List<BlogComment> blogComments = blogCommentService.listByParams(params);
-        return ResultUtil.getDataResult(blogComments);
+        List<PubComment> pubComments = pubCommentService.listByParams(params);
+        return ResultUtil.getDataResult(pubComments);
     }
 
    /**
@@ -307,13 +306,13 @@ public class BlogCommentController extends BaseController{
     public ResultDTO getById(@PathVariable Long id,HttpServletRequest request) {
             HashMap<String,Object> result =new HashMap</*String,Object*/>();
         if(id > 0){
-            BlogComment bean = blogCommentService.selectByPrimaryKey(Long.valueOf(id));
+            PubComment bean = pubCommentService.selectByPrimaryKey(Long.valueOf(id));
             result.put("bean", bean);
         }
         return this.getResult(result);
 
       /*  String id = request.getParameter("id");
-        BlogComment bean = blogCommentService.selectByPrimaryKey(Long.valueOf(id));
+        PubComment bean = pubCommentService.selectByPrimaryKey(Long.valueOf(id));
         HashMap<String,ResultDTO> result =new HashMap<String,ResultDTO>();
         result.put("bean", bean);
         return this.getResult(bean);*/
@@ -347,104 +346,104 @@ public class BlogCommentController extends BaseController{
     @RequestMapping(value = "update/{id}",method = RequestMethod.PUT)
     @ResponseBody
     public ResultDTO update(@PathVariable Long id,HttpServletRequest request) throws Exception {
-        BlogComment blogComment =new  BlogComment();
+        PubComment pubComment =new PubComment();
         /*
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
-            blogComment.setId(Long.valueOf(id)) ;
+            pubComment.setId(Long.valueOf(id)) ;
         }
         
         String pid = request.getParameter("pid");
         if(!StringUtil.isBlank(pid)){
-            blogComment.setPid(Long.valueOf(pid)) ;
+            pubComment.setPid(Long.valueOf(pid)) ;
         }
         
         String content = request.getParameter("content");
         if(!StringUtil.isBlank(content)){
-            blogComment.setContent(String.valueOf(content)) ;
+            pubComment.setContent(String.valueOf(content)) ;
         }
         
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            blogComment.setType(Integer.valueOf(type)) ;
+            pubComment.setType(Integer.valueOf(type)) ;
         }
         
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
-            blogComment.setStatus(Integer.valueOf(status)) ;
+            pubComment.setStatus(Integer.valueOf(status)) ;
         }
         
         String createUser = request.getParameter("createUser");
         if(!StringUtil.isBlank(createUser)){
-            blogComment.setCreateUser(Long.valueOf(createUser)) ;
+            pubComment.setCreateUser(Long.valueOf(createUser)) ;
         }
         
         String userName = request.getParameter("userName");
         if(!StringUtil.isBlank(userName)){
-            blogComment.setUserName(String.valueOf(userName)) ;
+            pubComment.setUserName(String.valueOf(userName)) ;
         }
         
         String face = request.getParameter("face");
         if(!StringUtil.isBlank(face)){
-            blogComment.setFace(String.valueOf(face)) ;
+            pubComment.setFace(String.valueOf(face)) ;
         }
         
         String createtime = request.getParameter("createtime");
         if(!StringUtil.isBlank(createtime)){
-            blogComment.setCreatetime(Timestamp.valueOf(createtime)) ;
+            pubComment.setCreatetime(Timestamp.valueOf(createtime)) ;
         }
         
         String updatetime = request.getParameter("updatetime");
         if(!StringUtil.isBlank(updatetime)){
-            blogComment.setUpdatetime(Timestamp.valueOf(updatetime)) ;
+            pubComment.setUpdatetime(Timestamp.valueOf(updatetime)) ;
         }
         */
        // String id = request.getParameter("id");
         if(!StringUtil.isBlank(id+"")){
-            blogComment.setId(Long.valueOf(id));
+            pubComment.setId(Long.valueOf(id));
         }
         String pid = request.getParameter("pid");
         if(!StringUtil.isBlank(pid)){
-            blogComment.setPid(Long.valueOf(pid));
+            pubComment.setPid(Long.valueOf(pid));
         }
         String content = request.getParameter("content");
         if(!StringUtil.isBlank(content)){
-            blogComment.setContent(content);
+            pubComment.setContent(content);
         }
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            blogComment.setType(Integer.valueOf(type));
+            pubComment.setType(Integer.valueOf(type));
         }
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
-            blogComment.setStatus(Integer.valueOf(status));
+            pubComment.setStatus(Integer.valueOf(status));
         }
         String createUser = request.getParameter("createUser");
         if(!StringUtil.isBlank(createUser)){
-            blogComment.setCreateUser(Long.valueOf(createUser));
+            pubComment.setCreateUser(Long.valueOf(createUser));
         }
         String userName = request.getParameter("userName");
         if(!StringUtil.isBlank(userName)){
-            blogComment.setUserName(userName);
+            pubComment.setUserName(userName);
         }
         String face = request.getParameter("face");
         if(!StringUtil.isBlank(face)){
-            blogComment.setFace(face);
+            pubComment.setFace(face);
         }
         String createtime = request.getParameter("createtime");
         if(!StringUtil.isBlank(createtime)){
             if(StringUtil.checkNumeric(createtime)){
-                blogComment.setCreatetime(Timestamp.valueOf(createtime));
+                pubComment.setCreatetime(Timestamp.valueOf(createtime));
             }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
-                blogComment.setCreatetime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
+                pubComment.setCreatetime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
         }
         String updatetime = request.getParameter("updatetime");
         if(!StringUtil.isBlank(updatetime)){
             if(StringUtil.checkNumeric(updatetime)){
-                blogComment.setUpdatetime(Timestamp.valueOf(updatetime));
+                pubComment.setUpdatetime(Timestamp.valueOf(updatetime));
             }else if(StringUtil.checkDateStr(updatetime, "yyyy-MM-dd HH:mm:ss")){
-                blogComment.setUpdatetime(new Timestamp( DateUtil.parseToDate(updatetime, "yyyy-MM-dd HH:mm:ss").getTime()));
+                pubComment.setUpdatetime(new Timestamp( DateUtil.parseToDate(updatetime, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
         }
 
@@ -466,7 +465,7 @@ public class BlogCommentController extends BaseController{
             return ResultUtil.getResult(302,validStr);
         }
 
-        return blogCommentService.save(blogComment);
+        return pubCommentService.save(pubComment);
        
     }
 
@@ -488,7 +487,7 @@ public class BlogCommentController extends BaseController{
                @Param(name="content" , description="正文",dataType = DataType.STRING,required = true),
                @Param(name="type" , description="类型",dataType = DataType.INTEGER,required = true),
                @Param(name="status" , description="状态",dataType = DataType.INTEGER,required = false),
-               @Param(name="createUser" , description="创建人",dataType = DataType.LONG,required = false),
+               @Param(name="createUser"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              , description="创建人",dataType = DataType.LONG,required = false),
                @Param(name="userName" , description="创建人姓名",dataType = DataType.STRING,required = false),
                @Param(name="face" , description="头像",dataType = DataType.STRING,required = false),
                @Param(name="createtime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
@@ -497,104 +496,104 @@ public class BlogCommentController extends BaseController{
         @RequestMapping(value = "add",method = RequestMethod.POST)
         @ResponseBody
         public ResultDTO add(HttpServletRequest request) throws Exception {
-            BlogComment blogComment =new  BlogComment();
+            PubComment pubComment =new PubComment();
             /*
             String id = request.getParameter("id");
             if(!StringUtil.isBlank(id)){
-                blogComment.setId(Long.valueOf(id)) ;
+                pubComment.setId(Long.valueOf(id)) ;
             }
             
             String pid = request.getParameter("pid");
             if(!StringUtil.isBlank(pid)){
-                blogComment.setPid(Long.valueOf(pid)) ;
+                pubComment.setPid(Long.valueOf(pid)) ;
             }
             
             String content = request.getParameter("content");
             if(!StringUtil.isBlank(content)){
-                blogComment.setContent(String.valueOf(content)) ;
+                pubComment.setContent(String.valueOf(content)) ;
             }
             
             String type = request.getParameter("type");
             if(!StringUtil.isBlank(type)){
-                blogComment.setType(Integer.valueOf(type)) ;
+                pubComment.setType(Integer.valueOf(type)) ;
             }
             
             String status = request.getParameter("status");
             if(!StringUtil.isBlank(status)){
-                blogComment.setStatus(Integer.valueOf(status)) ;
+                pubComment.setStatus(Integer.valueOf(status)) ;
             }
             
             String createUser = request.getParameter("createUser");
             if(!StringUtil.isBlank(createUser)){
-                blogComment.setCreateUser(Long.valueOf(createUser)) ;
+                pubComment.setCreateUser(Long.valueOf(createUser)) ;
             }
             
             String userName = request.getParameter("userName");
             if(!StringUtil.isBlank(userName)){
-                blogComment.setUserName(String.valueOf(userName)) ;
+                pubComment.setUserName(String.valueOf(userName)) ;
             }
             
             String face = request.getParameter("face");
             if(!StringUtil.isBlank(face)){
-                blogComment.setFace(String.valueOf(face)) ;
+                pubComment.setFace(String.valueOf(face)) ;
             }
             
             String createtime = request.getParameter("createtime");
             if(!StringUtil.isBlank(createtime)){
-                blogComment.setCreatetime(Timestamp.valueOf(createtime)) ;
+                pubComment.setCreatetime(Timestamp.valueOf(createtime)) ;
             }
             
             String updatetime = request.getParameter("updatetime");
             if(!StringUtil.isBlank(updatetime)){
-                blogComment.setUpdatetime(Timestamp.valueOf(updatetime)) ;
+                pubComment.setUpdatetime(Timestamp.valueOf(updatetime)) ;
             }
             */
             String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
-            blogComment.setId(Long.valueOf(id));
+            pubComment.setId(Long.valueOf(id));
         }
         String pid = request.getParameter("pid");
         if(!StringUtil.isBlank(pid)){
-            blogComment.setPid(Long.valueOf(pid));
+            pubComment.setPid(Long.valueOf(pid));
         }
         String content = request.getParameter("content");
         if(!StringUtil.isBlank(content)){
-            blogComment.setContent(content);
+            pubComment.setContent(content);
         }
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            blogComment.setType(Integer.valueOf(type));
+            pubComment.setType(Integer.valueOf(type));
         }
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
-            blogComment.setStatus(Integer.valueOf(status));
+            pubComment.setStatus(Integer.valueOf(status));
         }
         String createUser = request.getParameter("createUser");
         if(!StringUtil.isBlank(createUser)){
-            blogComment.setCreateUser(Long.valueOf(createUser));
+            pubComment.setCreateUser(Long.valueOf(createUser));
         }
         String userName = request.getParameter("userName");
         if(!StringUtil.isBlank(userName)){
-            blogComment.setUserName(userName);
+            pubComment.setUserName(userName);
         }
         String face = request.getParameter("face");
         if(!StringUtil.isBlank(face)){
-            blogComment.setFace(face);
+            pubComment.setFace(face);
         }
         String createtime = request.getParameter("createtime");
         if(!StringUtil.isBlank(createtime)){
             if(StringUtil.checkNumeric(createtime)){
-                blogComment.setCreatetime(Timestamp.valueOf(createtime));
+                pubComment.setCreatetime(Timestamp.valueOf(createtime));
             }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
-                blogComment.setCreatetime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
+                pubComment.setCreatetime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
         }
         String updatetime = request.getParameter("updatetime");
         if(!StringUtil.isBlank(updatetime)){
             if(StringUtil.checkNumeric(updatetime)){
-                blogComment.setUpdatetime(Timestamp.valueOf(updatetime));
+                pubComment.setUpdatetime(Timestamp.valueOf(updatetime));
             }else if(StringUtil.checkDateStr(updatetime, "yyyy-MM-dd HH:mm:ss")){
-                blogComment.setUpdatetime(new Timestamp( DateUtil.parseToDate(updatetime, "yyyy-MM-dd HH:mm:ss").getTime()));
+                pubComment.setUpdatetime(new Timestamp( DateUtil.parseToDate(updatetime, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
         }
 
@@ -617,15 +616,15 @@ public class BlogCommentController extends BaseController{
         }
             SessionUser sessionUser = this.getUser(request);
        if(sessionUser!=null){
-           blogComment.setCreateUser(sessionUser.getUserId());
-           blogComment.setUserName(sessionUser.getUserName());
-           blogComment.setFace(sessionUser.getFace());
+           pubComment.setCreateUser(sessionUser.getUserId());
+           pubComment.setUserName(sessionUser.getUserName());
+           pubComment.setFace(sessionUser.getFace());
        }else{
-           blogComment.setCreateUser(-1l);
-           blogComment.setUserName("游客");
-           blogComment.setFace("/static/img/timg.jpeg");
+           pubComment.setCreateUser(-1l);
+           pubComment.setUserName("游客");
+           pubComment.setFace("/static/img/timg.jpeg");
        }
-            return blogCommentService.save(blogComment);
+            return pubCommentService.save(pubComment);
 
         }
     /**
@@ -649,7 +648,7 @@ public class BlogCommentController extends BaseController{
             return this.getWrongResultFromCfg("err.param.notnull");
         }
        // Long id = Long.valueOf(idStr);
-        blogCommentService.delete(id);
+        pubCommentService.delete(id);
         return this.getResult(SUCC);
     }
      /**
@@ -686,7 +685,7 @@ public class BlogCommentController extends BaseController{
             }
             idAry[i]=Long.valueOf(idStrAry[i]);
         }
-       return  blogCommentService.multilDelete(idAry);
+       return  pubCommentService.multilDelete(idAry);
     }
 
     /**
@@ -793,7 +792,7 @@ public class BlogCommentController extends BaseController{
         }
 
         // 查询list集合
-        List<BlogComment> list =blogCommentService.listByParams(params);
+        List<PubComment> list =pubCommentService.listByParams(params);
         // 存放临时文件
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -822,7 +821,7 @@ public class BlogCommentController extends BaseController{
         colTitle.put("updatetime", "更新时间");
         List<Map> finalList = new ArrayList<Map>();
         for (int i = 0; i < list.size(); i++) {
-            BlogComment sm = list.get(i);
+            PubComment sm = list.get(i);
             HashMap<String,Object> map = new HashMap<String,Object>();
             map.put("id",  list.get(i).getId());
             map.put("pid",  list.get(i).getPid());

@@ -563,7 +563,7 @@ public class SysMenuController extends BaseController{
     @RequestMapping(value = "/tree/my",method=RequestMethod.GET,produces="application/json")
     @ResponseBody
     public ResultDTO listMenu(HttpServletRequest request){
-        String id=request.getParameter("id");
+        //String id=request.getParameter("id");
 //        Long userId = this.getUserId(request);
 //        //根据用户id查找菜单
 //
