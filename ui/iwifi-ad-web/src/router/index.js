@@ -14,6 +14,9 @@ import DailyReport from '../components/report/daily/PageBody.vue';
 import SystemRole from '../components/system/role/PageBody.vue';
 import SystemAccount from '../components/system/account/PageBody.vue';
 import SystemLogger from '../components/system/logger/PageBody.vue';
+import FaceCheckinOut from '../components/kq/FaceCheckinOut/PageBody.vue';
+import CheckinOut from '../components/kq/CheckinOut/PageBody.vue';
+import CheckinLate from '../components/kq/CheckinLate/PageBody.vue';
 //import Parent from '../components/Parent.vue';
 
 Vue.use(Router);
@@ -36,6 +39,17 @@ export default new Router({
         //   path: 'posts',
         //   component: UserPosts
         // }
+         {
+          path: 'checkin/FaceCheckinOut/list',//人脸考勤记录
+          component: FaceCheckinOut
+        },
+         {
+                  path: 'checkin/checkinOut/list',//人脸考勤记录
+                  component: CheckinOut
+                },{
+                                    path: 'checkin/late/list',//人脸考勤记录
+                                    component: CheckinLate
+                                  },
         {
           path: 'ad/position',
           component: AdPosition

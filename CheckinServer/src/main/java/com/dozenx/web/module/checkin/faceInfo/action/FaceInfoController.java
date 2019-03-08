@@ -1071,7 +1071,7 @@ public class FaceInfoController extends BaseController {
         String camera = request.getParameter("camera");
         map.put("maxFaceNum", "1");
         map.put("faceFields", "embedding");
-        map.put("filename", DateUtil.getNow() + ".jpg");
+        // map.put("filename", DateUtil.getNow() + ".jpg");
         faceInfoService.recognize(camera,data,map);
         return this.getResult();
     }

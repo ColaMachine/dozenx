@@ -1160,6 +1160,7 @@ public class Generator {
         generator.generate(new String[]{"Email"});
         generator.generate(new String[]{"Contacts"});
         generator.generate(new String[]{"Goods"});
+        generator.generate(new String[]{"PubImageBelong"});
         //  generator.generate(new String[]{"SysUser","SysRole"});
         //generator.generate(new String[]{"SysUser","SysDepart","SysUserDepart"});
 //        generator.generate(new String[]{"Active"});

@@ -265,7 +265,7 @@ var sysUserView={
         this.addEventListener();
         //获取传入参数
         if(!StringUtil.isBlank(getParam("id"))){
-            Ajax.getJSON("sysUser/view.json?id="+getParam("id"),null,function(data){
+            Ajax.getJSON("/sys/auth/user/view.json?id="+getParam("id"),null,function(data){
                 if(data.r==AJAX_SUCC){
                     fillJso2FormSpan("#SysUserView",data.data.bean);
                     $("#face").attr("src",data.data.bean.face);

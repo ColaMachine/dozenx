@@ -191,6 +191,8 @@ where ${table.pk.name} = ${r'#{'}${table.pk.name},jdbcType=<@jdbcType>${table.pk
            <#if refAliasName==table.tableName>
                <#assign refAliasName =refAliasName+'1'>
            </#if>
+
+
            ,${refAliasName}.${refKeyName} as ${refName}_${refKeyName}
          </#if>
       </#list>
@@ -235,14 +237,22 @@ where ${table.pk.name} = ${r'#{'}${table.pk.name},jdbcType=<@jdbcType>${table.pk
         </if>   
         </#if>
         </#if>
-        <#if col.type=='timestamp'>
-        <if test="${col.name}Begin != null and ${col.name}Begin != '' ">  
-             and ${table.tableName}.`${col.colName}` &gt;= ${r'#{'}${col.name}Begin}
-        </if>   
-         <if test="${col.name}End != null and ${col.name}End != '' ">  
-             and ${table.tableName}.`${col.colName}` &lt;= ${r'#{'}${col.name}End}
-        </if> 
-        </#if>
+         <#if col.type=='timestamp'>
+               <if test="${col.name}Begin != null and ${col.name}Begin != '' ">
+                    and `${col.colName}` &gt;= ${r'#{'}${col.name}Begin}
+               </if>
+                <if test="${col.name}End != null and ${col.name}End != '' ">
+                    and `${col.colName}` &lt;= ${r'#{'}${col.name}End}
+               </if>
+               </#if>
+               <#if col.type=='timestamp'>
+               <if test="${col.name}Begin != null and ${col.name}Begin != '' ">
+                    and `${col.colName}` &gt;= ${r'#{'}${col.name}Begin}
+               </if>
+                <if test="${col.name}End != null and ${col.name}End != '' ">
+                    and `${col.colName}` &lt;= ${r'#{'}${col.name}End}
+               </if>
+               </#if>
     </#list>
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">

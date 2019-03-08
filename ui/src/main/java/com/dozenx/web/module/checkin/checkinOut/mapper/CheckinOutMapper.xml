@@ -158,6 +158,14 @@
         <if test="checkTime != null and checkTime != '' ">
             and CheckinOut.`checkTime` = #{checkTime}
         </if>
+
+        <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+            and `checkTime` &gt;= #{checkTimeBegin}
+        </if>
+
+        <if test="checkTimeEnd != null and checkTimeEnd != '' ">
+            and `checkTime` &lt;= #{checkTimeEnd}
+        </if>
     </select>
     <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
         select

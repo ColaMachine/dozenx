@@ -242,10 +242,10 @@ public class LoginController extends BaseController {
                     for (int j = sysMenuTree.size() - 1; j >= 0; j--) {//倒序 方便找到后删除
                         //判断当前的人是否有这个菜单的权限
                         SysMenu childMenu = sysMenuTree.get(j);//遍历所有的项目查找所有子项
-                        if (!permissions.contains(childMenu.getPermission())) {
-                            continue;
-                        }
-                        if (childMenu.getPid() == sysMenu.getId()) {
+//                        if (!permissions.contains(childMenu.getPermission())) {
+//                            continue;
+//                        }
+                        if (childMenu.getPid() == sysMenu.getId() && permissions.contains(childMenu.getPermission())) {
                             sysMenu.childs.add(childMenu);//塞入到childs中 并从集合中删除
                             // sysMenuTree.remove(j);
                         }

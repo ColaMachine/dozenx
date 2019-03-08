@@ -140,7 +140,7 @@
 
     </form>
 </div><!-- /.modal-content -->
-        
+
 <script type="text/javascript">
 
 
@@ -289,7 +289,7 @@ var sysUserEdit={
     },
     loadData:function(){
         var that =this;
-        Ajax.getJSON(PATH+"/sysUser/view/"+getParam("id"),null,function(result){
+        Ajax.getJSON(PATH+"/sys/auth/user/view/"+getParam("id"),null,function(result){
             if(result.r==AJAX_SUCC){
                 if(result.data){
                     fillJso2Form("#sysUserEditForm",result.data);

@@ -112,9 +112,9 @@
     <profiles>
         <profile>
             <!-- 本地开发环境 -->
-            <id>bijiben</id>
+            <id>alpha</id>
             <properties>
-                <profiles.active>bijiben</profiles.active>
+                <profiles.active>alpha</profiles.active>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -123,12 +123,14 @@
         </profile>
         <profile>
             <!-- 本地开发环境 -->
-            <id>alpha</id>
+            <id>bijiben</id>
             <properties>
-                <profiles.active>alpha</profiles.active>
+                <profiles.active>bijiben</profiles.active>
             </properties>
 
+
         </profile>
+
         <profile>
             <!-- 测试环境 -->
             <id>beta</id>

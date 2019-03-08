@@ -195,6 +195,9 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
   import zwAlbum from '../../component/datadisplay/zwAlbum.vue';
 
   import zwAppBuyBottomBar from '../../component/datadisplay/zwAppBuyBottomBar.vue'
+
+  //import {PATH,getQueryString,Ajax} from "../../../../src/main/webapp/static/js/zwcommon"
+
   export default {
   extends:zwBase,
 

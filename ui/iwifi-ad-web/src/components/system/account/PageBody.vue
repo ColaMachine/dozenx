@@ -85,6 +85,26 @@
             align: 'center',
             // width: 200
           }, {
+            title: '头像',
+            align: 'center',
+            // width: 200
+
+                render: (h, record) => {
+                                  let _this = this;
+                                  return h('a',{attrs:{'target':'_blank','href':'/home/'+record.row.face}},
+
+                                   [
+                                    h('img', {
+
+
+                                      'style':"width:150px;height:150px;",
+                                      attrs:{
+                                        'src': "/home/"+record.row.face,
+                                      }
+                                    }, '查看')
+                                  ]);
+                                }
+          } ,{
             title: '操作',
             // key: 'createDate',
             width: 200,

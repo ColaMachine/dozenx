@@ -11,6 +11,7 @@ function resolve(dir) {
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
+
   entry: {
     app: './src/main.js'
   },
@@ -26,6 +27,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+       'static$': resolve('../src/main/app/webapp/static'),
     }
   },
   module: {

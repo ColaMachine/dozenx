@@ -136,7 +136,7 @@ var sysUserList={
     saveInfo:function(){
     },
     addInfo:function (){
-        dialog.window('/sysUser/edit.htm',this.modal);
+        dialog.window('/sys/auth/user/edit.htm',this.modal);
     },
     editSelectInfo:function(){
         var rowid =this.mygrid.jqGrid("getGridParam","selrow");
@@ -145,11 +145,11 @@ var sysUserList={
         if(StringUtil.isBlank(id)){
             dialog.alert("请选中一行数据");
         }else{
-            dialog.window("/sysUser/edit.htm?id="+id,this.modal);
+            dialog.window("/sys/auth/user/edit.htm?id="+id,this.modal);
         }
     },
     editInfo:function (id){
-        dialog.window("/sysUser/edit.htm?id="+id,this.modal);
+        dialog.window("/sys/auth/user/edit.htm?id="+id,this.modal);
     },
     searchInfo:function (){
         var jso = changeForm2Jso(".app-search");
@@ -157,11 +157,11 @@ var sysUserList={
         this.mygrid.jqGrid("setGridParam", { search: true ,"postData":{params:JSON.stringify(jso)}}).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
     },
     viewInfo:function (id){
-        dialog.window("/sysUser/view.htm?id="+id,this.modal);
+        dialog.window("/sys/auth/user/view.htm?id="+id,this.modal);
     },
     exportInfo:function (){
         var jso= changeForm2Jso(".app-search");
-        Ajax.getJSON(PATH+"/sysUser/export.json",jso,function(data){
+        Ajax.getJSON(PATH+"/sys/auth/user/export.json",jso,function(data){
             if(data.r==AJAX_SUCC){
                 window.location=PATH+"/"+data.data;
             }else{
@@ -173,7 +173,7 @@ var sysUserList={
         var that =this;
          //弹窗
         dialog.confirm("确定删除数据:"+id,function(){
-            Ajax.post(PATH+"/sysUser/del.json",{id:id},function(result){
+            Ajax.post(PATH+"/sys/auth/user/del.json",{id:id},function(result){
                 result=ajaxResultHandler(result);
                 if(result.r==AJAX_SUCC){
                     var did=dialog.alert("删除成功，数据："+id,function(index){
@@ -200,7 +200,7 @@ var sysUserList={
         //弹窗
         var that=this;
         var dialogid= dialog.confirm("确定删除数据:"+ids.join(","),function(){
-            Ajax.post(PATH+"/sysUser/mdel.json?",{ids:ids.join(",")},function(result){
+            Ajax.post(PATH+"/sys/auth/user/mdel.json?",{ids:ids.join(",")},function(result){
                 result=ajaxResultHandler(result);
                 if(result.r==AJAX_SUCC){
                     dialogid=dialog.alert("删除成功，数据："+ids.join(","),function(index){

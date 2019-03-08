@@ -1,14 +1,7 @@
-
-
-
-
-
-
-
 /*
 const PATH = require("path");
 console.log("path:"+PATH)
-cats = require('./cats.js');
+cats = require('../app/cats.js');
 console.log("define cats");*/
 //require("!style-loader!css-loader!../app/css/style.css");
 //require("!style-loader!css-loader!../app/css/sass.scss");
@@ -24,13 +17,26 @@ import "../app/css/table.scss"
 import "../app/css/iconlist.scss"
 import "../app/css/slider_text.scss"
 import "../app/css/widget.scss"
-//import app from "./vueTest"
-//const app= require("./head/head.vue");
+
+
+//import  "../../src/main/webapp/static/js/imageUtil.js"
+//import "../../src/main/webapp/static/js/dom.js"
+//import  "../../src/main/webapp/static/js/animation.js"
+
+//
+//
+//import {PATH,getQueryString,Ajax} from "../../src/main/webapp/static/js/zwcommon"
+
+
+
+//import app from "../app/vueTest"
+//const app= require("../app/head/head.vue");
 
 //document.write("It works1.");
-//document.write(require("./content.js"));
+//document.write(require("../app/content.js"));
 
 import Vue from 'vue'
+//Vue.prototype.common=common;
 import VueRouter from 'vue-router'
 //这个作为主页面
 
@@ -38,7 +44,7 @@ import vuePhoneIndex from '../app/module/phone/shopIndex.vue'
 
 //初始化一个路由
 new Vue({
-  el: '#head',
+  el: '#app',
   render: h => h(vuePhoneIndex)
 })
 Vue.use(VueRouter)

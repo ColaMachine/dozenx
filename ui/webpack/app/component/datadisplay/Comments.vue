@@ -33,6 +33,7 @@
 </template>
 <script type="text/javascript">
 import zwIcon from '../icon/zwIcon.vue';
+import zwBase from '../../component/zwBase.vue';
 import Comment from '../../component/datadisplay/Comment.vue';
 export default {
          components:{zwIcon,Comment},
