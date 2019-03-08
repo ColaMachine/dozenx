@@ -63,7 +63,7 @@ export default {
             var pid = document.getElementById("pid").value;
             var type = document.getElementById("commentType").value;
             if(type=="msginfo"){
-                Ajax.post(PATH+"/msginfo/add.json",{pid:pid,content:pinglun,type:1},function(result){
+                Ajax.post(PATH+"/goods/comment",{pid:pid,content:pinglun,type:1},function(result){
                                 //刷新页面
                                 //this.refresh();
                                 //清空值

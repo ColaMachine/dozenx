@@ -10,7 +10,7 @@
   </a>
 <span slot="middle"> 商品详情</span>
 
-           <a slot="right" href="">
+           <a slot="right" href="/home/static/html/vue/vueUserInfo.html">
 <img  class="" :src="getPathValue('/static/img/header/information.png')">
 </a>
 </zwAppTopBar>

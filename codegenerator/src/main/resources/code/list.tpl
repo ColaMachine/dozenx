@@ -8,7 +8,7 @@
             <form class="form-inline app-search">
             ${searchhtml}
             <button type="button"  class="btn btn-primary searchBtn">查询</button>
-            <button class="btn btn-secondary addBtn" ><i class="fa fa-plus"></i>新增</button>
+            <button type="button" class="btn btn-secondary addBtn" ><i class="fa fa-plus"></i>新增</button>
                         <!--<button class="btn btn-primary deleteBtn"><i class="fa fa-plus"></i>删除</button>-->
                         <!--<button class="btn btn-primary exportBtn"><i class="fa fa-plus"></i>导出</button>-->
             </form>

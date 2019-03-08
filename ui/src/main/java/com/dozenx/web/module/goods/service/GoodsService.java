@@ -132,4 +132,9 @@ public class GoodsService extends BaseService {
         goodsMapper.updateZan(id);
 
     }
+
+    public ResultDTO updateComments(Long pid) {
+        goodsMapper.updateComments(pid);
+        return ResultUtil.getSuccResult();
+    }
 }

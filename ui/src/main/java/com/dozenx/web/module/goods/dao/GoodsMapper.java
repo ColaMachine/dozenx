@@ -77,4 +77,5 @@ public interface GoodsMapper {
 
 
     void updateZan(Long id);
+    void updateComments(Long id);
 }

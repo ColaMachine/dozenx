@@ -2,7 +2,7 @@
 <template>
 <div>
       <div class="user">
-               <a title="软媒通行证数字ID：1565223" href="https://m.ithome.com/user/1565223">
+               <a title="dozenxID：1565223" :href='"/user/"+data.createUser'>
                <div class="user-hd">
                     <img :src="getPathValue(data.face)" width="45" height="45" onerror="this.src='//img.ithome.com/m/images/user/noavatar.png'">
                </div><span class="lv">Lv.1</span>
@@ -10,8 +10,8 @@
                </div>
 
                <div class="review-con">
-                   <div class="user-mes"><a title="软媒通行证数字ID：1565223" href="https://m.ithome.com/user/1565223"><span class="user-name">{{data.userName}}</span></a><span
-                           class="mobile android"><a target="_blank" href="https://m.ithome.com/html/app/appdown.html">华为 p90</a></span><span class="user-floor">7楼</span></div>
+                   <div class="user-mes"><a title="dozenxID：1565223" href="https://m.ithome.com/user/1565223"><span class="user-name">{{data.userName}}</span></a><span
+                           class="mobile android"><a target="_blank" href="https://m.ithome.com/html/app/appdown.html">{{data.phone}}</a></span><span class="user-floor">7楼</span></div>
                    <div class="user-write-msg"><span class="user-ip"></span><span class="user-write-time">{{data.createtime}}</span></div>
                    <div class="user-review">{{data.content}}</div>
                    <div class="review-footer">
@@ -19,27 +19,27 @@
                    <span class="collapse" data-collapsed="" role="button">评论({{this.comments.length}})</span>
 
                    <span class="review-ft-fr">
-                   <span @click="up" class="stand-by">支持({{data.up}})</span><span @click="down(data.id)"  class="oppose">反对({{data.down}})</span>
+                   <span @click="up(data)" class="stand-by">支持({{data.up}})</span><span @click="down(data)"  class="oppose">反对({{data.down}})</span>
                         <span @click="reply()" class="reply">回复</span></span></div>
                    <ul>
                        <li v-bind:key="item.id"  v-for="item in this.comments"  class="placeholder deputy-floor" data-comment-id="40422725">
-                           <div class="user"><a title="软媒通行证数字ID：794314" href="https://m.ithome.com/user/794314">
-                               <div class="user-hd"><img data-original="https://avatar.ithome.com/avatars/000/79/43/14_60.jpg"
+                           <div class="user"><a title="dozenxID：794314" href="https://m.ithome.com/user/794314">
+                               <div class="user-hd"><img :src="getPathValue(item.face)"
                                                          width="45" height="45"
                                                          onerror="this.src='//img.ithome.com/m/images/user/noavatar.png'"
-                                                         :src="item.face"
+
                                                          style="display: inline;"></div>
                                <span class="lv">Lv.40</span></a></div>
                            <div class="review-con">
-                               <div class="user-mes"><a title="软媒通行证数字ID：794314" href="https://m.ithome.com/user/794314"><span
+                               <div class="user-mes"><a title="dozenxID：794314" href="https://m.ithome.com/user/794314"><span
                                        class="user-name">{{item.userName}}</span></a><span class="mobile android"><a target="_blank"
-                                                                                                       href="https://m.ithome.com/html/app/appdown.html">诺基亚
-                                   X6</a></span><span class="user-floor">1#</span></div>
-                               <div class="user-write-msg"><span class="user-ip">IT之家江苏苏州网友</span><span
+                                                                                                       href="https://m.ithome.com/html/app/appdown.html">{{item.phone}}
+                                   </a></span><span class="user-floor">1#</span></div>
+                               <div class="user-write-msg"><span class="user-ip">{{item.ip}}</span><span
                                        class="user-write-time">08:14</span></div>
                                <div class="user-review">{{item.content}}</div>
-                               <div class="review-footer"><span class="review-ft-fr"><span @click="up(item.id)"   class="stand-by">支持({{item.up}})</span><span
-                                      @click="down(item.id)"   class="oppose">反对({{item.down}})</span><span class="reply">回复</span></span></div>
+                               <div class="review-footer"><span class="review-ft-fr"><span @click="up(item)"   class="stand-by">支持({{item.up}})</span><span
+                                      @click="down(item)"   class="oppose">反对({{item.down}})</span><span  style="display:none" class="reply">回复</span></span></div>
                            </div>
                        </li>
 
@@ -89,9 +89,9 @@ this.getCommentList();
                                   Ajax.getJSON(PATH+"/msginfo/list.json?curpage=1&pagesize=10",{pid:this.data.id,curPage:1,pageSize:10},function(result){
                                       if(result.r==AJAX_SUCC){
                                           for(var i=0;i<result.data.length;i++){
-                                              if(result.data[i].face){
-                                               result.data[i].face=PATH+ result.data[i].face;
-                                              }
+                                              //if(result.data[i].face){
+                                              // result.data[i].face=PATH+ result.data[i].face;
+                                              //}
 
 
                                           }
@@ -104,24 +104,26 @@ this.getCommentList();
             document.getElementById("pid").value=this.data.id;
             document.getElementById("commentType").value="pubCOmment";
         },
-        down:function(id){
-            Ajax.post(PATH+"/msginfo/down",{"pid":id,"type":2,"category":2},function(result){
+        down:function(item){
+            Ajax.post(PATH+"/msginfo/down",{"pid":item.id,"type":2,"category":2},function(result){
                 if(result.r==AJAX_SUCC){
-                this.data=result.data
+                    item.up=result.data.up;
+                    item.down=result.data.down;
                 }else{
                     alert(result.msg);
                 }
-            })
+            }.Apply(this))
         },
-        up:function(id){
-                    Ajax.post(PATH+"/msginfo/up",{"pid":id,"type":1,"category":2},function(result){
-                        if(result.r==AJAX_SUCC){
-                        this.data=result.data
-                        }else{
-                            alert(result.msg);
-                        }
-                    })
-                },
+        up:function(item){
+            Ajax.post(PATH+"/msginfo/up",{"pid":item.id,"type":1,"category":2},function(result){
+                if(result.r==AJAX_SUCC){
+                item.up=result.data.up;
+                                   item.down=result.data.down;
+                }else{
+                    alert(result.msg);
+                }
+            }.Apply(this))
+        },
         getPathValue:function(value){
             return getPathValue(value);
         },
@@ -133,9 +135,7 @@ this.getCommentList();
             }
             return false;
         },
-              getPathValue:function(value){
-                       return getPathValue(value);
-                     },
+
         showOrHideComment:function(){
             this.commentShow=!this.commentShow;
         }

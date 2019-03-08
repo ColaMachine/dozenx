@@ -5,18 +5,10 @@
             <h4 class="modal-title">商品编辑</h4>
         </div>-->
         <div class="ibox-content">
-            <div class="form-group">
-                <label for="id" class="col-sm-2 control-label">编号:</label>
-                <div class="col-sm-10">
-                    <input type="number" id="id" name="id"  class="form-control input-sm"  maxlength="9" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="shopId" class="col-sm-2 control-label">商户id:</label>
-                <div class="col-sm-10">
-                    <input type="number" id="shopId" name="shopId"  class="form-control input-sm"  maxlength="9" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
-                </div>
-            </div>
+            <input type="hidden" id="id" name="id"  class="form-control input-sm"  maxlength="9" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+            <input type="hidden" id="shopId" name="shopId"  class="form-control input-sm"  maxlength="9" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+
+
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">名称:</label>
                 <div class="col-sm-10">
@@ -35,12 +27,7 @@
                     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>            <textarea  id="detail" name="detail"  class="form-control input-sm"   maxlength="50000" style="display:none" ></textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="address" class="col-sm-2 control-label">地址:</label>
-                <div class="col-sm-10">
-                    <textarea  id="address" name="address"  class="form-control input-sm"   maxlength="200"  ></textarea>
-                </div>
-            </div>
+
             <div class="form-group">
                 <label for="telno" class="col-sm-2 control-label">手机号码:</label>
                 <div class="col-sm-10">
@@ -48,7 +35,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="img" class="col-sm-2 control-label">图片0:</label>
+                <label for="img" class="col-sm-2 control-label">封面图片:</label>
                 <div class="col-sm-10">
                     <input  id="img" name="img"  value="null" style="display:none" class="form-control input-sm"   maxlength="100"></input>        </div>
             </div>
@@ -66,9 +53,18 @@
                 <label for="img3" class="col-sm-2 control-label">图片3:</label>
                 <div class="col-sm-10">
                     <input  id="img3" name="img3"  value="null" style="display:none" class="form-control input-sm"   maxlength="100"></input>        </div>
-                <div id="multiUpload">
-                    </div>
+
+                </div>
             </div>
+
+            <div class="form-group">
+                <label for="img3" class="col-sm-2 control-label">轮播图片:</label>
+                <div class="col-sm-10">
+
+                <div id="multiUpload"></div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="remark" class="col-sm-2 control-label">备注:</label>
                 <div class="col-sm-10">
@@ -90,7 +86,7 @@
             <div class="form-group">
                 <label for="price" class="col-sm-2 control-label">价格:</label>
                 <div class="col-sm-10">
-                    <input type="number" id="price" name="price"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+                    <input type="number" id="price" name="price"  class="form-control input-sm"  maxlength="11"  onafterpaste="chkFloat(this,8,2)"></input>
                 </div>
             </div>
             <div class="form-group">
@@ -105,66 +101,21 @@
                     <input  type="text"  id="priceDesc" name="priceDesc"  class="form-control input-sm"   maxlength="50"  ></input>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="creator" class="col-sm-2 control-label">创建人id:</label>
-                <div class="col-sm-10">
-                    <input type="number" id="creator" name="creator"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="creatorName" class="col-sm-2 control-label">创建人姓名:</label>
-                <div class="col-sm-10">
-                    <input  type="text"  id="creatorName" name="creatorName"  class="form-control input-sm"   maxlength="50"  ></input>
-                </div>
-            </div>
+
             <div class="form-group">
                 <label for="platform" class="col-sm-2 control-label">平台名称:</label>
                 <div class="col-sm-10">
                     <input  type="text"  id="platform" name="platform"  class="form-control input-sm"   maxlength="50"  ></input>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="comments" class="col-sm-2 control-label">评论数:</label>
-                <div class="col-sm-10">
-                    <input type="number" id="comments" name="comments"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="score" class="col-sm-2 control-label">分数:</label>
-                <div class="col-sm-10">
-                    <input type="number" id="score" name="score"  class="form-control input-sm"  onkeyup="chkFloat(this,6,3)" onafterpaste="chkFloat(this,6,3)"></input>
-                </div>
-            </div>
+
             <div class="form-group">
                 <label for="link" class="col-sm-2 control-label">外链:</label>
                 <div class="col-sm-10">
                     <textarea  id="link" name="link"  class="form-control input-sm"   maxlength="100"  ></textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="up" class="col-sm-2 control-label">顶:</label>
-                <div class="col-sm-10">
-                    <input type="number" id="up" name="up"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="down" class="col-sm-2 control-label">踩:</label>
-                <div class="col-sm-10">
-                    <input type="number" id="down" name="down"  class="form-control input-sm"  maxlength="11" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
-                </div>
-            </div>
-            <div style="display:none" class="form-group">
-                <label for="createTime" class="col-sm-2 control-label">创建时间:</label>
-                <div class="input-group date">
-                    <span class="input-group-addon" for="createTime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="createTime" name="createTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  ></input>
-                </div>
-            </div>
-            <div style="display:none" class="form-group">
-                <label for="updateTime" class="col-sm-2 control-label">更新时间:</label>
-                <div class="input-group date">
-                    <span class="input-group-addon" for="updateTime" ><i class="fa fa-calendar"></i></span>            <input type="text" id="updateTime" name="updateTime"  class="form-control input-sm"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  datatype="date" format="yyyy-MM-dd HH:mm:ss"  ></input>
-                </div>
-            </div>
+
 
             <div class="hr-line-dashed"></div>
             <div class="form-group">
@@ -230,7 +181,7 @@ var goodsEdit={
             CheckBox:["1","2","3","9"],digits:true,required:true
         },
         price:{
-            digits:true
+            number:true
         },
         tags:{
             maxlength:100
@@ -386,6 +337,13 @@ var goodsEdit={
       },
     loadData:function(){console.log("loadData");
         var that =this;
+        this.id = getParam("id");
+        if(!this.id){
+           var imageUtil=new zImageUtil5({"input":"img"});
+            var imageUtil=new zImageUtil5({"input":"img1"});
+        var imageUtil=new zImageUtil5({"input":"img2"});
+            return;
+            }
         Ajax.getJSON(PATH+"/goods/view.json?id="+getParam("id"),null,function(data){
         console.log(data);
             if(data.r==AJAX_SUCC){
@@ -471,7 +429,9 @@ var goodsEdit={
             imageUrls.push(multi_upload_input_list[i].value);
 
         }
+             console.log(imageUrls.length);
         jso.imageUrls=imageUrls.join(",");
+        console.log(jso.imageUrls);
         Ajax.post(PATH+$("#goodsEditForm").attr("action"),jso,function(data){
             dialog.hideWait(dialogId);
             if(data.r==0){

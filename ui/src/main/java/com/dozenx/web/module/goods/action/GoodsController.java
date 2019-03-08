@@ -2,17 +2,19 @@
  * 版权所有：公众信息
  * 项目名称:calendar
  * 创建者: dozen.zhang
- * 创建日期: @date 2018-10-24 23:32:59
+ * 创建日期: @date 2019-3-6 23:18:03
  * 文件说明: 
  */
 
 package com.dozenx.web.module.goods.action;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.math.BigDecimal;
 import com.cpj.swagger.annotation.*;
 import java.util.LinkedHashMap;
 import com.dozenx.util.*;
@@ -21,9 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import com.dozenx.web.core.annotation.RequiresLogin;
-import com.dozenx.web.module.pubImageBelong.bean.PubImageBelong;
+import com.dozenx.web.core.auth.session.SessionUser;
+import com.dozenx.web.module.msgInfo.bean.MsgInfo;
+import com.dozenx.web.module.msgInfo.service.MsgInfoService;
 import com.dozenx.web.module.pubImageBelong.service.PubImageBelongService;
-import com.dozenx.web.module.zan.bean.Zan;
 import com.dozenx.web.module.zan.service.ZanService;
 import org.slf4j.Logger;
 import com.dozenx.core.exception.ParamException;
@@ -67,34 +70,35 @@ public class GoodsController extends BaseController{
     /** 权限service **/
     @Autowired
     private GoodsService goodsService;
-
+    
 
 
     /**
      * 说明:ajax请求Goods信息
      * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
+     * @date 2019-3-6 23:18:03
      * @return String
      */
-    @API(summary="商品列表接口",
-            description="商品列表接口",
-            parameters={
-                    @Param(name="pageSize", description="分页大小", dataType= DataType.INTEGER,required = true),
-                    @Param(name="curPage", description="当前页", dataType= DataType.INTEGER,required = true),
+       @API(summary="商品列表接口",
+                 description="商品列表接口",
+                 parameters={
+                 @Param(name="pageSize", description="分页大小", dataType= DataType.INTEGER,required = true),
+                 @Param(name="curPage", description="当前页", dataType= DataType.INTEGER,required = true),
                     @Param(name="id" , description="编号",dataType = DataType.LONG,required =false),// false
                     @Param(name="shopId" , description="商户id",dataType = DataType.LONG,required =false),// false
                     @Param(name="name" , description="名称",dataType = DataType.STRING,required =false),// true
                     @Param(name="subName" , description="副标题",dataType = DataType.STRING,required =false),// true
-                    @Param(name="detail" , description="副标题",dataType = DataType.STRING,required =false),// true
+                    @Param(name="detail" , description="详细内容",dataType = DataType.STRING,required =false),// true
                     @Param(name="address" , description="地址",dataType = DataType.STRING,required =false),// false
                     @Param(name="telno" , description="手机号码",dataType = DataType.STRING,required =false),// false
-                    @Param(name="img" , description="图片",dataType = DataType.STRING,required =false),// true
-                    @Param(name="img1" , description="图片",dataType = DataType.STRING,required =false),// false
-                    @Param(name="img2" , description="图片",dataType = DataType.STRING,required =false),// false
-                    @Param(name="img3" , description="图片",dataType = DataType.STRING,required =false),// false
+                    @Param(name="img" , description="图片0",dataType = DataType.STRING,required =false),// true
+                    @Param(name="img1" , description="图片1",dataType = DataType.STRING,required =false),// false
+                    @Param(name="img2" , description="图片2",dataType = DataType.STRING,required =false),// false
+                    @Param(name="img3" , description="图片3",dataType = DataType.STRING,required =false),// false
                     @Param(name="remark" , description="备注",dataType = DataType.STRING,required =false),// false
                     @Param(name="status" , description="状态",dataType = DataType.INTEGER,required =false),// true
-                    @Param(name="price" , description="价格",dataType = DataType.INTEGER,required =false),// false
+                    @Param(name="price" , description="价格",dataType = DataType.FLOAT,required =false),// false
+                    @Param(name="tags" , description="标签",dataType = DataType.STRING,required =false),// false
                     @Param(name="priceDesc" , description="价格描述",dataType = DataType.STRING,required =false),// false
                     @Param(name="creator" , description="创建人id",dataType = DataType.LONG,required =false),// false
                     @Param(name="creatorName" , description="创建人姓名",dataType = DataType.STRING,required =false),// false
@@ -106,15 +110,15 @@ public class GoodsController extends BaseController{
                     @Param(name="down" , description="踩",dataType = DataType.INTEGER,required =false),// false
                     @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required =false),// false
                     @Param(name="updateTime" , description="更新时间",dataType = DataType.DATE_TIME,required =false),// false
-            })
+         })
     @RequestMapping(value = "/list.json" , method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO list(HttpServletRequest request) throws Exception{
         Page page = RequestUtil.getPage(request);
         if(page ==null){
-            return this.getWrongResultFromCfg("err.param.page");
+             return this.getWrongResultFromCfg("err.param.page");
         }
-
+        
         HashMap<String,Object> params= new HashMap<String,Object>();
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
@@ -211,6 +215,14 @@ public class GoodsController extends BaseController{
         String price = request.getParameter("price");
         if(!StringUtil.isBlank(price)){
             params.put("price",price);
+        }
+        String tags = request.getParameter("tags");
+        if(!StringUtil.isBlank(tags)){
+            params.put("tags",tags);
+        }
+        String tagsLike = request.getParameter("tagsLike");
+        if(!StringUtil.isBlank(tagsLike)){
+            params.put("tagsLike",tagsLike);
         }
         String priceDesc = request.getParameter("priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -317,17 +329,17 @@ public class GoodsController extends BaseController{
         List<Goods> goodss = goodsService.listByParams4Page(params);
         return ResultUtil.getResult(goodss, page);
     }
-
-    /**
-     * 说明:ajax请求Goods信息 无分页版本
-     * @return ResultDTO 返回结果
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
+    
+   /**
+    * 说明:ajax请求Goods信息 无分页版本
+    * @return ResultDTO 返回结果
+    * @author dozen.zhang
+    * @date 2019-3-6 23:18:03
+    */
     @RequestMapping(value = "/listAll.json")
     @ResponseBody
     public ResultDTO listAll(HttpServletRequest request) {
-        HashMap<String,Object> params= new HashMap<String,Object>();
+                HashMap<String,Object> params= new HashMap<String,Object>();
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
@@ -423,6 +435,14 @@ public class GoodsController extends BaseController{
         String price = request.getParameter("price");
         if(!StringUtil.isBlank(price)){
             params.put("price",price);
+        }
+        String tags = request.getParameter("tags");
+        if(!StringUtil.isBlank(tags)){
+            params.put("tags",tags);
+        }
+        String tagsLike = request.getParameter("tagsLike");
+        if(!StringUtil.isBlank(tagsLike)){
+            params.put("tagsLike",tagsLike);
         }
         String priceDesc = request.getParameter("priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -529,93 +549,103 @@ public class GoodsController extends BaseController{
         return ResultUtil.getDataResult(goodss);
     }
 
-    /**
-     * 说明:查看单条信息
-     * @param request 发请求
-     * @return String
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
-    @API( summary="根据id查询单个商品信息",
-            description = "根据id查询单个商品信息",
-            parameters={
-                    @Param(name="id" , description="id",in=InType.path,dataType= DataType.LONG,required = true),
-            })
-    @RequestMapping(value = "/view/{id}",method = RequestMethod.GET)
-    @ResponseBody
-    public ResultDTO getById(@PathVariable Long id,HttpServletRequest request) {
-        HashMap<String,Object> result =new HashMap</*String,Object*/>();
-        if(id > 0){
+   /**
+    * 说明:查看单条信息
+    * @param request 发请求
+    * @return String
+    * @author dozen.zhang
+    * @date 2019-3-6 23:18:03
+    */
+     @API( summary="根据id查询单个商品信息",
+               description = "根据id查询单个商品信息",
+               parameters={
+                       @Param(name="id" , description="id",in=InType.path,dataType= DataType.LONG,required = true),
+               })
+        @RequestMapping(value = "/view/{id}",method = RequestMethod.GET)
+        @ResponseBody
+        public ResultDTO getById(@PathVariable Long id,HttpServletRequest request) {
+                     HashMap<String,Object> result =new HashMap</*String,Object*/>();
             Goods bean = goodsService.selectByPrimaryKey(Long.valueOf(id));
             result.put("bean", bean);
+            return this.getResult(result);
+
         }
-        return this.getResult(result);
-
-    }
 
 
 
-    /**
-     * 说明:查看单条信息
-     * @param request 发请求
-     * @return String
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
-    @API( summary="根据id查询单个商品信息",
-            description = "根据id查询单个商品信息",
-            parameters={
-                    @Param(name="id" , description="id",dataType= DataType.LONG,required = true),
-            })
-    @RequestMapping(value = "/view.json",method = RequestMethod.GET)
-    @ResponseBody
-    public ResultDTO getById(HttpServletRequest request) {
-        String id = request.getParameter("id");
-        Goods bean = goodsService.selectByPrimaryKey(Long.valueOf(id));
-        //  HashMap<String,ResultDTO> result =new HashMap<String,ResultDTO>();
-        // result.put("bean", bean);
-        return this.getResult(bean);
-    }
+     /**
+        * 说明:查看单条信息
+        * @param request 发请求
+        * @return String
+        * @author dozen.zhang
+        * @date 2019-3-6 23:18:03
+        */
+      @API( summary="根据id查询单个商品信息",
+               description = "根据id查询单个商品信息",
+               parameters={
+                       @Param(name="id" , description="id",dataType= DataType.LONG,required = true),
+               })
+        @RequestMapping(value = "/view.json",method = RequestMethod.GET)
+        @ResponseBody
+        public ResultDTO getById(HttpServletRequest request) {
+         String id = request.getParameter("id");
+            Goods bean = goodsService.selectByPrimaryKey(Long.valueOf(id));
+          //  HashMap<String,ResultDTO> result =new HashMap<String,ResultDTO>();
+           // result.put("bean", bean);
+
+
+          File file = PathManager.getInstance().getHomePath().resolve("goods_detail").resolve(bean.getId()+".txt").toFile();
+
+          String detail = null;
+          try {
+              detail = FileUtil.readFile2Str(file);
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          bean.setDetail(detail);
+            return this.getResult(bean);
+        }
 
 
     /**
      * 说明:更新Goods信息
-     *
+     * 
      * @param request
      * @throws Exception
      * @return ResultDTO
      * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
+     * @date 2019-3-6 23:18:03
      */
-    @API( summary="更新id更新单个商品信息",
-            description = "更新id更新单个商品信息",
-            parameters={
-                    @Param(name="id" , description="编号",type="LONG",required = false),
-                    @Param(name="shopId" , description="商户id",type="LONG",required = false),
-                    @Param(name="name" , description="名称",type="STRING",required = true),
-                    @Param(name="subName" , description="副标题",type="STRING",required = true),
-                    @Param(name="detail" , description="副标题",type="STRING",required = true),
-                    @Param(name="address" , description="地址",type="STRING",required = false),
-                    @Param(name="telno" , description="手机号码",type="STRING",required = false),
-                    @Param(name="img" , description="图片",type="STRING",required = true),
-                    @Param(name="img1" , description="图片",type="STRING",required = false),
-                    @Param(name="img2" , description="图片",type="STRING",required = false),
-                    @Param(name="img3" , description="图片",type="STRING",required = false),
-                    @Param(name="remark" , description="备注",type="STRING",required = false),
-                    @Param(name="status" , description="状态",type="INTEGER",required = true),
-                    @Param(name="price" , description="价格",type="INTEGER",required = false),
-                    @Param(name="priceDesc" , description="价格描述",type="STRING",required = false),
-                    @Param(name="creator" , description="创建人id",type="LONG",required = false),
-                    @Param(name="creatorName" , description="创建人姓名",type="STRING",required = false),
-                    @Param(name="platform" , description="平台名称",type="STRING",required = false),
-                    @Param(name="comments" , description="评论数",type="INTEGER",required = false),
-                    @Param(name="score" , description="分数",type="FLOAT",required = false),
-                    @Param(name="link" , description="外链",type="STRING",required = false),
-                    @Param(name="up" , description="顶",type="INTEGER",required = false),
-                    @Param(name="down" , description="踩",type="INTEGER",required = false),
-                    @Param(name="createTime" , description="创建时间",type="DATE_TIME",required = false),
-                    @Param(name="updateTime" , description="更新时间",type="DATE_TIME",required = false),
-            })
+      @API( summary="更新id更新单个商品信息",
+        description = "更新id更新单个商品信息",
+        parameters={
+           @Param(name="id" , description="编号",type="LONG",required = false),
+           @Param(name="shopId" , description="商户id",type="LONG",required = false),
+           @Param(name="name" , description="名称",type="STRING",required = true),
+           @Param(name="subName" , description="副标题",type="STRING",required = true),
+           @Param(name="detail" , description="详细内容",type="STRING",required = true),
+           @Param(name="address" , description="地址",type="STRING",required = false),
+           @Param(name="telno" , description="手机号码",type="STRING",required = false),
+           @Param(name="img" , description="图片0",type="STRING",required = true),
+           @Param(name="img1" , description="图片1",type="STRING",required = false),
+           @Param(name="img2" , description="图片2",type="STRING",required = false),
+           @Param(name="img3" , description="图片3",type="STRING",required = false),
+           @Param(name="remark" , description="备注",type="STRING",required = false),
+           @Param(name="status" , description="状态",type="INTEGER",required = true),
+           @Param(name="price" , description="价格",type="FLOAT",required = false),
+           @Param(name="tags" , description="标签",type="STRING",required = false),
+           @Param(name="priceDesc" , description="价格描述",type="STRING",required = false),
+           @Param(name="creator" , description="创建人id",type="LONG",required = false),
+           @Param(name="creatorName" , description="创建人姓名",type="STRING",required = false),
+           @Param(name="platform" , description="平台名称",type="STRING",required = false),
+           @Param(name="comments" , description="评论数",type="INTEGER",required = false),
+           @Param(name="score" , description="分数",type="FLOAT",required = false),
+           @Param(name="link" , description="外链",type="STRING",required = false),
+           @Param(name="up" , description="顶",type="INTEGER",required = false),
+           @Param(name="down" , description="踩",type="INTEGER",required = false),
+           @Param(name="createTime" , description="创建时间",type="DATE_TIME",required = false),
+           @Param(name="updateTime" , description="更新时间",type="DATE_TIME",required = false),
+        })
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     @RequestMapping(value = "update.json",method = RequestMethod.PUT)///{id}
     @ResponseBody
@@ -626,122 +656,127 @@ public class GoodsController extends BaseController{
         if(!StringUtil.isBlank(id)){
             goods.setId(Long.valueOf(id)) ;
         }
-
+        
         String shopId = request.getParameter("shopId");
         if(!StringUtil.isBlank(shopId)){
             goods.setShopId(Long.valueOf(shopId)) ;
         }
-
+        
         String name = request.getParameter("name");
         if(!StringUtil.isBlank(name)){
             goods.setName(String.valueOf(name)) ;
         }
-
+        
         String subName = request.getParameter("subName");
         if(!StringUtil.isBlank(subName)){
             goods.setSubName(String.valueOf(subName)) ;
         }
-
+        
         String detail = request.getParameter("detail");
         if(!StringUtil.isBlank(detail)){
             goods.setDetail(String.valueOf(detail)) ;
         }
-
+        
         String address = request.getParameter("address");
         if(!StringUtil.isBlank(address)){
             goods.setAddress(String.valueOf(address)) ;
         }
-
+        
         String telno = request.getParameter("telno");
         if(!StringUtil.isBlank(telno)){
             goods.setTelno(String.valueOf(telno)) ;
         }
-
+        
         String img = request.getParameter("img");
         if(!StringUtil.isBlank(img)){
             goods.setImg(String.valueOf(img)) ;
         }
-
+        
         String img1 = request.getParameter("img1");
         if(!StringUtil.isBlank(img1)){
             goods.setImg1(String.valueOf(img1)) ;
         }
-
+        
         String img2 = request.getParameter("img2");
         if(!StringUtil.isBlank(img2)){
             goods.setImg2(String.valueOf(img2)) ;
         }
-
+        
         String img3 = request.getParameter("img3");
         if(!StringUtil.isBlank(img3)){
             goods.setImg3(String.valueOf(img3)) ;
         }
-
+        
         String remark = request.getParameter("remark");
         if(!StringUtil.isBlank(remark)){
             goods.setRemark(String.valueOf(remark)) ;
         }
-
+        
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
             goods.setStatus(Integer.valueOf(status)) ;
         }
-
+        
         String price = request.getParameter("price");
         if(!StringUtil.isBlank(price)){
-            goods.setPrice(Integer.valueOf(price)) ;
+            goods.setPrice(BigDecimal.valueOf(price)) ;
         }
-
+        
+        String tags = request.getParameter("tags");
+        if(!StringUtil.isBlank(tags)){
+            goods.setTags(String.valueOf(tags)) ;
+        }
+        
         String priceDesc = request.getParameter("priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
             goods.setPriceDesc(String.valueOf(priceDesc)) ;
         }
-
+        
         String creator = request.getParameter("creator");
         if(!StringUtil.isBlank(creator)){
             goods.setCreator(Long.valueOf(creator)) ;
         }
-
+        
         String creatorName = request.getParameter("creatorName");
         if(!StringUtil.isBlank(creatorName)){
             goods.setCreatorName(String.valueOf(creatorName)) ;
         }
-
+        
         String platform = request.getParameter("platform");
         if(!StringUtil.isBlank(platform)){
             goods.setPlatform(String.valueOf(platform)) ;
         }
-
+        
         String comments = request.getParameter("comments");
         if(!StringUtil.isBlank(comments)){
             goods.setComments(Integer.valueOf(comments)) ;
         }
-
+        
         String score = request.getParameter("score");
         if(!StringUtil.isBlank(score)){
             goods.setScore(Float.valueOf(score)) ;
         }
-
+        
         String link = request.getParameter("link");
         if(!StringUtil.isBlank(link)){
             goods.setLink(String.valueOf(link)) ;
         }
-
+        
         String up = request.getParameter("up");
         if(!StringUtil.isBlank(up)){
             goods.setUp(Integer.valueOf(up)) ;
         }
-
+        
         String down = request.getParameter("down");
         if(!StringUtil.isBlank(down)){
             goods.setDown(Integer.valueOf(down)) ;
         }
-
+        
         String createTime = request.getParameter("createTime");
         if(!StringUtil.isBlank(createTime)){
             goods.setCreateTime(Timestamp.valueOf(createTime)) ;
         }
-
+        
         String updateTime = request.getParameter("updateTime");
         if(!StringUtil.isBlank(updateTime)){
             goods.setUpdateTime(Timestamp.valueOf(updateTime)) ;
@@ -801,7 +836,11 @@ public class GoodsController extends BaseController{
         }
         String price = request.getParameter("price");
         if(!StringUtil.isBlank(price)){
-            goods.setPrice(Integer.valueOf(price));
+            goods.setPrice(new BigDecimal(price));
+        }
+        String tags = request.getParameter("tags");
+        if(!StringUtil.isBlank(tags)){
+            goods.setTags(tags);
         }
         String priceDesc = request.getParameter("priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -863,16 +902,17 @@ public class GoodsController extends BaseController{
         vu.add("shopId", shopId, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("name", name, "名称",  new Rule[]{new Length(50),new NotEmpty()});
         vu.add("subName", subName, "副标题",  new Rule[]{new Length(50),new NotEmpty()});
-        vu.add("detail", detail, "副标题",  new Rule[]{new Length(500),new NotEmpty()});
+        vu.add("detail", detail, "详细内容",  new Rule[]{new Length(50000),new NotEmpty()});
         vu.add("address", address, "地址",  new Rule[]{new Length(200)});
         vu.add("telno", telno, "手机号码",  new Rule[]{new Length(11),new PhoneRule()});
-        vu.add("img", img, "图片",  new Rule[]{new Length(100),new NotEmpty()});
-        vu.add("img1", img1, "图片",  new Rule[]{new Length(100)});
-        vu.add("img2", img2, "图片",  new Rule[]{new Length(100)});
-        vu.add("img3", img3, "图片",  new Rule[]{new Length(100)});
+        vu.add("img", img, "图片0",  new Rule[]{new Length(100),new NotEmpty()});
+        vu.add("img1", img1, "图片1",  new Rule[]{new Length(100)});
+        vu.add("img2", img2, "图片2",  new Rule[]{new Length(100)});
+        vu.add("img3", img3, "图片3",  new Rule[]{new Length(100)});
         vu.add("remark", remark, "备注",  new Rule[]{new Length(200)});
         vu.add("status", status, "状态",  new Rule[]{new Digits(1,0),new CheckBox(new String[]{"1","2","3","9"}),new NotEmpty()});
-        vu.add("price", price, "价格",  new Rule[]{new Digits(11,0)});
+        vu.add("price", price, "价格",  new Rule[]{});
+        vu.add("tags", tags, "标签",  new Rule[]{new Length(100)});
         vu.add("priceDesc", priceDesc, "价格描述",  new Rule[]{new Length(50)});
         vu.add("creator", creator, "创建人id",  new Rule[]{new Digits(11,0)});
         vu.add("creatorName", creatorName, "创建人姓名",  new Rule[]{new Length(50)});
@@ -890,179 +930,185 @@ public class GoodsController extends BaseController{
         }
 
         return goodsService.save(goods);
-
+       
     }
 
 
-    /**
-     * 说明:添加Goods信息
-     * @param request
-     * @throws Exception
-     * @return ResultDTO
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
-    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
-    @API( summary="添加单个商品信息",
+        /**
+         * 说明:添加Goods信息
+         * @param request
+         * @throws Exception
+         * @return ResultDTO
+         * @author dozen.zhang
+         * @date 2019-3-6 23:18:03
+         */
+        // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+        @API( summary="添加单个商品信息",
             description = "添加单个商品信息",
             parameters={
-                    @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
-                    @Param(name="shopId" , description="商户id",dataType = DataType.LONG,required = false),
-                    @Param(name="name" , description="名称",dataType = DataType.STRING,required = true),
-                    @Param(name="subName" , description="副标题",dataType = DataType.STRING,required = true),
-                    @Param(name="detail" , description="副标题",dataType = DataType.STRING,required = true),
-                    @Param(name="address" , description="地址",dataType = DataType.STRING,required = false),
-                    @Param(name="telno" , description="手机号码",dataType = DataType.STRING,required = false),
-                    @Param(name="img" , description="图片",dataType = DataType.STRING,required = true),
-                    @Param(name="img1" , description="图片",dataType = DataType.STRING,required = false),
-                    @Param(name="img2" , description="图片",dataType = DataType.STRING,required = false),
-                    @Param(name="img3" , description="图片",dataType = DataType.STRING,required = false),
-                    @Param(name="remark" , description="备注",dataType = DataType.STRING,required = false),
-                    @Param(name="status" , description="状态",dataType = DataType.INTEGER,required = true),
-                    @Param(name="price" , description="价格",dataType = DataType.INTEGER,required = false),
-                    @Param(name="priceDesc" , description="价格描述",dataType = DataType.STRING,required = false),
-                    @Param(name="creator" , description="创建人id",dataType = DataType.LONG,required = false),
-                    @Param(name="creatorName" , description="创建人姓名",dataType = DataType.STRING,required = false),
-                    @Param(name="platform" , description="平台名称",dataType = DataType.STRING,required = false),
-                    @Param(name="comments" , description="评论数",dataType = DataType.INTEGER,required = false),
-                    @Param(name="score" , description="分数",dataType = DataType.FLOAT,required = false),
-                    @Param(name="link" , description="外链",dataType = DataType.STRING,required = false),
-                    @Param(name="up" , description="顶",dataType = DataType.INTEGER,required = false),
-                    @Param(name="down" , description="踩",dataType = DataType.INTEGER,required = false),
-                    @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
-                    @Param(name="updateTime" , description="更新时间",dataType = DataType.DATE_TIME,required = false),
+               @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
+               @Param(name="shopId" , description="商户id",dataType = DataType.LONG,required = false),
+               @Param(name="name" , description="名称",dataType = DataType.STRING,required = true),
+               @Param(name="subName" , description="副标题",dataType = DataType.STRING,required = true),
+               @Param(name="detail" , description="详细内容",dataType = DataType.STRING,required = true),
+               @Param(name="address" , description="地址",dataType = DataType.STRING,required = false),
+               @Param(name="telno" , description="手机号码",dataType = DataType.STRING,required = false),
+               @Param(name="img" , description="图片0",dataType = DataType.STRING,required = true),
+               @Param(name="img1" , description="图片1",dataType = DataType.STRING,required = false),
+               @Param(name="img2" , description="图片2",dataType = DataType.STRING,required = false),
+               @Param(name="img3" , description="图片3",dataType = DataType.STRING,required = false),
+               @Param(name="remark" , description="备注",dataType = DataType.STRING,required = false),
+               @Param(name="status" , description="状态",dataType = DataType.INTEGER,required = true),
+               @Param(name="price" , description="价格",dataType = DataType.FLOAT,required = false),
+               @Param(name="tags" , description="标签",dataType = DataType.STRING,required = false),
+               @Param(name="priceDesc" , description="价格描述",dataType = DataType.STRING,required = false),
+               @Param(name="creator" , description="创建人id",dataType = DataType.LONG,required = false),
+               @Param(name="creatorName" , description="创建人姓名",dataType = DataType.STRING,required = false),
+               @Param(name="platform" , description="平台名称",dataType = DataType.STRING,required = false),
+               @Param(name="comments" , description="评论数",dataType = DataType.INTEGER,required = false),
+               @Param(name="score" , description="分数",dataType = DataType.FLOAT,required = false),
+               @Param(name="link" , description="外链",dataType = DataType.STRING,required = false),
+               @Param(name="up" , description="顶",dataType = DataType.INTEGER,required = false),
+               @Param(name="down" , description="踩",dataType = DataType.INTEGER,required = false),
+               @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
+               @Param(name="updateTime" , description="更新时间",dataType = DataType.DATE_TIME,required = false),
             })
-    @RequestMapping(value = "add.json",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO add(HttpServletRequest request) throws Exception {
-        Goods goods =new  Goods();
+        @RequestMapping(value = "add.json",method = RequestMethod.POST)
+        @ResponseBody
+        public ResultDTO add(HttpServletRequest request) throws Exception {
+            Goods goods =new  Goods();
             /*
             String id = request.getParameter("id");
             if(!StringUtil.isBlank(id)){
                 goods.setId(Long.valueOf(id)) ;
             }
-
+            
             String shopId = request.getParameter("shopId");
             if(!StringUtil.isBlank(shopId)){
                 goods.setShopId(Long.valueOf(shopId)) ;
             }
-
+            
             String name = request.getParameter("name");
             if(!StringUtil.isBlank(name)){
                 goods.setName(String.valueOf(name)) ;
             }
-
+            
             String subName = request.getParameter("subName");
             if(!StringUtil.isBlank(subName)){
                 goods.setSubName(String.valueOf(subName)) ;
             }
-
+            
             String detail = request.getParameter("detail");
             if(!StringUtil.isBlank(detail)){
                 goods.setDetail(String.valueOf(detail)) ;
             }
-
+            
             String address = request.getParameter("address");
             if(!StringUtil.isBlank(address)){
                 goods.setAddress(String.valueOf(address)) ;
             }
-
+            
             String telno = request.getParameter("telno");
             if(!StringUtil.isBlank(telno)){
                 goods.setTelno(String.valueOf(telno)) ;
             }
-
+            
             String img = request.getParameter("img");
             if(!StringUtil.isBlank(img)){
                 goods.setImg(String.valueOf(img)) ;
             }
-
+            
             String img1 = request.getParameter("img1");
             if(!StringUtil.isBlank(img1)){
                 goods.setImg1(String.valueOf(img1)) ;
             }
-
+            
             String img2 = request.getParameter("img2");
             if(!StringUtil.isBlank(img2)){
                 goods.setImg2(String.valueOf(img2)) ;
             }
-
+            
             String img3 = request.getParameter("img3");
             if(!StringUtil.isBlank(img3)){
                 goods.setImg3(String.valueOf(img3)) ;
             }
-
+            
             String remark = request.getParameter("remark");
             if(!StringUtil.isBlank(remark)){
                 goods.setRemark(String.valueOf(remark)) ;
             }
-
+            
             String status = request.getParameter("status");
             if(!StringUtil.isBlank(status)){
                 goods.setStatus(Integer.valueOf(status)) ;
             }
-
+            
             String price = request.getParameter("price");
             if(!StringUtil.isBlank(price)){
-                goods.setPrice(Integer.valueOf(price)) ;
+                goods.setPrice(BigDecimal.valueOf(price)) ;
             }
-
+            
+            String tags = request.getParameter("tags");
+            if(!StringUtil.isBlank(tags)){
+                goods.setTags(String.valueOf(tags)) ;
+            }
+            
             String priceDesc = request.getParameter("priceDesc");
             if(!StringUtil.isBlank(priceDesc)){
                 goods.setPriceDesc(String.valueOf(priceDesc)) ;
             }
-
+            
             String creator = request.getParameter("creator");
             if(!StringUtil.isBlank(creator)){
                 goods.setCreator(Long.valueOf(creator)) ;
             }
-
+            
             String creatorName = request.getParameter("creatorName");
             if(!StringUtil.isBlank(creatorName)){
                 goods.setCreatorName(String.valueOf(creatorName)) ;
             }
-
+            
             String platform = request.getParameter("platform");
             if(!StringUtil.isBlank(platform)){
                 goods.setPlatform(String.valueOf(platform)) ;
             }
-
+            
             String comments = request.getParameter("comments");
             if(!StringUtil.isBlank(comments)){
                 goods.setComments(Integer.valueOf(comments)) ;
             }
-
+            
             String score = request.getParameter("score");
             if(!StringUtil.isBlank(score)){
                 goods.setScore(Float.valueOf(score)) ;
             }
-
+            
             String link = request.getParameter("link");
             if(!StringUtil.isBlank(link)){
                 goods.setLink(String.valueOf(link)) ;
             }
-
+            
             String up = request.getParameter("up");
             if(!StringUtil.isBlank(up)){
                 goods.setUp(Integer.valueOf(up)) ;
             }
-
+            
             String down = request.getParameter("down");
             if(!StringUtil.isBlank(down)){
                 goods.setDown(Integer.valueOf(down)) ;
             }
-
+            
             String createTime = request.getParameter("createTime");
             if(!StringUtil.isBlank(createTime)){
                 goods.setCreateTime(Timestamp.valueOf(createTime)) ;
             }
-
+            
             String updateTime = request.getParameter("updateTime");
             if(!StringUtil.isBlank(updateTime)){
                 goods.setUpdateTime(Timestamp.valueOf(updateTime)) ;
             }
             */
-        String id = request.getParameter("id");
+            String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             goods.setId(Long.valueOf(id));
         }
@@ -1116,7 +1162,11 @@ public class GoodsController extends BaseController{
         }
         String price = request.getParameter("price");
         if(!StringUtil.isBlank(price)){
-            goods.setPrice(Integer.valueOf(price));
+            goods.setPrice(new BigDecimal(price));
+        }
+        String tags = request.getParameter("tags");
+        if(!StringUtil.isBlank(tags)){
+            goods.setTags(tags);
         }
         String priceDesc = request.getParameter("priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -1171,23 +1221,24 @@ public class GoodsController extends BaseController{
             }
         }
 
-        //valid
-        ValidateUtil vu = new ValidateUtil();
+            //valid
+            ValidateUtil vu = new ValidateUtil();
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(9,0)});
         vu.add("shopId", shopId, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("name", name, "名称",  new Rule[]{new Length(50),new NotEmpty()});
         vu.add("subName", subName, "副标题",  new Rule[]{new Length(50),new NotEmpty()});
-        vu.add("detail", detail, "副标题",  new Rule[]{new Length(500),new NotEmpty()});
+        vu.add("detail", detail, "详细内容",  new Rule[]{new Length(50000),new NotEmpty()});
         vu.add("address", address, "地址",  new Rule[]{new Length(200)});
         vu.add("telno", telno, "手机号码",  new Rule[]{new Length(11),new PhoneRule()});
-        vu.add("img", img, "图片",  new Rule[]{new Length(100),new NotEmpty()});
-        vu.add("img1", img1, "图片",  new Rule[]{new Length(100)});
-        vu.add("img2", img2, "图片",  new Rule[]{new Length(100)});
-        vu.add("img3", img3, "图片",  new Rule[]{new Length(100)});
+        vu.add("img", img, "图片0",  new Rule[]{new Length(100),new NotEmpty()});
+        vu.add("img1", img1, "图片1",  new Rule[]{new Length(100)});
+        vu.add("img2", img2, "图片2",  new Rule[]{new Length(100)});
+        vu.add("img3", img3, "图片3",  new Rule[]{new Length(100)});
         vu.add("remark", remark, "备注",  new Rule[]{new Length(200)});
         vu.add("status", status, "状态",  new Rule[]{new Digits(1,0),new CheckBox(new String[]{"1","2","3","9"}),new NotEmpty()});
-        vu.add("price", price, "价格",  new Rule[]{new Digits(11,0)});
+        vu.add("price", price, "价格",  new Rule[]{});
+        vu.add("tags", tags, "标签",  new Rule[]{new Length(100)});
         vu.add("priceDesc", priceDesc, "价格描述",  new Rule[]{new Length(50)});
         vu.add("creator", creator, "创建人id",  new Rule[]{new Digits(11,0)});
         vu.add("creatorName", creatorName, "创建人姓名",  new Rule[]{new Length(50)});
@@ -1204,180 +1255,186 @@ public class GoodsController extends BaseController{
             return ResultUtil.getResult(302,validStr);
         }
 
-        return goodsService.save(goods);
+            return goodsService.save(goods);
 
-    }
+        }
 
 
-    /**
-     * 说明:添加Goods信息
-     * @param request
-     * @throws Exception
-     * @return ResultDTO
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
-    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
-    @API( summary="添加单个商品信息",
-            description = "添加单个商品信息",
-            parameters={
-                    @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
-                    @Param(name="shopId" , description="商户id",dataType = DataType.LONG,required = false),
-                    @Param(name="name" , description="名称",dataType = DataType.STRING,required = true),
-                    @Param(name="subName" , description="副标题",dataType = DataType.STRING,required = true),
-                    @Param(name="detail" , description="副标题",dataType = DataType.STRING,required = true),
-                    @Param(name="address" , description="地址",dataType = DataType.STRING,required = false),
-                    @Param(name="telno" , description="手机号码",dataType = DataType.STRING,required = false),
-                    @Param(name="img" , description="图片",dataType = DataType.STRING,required = true),
-                    @Param(name="img1" , description="图片",dataType = DataType.STRING,required = false),
-                    @Param(name="img2" , description="图片",dataType = DataType.STRING,required = false),
-                    @Param(name="img3" , description="图片",dataType = DataType.STRING,required = false),
-                    @Param(name="remark" , description="备注",dataType = DataType.STRING,required = false),
-                    @Param(name="status" , description="状态",dataType = DataType.INTEGER,required = true),
-                    @Param(name="price" , description="价格",dataType = DataType.INTEGER,required = false),
-                    @Param(name="priceDesc" , description="价格描述",dataType = DataType.STRING,required = false),
-                    @Param(name="creator" , description="创建人id",dataType = DataType.LONG,required = false),
-                    @Param(name="creatorName" , description="创建人姓名",dataType = DataType.STRING,required = false),
-                    @Param(name="platform" , description="平台名称",dataType = DataType.STRING,required = false),
-                    @Param(name="comments" , description="评论数",dataType = DataType.INTEGER,required = false),
-                    @Param(name="score" , description="分数",dataType = DataType.FLOAT,required = false),
-                    @Param(name="link" , description="外链",dataType = DataType.STRING,required = false),
-                    @Param(name="up" , description="顶",dataType = DataType.INTEGER,required = false),
-                    @Param(name="down" , description="踩",dataType = DataType.INTEGER,required = false),
-                    @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
-                    @Param(name="updateTime" , description="更新时间",dataType = DataType.DATE_TIME,required = false),
-            })
-    @RequestMapping(value = "save.json",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO save(HttpServletRequest request) throws Exception {
-        Goods goods =new  Goods();
+          /**
+                 * 说明:添加Goods信息
+                 * @param request
+                 * @throws Exception
+                 * @return ResultDTO
+                 * @author dozen.zhang
+                 * @date 2019-3-6 23:18:03
+                 */
+                // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
+                @API( summary="添加单个商品信息",
+                    description = "添加单个商品信息",
+                    parameters={
+                       @Param(name="id" , description="编号",dataType = DataType.LONG,required = false),
+                       @Param(name="shopId" , description="商户id",dataType = DataType.LONG,required = false),
+                       @Param(name="name" , description="名称",dataType = DataType.STRING,required = true),
+                       @Param(name="subName" , description="副标题",dataType = DataType.STRING,required = true),
+                       @Param(name="detail" , description="详细内容",dataType = DataType.STRING,required = true),
+                       @Param(name="address" , description="地址",dataType = DataType.STRING,required = false),
+                       @Param(name="telno" , description="手机号码",dataType = DataType.STRING,required = false),
+                       @Param(name="img" , description="图片0",dataType = DataType.STRING,required = true),
+                       @Param(name="img1" , description="图片1",dataType = DataType.STRING,required = false),
+                       @Param(name="img2" , description="图片2",dataType = DataType.STRING,required = false),
+                       @Param(name="img3" , description="图片3",dataType = DataType.STRING,required = false),
+                       @Param(name="remark" , description="备注",dataType = DataType.STRING,required = false),
+                       @Param(name="status" , description="状态",dataType = DataType.INTEGER,required = true),
+                       @Param(name="price" , description="价格",dataType = DataType.FLOAT,required = false),
+                       @Param(name="tags" , description="标签",dataType = DataType.STRING,required = false),
+                       @Param(name="priceDesc" , description="价格描述",dataType = DataType.STRING,required = false),
+                       @Param(name="creator" , description="创建人id",dataType = DataType.LONG,required = false),
+                       @Param(name="creatorName" , description="创建人姓名",dataType = DataType.STRING,required = false),
+                       @Param(name="platform" , description="平台名称",dataType = DataType.STRING,required = false),
+                       @Param(name="comments" , description="评论数",dataType = DataType.INTEGER,required = false),
+                       @Param(name="score" , description="分数",dataType = DataType.FLOAT,required = false),
+                       @Param(name="link" , description="外链",dataType = DataType.STRING,required = false),
+                       @Param(name="up" , description="顶",dataType = DataType.INTEGER,required = false),
+                       @Param(name="down" , description="踩",dataType = DataType.INTEGER,required = false),
+                       @Param(name="createTime" , description="创建时间",dataType = DataType.DATE_TIME,required = false),
+                       @Param(name="updateTime" , description="更新时间",dataType = DataType.DATE_TIME,required = false),
+                    })
+                @RequestMapping(value = "save.json",method = RequestMethod.POST)
+                @ResponseBody
+                public ResultDTO save(HttpServletRequest request) throws Exception {
+                    Goods goods =new  Goods();
                     /*
                     String id = request.getParameter("id");
                     if(!StringUtil.isBlank(id)){
                         goods.setId(Long.valueOf(id)) ;
                     }
-
+                    
                     String shopId = request.getParameter("shopId");
                     if(!StringUtil.isBlank(shopId)){
                         goods.setShopId(Long.valueOf(shopId)) ;
                     }
-
+                    
                     String name = request.getParameter("name");
                     if(!StringUtil.isBlank(name)){
                         goods.setName(String.valueOf(name)) ;
                     }
-
+                    
                     String subName = request.getParameter("subName");
                     if(!StringUtil.isBlank(subName)){
                         goods.setSubName(String.valueOf(subName)) ;
                     }
-
+                    
                     String detail = request.getParameter("detail");
                     if(!StringUtil.isBlank(detail)){
                         goods.setDetail(String.valueOf(detail)) ;
                     }
-
+                    
                     String address = request.getParameter("address");
                     if(!StringUtil.isBlank(address)){
                         goods.setAddress(String.valueOf(address)) ;
                     }
-
+                    
                     String telno = request.getParameter("telno");
                     if(!StringUtil.isBlank(telno)){
                         goods.setTelno(String.valueOf(telno)) ;
                     }
-
+                    
                     String img = request.getParameter("img");
                     if(!StringUtil.isBlank(img)){
                         goods.setImg(String.valueOf(img)) ;
                     }
-
+                    
                     String img1 = request.getParameter("img1");
                     if(!StringUtil.isBlank(img1)){
                         goods.setImg1(String.valueOf(img1)) ;
                     }
-
+                    
                     String img2 = request.getParameter("img2");
                     if(!StringUtil.isBlank(img2)){
                         goods.setImg2(String.valueOf(img2)) ;
                     }
-
+                    
                     String img3 = request.getParameter("img3");
                     if(!StringUtil.isBlank(img3)){
                         goods.setImg3(String.valueOf(img3)) ;
                     }
-
+                    
                     String remark = request.getParameter("remark");
                     if(!StringUtil.isBlank(remark)){
                         goods.setRemark(String.valueOf(remark)) ;
                     }
-
+                    
                     String status = request.getParameter("status");
                     if(!StringUtil.isBlank(status)){
                         goods.setStatus(Integer.valueOf(status)) ;
                     }
-
+                    
                     String price = request.getParameter("price");
                     if(!StringUtil.isBlank(price)){
-                        goods.setPrice(Integer.valueOf(price)) ;
+                        goods.setPrice(BigDecimal.valueOf(price)) ;
                     }
-
+                    
+                    String tags = request.getParameter("tags");
+                    if(!StringUtil.isBlank(tags)){
+                        goods.setTags(String.valueOf(tags)) ;
+                    }
+                    
                     String priceDesc = request.getParameter("priceDesc");
                     if(!StringUtil.isBlank(priceDesc)){
                         goods.setPriceDesc(String.valueOf(priceDesc)) ;
                     }
-
+                    
                     String creator = request.getParameter("creator");
                     if(!StringUtil.isBlank(creator)){
                         goods.setCreator(Long.valueOf(creator)) ;
                     }
-
+                    
                     String creatorName = request.getParameter("creatorName");
                     if(!StringUtil.isBlank(creatorName)){
                         goods.setCreatorName(String.valueOf(creatorName)) ;
                     }
-
+                    
                     String platform = request.getParameter("platform");
                     if(!StringUtil.isBlank(platform)){
                         goods.setPlatform(String.valueOf(platform)) ;
                     }
-
+                    
                     String comments = request.getParameter("comments");
                     if(!StringUtil.isBlank(comments)){
                         goods.setComments(Integer.valueOf(comments)) ;
                     }
-
+                    
                     String score = request.getParameter("score");
                     if(!StringUtil.isBlank(score)){
                         goods.setScore(Float.valueOf(score)) ;
                     }
-
+                    
                     String link = request.getParameter("link");
                     if(!StringUtil.isBlank(link)){
                         goods.setLink(String.valueOf(link)) ;
                     }
-
+                    
                     String up = request.getParameter("up");
                     if(!StringUtil.isBlank(up)){
                         goods.setUp(Integer.valueOf(up)) ;
                     }
-
+                    
                     String down = request.getParameter("down");
                     if(!StringUtil.isBlank(down)){
                         goods.setDown(Integer.valueOf(down)) ;
                     }
-
+                    
                     String createTime = request.getParameter("createTime");
                     if(!StringUtil.isBlank(createTime)){
                         goods.setCreateTime(Timestamp.valueOf(createTime)) ;
                     }
-
+                    
                     String updateTime = request.getParameter("updateTime");
                     if(!StringUtil.isBlank(updateTime)){
                         goods.setUpdateTime(Timestamp.valueOf(updateTime)) ;
                     }
                     */
-        String id = request.getParameter("id");
+                    String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             goods.setId(Long.valueOf(id));
         }
@@ -1431,7 +1488,11 @@ public class GoodsController extends BaseController{
         }
         String price = request.getParameter("price");
         if(!StringUtil.isBlank(price)){
-            goods.setPrice(Integer.valueOf(price));
+            goods.setPrice(new BigDecimal(price));
+        }
+        String tags = request.getParameter("tags");
+        if(!StringUtil.isBlank(tags)){
+            goods.setTags(tags);
         }
         String priceDesc = request.getParameter("priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -1486,23 +1547,24 @@ public class GoodsController extends BaseController{
             }
         }
 
-        //valid
-        ValidateUtil vu = new ValidateUtil();
+                    //valid
+                    ValidateUtil vu = new ValidateUtil();
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(9,0)});
         vu.add("shopId", shopId, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("name", name, "名称",  new Rule[]{new Length(50),new NotEmpty()});
         vu.add("subName", subName, "副标题",  new Rule[]{new Length(50),new NotEmpty()});
-        vu.add("detail", detail, "副标题",  new Rule[]{new Length(500),new NotEmpty()});
+        vu.add("detail", detail, "详细内容",  new Rule[]{new Length(50000),new NotEmpty()});
         vu.add("address", address, "地址",  new Rule[]{new Length(200)});
         vu.add("telno", telno, "手机号码",  new Rule[]{new Length(11),new PhoneRule()});
-        vu.add("img", img, "图片",  new Rule[]{new Length(100),new NotEmpty()});
-        vu.add("img1", img1, "图片",  new Rule[]{new Length(100)});
-        vu.add("img2", img2, "图片",  new Rule[]{new Length(100)});
-        vu.add("img3", img3, "图片",  new Rule[]{new Length(100)});
+        vu.add("img", img, "图片0",  new Rule[]{new Length(100),new NotEmpty()});
+        vu.add("img1", img1, "图片1",  new Rule[]{new Length(100)});
+        vu.add("img2", img2, "图片2",  new Rule[]{new Length(100)});
+        vu.add("img3", img3, "图片3",  new Rule[]{new Length(100)});
         vu.add("remark", remark, "备注",  new Rule[]{new Length(200)});
         vu.add("status", status, "状态",  new Rule[]{new Digits(1,0),new CheckBox(new String[]{"1","2","3","9"}),new NotEmpty()});
-        vu.add("price", price, "价格",  new Rule[]{new Digits(11,0)});
+        vu.add("price", price, "价格",  new Rule[]{});
+        vu.add("tags", tags, "标签",  new Rule[]{new Length(100)});
         vu.add("priceDesc", priceDesc, "价格描述",  new Rule[]{new Length(50)});
         vu.add("creator", creator, "创建人id",  new Rule[]{new Digits(11,0)});
         vu.add("creatorName", creatorName, "创建人姓名",  new Rule[]{new Length(50)});
@@ -1518,14 +1580,20 @@ public class GoodsController extends BaseController{
         if(StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302,validStr);
         }
-        String[] imgAry = request.getParameter("imageUrls").split(",");//new String[]{img,img1,img2,img3};
-        goodsService.save(goods);
+
+                    String[] imgAry = request.getParameter("imageUrls").split(",");//new String[]{img,img1,img2,img3};
+                    goods.setDetail("");
+                    goodsService.save(goods);
 
 
-        return pubImageBelongService.save(goods.getId(),imgAry);
+                    File file = PathManager.getInstance().getHomePath().resolve("goods_detail").resolve(goods.getId()+".txt").toFile();
+                    if(!file.getParentFile().exists()){
+                        file.getParentFile().mkdirs();
+                    }
+                    FileUtil.writeFile(file,detail);
+                    return pubImageBelongService.save(goods.getId(),imgAry);
 
-    }
-
+                }
     @Resource
     private PubImageBelongService pubImageBelongService;
 
@@ -1535,13 +1603,13 @@ public class GoodsController extends BaseController{
      * @throws Exception
      * @return ResultDTO
      * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
+     * @date 2019-3-6 23:18:03
      */
-    @API( summary="根据id删除单个商品信息",
-            description = "根据id删除单个商品信息",
-            parameters={
-                    @Param(name="id" , description="编号",dataType= DataType.LONG,required = true),
-            })
+     @API( summary="根据id删除单个商品信息",
+        description = "根据id删除单个商品信息",
+        parameters={
+         @Param(name="id" , description="编号",dataType= DataType.LONG,required = true),
+        })
     @RequestMapping(value = "/delete.json",method = RequestMethod.DELETE)//{id}
     @ResponseBody
     public ResultDTO delete(HttpServletRequest request) {//@PathVariable Long id,
@@ -1554,26 +1622,26 @@ public class GoodsController extends BaseController{
         return this.getResult(SUCC);
     }
 
-    /**
-     * 说明:删除Goods信息
-     * @param request
-     * @throws Exception
-     * @return ResultDTO
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
-    @API( summary="根据id删除单个商品信息",
+     /**
+         * 说明:删除Goods信息
+         * @param request
+         * @throws Exception
+         * @return ResultDTO
+         * @author dozen.zhang
+         * @date 2019-3-6 23:18:03
+         */
+         @API( summary="根据id删除单个商品信息",
             description = "根据id删除单个商品信息",
             parameters={
-                    @Param(name="id" , description="编号",in=InType.path,dataType= DataType.LONG,required = true),
+             @Param(name="id" , description="编号",in=InType.path,dataType= DataType.LONG,required = true),
             })
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)//{id}
-    @ResponseBody
-    public ResultDTO delete(@PathVariable Long id,HttpServletRequest request) {
-        goodsService.delete(id);
-        return this.getResult(SUCC);
-    }
-    /**
+        @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)//{id}
+        @ResponseBody
+        public ResultDTO delete(@PathVariable Long id,HttpServletRequest request) {
+            goodsService.delete(id);
+            return this.getResult(SUCC);
+        }
+     /**
      * 多行删除
      * @param request
      * @return
@@ -1592,7 +1660,7 @@ public class GoodsController extends BaseController{
             ValidateUtil vu = new ValidateUtil();
             String validStr="";
             String id = idStrAry[i];
-            vu.add("id", id, "编号",  new Rule[]{});
+                    vu.add("id", id, "编号",  new Rule[]{});
 
             try{
                 validStr=vu.validateString();
@@ -1601,13 +1669,13 @@ public class GoodsController extends BaseController{
                 validStr="验证程序异常";
                 return ResultUtil.getResult(302,validStr);
             }
-
+            
             if(StringUtil.isNotBlank(validStr)) {
                 return ResultUtil.getResult(302,validStr);
             }
             idAry[i]=Long.valueOf(idStrAry[i]);
         }
-        return  goodsService.multilDelete(idAry);
+       return  goodsService.multilDelete(idAry);
     }
 
     /**
@@ -1617,9 +1685,9 @@ public class GoodsController extends BaseController{
      * @author dozen.zhang
      */
     @RequestMapping(value = "/export.json")
-    @ResponseBody
+    @ResponseBody   
     public ResultDTO exportExcel(HttpServletRequest request){
-        HashMap<String,Object> params= new HashMap<String,Object>();
+               HashMap<String,Object> params= new HashMap<String,Object>();
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
@@ -1715,6 +1783,14 @@ public class GoodsController extends BaseController{
         String price = request.getParameter("price");
         if(!StringUtil.isBlank(price)){
             params.put("price",price);
+        }
+        String tags = request.getParameter("tags");
+        if(!StringUtil.isBlank(tags)){
+            params.put("tags",tags);
+        }
+        String tagsLike = request.getParameter("tagsLike");
+        if(!StringUtil.isBlank(tagsLike)){
+            params.put("tagsLike",tagsLike);
         }
         String priceDesc = request.getParameter("priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -1839,16 +1915,17 @@ public class GoodsController extends BaseController{
         colTitle.put("shopId", "商户id");
         colTitle.put("name", "名称");
         colTitle.put("subName", "副标题");
-        colTitle.put("detail", "副标题");
+        colTitle.put("detail", "详细内容");
         colTitle.put("address", "地址");
         colTitle.put("telno", "手机号码");
-        colTitle.put("img", "图片");
-        colTitle.put("img1", "图片");
-        colTitle.put("img2", "图片");
-        colTitle.put("img3", "图片");
+        colTitle.put("img", "图片0");
+        colTitle.put("img1", "图片1");
+        colTitle.put("img2", "图片2");
+        colTitle.put("img3", "图片3");
         colTitle.put("remark", "备注");
         colTitle.put("status", "状态");
         colTitle.put("price", "价格");
+        colTitle.put("tags", "标签");
         colTitle.put("priceDesc", "价格描述");
         colTitle.put("creator", "创建人id");
         colTitle.put("creatorName", "创建人姓名");
@@ -1878,6 +1955,7 @@ public class GoodsController extends BaseController{
             map.put("remark",  list.get(i).getRemark());
             map.put("status",  list.get(i).getStatus());
             map.put("price",  list.get(i).getPrice());
+            map.put("tags",  list.get(i).getTags());
             map.put("priceDesc",  list.get(i).getPriceDesc());
             map.put("creator",  list.get(i).getCreator());
             map.put("creatorName",  list.get(i).getCreatorName());
@@ -1904,118 +1982,118 @@ public class GoodsController extends BaseController{
             e.printStackTrace();
         }
         return this.getResult(0, "数据为空，导出失败");
-
+    
     }
 
-    @API(summary = "批量导入信息",
-            description = "批量导入信息",
-            consumes = "multipart/form-data",
-            parameters = {
-                    @Param(name = "file", description = "编号", in = InType.form, dataType = DataType.FILE, required = true),
-            })
+     @API(summary = "批量导入信息",
+                description = "批量导入信息",
+                consumes = "multipart/form-data",
+                parameters = {
+                        @Param(name = "file", description = "编号", in = InType.form, dataType = DataType.FILE, required = true),
+                })
     @RequestMapping(value = "/import", method = RequestMethod.POST)
-    @ResponseBody
+     @ResponseBody
     public ResultDTO importExcel(@RequestParam("file") MultipartFile file){
-        // 将spring 的file 装成 普通file
-        File xlsFile = null;
-        if (file != null) {
-            try {
-                String fileName = System.currentTimeMillis() + ".xls";//取一个随机的名称
-                String s = PathManager.getInstance().getTmpPath().resolve(fileName).toString();//存入tmp文件夹
-                Files.copy(file.getInputStream(), PathManager.getInstance().getTmpPath().resolve(fileName));//存到本地
-                xlsFile = PathManager.getInstance().getTmpPath().resolve(fileName).toFile();//读取
-            } catch (Exception e) {
-                logger.error("文件上传出错", e);
-                throw new BizException("E041412312", "文件上传出错");
-            }
-        }
-        String result = "";
-        try {
-
-            // 将导入的中文列名匹配至数据库对应字段
-            int success = 0;
-            int fail = 0;
-            StringBuffer errorMsg = new StringBuffer();//如果某行报错了 需要告知哪一行错误
-            //            Map<String, String> colMatch = new HashMap<String, String>();
-            //            colMatch.put("姓名", "name");
-            //            colMatch.put("单位", "org");
-            //            colMatch.put("邮箱", "email");
-
-
-            List<Map<String, String>> list = ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
-            for (int i = 0; i < list.size(); i++) {
-
-                Map<String, String> map = list.get(i);
-                String email = MapUtils.getStringValue(map, "邮箱");
-                // 检验手机号是否符合规范,不符合continue
-                if (!StringUtil.isEmail(email)) {
-                    //                    throw new ValidException("E2000016", MessageUtil.getMessage("E2000016", telphone));// 手机号码不符合一般格式。
-                    logger.info(" import conf ==> the telphone:" + email + " is not email");
-                    fail++;
-                    errorMsg.append("" + email + " 不是邮箱地址;");
-                    continue;
+          // 将spring 的file 装成 普通file
+                File xlsFile = null;
+                if (file != null) {
+                    try {
+                        String fileName = System.currentTimeMillis() + ".xls";//取一个随机的名称
+                        String s = PathManager.getInstance().getTmpPath().resolve(fileName).toString();//存入tmp文件夹
+                        Files.copy(file.getInputStream(), PathManager.getInstance().getTmpPath().resolve(fileName));//存到本地
+                        xlsFile = PathManager.getInstance().getTmpPath().resolve(fileName).toFile();//读取
+                    } catch (Exception e) {
+                        logger.error("文件上传出错", e);
+                        throw new BizException("E041412312", "文件上传出错");
+                    }
                 }
-                HashMap params = new HashMap();
-                params.put("email", email);
-                //  int count = contactsService.countByParams(params);//检查邮箱地址是否存在
-
-                Goods bean = getInfoFromMap(params);
-
-                //  if (count > 0) {
-
-                //      logger.warn("邮箱已经存在:" + email);
-                //     errorMsg.append("邮箱已经存在:" + email);
-                //   continue;
-
-                // }
-
+                String result = "";
                 try {
-                    goodsService.save(bean);
-                    success++;//成功数增加
-                } catch (Exception e) {
 
-                    fail++;//失败数增加
-                    logger.info("packageservice import conf ==> update fail ==>the telphone:" + email + "", e);
-                    errorMsg.append("the telphone:" + email + " update fail;");
+                    // 将导入的中文列名匹配至数据库对应字段
+                    int success = 0;
+                    int fail = 0;
+                    StringBuffer errorMsg = new StringBuffer();//如果某行报错了 需要告知哪一行错误
+        //            Map<String, String> colMatch = new HashMap<String, String>();
+        //            colMatch.put("姓名", "name");
+        //            colMatch.put("单位", "org");
+        //            colMatch.put("邮箱", "email");
+
+
+                    List<Map<String, String>> list = ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
+                    for (int i = 0; i < list.size(); i++) {
+
+                        Map<String, String> map = list.get(i);
+                        String email = MapUtils.getStringValue(map, "邮箱");
+                        // 检验手机号是否符合规范,不符合continue
+                        if (!StringUtil.isEmail(email)) {
+        //                    throw new ValidException("E2000016", MessageUtil.getMessage("E2000016", telphone));// 手机号码不符合一般格式。
+                            logger.info(" import conf ==> the telphone:" + email + " is not email");
+                            fail++;
+                            errorMsg.append("" + email + " 不是邮箱地址;");
+                            continue;
+                        }
+                        HashMap params = new HashMap();
+                        params.put("email", email);
+                      //  int count = contactsService.countByParams(params);//检查邮箱地址是否存在
+
+                        Goods bean = getInfoFromMap(params);
+
+                      //  if (count > 0) {
+
+                      //      logger.warn("邮箱已经存在:" + email);
+                       //     errorMsg.append("邮箱已经存在:" + email);
+                         //   continue;
+
+                       // }
+
+                        try {
+                            goodsService.save(bean);
+                            success++;//成功数增加
+                        } catch (Exception e) {
+
+                            fail++;//失败数增加
+                            logger.info("packageservice import conf ==> update fail ==>the telphone:" + email + "", e);
+                            errorMsg.append("the telphone:" + email + " update fail;");
+                        }
+
+                    }
+                    if (StringUtil.isNotBlank(errorMsg.toString()) && fail > 0) {
+                        throw new BizException("E2000016", "导入失败, 失败" + fail + "条。" + errorMsg.toString());
+                    }
+                    return this.getResult(3090182,"导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.error("导入失败", e);
+                    if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
+                        throw new BizException("E041412313", "导入的excel需为2003版本");
+                    } else {
+                        throw new BizException("E041412313", e.getMessage());
+                    }
                 }
 
-            }
-            if (StringUtil.isNotBlank(errorMsg.toString()) && fail > 0) {
-                throw new BizException("E2000016", "导入失败, 失败" + fail + "条。" + errorMsg.toString());
-            }
-            return this.getResult(3090182,"导入完成，成功导入" + success + "条，失败" + fail + "条。" + errorMsg.toString());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("导入失败", e);
-            if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
-                throw new BizException("E041412313", "导入的excel需为2003版本");
-            } else {
-                throw new BizException("E041412313", e.getMessage());
-            }
+    }
+
+
+      /**
+         * 说明: 跳转到Goods列表页面
+         *
+         * @return
+         * @return String
+         * @author dozen.zhang
+         * @date 2015年11月15日下午12:30:45
+         */
+        @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
+        public String listHtml() {
+            return "/static/html/GoodsList.html";
         }
 
-
-    }
-
-
-    /**
-     * 说明: 跳转到Goods列表页面
-     *
-     * @return
-     * @return String
-     * @author dozen.zhang
-     * @date 2015年11月15日下午12:30:45
-     */
-    @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
-    public String listHtml() {
-        return "/static/html/GoodsList.html";
-    }
-
-    @RequestMapping(value = "/listMapper.htm", method = RequestMethod.GET)
-    public String listMapperHtml() {
-        return "/static/html/GoodsListMapper.html";
-    }
+        @RequestMapping(value = "/listMapper.htm", method = RequestMethod.GET)
+        public String listMapperHtml() {
+            return "/static/html/GoodsListMapper.html";
+        }
 
 
     /**
@@ -2023,7 +2101,7 @@ public class GoodsController extends BaseController{
      * @param request 发请求
      * @return String
      * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
+     * @date 2019-3-6 23:18:03
      */
     @RequestMapping(value = "/edit.htm",method = RequestMethod.GET)
     public String editHtml( HttpServletRequest request) {
@@ -2031,12 +2109,12 @@ public class GoodsController extends BaseController{
         return "/static/html/GoodsEdit.html";
     }
     /**
-     * 说明:跳转查看页面
-     * @param request 发请求
-     * @return String
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
+         * 说明:跳转查看页面
+         * @param request 发请求
+         * @return String
+         * @author dozen.zhang
+         * @date 2019-3-6 23:18:03
+         */
     @RequestMapping(value = "/view.htm",method = RequestMethod.GET)
     public String viewHtml( HttpServletRequest request) {
         return "/static/html/GoodsView.html";
@@ -2045,99 +2123,103 @@ public class GoodsController extends BaseController{
 
 
     private Goods getInfoFromMap(Map<String, Object> bodyParam) throws Exception {
-        Goods goods =new  Goods();
+       Goods goods =new  Goods();
 
-        String id = MapUtils.getString(bodyParam,"id");
+                String id = MapUtils.getString(bodyParam,"id");
         if(!StringUtil.isBlank(id)){
-            goods.setId(Long.valueOf(id));
+                goods.setId(Long.valueOf(id));
         }
         String shopId = MapUtils.getString(bodyParam,"shopId");
         if(!StringUtil.isBlank(shopId)){
-            goods.setShopId(Long.valueOf(shopId));
+                goods.setShopId(Long.valueOf(shopId));
         }
         String name = MapUtils.getString(bodyParam,"name");
         if(!StringUtil.isBlank(name)){
-            goods.setName(String.valueOf(name));
+                goods.setName(String.valueOf(name));
         }
         String subName = MapUtils.getString(bodyParam,"subName");
         if(!StringUtil.isBlank(subName)){
-            goods.setSubName(String.valueOf(subName));
+                goods.setSubName(String.valueOf(subName));
         }
         String detail = MapUtils.getString(bodyParam,"detail");
         if(!StringUtil.isBlank(detail)){
-            goods.setDetail(String.valueOf(detail));
+                goods.setDetail(String.valueOf(detail));
         }
         String address = MapUtils.getString(bodyParam,"address");
         if(!StringUtil.isBlank(address)){
-            goods.setAddress(String.valueOf(address));
+                goods.setAddress(String.valueOf(address));
         }
         String telno = MapUtils.getString(bodyParam,"telno");
         if(!StringUtil.isBlank(telno)){
-            goods.setTelno(String.valueOf(telno));
+                goods.setTelno(String.valueOf(telno));
         }
         String img = MapUtils.getString(bodyParam,"img");
         if(!StringUtil.isBlank(img)){
-            goods.setImg(String.valueOf(img));
+                goods.setImg(String.valueOf(img));
         }
         String img1 = MapUtils.getString(bodyParam,"img1");
         if(!StringUtil.isBlank(img1)){
-            goods.setImg1(String.valueOf(img1));
+                goods.setImg1(String.valueOf(img1));
         }
         String img2 = MapUtils.getString(bodyParam,"img2");
         if(!StringUtil.isBlank(img2)){
-            goods.setImg2(String.valueOf(img2));
+                goods.setImg2(String.valueOf(img2));
         }
         String img3 = MapUtils.getString(bodyParam,"img3");
         if(!StringUtil.isBlank(img3)){
-            goods.setImg3(String.valueOf(img3));
+                goods.setImg3(String.valueOf(img3));
         }
         String remark = MapUtils.getString(bodyParam,"remark");
         if(!StringUtil.isBlank(remark)){
-            goods.setRemark(String.valueOf(remark));
+                goods.setRemark(String.valueOf(remark));
         }
         String status = MapUtils.getString(bodyParam,"status");
         if(!StringUtil.isBlank(status)){
-            goods.setStatus(Integer.valueOf(status));
+                goods.setStatus(Integer.valueOf(status));
         }
         String price = MapUtils.getString(bodyParam,"price");
         if(!StringUtil.isBlank(price)){
-            goods.setPrice(Integer.valueOf(price));
+                goods.setPrice(new BigDecimal(price));
+        }
+        String tags = MapUtils.getString(bodyParam,"tags");
+        if(!StringUtil.isBlank(tags)){
+                goods.setTags(String.valueOf(tags));
         }
         String priceDesc = MapUtils.getString(bodyParam,"priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
-            goods.setPriceDesc(String.valueOf(priceDesc));
+                goods.setPriceDesc(String.valueOf(priceDesc));
         }
         String creator = MapUtils.getString(bodyParam,"creator");
         if(!StringUtil.isBlank(creator)){
-            goods.setCreator(Long.valueOf(creator));
+                goods.setCreator(Long.valueOf(creator));
         }
         String creatorName = MapUtils.getString(bodyParam,"creatorName");
         if(!StringUtil.isBlank(creatorName)){
-            goods.setCreatorName(String.valueOf(creatorName));
+                goods.setCreatorName(String.valueOf(creatorName));
         }
         String platform = MapUtils.getString(bodyParam,"platform");
         if(!StringUtil.isBlank(platform)){
-            goods.setPlatform(String.valueOf(platform));
+                goods.setPlatform(String.valueOf(platform));
         }
         String comments = MapUtils.getString(bodyParam,"comments");
         if(!StringUtil.isBlank(comments)){
-            goods.setComments(Integer.valueOf(comments));
+                goods.setComments(Integer.valueOf(comments));
         }
         String score = MapUtils.getString(bodyParam,"score");
         if(!StringUtil.isBlank(score)){
-            goods.setScore(Float.valueOf(score));
+                goods.setScore(Float.valueOf(score));
         }
         String link = MapUtils.getString(bodyParam,"link");
         if(!StringUtil.isBlank(link)){
-            goods.setLink(String.valueOf(link));
+                goods.setLink(String.valueOf(link));
         }
         String up = MapUtils.getString(bodyParam,"up");
         if(!StringUtil.isBlank(up)){
-            goods.setUp(Integer.valueOf(up));
+                goods.setUp(Integer.valueOf(up));
         }
         String down = MapUtils.getString(bodyParam,"down");
         if(!StringUtil.isBlank(down)){
-            goods.setDown(Integer.valueOf(down));
+                goods.setDown(Integer.valueOf(down));
         }
         String createTime = MapUtils.getString(bodyParam,"createTime");
         if(!StringUtil.isBlank(createTime)){
@@ -2157,22 +2239,23 @@ public class GoodsController extends BaseController{
         }
 
         //valid
-        ValidateUtil vu = new ValidateUtil();
+                ValidateUtil vu = new ValidateUtil();
         String validStr="";
         vu.add("id", id, "编号",  new Rule[]{new Digits(9,0)});
         vu.add("shopId", shopId, "商户id",  new Rule[]{new Digits(9,0)});
         vu.add("name", name, "名称",  new Rule[]{new Length(50),new NotEmpty()});
         vu.add("subName", subName, "副标题",  new Rule[]{new Length(50),new NotEmpty()});
-        vu.add("detail", detail, "副标题",  new Rule[]{new Length(500),new NotEmpty()});
+        vu.add("detail", detail, "详细内容",  new Rule[]{new Length(50000),new NotEmpty()});
         vu.add("address", address, "地址",  new Rule[]{new Length(200)});
         vu.add("telno", telno, "手机号码",  new Rule[]{new Length(11),new PhoneRule()});
-        vu.add("img", img, "图片",  new Rule[]{new Length(100),new NotEmpty()});
-        vu.add("img1", img1, "图片",  new Rule[]{new Length(100)});
-        vu.add("img2", img2, "图片",  new Rule[]{new Length(100)});
-        vu.add("img3", img3, "图片",  new Rule[]{new Length(100)});
+        vu.add("img", img, "图片0",  new Rule[]{new Length(100),new NotEmpty()});
+        vu.add("img1", img1, "图片1",  new Rule[]{new Length(100)});
+        vu.add("img2", img2, "图片2",  new Rule[]{new Length(100)});
+        vu.add("img3", img3, "图片3",  new Rule[]{new Length(100)});
         vu.add("remark", remark, "备注",  new Rule[]{new Length(200)});
         vu.add("status", status, "状态",  new Rule[]{new Digits(1,0),new CheckBox(new String[]{"1","2","3","9"}),new NotEmpty()});
-        vu.add("price", price, "价格",  new Rule[]{new Digits(11,0)});
+        vu.add("price", price, "价格",  new Rule[]{});
+        vu.add("tags", tags, "标签",  new Rule[]{new Length(100)});
         vu.add("priceDesc", priceDesc, "价格描述",  new Rule[]{new Length(50)});
         vu.add("creator", creator, "创建人id",  new Rule[]{new Digits(11,0)});
         vu.add("creatorName", creatorName, "创建人姓名",  new Rule[]{new Length(50)});
@@ -2194,148 +2277,151 @@ public class GoodsController extends BaseController{
     }
 
 
+      /**
+                     * 说明:添加Goods信息
+                     * @param request
+                     * @throws Exception
+                     * @return ResultDTO
+                     * @author dozen.zhang
+                     * @date 2019-3-6 23:18:03
+                     */
+                    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
+                    @API( summary="添加单个商品信息",
+                        description = "添加单个商品信息",
+                        parameters={
+                           @Param(name="id" , description="编号"  ,in=InType.body,dataType = DataType.LONG,required = false),
+                           @Param(name="shopId" , description="商户id"  ,in=InType.body,dataType = DataType.LONG,required = false),
+                           @Param(name="name" , description="名称"  ,in=InType.body,dataType = DataType.STRING,required = true),
+                           @Param(name="subName" , description="副标题"  ,in=InType.body,dataType = DataType.STRING,required = true),
+                           @Param(name="detail" , description="详细内容"  ,in=InType.body,dataType = DataType.STRING,required = true),
+                           @Param(name="address" , description="地址"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="telno" , description="手机号码"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="img" , description="图片0"  ,in=InType.body,dataType = DataType.STRING,required = true),
+                           @Param(name="img1" , description="图片1"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="img2" , description="图片2"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="img3" , description="图片3"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="remark" , description="备注"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="status" , description="状态"  ,in=InType.body,dataType = DataType.INTEGER,required = true),
+                           @Param(name="price" , description="价格"  ,in=InType.body,dataType = DataType.FLOAT,required = false),
+                           @Param(name="tags" , description="标签逗号分割的标签"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="priceDesc" , description="价格描述"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="creator" , description="创建人id"  ,in=InType.body,dataType = DataType.LONG,required = false),
+                           @Param(name="creatorName" , description="创建人姓名"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="platform" , description="平台名称淘宝|京东"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="comments" , description="评论数评论数"  ,in=InType.body,dataType = DataType.INTEGER,required = false),
+                           @Param(name="score" , description="分数分数"  ,in=InType.body,dataType = DataType.FLOAT,required = false),
+                           @Param(name="link" , description="外链跳转url"  ,in=InType.body,dataType = DataType.STRING,required = false),
+                           @Param(name="up" , description="顶"  ,in=InType.body,dataType = DataType.INTEGER,required = false),
+                           @Param(name="down" , description="踩"  ,in=InType.body,dataType = DataType.INTEGER,required = false),
+                           @Param(name="createTime" , description="创建时间"  ,in=InType.body,dataType = DataType.DATE_TIME,required = false),
+                           @Param(name="updateTime" , description="更新时间"  ,in=InType.body,dataType = DataType.DATE_TIME,required = false),
+                        })
+                    @RequestMapping(value = "add",method = RequestMethod.POST)
+                    @ResponseBody
+                    public ResultDTO saveInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+                        Goods goods =    getInfoFromMap(bodyParam);
+
+
+                        return goodsService.save(goods);
+
+                    }
+
+
     /**
-     * 说明:添加Goods信息
-     * @param request
-     * @throws Exception
-     * @return ResultDTO
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
-    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
-    @API( summary="添加单个商品信息",
-            description = "添加单个商品信息",
-            parameters={
-                    @Param(name="id" , description="编号",in=InType.body,dataType = DataType.LONG,required = false),
-                    @Param(name="shopId" , description="商户id",in=InType.body,dataType = DataType.LONG,required = false),
-                    @Param(name="name" , description="名称",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="subName" , description="副标题",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="detail" , description="副标题",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="address" , description="地址",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="telno" , description="手机号码",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="img" , description="图片",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="img1" , description="图片",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="img2" , description="图片",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="img3" , description="图片",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="remark" , description="备注",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="status" , description="状态",in=InType.body,dataType = DataType.INTEGER,required = true),
-                    @Param(name="price" , description="价格",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="priceDesc" , description="价格描述",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="creator" , description="创建人id",in=InType.body,dataType = DataType.LONG,required = false),
-                    @Param(name="creatorName" , description="创建人姓名",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="platform" , description="平台名称",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="comments" , description="评论数",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="score" , description="分数",in=InType.body,dataType = DataType.FLOAT,required = false),
-                    @Param(name="link" , description="外链",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="up" , description="顶",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="down" , description="踩",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="createTime" , description="创建时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
-                    @Param(name="updateTime" , description="更新时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
-            })
-    @RequestMapping(value = "add",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultDTO saveInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-        Goods goods =    getInfoFromMap(bodyParam);
-
-
-        return goodsService.save(goods);
-
-    }
-
-
-    /**
-     * 说明:添加Goods信息
-     * @param request
-     * @throws Exception
-     * @return ResultDTO
-     * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
-     */
+    * 说明:添加Goods信息
+    * @param request
+    * @throws Exception
+    * @return ResultDTO
+    * @author dozen.zhang
+    * @date 2019-3-6 23:18:03
+    */
     // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
     @API( summary="更新单个商品信息",
-            description = "更新单个商品信息",
-            parameters={
-                    @Param(name="id" , description="编号",in=InType.body,dataType = DataType.LONG,required = false),
-                    @Param(name="shopId" , description="商户id",in=InType.body,dataType = DataType.LONG,required = false),
-                    @Param(name="name" , description="名称",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="subName" , description="副标题",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="detail" , description="副标题",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="address" , description="地址",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="telno" , description="手机号码",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="img" , description="图片",in=InType.body,dataType = DataType.STRING,required = true),
-                    @Param(name="img1" , description="图片",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="img2" , description="图片",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="img3" , description="图片",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="remark" , description="备注",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="status" , description="状态",in=InType.body,dataType = DataType.INTEGER,required = true),
-                    @Param(name="price" , description="价格",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="priceDesc" , description="价格描述",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="creator" , description="创建人id",in=InType.body,dataType = DataType.LONG,required = false),
-                    @Param(name="creatorName" , description="创建人姓名",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="platform" , description="平台名称",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="comments" , description="评论数",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="score" , description="分数",in=InType.body,dataType = DataType.FLOAT,required = false),
-                    @Param(name="link" , description="外链",in=InType.body,dataType = DataType.STRING,required = false),
-                    @Param(name="up" , description="顶",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="down" , description="踩",in=InType.body,dataType = DataType.INTEGER,required = false),
-                    @Param(name="createTime" , description="创建时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
-                    @Param(name="updateTime" , description="更新时间",in=InType.body,dataType = DataType.DATE_TIME,required = false),
-            })
+    description = "更新单个商品信息",
+    parameters={
+        @Param(name="id" , description="编号  ",in=InType.body,dataType = DataType.LONG,required = false),
+        @Param(name="shopId" , description="商户id  ",in=InType.body,dataType = DataType.LONG,required = false),
+        @Param(name="name" , description="名称  ",in=InType.body,dataType = DataType.STRING,required = true),
+        @Param(name="subName" , description="副标题  ",in=InType.body,dataType = DataType.STRING,required = true),
+        @Param(name="detail" , description="详细内容  ",in=InType.body,dataType = DataType.STRING,required = true),
+        @Param(name="address" , description="地址  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="telno" , description="手机号码  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="img" , description="图片0  ",in=InType.body,dataType = DataType.STRING,required = true),
+        @Param(name="img1" , description="图片1  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="img2" , description="图片2  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="img3" , description="图片3  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="remark" , description="备注  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="status" , description="状态  ",in=InType.body,dataType = DataType.INTEGER,required = true),
+        @Param(name="price" , description="价格  ",in=InType.body,dataType = DataType.FLOAT,required = false),
+        @Param(name="tags" , description="标签  逗号分割的标签",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="priceDesc" , description="价格描述  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="creator" , description="创建人id  ",in=InType.body,dataType = DataType.LONG,required = false),
+        @Param(name="creatorName" , description="创建人姓名  ",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="platform" , description="平台名称  淘宝|京东",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="comments" , description="评论数  评论数",in=InType.body,dataType = DataType.INTEGER,required = false),
+        @Param(name="score" , description="分数  分数",in=InType.body,dataType = DataType.FLOAT,required = false),
+        @Param(name="link" , description="外链  跳转url",in=InType.body,dataType = DataType.STRING,required = false),
+        @Param(name="up" , description="顶  ",in=InType.body,dataType = DataType.INTEGER,required = false),
+        @Param(name="down" , description="踩  ",in=InType.body,dataType = DataType.INTEGER,required = false),
+        @Param(name="createTime" , description="创建时间  ",in=InType.body,dataType = DataType.DATE_TIME,required = false),
+        @Param(name="updateTime" , description="更新时间  ",in=InType.body,dataType = DataType.DATE_TIME,required = false),
+    })
     @RequestMapping(value = "update",method = RequestMethod.PUT)
     @ResponseBody
     public ResultDTO updateInBody(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-        Goods goods =    getInfoFromMap(bodyParam);
-        return goodsService.save(goods);
+    Goods goods =    getInfoFromMap(bodyParam);
+    return goodsService.save(goods);
 
     }
-    /**
+/**
      * 说明:ajax请求Goods信息
      * @author dozen.zhang
-     * @date 2018-12-2 16:05:28
+     * @date 2019-3-6 23:18:03
      * @return String
      */
-    @API(summary="商品列表接口",
-            description="商品列表接口",
-            parameters={
-                    @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
-                    @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
-                    @Param(name="id" , description="编号",in=InType.params,dataType = DataType.LONG,required =false),// false
-                    @Param(name="shopId" , description="商户id",in=InType.params,dataType = DataType.LONG,required =false),// false
-                    @Param(name="name" , description="名称",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="subName" , description="副标题",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="detail" , description="副标题",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="address" , description="地址",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="telno" , description="手机号码",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="img" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="img1" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="img2" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="img3" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="remark" , description="备注",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="status" , description="状态",in=InType.params,dataType = DataType.INTEGER,required =false),// true
-                    @Param(name="price" , description="价格",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="priceDesc" , description="价格描述",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="creator" , description="创建人id",in=InType.params,dataType = DataType.LONG,required =false),// false
-                    @Param(name="creatorName" , description="创建人姓名",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="platform" , description="平台名称",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="comments" , description="评论数",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="score" , description="分数",in=InType.params,dataType = DataType.FLOAT,required =false),// false
-                    @Param(name="link" , description="外链",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="up" , description="顶",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="down" , description="踩",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="createTime" , description="创建时间",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-                    @Param(name="updateTime" , description="更新时间",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-            })
+       @API(summary="商品列表接口",
+                 description="商品列表接口",
+                 parameters={
+                 @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
+                 @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
+                    @Param(name="id" , description="编号  ",in=InType.params,dataType = DataType.LONG,required =false),// false
+                    @Param(name="shopId" , description="商户id  ",in=InType.params,dataType = DataType.LONG,required =false),// false
+                    @Param(name="name" , description="名称  ",in=InType.params,dataType = DataType.STRING,required =false),// true
+                    @Param(name="subName" , description="副标题  ",in=InType.params,dataType = DataType.STRING,required =false),// true
+                    @Param(name="detail" , description="详细内容  ",in=InType.params,dataType = DataType.STRING,required =false),// true
+                    @Param(name="address" , description="地址  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="telno" , description="手机号码  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="img" , description="图片0  ",in=InType.params,dataType = DataType.STRING,required =false),// true
+                    @Param(name="img1" , description="图片1  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="img2" , description="图片2  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="img3" , description="图片3  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="remark" , description="备注  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="status" , description="状态  ",in=InType.params,dataType = DataType.INTEGER,required =false),// true
+                    @Param(name="price" , description="价格  ",in=InType.params,dataType = DataType.FLOAT,required =false),// false
+                    @Param(name="tags" , description="标签  逗号分割的标签",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="priceDesc" , description="价格描述  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="creator" , description="创建人id  ",in=InType.params,dataType = DataType.LONG,required =false),// false
+                    @Param(name="creatorName" , description="创建人姓名  ",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="platform" , description="平台名称  淘宝|京东",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="comments" , description="评论数  评论数",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+                    @Param(name="score" , description="分数  分数",in=InType.params,dataType = DataType.FLOAT,required =false),// false
+                    @Param(name="link" , description="外链  跳转url",in=InType.params,dataType = DataType.STRING,required =false),// false
+                    @Param(name="up" , description="顶  ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+                    @Param(name="down" , description="踩  ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+                    @Param(name="createTime" , description="创建时间  ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
+                    @Param(name="updateTime" , description="更新时间  ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
+         })
     @RequestMapping(value = "/list" , method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO list(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
 
         HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
-        Page page = RequestUtil.getPage(params);
+         Page page = RequestUtil.getPage(params);
         if(page ==null){
-            return this.getWrongResultFromCfg("err.param.page");
+             return this.getWrongResultFromCfg("err.param.page");
         }
 
-        String id = MapUtils.getString(params,"id");
+                String id = MapUtils.getString(params,"id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
         }
@@ -2430,6 +2516,14 @@ public class GoodsController extends BaseController{
         String price = MapUtils.getString(params,"price");
         if(!StringUtil.isBlank(price)){
             params.put("price",price);
+        }
+        String tags = MapUtils.getString(params,"tags");
+        if(!StringUtil.isBlank(tags)){
+            params.put("tags",tags);
+        }
+        String tagsLike = MapUtils.getString(params,"tagsLike");
+        if(!StringUtil.isBlank(tagsLike)){
+            params.put("tagsLike",tagsLike);
         }
         String priceDesc = MapUtils.getString(params,"priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -2539,54 +2633,55 @@ public class GoodsController extends BaseController{
 
 
 
-    /**
-     * 导出
-     * @param request
-     * @return
-     * @author dozen.zhang
-     */
-    @API(summary="商品列表导出接口",
-            description="商品列表导出接口",
-            parameters={
-                    @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
-                    @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
-                    @Param(name="id" , description="编号",in=InType.params,dataType = DataType.LONG,required =false),// false
-                    @Param(name="shopId" , description="商户id",in=InType.params,dataType = DataType.LONG,required =false),// false
-                    @Param(name="name" , description="名称",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="subName" , description="副标题",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="detail" , description="副标题",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="address" , description="地址",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="telno" , description="手机号码",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="img" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// true
-                    @Param(name="img1" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="img2" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="img3" , description="图片",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="remark" , description="备注",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="status" , description="状态",in=InType.params,dataType = DataType.INTEGER,required =false),// true
-                    @Param(name="price" , description="价格",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="priceDesc" , description="价格描述",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="creator" , description="创建人id",in=InType.params,dataType = DataType.LONG,required =false),// false
-                    @Param(name="creatorName" , description="创建人姓名",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="platform" , description="平台名称",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="comments" , description="评论数",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="score" , description="分数",in=InType.params,dataType = DataType.FLOAT,required =false),// false
-                    @Param(name="link" , description="外链",in=InType.params,dataType = DataType.STRING,required =false),// false
-                    @Param(name="up" , description="顶",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="down" , description="踩",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-                    @Param(name="createTime" , description="创建时间",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-                    @Param(name="updateTime" , description="更新时间",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-            })
-    @RequestMapping(value = "/export")
-    @ResponseBody
-    public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
+       /**
+         * 导出
+         * @param request
+         * @return
+         * @author dozen.zhang
+         */
+        @API(summary="商品列表导出接口",
+          description="商品列表导出接口",
+          parameters={
+          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
+          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
+             @Param(name="id" , description="编号 ",in=InType.params,dataType = DataType.LONG,required =false),// false
+             @Param(name="shopId" , description="商户id ",in=InType.params,dataType = DataType.LONG,required =false),// false
+             @Param(name="name" , description="名称 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+             @Param(name="subName" , description="副标题 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+             @Param(name="detail" , description="详细内容 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+             @Param(name="address" , description="地址 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="telno" , description="手机号码 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="img" , description="图片0 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+             @Param(name="img1" , description="图片1 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="img2" , description="图片2 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="img3" , description="图片3 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="remark" , description="备注 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="status" , description="状态 ",in=InType.params,dataType = DataType.INTEGER,required =false),// true
+             @Param(name="price" , description="价格 ",in=InType.params,dataType = DataType.FLOAT,required =false),// false
+             @Param(name="tags" , description="标签 逗号分割的标签",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="priceDesc" , description="价格描述 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="creator" , description="创建人id ",in=InType.params,dataType = DataType.LONG,required =false),// false
+             @Param(name="creatorName" , description="创建人姓名 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="platform" , description="平台名称 淘宝|京东",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="comments" , description="评论数 评论数",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+             @Param(name="score" , description="分数 分数",in=InType.params,dataType = DataType.FLOAT,required =false),// false
+             @Param(name="link" , description="外链 跳转url",in=InType.params,dataType = DataType.STRING,required =false),// false
+             @Param(name="up" , description="顶 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+             @Param(name="down" , description="踩 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+             @Param(name="createTime" , description="创建时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
+             @Param(name="updateTime" , description="更新时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
+          })
+        @RequestMapping(value = "/export", method = RequestMethod.GET)
+        @ResponseBody
+        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
 
-        HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
-        Page page = RequestUtil.getPage(params);
-        if(page ==null){
-            return this.getWrongResultFromCfg("err.param.page");
-        }
+             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
+              Page page = RequestUtil.getPage(params);
+             if(page ==null){
+                  return this.getWrongResultFromCfg("err.param.page");
+             }
 
-        String id = MapUtils.getString(params,"id");
+                     String id = MapUtils.getString(params,"id");
         if(!StringUtil.isBlank(id)){
             params.put("id",id);
         }
@@ -2681,6 +2776,14 @@ public class GoodsController extends BaseController{
         String price = MapUtils.getString(params,"price");
         if(!StringUtil.isBlank(price)){
             params.put("price",price);
+        }
+        String tags = MapUtils.getString(params,"tags");
+        if(!StringUtil.isBlank(tags)){
+            params.put("tags",tags);
+        }
+        String tagsLike = MapUtils.getString(params,"tagsLike");
+        if(!StringUtil.isBlank(tagsLike)){
+            params.put("tagsLike",tagsLike);
         }
         String priceDesc = MapUtils.getString(params,"priceDesc");
         if(!StringUtil.isBlank(priceDesc)){
@@ -2783,98 +2886,100 @@ public class GoodsController extends BaseController{
             }
         }
 
-        params.put("page",page);
-        List<Goods> list = goodsService.listByParams4Page(params);
-        // 存放临时文件
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "list.xlsx");
-        String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
+             params.put("page",page);
+             List<Goods> list = goodsService.listByParams4Page(params);
+            // 存放临时文件
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", "list.xlsx");
+              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
 
-        String folder = request.getSession().getServletContext()
-                .getRealPath("/")
-                + "xlstmp";
+            String folder = request.getSession().getServletContext()
+                    .getRealPath("/")
+                    + "xlstmp";
 
 
-        File folder_file = new File(folder);
-        if (!folder_file.exists()) {
-            folder_file.mkdir();
-        }
-        String fileName = folder + File.separator
-                + randomName;
-        // 得到导出Excle时清单的英中文map
-        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-        colTitle.put("id", "编号");
-        colTitle.put("shopId", "商户id");
-        colTitle.put("name", "名称");
-        colTitle.put("subName", "副标题");
-        colTitle.put("detail", "副标题");
-        colTitle.put("address", "地址");
-        colTitle.put("telno", "手机号码");
-        colTitle.put("img", "图片");
-        colTitle.put("img1", "图片");
-        colTitle.put("img2", "图片");
-        colTitle.put("img3", "图片");
-        colTitle.put("remark", "备注");
-        colTitle.put("status", "状态");
-        colTitle.put("price", "价格");
-        colTitle.put("priceDesc", "价格描述");
-        colTitle.put("creator", "创建人id");
-        colTitle.put("creatorName", "创建人姓名");
-        colTitle.put("platform", "平台名称");
-        colTitle.put("comments", "评论数");
-        colTitle.put("score", "分数");
-        colTitle.put("link", "外链");
-        colTitle.put("up", "顶");
-        colTitle.put("down", "踩");
-        colTitle.put("createTime", "创建时间");
-        colTitle.put("updateTime", "更新时间");
-        List<Map> finalList = new ArrayList<Map>();
-        for (int i = 0; i < list.size(); i++) {
-            Goods sm = list.get(i);
-            HashMap<String,Object> map = new HashMap<String,Object>();
-            map.put("id",  list.get(i).getId());
-            map.put("shopId",  list.get(i).getShopId());
-            map.put("name",  list.get(i).getName());
-            map.put("subName",  list.get(i).getSubName());
-            map.put("detail",  list.get(i).getDetail());
-            map.put("address",  list.get(i).getAddress());
-            map.put("telno",  list.get(i).getTelno());
-            map.put("img",  list.get(i).getImg());
-            map.put("img1",  list.get(i).getImg1());
-            map.put("img2",  list.get(i).getImg2());
-            map.put("img3",  list.get(i).getImg3());
-            map.put("remark",  list.get(i).getRemark());
-            map.put("status",  list.get(i).getStatus());
-            map.put("price",  list.get(i).getPrice());
-            map.put("priceDesc",  list.get(i).getPriceDesc());
-            map.put("creator",  list.get(i).getCreator());
-            map.put("creatorName",  list.get(i).getCreatorName());
-            map.put("platform",  list.get(i).getPlatform());
-            map.put("comments",  list.get(i).getComments());
-            map.put("score",  list.get(i).getScore());
-            map.put("link",  list.get(i).getLink());
-            map.put("up",  list.get(i).getUp());
-            map.put("down",  list.get(i).getDown());
-            map.put("createTime",  list.get(i).getCreateTime());
-            map.put("updateTime",  list.get(i).getUpdateTime());
-            finalList.add(map);
-        }
-        try {
-            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
+            File folder_file = new File(folder);
+            if (!folder_file.exists()) {
+                folder_file.mkdir();
             }
+            String fileName = folder + File.separator
+                      + randomName;
+            // 得到导出Excle时清单的英中文map
+            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+            colTitle.put("id", "编号");
+            colTitle.put("shopId", "商户id");
+            colTitle.put("name", "名称");
+            colTitle.put("subName", "副标题");
+            colTitle.put("detail", "详细内容");
+            colTitle.put("address", "地址");
+            colTitle.put("telno", "手机号码");
+            colTitle.put("img", "图片0");
+            colTitle.put("img1", "图片1");
+            colTitle.put("img2", "图片2");
+            colTitle.put("img3", "图片3");
+            colTitle.put("remark", "备注");
+            colTitle.put("status", "状态");
+            colTitle.put("price", "价格");
+            colTitle.put("tags", "标签");
+            colTitle.put("priceDesc", "价格描述");
+            colTitle.put("creator", "创建人id");
+            colTitle.put("creatorName", "创建人姓名");
+            colTitle.put("platform", "平台名称");
+            colTitle.put("comments", "评论数");
+            colTitle.put("score", "分数");
+            colTitle.put("link", "外链");
+            colTitle.put("up", "顶");
+            colTitle.put("down", "踩");
+            colTitle.put("createTime", "创建时间");
+            colTitle.put("updateTime", "更新时间");
+            List<Map> finalList = new ArrayList<Map>();
+            for (int i = 0; i < list.size(); i++) {
+                Goods sm = list.get(i);
+                HashMap<String,Object> map = new HashMap<String,Object>();
+                map.put("id",  list.get(i).getId());
+                map.put("shopId",  list.get(i).getShopId());
+                map.put("name",  list.get(i).getName());
+                map.put("subName",  list.get(i).getSubName());
+                map.put("detail",  list.get(i).getDetail());
+                map.put("address",  list.get(i).getAddress());
+                map.put("telno",  list.get(i).getTelno());
+                map.put("img",  list.get(i).getImg());
+                map.put("img1",  list.get(i).getImg1());
+                map.put("img2",  list.get(i).getImg2());
+                map.put("img3",  list.get(i).getImg3());
+                map.put("remark",  list.get(i).getRemark());
+                map.put("status",  list.get(i).getStatus());
+                map.put("price",  list.get(i).getPrice());
+                map.put("tags",  list.get(i).getTags());
+                map.put("priceDesc",  list.get(i).getPriceDesc());
+                map.put("creator",  list.get(i).getCreator());
+                map.put("creatorName",  list.get(i).getCreatorName());
+                map.put("platform",  list.get(i).getPlatform());
+                map.put("comments",  list.get(i).getComments());
+                map.put("score",  list.get(i).getScore());
+                map.put("link",  list.get(i).getLink());
+                map.put("up",  list.get(i).getUp());
+                map.put("down",  list.get(i).getDown());
+                map.put("createTime",  list.get(i).getCreateTime());
+                map.put("updateTime",  list.get(i).getUpdateTime());
+                finalList.add(map);
+            }
+            try {
+                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
+                }
                 /*
                  * return new ResponseEntity<byte[]>(
                  * FileUtils.readFileToByteArray(new File(fileName)), headers,
                  * HttpStatus.CREATED);
                  */
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this.getResult(0, "数据为空，导出失败");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return this.getResult(0, "数据为空，导出失败");
 
-    }
+        }
 
 
     /**
@@ -2934,4 +3039,59 @@ public class GoodsController extends BaseController{
     @Resource
     ZanService zanService ;
 
+
+    @API(summary="评论",
+            description="评论",
+            parameters={
+            })
+    @RequestMapping(value = "/comment" , method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresLogin
+    public ResultDTO comment(HttpServletRequest request) throws Exception{
+        MsgInfo msgInfo =new MsgInfo();
+
+        String pid = request.getParameter("pid");
+        if(!StringUtil.isBlank(pid)){
+            msgInfo.setPid(Long.valueOf(pid));
+        }
+        String content = request.getParameter("content");
+        if(!StringUtil.isBlank(content)){
+            msgInfo.setContent(content);
+        }
+        msgInfo.setType(1);
+            msgInfo.setCommentedCount(0);
+            msgInfo.setCommentCount(0);
+            msgInfo.setTransferredCount(0);
+            msgInfo.setStatus(1);
+        SessionUser sessionUser = this.getUser(request);
+        msgInfo.setCreateUser(sessionUser.getUserId());
+        msgInfo.setFace(sessionUser.getFace());
+        msgInfo.setUserName(sessionUser.getUserName());
+        String pic = request.getParameter("pic");
+        if(!StringUtil.isBlank(pic)){
+            msgInfo.setPic(pic);
+        }
+        msgInfo.setCreatetime(DateUtil.getNowTimeStamp());
+        msgInfo.setUpdatetime(DateUtil.getNowTimeStamp());
+
+
+        //valid
+        ValidateUtil vu = new ValidateUtil();
+        String validStr="";
+        vu.add("pid", pid, "所属对象id",  new Rule[]{new Digits(9,0)});
+        vu.add("content", content, "正文",  new Rule[]{new Length(140)});
+        vu.add("pic", pic, "图片",  new Rule[]{new Length(250)});
+        validStr = vu.validateString();
+        if(StringUtil.isNotBlank(validStr)) {
+            return ResultUtil.getResult(302,validStr);
+        }
+         msgInfoService.save(msgInfo);
+
+         goodsService.updateComments(msgInfo.getPid());
+        return this.getDataResult(msgInfo);
+
+        //跟新商品的评论数
+    }
+    @Resource
+    MsgInfoService msgInfoService;
 }

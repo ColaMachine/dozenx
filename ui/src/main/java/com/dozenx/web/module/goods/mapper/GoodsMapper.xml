@@ -15,7 +15,8 @@
         <result column="img3" jdbcType="VARCHAR" property="img3" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
         <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="price" jdbcType="INTEGER" property="price" />
+        <result column="price" jdbcType="DECIMAL" property="price" />
+        <result column="tags" jdbcType="VARCHAR" property="tags" />
         <result column="priceDesc" jdbcType="VARCHAR" property="priceDesc" />
         <result column="creator" jdbcType="BIGINT" property="creator" />
         <result column="creatorName" jdbcType="VARCHAR" property="creatorName" />
@@ -29,7 +30,7 @@
         <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
     </resultMap>
     <sql id="Base_Column_List">
-        Goods.`id` ,Goods.`shopId` ,Goods.`name` ,Goods.`subName` ,Goods.`detail` ,Goods.`address` ,Goods.`telno` ,Goods.`img` ,Goods.`img1` ,Goods.`img2` ,Goods.`img3` ,Goods.`remark` ,Goods.`status` ,Goods.`price` ,Goods.`priceDesc` ,Goods.`creator` ,Goods.`creatorName` ,Goods.`platform` ,Goods.`comments` ,Goods.`score` ,Goods.`link` ,Goods.`up` ,Goods.`down` ,Goods.`createTime` ,Goods.`updateTime`
+        Goods.`id` ,Goods.`shopId` ,Goods.`name` ,Goods.`subName` ,Goods.`detail` ,Goods.`address` ,Goods.`telno` ,Goods.`img` ,Goods.`img1` ,Goods.`img2` ,Goods.`img3` ,Goods.`remark` ,Goods.`status` ,Goods.`price` ,Goods.`tags` ,Goods.`priceDesc` ,Goods.`creator` ,Goods.`creatorName` ,Goods.`platform` ,Goods.`comments` ,Goods.`score` ,Goods.`link` ,Goods.`up` ,Goods.`down` ,Goods.`createTime` ,Goods.`updateTime`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -58,7 +59,8 @@
         ,#{img3,jdbcType=VARCHAR}
         ,#{remark,jdbcType=VARCHAR}
         ,#{status,jdbcType=INTEGER}
-        ,#{price,jdbcType=INTEGER}
+        ,#{price,jdbcType=DECIMAL}
+        ,#{tags,jdbcType=VARCHAR}
         ,#{priceDesc,jdbcType=VARCHAR}
         ,#{creator,jdbcType=BIGINT}
         ,#{creatorName,jdbcType=VARCHAR}
@@ -116,6 +118,9 @@
             </if>
             <if test="price != null" >
                 `price`,
+            </if>
+            <if test="tags != null" >
+                `tags`,
             </if>
             <if test="priceDesc != null" >
                 `priceDesc`,
@@ -192,7 +197,10 @@
                 #{status,jdbcType=INTEGER},
             </if>
             <if test="price != null" >
-                #{price,jdbcType=INTEGER},
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="tags != null" >
+                #{tags,jdbcType=VARCHAR},
             </if>
             <if test="priceDesc != null" >
                 #{priceDesc,jdbcType=VARCHAR},
@@ -272,7 +280,10 @@
                 `status`=#{status,jdbcType=INTEGER},
             </if>
             <if test="price != null" >
-                `price`=#{price,jdbcType=INTEGER},
+                `price`=#{price,jdbcType=DECIMAL},
+            </if>
+            <if test="tags != null" >
+                `tags`=#{tags,jdbcType=VARCHAR},
             </if>
             <if test="priceDesc != null" >
                 `priceDesc`=#{priceDesc,jdbcType=VARCHAR},
@@ -325,7 +336,8 @@
         `img3`=#{img3,jdbcType=VARCHAR},
         `remark`=#{remark,jdbcType=VARCHAR},
         `status`=#{status,jdbcType=INTEGER},
-        `price`=#{price,jdbcType=INTEGER},
+        `price`=#{price,jdbcType=DECIMAL},
+        `tags`=#{tags,jdbcType=VARCHAR},
         `priceDesc`=#{priceDesc,jdbcType=VARCHAR},
         `creator`=#{creator,jdbcType=BIGINT},
         `creatorName`=#{creatorName,jdbcType=VARCHAR},
@@ -414,6 +426,12 @@
         </if>
         <if test="price != null and price != '' ">
             and `price` = #{price}
+        </if>
+        <if test="tags != null and tags != '' ">
+            and `tags` = #{tags}
+        </if>
+        <if test="tagsLike != null and tagsLike != '' ">
+            and `tags` like CONCAT('%',#{tagsLike},'%')
         </if>
         <if test="priceDesc != null and priceDesc != '' ">
             and `priceDesc` = #{priceDesc}
@@ -563,6 +581,12 @@
         <if test="price != null and price != '' ">
             and Goods.`price` = #{price}
         </if>
+        <if test="tags != null and tags != '' ">
+            and Goods.`tags` = #{tags}
+        </if>
+        <if test="tagsLike != null and tagsLike != '' ">
+            and Goods.`tags` like CONCAT('%',#{tagsLike},'%')
+        </if>
         <if test="priceDesc != null and priceDesc != '' ">
             and Goods.`priceDesc` = #{priceDesc}
         </if>
@@ -697,6 +721,12 @@
         <if test="price != null and price != '' ">
             and Goods.`price` = #{price}
         </if>
+        <if test="tags != null and tags != '' ">
+            and Goods.`tags` = #{tags}
+        </if>
+        <if test="tagsLike != null and tagsLike != '' ">
+            and Goods.`tags` like CONCAT('%',#{tagsLike},'%')
+        </if>
         <if test="priceDesc != null and priceDesc != '' ">
             and Goods.`priceDesc` = #{priceDesc}
         </if>
@@ -801,6 +831,9 @@
         <if test="price != null and price != '' ">
             or `price` = #{price}
         </if>
+        <if test="tags != null and tags != '' ">
+            or `tags` = #{tags}
+        </if>
         <if test="priceDesc != null and priceDesc != '' ">
             or `priceDesc` = #{priceDesc}
         </if>
@@ -836,12 +869,56 @@
         </if>
     </select>
 
-    <update id="updateZan"  >
+
+
+    <insert id="insertBatch"   parameterType="java.util.List" >
+        insert into Goods (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+            (
+            #{record.id,jdbcType=BIGINT}
+            ,#{record.shopId,jdbcType=BIGINT}
+            ,#{record.name,jdbcType=VARCHAR}
+            ,#{record.subName,jdbcType=VARCHAR}
+            ,#{record.detail,jdbcType=VARCHAR}
+            ,#{record.address,jdbcType=VARCHAR}
+            ,#{record.telno,jdbcType=VARCHAR}
+            ,#{record.img,jdbcType=VARCHAR}
+            ,#{record.img1,jdbcType=VARCHAR}
+            ,#{record.img2,jdbcType=VARCHAR}
+            ,#{record.img3,jdbcType=VARCHAR}
+            ,#{record.remark,jdbcType=VARCHAR}
+            ,#{record.status,jdbcType=INTEGER}
+            ,#{record.price,jdbcType=DECIMAL}
+            ,#{record.tags,jdbcType=VARCHAR}
+            ,#{record.priceDesc,jdbcType=VARCHAR}
+            ,#{record.creator,jdbcType=BIGINT}
+            ,#{record.creatorName,jdbcType=VARCHAR}
+            ,#{record.platform,jdbcType=VARCHAR}
+            ,#{record.comments,jdbcType=INTEGER}
+            ,#{record.score,jdbcType=FLOAT}
+            ,#{record.link,jdbcType=VARCHAR}
+            ,#{record.up,jdbcType=INTEGER}
+            ,#{record.down,jdbcType=INTEGER}
+            ,#{record.createTime,jdbcType=TIMESTAMP}
+            ,#{record.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach >
+    </insert>
+
+
+<update id="updateZan"  >
         update Goods
         set
         `up` =(select count(*) from zan where pid =#{id,jdbcType=BIGINT} and type =1  and category = 1),
         `down`=(select count(*) from zan where pid =#{id,jdbcType=BIGINT} and type =2  and category = 1)
         where id = #{id,jdbcType=BIGINT}
     </update>
-
+    <update id="updateComments"  >
+        update Goods
+        set
+        `comments` =(select count(*) from msg_info where pid =#{id,jdbcType=BIGINT} and type =1 )
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

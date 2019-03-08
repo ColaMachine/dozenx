@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import com.dozenx.web.core.annotation.RequiresLogin;
+import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.module.zan.bean.Zan;
 import com.dozenx.web.module.zan.service.ZanService;
 import org.slf4j.Logger;
@@ -643,176 +644,47 @@ public class MsgInfoController extends BaseController{
         @RequestMapping(value = "add.json",method = RequestMethod.POST)
         @ResponseBody
         public ResultDTO add(HttpServletRequest request) throws Exception {
-            MsgInfo msgInfo =new  MsgInfo();
-            /*
-            String id = request.getParameter("id");
-            if(!StringUtil.isBlank(id)){
-                msgInfo.setId(Long.valueOf(id)) ;
-            }
-            
+            MsgInfo msgInfo =new MsgInfo();
+
             String pid = request.getParameter("pid");
             if(!StringUtil.isBlank(pid)){
-                msgInfo.setPid(Long.valueOf(pid)) ;
+                msgInfo.setPid(Long.valueOf(pid));
             }
-            
             String content = request.getParameter("content");
             if(!StringUtil.isBlank(content)){
-                msgInfo.setContent(String.valueOf(content)) ;
+                msgInfo.setContent(content);
             }
-            
-            String type = request.getParameter("type");
-            if(!StringUtil.isBlank(type)){
-                msgInfo.setType(Integer.valueOf(type)) ;
-            }
-            
-            String commentedCount = request.getParameter("commentedCount");
-            if(!StringUtil.isBlank(commentedCount)){
-                msgInfo.setCommentedCount(Integer.valueOf(commentedCount)) ;
-            }
-            
-            String commentCount = request.getParameter("commentCount");
-            if(!StringUtil.isBlank(commentCount)){
-                msgInfo.setCommentCount(Integer.valueOf(commentCount)) ;
-            }
-            
-            String transferredCount = request.getParameter("transferredCount");
-            if(!StringUtil.isBlank(transferredCount)){
-                msgInfo.setTransferredCount(Integer.valueOf(transferredCount)) ;
-            }
-            
-            String transferCount = request.getParameter("transferCount");
-            if(!StringUtil.isBlank(transferCount)){
-                msgInfo.setTransferCount(Integer.valueOf(transferCount)) ;
-            }
-            
-            String status = request.getParameter("status");
-            if(!StringUtil.isBlank(status)){
-                msgInfo.setStatus(Integer.valueOf(status)) ;
-            }
-            
-            String createUser = request.getParameter("createUser");
-            if(!StringUtil.isBlank(createUser)){
-                msgInfo.setCreateUser(Long.valueOf(createUser)) ;
-            }
-            
-            String userName = request.getParameter("userName");
-            if(!StringUtil.isBlank(userName)){
-                msgInfo.setUserName(String.valueOf(userName)) ;
-            }
-            
-            String face = request.getParameter("face");
-            if(!StringUtil.isBlank(face)){
-                msgInfo.setFace(String.valueOf(face)) ;
-            }
-            
+            msgInfo.setType(1);
+            msgInfo.setCommentedCount(0);
+            msgInfo.setCommentCount(0);
+            msgInfo.setTransferredCount(0);
+            msgInfo.setStatus(1);
+            SessionUser sessionUser = this.getUser(request);
+            msgInfo.setCreateUser(sessionUser.getUserId());
+            msgInfo.setFace(sessionUser.getFace());
+            msgInfo.setUserName(sessionUser.getUserName());
             String pic = request.getParameter("pic");
             if(!StringUtil.isBlank(pic)){
-                msgInfo.setPic(String.valueOf(pic)) ;
+                msgInfo.setPic(pic);
             }
-            
-            String createtime = request.getParameter("createtime");
-            if(!StringUtil.isBlank(createtime)){
-                msgInfo.setCreatetime(Timestamp.valueOf(createtime)) ;
-            }
-            
-            String updatetime = request.getParameter("updatetime");
-            if(!StringUtil.isBlank(updatetime)){
-                msgInfo.setUpdatetime(Timestamp.valueOf(updatetime)) ;
-            }
-            */
-            String id = request.getParameter("id");
-        if(!StringUtil.isBlank(id)){
-            msgInfo.setId(Long.valueOf(id));
-        }
-        String pid = request.getParameter("pid");
-        if(!StringUtil.isBlank(pid)){
-            msgInfo.setPid(Long.valueOf(pid));
-        }
-        String content = request.getParameter("content");
-        if(!StringUtil.isBlank(content)){
-            msgInfo.setContent(content);
-        }
-        String type = request.getParameter("type");
-        if(!StringUtil.isBlank(type)){
-            msgInfo.setType(Integer.valueOf(type));
-        }
-        String commentedCount = request.getParameter("commentedCount");
-        if(!StringUtil.isBlank(commentedCount)){
-            msgInfo.setCommentedCount(Integer.valueOf(commentedCount));
-        }
-        String commentCount = request.getParameter("commentCount");
-        if(!StringUtil.isBlank(commentCount)){
-            msgInfo.setCommentCount(Integer.valueOf(commentCount));
-        }
-        String transferredCount = request.getParameter("transferredCount");
-        if(!StringUtil.isBlank(transferredCount)){
-            msgInfo.setTransferredCount(Integer.valueOf(transferredCount));
-        }
-        String transferCount = request.getParameter("transferCount");
-        if(!StringUtil.isBlank(transferCount)){
-            msgInfo.setTransferCount(Integer.valueOf(transferCount));
-        }
-        String status = request.getParameter("status");
-        if(!StringUtil.isBlank(status)){
-            msgInfo.setStatus(Integer.valueOf(status));
-        }
-        String createUser = request.getParameter("createUser");
-        if(!StringUtil.isBlank(createUser)){
-            msgInfo.setCreateUser(Long.valueOf(createUser));
-        }
-        String userName = request.getParameter("userName");
-        if(!StringUtil.isBlank(userName)){
-            msgInfo.setUserName(userName);
-        }
-        String face = request.getParameter("face");
-        if(!StringUtil.isBlank(face)){
-            msgInfo.setFace(face);
-        }
-        String pic = request.getParameter("pic");
-        if(!StringUtil.isBlank(pic)){
-            msgInfo.setPic(pic);
-        }
-        String createtime = request.getParameter("createtime");
-        if(!StringUtil.isBlank(createtime)){
-            if(StringUtil.checkNumeric(createtime)){
-                msgInfo.setCreatetime(Timestamp.valueOf(createtime));
-            }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
-                msgInfo.setCreatetime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String updatetime = request.getParameter("updatetime");
-        if(!StringUtil.isBlank(updatetime)){
-            if(StringUtil.checkNumeric(updatetime)){
-                msgInfo.setUpdatetime(Timestamp.valueOf(updatetime));
-            }else if(StringUtil.checkDateStr(updatetime, "yyyy-MM-dd HH:mm:ss")){
-                msgInfo.setUpdatetime(new Timestamp( DateUtil.parseToDate(updatetime, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
+            msgInfo.setCreatetime(DateUtil.getNowTimeStamp());
+            msgInfo.setUpdatetime(DateUtil.getNowTimeStamp());
+
 
             //valid
             ValidateUtil vu = new ValidateUtil();
-        String validStr="";
-        vu.add("id", id, "主键",  new Rule[]{new Digits(9,0)});
-        vu.add("pid", pid, "所属对象id",  new Rule[]{new Digits(9,0)});
-        vu.add("content", content, "正文",  new Rule[]{new Length(140)});
-        vu.add("type", type, "类型",  new Rule[]{new Digits(11,0),new CheckBox(new String[]{"1","2","3"})});
-        vu.add("commentedCount", commentedCount, "评论过数量（只增不减，删除评论不影响此值，可以作为评论多页显示的页码）",  new Rule[]{new Digits(11,0)});
-        vu.add("commentCount", commentCount, "保留的评论数量",  new Rule[]{new Digits(11,0)});
-        vu.add("transferredCount", transferredCount, "转发过数量（只增不减，删除转发不影响此值，可以作为转发多页显示的页码）",  new Rule[]{new Digits(11,0)});
-        vu.add("transferCount", transferCount, "保留的转发数量",  new Rule[]{new Digits(11,0)});
-        vu.add("status", status, "状态",  new Rule[]{new Digits(11,0),new CheckBox(new String[]{"1","2","3","4","5"})});
-        vu.add("createUser", createUser, "创建人",  new Rule[]{new Digits(11,0)});
-        vu.add("userName", userName, "创建人姓名",  new Rule[]{new Length(20)});
-        vu.add("face", face, "头像",  new Rule[]{new Length(50)});
-        vu.add("pic", pic, "图片",  new Rule[]{new Length(250)});
-        vu.add("createtime", createtime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
-        vu.add("updatetime", updatetime, "更新时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
-        validStr = vu.validateString();
-        if(StringUtil.isNotBlank(validStr)) {
-            return ResultUtil.getResult(302,validStr);
-        }
+            String validStr="";
+            vu.add("pid", pid, "所属对象id",  new Rule[]{new Digits(9,0)});
+            vu.add("content", content, "正文",  new Rule[]{new Length(140)});
+            vu.add("pic", pic, "图片",  new Rule[]{new Length(250)});
+            validStr = vu.validateString();
+            if(StringUtil.isNotBlank(validStr)) {
+                return ResultUtil.getResult(302,validStr);
+            }
+            msgInfoService.save(msgInfo);
 
-            return msgInfoService.save(msgInfo);
+
+            return this.getDataResult(msgInfo);
 
         }
 
@@ -2005,7 +1877,7 @@ public class MsgInfoController extends BaseController{
             parameters={
 
             })
-    @RequestMapping(value = "/up" , method = RequestMethod.POST,produces = "application/json")
+    @RequestMapping(value = "/up" , method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @RequiresLogin
     public ResultDTO up(HttpServletRequest request) throws Exception{
@@ -2029,7 +1901,7 @@ public class MsgInfoController extends BaseController{
             description="反对",
             parameters={
             })
-    @RequestMapping(value = "/down" , method = RequestMethod.POST,produces = "application/json")
+    @RequestMapping(value = "/down" , method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @RequiresLogin
     public ResultDTO down(HttpServletRequest request) throws Exception{

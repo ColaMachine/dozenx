@@ -97,8 +97,8 @@ public class BaseController extends ResultAction {
 				String resultStr = JsonUtil.toJsonString(result);
 				response.setHeader("Cache-Control", "no-cache");
 				response.setCharacterEncoding("UTF-8");
-				response.setContentType("text/json;charset=UTF-8");
-				response.setContentType("text/json;charset=UTF-8");
+				response.setContentType("application/json;charset=UTF-8");
+			//	response.setContentType("text/json;charset=UTF-8");
 
 				response.getWriter().println(resultStr);
 				response.getWriter().flush();

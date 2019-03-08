@@ -103,18 +103,21 @@ function AjaxClass()
         }
 
         XmlHttp.open (this.Method, this.Url, this.Async);
- if (this.Method=="GET")
-        {
-            XmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        }
-        if (this.Method=="POST")
-        {
-            XmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        }
-       if (this.dataType=="JSON")
+
+       if (this.dataType&& this.dataType.toLowerCase()=="json")
             {
                 XmlHttp.setRequestHeader("Content-Type","application/json");
 
+            }else{
+
+             if (this.Method=="GET")
+                    {
+                        XmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                    }
+                    if (this.Method=="POST")
+                    {
+                        XmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                    }
             }
             var that =this;
         XmlHttp.onreadystatechange = function()
@@ -218,6 +221,9 @@ var Ajax={
   getJSONP:function(url,data,callback){
     this.AjaxFun(url,data,callback,{type:"GET",dataType:"jsonp", jsonp: "callback",jsonpCallback:"success_jsonpCallback"});
   },
+   postJSON:function(url,data,callback){
+      this.AjaxFun(url,data,callback,{type:"POST",dataType:"JSON"});
+   },
  post:function(url,data,callback){
     this.AjaxFun(url,data,callback,{type:"POST"});
  },
@@ -261,6 +267,9 @@ var Ajax={
          	options.type = options.type||"POST";
          	//alert(options.type);
          	options.data = inputData;
+         	if(options.dataType && options.dataType.toLowerCase()=="json" ){
+         	options.contentType="application/json;charset=utf-8";
+         	}else
          	options.contentType="application/x-www-form-urlencoded";//"application/json;charset=utf-8";//
          	//options.data = encodeURIComponent(JSON.stringify(inputData));
          	if (typeof options.async == 'undifined')
@@ -279,6 +288,9 @@ var Ajax={
 
          		}
          		if (typeof callback == 'function') {
+                    //if(options.dataType && options.dataType.toLowerCase()=="json" && outputData.substr(0,1)=="{"){
+                   //    outputData = eval("("+outputData+")");
+                    //}
          			callback(outputData);
          		}
          	};

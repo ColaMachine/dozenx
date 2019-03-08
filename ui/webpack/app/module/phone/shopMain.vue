@@ -39,7 +39,7 @@
 
 
           <zwMenuItem style="width:20%" v-show="!isLogin">
-            <a href="/home/sys/auth/login.htm?pre=http%3a%2f%2falpha-i.51awifi.com%2fhome%2fstatic%2fhtml%2fvue%2fvuePhoneIndex.html%3fid%3d123%23%2fphoneMain">登录 </a>
+            <a href="/home/sys/auth/login.htm?pre=http%3a%2f%2falpha-i.51awifi.com%2fhome%2fstatic%2fhtml%2fvue%2fshopIndex.html%3fid%3d123%23%2fshopMain">登录 </a>
           </zwMenuItem>
           <zwSubMenu style="width:20%" v-show="isLogin">
             <template slot="title"> {{user.userName}}</template>

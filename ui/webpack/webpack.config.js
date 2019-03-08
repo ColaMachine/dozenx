@@ -23,6 +23,7 @@ const PATHS={
       blog:path.resolve(__dirname,'./app/blog.js'),//blog主界面
     build:path.resolve(__dirname,'../src/main/webapp/static/js/'),
       index:path.resolve(__dirname,'./app/index.js'),//web主界面
+       shopIndex:path.resolve(__dirname,'./app/shopIndex.js'),//web主界面
       //phoneIndex:path.resolve(__dirname,'./app/phoneIndex.js'),
 };
 console.log("build path:"+PATHS.build);
@@ -36,6 +37,7 @@ module.exports = {
         "vueUserInfo": PATHS.vueUserInfo,//组件库
         //"zhihuijiating":PATHS.zhihuijiating,//智慧家庭
         "vuePhoneIndex":PATHS.vuePhoneIndex,//手机端
+          "shopIndex":PATHS.shopIndex,//手机端
        //   "phoneIndex":PATHS.phoneIndex//手机端
      },
      output: {
@@ -60,7 +62,9 @@ module.exports = {
 
          new ExtractTextPlugin("[name].css"),
            // new ExtractTextPlugin("styles.css"),
-
+//new webpack.DefinePlugin({
+  //    'process.env.NODE_ENV': JSON.stringify('production')
+   // })
     //  new ExtractPlugin('[name].css') //提取出来的样式放在style.css文件中
 
      ],
