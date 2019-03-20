@@ -1404,6 +1404,7 @@ function zdialogue(msg,title,src,fontcolor,fn){
 }*/
 
 var layer={
+
     alert:function(msg,fn){
         zalert(msg,"",fn);
     },
@@ -1785,6 +1786,14 @@ function zprompt(msg,title,okfn,cancelfn){
 function zalert(msg,title,fn){
 	zdialogue({"msg":msg,type:"alert","title":title,fontcolor:"#777777",src:PATH+"/static/img/nike.png",okfn:fn,icon:"fa fa-check-circle"});
 }
+
+function ztips(msg,secs){
+secs=secs||3000;
+	var tips=parseDom("<div class='zwidget_wrap_mini' style=''><div>"+msg+"</div></div>");
+    document.body.appendChild(tips);
+	setTimeout(function(){removeDom(tips);console.log("删除元素");},secs);
+}
+
 function zwarn(msg,title,fn){
 	zdialogue({"msg":msg,type:"alert","title":title,fontcolor:"#777777",src:PATH+"/static/img/exclamation.png",okfn:fn,icon:"fa fa-exclamation-circle"});
 }
@@ -2593,7 +2602,17 @@ var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 var r = window.location.search.substr(1).match(reg);
 if (r != null) return unescape(r[2]); return null;
 }
+function getHashValue(name) {
 
+console.log(window.location.hash);
+console.log(window.location.hash.lastIndexOf("/"));
+console.log(window.location.hash.substr(window.location.hash.lastIndexOf("/")+1));
+//alert(window.location.search);
+
+var r = window.location.hash.substr(window.location.hash.lastIndexOf("/")+1);
+
+return r;
+}
 function removeByValue(arr, val) {
   for(var i=0; i<arr.length; i++) {
     if(arr[i] == val) {

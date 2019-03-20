@@ -53,10 +53,57 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'shopIndex.html',
       template: 'index.html',
-      inject: true
+      inject:true,
+      title:'this is a.html',
+      author:'zzw',
+      chunks:['shopIndex'],
+      inject: true,
+      date:new Date()
     }),
+     new HtmlWebpackPlugin({
+          filename: 'example.html',
+          template: 'index.html',
+          inject:true,
+          title:'this is example.html',
+          author:'zzw',
+          chunks:['example'],
+          inject: true,
+          date:new Date()
+        }),
+  new HtmlWebpackPlugin({
+          filename: 'index.html',
+          template: 'index.html',
+          inject:true,
+          title:'this is example.html',
+          author:'zzw',
+          chunks:['index'],
+          inject: true,
+          date:new Date()
+        }),
+        new HtmlWebpackPlugin({
+          filename: 'vueUserInfo.html',
+          template: 'index.html',
+          inject:true,
+          title:'this is example.html',
+          author:'zzw',
+          chunks:['vueUserInfo'],
+          inject: true,
+          date:new Date()
+        }),
+
+         new HtmlWebpackPlugin({
+          filename: 'vuePhoneIndex.html',
+          template: 'index.html',
+          inject:true,
+          title:'this is example.html',
+          author:'zzw',
+          chunks:['vuePhoneIndex'],
+          inject: true,
+          date:new Date()
+        }),
+
     // copy custom static assets
     new CopyWebpackPlugin([
       {

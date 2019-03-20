@@ -1,14 +1,14 @@
 <template>
 
   <ul class="app-ul">
-    <li v-for="result in list" key={{result.id}} class="zw-app-box  app-li-it ">
-        <a :href='"?id="+ result.id +"#goodView"' >
+    <li v-for="result in list" v-bind:key="result.id" class="zw-app-box  app-li-it ">
+        <a  :href="result.url" >
 
 
 
                 <zwLayout class="zw-layout-has-sider app-card ">
 
-                <zwSider class="app-li-it-pic">  <a :href='"?id="+ result.id +"#goodView"'><img onerror="" :src='getPathValue( result.pic)' /></a></zwSider>
+                <zwSider class="app-li-it-pic">  <a :href="'#/goodview/'+result.id"><img onerror="" :src='getPathValue( result.pic)' /></a></zwSider>
                     <zwLayout class="app-li-it-content" >
                     <zwHeader  class="app-li-it-content-head">  <h1>{{result.title}}</h1></zwHeader>
 
@@ -90,6 +90,11 @@
 
     },
     methods: {
+        goodsView:function(id){
+         window.params= { "id": id };
+        // window.location.hash = "#goodView";
+         this.$router.push({name:"goodView",params:{"id": id}});
+        },
         getPathValue:function(value){
           return getPathValue(value);
         },

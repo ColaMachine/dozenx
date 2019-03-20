@@ -1,7 +1,8 @@
 
 <template>
  <div class="comment">
-    <a @click="showCommentDialog" style="width:100%;line-height:40px;background-color:red" class="btn red">发表评论</a>
+    
+    <div @click="showCommentDialog" style="width:98%;text-align:center"><zwButton type="primary" style="width:80%">发表评论</zwButton></div>
     <ul class="hot-comment">
         <li v-bind:key="item.id" class="placeholder main-floor"  v-for="item in this.blogList">
             <Comment :data="item"></Comment>
@@ -34,9 +35,10 @@
 <script type="text/javascript">
 import zwIcon from '../icon/zwIcon.vue';
 import zwBase from '../../component/zwBase.vue';
+import zwButton from '../../component/button/zwButton.vue';
 import Comment from '../../component/datadisplay/Comment.vue';
 export default {
-         components:{zwIcon,Comment},
+         components:{zwIcon,Comment,zwButton},
         props:["data","pid"],// blogviewlist 列表 blogview 每个item  bloginput输入框 引入 zwRichInput
         data () {
             return {
@@ -49,7 +51,7 @@ export default {
 
         },
         mounted () {
-  this.getNews();
+            this.getNews();
         },
         methods: {
         showCommentDialog:function(){

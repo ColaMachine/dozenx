@@ -4,7 +4,7 @@
       <div class="user">
                <a title="dozenxID：1565223" :href='"/user/"+data.createUser'>
                <div class="user-hd">
-                    <img :src="getPathValue(data.face)" width="45" height="45" onerror="this.src='//img.ithome.com/m/images/user/noavatar.png'">
+                    <img :src="getPathValue(data.face)" width="45" height="45" onerror="this.src='/home/static/img/noavatar.png'">
                </div><span class="lv">Lv.1</span>
                </a>
                </div>
@@ -26,7 +26,7 @@
                            <div class="user"><a title="dozenxID：794314" href="https://m.ithome.com/user/794314">
                                <div class="user-hd"><img :src="getPathValue(item.face)"
                                                          width="45" height="45"
-                                                         onerror="this.src='//img.ithome.com/m/images/user/noavatar.png'"
+                                                         onerror="this.src='/home/static/img/noavatar.png'"
 
                                                          style="display: inline;"></div>
                                <span class="lv">Lv.40</span></a></div>
@@ -75,6 +75,7 @@ export default {
 
         },
         mounted () {
+
         if(this.data.pic && this.data.pic.length>0){
          this.images=this.data.pic.split(",");
         };
@@ -110,7 +111,7 @@ this.getCommentList();
                     item.up=result.data.up;
                     item.down=result.data.down;
                 }else{
-                    alert(result.msg);
+                    ztips(result.msg);
                 }
             }.Apply(this))
         },
@@ -120,7 +121,7 @@ this.getCommentList();
                 item.up=result.data.up;
                                    item.down=result.data.down;
                 }else{
-                    alert(result.msg);
+                    ztips(result.msg);
                 }
             }.Apply(this))
         },

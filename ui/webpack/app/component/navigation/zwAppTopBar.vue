@@ -45,8 +45,8 @@ export default {
 </script>
 <style scoped>
 .header {
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     color: #ffffff;
     /* box-shadow: 0 2px 0 #2372CC, 0 1px 0 #438EE4; */
     box-shadow: 0 2px 5px rgba(0,0,0,0.26);
@@ -79,7 +79,7 @@ export default {
     /* background-size: 20%; */
     /* color: transparent; */
     /* padding: 30px 0; */
-    height: 60px;
+    height: 50px;
     line-height: 60px;
     color: #ffffff;
 }
@@ -92,6 +92,7 @@ export default {
 }
 .center-text {
     text-align: center;
+    font-size:3rem;
 }
 .small-text {
     font-size: 1.3rem;

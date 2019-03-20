@@ -27,12 +27,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 //这个作为主页面
 
-import vuePhoneIndex from './module/phone/shopIndex.vue'
+import shopIndex from './module/phone/shopIndex.vue'
 
 //初始化一个路由
 new Vue({
   el: '#head',
-  render: h => h(vuePhoneIndex)
+  render: h => h(shopIndex)
 })
 Vue.use(VueRouter)
 require('./module/route/shopRoute.vue');

@@ -111,6 +111,9 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
         if (files != null)
             for (File file : files) {
                 try {
+                    if (file.getName().equals("messsage.properties")) {
+                        continue;
+                    }
                     if (file.getName().endsWith(".properties")) {
                         logger.info("load porperties from " + file.getAbsolutePath());
                         properties.load(new FileInputStream(file));
@@ -141,6 +144,9 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
                             files = com.dozenx.util.FileUtil.listFile(basePropertiesFolder);
                             if (files != null) {
                                 for (File file : files) {
+                                    if (file.getName().equals("messsage.properties")) {
+                                        continue;
+                                    }
                                     if (file.getName().endsWith(".properties")) {
                                         logger.info("load porperties from " + file.getAbsolutePath());
                                         properties.load(new FileInputStream(file));

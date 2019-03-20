@@ -27,10 +27,10 @@
 
       <zwCol class="pull-right" span=24>
         <zwMenu style="width:20%" mode="horizontal" theme="white">
-          <zwMenuItem key="mail">
+          <zwMenuItem key="city">
             杭州<zwIcon type="arrow-down" />
           </zwMenuItem>
-          <zwMenuItem  style="width:50%" key="mail" >
+          <zwMenuItem  style="width:50%" key="search" >
 
             <zwInput  style="font-size:12px;" placeholder="搜索内容/名称/地址">
  <zwButton  slot="prefix"  icon="search"></zwButton>
@@ -43,7 +43,7 @@
           </zwMenuItem>
           <zwSubMenu style="width:20%" v-show="isLogin">
             <template slot="title"> {{user.userName}}</template>
-            <zwMenuItem key="setting:1">
+            <zwMenuItem key="modify-userinfo">
               <zwIcon type="user" />修改个人信息</zwMenuItem>
             <zwMenuItem key="setting:1">
 
@@ -51,8 +51,8 @@
                  <a href="/sys/auth/logout.htm">退出登录 </a>
               </zwMenuItem>
             <zwMenuItemGroup title="购物">
-              <zwMenuItem key="setting:1">我的收藏</zwMenuItem>
-              <zwMenuItem key="setting:2">我的购物车</zwMenuItem>
+              <zwMenuItem key="my-collect">我的收藏</zwMenuItem>
+              <zwMenuItem key="my-shopcar">我的购物车</zwMenuItem>
             </zwMenuItemGroup>
 
           </zwSubMenu>
@@ -89,7 +89,7 @@
     import zwInput from '../../component/dataentry/zwInput.vue';
   import zwCol from '../../component/layout/zwCol.vue';
   import zwIcon from '../../component/icon/zwIcon.vue';
-
+    import zwAppTopBar from '../../component/navigation/zwAppTopBar.vue';
   import zwAppImgList from '../../component/datadisplay/zwAppImgList.vue';
   import zwButton from '../../component/button/zwButton.vue';
   import zwButtonGroup from '../../component/button/zwButtonGroup.vue';
@@ -105,7 +105,7 @@
       zwCol,
       zwIcon,
       zwAppImgList,
-
+zwInput,zwAppTopBar,
        zwMenu,zwDropDown,
             zwMenuItem,
             zwMenuItemGroup,
@@ -161,6 +161,8 @@
         for(var i=0;i<result.data.length;i++){
             result.data[i].pic= result.data[i].img;
             result.data[i].title= result.data[i].name;
+            result.data[i].url='#/goodview/'+result.data[i].id;
+
         }
 
           this.goodsList = result.data;

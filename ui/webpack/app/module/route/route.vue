@@ -64,6 +64,8 @@ import phoneMain from '../../module/phone/phoneMain.vue';
 import map from '../../module/phone/map.vue';
 import placeView from '../../module/phone/placeView.vue';
 import goodView from '../../module/phone/goodView.vue';
+
+import shopMain from '../../module/phone/shopMain.vue';//登录注册页面
 // 然后定义路由(routes)，components还可以是Vue.extend()创建的
 const routes = [
 
@@ -122,6 +124,7 @@ const routes = [
 { path: '/placeView', component:placeView },
 { path: '/goodView', component:goodView },
 { path: '/map', component:map },
+{ path: '/shopMain', component:shopMain },
 ];
 // 接着创建路由实例
 const router = new VueRouter({

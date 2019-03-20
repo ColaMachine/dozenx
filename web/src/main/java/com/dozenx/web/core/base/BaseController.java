@@ -60,7 +60,7 @@ public class BaseController extends ResultAction {
 		// }
 		// Gson gson =new Gson();
 		// NDC.push("params:"+gson.toJson(request.getParameterMap()));
-		logger.error("", e);
+
 		// saveExceptionLog(request,e);
 		// handleReturn();
 		// redirectResponse();
@@ -78,17 +78,20 @@ public class BaseController extends ResultAction {
 		 * getWrongResultFromCfg("err.logic.no.auth"); }else
 		 */
 		if (e instanceof TypeMismatchException) {
+			logger.error("", e);
 			if (((TypeMismatchException) e).getValue().toString().length() == 0) {
 				result = getWrongResultFromCfg("err.param.null");
 			}
 			result = getWrongResultFromCfg("err.param.type");
 		} else if (e instanceof MissingServletRequestParameterException) {
+			logger.error("", e);
 			result = getWrongResultFromCfg("err.err.param.null");
 		} else if (e instanceof MyException) {
 			result = new ResultDTO(Integer.valueOf(((MyException)e).code),((MyException)e).msg);
 		}/*else if (e instanceof InterfaceException) {
 			result = new ResultDTO(Integer.valueOf(((InterfaceException)e).code),((InterfaceException)e).msg);
 		}*/else {
+			logger.error("", e);
 			result = getWrongResultFromCfg(e.getMessage());
 		}
 		String json = request.getParameter("json");

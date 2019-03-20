@@ -167,6 +167,7 @@ CalendarView.prototype.render = function() {
   "<div class='inlinewidth100' id=div_CalendarEventView_" + this.index + ">" +
     this.getCalendarScheduleView() + "</div>" + "</div>" + "</div>" +
     this.getCalendarEventDialogView(); //
+
   return str;
 };
 
@@ -289,7 +290,7 @@ CalendarView.prototype.getCalendarScheduleView = function() {
   "<td    >";
 
   for(var i = 0; i < this.timeSect.length; i++) {
-    str += "<div style='height:" + (this.hourHeight - 1) + "'  class='tg-time-pri' >" + this.timeSect[i] + "</div>";
+    str += "<div style='height:" + (this.hourHeight - 1) + "'  id='"+this.timeSect[i]+"' class='tg-time-pri' >" + this.timeSect[i] + "</div>";
   }
   str += "</td>";
 
@@ -1214,6 +1215,8 @@ CalendarView.prototype.datePickerGoPreAction = function(e) {
   bind($$("dp_next_month"),'click',new Function("Instance('"
   		+ this.index
   		+ "').datePickerGoNextMonthAction ()"));*/
+
+
 }
 CalendarView.prototype.datePickerGoNextAction = function(e) {
  if(this.viewMode == VIEWMODE_DAY){
@@ -1563,7 +1566,8 @@ CalendarView.prototype.refreshCalendarWorkbenchView = function() {
   //document.getElementsByClassName("ca-ty-ch-wrp")[0].childNodes[this.viewMode].addClass("active");
 
   //重新加载时间
-
+  window.location.hash = "#00:00";
+window.location.hash = "#08:00";
 };
 // data2view
 
@@ -3070,6 +3074,9 @@ CalendarView.prototype.attachTo = function(id) {
   document.getElementsByClassName("ca-ty-ch-wrp")[0].childNodes[this.viewMode].setAttribute("class", "active");
 
   document.getElementById("scrolltimedeventswk").style.height = document.body.clientHeight - 100 + "px";
+   window.location.hash = "#00:00";
+  window.location.hash = "#08:00";
+
   //	document.getElementById("scrolltimedeventswk").scrollTo(0,300);
 };
 CalendarView.prototype.judgeIfSaveInDb = function(id) {

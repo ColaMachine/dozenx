@@ -3062,6 +3062,8 @@ public class GoodsController extends BaseController{
             msgInfo.setCommentedCount(0);
             msgInfo.setCommentCount(0);
             msgInfo.setTransferredCount(0);
+        msgInfo.setUp(0);
+        msgInfo.setDown(0);
             msgInfo.setStatus(1);
         SessionUser sessionUser = this.getUser(request);
         msgInfo.setCreateUser(sessionUser.getUserId());

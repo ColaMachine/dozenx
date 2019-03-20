@@ -31,7 +31,7 @@
 .menu-wrap .menu>ul>li {
     list-style-type: none;
     position: relative;
-    border-bottom: 1px solid #e7e7eb;
+    /*border-bottom: 1px solid #e7e7eb;*/
 }
 /*div ,ul,li,a {
     margin: 0px 0px 0px 0px;

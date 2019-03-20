@@ -133,7 +133,7 @@
 
 
 <script src="/assets/index.js"></script>
-<script src="/home/static/js/index.js"></script>
+
 
 <script>
 

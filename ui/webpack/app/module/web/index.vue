@@ -184,12 +184,16 @@
 </zwRow>
           <!-- 路由出口 -->
           <!-- 路由匹配到的组件将渲染在这里 -->
-          <router-view></router-view>
+
+
+
         </div>
       </zwContent>
     </zwLayout>
 
-    <zwFooter>Footer</zwFooter>
+    <zwFooter> <div id="router">
+                              <router-view></router-view>
+                            </div></zwFooter>
 
   </zwLayout>
 </template>

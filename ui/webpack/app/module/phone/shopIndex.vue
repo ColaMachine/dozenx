@@ -1,5 +1,5 @@
 <template>
-  <div>123123123123些事页面家第三方
+  <div>
     <div id="router">
       <router-view></router-view>
     </div>

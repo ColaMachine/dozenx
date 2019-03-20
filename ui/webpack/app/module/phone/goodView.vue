@@ -5,7 +5,7 @@
 
 <zwCol class="pull-right" span=24>
 <zwAppTopBar >
-    <a slot="left" :href="getPathValue('/static/html/vue/shopIndex.html#/shopMain')">
+    <a slot="left" href="#/shopMain">
   <img  class=""  :src="getPathValue('/static/img/header/back.png')">
   </a>
 <span slot="middle"> 商品详情</span>
@@ -21,7 +21,7 @@
     <zwRow>
       <zwCol class="pull-right" span=24>
 
-      <zwCrousel style="height:150px;" height=350 :imglist="imgList"> </zwCrousel>
+      <zwCrousel style="height:150px;" height=200 :imglist="imgList"> </zwCrousel>
       </zwCol>
 
     </zwRow>
@@ -124,7 +124,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
 <zwPanel :canFold=false state="open" >
 <span slot="title" name="title">最新评论</span>
 <p  slot="body" name="body">
-<Comments v-bind:pid="id" ></Comments>
+<Comments  ref="comments" v-bind:pid="id" ></Comments>
 </p>
 
 </zwPanel>
@@ -136,7 +136,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
      <br></br><br></br><br></br>
      <div class="footer-wrap fixed-bottom lrBot flex">
                  <div class="btn-l">
-                     <div class="J_zhi_like_fav z-group-data" data-type="zhi" data-zhi-type="1" data-channel="3" data-article="11791026" data-cid="1" data-atp="3" data-tagid="无">
+                     <div @click="zan()" class="J_zhi_like_fav z-group-data" data-type="zhi" data-zhi-type="1" data-channel="3" data-article="11791026" data-cid="1" data-atp="3" data-tagid="无">
                          <i class="zm-icon-zhi-char">赞</i>
                          <span>{{data.up}}</span>
                      </div>
@@ -150,7 +150,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
                          <i class="zm-icon-share-o"></i>
                          分享
                      </div>
-                     <div class="comments" id="js-foot-comments">
+                     <div @click="showCommentDialog()" class="comments" id="js-foot-comments">
                          <i class="zm-icon-comments-o">评论</i>
                          <span>{{data.comments}}</span>
                      </div>
@@ -224,7 +224,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
     data() {
 
       return {
-      id:getQueryString("id"),
+      id:getHashValue("id"),
 
       images:[],
         user:{},
@@ -262,28 +262,31 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+this.id, null, function(result) {
 
     },
     methods: {
+        showCommentDialog:function(){
+            this.$refs.comments.showCommentDialog();
+        },
         zan:function(){
-            Ajax.post(PATH+"/goods/zan",{"pid":getQueryString("id")},function(result){
+            Ajax.post(PATH+"/goods/zan",{"pid":this.id},function(result){
                 console.log(result);
                 if(result.r==AJAX_SUCC){
                     this.data.up=result.data.up;
                     this.data.down=result.data.down;
                 }else{
                      console.log(result.msg);
-                     dialog.alert(result.msg);
+                     ztips(result.msg);
                  }
             }.Apply(this));
 
         },
         down:function(){
-            Ajax.post(PATH+"/goods/down",{"pid":getQueryString("id")},function(result){
+            Ajax.post(PATH+"/goods/down",{"pid":this.id},function(result){
                             console.log(result);
                             if(result.r==AJAX_SUCC){
                                 this.data.up=result.data.up;
                                 this.data.down=result.data.down;
                             }else{
                                  console.log(result.msg);
-                                 alert(result.msg);
+                                 ztips(result.msg);
                              }
                         }.Apply(this));
 

@@ -4,7 +4,7 @@
  <div  ref="wrap" class="slider">
  <ul id="sa">
 
- <li v-for="item in imglist "><a :href="item.url" target="_blank"><img :src="item.pic" alt="科e互联网站建设团队"/></a></li>
+ <li v-for="item in imglist "><a :href="item.url" target="_blank"><img :src="item.pic" alt=""/></a></li>
  </ul>
  </div>
 </template>
@@ -120,7 +120,7 @@ export default {
                 minHeight: oFocus.height * 2,
                 position: 'absolute',
                 bottom: 0,
-                background: 'rgba(0,0,0,0.5)'
+                //background: 'rgba(0,0,0,0.5)'
             })
 
            css(oFocus,{
@@ -259,7 +259,7 @@ export default {
                             var moveX = iCurr * moveWidth;
                             doAnimate(-moveX, autoMove);
                         }
-                        else {alert(autoMove);
+                        else {//alert(autoMove);
                             doAnimate(0, autoMove);
                             iCurr = 0;
                         }
@@ -314,4 +314,139 @@ export default {
 </script>
 <style>
 
+ body, ul, dl, dd, dt, ol, li, p, h1, h2, h3, h4, h5, h6, textarea, form, select, fieldset, table, td, div, input {
+	margin:0;
+	padding:0;
+	-webkit-text-size-adjust: none
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size:12px;
+	font-weight:normal
+}
+body>div {
+	margin:0 auto
+}
+div {
+	text-align:left
+}
+a img {
+	border:0
+}
+body {
+	color: #333;
+	text-align: center;
+	font: 12px "宋体";
+}
+ul, ol, li {
+	list-style-type:none;
+	vertical-align:0
+}
+a {
+	outline-style:none;
+	color:#535353;
+	text-decoration:none
+}
+a:hover {
+	color: #D40000;
+	text-decoration: none
+}
+.button {
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding:0.25em 0.6em 0.3em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.red {
+	color: #faddde;
+	border: solid 1px #980c10;
+	background: #d81b21;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ed1c24), to(#A51715));
+	background: -moz-linear-gradient(top, #ed1c24, #A51715);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed1c24', endColorstr='#aa1317');
+}
+.red:hover {
+	background: #b61318;
+	background: -webkit-gradient(linear, left top, left bottom, from(#c9151b), to(#a11115));
+	background: -moz-linear-gradient(top, #c9151b, #a11115);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c9151b', endColorstr='#a11115');
+	color:#fff;
+}
+.red:active {
+	color: #de898c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24));
+	background: -moz-linear-gradient(top, #aa1317, #ed1c24);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24');
+}
+.cor_bs,.cor_bs:hover {
+	color:#ffffff;
+}
+   .keBody{
+    /*background:url(../images/bodyBg.jpg) repeat #333;*/
+   }
+.keTitle {
+	height:100px;
+	line-height:100px;
+	font-size:30px;
+	font-family:'微软雅黑';
+	color:#FFF;
+	text-align:center;
+	/*background:url(../images/bodyBg3.jpg) repeat-x bottom left;*/
+	font-weight:normal
+}
+.kePublic {
+	background:#FFF;
+	padding:50px;
+}
+.keBottom {
+	color:#FFF;
+	padding-top:25px;
+	line-height:28px;
+	text-align:center;
+	font-family:'微软雅黑';
+	/*background:url(../images/bodyBg2.jpg) repeat-x top left;*/
+	padding-bottom:25px
+}
+.keTxtP {
+	font-size:16px;
+	color:#ffffff;
+}
+.keUrl {
+	color:#FFF;
+	font-size:30px;
+}
+.keUrl:hover {
+	text-decoration: underline;
+	color: #FFF;
+}
+.mKeBanner,.mKeBanner div {
+	text-align:center;
+}
+.slider {
+	display:none
+}
+.focus span {
+	width:10px;
+	height:10px;
+	margin-right:10px;
+	border-radius:50%;
+	background:#666;
+	font-size:0
+}
+.focus span.current {
+	background:#fff
+}
 </style>

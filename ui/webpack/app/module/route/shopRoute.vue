@@ -21,9 +21,9 @@ const routes = [
 
 //example区域
 
-{ path: '/userInfo', component:userInfo },
-{ path: '/shopMain', component:shopMain },
-{ path: '/goodView', component:goodView },
+{ path: '/userInfo',name:'userInfo', component:userInfo },
+{ path: '/shopMain',name:'shopMain', component:shopMain },
+{ path: '/goodView/:id',name:'goodView',  component:goodView },
 
 ];
 // 接着创建路由实例

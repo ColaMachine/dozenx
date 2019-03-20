@@ -7,8 +7,8 @@
  	
 <!--  新增记录  --> 
 	<resultMap type="com.dozenx.web.core.auth.bean.Pwdrst" id="pwdrstMap">
-	 <id property="idpwdrst" column="idpwdrst" />        
-   		<result property="userid" column="userid" /> 
+	 <id property="idpwdrst" column="idpwdrst"  jdbcType="VARCHAR" />
+   		<result property="userid" column="userid"  jdbcType="BIGINT" />
 
  		<result property="used" column="used" />
 		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
@@ -24,7 +24,7 @@
 		select * from pwdrst  where idpwdrst = #{idpwdrst}
   	</select>
   	
-  <select id="selectUnusedPwdrstByUserId" parameterType="string" resultType="com.dozenx.web.core.auth.bean.Pwdrst">
+  <select id="selectUnusedPwdrstByUserId" parameterType="java.lang.Long" resultType="com.dozenx.web.core.auth.bean.Pwdrst">
 		select * from pwdrst  where used=0 and userid=#{userid}
   	</select>
 <!--  修改记录	-->

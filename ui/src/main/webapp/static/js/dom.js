@@ -502,3 +502,28 @@ function getRadioValueByName(str) {
 function isDom(obj){
          return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
          }
+
+
+function getInfo(o){//取得坐标
+		if(isNull(o)){
+	     	alert("can't find it:"+o);
+
+     	}
+	   	var to=new Object();
+	   	to.left=to.right=to.top=to.bottom=0;
+
+	   	var twidth=o.offsetWidth;
+	   	var theight=o.offsetHeight;
+	   	while(o!=document.body && !isNull(o)){
+	   		if(isNull(o.offsetParent)){
+	     		//alert("can't find it's parentNode1:"+o);
+	     	}
+	     	to.left+=o.offsetLeft;
+	     	to.top+=o.offsetTop;
+
+     		o=o.offsetParent;
+	   	}
+     	to.right=to.left+twidth;
+     	to.bottom=to.top+theight;
+	   	return to;
+}

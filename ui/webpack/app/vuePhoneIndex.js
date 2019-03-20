@@ -24,7 +24,7 @@ import "./css/widget.scss"
 //document.write(require("./content.js"));
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+
 //这个作为主页面
 
 import vuePhoneIndex from './module/phone/vuePhoneIndex.vue'
@@ -34,6 +34,5 @@ new Vue({
   el: '#head',
   render: h => h(vuePhoneIndex)
 })
-Vue.use(VueRouter)
-require('./module/route/route.vue');
+
 
