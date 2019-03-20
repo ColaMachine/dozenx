@@ -450,12 +450,12 @@ public class SshUtil {
     public static void AlphaKqUpdateTomecatWebappAndRestart() {
 //
 
-        String serverIps[] = new String[]{"192.168.212.90"};
+        String serverIps[] = new String[]{"192.168.213.7"};
 
 
         String localRootPathStr = "G:\\workspace\\dozenx\\ui\\target\\classes";
-        String remoteRootPathStr = "/data/service/tomcat-kq-8087/awifi_kq/WEB-INF/classes";
-        String tomcatPath = "/data/service/tomcat-kq-8087";
+        String tomcatPath = "/data/service/tomcat-npbiz-kq-8097";
+        String remoteRootPathStr = tomcatPath+"/awifi-kq/WEB-INF/classes";
 
 
         String userName = "root";
@@ -665,9 +665,9 @@ public class SshUtil {
 //        String tomcatPath = "/data/service/tomcat-ezhike-biz-8085";
 //
 //SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
-//       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
+       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
 //        SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
-        SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
+//        SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
         //  SshUtil .updateTomecatWebappAndRestart();
     }
 }

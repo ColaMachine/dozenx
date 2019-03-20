@@ -171,7 +171,16 @@ where id = #{id,jdbcType=BIGINT}
         </if>  
         <if test="kqUserId != null and kqUserId != '' ">  
            and CheckinLate.`kqUserId` = #{kqUserId}
-        </if>  
+        </if>
+
+       <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+           and `checkTime` &gt;= #{checkTimeBegin}
+       </if>
+
+       <if test="checkTimeEnd != null  ">
+           and `checkTime` &lt;= #{checkTimeEnd}
+       </if>
+       order by id desc
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
     select 

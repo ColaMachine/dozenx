@@ -201,6 +201,29 @@ public class FileUtil {
         }
     }
 
+    public static void writeFile(File file, byte[] data) throws IOException {
+        try {
+            // if file doesnt exists, then create it
+            if(!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            // true = append file
+            FileOutputStream out = new FileOutputStream(file, false);
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(out);
+            bufferedOutputStream.write(data);
+            bufferedOutputStream.close();
+
+            System.out.println("Done");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public static void main(String args[]) {
         try {
             FileReader fr = new FileReader("G://V2.2.7.txt");

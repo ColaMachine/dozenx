@@ -1136,7 +1136,7 @@ public class FaceCheckinOutController extends BaseController{
             if(StringUtil.checkNumeric(checkTimeBegin)){
                 params.put("checkTimeBegin",checkTimeBegin);
             }else if(StringUtil.checkDateStr(checkTimeBegin, "yyyy-MM-dd HH:mm:ss")){
-                params.put("checkTimeBegin",checkTimeBegin);
+                params.put("checkTimeBegin",new Timestamp( DateUtil.parseToDate(checkTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
         }
         String checkTimeEnd = MapUtils.getString(params,"checkTimeEnd");
@@ -1144,7 +1144,7 @@ public class FaceCheckinOutController extends BaseController{
             if(StringUtil.checkNumeric(checkTimeEnd)){
                 params.put("checkTimeEnd",checkTimeEnd);
             }else if(StringUtil.checkDateStr(checkTimeEnd, "yyyy-MM-dd HH:mm:ss")){
-                params.put("checkTimeEnd",checkTimeEnd);
+                params.put("checkTimeEnd",new Timestamp( DateUtil.parseToDate(checkTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));//变成字符串的话 查询会报错 不能比对 timestamp和 string
             }
         }
         String score = MapUtils.getString(params,"score");

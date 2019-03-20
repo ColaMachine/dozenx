@@ -2,7 +2,7 @@
   <div class="top-bar">
     <Menu mode="horizontal" theme="primary">
       <div class="logo-panel">
-        爱WiFi广告平台
+        爱WiFi人脸考勤平台
       </div>
       <div class="menu-panel">
         <Submenu name="userInfo">

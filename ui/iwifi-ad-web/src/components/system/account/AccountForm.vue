@@ -24,6 +24,20 @@
       <FormItem prop="email" label="邮箱">
         <Input v-model="formData.email" placeholder="邮箱" :readonly="readonly"></Input>
       </FormItem>
+
+       <Row  >
+          <Col span="19">
+          <FormItem prop="face" label="头像">
+            <Input v-model="formData.face" placeholder="头像" :disabled="readonly"></Input>
+          </FormItem>
+          </Col>
+          <Col span="1">&nbsp;</Col>
+          <Col span="4" v-if="!readonly">
+          <!--<Button type="default" size="large" @click="uploadImg(formData.imgUrl)" long>上传</Button>-->
+          <ImgUploader :name="uploaderName" :action="uploadAction" @on-success="uploadSuccess" ></ImgUploader>
+          </Col>
+        </Row>
+
       <FormItem prop="remark" label="备注">
         <Input v-model="formData.remark" placeholder="备注" :readonly="readonly" :maxlength="100"></Input>
       </FormItem>
@@ -38,17 +52,20 @@
   </div>
 </template>
 <script type="text/javascript">
+import Vue from "vue";
+import ImgUploader from './uploader.vue';
   import SelectLocation from '@/components/SelectLocationSimple.vue';
   import $http from '@/js/http2';
   import {validateMultipleRoles, validateFullLocation, validatePhone} from "@/js/validate";
 
   export default {
     components: {
-      SelectLocation
+      SelectLocation,ImgUploader
     },
     props: ['formData', 'readonly', 'resetFlag'],
     data() {
       return {
+      uploaderName:"file",
         roleList: [],
         formRules: {
           account: [
@@ -76,6 +93,13 @@
         },
       };
     },
+
+     computed:{
+          uploadAction(){
+            return `/home/pubimage/file/upload?access_token=1&width=100&height=100&relativePath=face`
+          }
+        },
+
     methods: {
       submit(name) {
         this.$refs.form.validate((valid) => {
@@ -84,6 +108,11 @@
           }
         });
       },
+       uploadSuccess(response){
+
+              Vue.set(this.formData,"face",response.data)
+            },
+
       resetForm() {
         this.$refs.form.resetFields();
       },

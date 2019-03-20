@@ -175,7 +175,9 @@ public class LoginController extends BaseController {
                     , dataType = DataType.LONG, in = "body", required = true),
 
     })
-
+    /**
+     * 通过账号密码和图形验证码登录
+     */
     @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
@@ -270,7 +272,12 @@ public class LoginController extends BaseController {
     }
 
 
-
+    /**
+     * 通过手机号码和短信验证码进行登录
+     * @param request
+     * @param bodyParam
+     * @return
+     */
 
     @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
@@ -389,7 +396,9 @@ public class LoginController extends BaseController {
                     , dataType = DataType.LONG, in = "body", required = true),
 
     })
-
+    /**
+     * 通过账号密码登录 无验证码
+     */
     @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     @RequestMapping(value = "/login/no/captcha", method = RequestMethod.POST, produces = "application/json")

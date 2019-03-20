@@ -26,6 +26,7 @@ import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.rules.*;
+import com.dozenx.web.util.ConfigUtil;
 import com.dozenx.web.util.RequestUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
@@ -1383,6 +1384,11 @@ public class SysUserController extends BaseController {
 //            sysUserDepart.setDepartId(depart);
 //            result = sysUserDepartService.save(sysUserDepart);
 //        }
+
+        if(StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))){
+            String resultStr =   HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face")+"?userId="+sysUser.getId());
+
+        }
         OperLogUtil.add(request, "系统管理", "账号管理","添加账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
         return result;
 
@@ -1439,6 +1445,14 @@ public class SysUserController extends BaseController {
 
         sysUser.setPassword(null);
 
+    try {
+        if (StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))) {
+            String resultStr = HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face") + "?userId=" + sysUser.getId());
+
+        }
+    }catch (Exception e){
+        logger.error("更新人脸特征库报错",e);
+    }
         OperLogUtil.add(request, "系统管理", "账号管理","修改账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
         return sysUserService.saveWithRoleInfo(sysUser);
     }

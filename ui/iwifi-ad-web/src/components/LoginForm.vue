@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="form-title">广告平台登录</h4>
+    <h4 class="form-title">考勤平台登录</h4>
     <Form ref="loginForm" :model="formData" :rules="formRules">
       <FormItem prop="userName">
         <Input v-model="formData.userName" placeholder="用户名" size="large"></Input>

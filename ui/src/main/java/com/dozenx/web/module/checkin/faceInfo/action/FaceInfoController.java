@@ -1103,7 +1103,7 @@ public class FaceInfoController extends BaseController {
         postMap.put("faceFields", "embedding");
         postMap.put("filename", DateUtil.getNow() + ".jpg");
         getAccessToken();
-        String result  = HttpRequestUtil.sendPost(ConfigUtil.getConfig("ai.face")+"?access_token="+accessToken, JsonUtil.toJson(postMap));
+        String result  = HttpRequestUtil.sendPost(ConfigUtil.getConfig("ai.face.recogize.url")+"?access_token="+accessToken, JsonUtil.toJson(postMap));
         //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502
         HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
         String code =MapUtils.getString(resultMap,"code") ;
@@ -1159,7 +1159,7 @@ public class FaceInfoController extends BaseController {
 
 
     public  static void main(String[] args){
-        String url="http://kq.dapark.top/home/checkin/faceinfo/recognize";
+        String url="http://192.168.212.90:8087/home/checkin/faceinfo/recognize";
         HashMap map =new HashMap();
        // map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal(PathManager.getInstance().getHomePath().resolve("src/main/webapp/upload/1543074868872.png").toString())));
 

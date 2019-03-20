@@ -6,12 +6,11 @@ package com.dozenx.util;
 //import ch.ethz.ssh2.SFTPv3Client;
 //import ch.ethz.ssh2.StreamGobbler;
 //import com.alibaba.fastjson.util.IOUtils;
+
 import com.dozenx.core.Path.PathManager;
 import com.dozenx.core.config.Config;
 import com.dozenx.core.config.ImageConfig;
 import com.dozenx.util.encrypt.Base64Util;
-//import com.dozenx.web.core.log.ResultDTO;
-//import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.imageio.plugins.jpeg.JPEGImageWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+
+//import com.dozenx.web.core.log.ResultDTO;
+//import com.sun.image.codec.jpeg.ImageFormatException;
 
 /**
  * 二维码生成海报
@@ -40,6 +41,14 @@ import java.nio.file.Paths;
  * @author dozen.zhang
  */
 public class ImageUtil {
+
+    public static final String TYPE_JPG = "jpg";
+    public static final String TYPE_GIF = "gif";
+    public static final String TYPE_PNG = "png";
+    public static final String TYPE_BMP = "bmp";
+    public static final String TYPE_UNKNOWN = "unknown";
+
+
     private static final Logger logger = LoggerFactory.getLogger(ImageUtil.class);
     private static BufferedImage templateImage;
 
@@ -88,8 +97,8 @@ public class ImageUtil {
      * @return
      */
     public static BufferedImage zoomInImage(BufferedImage originalImage, float times) {
-        int width = (int)(originalImage.getWidth() * times);
-        int height =(int)( originalImage.getHeight() * times);
+        int width = (int) (originalImage.getWidth() * times);
+        int height = (int) (originalImage.getHeight() * times);
         BufferedImage newImage = new BufferedImage(width, height, originalImage.getType());
         Graphics g = newImage.getGraphics();
         g.drawImage(originalImage, 0, 0, width, height, null);
@@ -369,7 +378,6 @@ public class ImageUtil {
 //        }
 //
 //    }
-
     public static boolean compressImg(String inputPath, String outputPath, Integer width, Integer height,
                                       boolean proportion) {
         try {
@@ -447,24 +455,26 @@ public class ImageUtil {
             return false;
         }
     }
-    public void putIntoRedis(String inputPath){
+
+    public void putIntoRedis(String inputPath) {
 
 
     }
+
     public static void main(String args[]) {
-        String imagePth ="C:\\Users\\dozen.zhang\\Pictures\\parent.png";
+        String imagePth = "C:\\Users\\dozen.zhang\\Pictures\\parent.png";
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(imagePth));
             //ByteArrayOutputStream outputStream =new ByteArrayOutputStream();
 
-           byte[] bts =  FileUtil.getBytes(imagePth);
+            byte[] bts = FileUtil.getBytes(imagePth);
             String s = Base64Util.encode(bts);
             System.out.println(s);
             //ImageUtil.imageToB
-          //  ImageIO.write( bufferedImage,"png", outputStream);
-          //  RedisUtil.setByteAry("hello",outputStream.toByteArray());
+            //  ImageIO.write( bufferedImage,"png", outputStream);
+            //  RedisUtil.setByteAry("hello",outputStream.toByteArray());
 
-            String ss ="data:image/png;base64,iVBORw0KGgoAAAANSUh";
+            String ss = "data:image/png;base64,iVBORw0KGgoAAAANSUh";
             System.out.print(ss.substring(ss.indexOf(",")));
         } catch (IOException e) {
             e.printStackTrace();
@@ -499,14 +509,15 @@ public class ImageUtil {
         System.out.println(end - start);*/
 
         String parentPath = "C:\\Users\\dozen.zhang\\Pictures\\qyyygqfjzm_45324.jpg";
-        String childPath =  "C:\\Users\\dozen.zhang\\Pictures\\child.jpg";
+        String childPath = "C:\\Users\\dozen.zhang\\Pictures\\child.jpg";
 
-        searchPosition(parentPath,childPath);
+        searchPosition(parentPath, childPath);
     }
 
     /**
      * 说明:
-     * @param rootPath 存放路径
+     *
+     * @param rootPath  存放路径
      * @param imageName
      * @param imageData
      * @return void
@@ -514,70 +525,14 @@ public class ImageUtil {
      * @author dozen.zhang
      * @date 2015年12月20日下午12:52:39
      */
-    public static String  saveBase64Image(String rootPath, String imageName, String imageData) throws IOException {
-        int success = 0;
-        String message = "";
-        if (null == imageData || imageData.length() < 100) {
-            // 数据太短，明显不合理
-            throw new IOException("err.upload.img.tooshort");
-          //  return ResultUtil.getWrongResultFromCfg("err.upload.img.tooshort");
-        } else {
-            if (imageData.startsWith("%2B")) {
-                imageData = URLDecoder.decode(imageData, "UTF-8").substring(1);
-            } else if (imageData.startsWith("+")) {
-                imageData = imageData.substring(1);
-            }
-            int ivboIndex= imageData.indexOf("iVBO");
-            if(ivboIndex!=-1){
-                imageData = imageData.substring(ivboIndex);
-            }
-            if(imageData.indexOf("base64")>0){
-                imageData = imageData.substring(imageData.indexOf("base64")+7);
-            }
-            // 去除开头不合理的数据
-            // imageData = URLDecoder.decode(imageData, "UTF-8");
-            // imageData = imageData.substring(30);
-            // int position=imageData.indexOf(",");
-            // imageData=imageData.substring(position+1);
-            // data:image/jpeg;base64,/9j/4AAQSkZJRgABA
-            // data:image/png;base64,iVBORw0KGgoAAAANSUh
-            // System.out.println(imageData);
-            byte[] data = decodeBase64(imageData);
-            int len = data.length;
-            int len2 = imageData.length();
-            if (null == imageName || imageName.length() < 1) {
-                imageName = System.currentTimeMillis() + ".png";
-            }
-
-
-            saveImageToDisk(data, rootPath, imageName);
-            //
-            success = 1;
-            message = "上传成功,参数长度:" + len2 + "字符，解析文件大小:" + len + "字节";
-        }
-        return imageName;
-       // return ResultUtil.getResult(0, imageName, "上传成功", null);
-    }
-
-    /**
-     * base64 转 bufferedImage
-     * @param base64Str
-     * @return
-     * @throws Exception
-     */
-    public static BufferedImage base64ToImage(String imageData)throws  Exception{
-
-
-
-
-
+    public static String saveBase64Image(String rootPath, String imageName, String imageData) throws IOException {
         int success = 0;
         String message = "";
         if (null == imageData || imageData.length() < 100) {
             // 数据太短，明显不合理
             throw new IOException("err.upload.img.tooshort");
             //  return ResultUtil.getWrongResultFromCfg("err.upload.img.tooshort");
-        }
+        } else {
             if (imageData.startsWith("%2B")) {
                 imageData = URLDecoder.decode(imageData, "UTF-8").substring(1);
             } else if (imageData.startsWith("+")) {
@@ -601,19 +556,74 @@ public class ImageUtil {
             byte[] data = decodeBase64(imageData);
             int len = data.length;
             int len2 = imageData.length();
+            if (null == imageName || imageName.length() < 1) {
+                imageName = System.currentTimeMillis() + ".png";
+            }
+
+
+            saveImageToDisk(data, rootPath, imageName);
+            //
+            success = 1;
+            message = "上传成功,参数长度:" + len2 + "字符，解析文件大小:" + len + "字节";
+        }
+        return imageName;
+        // return ResultUtil.getResult(0, imageName, "上传成功", null);
+    }
+
+    /**
+     * base64 转 bufferedImage
+     *
+     * @param base64Str
+     * @return
+     * @throws Exception
+     */
+    public static BufferedImage base64ToImage(String imageData) throws Exception {
+
+
+        int success = 0;
+        String message = "";
+        if (null == imageData || imageData.length() < 100) {
+            // 数据太短，明显不合理
+            throw new IOException("err.upload.img.tooshort");
+            //  return ResultUtil.getWrongResultFromCfg("err.upload.img.tooshort");
+        }
+        if (imageData.startsWith("%2B")) {
+            imageData = URLDecoder.decode(imageData, "UTF-8").substring(1);
+        } else if (imageData.startsWith("+")) {
+            imageData = imageData.substring(1);
+        }
+        int ivboIndex = imageData.indexOf("iVBO");
+        if (ivboIndex != -1) {
+            imageData = imageData.substring(ivboIndex);
+        }
+        if (imageData.indexOf("base64") > 0) {
+            imageData = imageData.substring(imageData.indexOf("base64") + 7);
+        }
+        // 去除开头不合理的数据
+        // imageData = URLDecoder.decode(imageData, "UTF-8");
+        // imageData = imageData.substring(30);
+        // int position=imageData.indexOf(",");
+        // imageData=imageData.substring(position+1);
+        // data:image/jpeg;base64,/9j/4AAQSkZJRgABA
+        // data:image/png;base64,iVBORw0KGgoAAAANSUh
+        // System.out.println(imageData);
+        byte[] data = decodeBase64(imageData);
+        int len = data.length;
+        int len2 = imageData.length();
 
         ByteArrayInputStream in = new ByteArrayInputStream(data);    //将b作为输入流；
-        BufferedImage image = ImageIO.read( in);     //将in作为输入流，读取图片存入image中，而这里in可以为ByteArrayInputStream();
+        BufferedImage image = ImageIO.read(in);     //将in作为输入流，读取图片存入image中，而这里in可以为ByteArrayInputStream();
 
         in.close();
         return image;
     }
+
     // references: http://blog.csdn.net/remote_roamer/article/details/2979822
     public static boolean saveImageToDisk(byte[] data, String path, String imageName) throws IOException {
         int len = data.length;
 
-        File file =new File(path);
-        if(!file.exists()){
+        File file = new File(path);
+        if (!file.exists()) {
             file.mkdirs();
         }
         // 写入到文件
@@ -714,161 +724,157 @@ public class ImageUtil {
 
     }
 
-    public static void searchPosition(String parentImgPath,String childImgPath){
+    public static void searchPosition(String parentImgPath, String childImgPath) {
         Long startTime = System.currentTimeMillis();
-        BufferedImage parentImg =null;
-        BufferedImage childImg=null;
+        BufferedImage parentImg = null;
+        BufferedImage childImg = null;
 
         try {
             parentImg = ImageIO.read(new File(parentImgPath));
-            childImg= ImageIO.read(new File(childImgPath));
+            childImg = ImageIO.read(new File(childImgPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int pwidth =parentImg.getWidth();
+        int pwidth = parentImg.getWidth();
         int pheight = parentImg.getHeight();
-        int cwidth =childImg.getWidth();
-        int cheight =childImg.getHeight();
-       for(int i=0;i<pwidth-cwidth;i++){
-            for(int j=0;j<pheight-cheight;j++){
-                if(compareImage(parentImg,childImg,i,j ,pwidth,pheight ,cwidth,cheight )){
-                    System.out.println(i +" "+j);
-                    Long endTime =System.currentTimeMillis();
-                    System.out.print("耗时"+(endTime-startTime));
-                   return;
+        int cwidth = childImg.getWidth();
+        int cheight = childImg.getHeight();
+        for (int i = 0; i < pwidth - cwidth; i++) {
+            for (int j = 0; j < pheight - cheight; j++) {
+                if (compareImage(parentImg, childImg, i, j, pwidth, pheight, cwidth, cheight)) {
+                    System.out.println(i + " " + j);
+                    Long endTime = System.currentTimeMillis();
+                    System.out.print("耗时" + (endTime - startTime));
+                    return;
                 }
                /* if(parentImg.getRGB(i,j) == childImg.getRGB(0,0)){
 
                 }*/
             }
-       }
+        }
         System.out.println("未找到");
 
     }
-    public static boolean compareImage(BufferedImage pimg,BufferedImage cimg,int x,int y,int pw,int ph,int cw,int ch){
+
+    public static boolean compareImage(BufferedImage pimg, BufferedImage cimg, int x, int y, int pw, int ph, int cw, int ch) {
 
 
-
-        for(int i=0;i<cw;i+=10){
-            for(int j=0;j<ch;j+=10){
-              try {
-                  int prgb = pimg.getRGB(x + i, y + j);
-                  int crgb = cimg.getRGB(i, j);
-                  if (rgbDiff(prgb ,crgb)>6  ) {
-                      return false;
-                  }
-              }catch (Exception e){
-                  e.printStackTrace();
-                  System.out.println("当前位置:"+x+":"+y+":"+i+":"+j);
-                  System.exit(0);
-              }
+        for (int i = 0; i < cw; i += 10) {
+            for (int j = 0; j < ch; j += 10) {
+                try {
+                    int prgb = pimg.getRGB(x + i, y + j);
+                    int crgb = cimg.getRGB(i, j);
+                    if (rgbDiff(prgb, crgb) > 6) {
+                        return false;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("当前位置:" + x + ":" + y + ":" + i + ":" + j);
+                    System.exit(0);
+                }
             }
         }
         return true;
     }
-    public static int getR(int vlaue){
-        return  (vlaue & (255<<(4*8))) >>(4*8);
+
+    public static int getR(int vlaue) {
+        return (vlaue & (255 << (4 * 8))) >> (4 * 8);
     }
-    public static int getG(int vlaue){
-        return  (vlaue & (255<<(2*8))) >>(2*8);
+
+    public static int getG(int vlaue) {
+        return (vlaue & (255 << (2 * 8))) >> (2 * 8);
     }
-    public static int getB(int vlaue){
-        return  (vlaue & (255)) ;
+
+    public static int getB(int vlaue) {
+        return (vlaue & (255));
     }
-    public static int  rgbDiff(int rgbA,int rgbB){
-        int rDiff =Math.abs(getR(rgbA)-getR(rgbB))+
-                Math.abs(getG(rgbA)-getG(rgbB))+
-                Math.abs(getB(rgbA)-getB(rgbB));
+
+    public static int rgbDiff(int rgbA, int rgbB) {
+        int rDiff = Math.abs(getR(rgbA) - getR(rgbB)) +
+                Math.abs(getG(rgbA) - getG(rgbB)) +
+                Math.abs(getB(rgbA) - getB(rgbB));
         return rDiff;
     }
-    public static void getTezheng(BufferedImage cimg){
-        int width=cimg.getWidth();
-        int height=cimg.getHeight();
+
+    public static void getTezheng(BufferedImage cimg) {
+        int width = cimg.getWidth();
+        int height = cimg.getHeight();
     }
 
 
-
-
-    public static int[][] getGrayPicture(String filename) throws FileNotFoundException, IOException
-    {
-        File file =new File(filename);
-        BufferedImage originalImage=ImageIO.read(new FileInputStream(file));
+    public static int[][] getGrayPicture(String filename) throws FileNotFoundException, IOException {
+        File file = new File(filename);
+        BufferedImage originalImage = ImageIO.read(new FileInputStream(file));
         originalImage.getColorModel();
         System.out.println(originalImage.getColorModel());
 
-        int green=0,red=0,blue=0,rgb;
+        int green = 0, red = 0, blue = 0, rgb;
         int imageWidth = originalImage.getWidth();
         int imageHeight = originalImage.getHeight();
-        int[][] heights=new int[imageWidth][imageHeight];
-        for(int i = originalImage.getMinX();i < imageWidth ;i++)
-        {
-            for(int j = originalImage.getMinY();j < imageHeight ;j++)
-            {
+        int[][] heights = new int[imageWidth][imageHeight];
+        for (int i = originalImage.getMinX(); i < imageWidth; i++) {
+            for (int j = originalImage.getMinY(); j < imageHeight; j++) {
 //ͼƬ�����ص���ʵ�Ǹ�����������������forѭ������ÿ�����ؽ��в���
                 Object data = originalImage.getRaster().getDataElements(i, j, null);//��ȡ�õ����أ�����object���ͱ�ʾ
 
                 red = originalImage.getColorModel().getRed(data);
                 blue = originalImage.getColorModel().getBlue(data);
                 green = originalImage.getColorModel().getGreen(data);
-                heights[i][j]=red;
+                heights[i][j] = red;
             }
 
         }
         return heights;
 
     }
-    public static float[][] getGrayPicturef(String filename) throws FileNotFoundException, IOException
-    {
-        File file =PathManager.getInstance().getHomePath().resolve(filename).toFile();
-        BufferedImage originalImage=ImageIO.read(new FileInputStream(file));
+
+    public static float[][] getGrayPicturef(String filename) throws FileNotFoundException, IOException {
+        File file = PathManager.getInstance().getHomePath().resolve(filename).toFile();
+        BufferedImage originalImage = ImageIO.read(new FileInputStream(file));
         originalImage.getColorModel();
         System.out.println(originalImage.getColorModel());
 
-        int green=0,red=0,blue=0,rgb;
+        int green = 0, red = 0, blue = 0, rgb;
         int imageWidth = originalImage.getWidth();
         int imageHeight = originalImage.getHeight();
-        float[][] heights=new float[imageWidth][imageHeight];
-        for(int i = originalImage.getMinX();i < imageWidth ;i++)
-        {
-            for(int j = originalImage.getMinY();j < imageHeight ;j++)
-            {
+        float[][] heights = new float[imageWidth][imageHeight];
+        for (int i = originalImage.getMinX(); i < imageWidth; i++) {
+            for (int j = originalImage.getMinY(); j < imageHeight; j++) {
 //ͼƬ�����ص���ʵ�Ǹ�����������������forѭ������ÿ�����ؽ��в���
                 Object data = originalImage.getRaster().getDataElements(i, j, null);//��ȡ�õ����أ�����object���ͱ�ʾ
 
                 red = originalImage.getColorModel().getRed(data);
                 blue = originalImage.getColorModel().getBlue(data);
                 green = originalImage.getColorModel().getGreen(data);
-                heights[i][j]=red;
+                heights[i][j] = red;
             }
 
         }
         return heights;
 
     }
-    public static Color[][] getGrayPicture(String filename,int minX,int minY,int maxX,int maxY) throws FileNotFoundException, IOException
-    {
+
+    public static Color[][] getGrayPicture(String filename, int minX, int minY, int maxX, int maxY) throws FileNotFoundException, IOException {
         //ImageIO.read( ImageIO.read(PathManager.getInstance().getInstallPath().resolve(filename).toUri())));
-        File file =PathManager.getInstance().getHomePath().resolve(filename).toFile();
-        BufferedImage originalImage=ImageIO.read(new FileInputStream(file));
+        File file = PathManager.getInstance().getHomePath().resolve(filename).toFile();
+        BufferedImage originalImage = ImageIO.read(new FileInputStream(file));
         originalImage.getColorModel();
         System.out.println(originalImage.getColorModel());
 
-        int green=0,red=0,blue=0,rgb;
+        int green = 0, red = 0, blue = 0, rgb;
         int imageWidth = originalImage.getWidth();
         int imageHeight = originalImage.getHeight();
-        Color[][] heights=new Color[maxX-minX ][maxY-minY ];
-        for(int i = minX;i < maxX ;i++)
-        {
-            for(int j = minY;j < maxY ;j++)
-            {
+        Color[][] heights = new Color[maxX - minX][maxY - minY];
+        for (int i = minX; i < maxX; i++) {
+            for (int j = minY; j < maxY; j++) {
 //ͼƬ�����ص���ʵ�Ǹ�����������������forѭ������ÿ�����ؽ��в���
                 Object data = originalImage.getRaster().getDataElements(i, j, null);//��ȡ�õ����أ�����object���ͱ�ʾ
 
                 red = originalImage.getColorModel().getRed(data);
-                if(red!=0){
+                if (red != 0) {
                     blue = originalImage.getColorModel().getBlue(data);
                     green = originalImage.getColorModel().getGreen(data);
-                    heights[i-minX][j-minY]=new Color(red,blue,green);
+                    heights[i - minX][j - minY] = new Color(red, blue, green);
                 }
             }
 
@@ -878,28 +884,25 @@ public class ImageUtil {
     }
 
 
-    public static Color[][] getGrayPicture(BufferedImage originalImage,int minX,int minY,int maxX,int maxY) throws FileNotFoundException, IOException
-    {
+    public static Color[][] getGrayPicture(BufferedImage originalImage, int minX, int minY, int maxX, int maxY) throws FileNotFoundException, IOException {
         //ImageIO.read( ImageIO.read(PathManager.getInstance().getInstallPath().resolve(filename).toUri())));
         originalImage.getColorModel();
         //System.out.println(originalImage.getColorModel());
 
-        int green=0,red=0,blue=0,rgb;
+        int green = 0, red = 0, blue = 0, rgb;
         int imageWidth = originalImage.getWidth();
         int imageHeight = originalImage.getHeight();
-        Color[][] heights=new Color[maxX-minX ][maxY-minY ];
-        for(int i = minX;i < maxX ;i++)
-        {
-            for(int j = minY;j < maxY ;j++)
-            {
+        Color[][] heights = new Color[maxX - minX][maxY - minY];
+        for (int i = minX; i < maxX; i++) {
+            for (int j = minY; j < maxY; j++) {
 //ͼƬ�����ص���ʵ�Ǹ�����������������forѭ������ÿ�����ؽ��в���
                 Object data = originalImage.getRaster().getDataElements(i, j, null);//��ȡ�õ����أ�����object���ͱ�ʾ
 
                 red = originalImage.getColorModel().getRed(data);
-                if(red!=0){
+                if (red != 0) {
                     blue = originalImage.getColorModel().getBlue(data);
                     green = originalImage.getColorModel().getGreen(data);
-                    heights[i-minX][j-minY]=new Color(red,blue,green);
+                    heights[i - minX][j - minY] = new Color(red, blue, green);
                 }
             }
 
@@ -908,28 +911,25 @@ public class ImageUtil {
 
     }
 
-    public static int[][] getColorPicture(String filename) throws FileNotFoundException, IOException
-    {
-        File file =new File(filename);
-        BufferedImage originalImage=ImageIO.read(new FileInputStream(file));
+    public static int[][] getColorPicture(String filename) throws FileNotFoundException, IOException {
+        File file = new File(filename);
+        BufferedImage originalImage = ImageIO.read(new FileInputStream(file));
         originalImage.getColorModel();
         System.out.println(originalImage.getColorModel());
 
-        int green=0,red=0,blue=0,rgb;
+        int green = 0, red = 0, blue = 0, rgb;
         int imageWidth = originalImage.getWidth();
         int imageHeight = originalImage.getHeight();
-        int[][] heights=new int[imageWidth][imageHeight];
-        for(int i = originalImage.getMinX();i < imageWidth ;i++)
-        {
-            for(int j = originalImage.getMinY();j < imageHeight ;j++)
-            {
+        int[][] heights = new int[imageWidth][imageHeight];
+        for (int i = originalImage.getMinX(); i < imageWidth; i++) {
+            for (int j = originalImage.getMinY(); j < imageHeight; j++) {
 //ͼƬ�����ص���ʵ�Ǹ�����������������forѭ������ÿ�����ؽ��в���
                 Object data = originalImage.getRaster().getDataElements(i, j, null);//��ȡ�õ����أ�����object���ͱ�ʾ
 
                 red = originalImage.getColorModel().getRed(data);
                 blue = originalImage.getColorModel().getBlue(data);
                 green = originalImage.getColorModel().getGreen(data);
-                heights[i][j]=red;
+                heights[i][j] = red;
             }
 
         }
@@ -939,40 +939,37 @@ public class ImageUtil {
 
     /**
      * 图片转成灰度
+     *
      * @param originalImage
      * @return
      */
 
-    public BufferedImage getGrayPicture(BufferedImage originalImage)
-    {
+    public BufferedImage getGrayPicture(BufferedImage originalImage) {
         originalImage.getColorModel();
         System.out.println(originalImage.getColorModel());
-        int green=0,red=0,blue=0,rgb;
+        int green = 0, red = 0, blue = 0, rgb;
         int imageWidth = originalImage.getWidth();
         int imageHeight = originalImage.getHeight();
-        for(int i = originalImage.getMinX();i < imageWidth ;i++)
-        {
-            for(int j = originalImage.getMinY();j < imageHeight ;j++)
-            {
+        for (int i = originalImage.getMinX(); i < imageWidth; i++) {
+            for (int j = originalImage.getMinY(); j < imageHeight; j++) {
 //ͼƬ�����ص���ʵ�Ǹ�����������������forѭ������ÿ�����ؽ��в���
                 Object data = originalImage.getRaster().getDataElements(i, j, null);//��ȡ�õ����أ�����object���ͱ�ʾ
 
                 red = originalImage.getColorModel().getRed(data);
                 blue = originalImage.getColorModel().getBlue(data);
                 green = originalImage.getColorModel().getGreen(data);
-                red = (red*3 + green*6 + blue*1)/10;
+                red = (red * 3 + green * 6 + blue * 1) / 10;
                 green = red;
                 blue = green;
 /*
 ���ｫr��g��b��ת��Ϊrgbֵ����ΪbufferedImageû���ṩ���õ�����ɫ�ķ�����ֻ������rgb��rgb���Ϊ8388608�����������ֵʱ��Ӧ��ȥ255*255*255��16777216
 */
-                rgb = (red*256 + green)*256+blue;
-                if(rgb>8388608)
-                {
+                rgb = (red * 256 + green) * 256 + blue;
+                if (rgb > 8388608) {
                     rgb = rgb - 16777216;
                 }
 //��rgbֵд��ͼƬ
-                System.out.printf(" %d %d %d \r\n",red,blue,green);
+                System.out.printf(" %d %d %d \r\n", red, blue, green);
             }
 
         }
@@ -980,8 +977,7 @@ public class ImageUtil {
         return originalImage;
     }
 
-    public BufferedImage getGrayPictureAPI(BufferedImage originalImage)
-    {
+    public BufferedImage getGrayPictureAPI(BufferedImage originalImage) {
         BufferedImage grayPicture;
         int imageWidth = originalImage.getWidth();
         int imageHeight = originalImage.getHeight();
@@ -997,17 +993,18 @@ public class ImageUtil {
 
     /**
      * 将数组转成图片
+     *
      * @param bts
      * @param width
      * @param height
      * @return
      */
-    public static BufferedImage rgbbyteToImage(byte[] bts,int width,int height){
+    public static BufferedImage rgbbyteToImage(byte[] bts, int width, int height) {
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-        int[] data=new int[width*height*3];
-        for(int i=0;i<data.length;i++){
-            data[i]=bts[i];
+        int[] data = new int[width * height * 3];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = bts[i];
         }
         image.setRGB(0, 0, width, height, data, 0, width);
         return image;
@@ -1015,23 +1012,24 @@ public class ImageUtil {
 
     /**
      * 图片转成数组
+     *
      * @param bufferedImage
      * @return
      */
-    public static byte[] imageToRGBByte(BufferedImage bufferedImage){
+    public static byte[] imageToRGBByte(BufferedImage bufferedImage) {
 
-        int width =bufferedImage.getWidth();
+        int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
-        byte[] bytes = new byte[height*width*3];
-        for(int j=0;j<height;j++){
-            for(int i=0;i<width;i++){
+        byte[] bytes = new byte[height * width * 3];
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
                 Object data = bufferedImage.getRaster().getDataElements(i, j, null);
                 int red = bufferedImage.getColorModel().getRed(data);
                 int blue = bufferedImage.getColorModel().getBlue(data);
                 int green = bufferedImage.getColorModel().getGreen(data);
-                bytes[(j*width+i)*3+0]= (byte)(red);
-                bytes[(j*width+i)*3+1]= (byte)(green);
-                bytes[(j*width+i)*3+2]= (byte)(blue);
+                bytes[(j * width + i) * 3 + 0] = (byte) (red);
+                bytes[(j * width + i) * 3 + 1] = (byte) (green);
+                bytes[(j * width + i) * 3 + 2] = (byte) (blue);
             }
         }
 
@@ -1041,33 +1039,34 @@ public class ImageUtil {
 
     public static BufferedImage bytesToImage(byte[] b) throws IOException {
         ByteArrayInputStream in = new ByteArrayInputStream(b);    //将b作为输入流；
-        BufferedImage image = ImageIO.read( in);     //将in作为输入流，读取图片存入image中，而这里in可以
+        BufferedImage image = ImageIO.read(in);     //将in作为输入流，读取图片存入image中，而这里in可以
         return image;
     }
 
     /**
      * 从url 下载图片
+     *
      * @param url
-     * @throws Exception  非图片 url 不可读  写文件失败
+     * @throws Exception 非图片 url 不可读  写文件失败
      */
-    public static   BufferedImage saveImageFromUrl(String url ,Path path,String fileName) throws Exception {
-        logger.debug("url:"+url);
-        logger.debug("fileName:"+fileName);
+    public static BufferedImage saveImageFromUrl(String url, Path path, String fileName) throws Exception {
+        logger.debug("url:" + url);
+        logger.debug("fileName:" + fileName);
 
         File folder = path.toFile();
-        if(!folder.exists()){
+        if (!folder.exists()) {
             folder.mkdirs();
         }
 
-        InputStream inputStream =null;
+        InputStream inputStream = null;
         try {
-             inputStream = HttpRequestUtil.getInputStream(url);//获取输入流 在final里关闭
-            return saveAsJpg(inputStream,path,fileName);
-        }catch ( Exception e){
-            logger.error( "saveImageFromUrl",e);
+            inputStream = HttpRequestUtil.getInputStream(url);//获取输入流 在final里关闭
+            return saveAsJpg(inputStream, path, fileName);
+        } catch (Exception e) {
+            logger.error("saveImageFromUrl", e);
             throw e;
-        }finally {
-            if(inputStream!=null){
+        } finally {
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
@@ -1076,28 +1075,29 @@ public class ImageUtil {
 
     /**
      * 从url 下载图片
+     *
      * @param fromFile
      * @param path
      * @param fileName
      * @return
-     * @throws Exception   非图片 url 不可读  写文件失败
+     * @throws Exception 非图片 url 不可读  写文件失败
      */
-    public static   BufferedImage saveImageFromFile(File fromFile ,Path path,String fileName) throws Exception {
+    public static BufferedImage saveImageFromFile(File fromFile, Path path, String fileName) throws Exception {
 
-        logger.debug("fileName:"+fileName);
+        logger.debug("fileName:" + fileName);
         File folder = path.toFile();
-        if(!folder.exists()){
+        if (!folder.exists()) {
             folder.mkdirs();
         }
-        InputStream inputStream =null;
+        InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(fromFile);//获取输入流 在final里关闭
-            return saveAsJpg(inputStream,path,fileName);
-        }catch ( Exception e){
-            logger.error( "saveImageFromUrl",e);
+            return saveAsJpg(inputStream, path, fileName);
+        } catch (Exception e) {
+            logger.error("saveImageFromUrl", e);
             throw e;
-        }finally {
-            if(inputStream!=null){
+        } finally {
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
@@ -1106,61 +1106,76 @@ public class ImageUtil {
 
     /**
      * 由于之前的imageIo方法从png转成jpg会导致颜色失真 所以改造成这个方法了
+     *
      * @param inputStream
      * @param path
      * @param fileName
      * @return
      * @throws Exception
      */
-    public static BufferedImage saveAsJpg(InputStream inputStream,Path path,String fileName )throws  Exception {
+    public static BufferedImage saveAsJpg(InputStream inputStream, Path path, String fileName/*,String imgType*/) throws Exception {
+
+        File file = path.resolve(fileName).toFile();//获取文件位置 尝试创建目录
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+
+//        if(imgType.equals(TYPE_JPG)){
+//            //如果是jpg图片的话那怎么办呢
+//            //直接保存到本地
+//            FileUtil.writeFileFromStream(inputStream,fileName,path);
+//
+//        }else {
+
+
         BufferedImage source = ImageIO.read(inputStream);//将流转化成图片 如果不是图片这里会报错 直接爆出异常给调用者
-        if(source==null){
+
+        if (source == null) {
             throw new IOException("图片读取失败 iamge read failed!:");
         }
+
+
         int width = source.getWidth();//获取个宽度
         int height = source.getHeight();//获取高度
         logger.debug("读取网络图片成功 read image from url succ:成功 width:" + width + "height:" + height);
-
-        File file = path.resolve(fileName).toFile();//获取文件位置 尝试创建目录
-        if(!file.getParentFile().exists()){
-            file.getParentFile().mkdirs();
-        }
 
 
         // create a blank, RGB, same width and height, and a white background
         BufferedImage newBufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         newBufferedImage.createGraphics().drawImage(source, 0, 0, Color.WHITE, null);
 
-        ImageIO.write(newBufferedImage,"jpeg",file);//开始写文件
+        ImageIO.write(newBufferedImage, "jpeg", file);//开始写文件
         //保存完图片
-        logger.debug("save image file to disk  succ 下载图片:" +file.getAbsolutePath());
+        logger.debug("save image file to disk  succ 下载图片:" + file.getAbsolutePath());
         return newBufferedImage;
+//        }
     }
+
     /***
-     *
      * 批量移动图片到另一个文件夹
-     * @param startFile 起始文件夹
-     * @param endFile   移动的文件夹
-     * @param imgPathName   文件名
-     *@author: 王作品
-     *@date: 2017/9/25 0025 下午 18:30
+     *
+     * @param startFile   起始文件夹
+     * @param endFile     移动的文件夹
+     * @param imgPathName 文件名
+     * @author: 王作品
+     * @date: 2017/9/25 0025 下午 18:30
      */
 
-    public static void removeFile(String startFile,String endFile,String imgPathName){
-        File file=new File(startFile);
-        for (String filpath: file.list()) {
-            File dataFile=new File(startFile+filpath+"/"+imgPathName);
-            File targetFile=new File(endFile+filpath+"/"+imgPathName);
+    public static void removeFile(String startFile, String endFile, String imgPathName) {
+        File file = new File(startFile);
+        for (String filpath : file.list()) {
+            File dataFile = new File(startFile + filpath + "/" + imgPathName);
+            File targetFile = new File(endFile + filpath + "/" + imgPathName);
             long imageSize = dataFile.getTotalSpace();
-            if(imageSize==0){
+            if (imageSize == 0) {
                 continue;
             }
             try {
-                FileUtil.copyFile(dataFile,targetFile);
+                FileUtil.copyFile(dataFile, targetFile);
                 FileUtil.deleteDir(dataFile);
-            }catch (FileNotFoundException e){
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            } catch(IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -1169,42 +1184,41 @@ public class ImageUtil {
 
 
     /***
-     *
      * 批量删除文件
      *
-     * @param filePath 文件目录
-     * @param imgPathName  文件名 null 为删除文件夹， ！null 删除文件
-     * @param  quietly  true 本身一起删除 ，false  删除本身下的说有文件文件夹
-     *@author: 王作品
-     *@date: 2017/9/25 0025 下午 18:30
+     * @param filePath    文件目录
+     * @param imgPathName 文件名 null 为删除文件夹， ！null 删除文件
+     * @param quietly     true 本身一起删除 ，false  删除本身下的说有文件文件夹
+     * @author: 王作品
+     * @date: 2017/9/25 0025 下午 18:30
      */
 
-    public static void deleteFile(String filePath,String imgPathName,boolean quietly) throws Exception{
+    public static void deleteFile(String filePath, String imgPathName, boolean quietly) throws Exception {
         //删除文件夹
-        if(imgPathName==null && quietly){
+        if (imgPathName == null && quietly) {
             FileUtil.deleteDir(new File(filePath));
             return;
         }
         //删除文件夹下的文件下的文件夹，及文件
-        File file=new File(filePath);
-        if(imgPathName==null && !quietly){
-            if(file!=null && file.list()!=null){
-                for (String filpath: file.list()) {
-                    FileUtil.deleteDir(new File(filePath+filpath));
+        File file = new File(filePath);
+        if (imgPathName == null && !quietly) {
+            if (file != null && file.list() != null) {
+                for (String filpath : file.list()) {
+                    FileUtil.deleteDir(new File(filePath + filpath));
                 }
             }
             return;
         }
         //删除文件
-        for (String filpath: file.list()) {
-            File dataFile=new File(filePath+filpath+"/"+imgPathName);
+        for (String filpath : file.list()) {
+            File dataFile = new File(filePath + filpath + "/" + imgPathName);
             long imageSize = dataFile.getTotalSpace();
-            if(imageSize==0){
+            if (imageSize == 0) {
                 continue;
             }
-            try{
+            try {
                 FileUtil.deleteDir(dataFile);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -1239,8 +1253,6 @@ public class ImageUtil {
 //        }
 //        return  MD5Util.getStringMD5String(new String(buf,0,len)+imageSize+imgOrgnalName+"Awifi");
 //    }
-
-
 
 
 //    /**
@@ -1321,9 +1333,9 @@ public class ImageUtil {
 
     /**
      * 本地图片转换成base64字符串
-     * @param imgFile	图片本地路径
-     * @return
      *
+     * @param imgFile 图片本地路径
+     * @return
      * @author ZHANGJL
      * @dateTime 2018-02-23 14:40:46
      */
@@ -1350,13 +1362,11 @@ public class ImageUtil {
     }
 
 
-
     /**
      * 在线图片转换成base64字符串
      *
-     * @param imgURL	图片线上路径
+     * @param imgURL 图片线上路径
      * @return
-     *
      * @author ZHANGJL
      * @dateTime 2018-02-23 14:43:18
      */
@@ -1386,7 +1396,95 @@ public class ImageUtil {
         return encoder.encode(data.toByteArray());
     }
 
+//    public static void saveJpg(File file) throws MetadataException {
+        /**
+         * 旋转图片
+         */
+//        Metadata metadata = JpegMetadataReader.readMetadata(new File(图片路径));
+//        Directory directory = metadata.getFirstDirectoryOfType(ExifDirectoryBase.class);
+//        int orientation = 0;
+//        if (directory != null && directory.containsTag(ExifDirectoryBase.TAG_ORIENTATION)) { // Exif信息中有保存方向,把信息复制到缩略图
+//            orientation = directory.getInt(ExifDirectoryBase.TAG_ORIENTATION); // 原图片的方向信息
+//            System.err.println("orientation:" + orientation);
+//        }
+//
+//        if (orientation == 1) {
+//            System.out.println("rotate 90");
+//            BufferedImage src = ImageIO.read(file);
+//            BufferedImage des = Rotate(src, 0);
+//            ImageIO.write(des, "jpg", file);
+//        } else if (6 == orientation) {
+//            // 6旋转90
+//            System.out.println("rotate 90");
+//            BufferedImage src = ImageIO.read(new File(poetry.getPicurl()));
+//            BufferedImage des = Rotate(src, 90);
+//            ImageIO.write(des, "jpg", new File(poetry.getPicurl()));
+//        } else if (3 == orientation) {
+//            // 3旋转180
+//            System.out.println("rotate 180");
+//            BufferedImage src = ImageIO.read(new File(poetry.getPicurl()));
+//            BufferedImage des = Rotate(src, 180);
+//            ImageIO.write(des, "jpg", new File(poetry.getPicurl()));
+//        } else if (8 == orientation) {
+//            // 8旋转90
+//            System.out.println("rotate 90");
+//            BufferedImage src = ImageIO.read(new File(poetry.getPicurl()));
+//            BufferedImage des = Rotate(src, 270);
+//            ImageIO.write(des, "jpg", new File(poetry.getPicurl()));
+//        }
+
+//    }
 
 
+    public static BufferedImage Rotate(Image src, int angel) {
+        int src_width = src.getWidth(null);
+        int src_height = src.getHeight(null);
+        // calculate the new image size
+        Rectangle rect_des = CalcRotatedSize(new Rectangle(new Dimension(
+                src_width, src_height)), angel);
+
+        BufferedImage res = null;
+        res = new BufferedImage(rect_des.width, rect_des.height,
+                BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = res.createGraphics();
+        // transform
+        g2.translate((rect_des.width - src_width) / 2,
+                (rect_des.height - src_height) / 2);
+        g2.rotate(Math.toRadians(angel), src_width / 2, src_height / 2);
+
+        g2.drawImage(src, null, null);
+
+
+        return res;
+    }
+
+
+    public static Rectangle CalcRotatedSize(Rectangle src, int angel) {
+        // if angel is greater than 90 degree, we need to do some conversion
+        if (angel >= 90) {
+            if (angel / 90 % 2 == 1) {
+                int temp = src.height;
+                src.height = src.width;
+                src.width = temp;
+            }
+            angel = angel % 90;
+        }
+
+        double r = Math.sqrt(src.height * src.height + src.width * src.width) / 2;
+        double len = 2 * Math.sin(Math.toRadians(angel) / 2) * r;
+        double angel_alpha = (Math.PI - Math.toRadians(angel)) / 2;
+        double angel_dalta_width = Math.atan((double) src.height / src.width);
+        double angel_dalta_height = Math.atan((double) src.width / src.height);
+
+        int len_dalta_width = (int) (len * Math.cos(Math.PI - angel_alpha
+                - angel_dalta_width));
+        int len_dalta_height = (int) (len * Math.cos(Math.PI - angel_alpha
+                - angel_dalta_height));
+        int des_width = src.width + len_dalta_width * 2;
+        int des_height = src.height + len_dalta_height * 2;
+
+
+        return new Rectangle(new Dimension(des_width, des_height));
+    }
 
 }

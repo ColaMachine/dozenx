@@ -195,7 +195,8 @@ where id = #{id,jdbcType=BIGINT}
         </if>  
         <if test="score != null and score != '' ">  
            and FaceCheckinOut.`score` = #{score}
-        </if>  
+        </if>
+       order by id desc
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
     select 

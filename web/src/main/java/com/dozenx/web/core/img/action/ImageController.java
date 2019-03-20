@@ -101,7 +101,7 @@ public class ImageController extends BaseController {
 
     @RequestMapping(value = "/upload/submit")
     @ResponseBody
-    public ResultDTO uploadSubmitNew(@RequestParam(value = "pic1") MultipartFile image) {
+    public ResultDTO uploadSubmitNew(@RequestParam(value = "pic1") MultipartFile image) throws Exception {
         String fileName =  System.currentTimeMillis() + "." + Config.getInstance().getImage().getType();
         String uploadPath = //FilePathUtil.joinPath(Config.getInstance().getImage().getServerDir(),FilePathUtil.getYMDPathAffix());
                 PathManager.getInstance().getWebRootPath().resolve(Config.getInstance().getImage().getServerDir()).resolve(FilePathUtil.getYMDPathAffix()).toString();

@@ -1,6 +1,5 @@
 package com.dozenx.web.util;
 
-import com.dozenx.core.config.Config;
 import com.dozenx.core.exception.ValidException;
 import com.dozenx.util.*;
 import com.dozenx.util.encrypt.Base64Decoder;
@@ -10,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +46,7 @@ public class WebImageUtil {
      * @param name
      * @return
      */
-    public static String  saveUploadImageToDisk(MultipartFile file,String path,String name ){
+    public static String  saveUploadImageToDisk(MultipartFile file,String path,String name ) throws Exception {
         Path pth = Paths.get(path);
         File destFile = pth.toFile();
         if(!destFile.exists()){
@@ -61,25 +59,30 @@ public class WebImageUtil {
         if(StringUtil.isBlank(type)) {
             throw  new ValidException("E2030001","图片格式为空不正确");
         } else if(!type.equals("image/jpeg") && !type.equals("image/png") && !type.equals("image/bmp")) {
+
             throw  new ValidException("E2030002","图片格式不正确");
         } else {
 
-            BufferedImage img = null;
+
+//            BufferedImage img = null;
             try {
-                img = ImageIO.read(file.getInputStream());
+                InputStream inputStream = file.getInputStream();
+                type = type.substring(6).toLowerCase();
+                logger.debug("上传图片格式"+type);
+                 ImageUtil.saveAsJpg(inputStream,Paths.get(path),name);
             } catch (Exception e) {
                 logger.info("保存图片出错",e);
                 throw  new ValidException("E2030004","图片读取出错");
             }
-            if(img == null || img.getWidth() <= 0 || img.getHeight() <= 0) {
-                throw  new ValidException("E2030003","图片大小不合法");
-            }
-            try {
-                ImageIO.write(img, Config.getInstance().getImage().getType(), destFile);
-            } catch (Exception e) {
-                logger.info("保存图片出错",e);
-                throw  new ValidException("E2030005","图片保存出错");
-            }
+//            if(img == null || img.getWidth() <= 0 || img.getHeight() <= 0) {
+//                throw  new ValidException("E2030003","图片大小不合法");
+//            }
+//            try {
+//                ImageIO.write(img, Config.getInstance().getImage().getType(), destFile);
+//            } catch (Exception e) {
+//                logger.info("保存图片出错",e);
+//                throw  new ValidException("E2030005","图片保存出错");
+//            }
             return FilePathUtil.joinPath(path,name);
         }
     }
@@ -123,5 +126,7 @@ public class WebImageUtil {
             e.printStackTrace();
         }
     }
+
+
 
 }

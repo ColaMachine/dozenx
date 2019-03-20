@@ -75,6 +75,21 @@ public class FilePathUtil {
 		}
 		return prefix+affix;
 	}
+
+	public static String joinPath(String prefix ,String seperator,String ... affix){
+		for(String str: affix){
+			if(!prefix.endsWith(seperator)){
+				prefix+=seperator;
+			}
+			if(StringUtil.isNotBlank(str) && str.startsWith(seperator)){
+				str=str.substring(1);
+			}
+			prefix+=str;
+
+		}
+
+		return prefix;
+	}
 	public static String getYMDPathAffix(String path){
 
 		return joinPath(path,DateUtil.toDateStr(new java.util.Date(),"yyyy/MM/dd/"));
