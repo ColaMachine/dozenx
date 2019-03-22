@@ -20,7 +20,7 @@ public class ReadJs {
         try {
             ReadJs readjs = new ReadJs();
 
-            readjs.readConfigFile("/home/colamachine/workspace/code/java/dozenx/ui/ReadJs.js");
+            readjs.readConfigFile("ReadJs.js");
             readjs.run();
         } catch (IOException e) {
             e.printStackTrace();
@@ -195,7 +195,14 @@ public static void addArgsName(List<String> args ,String s) {
     }
 }
 
-    public static void jumpSpace(){
-
+    public static void jumpSpace(StringBuffer content,CountableNum pos){
+        while (true){
+            char ch = content.charAt(pos.val());
+            if(ch==' '){
+                pos.add();
+            }else{
+                break;
+            }
+        }
     }
 }

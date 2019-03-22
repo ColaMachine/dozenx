@@ -16,7 +16,7 @@ CREATE TABLE `center_pub_area` (
   PRIMARY KEY (`ID`),
   KEY `ind_cpa_id` (`ID`) USING BTREE,
   KEY `ind_cpa_pid` (`PARENT_ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3426 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='地区';
 
 
 
@@ -30,6 +30,7 @@ CREATE TABLE `oper_log` (
  `userId` bigint(11)    COMMENT '操作人',
  `ip` varchar(30)    COMMENT '用户ip',
  `userName` varchar(30)    COMMENT '操作人',
+
  `createTime` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志';
@@ -37,30 +38,6 @@ CREATE TABLE `oper_log` (
 
 
 
-
-
-
-
-
-
-
-
-
-
-CREATE TABLE `Activity` (
-  `id` bigint(15) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `title` varchar(40) NOT NULL COMMENT '名称',
-  `startTime` int(11) NOT NULL COMMENT '开始时间',
-  `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
-  `address` varchar(40) DEFAULT '0' COMMENT '地址',
-  `userId` bigint(11) NOT NULL COMMENT '用户id',
-  `description` varchar(250) DEFAULT NULL COMMENT '详细描述',
-  `privacy` tinyint(1) DEFAULT NULL COMMENT '是否公开',
-  `busyLevel` tinyint(1) DEFAULT NULL COMMENT '是否紧急',
-  `type` tinyint(1) DEFAULT NULL COMMENT '类型',
-  `isdel` tinyint(1) DEFAULT NULL COMMENT '是否已删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20181121916 DEFAULT CHARSET=utf8 COMMENT='日历事项';
 
 
 CREATE TABLE `sys_user` (
@@ -87,12 +64,13 @@ CREATE TABLE `sys_user` (
   `province` int(11) DEFAULT NULL COMMENT '省',
   `city` int(11) DEFAULT NULL COMMENT '市',
   `county` int(11) DEFAULT NULL COMMENT '区',
-  `outId` bigint(13) DEFAULT NULL,
-  `code` varchar(45) DEFAULT NULL,
-  `org` varchar(45) DEFAULT NULL,
-  `depart` varchar(45) DEFAULT NULL,
+  `outId` bigint(13) DEFAULT NULL COMMENT '外部id',
+  `code` varchar(45) DEFAULT NULL COMMENT '编号',
+  `org` varchar(45) DEFAULT NULL COMMENT '公司',
+  `depart` varchar(45) DEFAULT NULL COMMENT '部门',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户';
+
 
 
 
@@ -117,7 +95,7 @@ CREATE TABLE `pwdrst` (
   `resettime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP   COMMENT '重置时间',
   `used` tinyint(1) DEFAULT NULL COMMENT '是否使用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='密码重置';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='密码重置';
 
 
 CREATE TABLE `sys_log` (
@@ -131,7 +109,7 @@ CREATE TABLE `sys_log` (
   `startTime` timestamp NULL DEFAULT NULL COMMENT '开始时间',
   `user` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=617 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志';
 
 CREATE TABLE `SmsRecord` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -142,7 +120,7 @@ CREATE TABLE `SmsRecord` (
   `status` tinyint(4) DEFAULT '1' COMMENT '发送状态',
   `reason` varchar(200) DEFAULT NULL COMMENT '失败原因',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COMMENT='短信验证码发送历史';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='短信验证码发送历史';
 
 
 
@@ -158,7 +136,7 @@ CREATE TABLE `sys_role` (
   `create_time` date DEFAULT NULL,
   `update_time` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统角色';
 
 CREATE TABLE `sys_permission` (
   `id` bigint(10) NOT NULL AUTO_INCREMENT,
@@ -170,7 +148,7 @@ CREATE TABLE `sys_permission` (
   `status` int(1) NOT NULL DEFAULT '1',
   `remark` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统权限';
 
 
 CREATE TABLE `sys_menu` (
@@ -185,7 +163,7 @@ CREATE TABLE `sys_menu` (
   `remark` varchar(20) DEFAULT NULL,
   `icon` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统菜单';
 
 
 
@@ -197,7 +175,7 @@ CREATE TABLE `sys_role_menu` (
   KEY `fk_role_menu_menuid_idx` (`menu_id`),
   CONSTRAINT `FK_Reference_1` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`),
   CONSTRAINT `fk_role_menu_menuid` FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户菜单';
 
 
 CREATE TABLE `sys_role_permission` (
@@ -224,7 +202,9 @@ CREATE TABLE `sys_user_role` (
   KEY `FK_Reference_7` (`role_id`),
   CONSTRAINT `FK_Reference_6` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`),
   CONSTRAINT `FK_Reference_7` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+
+
 
 
 
@@ -234,33 +214,18 @@ INSERT INTO `sys_role` (`id`, `name`, `code`, `order_no`, `status`, `remark`) VA
 INSERT INTO `sys_role` (`id`, `name`, `code`, `status`, `remark`) VALUES ('2', '普通用户', 'SUBADMIN', '1', '只有查询权限');
 
 
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `code`, `permission`, `url`, `order_no`, `status`, `remark`, `icon`) VALUES ('2', '0', '广告管理', '', 'advert:pos', '/ad', '0', '0', '1级1备注', 'icon-ad');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`, `remark`, `icon`) VALUES ('3', '2', '广告位列表', 'advert:pos:list', '/ad/position', '1', '0', '1ji1', '');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`, `remark`) VALUES ('4', '2', '广告策略列表', 'strategy:list', '/ad/strategy', '2', '9', '1ji1');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`, `remark`, `icon`) VALUES ('5', '0', '数据报表', 'report', '/report', '10', '0', '1ji1', 'icon-report');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`, `remark`) VALUES ('6', '5', '日报表', 'report:list', '/report/daily', '11', '0', '1ji1');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`, `remark`, `icon`) VALUES ('7', '0', '合作平台管理', 'platform', '/platform', '20', '0', '1ji1', 'icon-platform');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`, `remark`) VALUES ('8', '7', '平台列表', 'platform:list', '/platform/list', '21', '0', '1ji1');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`) VALUES ('9', '2', '投放管理', '', '/ad/release', '4', '0');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `url`, `order_no`, `status`) VALUES ('10', '2', '素材管理', '/ad/material', '3', '0');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `url`, `order_no`, `status`, `icon`) VALUES ('11', '0', '系统管理', '/system', '30', '0', 'icon-system');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`) VALUES ('12', '11', '账号管理', 'user:list', '/system/account', '32', '0');
-INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`) VALUES ('13', '11', '角色配置', 'role:list', '/system/role', '31', '0');
+
+INSERT INTO `sys_menu` (`id`, `pid`, `name`, `url`, `order_no`, `status`, `icon`) VALUES ('1', '0', '系统管理', '/system', '30', '0', 'icon-system');
+INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`) VALUES ('2', '11', '账号管理', 'user:list', '/system/account', '32', '0');
+INSERT INTO `sys_menu` (`id`, `pid`, `name`, `permission`, `url`, `order_no`, `status`) VALUES ('3', '11', '角色配置', 'role:list', '/system/role', '31', '0');
 
 
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES ('1', '1');
+
+INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '1');
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '2');
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '3');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '4');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '5');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '6');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '7');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '8');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '9');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '10');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '11');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '12');
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES ('1', '13');
+
 
 
 
@@ -290,47 +255,11 @@ INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '10'
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '11');
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '12');
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '13');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '15');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '16');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '17');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '18');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '20');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '21');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '22');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '23');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '24');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '26');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '27');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '28');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '29');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '30');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '31');
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '32');
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '33');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '35');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '36');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '38');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '39');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '40');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '41');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '42');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '43');
-INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '44');
 
-
-
-ALTER TABLE `sys_user`
-
-ADD COLUMN `code` VARCHAR(45) NULL DEFAULT NULL AFTER `outId`,
-ADD COLUMN `org` VARCHAR(45) NULL DEFAULT NULL AFTER `code`,
-ADD COLUMN `depart` VARCHAR(45) NULL DEFAULT NULL AFTER `org`;
-
-
-ALTER TABLE `oper_log`
-ADD COLUMN `result` TEXT NULL AFTER `createTime`;
-
-ALTER TABLE `oper_log`
-ADD COLUMN `params` TEXT NULL AFTER `result`;
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '51');
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`) VALUES ('1', '52');
 
 
 
@@ -338,6 +267,25 @@ ADD COLUMN `params` TEXT NULL AFTER `result`;
 
 
 
+
+
+
+
+
+CREATE TABLE `Activity` (
+  `id` bigint(15) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `title` varchar(40) NOT NULL COMMENT '名称',
+  `startTime` int(11) NOT NULL COMMENT '开始时间',
+  `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
+  `address` varchar(40) DEFAULT '0' COMMENT '地址',
+  `userId` bigint(11) NOT NULL COMMENT '用户id',
+  `description` varchar(250) DEFAULT NULL COMMENT '详细描述',
+  `privacy` tinyint(1) DEFAULT NULL COMMENT '是否公开',
+  `busyLevel` tinyint(1) DEFAULT NULL COMMENT '是否紧急',
+  `type` tinyint(1) DEFAULT NULL COMMENT '类型',
+  `isdel` tinyint(1) DEFAULT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20181121916 DEFAULT CHARSET=utf8 COMMENT='日历事项';
 
 
 

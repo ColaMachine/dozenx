@@ -11,7 +11,7 @@ import java.util.List;
  * @Date: Created in 15:08 2019/3/21
  * @Modified By:
  */
-public class JsFunctionCall implements Expression {
+public class JsFunctionCall extends Expression {
    // public JsFunctionDefinition jsFunction;
     public String functionName;
     public List<String> argsName=new ArrayList<>();

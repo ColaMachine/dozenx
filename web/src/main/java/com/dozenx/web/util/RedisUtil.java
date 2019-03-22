@@ -85,7 +85,7 @@ public final class RedisUtil {
             /** Redis index */
             int INDEX = Integer.valueOf(ConfigUtil.getConfig("cache.redis.database.index"));
 
-            logger.debug("redis connect ip:" + ADDR + " port:" + PORT + " index:" + INDEX);
+
 
 
             /** 访问密码 */
@@ -122,8 +122,9 @@ public final class RedisUtil {
 
             // logger.debug(String.format("初始化redis ADDR:%s"));
             //   jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
+            logger.info("connect to redis:"+ADDR+" port:"+PORT +" pwd:"+AUTH+ " index:" + INDEX);
             jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH, INDEX);
-            logger.info("connect to redis:"+ADDR+" port:"+PORT +" pwd:"+AUTH);
+
             if (getJedis() == null) {
                 logger.error("redis can't get jedis  redis启动失败");
                 System.exit(0);

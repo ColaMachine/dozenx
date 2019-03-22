@@ -665,8 +665,8 @@ public class SshUtil {
 //        String tomcatPath = "/data/service/tomcat-ezhike-biz-8085";
 //
 //SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
-       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
-//        SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
+//       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
+        SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
 //        SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
         //  SshUtil .updateTomecatWebappAndRestart();
     }
