@@ -11,26 +11,24 @@ import java.util.List;
  * @Date: Created in 15:08 2019/3/21
  * @Modified By:
  */
-public class JsFunctionCall implements Expression {
+public class VarExpression extends Expression {
    // public JsFunctionDefinition jsFunction;
-    public String functionName;
+    public Expression variableName;
+    public Expression rightValue;//可能是一个 数组 字符串 数字 函数 bool null json{} object
     public List<String> argsName=new ArrayList<>();
     //解析从圆括号开始
-    public JsFunctionCall(String functionName,StringBuffer content,CountableNum pos){
-        this.functionName= functionName;
-       // JsFunctionDefinition jsFunction = ReadJs.functions.get(functionName);
-       // if(jsFunction!=null){
-            //找到了
-       // }else{
-            //等待装备
-       // }
-
+    public VarExpression( StringBuffer content, CountableNum pos){
+        //ReadJs.read
+        ReadJs.jumpSpace(content,pos);
         String lastWord=null,word=null;
         while (true){
             if(ReadJs.isValidWord(word)){
                 lastWord =word;
             }
             word = ReadJs.readOneWord(content,pos);
+            if(ReadJs.isValidWord(word)){
+                variableName = word;
+            }
             if(word.equals(",")){
                 argsName.add(lastWord);
             }else if(word.equals(")")){

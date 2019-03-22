@@ -1,9 +1,5 @@
 package com.dozenx;
 
-import com.dozenx.util.CompareTxt;
-import com.dozenx.util.FileUtil;
-import com.dozenx.util.LogUtil;
-
 import java.io.*;
 import java.util.*;
 
@@ -14,12 +10,17 @@ import java.util.*;
  * @Modified By:
  */
 public class ReadJs {
-    public static  Map<String,JsFunction> functions =new HashMap();
-    public static void main(){
+    public static  Map<String,FunctionDefinition> functions =new HashMap();
+
+    public static Map<String,Object> variables = new HashMap<>();
+
+    public static void main(String args[]){
+        FunctionDefinition alert = new AlertFunction();
+        functions.put("alert",alert);
         try {
-            ReadJs readjs =
-          new ReadJs();
-            readjs.readConfigFile("ReadJs.js");
+            ReadJs readjs = new ReadJs();
+
+            readjs.readConfigFile("/home/colamachine/workspace/code/java/dozenx/ui/ReadJs.js");
             readjs.run();
         } catch (IOException e) {
             e.printStackTrace();
@@ -29,8 +30,9 @@ public class ReadJs {
 
     }
     public static void run(){
-        for(CommonCode commonCode : codes){
-            commonCode.run();
+        CodeContext codeContext =new CodeContext();
+        for(Expression commonCode : codes){//排除了function定义后剩下的运行代码 分批次运行 每个代码的运行都会影响到当前上线文里的变量的定义
+            commonCode.run(codeContext);
         }
     }
 
@@ -60,22 +62,23 @@ public class ReadJs {
             e.printStackTrace();
         }
 
-        List<JsFunction> blocks = new ArrayList<JsFunction>();
+        List<JsFunctionDefinition> blocks = new ArrayList<JsFunctionDefinition>();
         // String result = conf_read_token();
         CountableNum pos = new CountableNum();
         String lastWord="",word="";
         for (; ; ) {
-            if(word.equals(" ")){
+            if(!" ".equals(word)){
                 lastWord= word;
             }
-             word =readOneWorrd(content,pos);
-
+             word =readOneWord(content,pos);
+            if(word==null)
+                break;
             if(word.equals("//")){
                 jumpToLineEnd(content,pos);//直接读取到行末尾
                 continue;
 
             }else if(word.equals("function")){
-                JsFunction jsFunction =new JsFunction(content,pos);
+                JsFunctionDefinition jsFunction =new JsFunctionDefinition(content,pos);
                 functions.put(jsFunction.name,jsFunction);
 
             }else if(word.equals("(")){
@@ -88,7 +91,7 @@ public class ReadJs {
         //将动作按每200ms 分割 成制定动画
 
     }
-    public static List<CommonCode> codes=new ArrayList<>();
+    public static List<Expression> codes=new ArrayList<>();
 
     public static String readStartUntil(char start,char end,StringBuffer content,CountableNum pos){
         String returnVal="";
@@ -125,15 +128,19 @@ public class ReadJs {
             }
         }
     }
-    public static String  readOneWorrd(StringBuffer content,CountableNum pos){
+    public static String  readOneWord(StringBuffer content,CountableNum pos){
         String word ="";
+        //2019-03-22 10:52:43需不需要判断如果是双引号的就把双引号的包括的内容都当做一个word返回给他
 
         //  // , = + var function ( )
         while(true){
+            if(pos.val()>content.length()-1){
+                return null;
+            }
             char ch = content.charAt(pos.val());
 
             for(int i=0;i<guanjianchar.length;i++){
-                if(ch!=guanjianchar[i] ){
+                if(ch==guanjianchar[i] ){
                    if(word.length()==0){
                        pos.add();
                        return ch+"";
@@ -158,5 +165,37 @@ public class ReadJs {
     public static void jumpToLineEnd(StringBuffer content,CountableNum pos){
         int index = content.indexOf("\n",pos.val());
          pos.val(index);
+    }
+
+    public static boolean  isValidWord(String s){
+        if(s==null){
+            return false;
+        }
+
+        if(" ".equals(s)){
+            return false;
+        }
+        if(s.length()==0){
+            return false;
+        }
+
+        for(int i=0;i<guanjianzi.length;i++){
+            if(s.equals(guanjianzi[i] )){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+public static void addArgsName(List<String> args ,String s) {
+    if (isValidWord(s)) {
+        args.add(s);
+    }
+}
+
+    public static void jumpSpace(){
+
     }
 }

@@ -1,7 +1,6 @@
 package com.dozenx;
 
 import com.dozenx.util.LogUtil;
-import com.dozenx.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +17,19 @@ public class IfStateMent {
     //函数表达式
 
     //左右比对
-    List<CommonCode> judgeCodes =new ArrayList<>();
-    List<CommonCode>  ifBody =new ArrayList<>();
+    List<Expression> judgeCodes =new ArrayList<>();
+    List<Expression>  ifBody =new ArrayList<>();
 
     public IfStateMent(StringBuffer content,CountableNum pos){
-        String lastWord="";
-        String word ="";
+        String lastWord=null,word=null;
+
         ReadJs.readWordUntil(content,pos,'(');
         LogUtil.pringln("开始读取判断条件");
         while(true){
-            if(word!=" ")
-                lastWord = word;
-            word =ReadJs. readOneWorrd(content,pos);
+            if(ReadJs.isValidWord(word)){
+                lastWord =word;
+            }
+            word =ReadJs. readOneWord(content,pos);
             //可能是一个函数的名称
             //如果后面跟的是一个(号
 
@@ -51,10 +51,12 @@ public class IfStateMent {
 
         LogUtil.pringln("开始读取判断body");
         ReadJs.readWordUntil(content,pos,'{');
+        lastWord=null;word=null;
         while(true){
-            if(word!=" ")
-                lastWord = word;
-            word =ReadJs. readOneWorrd(content,pos);
+            if(ReadJs.isValidWord(word)){
+                lastWord =word;
+            }
+            word =ReadJs. readOneWord(content,pos);
             //可能是一个函数的名称
             //如果后面跟的是一个(号
 

@@ -9,8 +9,8 @@ import java.util.List;
  * @Date: Created in 15:08 2019/3/21
  * @Modified By:
  */
-public class CommonCodes {
-    public String name;
-    public List<String> codes;
-    public List<String> argsName=new ArrayList<>();
+public abstract class Expression extends Phrase implements  RunableCode{
+    String content="";
+
+
 }
