@@ -127,7 +127,18 @@ MiniCalendar.prototype.getCalendarStr = function() {
 	}
 	str += "</tbody></table>"
 
-	+"<select></select"
+	+"<select>";
+	for(var i=0;i<24;i++){
+	    str+="<option>"+i+"</option>";
+	}
+	str+="</select>:";
+
+	str+="<select>";
+    	for(var i=0;i<59;i++){
+    	    str+="<option>"+i+"</option>";
+    	}
+    	str+"</select><button type='button' onclick=\"Instance('" + this.index
+                                                    				+ "').sure(this) \" ></button>";
 	str+="</div>";
 
 	return str;
@@ -214,7 +225,17 @@ MiniCalendar.prototype.selectDate = function(day) {
 	this.refreshView();
 
 };
+
+
+MiniCalendar.prototype.selectDate = function(day) {
+	// 重新设定dummyday selectedDay 重新
+	this.dummyDay = day;
+	this.selectedDay = day;
+	this.refreshView();
+
+};
+
 // 数据的初始化------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 MiniCalendar.prototype.clear = function() {
-	
+
 };

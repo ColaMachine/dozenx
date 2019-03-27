@@ -1083,7 +1083,7 @@ public class CheckinOutController extends BaseController {
             if (StringUtil.checkNumeric(checkTime)) {
                 params.put("checkTime", checkTime);
             } else if (StringUtil.checkDateStr(checkTime, "yyyy-MM-dd HH:mm:ss")) {
-                params.put("checkTime", new Timestamp(DateUtil.parseToDate(checkTime, "yyyy-MM-dd HH:mm:ss").getTime()));
+                params.put("checkTime", checkTime);
             }
         }
         String checkTimeBegin = MapUtils.getString(params, "checkTimeBegin");
@@ -1091,7 +1091,7 @@ public class CheckinOutController extends BaseController {
             if (StringUtil.checkNumeric(checkTimeBegin)) {
                 params.put("checkTimeBegin", checkTimeBegin);
             } else if (StringUtil.checkDateStr(checkTimeBegin, "yyyy-MM-dd HH:mm:ss")) {
-                params.put("checkTimeBegin", new Timestamp(DateUtil.parseToDate(checkTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+                params.put("checkTimeBegin", checkTimeBegin);
             }
         }
         String checkTimeEnd = MapUtils.getString(params, "checkTimeEnd");
@@ -1099,7 +1099,7 @@ public class CheckinOutController extends BaseController {
             if (StringUtil.checkNumeric(checkTimeEnd)) {
                 params.put("checkTimeEnd", checkTimeEnd);
             } else if (StringUtil.checkDateStr(checkTimeEnd, "yyyy-MM-dd HH:mm:ss")) {
-                params.put("checkTimeEnd", new Timestamp(DateUtil.parseToDate(checkTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+                params.put("checkTimeEnd", checkTimeEnd);
             }
         }
 

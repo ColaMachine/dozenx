@@ -960,70 +960,70 @@ public class FaceInfoController extends BaseController {
 
     }
 
-    @API(summary = "kq02 每秒人脸识别接口",
-            description = "//参考https://blog.csdn.net/nfmsr/article/details/78559930 " +
-                    "利用python 脚本获取摄像头图片每次获取一下图片 " +
-                    "并把名称用http接口方式调用接口 接口去访问磁盘上的图片 " +
-                    "并调用ai接口识别图片上的人脸 拿到人脸特征数组 " +
-                    "和库中的人脸进行比对 识别到后 记录到人脸考勤数据库中",
-            parameters = {
-            })
-    @RequestMapping(value = "/recognizeByFile")
-    @ResponseBody
-    public ResultDTO recognizeByFile(HttpServletRequest request, @RequestParam(value = "file") MultipartFile image,@RequestParam(value="camera") Integer cameraPort) throws Exception {
-
-
-        HashMap map = new HashMap();
-//        String filePath  = remoteCamera.capture();
-        BufferedImage img = ImageIO.read(image.getInputStream());
-        String fileName = System.currentTimeMillis() + "." + Config.getInstance().getImage().getType();
-        String uploadPath =
-                PathManager.getInstance().getWebRootPath().resolve(Config.getInstance().getImage().getServerDir()).resolve(FilePathUtil.getYMDPathAffix()).toString();
-        WebImageUtil.saveUploadFileToDisk(image, uploadPath.toString(), fileName);
-        String base64 = ImageUtil.ImageToBase64ByLocal(uploadPath + "/" + fileName);
-        String data = request.getParameter("data");
-        //logger.info(data);
-        map.put("image", URLEncoder.encode(base64));
-        map.put("maxFaceNum", "1");
-        map.put("faceFields", "embedding");
-        map.put("filename", DateUtil.getNow() + ".jpg");
-        String result = HttpRequestUtil.sendPost("http://127.0.0.1:8080/atomsrv/face/recog/face", map);
-        ResultDTO resultDTO = JsonUtil.toJavaBean(result, ResultDTO.class);
-        JSONObject jsonObject = (JSONObject) resultDTO.getData();
-        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
-        if(finishTaskData.getResultNum()==0)
-            return this.getResult();
-        for (int i = 0; i < finishTaskData.getResult().size(); i++) {
-            FinishTask finishTask = finishTaskData.getResult().get(i);
-            if (finishTask.getLocation().getWidth() < 100) continue;
-            Double[] thisMan = finishTask.getEmbedding();
-            double sum = 0;
-            for (int j = 0; j < FaceInfoController.employeList.size(); j++) {
-                FaceInfo faceInfo = FaceInfoController.employeList.get(j);
-                for (int k = 0; k < 128; k++) {
-                    sum += faceInfo.getFaceAry()[k] * thisMan[k];
-                }
-                if (sum > 0.9) {
-                    logger.info(faceInfo.getUserId() + "score" + sum);
-                    //查出这个人是谁 并插入一条考勤记录表
-                    CheckinOut checkinOut = new CheckinOut();
-                    checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
-                    checkinOut.setUserId(faceInfo.getUserId());
-                    checkinOut.setCheckType(3);//人脸考勤
-                    checkinOutService.save(checkinOut);
-
-                    VirtualDoorService.open(cameraPort);//开门加上消息推送
-                    VirtualWeixinService.sendMsg(faceInfo.getSysUser().getUsername(), "摄像头签到成功");
-
-                    break;
-                }
-            }
-            System.out.println(sum);
-        }
-        return this.getResult();
-
-
-    }
+//    @API(summary = "kq02 每秒人脸识别接口",
+//            description = "//参考https://blog.csdn.net/nfmsr/article/details/78559930 " +
+//                    "利用python 脚本获取摄像头图片每次获取一下图片 " +
+//                    "并把名称用http接口方式调用接口 接口去访问磁盘上的图片 " +
+//                    "并调用ai接口识别图片上的人脸 拿到人脸特征数组 " +
+//                    "和库中的人脸进行比对 识别到后 记录到人脸考勤数据库中",
+//            parameters = {
+//            })
+//    @RequestMapping(value = "/recognizeByFile")
+//    @ResponseBody
+//    public ResultDTO recognizeByFile(HttpServletRequest request, @RequestParam(value = "file") MultipartFile image) throws Exception {
+//
+//
+//        HashMap map = new HashMap();
+////        String filePath  = remoteCamera.capture();
+//        BufferedImage img = ImageIO.read(image.getInputStream());
+//        String fileName = System.currentTimeMillis() + "." + Config.getInstance().getImage().getType();
+//        String uploadPath =
+//                PathManager.getInstance().getWebRootPath().resolve(Config.getInstance().getImage().getServerDir()).resolve(FilePathUtil.getYMDPathAffix()).toString();
+//        WebImageUtil.saveUploadFileToDisk(image, uploadPath.toString(), fileName);
+//        String base64 = ImageUtil.ImageToBase64ByLocal(uploadPath + "/" + fileName);
+//        String data = request.getParameter("data");
+//        //logger.info(data);
+//        map.put("image", URLEncoder.encode(base64));
+//        map.put("maxFaceNum", "1");
+//        map.put("faceFields", "embedding");
+//        map.put("filename", DateUtil.getNow() + ".jpg");
+//        String result = HttpRequestUtil.sendPost("http://127.0.0.1:8080/atomsrv/face/recog/face", map);
+//        ResultDTO resultDTO = JsonUtil.toJavaBean(result, ResultDTO.class);
+//        JSONObject jsonObject = (JSONObject) resultDTO.getData();
+//        FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
+//        if(finishTaskData.getResultNum()==0)
+//            return this.getResult();
+//        for (int i = 0; i < finishTaskData.getResult().size(); i++) {
+//            FinishTask finishTask = finishTaskData.getResult().get(i);
+//            if (finishTask.getLocation().getWidth() < 100) continue;
+//            Double[] thisMan = finishTask.getEmbedding();
+//            double sum = 0;
+//            for (int j = 0; j < FaceInfoController.employeList.size(); j++) {
+//                FaceInfo faceInfo = FaceInfoController.employeList.get(j);
+//                for (int k = 0; k < 128; k++) {
+//                    sum += faceInfo.getFaceAry()[k] * thisMan[k];
+//                }
+//                if (sum > 0.9) {
+//                    logger.info(faceInfo.getUserId() + "score" + sum);
+//                    //查出这个人是谁 并插入一条考勤记录表
+//                    CheckinOut checkinOut = new CheckinOut();
+//                    checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
+//                    checkinOut.setUserId(faceInfo.getUserId());
+//                    checkinOut.setCheckType(3);//人脸考勤
+//                    checkinOutService.save(checkinOut);
+//
+//                    VirtualDoorService.open();//开门加上消息推送
+//                    VirtualWeixinService.sendMsg(faceInfo.getSysUser().getUsername(), "摄像头签到成功");
+//
+//                    break;
+//                }
+//            }
+//            System.out.println(sum);
+//        }
+//        return this.getResult();
+//
+//
+//    }
     public static String accessToken ="";
 
     public void getAccessToken(){
@@ -1071,7 +1071,7 @@ public class FaceInfoController extends BaseController {
         String camera = request.getParameter("camera");
         map.put("maxFaceNum", "1");
         map.put("faceFields", "embedding");
-        // map.put("filename", DateUtil.getNow() + ".jpg");
+//        map.put("filename", DateUtil.getNow() + ".jpg");
         faceInfoService.recognize(camera,data,map);
         return this.getResult();
     }
@@ -1103,7 +1103,7 @@ public class FaceInfoController extends BaseController {
         postMap.put("faceFields", "embedding");
         postMap.put("filename", DateUtil.getNow() + ".jpg");
         getAccessToken();
-        String result  = HttpRequestUtil.sendPost(ConfigUtil.getConfig("ai.face")+"?access_token="+accessToken, JsonUtil.toJson(postMap));
+        String result  = HttpRequestUtil.sendPost(ConfigUtil.getConfig("ai.face.recogize.url")+"?access_token="+accessToken, JsonUtil.toJson(postMap));
         //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502
         HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
         String code =MapUtils.getString(resultMap,"code") ;
@@ -1149,21 +1149,21 @@ public class FaceInfoController extends BaseController {
 
 
 
-
+    //http://192.168.212.90:8087/home/checkin/faceinfo/opendoor?camera=7098
     @RequestMapping(value = "/opendoor")
     @ResponseBody
-    public ResultDTO opendoor(HttpServletRequest request) throws Exception {
+    public ResultDTO testopendoor(HttpServletRequest request) throws Exception {
         VirtualDoorService.open(Integer.valueOf(request.getParameter("camera")));
         return this.getResult();
     }
 
-        @Test
-    public  void test(){
-        String url="http://127.0.0.1:80/home/checkin/faceinfo/recognize";
+
+    public  static void main(String[] args){
+        String url="http://192.168.212.90:8087/home/checkin/faceinfo/recognize";
         HashMap map =new HashMap();
        // map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal(PathManager.getInstance().getHomePath().resolve("src/main/webapp/upload/1543074868872.png").toString())));
 
-            map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\mmexport1543151210973.jpg")));
+            map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\TIM图片20190305100724.jpg")));
 
            String result =  HttpRequestUtil.sendPost(url,map);
             System.out.println(result);

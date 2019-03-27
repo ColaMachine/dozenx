@@ -666,8 +666,8 @@ public class SshUtil {
 //
 //SshUtil.AlphaAdvertUpdateTomecatWebappAndRestart();
 //       SshUtil.AlphaKqUpdateTomecatWebappAndRestart();
-        SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
-//        SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
+//        SshUtil.AlphaSSCUpdateTomecatWebappAndRestart();
+        SshUtil.AlphaSSCRISKUpdateTomecatWebappAndRestart();
         //  SshUtil .updateTomecatWebappAndRestart();
     }
 }

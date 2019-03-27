@@ -99,7 +99,7 @@
 
                                       'style':"width:150px;height:150px;",
                                       attrs:{
-                                        'src': "/home/"+record.row.face,
+                                        'src': "/home/"+record.row.face.replace("/jpg/","/thumb/"),
                                       }
                                     }, '查看')
                                   ]);

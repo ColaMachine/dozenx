@@ -38,8 +38,6 @@ import org.springframework.stereotype.Service;
 import com.dozenx.web.module.checkin.faceInfo.bean.FaceInfo;
 import com.dozenx.web.module.checkin.faceInfo.dao.FaceInfoMapper;
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.web.util.ValidateUtil;
-import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
 
@@ -198,11 +196,13 @@ public void getAccessToken(){
         FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);    //去的结果
         if(finishTaskData.getResultNum()==0)
             return ;            //如果没有识别到
+
         for (int i = 0; i < finishTaskData.getResult().size(); i++) {
             FinishTask finishTask = finishTaskData.getResult().get(i);
             if (finishTask.getLocation().getWidth() < 10) continue;
             Double[] thisMan = finishTask.getEmbedding();
-
+            double max=0;
+            FaceInfo theRightFace =null;
             for (int j = 0; j < FaceInfoController.employeList.size(); j++) {
                 double sum = 0;
                 FaceInfo faceInfo = FaceInfoController.employeList.get(j);
@@ -213,41 +213,46 @@ public void getAccessToken(){
                 for (int k = 0; k < 128; k++) {
                     sum += faceInfo.getFaceAry()[k] * thisMan[k];
                 }
-                if (sum > 0.5) {
-                    logger.info(DateUtil.getNow()+" "+faceInfo.getSysUser().getUsername()+faceInfo.getUserId() + "score" + sum);
-                    //查出这个人是谁 并插入一条考勤记录表
-                    FaceCheckinOut checkinOut = new FaceCheckinOut();
-                    checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
-                    checkinOut.setUserId(faceInfo.getUserId());
-                    checkinOut.setCheckType(3);//人脸考勤
-                    checkinOut.setCamera("0");
-                    checkinOut.setScore((float)sum);
-                    checkinOut.setCamera(camera==null?"0":camera);
-                    checkinOut.setUserName(faceInfo.getSysUser().getUsername());
-                    faceInfo.lastCheckinTime=System.currentTimeMillis();
-                    //如果这个时间段已经有过人脸打卡了 那么就不人脸识别了
-                    boolean hasFaceCheckIn = hasFaceCheckIn(faceInfo.getUserId());
-                    faceCheckinOutService.save(checkinOut);
-
-                    if(faceInfo.getId() == null){
-                        logger.error("发生错误 faceInfo的id 为空");
-                    }
-                    try {
-                        ImageUtil.saveBase64Image(PathManager.getInstance().getHomePath().resolve("checkin").toString(),checkinOut.getId()+".png",data);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        logger.info("open door开门 cost:"+(System.currentTimeMillis()-start));
-                        VirtualDoorService.open(Integer.valueOf(camera));//开门加上消息推送
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    logger.info("push weixin msg face recog 微信推送"+faceInfo.getSysUser().getUsername(), "识别成功");
-                    VirtualWeixinService.sendMsg(faceInfo.getSysUser().getUsername(), "识别成功"+ DateUtil.toDateStr(new Date(), "yyyy-MM-dd-HH:mm:ss"));
-                    break;
+                if (sum>0.6 && sum > max) {
+                    theRightFace = faceInfo;
+                    max=sum;
                 }
                 //System.out.println(sum);
+            }
+
+            if(theRightFace!=null){
+                logger.info(DateUtil.getNow()+" "+theRightFace.getSysUser().getUsername()+theRightFace.getUserId() + "score" + max);
+                //查出这个人是谁 并插入一条考勤记录表
+                FaceCheckinOut checkinOut = new FaceCheckinOut();
+                checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
+                checkinOut.setUserId(theRightFace.getUserId());
+                checkinOut.setCheckType(3);//人脸考勤
+                checkinOut.setCamera("0");
+                checkinOut.setScore((float)max);
+                checkinOut.setCamera(camera==null?"0":camera);
+                checkinOut.setUserName(theRightFace.getSysUser().getUsername());
+                theRightFace.lastCheckinTime=System.currentTimeMillis();
+                //如果这个时间段已经有过人脸打卡了 那么就不人脸识别了
+                boolean hasFaceCheckIn = hasFaceCheckIn(theRightFace.getUserId());
+                faceCheckinOutService.save(checkinOut);
+
+                if(theRightFace.getId() == null){
+                    logger.error("发生错误 faceInfo的id 为空");
+                }
+                try {
+                    ImageUtil.saveBase64Image(PathManager.getInstance().getHomePath().resolve("checkin").toString(),checkinOut.getId()+".png",data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    logger.info("open door开门 cost:"+(System.currentTimeMillis()-start));
+                    VirtualDoorService.open(Integer.valueOf(camera));//开门加上消息推送
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                logger.info("push weixin msg face recog 微信推送"+theRightFace.getSysUser().getUsername(), "识别成功");
+                VirtualWeixinService.sendMsg(theRightFace.getSysUser().getUsername(), "识别成功"+ DateUtil.toDateStr(new Date(), "yyyy-MM-dd-HH:mm:ss"));
+                break;
             }
             //  System.out.println(sum);
         }

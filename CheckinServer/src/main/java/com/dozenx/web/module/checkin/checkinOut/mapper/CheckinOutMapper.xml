@@ -158,6 +158,14 @@
         <if test="checkTime != null and checkTime != '' ">
             and CheckinOut.`checkTime` = #{checkTime}
         </if>
+
+        <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+            and `checkTime` &gt;= #{checkTimeBegin}
+        </if>
+
+        <if test="checkTimeEnd != null and checkTimeEnd != '' ">
+            and `checkTime` &lt;= #{checkTimeEnd}
+        </if>
     </select>
     <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
         select
@@ -195,12 +203,12 @@
     </select>
     <select id="listUsersNotCheckIn" resultMap="SysUser">
         select * from sys_user user where type =3 and userid
-        not in( select distinct(userid) from CheckinOut where checktime between #{0} and #{1} )
+        not in( select distinct(userid) from CheckinOut where checktime between #{begin} and #{end} )
     </select>
     <select id="listUsersNotCheckInMachineAndCamera" resultMap="SysUser">
         select * from sys_user su where su.outId is not null and status=1
         and
-        not exists (select * from CheckinOut where userId= su.outId and checkTime between #{0} and #{1})
-        and not exists (select * from FaceCheckinOut where userId= su.id and checkTime between #{0} and #{1})
+        not exists (select * from CheckinOut where userId= su.outId and checkTime between #{begin} and #{end})
+        and not exists (select * from FaceCheckinOut where userId= su.id and checkTime between #{begin} and #{end})
     </select>
 </mapper>

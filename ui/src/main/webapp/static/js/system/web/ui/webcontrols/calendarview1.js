@@ -333,7 +333,7 @@ CalendarView.prototype.getCalendarEventDialogView = function() {
     "<tr><td></td><td align=right><i onClick=\"Instance('" +
     this.index +
     "').closeCalendarEventDialog()\" class=\"bubbleclose\" ></i></td></tr>" +
-    "<tr style='font-size:12px'><td><span style='color:gray' >日期:</span></td><td ><span id=\"calendarEventDialog_date_start\" ondblclick='showCalendar(this)'>123</span>&nbsp;&nbsp;~&nbsp;&nbsp;<span id=\"calendarEventDialog_date_end\" ondblclick='showCalendar(this)'>123</span></td></tr>" +
+    "<tr style='font-size:12px'><td><span style='color:gray' >日期:</span></td><td ><span id=\"calendarEventDialog_date_start\" onclick='showCalendar(this)'>123</span>&nbsp;&nbsp;~&nbsp;&nbsp;<span id=\"calendarEventDialog_date_end\" onclick='showCalendar(this)'>123</span></td></tr>" +
     "<tr><td><span style='color:gray' >标题:</span></td><td><input type=\"text\" id=\"calendarEventDialog_title\"></input></td></tr>" +
     "<tr><td><input type=\"button\" value=\"保存\" onClick=\"Instance('" +
     this.index +

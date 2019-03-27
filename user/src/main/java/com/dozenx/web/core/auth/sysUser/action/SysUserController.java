@@ -1445,16 +1445,20 @@ public class SysUserController extends BaseController {
 
         sysUser.setPassword(null);
 
-    try {
-        if (StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))) {
-            String resultStr = HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face") + "?userId=" + sysUser.getId());
 
-        }
-    }catch (Exception e){
-        logger.error("更新人脸特征库报错",e);
-    }
         OperLogUtil.add(request, "系统管理", "账号管理","修改账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
-        return sysUserService.saveWithRoleInfo(sysUser);
+        ResultDTO resultDTO =  sysUserService.saveWithRoleInfo(sysUser);
+        //新增完用户后才能更新人脸 报账主功能是通的
+        try {
+            if (StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))) {
+                logger.info("开始调用updated.user.face接口"+ConfigUtil.getConfig("updated.user.face"));
+                String resultStr = HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face") + "?userId=" + sysUser.getId());
+
+            }
+        }catch (Exception e){
+            logger.error("更新人脸特征库报错",e);
+        }
+        return resultDTO;
     }
 
     @API(summary = "用户资料删除接口",

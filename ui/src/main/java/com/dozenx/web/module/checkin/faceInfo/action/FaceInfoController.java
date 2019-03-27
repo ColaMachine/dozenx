@@ -1157,13 +1157,14 @@ public class FaceInfoController extends BaseController {
         return this.getResult();
     }
 
-
-    public  static void main(String[] args){
-        String url="http://192.168.212.90:8087/home/checkin/faceinfo/recognize";
+    @Test
+    public   void testOpeendoor(){
+        String url="http://192.168.213.7:8097/home/checkin/faceinfo/recognize";
         HashMap map =new HashMap();
        // map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal(PathManager.getInstance().getHomePath().resolve("src/main/webapp/upload/1543074868872.png").toString())));
 
-            map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\TIM图片20190305100724.jpg")));
+            map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\人脸资料\\mmexport1543151210973.jpg")));
+        map.put("camera","7099");
 
            String result =  HttpRequestUtil.sendPost(url,map);
             System.out.println(result);

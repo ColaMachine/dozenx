@@ -884,6 +884,52 @@ public final class RedisUtil {
     }
 
     /**
+     * 加锁
+     * author 王作品
+     *
+     * @param locaName       锁的key
+     * @param secs 锁的存在时间秒
+     * @return 锁标识
+     */
+    public static String lock(String key,int secs) {
+        Jedis conn = null;
+        String retIdentifier = null;
+        try {
+            // 获取连接
+            conn = RedisUtil.getJedis();
+            // 随机生成一个value
+
+            // 锁名，即key值
+            // 超时时间，上锁后超过此时间则自动释放锁
+
+
+            if (conn.setnx(key, "1") == 1) {
+                conn.expire(key, secs);//锁的超时时间一般设置为1秒
+                // 返回value值，用于释放锁时间确认
+
+                return retIdentifier;
+            }
+            // 返回-1代表key没有设置超时时间，为key设置一个超时时间
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                logger.error("线程报错 +e " + e.getMessage());
+                Thread.currentThread().interrupt();
+            }
+
+        } catch (JedisException e) {
+            logger.error("JedisException报错 +e " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return retIdentifier;
+    }
+
+    /**
      * 释放锁
      * author 王作品
      *

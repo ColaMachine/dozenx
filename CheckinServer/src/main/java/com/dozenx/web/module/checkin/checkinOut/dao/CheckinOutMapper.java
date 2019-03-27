@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.module.checkin.checkinOut.bean.CheckinOut;
+import org.apache.ibatis.annotations.Param;
 
 public interface CheckinOutMapper {
     int deleteByPrimaryKey(Long id);
@@ -78,7 +79,7 @@ public interface CheckinOutMapper {
     int countByOrParams(HashMap map);
 
 
-    List<SysUser> listUsersNotCheckIn(String begin, String end);
+    List<SysUser> listUsersNotCheckIn(@Param("begin") String begin, @Param("end") String end);
 
     /**
      * 摄像头和考勤机器数据集合查询 开始时间 结束时间
@@ -86,6 +87,6 @@ public interface CheckinOutMapper {
      * @param end
      * @return
      */
-    List<SysUser> listUsersNotCheckInMachineAndCamera(String begin, String end);
+    List<SysUser> listUsersNotCheckInMachineAndCamera(@Param("begin") String begin, @Param("end") String end);
       
 }

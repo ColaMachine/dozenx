@@ -35,7 +35,7 @@ public class VirtualDoorService {
             //准备数据，把数据封装到数据包中。
             String data = "opendoor";
             //创建了一个数据包
-            DatagramPacket packet = new DatagramPacket(data.getBytes(), 0, data.getBytes().length, new InetSocketAddress("127.0.0.1", 7099));
+            DatagramPacket packet = new DatagramPacket(data.getBytes(), 0, data.getBytes().length, new InetSocketAddress("127.0.0.1", port));
             //调用udp的服务发送数据包
             datagramSocket.send(packet);
             //关闭资源 ---实际上就是释放占用的端口号

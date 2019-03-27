@@ -156,7 +156,7 @@ where id = #{id,jdbcType=BIGINT}
         </if>
 
       <if test="checkTimeBegin != null and checkTimeBegin != '' ">
-          and `checkTime` &gt;= #{checkTimeBegin}
+          and `checkTime` &gt;= #{checkTimeBegin }
       </if>
 
       <if test="checkTimeEnd != null and checkTimeEnd != '' ">
@@ -196,6 +196,14 @@ where id = #{id,jdbcType=BIGINT}
         <if test="score != null and score != '' ">  
            and FaceCheckinOut.`score` = #{score}
         </if>
+
+       <if test="checkTimeBegin != null  ">
+           and `checkTime` &gt;= #{checkTimeBegin}
+       </if>
+
+       <if test="checkTimeEnd != null  ">
+           and `checkTime` &lt;= #{checkTimeEnd}
+       </if>
        order by id desc
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">

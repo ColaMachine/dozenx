@@ -1184,7 +1184,7 @@ public class Generator {
      /*Generator.generate(new String[]{*//*"SysMenu","SysUser","SysRole","SysPermission","SysUserRole","SysUserPermission","SysRolePermission","Artical","Expert","ExpertDetail","ExpertArtical","Partner","PartnerDetail",
              "SysLog",*//*"Component","SysConfig","Template","EditorTempComp","Goods"
             });*/
-
+        Generator.generate(new String[]{"MsgInfo" });
         //Generator.generate(new String[]{"WiiDeviceExtend" });
         // Generator.generate(new String[]{"SysConfig" });
         //  Generator.generate(new String[]{"MerchantExtends","DeviceExtends" });
