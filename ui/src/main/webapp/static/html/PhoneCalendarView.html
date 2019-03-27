@@ -68,6 +68,8 @@
 			type="text/css" media="all" />
 		<link id="css" rel="stylesheet" href="../css/widget.css"
 			  type="text/css" media="all" />
+
+
 		<script src="../js/jsframework.js" charset="utf-8"></script>
 
 		<!-- <script src="/../js/system/data/calendar1.js" charset="utf-8">
@@ -111,7 +113,7 @@ table{border:0;margin:0;border-collapse:collapse;}
 table td{padding:0;}
 	@media  (max-width: 600px){
 		.ls-hidden{
-			display:none;
+			/*display:none;*/
 			background-color:#e8dada;
 			position:fixed;
 			top:30px;
@@ -126,6 +128,9 @@ table td{padding:0;}
 		}
 
 	@media  (min-width: 600px){
+	html{
+		font-size:6px;
+	}
 	.ls-hidden{
 
 	float:left;
@@ -371,6 +376,291 @@ table td{padding:0;}
 			jiaobu
 			</div>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="user-menu hide" role="region" >
+		<div class="user-menu-sdk-mask"></div>
+		<div class="user-menu-box hide" style="display: block; right: 0px;">
+			<div class="um">
+				<div  onclick="goLogin()" ontouchstart="goLogin()"  class="user-head" data-login-type="">
+					<div class="head-img"><img id="face" alt="头像" src="/home/static/img/no-login-hdimg.png"
+											   onerror="this.src='/home/static/img/no-login-hdimg.png'"
+											   width="65" height="65"></div>
+					<div class="user-info"><span  class="user-nick" role="button" id="nick">未登录/注册</span>
+
+						<input type="hidden" id="userid"></input>
+						<p style="display:none"><span>Lv.0</span>&nbsp;&nbsp;&nbsp;<span>ID:1706319</span></p></div>
+				</div>
+				<!--<a role="button" href="/search/index.htm">
+                    <div class="user-search"><span class="user-search-tig">搜索关键词</span></div>
+                </a>-->
+
+				<div class="user-content" onselectstart="return false" role="menu">
+					<a href="/home/static/html/PhoneCalendarView.html" class="user-focus">
+						<div class="user-column my-comment"><span role="button">我的考勤</span></div>
+					</a><a href="/home/static/html/PhoneCalendarView.html">
+					<div class="user-column my-tie"><span role="button">我的迟到</span></div>
+				</a>
+
+					<!--<a href="/user/usercollect">
+                    <div class="user-column my-collect"><span role="button">我的收藏</span></div>
+                </a>-->
+
+					<!--<div class="user-column share-to-fr"><span role="button">分享给好友</span></div>-->
+					<a  href="/home/static/html/vue/vueUserInfo.html"><div class="user-column user-set"><span role="button">上传人脸</span></div></a>
+					<a  href="/home/static/html/vue/vueUserInfo.html"><div class="user-column user-set"><span role="button">账户设置</span></div></a>
+					<div class="user-column user-feed-back"><span role="button">意见反馈</span></div>
+					<a href="javascript:void(0)" onclick="loginOut()"><div class="user-column user-logout hide" style="display: block;"><span role="button">退出登录</span></div></a>
+				</div>
+				<div class="user-page-type"><span class="page-type-box"><span class="t-screen active"
+																			  role="button">手机版</span><!--丨<span class="speedy"
+                                                                                                         role="button">极速版</span>-->
+                丨
+                <span
+						class="pc" role="button">电脑版</span></span></div>
+			</div>
+		</div>
+	</div>
+
+
+	<style>
+		html {
+		color: #333;
+		font-size: 2.666667vw;
+		margin: 0 auto;
+		}
+		@media  (min-width: 600px){
+		html{
+		font-size:6px;
+		}
+		}
+
+		a, blockquote, body, code, dd, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, iframe, img, input, label, li, object, ol, p, q, small, span, strong, table, tbody, td, th, tr, ul {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		}
+
+
+		.user-menu {
+		position: fixed;
+		top: 0;
+		right:0px;
+		width: 100%;
+		height: 100%;
+		/*max-width: 640px;*/
+		margin: 0 auto;
+		overflow: hidden;
+		z-index: 70;
+		}
+
+		.hide {
+		display: none;
+		}
+
+		.user-menu .user-menu-sdk-mask {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 123%;
+		background-color: rgba(0,0,0,.8);
+		cursor: pointer;
+		z-index: 78;
+		}
+
+		.user-menu .user-menu-box {
+		background: #fff;
+		position: absolute;
+		top: 0;
+		right: -80%;
+		max-width: 80%;
+		height: 100%;
+		z-index: 100;
+		overflow: auto;
+		}
+
+		.user-menu .user-menu-box .um {
+		padding: 1.5rem;
+		z-index: 101;
+		}
+
+
+		.user-menu .user-head {
+		cursor: pointer;
+		}
+
+		.user-menu .user-head .head-img {
+		display: inline-block;
+		margin: 0 1.5rem 1rem 0;
+		}
+
+		.user-menu .user-head .head-img img {
+		border-radius: 50%;
+		width: 6.5rem;
+		height: 6.5rem;
+		vertical-align: middle;
+		}
+
+		.user-menu .user-head .user-info {
+		border-radius: .3rem;
+		display: inline-block;
+		vertical-align: middle;
+		width: calc(100% - 9rem);
+		width: -moz-calc(100% - 8rem);
+		}
+
+		.user-menu .user-head .user-info .user-nick {
+		font-size: 1.7rem;
+		color: #333;
+		line-height: 2.7rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		}
+
+		.user-menu .user-head .user-info p {
+		font-size: 1.2rem;
+		color: #aaa;
+		}
+
+
+
+
+		/**搜索部分 **/
+		.user-menu .user-search {
+		width: 100%;
+		height: 3rem;
+		border-radius: 3rem;
+		background-color: #f3f4f5;
+		text-align: center;
+		cursor: pointer;
+		}
+
+		.user-menu .user-search .user-search-tig {
+		font-size: 1.4rem;
+		color: #969696;
+		line-height: 3rem;
+		display: inline-block;
+		padding-left: 2.7rem;
+		height: 3rem;
+		background: url(data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5…3zm-25 0a11 11 0 1 1 11 11 11 11 0 0 1-11-11z' fill='%23666'/%3E%3C/svg%3E) left center no-repeat;
+		background-size: 2.3rem 2.3rem;
+		}
+
+		.user-menu .user-content .user-column {
+		font-size: 1.6rem;
+		color: #333;
+		width: 100%;
+		cursor: pointer;
+		}
+
+
+		.user-menu .user-content .user-column.my-comment:before {
+		background: url(data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5….63 0 0 0-5.6-3.7 17.87 17.87 0 0 0-6.77-1.3z' fill='%23666'/%3E%3C/svg%3E) no-repeat center;
+		}
+		.user-menu .user-content .user-column:before {
+		content: "";
+		margin-right: 1.5rem;
+		display: inline-block;
+		width: 2.4rem;
+		height: 2.4rem;
+		line-height: 5.5rem;
+		background-position: 2.4rem;
+		vertical-align: middle;
+		}
+
+
+		.user-menu .user-content .user-column span {
+		display: inline-block;
+		vertical-align: middle;
+		height: 5.5rem;
+		line-height: 5.5rem;
+		border-bottom: .05rem solid #eee;
+		width: -moz-calc(100% - 4.7rem);
+		width: calc(100% - 4.7rem);
+		}
+
+
+	</style>
+
+	<script src="/home/static/js/dom.js" type="text/javascript"
+			charset="utf-8"></script>
+
+	<script src="/home/static/js/zwcommon.js" type="text/javascript"
+			charset="utf-8"></script>
+	<script type="text/javascript">
+    function loginOut(){
+        Ajax.getJSON("/home/sys/auth/logout.json",{},function(result){
+            window.location.reload();
+        })
+
+    }
+
+    //获取用户信息
+
+    function getUserInfo(){
+        Ajax.getJSON("/home/user/info.json",{},function(result){
+        if(result.r=='504'){
+            return;
+        }
+            $$("#nick").innerText= result.data.userName;
+            $$("#userid").value= result.data.userid;
+             $$("#face").src= result.data.face;
+
+        });
+    }
+    getUserInfo();
+    function goLogin(){
+        if($$("#userid").value){
+            return;
+        }
+        window.location="/home/sys/auth/login.htm?pre="+encodeURI(window.location.href);
+    }
+    console.log();
+    $$(".user-menu-sdk-mask")[0].addEventListener("click",function(){
+
+    	$$(".user-menu")[0].style.display="none";
+    });
+</script>
+
+
+
 	</BODY>
 	<script language="javascript">
 

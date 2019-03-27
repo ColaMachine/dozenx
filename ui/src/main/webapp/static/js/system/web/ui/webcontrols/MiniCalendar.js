@@ -48,7 +48,10 @@ MiniCalendar.prototype.getCalendarStr = function() {
 	var _index = new Number(0);
 	var _date = new Number(1);
 	var _rows = new Number(1);
-	var str = "<table id=\'minicalendar\'  class=\"table_CalendarView\"  >"
+	var str = "<div class='minicalendar_wrap'>"
+
+	        + "<table id=\'minicalendar\'  class=\"table_CalendarView\"  >"
+	        + "<thead>"
 			+ "<tr align=center>"
 			+ "<th colspan=5 id=\"date_"
 			+ this.index
@@ -65,7 +68,9 @@ MiniCalendar.prototype.getCalendarStr = function() {
 			+ "').MiniCalendar_goNextMonth()\"> >></th>"
 			+ "</tr>"
 			+ "<tr class=\"calendar-table-title\"><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>七</th></tr>"
-			+ "<tr>";
+			 + "</thead><tbody>"
+			+ "<tr>"
+			;
 	var pre_mon;
 	var pre_year;
 	if(m==1){
@@ -120,7 +125,10 @@ MiniCalendar.prototype.getCalendarStr = function() {
 	str += "</tr>";
 		_rows++;
 	}
-	str += "</table>";
+	str += "</tbody></table>"
+
+	+"<select></select"
+	str+="</div>";
 
 	return str;
 };

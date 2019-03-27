@@ -15,9 +15,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  * @Date: Created in 9:47 2018/10/30
  * @Modified By:
  */
-@EnableWebMvc
-@Configuration
-@EnableWebSocket
+//@EnableWebMvc
+//@Configuration
+//@EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

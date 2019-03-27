@@ -51,7 +51,7 @@ init:function(selector,context){
         return dom;
     }else
     if(selector[0]=='.'){
-        var dom = document.getElementById(selector.replace(".",''));
+        var dom = document.getElementsByClassName(selector.replace(".",''));
                 if(dom){
                     dom.find=find;
                     return dom;

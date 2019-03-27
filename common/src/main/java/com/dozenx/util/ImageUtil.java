@@ -570,6 +570,29 @@ public class ImageUtil {
         // return ResultUtil.getResult(0, imageName, "上传成功", null);
     }
 
+    public static String processImageBase64(String base64) throws IOException {
+        if (null == base64 || base64.length() < 100) {
+            // 数据太短，明显不合理
+            throw new IOException("err.upload.img.tooshort");
+            //  return ResultUtil.getWrongResultFromCfg("err.upload.img.tooshort");
+        } else {
+            if (base64.startsWith("%2B")) {
+                base64 = URLDecoder.decode(base64, "UTF-8").substring(1);
+            } else if (base64.startsWith("+")) {
+                base64 = base64.substring(1);
+            }
+            int ivboIndex = base64.indexOf("iVBO");
+            if (ivboIndex != -1) {
+                base64 = base64.substring(ivboIndex);
+            }
+            if (base64.indexOf("base64") > 0) {
+                base64 = base64.substring(base64.indexOf("base64") + 7);
+            }
+            return base64;
+        }
+
+    }
+
     /**
      * base64 转 bufferedImage
      *

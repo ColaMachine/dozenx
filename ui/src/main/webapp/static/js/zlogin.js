@@ -127,8 +127,10 @@ var loginForm={
                 if(pre){
                     window.location = pre;
                     return;
+                }else{
+                    history.go(-1);
                 }
-                window.location = PATH + "/index.htm";
+               // window.location = PATH + "/index.htm";
 
             } else {
                 //刷新验证码

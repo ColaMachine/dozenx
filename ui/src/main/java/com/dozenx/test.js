@@ -350,7 +350,7 @@
 
         };
         //List<Integer> list =ArrayList.tnew ArrayList(nums);
-        boolean result = PixelEqual(nums);
+        boolean result = YYSUtil.PixelEqual(nums);
         if (result) {
             System.out.println("正在地图");
         }
@@ -1417,7 +1417,7 @@
 
     }
 
-    public static boolean entry26FuBen() throws Exception {
+    function  entry26FuBen() {
 
         VirtualMouse.RandomClick(1083, 605, 40, 4);//点击25层
         Thread.sleep(2000);

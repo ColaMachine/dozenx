@@ -78,13 +78,16 @@ function CalendarView() {
 CalendarView.prototype.render = function() {
   // var y = this.dummyDay.getFullYear();
   // var m = this.dummyDay.getMonth() + 1;
+   var y = this.dummyDay.getFullYear();
+    var m = this.dummyDay.getMonth() + 1;
   var str = "";
   str = "<div id=\"mask\" onClick=\"Instance('" +
     this.index +
     "').closeCalendarEventDialog()\" style=\"z-index:100;display:none;position:absolute;height:200%;width:100%;background-color:#000000;filter:alpha  (opacity:20) ;\"></div>" +
     "<div>" +
     "<div>" +
-    "<div  ><input type='date' style='display:none' /><button onClick=\"window.location='/home/sys/auth/login.htm'\">登录</button>" +
+    "<div  ><input type='date' style='display:none' /><button onClick=\"show($$('.user-menu')[0])\">更多</button>"+
+    "<button style='display:none'  onClick=\"window.location='/home/sys/auth/login.htm'\">登录</button>" +
     "<button style='display:none' onClick=\"Instance('" +
     this.index +
     "').addEvent(null);event.cancelBubble=true;\">创建</button>" +
@@ -97,7 +100,7 @@ CalendarView.prototype.render = function() {
             this.index +
             "').datePickerGoNextAction();event.cancelBubble=true;\">></button>" +
 
-     "<button onClick=\"window.location=PATH+'/static/html/vue/vueUserInfo.html'\">用户</button>"+
+     "<button  style='display:none' onClick=\"window.location=PATH+'/static/html/vue/vueUserInfo.html'\">用户</button>"+
     "<button onClick=\"Instance('" +
     this.index +
     "').datePickerGoTodayAction();event.cancelBubble=true;\">今天</button>"+
@@ -127,7 +130,11 @@ CalendarView.prototype.render = function() {
     "').changeListAction()\">list</a>" +
     "</div>" + "</div>" + "</div>" +
     "<div>" + "<div  id='date_picker' class='ls-hidden' style=\"padding-top:1px\">" +
-    "<div id='dp_canopy_div' class='dp_canopy_div' style='display:none'><span class='h zippy-arrow2' unselectable='on'></span><span class='calHeaderSpace'>迷你日历</span></div>" +
+    "<div id='dp_canopy_div' class='dp_canopy_div' style='display:none'><span class='h zippy-arrow2' unselectable='on'></span><span class='calHeaderSpace'><span> " +
+                                                                                                                                                               y +
+                                                                                                                                                               "年" +
+                                                                                                                                                               m +
+                                                                                                                                                               "月</span></span></div>" +
     "<div  id='dp_div' class='dp_div'  >"
 
   //minicalendar
@@ -376,7 +383,7 @@ CalendarView.prototype.getDatePickerView = function() {
   var _index = 0;
   var _date = 1;
   var _rows = 1;
-  var str = "<table  class='dp_table'  >" +
+  var str = "<table  class='dp_table'  ><thead>" +
     "<tr class='dp_title_tr'  >" +
     "<th id='dp_ym_th' class='dp_ym_th' colspan=5 ><span class='zippy-arrow' unselectable='on'></span><span> " +
     y +
@@ -387,7 +394,7 @@ CalendarView.prototype.getDatePickerView = function() {
     "<th  > <i id='dp_next_month' onClick='Instance(\"" + this.index + "\").datePickerGoNextMonthAction()' class='dp_prev_month dp_next_month'> </i></th>" +
     "</tr>" +
     "<tr class='dp_week_title_tr'><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>七</th></tr>" +
-    "<tr>";
+    "</thead><tbody><tr>";
   var pre_mon;
   var pre_year;
   if(m == 1) {
@@ -454,7 +461,7 @@ CalendarView.prototype.getDatePickerView = function() {
     str += "</tr>";
     _rows++;
   }
-  str += "</table>";
+  str += "</tbody></table>";
 
   return str;
 };
@@ -1179,6 +1186,24 @@ CalendarView.prototype.datePickerGoPrevMonthAction = function(e) {
 CalendarView.prototype.datePickerGoNextMonthAction = function(e) {
   this.dummyDay = getNextMonth(this.dummyDay);
   this.refreshDatePickerView();
+
+
+
+   bind($$("dp_canopy_div"), 'click', new Function("Instance('" +
+      this.index +
+      "').showMCalTitle()"));
+    bind($$("dp_ym_th"), 'click', new Function("Instance('" +
+      this.index +
+      "').hideMCalTitle()"));
+    /*bind($$("dp_prev_month"),'click',new Function("Instance('"
+    		+ this.index
+    		+ "').datePickerGoPrevMonthAction()"));
+    bind($$("dp_next_month"),'click',new Function("Instance('"
+    		+ this.index
+    		+ "').datePickerGoNextMonthAction ()"));*/
+    bind($$("mycal_h2"), 'click', new Function("Instance('" +
+      this.index +
+      "').showOrHideMCalTypes()"));
   //重新绑定事件
   /*bind($$("dp_prev_month"),'click',new Function("Instance('"
   		+ this.index

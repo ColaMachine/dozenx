@@ -1710,9 +1710,6 @@ public class PubImageController extends BaseController {
                 File formatDir = formatPath.toFile();//原始数据先保存一遍
 
 
-                FileUtil.writeFile(originalPath.resolve(completeFileName).toFile(), data);
-                // WebImageUtil.saveUploadFileToDisk(image,originalPath.toString(),fileName+"."+type);
-                //ImageUtil.saveBase64Image(originalPath.toString(), fileName + ".png", base64);
 
 
                 //得到图片缩略图路径
@@ -1725,6 +1722,10 @@ public class PubImageController extends BaseController {
                 if (!formatDir.exists()) {
                     formatDir.mkdirs();
                 }
+                FileUtil.writeFile(originalPath.resolve(completeFileName).toFile(), data);
+                // WebImageUtil.saveUploadFileToDisk(image,originalPath.toString(),fileName+"."+type);
+                //ImageUtil.saveBase64Image(originalPath.toString(), fileName + ".png", base64);
+
                 File file = originalPath.resolve(completeFileName).toFile();
 
                 //bufferedImage = ImageUtil.fixSize(bufferedImage, bufferedImage.getWidth(), bufferedImage.getHeight());
@@ -1840,12 +1841,19 @@ public class PubImageController extends BaseController {
 //        }
         //这里要对文件名提供加密方式System.currentTimeMillis()
         //=============通过图片指纹判断是否已经上传这张图片========================
-        String imgUnique = MD5Util.getStringMD5String(base64);
-        PubImage pubImage = new PubImage();
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("figure", imgUnique);
-        List<PubImage> pubImageList = pubImageService.listByParams(params);
-        String imgPathName = null;//pubImageService.judgeByImgUnique(imgUnique);
+//        String imgUnique = MD5Util.getStringMD5String(base64);
+//        PubImage pubImage = new PubImage();
+//        HashMap<String, Object> params = new HashMap<>();
+//        params.put("figure", imgUnique);
+//        List<PubImage> pubImageList = pubImageService.listByParams(params);
+//        String imgPathName = null;//pubImageService.judgeByImgUnique(imgUnique);
+
+        try {
+            base64 = ImageUtil.processImageBase64(base64);
+        }catch (Exception e){
+            logger.error("base64图像有错误",e);
+            throw new BizException(301051855,"base64图像有错误");
+        }
         String type = "png";
         byte[] data = Base64Util.decode(base64);
         return this.processImg(base64, data, fileNamePrefix, type, relativePath,request);
