@@ -1,63 +1,97 @@
 /**
- * 版权所有：公众信息
+ * 版权所有： dozen.zhang
  * 项目名称:calendar
  * 创建者: dozen.zhang
- * 创建日期: 2015年11月15日
- * 文件说明: 
+ * 创建日期: 2019年03月29日
+ * 文件说明:
  */
 package com.dozenx.web.module.checkin.faceCheckinOut.bean;
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ *考勤实体类
+ **/
 public class FaceCheckinOut {
-    
-/**编号**/
+    /**编号 null**/
     private Long id;
+    /**用户Id null**/
+    private Long userId;
+    /**用户姓名 null**/
+    private String userName;
+    /**摄像机编号 null**/
+    private String camera;
+    /**考勤类型 null**/
+    private Integer checkType;
+    /**创建时间 null**/
+    private Timestamp checkTime;
+    /**人脸匹配度 null**/
+    private Float score;
+    /**平均分数 null**/
+    private Float avgScore;
+    /**识别图片地址 null**/
+    private String regUrl;
+    /**原图url null**/
+    private String oriUrl;
     public Long getId(){
         return id;
-    }    public void setId(Long id){
+    }
+    public void setId(Long id){
         this.id=id;
     }
-/**用户Id**/
-    private Long userId;
     public Long getUserId(){
         return userId;
-    }    public void setUserId(Long userId){
+    }
+    public void setUserId(Long userId){
         this.userId=userId;
     }
-/**用户姓名**/
-    private String userName;
     public String getUserName(){
         return userName;
-    }    public void setUserName(String userName){
+    }
+    public void setUserName(String userName){
         this.userName=userName;
     }
-/**摄像机编号**/
-    private String camera;
     public String getCamera(){
         return camera;
-    }    public void setCamera(String camera){
+    }
+    public void setCamera(String camera){
         this.camera=camera;
     }
-/**考勤类型**/
-    private Integer checkType;
     public Integer getCheckType(){
         return checkType;
-    }    public void setCheckType(Integer checkType){
+    }
+    public void setCheckType(Integer checkType){
         this.checkType=checkType;
     }
-/**创建时间**/
-    private Timestamp checkTime;
     public Timestamp getCheckTime(){
         return checkTime;
-    }    public void setCheckTime(Timestamp checkTime){
+    }
+    public void setCheckTime(Timestamp checkTime){
         this.checkTime=checkTime;
     }
-/**人脸匹配度**/
-    private Float score;
     public Float getScore(){
         return score;
-    }    public void setScore(Float score){
+    }
+    public void setScore(Float score){
         this.score=score;
     }
+    public Float getAvgScore(){
+        return avgScore;
+    }
+    public void setAvgScore(Float avgScore){
+        this.avgScore=avgScore;
+    }
+    public String getRegUrl(){
+        return regUrl;
+    }
+    public void setRegUrl(String regUrl){
+        this.regUrl=regUrl;
+    }
+    public String getOriUrl(){
+        return oriUrl;
+    }
+    public void setOriUrl(String oriUrl){
+        this.oriUrl=oriUrl;
+    }
+
 }

@@ -1,9 +1,9 @@
 //Using("System.Data.Calendar");
 //div
 //	table css: MiniCalendar_table
-//			tr 
+//			tr
 //					th 年月日
-//			tr	
+//			tr
 //					th 一二三四五六七
 //			tr
 //					td 日期
@@ -11,23 +11,40 @@ function MiniCalendar() {
 	Calendar.call(this);
 	this.setHashCode();
 	this.index = this.hashCode;
+	this.callback=null;
 }
 
 t = MiniCalendar.Extends(Calendar, "MiniCalendar");
 t.div_id="";
-MiniCalendar.prototype.render = function(id) {
+MiniCalendar.prototype.render = function(id,callback) {
+    var innerHTML = $$(id).innerHTML;
+    if(innerHTML){
+        this.dummyDay = parseDate(innerHTML,"yyyy-MM-dd HH:mm");
+        this.selectedDay = parseDate(innerHTML,"yyyy-MM-dd HH:mm");
+        console.log(this.dummyDay);
+    }
 	this.div_id=id;
-		var str = this.getCalendarStr();
-
-	$$(id).innerHTML=str;
+    var str = this.getCalendarStr();
+    this.callback=callback;
+    var newDiv = html(str);
+    this.div=newDiv;
+    $$(id).parentNode.append(newDiv);
+    newDiv.style.position="absolute";
+    var info = getInfo($$(id));
+    console.log(info);
+  //  newDiv.style.left=info.left+"px";
+    newDiv.style.zIndex=10001;
+  //   newDiv.style.top=info.top+20+"px";
+	//$$(id).innerHTML=str;
 };
 
 MiniCalendar.prototype.getCalendarStr = function() {
+    console.log("getCalendarStr");
 	var today_y = this.today.getFullYear()
 	var today_m = this.today.getMonth() + 1;
 	var today_d = this.today.getDate();
-	
-	
+
+
 	var y =  this.dummyDay.getFullYear();
 	var m = this.dummyDay.getMonth() + 1;
 	var b_thisMonth = false;
@@ -37,7 +54,7 @@ MiniCalendar.prototype.getCalendarStr = function() {
 	// var d=this.date.getDate();
 	var _weekFirstDay = CaculateDaysWeekNum(y, m, 1);
 	var _days = CaculateMonthDays(y, m);
-	
+
 	if(m==1){
 		var pre_days = CaculateMonthDays(y-1, 12);
 
@@ -81,7 +98,7 @@ MiniCalendar.prototype.getCalendarStr = function() {
 		pre_year=y;
 	}
 	for ( var i = 1; i < _weekFirstDay; i++) {
-		
+
 
 		str += "<td id=\"calendar-mini-"+pre_year+"-"+pre_mon+"-"+(pre_days-_weekFirstDay+i+1)+"\" onclick=\"Instance('" + this.index
 				+ "').selectDateTd(this)\" class=\"othermonth\">"+(pre_days-_weekFirstDay+i+1)+"</td>";
@@ -108,17 +125,17 @@ MiniCalendar.prototype.getCalendarStr = function() {
 	var k=1;
 	if(m==12){m=1;y++;}else{m++;}
 	for ( var i = _weekLastDay + 1; i <= 7; i++) {
-		
+
 		str += "<td id=\"calendar-mini-"+y+"-"+m+"-"+ (k)+"\" class=\"othermonth\" onclick=\"Instance('" + this.index
 				+ "').selectDateTd(this)\">"+k+"</td>";k++;
 	}
 
 	str += "</tr>";
-	
+
 	if (_rows < 6) {
 	str += "<tr>";
 		for ( var i =0; i < 7; i++) {
-		
+
 		str += "<td id=\"calendar-mini-"+y+"-"+m+"-"+ (k++)+"\" class=\"othermonth\" onclick=\"Instance('" + this.index
 				+ "').selectDateTd(this) \">"+ (k-1)+"</td>";
 	}
@@ -127,18 +144,19 @@ MiniCalendar.prototype.getCalendarStr = function() {
 	}
 	str += "</tbody></table>"
 
-	+"<select>";
+	+"<select id='mini_calendar_hour'>";
 	for(var i=0;i<24;i++){
 	    str+="<option>"+i+"</option>";
 	}
 	str+="</select>:";
 
-	str+="<select>";
+	str+="<select id='mini_calendar_minute'> ";
     	for(var i=0;i<59;i++){
     	    str+="<option>"+i+"</option>";
     	}
-    	str+"</select><button type='button' onclick=\"Instance('" + this.index
-                                                    				+ "').sure(this) \" ></button>";
+    	str+="</select><button type='button' onclick=\"Instance('" + this.index
+                                                    				+ "').sure() \" >确定</button><button type='button' onclick=\"Instance('" + this.index
+                                                                                                                                                        				+ "').close() \" >取消</button>";
 	str+="</div>";
 
 	return str;
@@ -147,8 +165,8 @@ MiniCalendar.prototype.selectDateTd = function(it) {
 	var y =it.id.split("-")[2];
 	var m =it.id.split("-")[3];
 	var d =it.id.split("-")[4];
-	
-	
+
+
 	var day =new Date();
 	day.setYear(y);
 	day.setMonth(m-1);
@@ -171,7 +189,7 @@ MiniCalendar.prototype.MiniCalendar_goNextMonth = function(it) {
 			this.refreshView();
 
 };
-MiniCalendar.prototype.MiniCalendar_select = function(e) {
+MiniCalendar.prototype.MiniCalendar_select = function(e) {console.log("MiniCalendar_select");
 var bToday = (this.selectedDay != null
 				&& this.selectedDay.getFullYear() == this.today.getFullYear()
 				&& this.selectedDay.getMonth() == this.today.getMonth() && this.selectedDay
@@ -183,7 +201,7 @@ var bToday = (this.selectedDay != null
 		this.selectedDay = this.dummyDay;
 		this.selectedDay.setDate(new Number(e.innerHTML.replace("&nbsp;","")));
 		this.dummyDay = this.selectedDay;
-        $$(this.div_id).innerHTML= this.selectedDay.format("yyyy-MM-dd");
+        //$$(this.div_id).innerHTML= this.selectedDay.format("yyyy-MM-dd");
 		var curSelectedTd = e;
 		var curSeletedTr = (e.parentNode ? e.parentNode : null);
 
@@ -209,12 +227,16 @@ var bToday = (this.selectedDay != null
 		// appointed td tr
 		this.preSelectedTr = e.parentNode;
 		this.preSelectedTd = e;
+        this.callback.call();
+        stopEvent(event);
+		//this.refreshView();
 	};
 
 // 界面的刷新--------------------------------------------------------------------------------------------------------------------------
 
 MiniCalendar.prototype.refreshView = function() {
-	$$(this.div_id).innerHTML = this.getCalendarStr();
+    console.log("refreshView");
+	this.div.innerHTML = this.getCalendarStr();
 	this.clear();
 
 };
@@ -223,16 +245,30 @@ MiniCalendar.prototype.selectDate = function(day) {
 	this.dummyDay = day;
 	this.selectedDay = day;
 	this.refreshView();
+	stopEvent(event);
 
 };
+MiniCalendar.prototype.sure = function() {
+//	this.callback.call();
+    this.dummyDay.setHours(getSelectedValue("mini_calendar_hour"));
+      this.dummyDay.setMinutes(getSelectedValue("mini_calendar_hour"));
+         this.dummyDay.setSeconds(0);
 
+	this.callback.call();
+	this.hide();
+stopEvent(event);
+};
 
-MiniCalendar.prototype.selectDate = function(day) {
-	// 重新设定dummyday selectedDay 重新
-	this.dummyDay = day;
-	this.selectedDay = day;
-	this.refreshView();
+MiniCalendar.prototype.close = function() {
 
+	this.hide();
+	stopEvent(event);
+};
+
+MiniCalendar.prototype.hide = function() {
+   // hide($$(".minicalendar_wrap")[0]);
+    this.div.parentNode.removeChild(this.div);
+   stopEvent(event);
 };
 
 // 数据的初始化------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

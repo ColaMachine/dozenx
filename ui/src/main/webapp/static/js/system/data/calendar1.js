@@ -144,5 +144,12 @@ Calendar.prototype.goNextDay=function(){
 	day.setMonth(m,d);
 	this.dummyDay =day;
 };;
+
+
+Calendar.prototype.getDateStr=function(){
+//    console.log(this.dummyDay.format("yyyy-MM-dd HH:mm:ss"));
+	return this.dummyDay.format("yyyy-MM-dd HH:mm");
+
+};
 System._prototypes['System.Data.Calendar']=window['Calendar']=Calendar;
 }$mz_3__id1372936633538$();

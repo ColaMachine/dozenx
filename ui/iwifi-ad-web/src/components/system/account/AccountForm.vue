@@ -7,6 +7,9 @@
       <FormItem prop="username" label="名称" required>
         <Input v-model="formData.username" placeholder="名称" :readonly="readonly"></Input>
       </FormItem>
+       <FormItem prop="code" label="编号" required>
+              <Input v-model="formData.code" placeholder="编号" :readonly="readonly"></Input>
+            </FormItem>
       <FormItem prop="telno" label="电话号码" required>
         <Input v-model="formData.telno" placeholder="电话号码" :readonly="readonly" :maxlength="11"></Input>
       </FormItem>

@@ -2750,4 +2750,6 @@ function getLoginUser(){
 function goLoginPage(){
     window.location=PATH+"/sys/auth/login.htm?preUrl="+this.window.location;
 }
-
+function stopEvent(event){
+try{event.stopPropagation();}catch(e){event.cancelBubble=true;}
+}

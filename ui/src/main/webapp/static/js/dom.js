@@ -158,6 +158,14 @@ function parseDom(arg) {
 　　 return objE.childNodes[0];
 
 };
+
+function html(arg) {
+
+　　
+
+　　 return parseDom(arg);
+
+};
 /*
 function getChildByTagName(parentNode,name){
     var result = [];
@@ -476,7 +484,10 @@ function getRelativeInfo(o){//取得坐标
 function show(dom){
     dom.style.display="block";
 }
-
+function hide(dom){
+    dom.style.display="none";
+    console.log("影长");
+}
 function toggle(dom){
     if( dom.style.display=="block" || dom.style.display=="" || dom.style.display=="undefined"  ){
          dom.style.display="none";

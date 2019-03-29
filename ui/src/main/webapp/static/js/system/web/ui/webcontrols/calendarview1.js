@@ -1378,12 +1378,22 @@ CalendarView.prototype.saveCalendarEventAction = function(event) {
     ce.id = this.currentEventId;
     $$("event_newEvent").id = "event_" + ce.id;
   }
-  if($$("calendarEventDialog_date_start").innerHTML.length == 10) {
-    ce.startDay = $$("calendarEventDialog_date_start").innerHTML;
+  var dateStartStr = $$("calendarEventDialog_date_start").innerHTML;
+  if(dateStartStr.length == 10) {//如果是yyyy-MM-dd
+    ce.startDay =dateStartStr;
+  }else  if(dateStartStr.length == 16){//如果是yyyy-MM-dd HH:mm
+    ce.startDay = dateStartStr.substr(0,10) ;
+     ce.startTimeSV = dateStartStr.substr(11,15) ;
   }
-  if($$("calendarEventDialog_date_end").innerHTML.length == 10) {
-    ce.endDay = $$("calendarEventDialog_date_end").innerHTML;
-  }
+   var dateEndStr = $$("calendarEventDialog_date_end").innerHTML;
+  if(dateEndStr.length == 10) {
+    ce.endDay =dateEndStr;
+  }else  if(dateStartStr.length == 16){//如果是yyyy-MM-dd HH:mm
+       ce.endDay = dateEndStr.substr(0,10) ;
+        ce.endTimeSV = dateEndStr.substr(11,15) ;
+     }
+
+
 ce.type = getSelectedValue("event_type");
   this.saveCalendarEventDataService(ce);
 ce.lastChangeTime=new Date().getTime();

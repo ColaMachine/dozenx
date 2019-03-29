@@ -213,7 +213,7 @@ public void getAccessToken(){
                 for (int k = 0; k < 128; k++) {
                     sum += faceInfo.getFaceAry()[k] * thisMan[k];
                 }
-                if (sum>0.6 && sum > max) {
+                if (sum>0.5 && sum > max) {
                     theRightFace = faceInfo;
                     max=sum;
                 }

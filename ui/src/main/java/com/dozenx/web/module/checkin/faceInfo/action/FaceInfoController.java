@@ -37,6 +37,8 @@ import com.dozenx.web.module.checkin.faceInfo.service.FaceInfoService;
 import com.dozenx.web.module.checkin.faceInfo.service.VirtualDoorService;
 import com.dozenx.web.module.checkin.faceInfo.service.VirtualWeixinService;
 import com.dozenx.web.util.*;
+import okhttp3.*;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,17 +48,22 @@ import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @APIs(description = "人脸信息")
 @Controller
@@ -1149,7 +1156,7 @@ public class FaceInfoController extends BaseController {
 
 
 
-    //http://192.168.212.90:8087/home/checkin/faceinfo/opendoor?camera=7098
+    //http://192.168.213.7:8097/home/checkin/faceinfo/opendoor?camera=7099
     @RequestMapping(value = "/opendoor")
     @ResponseBody
     public ResultDTO testopendoor(HttpServletRequest request) throws Exception {
@@ -1157,18 +1164,7 @@ public class FaceInfoController extends BaseController {
         return this.getResult();
     }
 
-    @Test
-    public   void testOpeendoor(){
-        String url="http://192.168.213.7:8097/home/checkin/faceinfo/recognize";
-        HashMap map =new HashMap();
-       // map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal(PathManager.getInstance().getHomePath().resolve("src/main/webapp/upload/1543074868872.png").toString())));
-
-            map.put("data",URLEncoder.encode(ImageUtil.ImageToBase64ByLocal("G:\\kq-workspace\\人脸资料\\mmexport1543151210973.jpg")));
-        map.put("camera","7099");
-
-           String result =  HttpRequestUtil.sendPost(url,map);
-            System.out.println(result);
-    }
 
 
 }
+

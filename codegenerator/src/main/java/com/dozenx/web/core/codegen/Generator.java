@@ -1149,7 +1149,7 @@ public class Generator {
                 "WriteoffInstance" ,"MssWriteoffInstToSupplier"
                 ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
         //generator.generate(new String[]{"Holiday"});
-//        generator.generate(new String[]{"FaceCheckinOut"});
+        generator.generate(new String[]{"FaceCheckinOut"});
         // generator.generate(new String[]{"CheckinOut"});
 //        generator.generate(new String[]{"SSCFilterForm"});
         //  generator.generate(new String[]{"SendRule"});

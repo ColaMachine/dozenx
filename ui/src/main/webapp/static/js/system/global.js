@@ -151,7 +151,7 @@ function showCalendar(it){
 	//Using("System.Web.UI.WebControls.SelectDate");
 
 	var d = new MiniCalendar();
-	d.render(it.id);
+	d.render(it.id,function(){it.innerHTML= d.getDateStr()});
 
 	/*var span=document.createElement("span");
 	var calendar_dialogue_time_input=document.createElement("input");
