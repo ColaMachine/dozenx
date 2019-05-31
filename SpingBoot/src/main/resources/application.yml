@@ -1,0 +1,180 @@
+#1.项目端口设置
+server:
+  port: 8097
+# 1.1.jar包下打包前缀  war包下前缀 在tomcat下server.xml 配置
+  servlet:
+      context-path : /home
+logging:
+   config : classpath:logback-boot.xml
+#2.项目基础配置
+spring:
+
+   #2.1数据库配置
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource #Druid 驱动
+        driverClassName: com.mysql.jdbc.Driver #数据库驱动
+        driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
+        platform: mysql
+        name: ms   #数据库配置名称 使用多数据源时区别
+        url: jdbc:mysql://192.168.41.74:3306/awifi_kq #配置数据库连接
+        username: root  #数据库用户名
+        password: root@2015 #数据库密码
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT1FROMDUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        filters: statwall,log4j
+        logSlowSql: true
+
+    #2.2 redis 配置
+    redis:
+         database: 2  #redis哪个库
+         host: 192.168.213.5  #redis的ip地址
+         port: 6379  #redis 端口
+         password: Awifi@123  #redis 密码
+
+#2.3项目基础配置
+mybatis:
+    mapper-locations: classpath*:com/awifi/ms/**/*Mapper.xml,classpath*:com/dozenx/**/*Mapper.xml #mapper.xml 扫描地址
+    type-aliases-package: learning.model    #mapper.xml 别名
+    show-sql: true    # sql语句 打印 --打包时移除
+    #configuration:
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#2.4pagehelper分页插件
+pagehelper:
+    helperDialect: mysql #对象数据库 方言
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql # 计算个数
+
+ftpUrl:
+       upload : /service/face-test/
+
+####日历模块公用配置###########
+calendar:
+     ###配置的节假日判断接口
+    holiday:
+        url:http://timor.tech/api/holiday/info/{date}
+    #非activity表的日历事项 抽取接口
+    subscribe:
+        url=http://www.dapark.top/home/checkin/listActivities.json?userId=${userId}&pageSize=100&curPage=1&checkTimeBegin=${begin}&checkTimeEnd=${end}
+
+#######考情模块配置#############
+kq:
+    #door : /data/service/tomcat-kq-8087/door_control
+    #迟到时间段   结算的时间点  -   正常的考勤时间开始时间  - 正常的考情时间结束  -   未打卡截止时间  ,
+    late.check.time : 9:32-6:30-8:31-9:30,11:22-11:50-12:21-13:20,13:52-13:20-13:51-14:51,19:32-15:30-16:30-19:31,16:20-6:30-8:31-9:30,
+    ###同一个人 人脸识别间隔时间  单位秒
+    chekcin.face.interval : 3
+    #人脸识别接口
+    #ai.face.recogize.url : http://192.168.188.8:3502/atomsrv/face/recog/multi
+    #保存头像后触发事件
+    #updated.user.face : http://127.0.0.1:8081/home/checkin/faceinfo/updateByUserFace
+    #摄像头ip和门的端口映射关系
+    camera_door_192.168.6.200 : 7098
+    camera_door_192.168.6.201 : 7098
+    camera_door_192.168.6.203 : 7098
+    camera_door_192.168.6.204 : 7098
+    camera_door_192.168.6.205 : 7099
+    camera_door_192.168.6.206 : 7099
+    camera_door_192.168.120.111 : 7099
+    face.url.domain : http://192.168.212.89:2019
+    #face.capture.scanfolder : /service/media 扫描的路径
+
+
+
+image :
+    serverEnable  :  false
+    serverIp : xxx.xxx.xx.xxx
+    serverDir : upload
+    serverUser : root
+    maxSize : 1024
+    type : png
+    serverPwd :
+    posterDir : poster
+    qrcodeDir : qrcode
+    posterTemplate : src.jpg
+    posterZipDir : poster_zip
+    vcodeDir : static/vc
+    serverUrl : upload
+email :
+    ##设置传输协议
+    protocol : smtp
+    ##设置发信邮箱的smtp地址
+    host : xxx.xxx.com
+    auth : true
+    debug : true
+    port : 25
+    user : xxxx@xxx.com
+    pwd :
+
+validCode :
+    #//系统url
+    #//serverUrl : http : //127.0.0.1 : 8081
+    #//短信验证码长度
+    smsLength : 4
+    #//图片验证码长度
+    imgLength : 4
+    #//短信彦验证码类型1数字 2字母 3数字+字母
+    smsCharType : 1
+    #//图片彦验证码类型1数字 2字母 3数字+字母
+    imgCharType : 1
+    #//短信验证码有效期
+    smsLiveTime : 600000
+    #//图片验证码有效期
+    imgLiveTime : 600000
+    #//短信验证码请求间隔最短时间
+    smsRefreshTime : 60000
+    #//图片验证码请求间隔最短时间
+    imgRefreshTime : 1000
+    #//最多尝试次数
+    imgFailTimes : 3
+    smsFailTimes : 3
+    systems :
+        calendar :
+        #//在rangetime里最多请求次数
+            maxRequestTime : 4
+            #//在rangetime里控制最多请求次数
+            rangeTime : 3600000
+            smsRefreshTime : 60000
+            imgRefreshTime : 1000
+            systemno : calendar
+            smsLength : 4
+            imgLength : 4
+            smsCharType : 1
+            imgCharType : 2
+            smsLiveTime : 600000
+            imgLiveTime : 600000
+
+
+
+cache:
+    redis:
+        enable : true
+        #//addr : 192.168.10.145
+        addr : 192.168.41.75
+        #//Redis的端口号
+        port : 6379
+        #//访问密码
+        auth : null
+        #//可用连接实例的最大数目，默认值为8；
+        #//如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
+        maxActive : 50
+        #//控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。
+        maxIdle : 8
+        #//等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
+        maxWait : 10000
+        timeout : 10000
+        #//在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
+        testOnBorrow : true
+
+    ehcache:
+        enable:false
+
