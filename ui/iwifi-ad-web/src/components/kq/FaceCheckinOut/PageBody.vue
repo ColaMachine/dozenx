@@ -85,7 +85,7 @@
                 // width: 200
                  render: (h, record) => {
                       let _this = this;
-                      return h('a',{attrs:{'target':'_blank','href':'/home/checkin/'+record.row.id+'.png'}},
+                      return h('a',{attrs:{'target':'_blank','href':record.row.regUrl}},
 
                        [
                         h('img', {
@@ -93,12 +93,13 @@
 
                           'style':"width:150px;height:150px;",
                           attrs:{
-                            'src': "/home/checkin/"+record.row.id+".png",
+                            'src': record.row.regUrl,
                           }
                         }, '查看')
                       ]);
                     }
             }
+
         ],
         tableData: []
       }
@@ -119,6 +120,7 @@ let params = Object.assign({}, this.searchParams);
         } else {
           params.checkTimeEnd = DateFormat.format.date(params.checkTimeEnd, 'yyyy-MM-dd')+" 23:59:59" ;
         }
+        params.location="";
         $http.get('/home/checkin/faceCheckinOut/list', {
           params: {
             params: params

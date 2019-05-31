@@ -2,13 +2,15 @@ package com.dozenx.core.config;
 
 import com.alibaba.fastjson.JSON;
 import com.dozenx.core.Path.PathManager;
+import com.dozenx.util.FastYml;
 import com.dozenx.util.FileUtil;
+import com.dozenx.util.JsonUtil;
 import com.google.gson.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,9 +18,9 @@ import java.util.Map;
 
 /**
  * @author dozen.zhang
- *
  */
 public class Config {
+    private static final Logger logger = LoggerFactory.getLogger(Config.class);
     /**
      * 验证码配置
      */
@@ -31,10 +33,10 @@ public class Config {
      * 日志
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(Config.class);
-    public static  int a ;
-    public static  String b;
-    public static  Double c ;
-    public static  Integer d;
+    public static int a;
+    public static String b;
+    public static Double c;
+    public static Integer d;
     /**
      * 系统日志配置
      */
@@ -67,16 +69,44 @@ public class Config {
 
     /**
      * 单例配置获取
-     * @return Config 
+     *
+     * @return Config
      */
-    public static Config getInstance()  {
+    public static Config getInstance() {
         if (CONFIG == null) {
             try {
                 Path path = Config.getConfigFile();
-                if(!path.toFile().exists()){
-                    LOGGER.error("error to find  配置文件 config.cfg");
-                    CONFIG =new Config();
-                }else
+                if (!path.toFile().exists()) {//如果config.cfg不存在 即老的方式不行 那么尝试通过yml方式来配置
+
+                    //尝试从application.yml读取文件
+
+                    URL applicationYml = PathManager.getResource("application.yml");
+
+                    File file = PathManager.getInstance().getHomePath().resolve("application.yml").toFile();
+                    //尝试读取根目录下的配置文件 如果没有的话 读取 classes目录下的配置文件
+                    //因为存在一种情况就是
+                    if (file.exists()) {
+                        logger.info("find the application.yml in home path:"+file.getAbsolutePath());
+                        Map map = new FastYml().readFileAsMap(file);
+                        String jsonStr = JsonUtil.toJsonString(map);
+                        LOGGER.error("error to find  配置文件 config.cfg");
+                        CONFIG = Config.load(new ByteArrayInputStream(jsonStr.getBytes()));
+                    } else {
+
+                        InputStream inputStream = Config.class.getResourceAsStream("/application.yml");
+                        if(inputStream!=null){
+                            logger.info("find the application.yml in classes path:"+Config.class.getResource("/application.yml"));
+                            Map map = new FastYml().readStreamAsMap(inputStream);
+                            String jsonStr = JsonUtil.toJsonString(map);
+                            LOGGER.error("error to find  配置文件 config.cfg");
+                            CONFIG = Config.load(new ByteArrayInputStream(jsonStr.getBytes()));
+                        }else{
+                            logger.info("not find the application.yml in classes path:"+Config.class.getResource("/application.yml"));
+                        }
+
+                    }
+                    //CONFIG =new Config();
+                } else
                     CONFIG = Config.load(path);
             } catch (IOException e) {
                 LOGGER.error("config load and init error 配置文件初始化报错", e);
@@ -97,6 +127,7 @@ public class Config {
 
     /**
      * 获取配置文件路径
+     *
      * @return String
      */
     public static Path getConfigFile() {
@@ -112,6 +143,7 @@ public class Config {
 
     /**
      * 加载配置文件
+     *
      * @param fromFile 参数
      * @return config 对象
      * @throws IOException IO流异常
@@ -120,7 +152,7 @@ public class Config {
         LOGGER.info("read config file{}", fromFile);
         try (Reader reader = Files.newBufferedReader(fromFile, Charset.forName("UTF-8"))) {
             Gson gson = createGson();
-            Config configOri =new Config();
+            Config configOri = new Config();
             JsonElement baseConfig = gson.toJsonTree(configOri);
             JsonParser parser = new JsonParser();
             JsonElement config = parser.parse(reader);
@@ -128,9 +160,31 @@ public class Config {
                 return new Config();
             } else {
                 merge(baseConfig.getAsJsonObject(), config.getAsJsonObject());
-                Config newConfig= gson.fromJson(baseConfig, Config.class);
+                Config newConfig = gson.fromJson(baseConfig, Config.class);
                 LOGGER.info("load config complete");
-                return  newConfig;
+                return newConfig;
+            }
+        } catch (JsonParseException e) {
+            throw new IOException("Failed to load config", e);
+        }
+
+    }
+
+    public static Config load(InputStream fromFile) throws IOException {
+        LOGGER.info("read config file{}", fromFile);
+        try (Reader reader = new BufferedReader(new InputStreamReader(fromFile))) {
+            Gson gson = createGson();
+            Config configOri = new Config();
+            JsonElement baseConfig = gson.toJsonTree(configOri);
+            JsonParser parser = new JsonParser();
+            JsonElement config = parser.parse(reader);
+            if (!config.isJsonObject()) {
+                return new Config();
+            } else {
+                merge(baseConfig.getAsJsonObject(), config.getAsJsonObject());
+                Config newConfig = gson.fromJson(baseConfig, Config.class);
+                LOGGER.info("load config complete");
+                return newConfig;
             }
         } catch (JsonParseException e) {
             throw new IOException("Failed to load config", e);
@@ -140,15 +194,16 @@ public class Config {
 
     /**
      * 两个jsonobject 合并
+     *
      * @param target 参数
-     * @param from 参数
+     * @param from   参数
      */
     public static void merge(JsonObject target, JsonObject from) {
         for (Map.Entry<String, JsonElement> entry : from.entrySet()) {
-           // System.out.println(entry.getKey());
+            // System.out.println(entry.getKey());
             if (entry.getValue().isJsonObject()) {
                 boolean bool = target.has(entry.getKey());
-                JsonElement ele=target.get(entry.getKey());
+                JsonElement ele = target.get(entry.getKey());
                 if (target.has(entry.getKey()) && target.get(entry.getKey()).isJsonObject()) {
                     merge(target.get(entry.getKey()).getAsJsonObject(), entry.getValue().getAsJsonObject());
                 } else {
@@ -165,14 +220,16 @@ public class Config {
 
     /**
      * 如果需要做一下非默认的json转换操作可以放在这里操作
+     *
      * @return Object
      */
     public static Gson createGson() {
         return new GsonBuilder().
        
          /* registerTypeAdapter(RedisConfig.class, new RedisConfig.Handler()).*/create();
-         
+
     }
+
     public static void main(String args[]) {
         try {
             String s = FileUtil.readFile2Str("C:\\zzw\\calendar\\src\\main\\resources\\config.cfg");
@@ -210,6 +267,7 @@ public class Config {
     public void setImage(ImageConfig image) {
         this.image = image;
     }
+
     public int getPvSmsSendAmount() {
         return pvSmsSendAmount;
     }

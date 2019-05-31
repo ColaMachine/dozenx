@@ -30,7 +30,9 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -166,13 +168,18 @@ public class LoginController extends BaseController {
      */
     @API(summary = "用户登录接口",
             consumes = "application/json",
-            description = "sysRoleController 角色添加接口", parameters = {
-            @Param(name = "loginName", description = "用户名"
-                    , dataType = DataType.STRING, in = "body", required = true),
-            @Param(name = "pwd", description = "加密后的密码"
-                    , dataType = DataType.STRING, in = "body", required = true),
-            @Param(name = "picCaptcha", description = "验证码"
-                    , dataType = DataType.LONG, in = "body", required = true),
+            description = " 用户登录接口", parameters = {
+
+
+            @Param(name="body" , description="用户登录json",schema = "{ \"loginName\":\"\", \"pwd\": \"\", \"picCaptcha\": \"\"}", in=InType.body,dataType = DataType.STRING,required = true),
+
+//
+//            @Param(name = "loginName", description = "用户名",schema = ""
+//                    , dataType = DataType.STRING, in = "body", required = true),
+//            @Param(name = "pwd", description = "加密后的密码"
+//                    , dataType = DataType.STRING, in = "body", required = true),
+//            @Param(name = "picCaptcha", description = "验证码"
+//                    , dataType = DataType.LONG, in = "body", required = true),
 
     })
     /**
@@ -1120,9 +1127,21 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/login/pic/captcha", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
-    ResultDTO imgCode(HttpServletRequest request) {
+    ResultDTO imgCode(HttpServletRequest request, HttpServletResponse response) {
         request.getSession(true);//强制生成session 以防止 getRequestedSessionId返回为null
-        logger.debug("sessionid:" + request.getRequestedSessionId());
+        logger.info("sessionid:" + request.getSession().getId());
+
+        ;
+        Cookie hit=new Cookie("JSESSIONID",request.getSession().getId());
+
+        hit.setHttpOnly(true);//如果设置了"HttpOnly"属性，那么通过程序(JS脚本、Applet等)将无法访问该Cookie
+        hit.setMaxAge(60*60);//设置生存期为1小时
+//		hit.setDomain("www.zifansky.cn");//子域，在这个子域下才可以访问该Cookie
+		hit.setPath("/");//在这个路径下面的页面才可以访问该Cookie
+//		hit.setSecure(true);//如果设置了Secure，则只有当使用https协议连接时cookie才可以被页面访问
+
+        response.addCookie(hit);
+
 
         UUID uuid = UUID.randomUUID();
         String sessionId = uuid.toString();

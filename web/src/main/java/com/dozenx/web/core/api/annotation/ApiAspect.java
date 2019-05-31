@@ -11,6 +11,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -44,7 +45,7 @@ public class ApiAspect {
 
         if (api == null)
             return pjp.proceed();
-        RequestMapping methodUrl = method.getAnnotation(RequestMapping.class);
+        RequestMapping methodUrl = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
         Param[] params = api.parameters();
         Object[] objectAry = pjp.getArgs();
         HttpServletRequest request = null;

@@ -17,6 +17,10 @@
 package com.cpj.swagger.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,6 +80,9 @@ public final class ReflectUtils {
 		return new ArrayList<Class<?>>(clazzs);
 	}
 
+
+
+
 	/**
 	 * 扫描指定包并获取包中的全部类。
 	 * 
@@ -109,6 +116,76 @@ public final class ReflectUtils {
 		return scanClazzs(packNames);
 	}
 
+	public static List<Class<?>> newScanClazzs(List<String> packageNames
+											) throws FileNotFoundException, IllegalArgumentException, ClassNotFoundException   {
+		if(packageNames.size() < 1) { // 未指定包名
+			return Collections.emptyList();
+		}
+		Resource[] resources=null;
+		List<Resource> list =new ArrayList<>();
+		for(String packages:packageNames){
+			try {
+				Resource[] findThings = getResource(packages);
+				list.addAll(Arrays.asList(findThings));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+
+		List<Class<?>> classes = new ArrayList<>();
+		for (Resource resource : list) {
+			String className = resource.toString();
+			if(resource instanceof FileSystemResource) {
+				className = className.substring(className.indexOf("classes\\") + 8);
+				className = className.substring(0, className.indexOf(".class"));
+
+			}else if(resource instanceof UrlResource){
+				//file:/C:/Users/dozen.zhang/.m2/repository/com/dozenx/user/1.0-SNAPSHOT/user-1.0-SNAPSHOT.jar!/com/dozenx/web/core/auth/action/LoginController.class
+				className = className.substring(className.indexOf(".jar!/") + 6);//
+				className = className.substring(0, className.indexOf(".class"));
+
+			}
+
+
+
+			className = className.replaceAll("\\\\", ".");
+			className = className.replaceAll("/", ".");
+
+
+			int index =-1;
+			if((index=className.indexOf("jar!."))!=-1){
+				className = className.substring(index+"jar!.".length());
+				//:BOOT-INF.lib.web-1.0-SNAPSHOT.jar!.com.dozenx.web.core.log.action.SysLogTagController
+			}
+			if((index=className.indexOf("BOOT-INF.classes!."))!=-1){
+				className = className.substring(index+"BOOT-INF.classes!.".length());
+				//:BOOT-INF.lib.web-1.0-SNAPSHOT.jar!.com.dozenx.web.core.log.action.SysLogTagController
+			}
+
+
+
+			System.out.println("className123 :"+className);
+			try {
+				classes.add(Class.forName(className));
+			}catch (ClassNotFoundException e){
+				System.out.println("className not found:"+className);
+				e.printStackTrace();
+			}
+		}
+		return classes;
+	}
+
+	public  static Resource[] getResource(String packageSearchPath) throws IOException {
+		//String packageSearchPath = "classpath*:com/dozenx/web/**/*.class";
+		PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+		Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
+		for (Resource resource : resources) {
+			System.out.println(resource.toString());
+		}
+		return resources;
+	}
 	/**
 	 * 扫描包及其子包。
 	 * 
@@ -339,4 +416,6 @@ public final class ReflectUtils {
 		}
 		return pk;
 	}
+
+
 }

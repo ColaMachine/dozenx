@@ -1,15 +1,17 @@
 package com.dozenx.web.util;
 
 import com.dozenx.core.Path.PathManager;
+import com.dozenx.core.config.Config;
+import com.dozenx.util.FastYml;
 import com.dozenx.util.MapUtils;
-import com.dozenx.util.db.MysqlUtil;
-import com.dozenx.web.util.CacheUtil;
 import com.dozenx.util.StringUtil;
+import com.dozenx.util.db.MysqlUtil;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +25,11 @@ import java.util.Properties;
 public class ConfigUtil {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ConfigUtil.class);
 
-    public static Properties properties =new Properties();
+    public static Properties properties = new Properties();
+
     /**
      * 根据name获取配置项值
+     *
      * @param name
      * @return
      */
@@ -37,7 +41,7 @@ public class ConfigUtil {
             // throw new Exception("config param is null");
         }
         //直接从配置文件中读取
-        if(properties.size()==0){
+        if (properties.size() == 0) {
             new ConfigUtil().loadProperty();
         }
         String value = (String) properties.get(name);
@@ -46,7 +50,7 @@ public class ConfigUtil {
         }
         //如果配置文件中没有这一项目
         //从缓存中读取
-         value = (String) CacheUtil.getInstance().readCache(name, String.class);
+       /*  value = (String) CacheUtil.getInstance().readCache(name, String.class);
         if (StringUtil.isBlank(value)) {
             // Object object = BeanUtil.getBean("sysConfigService");
             //如果缓存中没有这个项目就从数据库中读取 好像顺序反了,应该先从缓存中读取
@@ -66,12 +70,13 @@ public class ConfigUtil {
         } else {
 
             return value;
-        }
-
+        }*/
+        logger.info("properties size:"+properties.size());
+        return value;
     }
 
 
-    public  void loadProperty() {//其实此种方式并不合适从properties 中读取配置,应为spring 已经支持了http远程加载配置文件的方式,那么此种方式在通过http请求就显得多余了,此种自定义Properties加载方式目前唯一的好处是可以从数据库中读取配置信息 或者可以通过加密的方式获取配置信息
+    public void loadProperty() {//其实此种方式并不合适从properties 中读取配置,应为spring 已经支持了http远程加载配置文件的方式,那么此种方式在通过http请求就显得多余了,此种自定义Properties加载方式目前唯一的好处是可以从数据库中读取配置信息 或者可以通过加密的方式获取配置信息
 
 //        logger.info("" + properties.size());
         //  if (StringUtils.isEmpty(url)) return;
@@ -82,13 +87,35 @@ public class ConfigUtil {
         List<HashMap<String, String>> propertiesList = new ArrayList<HashMap<String, String>>();
         //首先创建properties对象 //首先加载主目录下的main.properties配置文件
         properties = new Properties(); //PropertiesUtil.load("main.properties");
+
+
+        //尝试着从application.yml中读取文件
+
+        InputStream inputStream = Config.class.getResourceAsStream("/application.yml");
+        if (inputStream != null) {
+            try {
+                Properties ymlProperties = new FastYml().readStreamAsProperties(inputStream);
+                properties.putAll(ymlProperties);
+            } catch (Exception e) {
+
+            }
+        }
+
         //查找底下的所有properties文件 不进入文件夹 说明所有的配置文件都必须要拷贝到WEBROOT目录下
         List<File> files = com.dozenx.util.FileUtil.listFile(PathManager.getInstance().getClassPath().toFile(), false);
         if (files != null)
             for (File file : files) {
                 try {
-                    if (file.getName().endsWith(".properties"))
+                    if (file.getName().endsWith(".properties")) {
+                        logger.debug("loading from outside properties");
                         properties.load(new FileInputStream(file));
+                    } else if (file.getName().endsWith(".yml")) {
+                        logger.debug("properties size"+properties.size());
+                        logger.debug("loading from outside yml");
+                        Properties ymlProperties = new FastYml().readAsProperties(file);
+                        properties.putAll(ymlProperties);
+                        logger.debug("properties size"+properties.size());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -176,8 +203,6 @@ public class ConfigUtil {
                 }
 
 
-
-
                 // }
             }
         }
@@ -212,10 +237,9 @@ public class ConfigUtil {
 //        for (String key : properties.stringPropertyNames()) {
 //            logger.debug(key + "=" + properties.getProperty(key));
 //        }
-
+        logger.info((String)properties.get("test"));
         ConfigUtil.properties = properties;
     }
-
 
 
 }

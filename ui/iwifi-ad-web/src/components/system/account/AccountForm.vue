@@ -2,7 +2,7 @@
   <div>
     <Form ref="form" :model="formData" :rules="readonly?{}:formRules" :label-width="80">
       <FormItem prop="account" label="账号" required>
-        <Input v-model="formData.account" placeholder="账号" :readonly="readonly" :maxlength="15"></Input>
+        <Input v-model="formData.account" placeholder="账号" :readonly="readonly" :maxlength="40"></Input>
       </FormItem>
       <FormItem prop="username" label="名称" required>
         <Input v-model="formData.username" placeholder="名称" :readonly="readonly"></Input>

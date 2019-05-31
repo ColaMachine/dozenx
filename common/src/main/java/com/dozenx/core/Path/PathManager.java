@@ -1,7 +1,6 @@
 package com.dozenx.core.Path;
 
 import com.dozenx.core.config.Config;
-import com.dozenx.util.ExcelUtil;
 import com.dozenx.util.FilePathUtil;
 import com.dozenx.util.LogUtil;
 import com.dozenx.util.StringUtil;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -164,46 +164,117 @@ public final class PathManager {
         return ClassLoader.getSystemResource(resource);
     }
 
+
+
+    static public InputStream getResourceAsStream(String resource) {
+        ClassLoader classLoader = null;
+        InputStream inputStream = null;
+
+        try {
+            if (!java1 && !ignoreTCL) {
+                LogUtil.debug("  enter tcl");
+                classLoader = getTCL();
+                if (classLoader != null) {
+                    LogUtil.debug("Trying to find [" + resource + "] using context classloader "
+                            + classLoader + ".");
+                     inputStream = classLoader.getResourceAsStream(resource);
+
+
+                    if (inputStream != null) {
+                        return inputStream;
+                    }
+                }
+            }
+
+
+        } catch (IllegalAccessException t) {
+            LogUtil.println("error when getTCL in pathManager." + t);
+        } catch (InvocationTargetException t) {
+            if (t.getTargetException() instanceof InterruptedException
+                    || t.getTargetException() instanceof InterruptedIOException) {
+                Thread.currentThread().interrupt();
+            }
+            LogUtil.warn(t.getMessage());
+        } catch (Throwable t) {
+            //
+            //  can't be InterruptedException or InterruptedIOException
+            //    since not declared, must be error or RuntimeError.
+            logger.warn(t.getMessage());
+        }
+
+        // Last ditch attempt: get the resource from the class path. It
+        // may be the case that clazz was loaded by the Extentsion class
+        // loader which the parent of the system class loader. Hence the
+        // code below.
+        logger.debug("Trying to find [" + resource +
+                "] using ClassLoader.getSystemResource().");
+        return ClassLoader.getSystemResourceAsStream(resource);
+    }
+
     private PathManager() {
-
-
+        boolean isJarStartUpFlag = false;
         //System.out.println(PathManager.getResource("config.properties"));
         //  String protectDomain = PathManager.class.getProtectionDomain().getCodeSource().getLocation().toString();
         //PathManager.getResource("");
         try {
-
-
-            URL urlToSource = PathManager.getResource("");//PathManager.class.getProtectionDomain().getCodeSource().getLocation();
+            URL classLoaderUrl = PathManager.getResource("");//PathManager.class.getProtectionDomain().getCodeSource().getLocation();
             logger.info("protectionDomain:" + PathManager.class.getProtectionDomain().getCodeSource().getLocation());
             //protectionDomain:file:/D:/apache-tomcat-8.5.34/selenium_jar/common-1.0-SNAPSHOT.jar
-            logger.info("classLoader resource:" + urlToSource);
+            logger.info("classLoader protocol:" + classLoaderUrl.getProtocol());
+            logger.info("classLoader path:" + classLoaderUrl.getPath());
+            logger.info("classLoader path:" + classLoaderUrl.getFile());
             // classLoader resource:file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 向上找到classes目录
+            //   logger.info("getResource(\"\") :" + classLoaderUrl);
 
-            logger.info("getResource(\"\") :" + urlToSource);
+
+
             // getResource("") :file:/D:/apache-tomcat-8.5.34/selenium_jar/
             // 这个目录是正确的
+            String classLoaderPath = classLoaderUrl.getPath();
+            if(classLoaderUrl.getProtocol().toLowerCase()=="jar"){
+                logger.info("spring boot jar start up 方式启动");
+                isJarStartUpFlag = true;
+            }
+            if (classLoaderPath.startsWith("jar:")) {
 
-            String path = urlToSource.toString();
+                //jar:file:/G:/ai-workspace/AI/ai/ai-analysis/code/trunk/market-supervision/target/ms-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/
+
+
+            }
+            int startIndex = 0;
             //file:/D:/apache-tomcat-8.5.34/selenium_jar/
-            if (path.indexOf("/classes") != -1) {
-                path = path.substring(0, path.indexOf("classes") + 8);
+            if ((startIndex = classLoaderPath.indexOf("/classes") )!= -1) {
+                classLoaderPath = classLoaderPath.substring(0, classLoaderPath.indexOf("classes") + 8);
             }
-            if(urlToSource.toString().indexOf("test-classes")>0){
-                path = path.substring(0, path.indexOf("test-classes") )+"/classes";
+            logger.info("classLoaderPath"+classLoaderPath);
+            if (classLoaderPath.indexOf("test-classes") > 0) {
+                classLoaderPath = classLoaderPath.substring(0, classLoaderPath.indexOf("test-classes")) + "/classes";
             }
 
-
-            path = path.replace("file:/", "");
-            if (path.indexOf(":") != 1) {
-                path = File.separator + path;//   /service
+            if ((startIndex = classLoaderPath.indexOf("file:/")) > -1) {
+                classLoaderPath = classLoaderPath.substring(startIndex + "file:".length());
             }
-            logger.info("classPath :" + path);
-            classPath = Paths.get(path);
+//            if (classLoaderPath.indexOf(":") != 1) {
+//                classLoaderPath = File.separator + classLoaderPath;//   /service
+//            }
+            logger.info("classPath :" + classLoaderPath);
+
+            String os = System.getProperty("os.name");
+            if(os.toLowerCase().startsWith("win") && classLoaderPath.startsWith("/")){
+                classLoaderPath=classLoaderPath.substring(1);//  /g://a.txt
+            }
+
+            classPath = Paths.get(classLoaderPath);
         } catch (Exception e) {
             logger.error("PathManager ", e);
         }
+
         homePath = classPath.getParent().getParent();
+        if(isJarStartUpFlag){
+            homePath=homePath.getParent();
+            webRootPath=classPath= homePath;
+        }else
         if (webRootPath == null) {
 
             // webRootPath
@@ -219,14 +290,15 @@ public final class PathManager {
 
         }
 
-        logger.debug("webRoot:" + webRootPath);
-        logger.debug("classPath:" + classPath);
+        logger.info("webRoot123123: " + webRootPath);
+        logger.info("classPath123123: " + classPath);
 
     }
 
     public Path getHomePath() {
         return homePath;
     }
+
 
     public void setHomePath(Path homePath) {
         this.homePath = homePath;
@@ -280,10 +352,10 @@ public final class PathManager {
 //
 //        posterZipPath = imagePath.resolve(config.getInstance().getImage().getPosterZipDir());
 //        Files.createDirectories(posterZipPath);
-
+            logger.info("webRootPath:"+webRootPath);
             vcodePath = webRootPath.resolve(config.getInstance().getImage().getVcodeDir());
             Files.createDirectories(vcodePath);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

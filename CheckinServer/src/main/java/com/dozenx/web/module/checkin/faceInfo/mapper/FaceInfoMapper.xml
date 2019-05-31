@@ -4,12 +4,13 @@
     <resultMap id="BaseResultMap" type="com.dozenx.web.module.checkin.faceInfo.bean.FaceInfo">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="userId" jdbcType="BIGINT" property="userId" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
         <result column="face" jdbcType="LONGVARCHAR" property="face" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
         <result column="name" jdbcType="VARCHAR" property="name" />
     </resultMap>
     <sql id="Base_Column_List">
-        FaceInfo.`id` ,FaceInfo.`userId` ,FaceInfo.`face` ,FaceInfo.`remark` ,FaceInfo.`name`
+        FaceInfo.`id` ,FaceInfo.`userId` ,FaceInfo.`url` ,FaceInfo.`face` ,FaceInfo.`remark` ,FaceInfo.`name`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -27,6 +28,7 @@
         values (
         #{id,jdbcType=BIGINT}
         ,#{userId,jdbcType=BIGINT}
+        ,#{url,jdbcType=VARCHAR}
         ,#{face,jdbcType=LONGVARCHAR}
         ,#{remark,jdbcType=VARCHAR}
         ,#{name,jdbcType=VARCHAR}
@@ -40,6 +42,9 @@
             </if>
             <if test="userId != null" >
                 `userId`,
+            </if>
+            <if test="url != null" >
+                `url`,
             </if>
             <if test="face != null" >
                 `face`,
@@ -57,6 +62,9 @@
             </if>
             <if test="userId != null" >
                 #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="url != null" >
+                #{url,jdbcType=VARCHAR},
             </if>
             <if test="face != null" >
                 #{face,jdbcType=LONGVARCHAR},
@@ -78,6 +86,9 @@
             <if test="userId != null" >
                 `userId`=#{userId,jdbcType=BIGINT},
             </if>
+            <if test="url != null" >
+                `url`=#{url,jdbcType=VARCHAR},
+            </if>
             <if test="face != null" >
                 `face`=#{face,jdbcType=LONGVARCHAR},
             </if>
@@ -94,6 +105,7 @@
         update FaceInfo
         set
         `userId`=#{userId,jdbcType=BIGINT},
+        `url`=#{url,jdbcType=VARCHAR},
         `face`=#{face,jdbcType=LONGVARCHAR},
         `remark`=#{remark,jdbcType=VARCHAR},
         `name`=#{name,jdbcType=VARCHAR}
@@ -108,6 +120,12 @@
         </if>
         <if test="userId != null and userId != '' ">
             and `userId` = #{userId}
+        </if>
+        <if test="url != null and url != '' ">
+            and `url` = #{url}
+        </if>
+        <if test="urlLike != null and urlLike != '' ">
+            and `url` like CONCAT('%',#{urlLike},'%')
         </if>
         <if test="face != null and face != '' ">
             and `face` = #{face}
@@ -137,6 +155,12 @@
         <if test="userId != null and userId != '' ">
             and FaceInfo.`userId` = #{userId}
         </if>
+        <if test="url != null and url != '' ">
+            and FaceInfo.`url` = #{url}
+        </if>
+        <if test="urlLike != null and urlLike != '' ">
+            and FaceInfo.`url` like CONCAT('%',#{urlLike},'%')
+        </if>
         <if test="face != null and face != '' ">
             and FaceInfo.`face` = #{face}
         </if>
@@ -162,6 +186,12 @@
         </if>
         <if test="userId != null and userId != '' ">
             and FaceInfo.`userId` = #{userId}
+        </if>
+        <if test="url != null and url != '' ">
+            and FaceInfo.`url` = #{url}
+        </if>
+        <if test="urlLike != null and urlLike != '' ">
+            and FaceInfo.`url` like CONCAT('%',#{urlLike},'%')
         </if>
         <if test="face != null and face != '' ">
             and FaceInfo.`face` = #{face}
@@ -189,6 +219,9 @@
         <if test="userId != null and userId != '' ">
             or `userId` = #{userId}
         </if>
+        <if test="url != null and url != '' ">
+            or `url` = #{url}
+        </if>
         <if test="face != null and face != '' ">
             or `face` = #{face}
         </if>
@@ -199,4 +232,22 @@
             or `name` = #{name}
         </if>
     </select>
+
+
+
+    <insert id="insertBatch"   parameterType="java.util.List" >
+        insert into FaceInfo (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+            (
+            #{record.id,jdbcType=BIGINT}
+            ,#{record.userId,jdbcType=BIGINT}
+            ,#{record.url,jdbcType=VARCHAR}
+            ,#{record.face,jdbcType=LONGVARCHAR}
+            ,#{record.remark,jdbcType=VARCHAR}
+            ,#{record.name,jdbcType=VARCHAR}
+            )
+        </foreach >
+    </insert>
 </mapper>

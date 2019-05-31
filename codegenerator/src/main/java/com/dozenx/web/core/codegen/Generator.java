@@ -1144,12 +1144,18 @@ public class Generator {
     public static void main(String[] args) {
         Generator generator = new Generator();
         // generator.generate(new String[]{"SysUser"});
+        generator.generate(new String[]{"ApiUrl"});
+//        generator.generate(new String[]{"FaceInfo","FaceCapture"});
+
+//        generator.generate(new String[]{"SysOrg","SysOrgUser","SysUser","Album","SysGroup","SysOrgGroup","SysGroupUser"});
+//        generator.generate(new String[]{});
         //  generator.generate(new String[]{"CheckinLate"});
-        generator.generate(new String[]{"RiskRule", "RiskNotice", "JudgeRule", "JudgeRuleSubject", "JudgeRuleCheckField", "RiskTaxCheck",
-                "WriteoffInstance" ,"MssWriteoffInstToSupplier"
-                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
+//        generator.generate(new String[]{"RiskRule", "RiskNotice", "JudgeRule", "JudgeRuleSubject", "JudgeRuleCheckField", "RiskTaxCheck",
+//                "WriteoffInstance" ,"MssWriteoffInstToSupplier"
+//                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
         //generator.generate(new String[]{"Holiday"});
         generator.generate(new String[]{"FaceCheckinOut"});
+
         // generator.generate(new String[]{"CheckinOut"});
 //        generator.generate(new String[]{"SSCFilterForm"});
         //  generator.generate(new String[]{"SendRule"});
@@ -1157,10 +1163,10 @@ public class Generator {
         //  generator.generate(new String[]{"SmsRecord"});
         //   generator.generate(new String[]{"Goods"});
         //generator.generate(new String[]{"Calendar","Event","Instance"});
-        generator.generate(new String[]{"Email"});
-        generator.generate(new String[]{"Contacts"});
-        generator.generate(new String[]{"Goods"});
-        generator.generate(new String[]{"PubImageBelong"});
+//        generator.generate(new String[]{"Email"});
+//        generator.generate(new String[]{"Contacts"});
+//        generator.generate(new String[]{"Goods"});
+//        generator.generate(new String[]{"PubImageBelong"});
         //  generator.generate(new String[]{"SysUser","SysRole"});
         //generator.generate(new String[]{"SysUser","SysDepart","SysUserDepart"});
 //        generator.generate(new String[]{"Active"});
@@ -1184,7 +1190,7 @@ public class Generator {
      /*Generator.generate(new String[]{*//*"SysMenu","SysUser","SysRole","SysPermission","SysUserRole","SysUserPermission","SysRolePermission","Artical","Expert","ExpertDetail","ExpertArtical","Partner","PartnerDetail",
              "SysLog",*//*"Component","SysConfig","Template","EditorTempComp","Goods"
             });*/
-        Generator.generate(new String[]{"MsgInfo" });
+//        Generator.generate(new String[]{"MsgInfo" });
         //Generator.generate(new String[]{"WiiDeviceExtend" });
         // Generator.generate(new String[]{"SysConfig" });
         //  Generator.generate(new String[]{"MerchantExtends","DeviceExtends" });

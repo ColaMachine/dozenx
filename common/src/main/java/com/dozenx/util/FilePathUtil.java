@@ -75,9 +75,12 @@ public class FilePathUtil {
 		}
 		return prefix+affix;
 	}
-
+	//修复 路径可能为null的错误
 	public static String joinPath(String prefix ,String seperator,String ... affix){
 		for(String str: affix){
+			if(StringUtil.isBlank(str)){
+				continue;
+			}
 			if(!prefix.endsWith(seperator)){
 				prefix+=seperator;
 			}

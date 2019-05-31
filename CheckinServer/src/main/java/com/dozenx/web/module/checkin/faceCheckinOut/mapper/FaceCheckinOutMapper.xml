@@ -1,267 +1,547 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dozenx.web.module.checkin.faceCheckinOut.dao.FaceCheckinOutMapper">
-  <resultMap id="BaseResultMap" type="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut">
-      <id column="id" jdbcType="BIGINT" property="id" />
-      <result column="userId" jdbcType="BIGINT" property="userId" />
-      <result column="userName" jdbcType="VARCHAR" property="userName" />
-      <result column="camera" jdbcType="VARCHAR" property="camera" />
-      <result column="checkType" jdbcType="INTEGER" property="checkType" />
-      <result column="checkTime" jdbcType="TIMESTAMP" property="checkTime" />
-      <result column="score" jdbcType="FLOAT" property="score" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    FaceCheckinOut.`id` ,FaceCheckinOut.`userId` ,FaceCheckinOut.`userName` ,FaceCheckinOut.`camera` ,FaceCheckinOut.`checkType` ,FaceCheckinOut.`checkTime` ,FaceCheckinOut.`score` 
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from FaceCheckinOut
-    where FaceCheckinOut.id =   #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from FaceCheckinOut
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
- <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
+    <resultMap id="BaseResultMap" type="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="userId" jdbcType="BIGINT" property="userId" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+        <result column="camera" jdbcType="VARCHAR" property="camera" />
+        <result column="checkType" jdbcType="INTEGER" property="checkType" />
+        <result column="checkTime" jdbcType="TIMESTAMP" property="checkTime" />
+        <result column="score" jdbcType="FLOAT" property="score" />
+        <result column="cost" jdbcType="INTEGER" property="cost" />
+        <result column="avgScore" jdbcType="FLOAT" property="avgScore" />
+        <result column="regUrl" jdbcType="VARCHAR" property="regUrl" />
+        <result column="oriUrl" jdbcType="VARCHAR" property="oriUrl" />
+        <result column="regPath" jdbcType="VARCHAR" property="regPath" />
+        <result column="oriPath" jdbcType="VARCHAR" property="oriPath" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="time" jdbcType="INTEGER" property="time" />
+        <result column="cameraId" jdbcType="BIGINT" property="cameraId" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        FaceCheckinOut.`id` ,FaceCheckinOut.`userId` ,FaceCheckinOut.`userName` ,FaceCheckinOut.`camera` ,FaceCheckinOut.`checkType` ,FaceCheckinOut.`checkTime` ,FaceCheckinOut.`score` ,FaceCheckinOut.`cost` ,FaceCheckinOut.`avgScore` ,FaceCheckinOut.`regUrl` ,FaceCheckinOut.`oriUrl` ,FaceCheckinOut.`regPath` ,FaceCheckinOut.`oriPath` ,FaceCheckinOut.`remark` ,FaceCheckinOut.`time` ,FaceCheckinOut.`cameraId`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from FaceCheckinOut
+        where FaceCheckinOut.id =   #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from FaceCheckinOut
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
 
-    insert into FaceCheckinOut (  <include refid="Base_Column_List" />)
-    values (
-#{id,jdbcType=BIGINT}
-,#{userId,jdbcType=BIGINT}
-,#{userName,jdbcType=VARCHAR}
-,#{camera,jdbcType=VARCHAR}
-,#{checkType,jdbcType=INTEGER}
-,#{checkTime,jdbcType=TIMESTAMP}
-,#{score,jdbcType=FLOAT}
-    )
-  </insert>
-   <insert id="insertSelective" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
-    insert into FaceCheckinOut
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-        <if test="id != null" >  
-           `id`,
-        </if>  
-        <if test="userId != null" >  
-           `userId`,
-        </if>  
-        <if test="userName != null" >  
-           `userName`,
-        </if>  
-        <if test="camera != null" >  
-           `camera`,
-        </if>  
-        <if test="checkType != null" >  
-           `checkType`,
-        </if>  
-        <if test="checkTime != null" >  
-           `checkTime`,
-        </if>  
-        <if test="score != null" >  
-           `score`,
-        </if>  
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-        <if test="id != null" >  
-          #{id,jdbcType=BIGINT},
-        </if>  
-        <if test="userId != null" >  
-          #{userId,jdbcType=BIGINT},
-        </if>  
-        <if test="userName != null" >  
-          #{userName,jdbcType=VARCHAR},
-        </if>  
-        <if test="camera != null" >  
-          #{camera,jdbcType=VARCHAR},
-        </if>  
-        <if test="checkType != null" >  
-          #{checkType,jdbcType=INTEGER},
-        </if>  
-        <if test="checkTime != null" >  
-          #{checkTime,jdbcType=TIMESTAMP},
-        </if>  
-        <if test="score != null" >  
-          #{score,jdbcType=FLOAT},
-        </if>  
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
-    update FaceCheckinOut
-    <set >
-        <if test="id != null" >  
-             `id`=#{id,jdbcType=BIGINT},
-        </if>  
-        <if test="userId != null" >  
-             `userId`=#{userId,jdbcType=BIGINT},
-        </if>  
-        <if test="userName != null" >  
-             `userName`=#{userName,jdbcType=VARCHAR},
-        </if>  
-        <if test="camera != null" >  
-             `camera`=#{camera,jdbcType=VARCHAR},
-        </if>  
-        <if test="checkType != null" >  
-             `checkType`=#{checkType,jdbcType=INTEGER},
-        </if>  
-        <if test="checkTime != null" >  
-             `checkTime`=#{checkTime,jdbcType=TIMESTAMP},
-        </if>  
-        <if test="score != null" >  
-             `score`=#{score,jdbcType=FLOAT},
-        </if>  
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
-    update FaceCheckinOut
-    set 
-              `userId`=#{userId,jdbcType=BIGINT},
-              `userName`=#{userName,jdbcType=VARCHAR},
-              `camera`=#{camera,jdbcType=VARCHAR},
-              `checkType`=#{checkType,jdbcType=INTEGER},
-              `checkTime`=#{checkTime,jdbcType=TIMESTAMP},
-              `score`=#{score,jdbcType=FLOAT}
-where id = #{id,jdbcType=BIGINT}
-  </update>
-  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from FaceCheckinOut where 1=1
-        <if test="id != null and id != '' ">  
-           and `id` = #{id}
-        </if>  
-        <if test="userId != null and userId != '' ">  
-           and `userId` = #{userId}
-        </if>  
-        <if test="userName != null and userName != '' ">  
-           and `userName` = #{userName}
-        </if>  
-        <if test="userNameLike != null and userNameLike != '' ">
-             and `userName` like "%"#{userNameLike}"%"
-        </if>   
-        <if test="camera != null and camera != '' ">  
-           and `camera` = #{camera}
-        </if>  
-        <if test="cameraLike != null and cameraLike != '' ">
-             and `camera` like "%"#{cameraLike}"%"
-        </if>   
-        <if test="checkType != null and checkType != '' ">  
-           and `checkType` = #{checkType}
-        </if>  
-        <if test="checkTime != null and checkTime != '' ">  
-           and `checkTime` = #{checkTime}
-        </if>  
-        <if test="score != null and score != '' ">  
-           and `score` = #{score}
-        </if>
-
-      <if test="checkTimeBegin != null and checkTimeBegin != '' ">
-          and `checkTime` &gt;= #{checkTimeBegin }
-      </if>
-
-      <if test="checkTimeEnd != null and checkTimeEnd != '' ">
-          and `checkTime` &lt;= #{checkTimeEnd}
-      </if>
-  </select>
-   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from FaceCheckinOut
-
-    where 1=1
-        <if test="id != null and id != '' ">  
-           and FaceCheckinOut.`id` = #{id}
-        </if>  
-        <if test="userId != null and userId != '' ">  
-           and FaceCheckinOut.`userId` = #{userId}
-        </if>  
-        <if test="userName != null and userName != '' ">  
-           and FaceCheckinOut.`userName` = #{userName}
-        </if>  
-        <if test="userNameLike != null and userNameLike != '' ">  
-             and FaceCheckinOut.`userName` like "%"#{userNameLike}"%"
-        </if>   
-        <if test="camera != null and camera != '' ">  
-           and FaceCheckinOut.`camera` = #{camera}
-        </if>  
-        <if test="cameraLike != null and cameraLike != '' ">  
-             and FaceCheckinOut.`camera` like "%"#{cameraLike}"%"
-        </if>   
-        <if test="checkType != null and checkType != '' ">  
-           and FaceCheckinOut.`checkType` = #{checkType}
-        </if>  
-        <if test="checkTime != null and checkTime != '' ">  
-           and FaceCheckinOut.`checkTime` = #{checkTime}
-        </if>  
-        <if test="score != null and score != '' ">  
-           and FaceCheckinOut.`score` = #{score}
-        </if>
-
-       <if test="checkTimeBegin != null  ">
-           and `checkTime` &gt;= #{checkTimeBegin}
-       </if>
-
-       <if test="checkTimeEnd != null  ">
-           and `checkTime` &lt;= #{checkTimeEnd}
-       </if>
-       order by id desc
-  </select>
-   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
-    select 
-    count(1) 
-    from FaceCheckinOut where 1=1
-        <if test="id != null and id != '' ">  
-           and FaceCheckinOut.`id` = #{id}
-        </if>  
-        <if test="userId != null and userId != '' ">  
-           and FaceCheckinOut.`userId` = #{userId}
-        </if>  
-        <if test="userName != null and userName != '' ">  
-           and FaceCheckinOut.`userName` = #{userName}
-        </if>  
-        <if test="userNameLike != null and userNameLike != '' ">  
-             and FaceCheckinOut.`userName` like "%"#{userNameLike}"%"
-        </if>   
-        <if test="camera != null and camera != '' ">  
-           and FaceCheckinOut.`camera` = #{camera}
-        </if>  
-        <if test="cameraLike != null and cameraLike != '' ">  
-             and FaceCheckinOut.`camera` like "%"#{cameraLike}"%"
-        </if>   
-        <if test="checkType != null and checkType != '' ">  
-           and FaceCheckinOut.`checkType` = #{checkType}
-        </if>  
-        <if test="checkTime != null and checkTime != '' ">  
-           and FaceCheckinOut.`checkTime` = #{checkTime}
-        </if>  
-        <if test="score != null and score != '' ">  
-           and FaceCheckinOut.`score` = #{score}
-        </if>  
-  </select>
- <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
-    select
-    count(1)
-    from FaceCheckinOut where 1!=1
+        insert into FaceCheckinOut (  <include refid="Base_Column_List" />)
+        values (
+        #{id,jdbcType=BIGINT}
+        ,#{userId,jdbcType=BIGINT}
+        ,#{userName,jdbcType=VARCHAR}
+        ,#{camera,jdbcType=VARCHAR}
+        ,#{checkType,jdbcType=INTEGER}
+        ,#{checkTime,jdbcType=TIMESTAMP}
+        ,#{score,jdbcType=FLOAT}
+        ,#{cost,jdbcType=INTEGER}
+        ,#{avgScore,jdbcType=FLOAT}
+        ,#{regUrl,jdbcType=VARCHAR}
+        ,#{oriUrl,jdbcType=VARCHAR}
+        ,#{regPath,jdbcType=VARCHAR}
+        ,#{oriPath,jdbcType=VARCHAR}
+        ,#{remark,jdbcType=VARCHAR}
+        ,#{time,jdbcType=INTEGER}
+        ,#{cameraId,jdbcType=BIGINT}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
+        insert into FaceCheckinOut
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                `id`,
+            </if>
+            <if test="userId != null" >
+                `userId`,
+            </if>
+            <if test="userName != null" >
+                `userName`,
+            </if>
+            <if test="camera != null" >
+                `camera`,
+            </if>
+            <if test="checkType != null" >
+                `checkType`,
+            </if>
+            <if test="checkTime != null" >
+                `checkTime`,
+            </if>
+            <if test="score != null" >
+                `score`,
+            </if>
+            <if test="cost != null" >
+                `cost`,
+            </if>
+            <if test="avgScore != null" >
+                `avgScore`,
+            </if>
+            <if test="regUrl != null" >
+                `regUrl`,
+            </if>
+            <if test="oriUrl != null" >
+                `oriUrl`,
+            </if>
+            <if test="regPath != null" >
+                `regPath`,
+            </if>
+            <if test="oriPath != null" >
+                `oriPath`,
+            </if>
+            <if test="remark != null" >
+                `remark`,
+            </if>
+            <if test="time != null" >
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="camera != null" >
+                #{camera,jdbcType=VARCHAR},
+            </if>
+            <if test="checkType != null" >
+                #{checkType,jdbcType=INTEGER},
+            </if>
+            <if test="checkTime != null" >
+                #{checkTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="score != null" >
+                #{score,jdbcType=FLOAT},
+            </if>
+            <if test="cost != null" >
+                #{cost,jdbcType=INTEGER},
+            </if>
+            <if test="avgScore != null" >
+                #{avgScore,jdbcType=FLOAT},
+            </if>
+            <if test="regUrl != null" >
+                #{regUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="oriUrl != null" >
+                #{oriUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="regPath != null" >
+                #{regPath,jdbcType=VARCHAR},
+            </if>
+            <if test="oriPath != null" >
+                #{oriPath,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null" >
+                #{time,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
+        update FaceCheckinOut
+        <set >
+            <if test="id != null" >
+                `id`=#{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null" >
+                `userId`=#{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null" >
+                `userName`=#{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="camera != null" >
+                `camera`=#{camera,jdbcType=VARCHAR},
+            </if>
+            <if test="checkType != null" >
+                `checkType`=#{checkType,jdbcType=INTEGER},
+            </if>
+            <if test="checkTime != null" >
+                `checkTime`=#{checkTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="score != null" >
+                `score`=#{score,jdbcType=FLOAT},
+            </if>
+            <if test="cost != null" >
+                `cost`=#{cost,jdbcType=INTEGER},
+            </if>
+            <if test="avgScore != null" >
+                `avgScore`=#{avgScore,jdbcType=FLOAT},
+            </if>
+            <if test="regUrl != null" >
+                `regUrl`=#{regUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="oriUrl != null" >
+                `oriUrl`=#{oriUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="regPath != null" >
+                `regPath`=#{regPath,jdbcType=VARCHAR},
+            </if>
+            <if test="oriPath != null" >
+                `oriPath`=#{oriPath,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                `remark`=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null" >
+                `time`=#{time,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
+        update FaceCheckinOut
+        set
+        `userId`=#{userId,jdbcType=BIGINT},
+        `userName`=#{userName,jdbcType=VARCHAR},
+        `camera`=#{camera,jdbcType=VARCHAR},
+        `checkType`=#{checkType,jdbcType=INTEGER},
+        `checkTime`=#{checkTime,jdbcType=TIMESTAMP},
+        `score`=#{score,jdbcType=FLOAT},
+        `cost`=#{cost,jdbcType=INTEGER},
+        `avgScore`=#{avgScore,jdbcType=FLOAT},
+        `regUrl`=#{regUrl,jdbcType=VARCHAR},
+        `oriUrl`=#{oriUrl,jdbcType=VARCHAR},
+        `regPath`=#{regPath,jdbcType=VARCHAR},
+        `oriPath`=#{oriPath,jdbcType=VARCHAR},
+        `remark`=#{remark,jdbcType=VARCHAR},
+        `time`=#{time,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from FaceCheckinOut where 1=1
         <if test="id != null and id != '' ">
-           or `id` = #{id}
+            and `id` = #{id}
         </if>
         <if test="userId != null and userId != '' ">
-           or `userId` = #{userId}
+            and `userId` = #{userId}
         </if>
         <if test="userName != null and userName != '' ">
-           or `userName` = #{userName}
+            and `userName` = #{userName}
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
+            and `userName` like CONCAT('%',#{userNameLike},'%')
         </if>
         <if test="camera != null and camera != '' ">
-           or `camera` = #{camera}
+            and `camera` = #{camera}
+        </if>
+        <if test="cameraLike != null and cameraLike != '' ">
+            and `camera` like CONCAT('%',#{cameraLike},'%')
         </if>
         <if test="checkType != null and checkType != '' ">
-           or `checkType` = #{checkType}
+            and `checkType` = #{checkType}
         </if>
         <if test="checkTime != null and checkTime != '' ">
-           or `checkTime` = #{checkTime}
+            and `checkTime` = #{checkTime}
         </if>
         <if test="score != null and score != '' ">
-           or `score` = #{score}
+            and `score` = #{score}
         </if>
-  </select>
+        <if test="cost != null and cost != '' ">
+            and `cost` = #{cost}
+        </if>
+        <if test="avgScore != null and avgScore != '' ">
+            and `avgScore` = #{avgScore}
+        </if>
+        <if test="regUrl != null and regUrl != '' ">
+            and `regUrl` = #{regUrl}
+        </if>
+        <if test="regUrlLike != null and regUrlLike != '' ">
+            and `regUrl` like CONCAT('%',#{regUrlLike},'%')
+        </if>
+        <if test="oriUrl != null and oriUrl != '' ">
+            and `oriUrl` = #{oriUrl}
+        </if>
+        <if test="oriUrlLike != null and oriUrlLike != '' ">
+            and `oriUrl` like CONCAT('%',#{oriUrlLike},'%')
+        </if>
+        <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+            and `checkTime` &gt;= #{checkTimeBegin }
+        </if>
+
+        <if test="checkTimeEnd != null and checkTimeEnd != '' ">
+            and `checkTime` &lt;= #{checkTimeEnd}
+        </if>
+        <if test="regPath != null and regPath != '' ">
+            and `regPath` = #{regPath}
+        </if>
+        <if test="regPathLike != null and regPathLike != '' ">
+            and `regPath` like CONCAT('%',#{regPathLike},'%')
+        </if>
+        <if test="oriPath != null and oriPath != '' ">
+            and `oriPath` = #{oriPath}
+        </if>
+        <if test="oriPathLike != null and oriPathLike != '' ">
+            and `oriPath` like CONCAT('%',#{oriPathLike},'%')
+        </if>
+        <if test="remark != null and remark != '' ">
+            and `remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>
+        <if test="time != null and time != '' ">
+            and `time` = #{time}
+        </if>
+        <if test="cameraId != null and cameraId != '' ">
+            and `cameraId` = #{cameraId}
+        </if>
+    </select>
+    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from FaceCheckinOut
+
+        where 1=1
+        <if test="id != null and id != '' ">
+            and FaceCheckinOut.`id` = #{id}
+        </if>
+        <if test="userId != null and userId != '' ">
+            and FaceCheckinOut.`userId` = #{userId}
+        </if>
+        <if test="userName != null and userName != '' ">
+            and FaceCheckinOut.`userName` = #{userName}
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
+            and FaceCheckinOut.`userName` like CONCAT('%',#{userNameLike},'%')
+        </if>
+        <if test="camera != null and camera != '' ">
+            and FaceCheckinOut.`camera` = #{camera}
+        </if>
+        <if test="cameraLike != null and cameraLike != '' ">
+            and FaceCheckinOut.`camera` like CONCAT('%',#{cameraLike},'%')
+        </if>
+        <if test="checkType != null and checkType != '' ">
+            and FaceCheckinOut.`checkType` = #{checkType}
+        </if>
+        <if test="checkTime != null and checkTime != '' ">
+            and FaceCheckinOut.`checkTime` = #{checkTime}
+        </if>
+        <if test="score != null and score != '' ">
+            and FaceCheckinOut.`score` = #{score}
+        </if>
+        <if test="cost != null and cost != '' ">
+            and FaceCheckinOut.`cost` = #{cost}
+        </if>
+        <if test="avgScore != null and avgScore != '' ">
+            and FaceCheckinOut.`avgScore` = #{avgScore}
+        </if>
+        <if test="regUrl != null and regUrl != '' ">
+            and FaceCheckinOut.`regUrl` = #{regUrl}
+        </if>
+        <if test="regUrlLike != null and regUrlLike != '' ">
+            and FaceCheckinOut.`regUrl` like CONCAT('%',#{regUrlLike},'%')
+        </if>
+        <if test="oriUrl != null and oriUrl != '' ">
+            and FaceCheckinOut.`oriUrl` = #{oriUrl}
+        </if>
+        <if test="oriUrlLike != null and oriUrlLike != '' ">
+            and FaceCheckinOut.`oriUrl` like CONCAT('%',#{oriUrlLike},'%')
+        </if>
+        <if test="regPath != null and regPath != '' ">
+            and FaceCheckinOut.`regPath` = #{regPath}
+        </if>
+        <if test="regPathLike != null and regPathLike != '' ">
+            and FaceCheckinOut.`regPath` like CONCAT('%',#{regPathLike},'%')
+        </if>
+        <if test="oriPath != null and oriPath != '' ">
+            and FaceCheckinOut.`oriPath` = #{oriPath}
+        </if>
+        <if test="oriPathLike != null and oriPathLike != '' ">
+            and FaceCheckinOut.`oriPath` like CONCAT('%',#{oriPathLike},'%')
+        </if>
+        <if test="remark != null and remark != '' ">
+            and FaceCheckinOut.`remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and FaceCheckinOut.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>
+        <if test="time != null and time != '' ">
+            and FaceCheckinOut.`time` = #{time}
+        </if>
+        <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+            and `checkTime` &gt;= #{checkTimeBegin }
+        </if>
+
+        <if test="checkTimeEnd != null and checkTimeEnd != '' ">
+            and `checkTime` &lt;= #{checkTimeEnd}
+        </if>
+        <if test="cameraId != null and cameraId != '' ">
+            and cameraId = #{cameraId}
+        </if>
+
+        <if test="orgId != null and orgId != '' ">
+            and camera in (select video_url  from video_source where id in (select video_id from sys_org_video_source where org_id =#{orgId}) )
+        </if>
+        order by id desc
+    </select>
+    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from FaceCheckinOut where 1=1
+        <if test="id != null and id != '' ">
+            and FaceCheckinOut.`id` = #{id}
+        </if>
+        <if test="userId != null and userId != '' ">
+            and FaceCheckinOut.`userId` = #{userId}
+        </if>
+        <if test="userName != null and userName != '' ">
+            and FaceCheckinOut.`userName` = #{userName}
+        </if>
+        <if test="userNameLike != null and userNameLike != '' ">
+            and FaceCheckinOut.`userName` like CONCAT('%',#{userNameLike},'%')
+        </if>
+        <if test="camera != null and camera != '' ">
+            and FaceCheckinOut.`camera` = #{camera}
+        </if>
+        <if test="cameraLike != null and cameraLike != '' ">
+            and FaceCheckinOut.`camera` like CONCAT('%',#{cameraLike},'%')
+        </if>
+        <if test="checkType != null and checkType != '' ">
+            and FaceCheckinOut.`checkType` = #{checkType}
+        </if>
+        <if test="checkTime != null and checkTime != '' ">
+            and FaceCheckinOut.`checkTime` = #{checkTime}
+        </if>
+        <if test="score != null and score != '' ">
+            and FaceCheckinOut.`score` = #{score}
+        </if>
+        <if test="cost != null and cost != '' ">
+            and FaceCheckinOut.`cost` = #{cost}
+        </if>
+        <if test="avgScore != null and avgScore != '' ">
+            and FaceCheckinOut.`avgScore` = #{avgScore}
+        </if>
+        <if test="regUrl != null and regUrl != '' ">
+            and FaceCheckinOut.`regUrl` = #{regUrl}
+        </if>
+        <if test="regUrlLike != null and regUrlLike != '' ">
+            and FaceCheckinOut.`regUrl` like CONCAT('%',#{regUrlLike},'%')
+        </if>
+        <if test="oriUrl != null and oriUrl != '' ">
+            and FaceCheckinOut.`oriUrl` = #{oriUrl}
+        </if>
+        <if test="oriUrlLike != null and oriUrlLike != '' ">
+            and FaceCheckinOut.`oriUrl` like CONCAT('%',#{oriUrlLike},'%')
+        </if>
+        <if test="regPath != null and regPath != '' ">
+            and FaceCheckinOut.`regPath` = #{regPath}
+        </if>
+        <if test="regPathLike != null and regPathLike != '' ">
+            and FaceCheckinOut.`regPath` like CONCAT('%',#{regPathLike},'%')
+        </if>
+        <if test="oriPath != null and oriPath != '' ">
+            and FaceCheckinOut.`oriPath` = #{oriPath}
+        </if>
+        <if test="oriPathLike != null and oriPathLike != '' ">
+            and FaceCheckinOut.`oriPath` like CONCAT('%',#{oriPathLike},'%')
+        </if>
+        <if test="remark != null and remark != '' ">
+            and FaceCheckinOut.`remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and FaceCheckinOut.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>
+        <if test="time != null and time != '' ">
+            and FaceCheckinOut.`time` = #{time}
+        </if>
+        <if test="cameraId != null and cameraId != '' ">
+            and FaceCheckinOut.`cameraId` = #{cameraId}
+        </if>
+    </select>
+    <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from FaceCheckinOut where 1!=1
+        <if test="id != null and id != '' ">
+            or `id` = #{id}
+        </if>
+        <if test="userId != null and userId != '' ">
+            or `userId` = #{userId}
+        </if>
+        <if test="userName != null and userName != '' ">
+            or `userName` = #{userName}
+        </if>
+        <if test="camera != null and camera != '' ">
+            or `camera` = #{camera}
+        </if>
+        <if test="checkType != null and checkType != '' ">
+            or `checkType` = #{checkType}
+        </if>
+        <if test="checkTime != null and checkTime != '' ">
+            or `checkTime` = #{checkTime}
+        </if>
+        <if test="score != null and score != '' ">
+            or `score` = #{score}
+        </if>
+        <if test="cost != null and cost != '' ">
+            or `cost` = #{cost}
+        </if>
+        <if test="avgScore != null and avgScore != '' ">
+            or `avgScore` = #{avgScore}
+        </if>
+        <if test="regUrl != null and regUrl != '' ">
+            or `regUrl` = #{regUrl}
+        </if>
+        <if test="oriUrl != null and oriUrl != '' ">
+            or `oriUrl` = #{oriUrl}
+        </if>
+        <if test="regPath != null and regPath != '' ">
+            or `regPath` = #{regPath}
+        </if>
+        <if test="oriPath != null and oriPath != '' ">
+            or `oriPath` = #{oriPath}
+        </if>
+        <if test="remark != null and remark != '' ">
+            or `remark` = #{remark}
+        </if>
+        <if test="time != null and time != '' ">
+            or `time` = #{time}
+        </if>
+        <if test="cameraId != null and cameraId != '' ">
+            or `cameraId` = #{cameraId}
+        </if>
+    </select>
+
+
+
+    <insert id="insertBatch"   parameterType="java.util.List" >
+        insert into FaceCheckinOut (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+            (
+            #{record.id,jdbcType=BIGINT}
+            ,#{record.userId,jdbcType=BIGINT}
+            ,#{record.userName,jdbcType=VARCHAR}
+            ,#{record.camera,jdbcType=VARCHAR}
+            ,#{record.checkType,jdbcType=INTEGER}
+            ,#{record.checkTime,jdbcType=TIMESTAMP}
+            ,#{record.score,jdbcType=FLOAT}
+            ,#{record.cost,jdbcType=INTEGER}
+            ,#{record.avgScore,jdbcType=FLOAT}
+            ,#{record.regUrl,jdbcType=VARCHAR}
+            ,#{record.oriUrl,jdbcType=VARCHAR}
+            ,#{record.regPath,jdbcType=VARCHAR}
+            ,#{record.oriPath,jdbcType=VARCHAR}
+            ,#{record.remark,jdbcType=VARCHAR}
+            ,#{record.time,jdbcType=INTEGER}
+            )
+        </foreach >
+    </insert>
 </mapper>

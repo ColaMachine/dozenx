@@ -103,10 +103,10 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
         //String content =  HttpRequestUtil.sendGet(url,null);
 
         //===========加载主目录webroot下所有properties 文件==================
-        List<HashMap<String, String>> propertiesList = new ArrayList<HashMap<String, String>>();
+    // =null;
         //首先创建properties对象 //首先加载主目录下的main.properties配置文件
         properties = new Properties(); //PropertiesUtil.load("main.properties");
-        //查找底下的所有properties文件 不进入文件夹 说明所有的配置文件都必须要拷贝到WEBROOT目录下
+        //查找底下的所有properties文件 不进入文件夹 说明所有的配置文件都必须要拷贝到WEBROOT目录下   //如果是spring boot jar包方式 那么需要读取 jar包统计目录下的文件了
         List<File> files = com.dozenx.util.FileUtil.listFile(PathManager.getInstance().getClassPath().toFile(), false);
         if (files != null)
             for (File file : files) {
@@ -193,7 +193,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
                         String pwd = (String) properties.get("properties.db.jdbc.password");
                         String url = (String) properties.get("properties.db.jdbc.url");
                         Connection con = mysqlUtil.getConnection(driver, user, pwd, url);
-                        propertiesList = mysqlUtil.executeQuery(con, "select `key`,`value` from sys_config");
+                        List<HashMap<String, String>> propertiesList  = mysqlUtil.executeQuery(con, "select `key`,`value` from sys_config");
                         for (HashMap record : propertiesList) {
                             properties.put(MapUtils.getString(record, "key").trim(), MapUtils.getStringValue(record, "value").trim());
                         }

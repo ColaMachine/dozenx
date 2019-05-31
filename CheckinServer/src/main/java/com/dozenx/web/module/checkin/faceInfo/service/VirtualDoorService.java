@@ -20,7 +20,7 @@ import java.net.InetSocketAddress;
 public class VirtualDoorService {
     private static Logger logger = LoggerFactory.getLogger(VirtualDoorService.class);
     static Long lastOpenTime = System.currentTimeMillis();
-    static int minInterval = 7 * 1000;
+    static int minInterval = 1500;
 
     public static void open(int port) {
         if (System.currentTimeMillis() - lastOpenTime < minInterval) {

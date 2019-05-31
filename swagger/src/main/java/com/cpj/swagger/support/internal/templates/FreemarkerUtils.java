@@ -27,6 +27,13 @@ import freemarker.template.TemplateExceptionHandler;
 public final class FreemarkerUtils {
 	
 	public static Template getTemplate(String name) {
+
+		sCfg = new Configuration(Configuration.VERSION_2_3_23);
+		sCfg.setClassLoaderForTemplateLoading(FreemarkerUtils.class.getClassLoader(), "com/cpj/swagger/support/internal/templates/ftlh");
+		sCfg.setDefaultEncoding("UTF-8");
+		sCfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+		sCfg.setLogTemplateExceptions(false);
+
 		Template template = null;
 		try {
 			template = sCfg.getTemplate(name);
@@ -36,7 +43,7 @@ public final class FreemarkerUtils {
 		return template;
 	}
 	
-	private final static Configuration sCfg; 
+	private  static Configuration sCfg;
 	static {
 		sCfg = new Configuration(Configuration.VERSION_2_3_23);
         sCfg.setClassLoaderForTemplateLoading(FreemarkerUtils.class.getClassLoader(), "com/cpj/swagger/support/internal/templates/ftlh");
