@@ -730,14 +730,14 @@ public class SysMenuController extends BaseController{
             consumes = "application/x-www-form-urlencoded",
             description = "sysMenuController 菜单列表接口", parameters = {
 
-            @Param(name = "params", description = "{telno:13958173965, name:\"123\", curPage:1,pageSize:30 }" +
+            @Param(name = "params", schema ="{telno:13958173965, name:\"123\", curPage:1,pageSize:30 }" ,description = "{telno:13958173965, name:\"123\", curPage:1,pageSize:30 }" +
                     "{telno:手机号码 \n" +
                     "name:'姓名', 支持模糊查询\n" +
                     "curPage:1 //当前页\n" +
                     "pageSize:30//每页记录数，数字，不允许为空\n" +
                     "}", dataType = DataType.STRING, in="query",required = true),
     })
-    @APIResponse(value = "{ \"r\": 0, \"data\": [ { \"id\": 2, \"pid\": 0, \"name\": \"1级1\", \"url\": \"http://www.baidu.com\", \"orderNo\": 0, \"remark\": \"1级1备注\" }, { \"id\": 3, \"pid\": 0, \"name\": \"1ji1\", \"url\": \"1ji1\", \"orderNo\": 1, \"remark\": \"1ji1\" }, { \"id\": 4, \"pid\": 2, \"SysMenu_name\": \"1级1\", \"name\": \"1ji1\", \"url\": \"1ji11\", \"orderNo\": 1, \"remark\": \"1ji1\" }, { \"id\": 5, \"pid\": 2, \"SysMenu_name\": \"1级1\", \"name\": \"1ji1\", \"url\": \"1ji111\", \"orderNo\": 1, \"remark\": \"1ji1\" }, { \"id\": 6, \"pid\": 2, \"SysMenu_name\": \"1级1\", \"name\": \"1ji1\", \"url\": \"1ji1111\", \"orderNo\": 1, \"remark\": \"1ji1\" }, { \"id\": 7, \"pid\": 2, \"SysMenu_name\": \"1级1\", \"name\": \"1ji1\", \"url\": \"1ji11111\", \"orderNo\": 1, \"remark\": \"1ji1\" }, { \"id\": 8, \"pid\": 2, \"SysMenu_name\": \"1级1\", \"name\": \"1ji1\", \"url\": \"1ji111111\", \"orderNo\": 1, \"remark\": \"1ji1\" } ], \"page\": { \"curPage\": 1, \"totalPage\": 1, \"pageSize\": 10, \"totalCount\": 7, \"beginIndex\": 0, \"hasPrePage\": false, \"hasNextPage\": false } }")
+    @APIResponse(value = "{ \"r\": 0, \"data\": [ { \"id\": 2, \"pid\": 0, \"name\": \"1级1\", \"url\": \"http://www.baidu.com\", \"orderNo\": 0, \"remark\": \"1级1备注\" } ], \"page\": { \"curPage\": 1, \"totalPage\": 1, \"pageSize\": 10, \"totalCount\": 7, \"beginIndex\": 0, \"hasPrePage\": false, \"hasNextPage\": false } }")
 
     @RequestMapping(value = "/list",method=RequestMethod.GET,produces="application/json")
     @ResponseBody

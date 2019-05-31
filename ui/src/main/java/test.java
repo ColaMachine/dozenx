@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author: dozen.zhang
@@ -26,6 +28,34 @@ public class test {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(test.class);
     public static void main(String args[]) {
+
+
+
+            String cameraId = "rtsp://admin:admin123@192.168.120.111:554";
+            String ip = cameraId.substring(cameraId.indexOf("@")+1,cameraId.indexOf(":",cameraId.indexOf("@")));
+            System.out.println(ip);
+
+        String regEx="((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(cameraId);
+
+        while (m.find()) {
+            String result=m.group();
+            logger.info("ip 地址"+result);
+//break;   加break则提取string中的一个IP
+        }
+
+
+        String className = "//:BOOT-INF.lib.web-1.0-SNAPSHOT.jar!.com.dozenx.web.core.log.action.SysLogTagController";
+            int index =-1;
+            if((index=className.indexOf("jar!."))!=-1){
+                className = className.substring(index+"jar!.".length());
+                //:BOOT-INF.lib.web-1.0-SNAPSHOT.jar!.com.dozenx.web.core.log.action.SysLogTagController
+            }
+
+            System.out.println(className);
+
+
         String wenhao = URLEncoder.encode("?");
         System.out.println(wenhao);
 

@@ -119,6 +119,8 @@ public interface ${Abc}Service  {
          * @return
          */
         public ResultDTO msave(String ${table.mapper.parentid}s,String ${table.mapper.childid}s) ;
+
+       public ResultDTO msave(  ${parentType} ${table.mapper.parentid}s,  ${childType} ${table.mapper.childid}s) ;
       </#if>
       </#if>
 

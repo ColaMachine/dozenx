@@ -144,7 +144,7 @@ public class UpgradeController extends BaseController {
         //一个升级程序 会连接到主站上面
         String cmd = request.getParameter("cmd");
         String path = request.getParameter("path");
-
+        // http://127.0.0.1:7561/advertsrv/sys/upgrade/exec?path=/service/tomcat-npbiz-advert-7561/npbiz-advert&cmd=mv%20telnet%20META-INF/
         //重启服务
         if (StringUtil.isNotBlank(cmd)) {
             //添加定时任务 重启tomcat 服务

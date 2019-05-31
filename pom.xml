@@ -24,6 +24,7 @@
         <module>codegenerator</module>
         <module>blog</module>
         <module>spider</module>
+        <module>SpingBoot</module>
     </modules>
 
     <!-- 各jar版本号统一定义 -->
@@ -57,27 +58,33 @@
 
 
     <dependencies>
-    <dependency>
+   <!-- <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
         <version>1.7.9</version>
-    </dependency>
+    </dependency>-->
     <!-- <dependency> <groupId>commons-logging</groupId> <artifactId>commons-logging</artifactId>
         <version>1.1.3</version> </dependency> -->
     <!-- slf4j + logback -->
-    <dependency>
+   <!-- <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>1.6.2</version>
-    </dependency>
+    </dependency>-->
 
         <!--json -->
 
-        <dependency>
+       <!-- <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
-        </dependency>
+        </dependency>-->
+
+
+
+
+
+
     </dependencies>
     <profiles>
 
@@ -256,7 +263,7 @@
         </repository>-->
 <!-- &lt;!&ndash; maven私库 &ndash;&gt; -->
 
-       <!--<repository>
+       <repository>
             <id>aWiFi-rep</id>
             <name>aWiFi Private Repository</name>
             <url>http://192.168.41.25:8081/nexus/content/groups/public/</url>
@@ -266,13 +273,13 @@
             <id>dozenx</id>
             <name>aWiFi Private Repository</name>
             <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
-        </repository>-->
+        </repository>
 
 
 
     </repositories>
 
-  <!--  <distributionManagement>
+   <distributionManagement>
         <repository>
             <id>releases</id>
             <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
@@ -281,5 +288,5 @@
             <id>snapshots</id>
             <url>http://192.168.41.25:8081/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
-    </distributionManagement>-->
+    </distributionManagement>
 </project>
