@@ -99,7 +99,11 @@
             <artifactId>logging-interceptor</artifactId>
             <version>3.5.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.0.23.Final</version>
+        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/com.baidu.ueditor/ueditor-mini -->
@@ -120,6 +124,15 @@
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/json.jar</systemPath>
 
         </dependency>-->
+
+        <dependency>
+            <groupId>com.xuggle</groupId>
+            <artifactId>xuggle</artifactId>
+            <version>5.4</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/xuggle-xuggler-5.4.jar</systemPath>
+
+        </dependency>
 
     </dependencies>
     <profiles>

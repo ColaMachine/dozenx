@@ -136,6 +136,7 @@ const routeApp = new Vue({
   el: '#router',
   router
 });
+export default routeApp;
 // 或者
 /**const app = new Vue({
   router

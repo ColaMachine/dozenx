@@ -71,6 +71,28 @@
 </zwCol>
 
 
+
+
+
+
+<zwCol span=24>
+    <zwBox class="">
+        <div slot="zwCodeBoxDemo">
+             <zwPcImgList2 :list="imgList"></zwPcImgList2>
+        </div>
+        <div slot="zwCodeBoxMeta"  title="tab类型">
+             zwPcImgList2 是适用于pc端图片 信息展示条目
+        </div>
+        <div slot="zwCodeBoxPanel"  >
+
+            <textarea ref="textarea" id="textarea" name="textarea">
+ < <zwPcImgList2 :list="imgList"></zwPcImgList2>
+            </textarea>
+
+       </div>
+    </zwBox>
+</zwCol>
+
 </zwRow>
 
 
@@ -95,9 +117,10 @@ import zwBox from '../../../component/layout/zwBox.vue';
 import zwAppImgList from '../../../component/datadisplay/zwAppImgList.vue';
 import zwAppImgBlocks from '../../../component/datadisplay/zwAppImgBlocks.vue';
 import zwPcImgList from '../../../component/datadisplay/zwPcImgList.vue';
+import zwPcImgList2 from '../../../component/datadisplay/zwPcImgList2.vue';
 
 export default {
-    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwAppImgList,zwPcImgList,zwAppImgBlocks},
+    components:{zwRow,zwCol,zwIcon,zwBox,zwHeader,zwContent,zwFooter,zwLayout,zwSider,zwAppImgList,zwPcImgList,zwAppImgBlocks,zwPcImgList2},
     data () {
 
         return {

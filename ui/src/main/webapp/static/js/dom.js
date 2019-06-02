@@ -298,7 +298,7 @@ for(var i=0;i<selid.length;i++){
 
 }
 function getSelectedValue(id){
-var obj = document.getElementById(id); //定位id
+var obj = $$(id); //定位id
 
 var index = obj.selectedIndex; // 选中索引
 

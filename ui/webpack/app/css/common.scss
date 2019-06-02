@@ -1,14 +1,22 @@
 /*color*/
 @import 'base';
 @CHARSET "UTF-8";
+
 html {
 
     background-color: #eee;
 
       color: #333;
-        font-size: 2.666667vw;
+
         margin: 0 auto;
 }
+/*color if in mobile phone*/
+@media (max-width: 600px) {
+html {
+    font-size: 2.666667vw;
+}
+}
+
 body{
     margin:0px;
     padding:0px;

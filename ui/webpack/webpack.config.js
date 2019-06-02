@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 const PATHS={
+    main:path.resolve(__dirname,'./src/main.js'),//组件库
     example:path.resolve(__dirname,'./app/example.js'),//组件库
     vuePhoneIndex:path.resolve(__dirname,'./app/vuePhoneIndex.js'),//手机端主界面  vuePhoneIndex
      vueUserInfo:path.resolve(__dirname,'./app/vueUserInfo.js'),//手机端主界面  vuePhoneIndex
@@ -31,6 +32,7 @@ module.exports = {
      //entry:PATHS.app,//会根据这个目录来构建js
 
      entry : {
+     "main": PATHS.main,//pc端管理主界面
         "index": PATHS.index,//pc端管理主界面
         //"blog": PATHS.blog,//pc端管理主界面
        "example": PATHS.example,//组件库

@@ -129,3 +129,7 @@ background-color: #2baee9;
     width: 100%;
 }
 
+
+.control-label{
+        text-align:right;
+    }

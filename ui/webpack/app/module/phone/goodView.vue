@@ -247,9 +247,32 @@ Ajax.getJSON(PATH+"/goods/view.json?id="+this.id, null, function(result) {
                              ary.push({url:'',pic:window.getPathValue(this.data.img1)});
                               ary.push({url:'',pic:window.getPathValue(this.data.img2)});
                                ary.push({url:'',pic:window.getPathValue(this.data.img3)});
+                                 console.log("imgList",this.imgList)
                                this.imgList= ary;
-                               console.log("---------------------------")
-                               console.log(ary)
+
+
+
+
+ currLink =location.href;
+ title = this.data.name;
+
+ imgUrl = "http://www.dapark.top/home/"+this.data.img;
+ //alert(document.domain);
+ desc = this.data.name;
+
+
+Ajax.getJSON(PATH+"/weixin/signatrue",{url:window.location.href},function(sinatrueResult){
+   var sinatrueResultData = sinatrueResult.data;
+    initWx(sinatrueResultData);
+
+
+});
+
+                             //  console.log("---------------------------")
+                            //   console.log(ary)
+                            //    console.log("wx",wx);
+                              //  alert("wx onMenuShareTimeline1111111"+this.data.name);
+
                         }
                       }.Apply(this));
     },
