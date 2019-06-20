@@ -17,7 +17,7 @@
                {{item.in}}
                </td>
                 <td >
-               {{item.type}}
+               {{item.type}}{{item.schema? item.schema.$ref.substr(14):""}}
                </td>
                  <td >
                {{item.required}}

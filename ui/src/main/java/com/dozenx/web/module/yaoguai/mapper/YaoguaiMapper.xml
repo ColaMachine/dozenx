@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.yaoguai.dao.YaoguaiMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.yaoguai.bean.Yaoguai">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="img" jdbcType="VARCHAR" property="img" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="price" jdbcType="DECIMAL" property="price" />
+      <result column="creator" jdbcType="BIGINT" property="creator" />
+      <result column="creatorName" jdbcType="VARCHAR" property="creatorName" />
+      <result column="platform" jdbcType="VARCHAR" property="platform" />
+      <result column="up" jdbcType="INTEGER" property="up" />
+      <result column="wg" jdbcType="INTEGER" property="wg" />
+      <result column="wf" jdbcType="INTEGER" property="wf" />
+      <result column="fg" jdbcType="INTEGER" property="fg" />
+      <result column="ff" jdbcType="INTEGER" property="ff" />
+      <result column="sm" jdbcType="INTEGER" property="sm" />
+      <result column="zf" jdbcType="INTEGER" property="zf" />
+      <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Yaoguai.`id` ,Yaoguai.`name` ,Yaoguai.`address` ,Yaoguai.`img` ,Yaoguai.`remark` ,Yaoguai.`status` ,Yaoguai.`price` ,Yaoguai.`creator` ,Yaoguai.`creatorName` ,Yaoguai.`platform` ,Yaoguai.`up` ,Yaoguai.`wg` ,Yaoguai.`wf` ,Yaoguai.`fg` ,Yaoguai.`ff` ,Yaoguai.`sm` ,Yaoguai.`zf` ,Yaoguai.`createTime` ,Yaoguai.`updateTime` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Yaoguai
+    where Yaoguai.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from Yaoguai
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.yaoguai.bean.Yaoguai" >
+
+    insert into Yaoguai (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{name,jdbcType=VARCHAR}
+,#{address,jdbcType=VARCHAR}
+,#{img,jdbcType=VARCHAR}
+,#{remark,jdbcType=VARCHAR}
+,#{status,jdbcType=INTEGER}
+,#{price,jdbcType=DECIMAL}
+,#{creator,jdbcType=BIGINT}
+,#{creatorName,jdbcType=VARCHAR}
+,#{platform,jdbcType=VARCHAR}
+,#{up,jdbcType=INTEGER}
+,#{wg,jdbcType=INTEGER}
+,#{wf,jdbcType=INTEGER}
+,#{fg,jdbcType=INTEGER}
+,#{ff,jdbcType=INTEGER}
+,#{sm,jdbcType=INTEGER}
+,#{zf,jdbcType=INTEGER}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{updateTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.yaoguai.bean.Yaoguai" >
+    insert into Yaoguai
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="name != null" >  
+           `name`,
+        </if>  
+        <if test="address != null" >  
+           `address`,
+        </if>  
+        <if test="img != null" >  
+           `img`,
+        </if>  
+        <if test="remark != null" >  
+           `remark`,
+        </if>  
+        <if test="status != null" >  
+           `status`,
+        </if>  
+        <if test="price != null" >  
+           `price`,
+        </if>  
+        <if test="creator != null" >  
+           `creator`,
+        </if>  
+        <if test="creatorName != null" >  
+           `creatorName`,
+        </if>  
+        <if test="platform != null" >  
+           `platform`,
+        </if>  
+        <if test="up != null" >  
+           `up`,
+        </if>  
+        <if test="wg != null" >  
+           `wg`,
+        </if>  
+        <if test="wf != null" >  
+           `wf`,
+        </if>  
+        <if test="fg != null" >  
+           `fg`,
+        </if>  
+        <if test="ff != null" >  
+           `ff`,
+        </if>  
+        <if test="sm != null" >  
+           `sm`,
+        </if>  
+        <if test="zf != null" >  
+           `zf`,
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`,
+        </if>  
+        <if test="updateTime != null" >  
+           `updateTime`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="address != null" >  
+          #{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="img != null" >  
+          #{img,jdbcType=VARCHAR},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="price != null" >  
+          #{price,jdbcType=DECIMAL},
+        </if>  
+        <if test="creator != null" >  
+          #{creator,jdbcType=BIGINT},
+        </if>  
+        <if test="creatorName != null" >  
+          #{creatorName,jdbcType=VARCHAR},
+        </if>  
+        <if test="platform != null" >  
+          #{platform,jdbcType=VARCHAR},
+        </if>  
+        <if test="up != null" >  
+          #{up,jdbcType=INTEGER},
+        </if>  
+        <if test="wg != null" >  
+          #{wg,jdbcType=INTEGER},
+        </if>  
+        <if test="wf != null" >  
+          #{wf,jdbcType=INTEGER},
+        </if>  
+        <if test="fg != null" >  
+          #{fg,jdbcType=INTEGER},
+        </if>  
+        <if test="ff != null" >  
+          #{ff,jdbcType=INTEGER},
+        </if>  
+        <if test="sm != null" >  
+          #{sm,jdbcType=INTEGER},
+        </if>  
+        <if test="zf != null" >  
+          #{zf,jdbcType=INTEGER},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.yaoguai.bean.Yaoguai" >
+    update Yaoguai
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="address != null" >  
+             `address`=#{address,jdbcType=VARCHAR},
+        </if>  
+        <if test="img != null" >  
+             `img`=#{img,jdbcType=VARCHAR},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="price != null" >  
+             `price`=#{price,jdbcType=DECIMAL},
+        </if>  
+        <if test="creator != null" >  
+             `creator`=#{creator,jdbcType=BIGINT},
+        </if>  
+        <if test="creatorName != null" >  
+             `creatorName`=#{creatorName,jdbcType=VARCHAR},
+        </if>  
+        <if test="platform != null" >  
+             `platform`=#{platform,jdbcType=VARCHAR},
+        </if>  
+        <if test="up != null" >  
+             `up`=#{up,jdbcType=INTEGER},
+        </if>  
+        <if test="wg != null" >  
+             `wg`=#{wg,jdbcType=INTEGER},
+        </if>  
+        <if test="wf != null" >  
+             `wf`=#{wf,jdbcType=INTEGER},
+        </if>  
+        <if test="fg != null" >  
+             `fg`=#{fg,jdbcType=INTEGER},
+        </if>  
+        <if test="ff != null" >  
+             `ff`=#{ff,jdbcType=INTEGER},
+        </if>  
+        <if test="sm != null" >  
+             `sm`=#{sm,jdbcType=INTEGER},
+        </if>  
+        <if test="zf != null" >  
+             `zf`=#{zf,jdbcType=INTEGER},
+        </if>  
+        <if test="createTime != null" >  
+             `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+             `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.yaoguai.bean.Yaoguai" >
+    update Yaoguai
+    set 
+              `name`=#{name,jdbcType=VARCHAR},
+              `address`=#{address,jdbcType=VARCHAR},
+              `img`=#{img,jdbcType=VARCHAR},
+              `remark`=#{remark,jdbcType=VARCHAR},
+              `status`=#{status,jdbcType=INTEGER},
+              `price`=#{price,jdbcType=DECIMAL},
+              `creator`=#{creator,jdbcType=BIGINT},
+              `creatorName`=#{creatorName,jdbcType=VARCHAR},
+              `platform`=#{platform,jdbcType=VARCHAR},
+              `up`=#{up,jdbcType=INTEGER},
+              `wg`=#{wg,jdbcType=INTEGER},
+              `wf`=#{wf,jdbcType=INTEGER},
+              `fg`=#{fg,jdbcType=INTEGER},
+              `ff`=#{ff,jdbcType=INTEGER},
+              `sm`=#{sm,jdbcType=INTEGER},
+              `zf`=#{zf,jdbcType=INTEGER},
+              `createTime`=#{createTime,jdbcType=TIMESTAMP},
+              `updateTime`=#{updateTime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Yaoguai where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="address != null and address != '' ">  
+           and `address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">
+             and `address` like CONCAT('%',#{addressLike},'%')
+        </if>   
+        <if test="img != null and img != '' ">  
+           and `img` = #{img}
+        </if>  
+        <if test="imgLike != null and imgLike != '' ">
+             and `img` like CONCAT('%',#{imgLike},'%')
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="price != null and price != '' ">  
+           and `price` = #{price}
+        </if>  
+        <if test="creator != null and creator != '' ">  
+           and `creator` = #{creator}
+        </if>  
+        <if test="creatorName != null and creatorName != '' ">  
+           and `creatorName` = #{creatorName}
+        </if>  
+        <if test="creatorNameLike != null and creatorNameLike != '' ">
+             and `creatorName` like CONCAT('%',#{creatorNameLike},'%')
+        </if>   
+        <if test="platform != null and platform != '' ">  
+           and `platform` = #{platform}
+        </if>  
+        <if test="platformLike != null and platformLike != '' ">
+             and `platform` like CONCAT('%',#{platformLike},'%')
+        </if>   
+        <if test="up != null and up != '' ">  
+           and `up` = #{up}
+        </if>  
+        <if test="wg != null and wg != '' ">  
+           and `wg` = #{wg}
+        </if>  
+        <if test="wf != null and wf != '' ">  
+           and `wf` = #{wf}
+        </if>  
+        <if test="fg != null and fg != '' ">  
+           and `fg` = #{fg}
+        </if>  
+        <if test="ff != null and ff != '' ">  
+           and `ff` = #{ff}
+        </if>  
+        <if test="sm != null and sm != '' ">  
+           and `sm` = #{sm}
+        </if>  
+        <if test="zf != null and zf != '' ">  
+           and `zf` = #{zf}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and `updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Yaoguai
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and Yaoguai.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and Yaoguai.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and Yaoguai.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="address != null and address != '' ">  
+           and Yaoguai.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and Yaoguai.`address` like CONCAT('%',#{addressLike},'%')
+        </if>   
+        <if test="img != null and img != '' ">  
+           and Yaoguai.`img` = #{img}
+        </if>  
+        <if test="imgLike != null and imgLike != '' ">  
+             and Yaoguai.`img` like CONCAT('%',#{imgLike},'%')
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and Yaoguai.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and Yaoguai.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and Yaoguai.`status` = #{status}
+        </if>  
+        <if test="price != null and price != '' ">  
+           and Yaoguai.`price` = #{price}
+        </if>  
+        <if test="creator != null and creator != '' ">  
+           and Yaoguai.`creator` = #{creator}
+        </if>  
+        <if test="creatorName != null and creatorName != '' ">  
+           and Yaoguai.`creatorName` = #{creatorName}
+        </if>  
+        <if test="creatorNameLike != null and creatorNameLike != '' ">  
+             and Yaoguai.`creatorName` like CONCAT('%',#{creatorNameLike},'%')
+        </if>   
+        <if test="platform != null and platform != '' ">  
+           and Yaoguai.`platform` = #{platform}
+        </if>  
+        <if test="platformLike != null and platformLike != '' ">  
+             and Yaoguai.`platform` like CONCAT('%',#{platformLike},'%')
+        </if>   
+        <if test="up != null and up != '' ">  
+           and Yaoguai.`up` = #{up}
+        </if>  
+        <if test="wg != null and wg != '' ">  
+           and Yaoguai.`wg` = #{wg}
+        </if>  
+        <if test="wf != null and wf != '' ">  
+           and Yaoguai.`wf` = #{wf}
+        </if>  
+        <if test="fg != null and fg != '' ">  
+           and Yaoguai.`fg` = #{fg}
+        </if>  
+        <if test="ff != null and ff != '' ">  
+           and Yaoguai.`ff` = #{ff}
+        </if>  
+        <if test="sm != null and sm != '' ">  
+           and Yaoguai.`sm` = #{sm}
+        </if>  
+        <if test="zf != null and zf != '' ">  
+           and Yaoguai.`zf` = #{zf}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and Yaoguai.`createTime` = #{createTime}
+        </if>  
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `createTime` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `createTime` &lt;= #{createTimeEnd}
+               </if>
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `createTime` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `createTime` &lt;= #{createTimeEnd}
+               </if>
+        <if test="updateTime != null and updateTime != '' ">  
+           and Yaoguai.`updateTime` = #{updateTime}
+        </if>  
+               <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+                    and `updateTime` &gt;= #{updateTimeBegin}
+               </if>
+                <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+                    and `updateTime` &lt;= #{updateTimeEnd}
+               </if>
+               <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+                    and `updateTime` &gt;= #{updateTimeBegin}
+               </if>
+                <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+                    and `updateTime` &lt;= #{updateTimeEnd}
+               </if>
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from Yaoguai where 1=1
+        <if test="id != null and id != '' ">  
+           and Yaoguai.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and Yaoguai.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and Yaoguai.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="address != null and address != '' ">  
+           and Yaoguai.`address` = #{address}
+        </if>  
+        <if test="addressLike != null and addressLike != '' ">  
+             and Yaoguai.`address` like CONCAT('%',#{addressLike},'%')
+        </if>   
+        <if test="img != null and img != '' ">  
+           and Yaoguai.`img` = #{img}
+        </if>  
+        <if test="imgLike != null and imgLike != '' ">  
+             and Yaoguai.`img` like CONCAT('%',#{imgLike},'%')
+        </if>   
+        <if test="remark != null and remark != '' ">  
+           and Yaoguai.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and Yaoguai.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and Yaoguai.`status` = #{status}
+        </if>  
+        <if test="price != null and price != '' ">  
+           and Yaoguai.`price` = #{price}
+        </if>  
+        <if test="creator != null and creator != '' ">  
+           and Yaoguai.`creator` = #{creator}
+        </if>  
+        <if test="creatorName != null and creatorName != '' ">  
+           and Yaoguai.`creatorName` = #{creatorName}
+        </if>  
+        <if test="creatorNameLike != null and creatorNameLike != '' ">  
+             and Yaoguai.`creatorName` like CONCAT('%',#{creatorNameLike},'%')
+        </if>   
+        <if test="platform != null and platform != '' ">  
+           and Yaoguai.`platform` = #{platform}
+        </if>  
+        <if test="platformLike != null and platformLike != '' ">  
+             and Yaoguai.`platform` like CONCAT('%',#{platformLike},'%')
+        </if>   
+        <if test="up != null and up != '' ">  
+           and Yaoguai.`up` = #{up}
+        </if>  
+        <if test="wg != null and wg != '' ">  
+           and Yaoguai.`wg` = #{wg}
+        </if>  
+        <if test="wf != null and wf != '' ">  
+           and Yaoguai.`wf` = #{wf}
+        </if>  
+        <if test="fg != null and fg != '' ">  
+           and Yaoguai.`fg` = #{fg}
+        </if>  
+        <if test="ff != null and ff != '' ">  
+           and Yaoguai.`ff` = #{ff}
+        </if>  
+        <if test="sm != null and sm != '' ">  
+           and Yaoguai.`sm` = #{sm}
+        </if>  
+        <if test="zf != null and zf != '' ">  
+           and Yaoguai.`zf` = #{zf}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and Yaoguai.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and Yaoguai.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and Yaoguai.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and Yaoguai.`updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and Yaoguai.`updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and Yaoguai.`updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from Yaoguai where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="address != null and address != '' ">
+           or `address` = #{address}
+        </if>
+        <if test="img != null and img != '' ">
+           or `img` = #{img}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="price != null and price != '' ">
+           or `price` = #{price}
+        </if>
+        <if test="creator != null and creator != '' ">
+           or `creator` = #{creator}
+        </if>
+        <if test="creatorName != null and creatorName != '' ">
+           or `creatorName` = #{creatorName}
+        </if>
+        <if test="platform != null and platform != '' ">
+           or `platform` = #{platform}
+        </if>
+        <if test="up != null and up != '' ">
+           or `up` = #{up}
+        </if>
+        <if test="wg != null and wg != '' ">
+           or `wg` = #{wg}
+        </if>
+        <if test="wf != null and wf != '' ">
+           or `wf` = #{wf}
+        </if>
+        <if test="fg != null and fg != '' ">
+           or `fg` = #{fg}
+        </if>
+        <if test="ff != null and ff != '' ">
+           or `ff` = #{ff}
+        </if>
+        <if test="sm != null and sm != '' ">
+           or `sm` = #{sm}
+        </if>
+        <if test="zf != null and zf != '' ">
+           or `zf` = #{zf}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `createTime` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+           or `updateTime` = #{updateTime}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into Yaoguai (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=BIGINT}
+,#{record.name,jdbcType=VARCHAR}
+,#{record.address,jdbcType=VARCHAR}
+,#{record.img,jdbcType=VARCHAR}
+,#{record.remark,jdbcType=VARCHAR}
+,#{record.status,jdbcType=INTEGER}
+,#{record.price,jdbcType=DECIMAL}
+,#{record.creator,jdbcType=BIGINT}
+,#{record.creatorName,jdbcType=VARCHAR}
+,#{record.platform,jdbcType=VARCHAR}
+,#{record.up,jdbcType=INTEGER}
+,#{record.wg,jdbcType=INTEGER}
+,#{record.wf,jdbcType=INTEGER}
+,#{record.fg,jdbcType=INTEGER}
+,#{record.ff,jdbcType=INTEGER}
+,#{record.sm,jdbcType=INTEGER}
+,#{record.zf,jdbcType=INTEGER}
+,#{record.createTime,jdbcType=TIMESTAMP}
+,#{record.updateTime,jdbcType=TIMESTAMP}
+)
+        </foreach >
+    </insert>
+</mapper>

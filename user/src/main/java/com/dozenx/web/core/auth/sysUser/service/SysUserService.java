@@ -112,13 +112,13 @@ public class SysUserService extends BaseService {
             return ResultUtil.getResult(10002001,ErrorMessage.getErrorMsg("err.user.email.repeat"));
         }
         if(StringUtil.isNotBlank(sysUser.getAccount()) && sysUser.getAccount().equals(oldSysUser.getAccount()) ){
-        return ResultUtil.getResult(10002001,ErrorMessage.getErrorMsg("err.user.account.repeat"));
+        return ResultUtil.getResult(10002002,ErrorMessage.getErrorMsg("err.user.account.repeat"));
         }
         if(StringUtil.isNotBlank(sysUser.getTelno()) && sysUser.getTelno().equals(oldSysUser.getTelno()) ){
-        return ResultUtil.getResult(10002001,ErrorMessage.getErrorMsg("err.user.telno.repeat"));
+        return ResultUtil.getResult(10002003,ErrorMessage.getErrorMsg("err.user.telno.repeat"));
         }
         if(StringUtil.isNotBlank(sysUser.getUsername()) && sysUser.getUsername().equals(oldSysUser.getUsername()) ){
-            return ResultUtil.getResult(10002001,ErrorMessage.getErrorMsg("err.user.username.repeat"));
+            return ResultUtil.getResult(10002004,ErrorMessage.getErrorMsg("err.user.username.repeat"));
         }
 
         }
@@ -945,5 +945,9 @@ public class SysUserService extends BaseService {
     public SysUser getUserByOutId(Long id) {
         SysUser user = sysUserMapper.selectUserByOutId(id);
         return user;
+    }
+
+    public void updatePinyin(Long userId,String pinying){
+        sysUserMapper.updatePinyin(userId,pinying);
     }
 }

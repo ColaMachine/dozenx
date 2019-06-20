@@ -1320,6 +1320,8 @@ public class HttpRequestUtil {
             HttpURLConnection conn = (HttpURLConnection) realUrl
                     .openConnection();
             // 设置通用的请求属性
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("user-agent",

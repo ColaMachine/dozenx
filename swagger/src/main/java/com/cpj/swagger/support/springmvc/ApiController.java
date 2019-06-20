@@ -20,20 +20,25 @@ import com.cpj.swagger.support.Constants;
 import com.cpj.swagger.support.internal.ApiViewWriter;
 import com.cpj.swagger.support.internal.DefaultApiViewWriter;
 import com.cpj.swagger.util.ResourceUtil;
+import com.dozenx.core.Path.PathManager;
+import com.dozenx.util.JsonUtil;
+import com.dozenx.util.MapUtils;
+import com.dozenx.util.PropertiesUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.dozenx.util.FileUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -44,7 +49,7 @@ import java.util.Properties;
 @RequestMapping("/api")
 //@APIs("/api")
 public class ApiController implements InitializingBean, Constants {
-	
+	private Logger logger = LoggerFactory.getLogger(ApiController.class);
 	private ApiViewWriter apiViewWriter = new DefaultApiViewWriter();
 	private Properties props = new Properties();
 	
@@ -54,7 +59,7 @@ public class ApiController implements InitializingBean, Constants {
 		if(StringUtils.isBlank(lang)) {
 			lang = DEFAULT_LANG;
 		}
-		String suffix = props.getProperty("suffix");
+		String suffix =	props.getProperty("suffix");
 		if(StringUtils.isBlank(suffix)) {
 			suffix = "";
 		}
@@ -69,6 +74,7 @@ public class ApiController implements InitializingBean, Constants {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public void queryApi(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Properties props = new Properties();
+
 		InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
 		try {
 			props.load(is);
@@ -129,11 +135,6 @@ public class ApiController implements InitializingBean, Constants {
 
 	@RequestMapping(value="test/data/save", method=RequestMethod.POST)
 	public void saveApiTestData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Properties props = new Properties();
-		InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
-		props.load(is);
-
-		is.close();
 
 		//吧json 数据 传入到对应的名称的数据文档里
 
@@ -158,7 +159,16 @@ public class ApiController implements InitializingBean, Constants {
 
 	}
 
-
+	@RequestMapping(value="db/save", method=RequestMethod.POST)
+	public void saveApiInfo(HttpServletRequest request, HttpServletResponse response ,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+		//吧json 数据 传入到对应的名称的数据文档里
+		String s = JsonUtil.toJsonString(bodyParam);
+		System.out.println(s);
+		String url = MapUtils.getString(bodyParam,"url");
+		String summary = MapUtils.getString(bodyParam,"summary");
+		String description = MapUtils.getString(bodyParam,"description");
+		String httpType = MapUtils.getString(bodyParam,"httpType");
+	}
 
 	/**
 	 * @since 1.2.0
@@ -170,8 +180,19 @@ public class ApiController implements InitializingBean, Constants {
 
 	//@Override
 	public void afterPropertiesSet() throws Exception {
-		InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
-		props.load(is);
-		is.close();
+		try {
+//			Path path = PathManager.getInstance().getHomePath().resolve("swagger.properties");
+//			logger.info("ready to find swagger.properties int path:" + path);
+//			File file = path.toFile();
+//			FileInputStream is = new FileInputStream(file);
+			InputStream is = ResourceUtil.getResourceAsStream("swagger.properties");
+			props.load(is);
+			is.close();
+		}catch ( Exception e){
+			logger.error("",e);
+
+		}finally {
+
+		}
 	}
 }

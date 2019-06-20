@@ -43,7 +43,7 @@
           curPage: 1,
           pageSize: getPageSize(),
           roleId: '',
-          location: ['', '', ''],
+
           name: ''
         },
         totalRecords: 0,

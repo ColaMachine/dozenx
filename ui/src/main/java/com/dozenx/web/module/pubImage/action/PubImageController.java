@@ -52,7 +52,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 
-@APIs(description = "用户")
+@APIs(description = "公用图片模块")
 @Controller
 @RequestMapping("/pubimage/")
 public class PubImageController extends BaseController {
@@ -74,8 +74,8 @@ public class PubImageController extends BaseController {
      * @author dozen.zhang
      * @date 2018-9-4 8:29:19
      */
-    @API(summary = "用户列表接口",
-            description = "用户列表接口",
+    @API(summary = "图片列表接口",
+            description = "图片列表接口",
             parameters = {
                     @Param(name = "pageSize", description = "分页大小", dataType = DataType.INTEGER, required = true),
                     @Param(name = "curPage", description = "当前页", dataType = DataType.INTEGER, required = true),
@@ -1639,7 +1639,7 @@ public class PubImageController extends BaseController {
         //================================
         BufferedImage bufferedImage;
         int success = 0;
-       // String message = "";
+        // String message = "";
         //ByteArrayInputStream in = new ByteArrayInputStream(data);    //将b作为输入流；
         // FileUtil.writeFileFromStream(in,"2.png", Paths.get("/home/colamachine/workspace/code/java/dozenx/ui/src/main/webapp/uploadoriginal/"));
         //bufferedImage = ImageIO.read( new FileInputStream(new File("/home/colamachine/workspace/code/java/dozenx/ui/src/main/webapp/uploadoriginal/"+"1.png")));     //将in作为输入流，读取图片存入image中，而这里in可以为ByteArrayInputStream();
@@ -1659,12 +1659,12 @@ public class PubImageController extends BaseController {
         byte[] data = image.getBytes();
         String base64 = Base64Util.encode(data);
 
-        return this.processImg(base64, data, fileNamePrefix, type, relativePath,request);
+        return this.processImg(base64, data, fileNamePrefix, type, relativePath, request);
 
     }
 
 
-    public ResultDTO processImg(String base64, byte[] data, String fileNamePrefix, String type, String relativePath,HttpServletRequest request) throws Exception {
+    public ResultDTO processImg(String base64, byte[] data, String fileNamePrefix, String type, String relativePath, HttpServletRequest request) throws Exception {
         BufferedImage bufferedImage;
         String imgUnique = MD5Util.getStringMD5String(base64);
         PubImage pubImage = new PubImage();
@@ -1710,8 +1710,6 @@ public class PubImageController extends BaseController {
                 File formatDir = formatPath.toFile();//原始数据先保存一遍
 
 
-
-
                 //得到图片缩略图路径
                 if (!originalDir.exists()) {
                     originalDir.mkdirs();
@@ -1746,7 +1744,7 @@ public class PubImageController extends BaseController {
 
                 pubImage.setAbsPath(file.getAbsolutePath());
 
-                pubImage.setRelPath(  FilePathUtil.joinPath(Config.getInstance().getImage().getServerUrl(),"/","jpg",relativePath));//相对路径
+                pubImage.setRelPath(FilePathUtil.joinPath(Config.getInstance().getImage().getServerUrl(), "/", "jpg", relativePath));//相对路径
             } catch (Exception e) {
                 logger.error("图片保存到磁盘失败!" + e.getMessage());
                 e.printStackTrace();
@@ -1789,7 +1787,7 @@ public class PubImageController extends BaseController {
         }
 //        resultMap.put("imgTimePathName", imgWidthAndHeightPath+"/"+imgTimePathName);
 
-        return this.getResult(FilePathUtil.joinPath(Config.getInstance().getImage().getServerUrl(),"/","jpg",relativePath,pubImage.getName()));
+        return this.getResult(FilePathUtil.joinPath(Config.getInstance().getImage().getServerUrl(), "/", "jpg", relativePath, pubImage.getName()));
 
     }
 
@@ -1798,6 +1796,18 @@ public class PubImageController extends BaseController {
      *
      * @author: 王作品
      */
+
+    @API(summary = "图片列表接口",
+            description = "图片列表接口",
+            parameters = {
+                    @Param(name = "accessToken", description = "accessToken", dataType = DataType.STRING, required = false),
+                    @Param(name = "width", description = "width", dataType = DataType.INTEGER, required = false),
+                    @Param(name = "height", description = "height", dataType = DataType.INTEGER, required = false),// false
+                    @Param(name = "base64", description = "base64", dataType = DataType.STRING, required = false),// false
+                    @Param(name = "path", description = "文件的绝对路径", dataType = DataType.STRING, required = false),// false
+                    @Param(name = "fileNamePrefix", description = "需要保存的文件名称", dataType = DataType.STRING, required = false),// false
+                    @Param(name = "relativePath", description = "相对路径", dataType = DataType.STRING, required = false),// false
+            })
     @RequestMapping(value = "/base64/upload", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public ResultDTO base64Upload(@RequestParam(value = "access_token", required = false) String accessToken, @RequestParam(value = "imageData", required = true) String base64,
@@ -1850,13 +1860,13 @@ public class PubImageController extends BaseController {
 
         try {
             base64 = ImageUtil.processImageBase64(base64);
-        }catch (Exception e){
-            logger.error("base64图像有错误",e);
-            throw new BizException(301051855,"base64图像有错误");
+        } catch (Exception e) {
+            logger.error("base64图像有错误", e);
+            throw new BizException(301051855, "base64图像有错误");
         }
         String type = "png";
         byte[] data = Base64Util.decode(base64);
-        return this.processImg(base64, data, fileNamePrefix, type, relativePath,request);
+        return this.processImg(base64, data, fileNamePrefix, type, relativePath, request);
 
     }
 

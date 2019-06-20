@@ -986,7 +986,7 @@ public class PubImageBelongController extends BaseController{
                 description = "批量导入信息",
                 consumes = "multipart/form-data",
                 parameters = {
-                        @Param(name = "file", description = "编号", in = InType.form, dataType = DataType.FILE, required = true),
+                        @Param(name = "file", description = "编号", in = InType.formData, dataType = DataType.FILE, required = true),
                 })
     @RequestMapping(value = "/import", method = RequestMethod.POST)
      @ResponseBody

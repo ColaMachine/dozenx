@@ -42,7 +42,7 @@
 
                                                             <zwButton type="primary" :loading="false"  :loading_delay=5  v-on:click.native="getTestData"   >加载测试数据</zwButton>&nbsp;&nbsp;
                                                            <zwButton type="primary"  :loading="false"  :loading_delay=1 v-on:click.native="hideRequestData"   >隐藏</zwButton>&nbsp;&nbsp;
-
+                                                              <zwButton type="primary"  icon="search" :loading="false"  :loading_delay=5 v-on:click.native="saveInterface" :click="saveInterface" >接口存入数据库</zwButton>
                                                             </h3>
                                                             <p style="max-width:1024px">
                                                             返回参数说明
@@ -141,7 +141,7 @@ export default {
                     },
 
                 sendRequest : function() {//发送请求
-                alert(window.host)
+              //  alert(window.host)
                     this.sending=true;//修改状态为
                     //console.log("formId" + this.formId);
                     var contentType = "application/x-www-form-urlencoded";//初步制定contentType
@@ -162,9 +162,17 @@ export default {
                       var url=   this.content.url+"?1=1";    //获取请求 get the request url 默认加上?号
                     var params={};
                     var paramsGetFlag =false;
+
+                   if(this.content.parameters && this.content.parameters.length>0 && this.content.parameters[0].in.toLocaleLowerCase()=='body'&& this.content.parameters.length==1 ){
+                                        bodyJsonFlag=true;
+                                        json=
+                                       eval('('+json[this.content.parameters[0].name]+')');
+                                   }else{
+
+
                      for (var i = 0; i < this.content.parameters.length; i++) {
 
-                       if (this.content.parameters[i].type.toLocaleLowerCase  () == 'array') {//如果参数的格式是数组的话
+                       if (this.content.parameters[i].type && this.content.parameters[i].type.toLocaleLowerCase  () == 'array') {//如果参数的格式是数组的话
                             if(json[this.content.parameters[i].name]){//alert("怎么会有数组的");
                                 if(json[this.content.parameters[i].name].indexOf("[")!=-1  ){
                                     json[this.content.parameters[i].name] = eval('('+json[this.content.parameters[i].name]+')');//如果有数组参数就转换成字符串json格式
@@ -215,7 +223,7 @@ export default {
                            }//alert(url);
                       }
                     }
-
+}
 
 
                     //console.log(this.content.consumes[0]);
@@ -267,7 +275,7 @@ export default {
                     var isFileSubmit = false;
 
                     for (var i = 0; i < this.content.parameters.length; i++) {
-                        if (this.content.parameters[i].type.toLocaleLowerCase  () == 'file') {
+                        if (this.content.parameters[i].type && this.content.parameters[i].type.toLocaleLowerCase  () == 'file') {
                             isFileSubmit = true;
                         }
                        /* if (this.content.parameters[i].type.toLocaleLowerCase  () == 'array') {
@@ -353,6 +361,30 @@ export default {
                 },
                 hideRequestData : function() {
                     this.showResponse = !this.showResponse
+                },
+
+                saveInterface : function() {
+                  console.log(this.content);
+                   $.ajax({
+                                        type : "POST",
+
+                                         url : PATH+"/api/url/db/save",
+
+                                        data :  JSON.stringify(this.content),
+
+                                        dataType : "json",
+                                        contentType :"application/json" ,
+                                        success : function(xml) {
+
+
+                                        }.Apply(this),
+                                        complete : function(xhr, textStatus) {
+
+                                        }.Apply(this)
+                                    });
+
+
+
                 },
                 getTestData : function() {
                     var sendData = {};

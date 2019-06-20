@@ -17,6 +17,7 @@
 package com.cpj.swagger.util;
 
 import org.apache.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -114,6 +115,18 @@ public final class ResourceUtil {
 	}
 	
 	public static InputStream getResourceAsStream(String name) {
-		return getResourceAsStream(sDefaultLoader, name);
+
+
+		ClassPathResource resource = new ClassPathResource(name);
+//获取文件的输入流
+		try {
+			InputStream in = resource.getInputStream();
+			return in;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+		//return getResourceAsStream(sDefaultLoader, name);
 	}
 }

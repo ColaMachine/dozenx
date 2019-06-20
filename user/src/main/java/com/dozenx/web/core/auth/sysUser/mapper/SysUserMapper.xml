@@ -29,6 +29,7 @@
         <result column="code" jdbcType="VARCHAR" property="code" />
         <result column="org" jdbcType="VARCHAR" property="org" />
         <result column="depart" jdbcType="VARCHAR" property="depart" />
+        <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
     </resultMap>
     <sql id="Base_Column_List">
         sys_user.`id` ,sys_user.`username` ,sys_user.`password` ,sys_user.`nkname` ,sys_user.`type` ,sys_user.`status` ,sys_user.`email` ,sys_user.`telno` ,sys_user.`idcard` ,sys_user.`sex` ,sys_user.`birth` ,sys_user.`integral` ,sys_user.`address` ,sys_user.`wechat` ,sys_user.`qq` ,sys_user.`face` ,sys_user.`remark` ,sys_user.`create_time` ,sys_user.`update_time`
@@ -488,6 +489,9 @@
         </if>
         <if test="outId != null and outId != '' ">
             and sys_user.`outId`  = #{outId}
+        </if>
+        <if test="pinyin != null and pinyin != '' ">
+            and sys_user.`pinyin`  = #{pinyin}
         </if>
     </select>
     <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
@@ -1084,5 +1088,7 @@
         from sys_user
         where sys_user.outId =   #{id,jdbcType=BIGINT} limit 1
     </select>
-
+    <update id="updatePinyin" >
+        update sys_user set pinyin = #{pinying}  where id = #{id}
+    </update>
 </mapper>

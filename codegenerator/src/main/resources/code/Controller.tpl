@@ -54,10 +54,10 @@ import java.nio.file.Files;
 import com.dozenx.core.config.SysConfig;
 
 <#if table.mapper??>
-import cola.machine.bean.${table.mapper.mapper};
-import cola.machine.service.${table.mapper.mapper}Service;
-import cola.machine.bean.${table.mapper.child};
-import cola.machine.service.${table.mapper.child}Service;
+import ${table.pkg}.${table.mapper.mapper};
+import ${table.pkg}.service.${table.mapper.mapper}Service;
+import ${table.pkg}.bean.${table.mapper.child};
+import ${table.pkg}.service.${table.mapper.child}Service;
 
 </#if>
 @APIs(description = "${table.remark}")
@@ -214,6 +214,7 @@ ${validCode}
     }
 
 
+
         /**
          * 说明:添加${table.name}信息
          * @param request
@@ -303,6 +304,41 @@ ${validCode}
 
    <#if table.mapper??>
    <#if table.mapper.mapper==Abc>
+
+ @API( summary="批量关联${table.remark}信息",
+            description = "批量关联${table.remark}信息",
+            parameters={
+
+               @Param(name="${table.mapper.parentid}" , in=InType.body,description="父亲节点id 123",dataType = DataType.INTEGER,required = true),
+                 @Param(name="${table.mapper.childid}s" , in=InType.body,description="子节点ids [123,123]",dataType = DataType.INTEGER,required = true),
+
+            })
+
+      @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
+        @RequestMapping(value = "/update",method=RequestMethod.PUT,produces="application/json")
+        @ResponseBody
+        public Object update(HttpServletRequest request,@RequestBody(required=true) Map<String,Object> bodyParam) throws Exception {
+
+            Long ${table.mapper.parentid} = MapUtils.getLong(bodyParam,"${table.mapper.parentid}");
+            ValidateUtil.valid(${table.mapper.parentid},"${table.mapper.parentid}",new Rule[]{new Required(),new Digits(10,0)});
+
+            Object obj = bodyParam.get("${table.mapper.childid}s");
+            Long[]  ${table.mapper.childid}s;
+            if(obj==null){
+                 ${table.mapper.childid}s=new Long[]{};
+            }else{
+                List<Number> ary = (ArrayList<Number>)bodyParam.get("${table.mapper.childid}s");//bodyoaran 只不过的参数是 arryList<Double>格式的
+                 ${table.mapper.childid}s = new Long[ary.size()];
+                for(int i=0;i<ary.size();i++){
+                     ${table.mapper.childid}s[i] = ary.get(i).longValue();
+                }
+
+            }
+            return ${abc}Service.msave(new Long[]{  ${table.mapper.parentid}},  ${table.mapper.childid}s);
+        }
+
+
+
     @RequestMapping(value = "/msave.json")
     @ResponseBody
     public ResultDTO msave(HttpServletRequest request) throws Exception {

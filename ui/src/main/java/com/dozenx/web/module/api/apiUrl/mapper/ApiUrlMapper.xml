@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.api.apiUrl.dao.ApiUrlMapper">
+    <resultMap id="BaseResultMap" type="com.dozenx.web.module.api.apiUrl.bean.ApiUrl">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="method" jdbcType="VARCHAR" property="method" />
+        <result column="response" jdbcType="VARCHAR" property="response" />
+        <result column="pid" jdbcType="BIGINT" property="pid" />
+        <result column="summary" jdbcType="VARCHAR" property="summary" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="consumes" jdbcType="VARCHAR" property="consumes" />
+        <result column="produces" jdbcType="VARCHAR" property="produces" />
+        <result column="createUser" jdbcType="VARCHAR" property="createUser" />
+        <result column="deprecated" jdbcType="INTEGER" property="deprecated" />
+        <result column="json" jdbcType="LONGVARCHAR" property="json" />
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        api_uri.`id` ,api_uri.`name` ,api_uri.`url` ,api_uri.`method` ,api_uri.`response` ,api_uri.`pid` ,api_uri.`summary` ,api_uri.`description` ,api_uri.`consumes` ,api_uri.`produces` ,api_uri.`createUser` ,api_uri.`deprecated` ,api_uri.`json` ,api_uri.`createtime` ,api_uri.`updatetime`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from api_uri
+        where api_uri.id =   #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from api_uri
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.api.apiUrl.bean.ApiUrl" >
+
+        insert into api_uri (  <include refid="Base_Column_List" />)
+        values (
+        #{id,jdbcType=BIGINT}
+        ,#{name,jdbcType=VARCHAR}
+        ,#{url,jdbcType=VARCHAR}
+        ,#{method,jdbcType=VARCHAR}
+        ,#{response,jdbcType=VARCHAR}
+        ,#{pid,jdbcType=BIGINT}
+        ,#{summary,jdbcType=VARCHAR}
+        ,#{description,jdbcType=VARCHAR}
+        ,#{consumes,jdbcType=VARCHAR}
+        ,#{produces,jdbcType=VARCHAR}
+        ,#{createUser,jdbcType=VARCHAR}
+        ,#{deprecated,jdbcType=INTEGER}
+        ,#{json,jdbcType=LONGVARCHAR}
+        ,#{createtime,jdbcType=TIMESTAMP}
+        ,#{updatetime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dozenx.web.module.api.apiUrl.bean.ApiUrl" >
+        insert into api_uri
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                `id`,
+            </if>
+            <if test="name != null" >
+                `name`,
+            </if>
+            <if test="url != null" >
+                `url`,
+            </if>
+            <if test="method != null" >
+                `method`,
+            </if>
+            <if test="response != null" >
+                `response`,
+            </if>
+            <if test="pid != null" >
+                `pid`,
+            </if>
+            <if test="summary != null" >
+                `summary`,
+            </if>
+            <if test="description != null" >
+                `description`,
+            </if>
+            <if test="consumes != null" >
+                `consumes`,
+            </if>
+            <if test="produces != null" >
+                `produces`,
+            </if>
+            <if test="createUser != null" >
+                `createUser`,
+            </if>
+            <if test="deprecated != null" >
+                `deprecated`,
+            </if>
+            <if test="json != null" >
+                `json`,
+            </if>
+            <if test="createtime != null" >
+                `createtime`,
+            </if>
+            <if test="updatetime != null" >
+                `updatetime`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null" >
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null" >
+                #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="response != null" >
+                #{response,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null" >
+                #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="summary != null" >
+                #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="consumes != null" >
+                #{consumes,jdbcType=VARCHAR},
+            </if>
+            <if test="produces != null" >
+                #{produces,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null" >
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="deprecated != null" >
+                #{deprecated,jdbcType=INTEGER},
+            </if>
+            <if test="json != null" >
+                #{json,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.api.apiUrl.bean.ApiUrl" >
+        update api_uri
+        <set >
+            <if test="id != null" >
+                `id`=#{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                `name`=#{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null" >
+                `url`=#{url,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null" >
+                `method`=#{method,jdbcType=VARCHAR},
+            </if>
+            <if test="response != null" >
+                `response`=#{response,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null" >
+                `pid`=#{pid,jdbcType=BIGINT},
+            </if>
+            <if test="summary != null" >
+                `summary`=#{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                `description`=#{description,jdbcType=VARCHAR},
+            </if>
+            <if test="consumes != null" >
+                `consumes`=#{consumes,jdbcType=VARCHAR},
+            </if>
+            <if test="produces != null" >
+                `produces`=#{produces,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null" >
+                `createUser`=#{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="deprecated != null" >
+                `deprecated`=#{deprecated,jdbcType=INTEGER},
+            </if>
+            <if test="json != null" >
+                `json`=#{json,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="createtime != null" >
+                `createtime`=#{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null" >
+                `updatetime`=#{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.api.apiUrl.bean.ApiUrl" >
+        update api_uri
+        set
+        `name`=#{name,jdbcType=VARCHAR},
+        `url`=#{url,jdbcType=VARCHAR},
+        `method`=#{method,jdbcType=VARCHAR},
+        `response`=#{response,jdbcType=VARCHAR},
+        `pid`=#{pid,jdbcType=BIGINT},
+        `summary`=#{summary,jdbcType=VARCHAR},
+        `description`=#{description,jdbcType=VARCHAR},
+        `consumes`=#{consumes,jdbcType=VARCHAR},
+        `produces`=#{produces,jdbcType=VARCHAR},
+        `createUser`=#{createUser,jdbcType=VARCHAR},
+        `deprecated`=#{deprecated,jdbcType=INTEGER},
+        `json`=#{json,jdbcType=LONGVARCHAR},
+        `createtime`=#{createtime,jdbcType=TIMESTAMP},
+        `updatetime`=#{updatetime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from api_uri where 1=1
+        <if test="id != null and id != '' ">
+            and `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+            and `name` = #{name}
+        </if>
+        <if test="nameLike != null and nameLike != '' ">
+            and `name` like CONCAT('%',#{nameLike},'%')
+        </if>
+        <if test="url != null and url != '' ">
+            and `url` = #{url}
+        </if>
+        <if test="urlLike != null and urlLike != '' ">
+            and `url` like CONCAT('%',#{urlLike},'%')
+        </if>
+        <if test="method != null and method != '' ">
+            and `method` = #{method}
+        </if>
+        <if test="methodLike != null and methodLike != '' ">
+            and `method` like CONCAT('%',#{methodLike},'%')
+        </if>
+        <if test="response != null and response != '' ">
+            and `response` = #{response}
+        </if>
+        <if test="responseLike != null and responseLike != '' ">
+            and `response` like CONCAT('%',#{responseLike},'%')
+        </if>
+        <if test="pid != null and pid != '' ">
+            and `pid` = #{pid}
+        </if>
+        <if test="summary != null and summary != '' ">
+            and `summary` = #{summary}
+        </if>
+        <if test="summaryLike != null and summaryLike != '' ">
+            and `summary` like CONCAT('%',#{summaryLike},'%')
+        </if>
+        <if test="description != null and description != '' ">
+            and `description` = #{description}
+        </if>
+        <if test="descriptionLike != null and descriptionLike != '' ">
+            and `description` like CONCAT('%',#{descriptionLike},'%')
+        </if>
+        <if test="consumes != null and consumes != '' ">
+            and `consumes` = #{consumes}
+        </if>
+        <if test="consumesLike != null and consumesLike != '' ">
+            and `consumes` like CONCAT('%',#{consumesLike},'%')
+        </if>
+        <if test="produces != null and produces != '' ">
+            and `produces` = #{produces}
+        </if>
+        <if test="producesLike != null and producesLike != '' ">
+            and `produces` like CONCAT('%',#{producesLike},'%')
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            and `createUser` = #{createUser}
+        </if>
+        <if test="createUserLike != null and createUserLike != '' ">
+            and `createUser` like CONCAT('%',#{createUserLike},'%')
+        </if>
+        <if test="deprecated != null and deprecated != '' ">
+            and `deprecated` = #{deprecated}
+        </if>
+        <if test="json != null and json != '' ">
+            and `json` = #{json}
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            and `createtime` = #{createtime}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and `createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and `createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and `createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and `createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            and `updatetime` = #{updatetime}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and `updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and `updatetime` &lt;= #{updatetimeEnd}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and `updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and `updatetime` &lt;= #{updatetimeEnd}
+        </if>
+    </select>
+    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from api_uri
+
+        where 1=1
+        <if test="id != null and id != '' ">
+            and api_uri.`id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+            and api_uri.`name` = #{name}
+        </if>
+        <if test="nameLike != null and nameLike != '' ">
+            and api_uri.`name` like CONCAT('%',#{nameLike},'%')
+        </if>
+        <if test="url != null and url != '' ">
+            and api_uri.`url` = #{url}
+        </if>
+        <if test="urlLike != null and urlLike != '' ">
+            and api_uri.`url` like CONCAT('%',#{urlLike},'%')
+        </if>
+        <if test="method != null and method != '' ">
+            and api_uri.`method` = #{method}
+        </if>
+        <if test="methodLike != null and methodLike != '' ">
+            and api_uri.`method` like CONCAT('%',#{methodLike},'%')
+        </if>
+        <if test="response != null and response != '' ">
+            and api_uri.`response` = #{response}
+        </if>
+        <if test="responseLike != null and responseLike != '' ">
+            and api_uri.`response` like CONCAT('%',#{responseLike},'%')
+        </if>
+        <if test="pid != null and pid != '' ">
+            and api_uri.`pid` = #{pid}
+        </if>
+        <if test="summary != null and summary != '' ">
+            and api_uri.`summary` = #{summary}
+        </if>
+        <if test="summaryLike != null and summaryLike != '' ">
+            and api_uri.`summary` like CONCAT('%',#{summaryLike},'%')
+        </if>
+        <if test="description != null and description != '' ">
+            and api_uri.`description` = #{description}
+        </if>
+        <if test="descriptionLike != null and descriptionLike != '' ">
+            and api_uri.`description` like CONCAT('%',#{descriptionLike},'%')
+        </if>
+        <if test="consumes != null and consumes != '' ">
+            and api_uri.`consumes` = #{consumes}
+        </if>
+        <if test="consumesLike != null and consumesLike != '' ">
+            and api_uri.`consumes` like CONCAT('%',#{consumesLike},'%')
+        </if>
+        <if test="produces != null and produces != '' ">
+            and api_uri.`produces` = #{produces}
+        </if>
+        <if test="producesLike != null and producesLike != '' ">
+            and api_uri.`produces` like CONCAT('%',#{producesLike},'%')
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            and api_uri.`createUser` = #{createUser}
+        </if>
+        <if test="createUserLike != null and createUserLike != '' ">
+            and api_uri.`createUser` like CONCAT('%',#{createUserLike},'%')
+        </if>
+        <if test="deprecated != null and deprecated != '' ">
+            and api_uri.`deprecated` = #{deprecated}
+        </if>
+        <if test="json != null and json != '' ">
+            and api_uri.`json` = #{json}
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            and api_uri.`createtime` = #{createtime}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and `createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and `createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and `createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and `createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            and api_uri.`updatetime` = #{updatetime}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and `updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and `updatetime` &lt;= #{updatetimeEnd}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and `updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and `updatetime` &lt;= #{updatetimeEnd}
+        </if>
+    </select>
+    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from api_uri where 1=1
+        <if test="id != null and id != '' ">
+            and api_uri.`id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+            and api_uri.`name` = #{name}
+        </if>
+        <if test="nameLike != null and nameLike != '' ">
+            and api_uri.`name` like CONCAT('%',#{nameLike},'%')
+        </if>
+        <if test="url != null and url != '' ">
+            and api_uri.`url` = #{url}
+        </if>
+        <if test="urlLike != null and urlLike != '' ">
+            and api_uri.`url` like CONCAT('%',#{urlLike},'%')
+        </if>
+        <if test="method != null and method != '' ">
+            and api_uri.`method` = #{method}
+        </if>
+        <if test="methodLike != null and methodLike != '' ">
+            and api_uri.`method` like CONCAT('%',#{methodLike},'%')
+        </if>
+        <if test="response != null and response != '' ">
+            and api_uri.`response` = #{response}
+        </if>
+        <if test="responseLike != null and responseLike != '' ">
+            and api_uri.`response` like CONCAT('%',#{responseLike},'%')
+        </if>
+        <if test="pid != null and pid != '' ">
+            and api_uri.`pid` = #{pid}
+        </if>
+        <if test="summary != null and summary != '' ">
+            and api_uri.`summary` = #{summary}
+        </if>
+        <if test="summaryLike != null and summaryLike != '' ">
+            and api_uri.`summary` like CONCAT('%',#{summaryLike},'%')
+        </if>
+        <if test="description != null and description != '' ">
+            and api_uri.`description` = #{description}
+        </if>
+        <if test="descriptionLike != null and descriptionLike != '' ">
+            and api_uri.`description` like CONCAT('%',#{descriptionLike},'%')
+        </if>
+        <if test="consumes != null and consumes != '' ">
+            and api_uri.`consumes` = #{consumes}
+        </if>
+        <if test="consumesLike != null and consumesLike != '' ">
+            and api_uri.`consumes` like CONCAT('%',#{consumesLike},'%')
+        </if>
+        <if test="produces != null and produces != '' ">
+            and api_uri.`produces` = #{produces}
+        </if>
+        <if test="producesLike != null and producesLike != '' ">
+            and api_uri.`produces` like CONCAT('%',#{producesLike},'%')
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            and api_uri.`createUser` = #{createUser}
+        </if>
+        <if test="createUserLike != null and createUserLike != '' ">
+            and api_uri.`createUser` like CONCAT('%',#{createUserLike},'%')
+        </if>
+        <if test="deprecated != null and deprecated != '' ">
+            and api_uri.`deprecated` = #{deprecated}
+        </if>
+        <if test="json != null and json != '' ">
+            and api_uri.`json` = #{json}
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            and api_uri.`createtime` = #{createtime}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and api_uri.`createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and api_uri.`createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            and api_uri.`updatetime` = #{updatetime}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and api_uri.`updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and api_uri.`updatetime` &lt;= #{updatetimeEnd}
+        </if>
+    </select>
+    <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from api_uri where 1!=1
+        <if test="id != null and id != '' ">
+            or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+            or `name` = #{name}
+        </if>
+        <if test="url != null and url != '' ">
+            or `url` = #{url}
+        </if>
+        <if test="method != null and method != '' ">
+            or `method` = #{method}
+        </if>
+        <if test="response != null and response != '' ">
+            or `response` = #{response}
+        </if>
+        <if test="pid != null and pid != '' ">
+            or `pid` = #{pid}
+        </if>
+        <if test="summary != null and summary != '' ">
+            or `summary` = #{summary}
+        </if>
+        <if test="description != null and description != '' ">
+            or `description` = #{description}
+        </if>
+        <if test="consumes != null and consumes != '' ">
+            or `consumes` = #{consumes}
+        </if>
+        <if test="produces != null and produces != '' ">
+            or `produces` = #{produces}
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            or `createUser` = #{createUser}
+        </if>
+        <if test="deprecated != null and deprecated != '' ">
+            or `deprecated` = #{deprecated}
+        </if>
+        <if test="json != null and json != '' ">
+            or `json` = #{json}
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            or `createtime` = #{createtime}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            or `updatetime` = #{updatetime}
+        </if>
+    </select>
+
+
+
+    <insert id="insertBatch"   parameterType="java.util.List" >
+        insert into api_uri (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+            (
+            #{record.id,jdbcType=BIGINT}
+            ,#{record.name,jdbcType=VARCHAR}
+            ,#{record.url,jdbcType=VARCHAR}
+            ,#{record.method,jdbcType=VARCHAR}
+            ,#{record.response,jdbcType=VARCHAR}
+            ,#{record.pid,jdbcType=BIGINT}
+            ,#{record.summary,jdbcType=VARCHAR}
+            ,#{record.description,jdbcType=VARCHAR}
+            ,#{record.consumes,jdbcType=VARCHAR}
+            ,#{record.produces,jdbcType=VARCHAR}
+            ,#{record.createUser,jdbcType=VARCHAR}
+            ,#{record.deprecated,jdbcType=INTEGER}
+            ,#{record.json,jdbcType=LONGVARCHAR}
+            ,#{record.createtime,jdbcType=TIMESTAMP}
+            ,#{record.updatetime,jdbcType=TIMESTAMP}
+            )
+        </foreach >
+    </insert>
+</mapper>

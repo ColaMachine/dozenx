@@ -28,14 +28,10 @@
 	<button id="send" onclick="send();">send</button>
 
 	<script type="text/javascript">
-
-
-
-
 		var name=document.getElementById('name').value;
 		var msgContainer=document.getElementById('message');
 		var text=document.getElementById('text');
-var ws;
+		var ws;
 		function connect () {
 			var address="ws://" + document.location.host+document.getElementById('address').value;
 			
@@ -92,16 +88,11 @@ var ws;
 			msgContainer.innerHTML="";
 		}
 
-
-
 		function enter(event){
 			if(event.keyCode==13){
 			 send(); 
 			} 
 		}
 	</script>
-
-
-
 </body>
 </html>

@@ -71,25 +71,37 @@ public final class RedisUtil {
      */
     static {
         try {
-
-
             /** Redis服务器IP */
-            ADDR = ConfigUtil.getConfig("cache.redis.ip");// Config.getInstance().getCache().getRedis().getAddr();
+            ADDR = ConfigUtil.getConfig("spring.redis.host");// Config.getInstance().getCache().getRedis().getAddr();
 
             /** Redis的端口号 */
-            PORT = Integer.valueOf(ConfigUtil.getConfig("cache.redis.port"));//Config.getInstance().getCache().getRedis().getPort();
+            String portStr = ConfigUtil.getConfig("spring.redis.port");
 
-            /** Redis的端口号 */
-
-
+            if(StringUtil.isNotBlank( portStr) && StringUtil.checkNumeric(portStr)){
+                PORT = Integer.valueOf(portStr);//Config.getInstance().getCache().getRedis().getPort();
+            }
+            String indexStr = ConfigUtil.getConfig("spring.redis.database");
+            if(StringUtil.isNotBlank( indexStr) && StringUtil.checkNumeric(indexStr)){
+                INDEX = Integer.valueOf(indexStr);//Config.getInstance().getCache().getRedis().getPort();
+            }
             /** Redis index */
-            int INDEX = Integer.valueOf(ConfigUtil.getConfig("cache.redis.database.index"));
-
-
-
 
             /** 访问密码 */
-            AUTH = Config.getInstance().getCache().getRedis().getAuth();
+            String pwd =ConfigUtil.getConfig("spring.redis.password");
+            if(StringUtil.isNotBlank(pwd) && !pwd.equals("null")){
+                AUTH = pwd;
+            }else{
+
+            }
+            if(StringUtil.isBlank(ADDR)){
+                ADDR = ConfigUtil.getConfig("cache.redis.ip");// Config.getInstance().getCache().getRedis().getAddr();
+                /** Redis的端口号 */
+                PORT = Integer.valueOf(ConfigUtil.getConfig("cache.redis.port"));//Config.getInstance().getCache().getRedis().getPort();
+                /** Redis index */
+                INDEX = Integer.valueOf(ConfigUtil.getConfig("cache.redis.database.index"));
+                /** 访问密码 */
+                AUTH = Config.getInstance().getCache().getRedis().getAuth();
+            }
 
            // AUTH = ConfigUtil.getConfig("cache.redis.pwd");//Config.getInstance().getCache().getRedis().getPort();
 
@@ -885,13 +897,11 @@ public final class RedisUtil {
 
     /**
      * 加锁
-     * author 王作品
-     *
-     * @param locaName       锁的key
-     * @param secs 锁的存在时间秒
-     * @return 锁标识
+     * @param key
+     * @param secs
+     * @return
      */
-    public static String lock(String key,int secs) {
+    public static boolean lock(String key,int secs) {
         Jedis conn = null;
         String retIdentifier = null;
         try {
@@ -907,7 +917,7 @@ public final class RedisUtil {
                 conn.expire(key, secs);//锁的超时时间一般设置为1秒
                 // 返回value值，用于释放锁时间确认
 
-                return retIdentifier;
+                return true;
             }
             // 返回-1代表key没有设置超时时间，为key设置一个超时时间
 
@@ -925,8 +935,9 @@ public final class RedisUtil {
             if (conn != null) {
                 conn.close();
             }
+            return false;
         }
-        return retIdentifier;
+
     }
 
     /**
@@ -1010,4 +1021,70 @@ public final class RedisUtil {
         return null;
     }
 
+    /**
+     * zadd
+     * @param key
+     * @param score
+     * @param member
+     */
+    public static void zadd(String key,Long score,String member){
+        Jedis conn = null;
+        try {
+            conn = RedisUtil.getJedis();
+             conn.zadd(key,score,member);
+        } catch (JedisException e) {
+            logger.error("JedisException报错 +e " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+    }
+
+    /**
+     * zrange
+     * @param key
+     * @param startScore
+     * @param endSocre
+     * @return
+     */
+    public static Set<String>  zrange(String key,Long startScore,Long endSocre){
+        Jedis conn = null;
+        try {
+            conn = RedisUtil.getJedis();
+            return conn.zrange(key,startScore,endSocre);
+        } catch (JedisException e) {
+            logger.error("JedisException报错 +e " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * zrange
+     * @param key
+     * @param member
+     * @return
+     */
+    public static void  zrem(String key,String member){
+        Jedis conn = null;
+        try {
+            conn = RedisUtil.getJedis();
+             conn.zrem(key,member);
+        } catch (JedisException e) {
+            logger.error("JedisException报错 +e " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+    }
 }

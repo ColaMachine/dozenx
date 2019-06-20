@@ -1,6 +1,7 @@
 package com.dozenx.web.core.auth.sysUser.dao;
 
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -134,4 +135,6 @@ public interface SysUserMapper {
 
 
     public SysUser selectUserByOutId(Long openid);
+
+    public void updatePinyin(@Param("id") Long userId, @Param("pinying")String pinying);
 }

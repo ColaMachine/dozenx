@@ -14,13 +14,13 @@ import javax.annotation.Resource;
  * @Date: Created in 17:26 2019/2/21
  * @Modified By:
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:/config/xml/applicationContext.xml"})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath*:/config/xml/applicationContext.xml"})
 public class TestEmailService {
     @Resource
     EmailSendService emailSendService;
 
-    @Test
+//    @Test
     public void sendEmail() {
         String toEmail = "13958173965@189.cn";
         String title = "来自TestEmailService的单元测试,不用回复";

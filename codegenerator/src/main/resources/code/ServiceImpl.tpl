@@ -271,51 +271,68 @@ public class ${Abc}ServiceImpl extends BaseService implements ${Abc}Service {
                 }
                 ${table.mapper.childid}AryReal[i]=Long.valueOf(${table.mapper.childid}Ary[i]);
             }
-            //验证父亲id 正确性 是否存在
-             if(${table.mapper.parentid}AryReal!=null)
-            for(int i=0;i< ${table.mapper.parentid}AryReal.length;i++){
-                //
-                ${table.mapper.parent?cap_first} ${table.mapper.parent?uncap_first} = ${table.mapper.parent?uncap_first}Mapper.selectByPrimaryKey(${table.mapper.parentid}AryReal[i]);
-                if(${table.mapper.parent?uncap_first}==null ){
-                    return ResultUtil.getResult(101,"数据不存在");
-                }
-                //查询的数据不存在
-            }
-             if(${table.mapper.childid}AryReal!=null)
-            for(int i=0;i<${table.mapper.childid}AryReal.length;i++){
-                 ${table.mapper.child?cap_first} ${table.mapper.child?uncap_first} = ${table.mapper.child?uncap_first}Mapper.selectByPrimaryKey(${table.mapper.childid}AryReal[i]);
-                //查询的数据不存在
-                if(${table.mapper.child?uncap_first}==null ){
-                    return ResultUtil.getResult(101,"数据不存在");
-                }
-            }
-             HashMap params =new HashMap();
-            //验证子id 正确性 是否存在
-             if(${table.mapper.childid}AryReal!=null)
-            for(int i=0;i<${table.mapper.parentid}AryReal.length;i++){
-                for(int j=0;j<${table.mapper.childid}AryReal.length;j++){
-                   ${table.name?cap_first} ${table.name?uncap_first} =new  ${table.name?cap_first}();
-                    ${parentType} ${table.mapper.parentid} =${table.mapper.parentid}AryReal[i];
-                    ${childType} ${table.mapper.childid} =${table.mapper.childid}AryReal[j];
-                    //查找是否已经有关联数据了
 
-                    params.put("${table.mapper.childid}",${table.mapper.childid});
-                    params.put("${table.mapper.parentid}",${table.mapper.parentid});
-                    int count = ${abc}Mapper.countByParams(params);
-                    if(count>0)continue;
-                    ${table.name?uncap_first}.set${table.mapper.childid?cap_first}(${table.mapper.childid});
-                    ${table.name?uncap_first}.set${table.mapper.parentid?cap_first}(${table.mapper.parentid});
-                    ${table.name?uncap_first}Mapper.insert(${table.name?uncap_first});
-                }
-            }
-            //删除多余的数据
-            params.clear();
-            params.put("${table.mapper.childid}s",${table.mapper.childid}AryReal);
-            params.put("${table.mapper.parentid}s",${table.mapper.parentid}AryReal);
-            ${table.name?uncap_first}Mapper.deleteExtra(params);
-            //delete from SysUserRole where uid in (1,2,3,4,5) and rid not in(1,2,3)
-            return ResultUtil.getSuccResult();
+
+            return msave(${table.mapper.parentid}AryReal,${table.mapper.childid}AryReal);
+
+
         }
+
+
+         /**
+                 * 多项关联保存
+                 * @param uids
+                 * @param rids
+                 * @return
+                 */
+                public ResultDTO msave( ${parentType}[] ${table.mapper.parentid}sReal, ${parentType}[] ${table.mapper.childid}sReal) {
+
+
+                    //验证父亲id 正确性 是否存在
+                     if(${table.mapper.parentid}AryReal!=null)
+                    for(int i=0;i< ${table.mapper.parentid}AryReal.length;i++){
+                        //
+                        ${table.mapper.parent?cap_first} ${table.mapper.parent?uncap_first} = ${table.mapper.parent?uncap_first}Mapper.selectByPrimaryKey(${table.mapper.parentid}AryReal[i]);
+                        if(${table.mapper.parent?uncap_first}==null ){
+                            return ResultUtil.getResult(101,"数据不存在");
+                        }
+                        //查询的数据不存在
+                    }
+                     if(${table.mapper.childid}AryReal!=null)
+                    for(int i=0;i<${table.mapper.childid}AryReal.length;i++){
+                         ${table.mapper.child?cap_first} ${table.mapper.child?uncap_first} = ${table.mapper.child?uncap_first}Mapper.selectByPrimaryKey(${table.mapper.childid}AryReal[i]);
+                        //查询的数据不存在
+                        if(${table.mapper.child?uncap_first}==null ){
+                            return ResultUtil.getResult(101,"数据不存在");
+                        }
+                    }
+                     HashMap params =new HashMap();
+                    //验证子id 正确性 是否存在
+                     if(${table.mapper.childid}AryReal!=null)
+                    for(int i=0;i<${table.mapper.parentid}AryReal.length;i++){
+                        for(int j=0;j<${table.mapper.childid}AryReal.length;j++){
+                           ${table.name?cap_first} ${table.name?uncap_first} =new  ${table.name?cap_first}();
+                            ${parentType} ${table.mapper.parentid} =${table.mapper.parentid}AryReal[i];
+                            ${childType} ${table.mapper.childid} =${table.mapper.childid}AryReal[j];
+                            //查找是否已经有关联数据了
+
+                            params.put("${table.mapper.childid}",${table.mapper.childid});
+                            params.put("${table.mapper.parentid}",${table.mapper.parentid});
+                            int count = ${abc}Mapper.countByParams(params);
+                            if(count>0)continue;
+                            ${table.name?uncap_first}.set${table.mapper.childid?cap_first}(${table.mapper.childid});
+                            ${table.name?uncap_first}.set${table.mapper.parentid?cap_first}(${table.mapper.parentid});
+                            ${table.name?uncap_first}Mapper.insert(${table.name?uncap_first});
+                        }
+                    }
+                    //删除多余的数据
+                    params.clear();
+                    params.put("${table.mapper.childid}s",${table.mapper.childid}AryReal);
+                    params.put("${table.mapper.parentid}s",${table.mapper.parentid}AryReal);
+                    ${table.name?uncap_first}Mapper.deleteExtra(params);
+                    //delete from SysUserRole where uid in (1,2,3,4,5) and rid not in(1,2,3)
+                    return ResultUtil.getSuccResult();
+                }
           </#if>
               </#if>
 

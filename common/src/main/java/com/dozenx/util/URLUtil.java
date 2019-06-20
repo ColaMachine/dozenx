@@ -10,7 +10,7 @@ public class URLUtil {
 	 * 	file:/F:/tomcat/webapps/J2EEUtil/WEB-INF/classes/
 	 */
 	public static String connact(String prefix,String affix) {
-
+		//请
 
 		String newUrl ="";
 		if(prefix.endsWith("/")){//如果两个都是绝对路径

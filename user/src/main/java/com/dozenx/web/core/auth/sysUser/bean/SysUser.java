@@ -57,6 +57,15 @@ public class SysUser implements Serializable {
     private String code;
     private String org;
     private String depart;
+    private String pinyin;
+
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
+    }
 
     public String getCode() {
         return code;
