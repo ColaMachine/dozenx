@@ -5,7 +5,7 @@
 
 
     
-    <li v-for="result in list" key={{result.id}} class="zw-box app-li-it ">
+    <li v-for="result in list" key={{result.id}} >
 
 
 
@@ -14,7 +14,7 @@
                                                 href="https://www.smzdm.com/youhui/"><span class="z-tag-baike">国内</span></a><span
         class="embed-card-logo"><a itemprop="description" target="_blank" onclick="gtmWikiCard({'id':'1759529'});"
                                    class="" href="https://www.smzdm.com/p/14039324/"><img class=""
-                                                                                          src="https://y.zdmimg.com/201905/15/5cdb7e0cc1cea6281.jpg_a200.jpg"></a></span><span
+                                                                                          :src="result.pic"></a></span><span
         class="embed-card-info"><a itemprop="description" target="_blank" onclick="gtmWikiCard({'id':'1759529'});"
                                    class="" href="https://www.smzdm.com/p/14039324/"><span class="card-name">{{result.title}}<strong
         class="price">{{result.price}}</strong></span></a><span class="card-abstract">{{result.subtitle}}</span><span
@@ -27,30 +27,8 @@
                                                                                              rel="nofollow"><span
         class="card-btn-deep">去购买</span></a></span></span></span>
 
-      <div class="app-li-it-pic">
-        <a :href='"/static/html/editor/index.html?id=3&goodsid="+ result.id '><img onerror="" :src='"/"+ result.pic' /></a>
-      </div>
-      <div class="app-li-it-content">
 
-        <div class="app-li-it-content-top-corner">
-          <span>3000起</span>
-        </div>
 
-        <div class="app-li-it-content-body">
-            <h1>{{result.title}}</h1>
-          <h2>{{result.subtitle}}</h2>
-          <h3><span v-for="item in result.tag1">{{item}} |</span></h3>
-          <h4><span v-for="item in result.tag2">{{item}} |</span></h4>
-          <h5><span v-for="item in result.tag3">{{item}} |</span></h5>
-        </div>
-
-        <div class="app-li-it-content-foot">
-
-          <div class="app-li-it-text"><span className="src-net">{{result.src}}|23:12</span><span className="comment-num">评论:2</span><span className="goods-score">评分:{{result.score}}</span></div>
-        </div>
-
-        </a>
-      </div>
 
     </li>;
 

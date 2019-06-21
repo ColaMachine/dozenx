@@ -48,10 +48,12 @@ export default {
             },
             hideMenu:function(){
                 this.active=false;
+                 this.menuShow = false;
             },
             showMenu:function(){
+                console.log("movein");
                 this.active = true;
-
+ this.menuShow = true;
                 
             },
             toggleMenu:function(){console.log("toggle "+this.menuShow);

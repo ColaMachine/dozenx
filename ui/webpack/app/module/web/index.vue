@@ -1,26 +1,29 @@
 <template>
-  <zwLayout :style="getWinWidth">
-    <zwHeader class="bg-black ">
 
-      <zwRow >
-        <zwCol class="pull-left" span=6>
-          <zwMenu mode="horizontal" theme="white">
-            <zwMenuItem key="mail">
+  <zwLayout :style="getWinWidth">
+
+    <zwHeader>
+
+      <zwRow>
+        <zwCol class="pull-left " span=24 style="background-color:white" >
+
+            <zwGlobalSearch></zwGlobalSearch>
+          <zwMenu mode="horizontal" class="sub-channel" style="padding-left:3%;padding-right:3%"  color="white"  theme="white">
+
+
+        <span style="float:left" >
+            <zwMenuItem key="mail" >
               <zwIcon type="home" />首页
             </zwMenuItem>
+</span >
 
-          </zwMenu>
-        </zwCol>
-        <zwCol class="pull-right col-sm-12" span=18>
-          <zwMenu mode="horizontal" theme="white">
-
-
-            <zwSubMenu>
+ <span style="float:right">
+            <zwSubMenu  >
               <template slot="title">
                 <zwIcon type="appstore" />百宝箱</template>
 
               <zwMenuItemGroup title="Item 1">
-                 <a href="/static/html/vue/personalBlog.html#/" target="_blank" rel="noopener noreferrer">写文章</a>
+                <a href="/static/html/vue/personalBlog.html#/" target="_blank" rel="noopener noreferrer">写文章</a>
                 <zwMenuItem key="setting:2">Option 2</zwMenuItem>
               </zwMenuItemGroup>
               <zwMenuItemGroup title="Item 2">
@@ -30,24 +33,22 @@
 
             </zwSubMenu>
 
-            <zwMenuItem >
-                <a href="/home/static/html/PhoneCalendarView.html" target="_blank" rel="noopener noreferrer">日历</a>
+            <zwMenuItem>
+              <a href="/home/static/html/PhoneCalendarView.html" target="_blank" rel="noopener noreferrer">日历</a>
             </zwMenuItem>
 
-
-            <zwMenuItem >
+            <zwMenuItem>
               <a href="/home/static/html/vue/vueExample.html#/" target="_blank" rel="noopener noreferrer">组件库</a>
             </zwMenuItem>
-            <zwMenuItem >
-                  <a href="/home/static/html/vue/shopIndex.html#/shopMain" target="_blank" rel="noopener noreferrer">手机</a>
+            <zwMenuItem>
+              <a href="/home/static/html/vue/shopIndex.html#/shopMain" target="_blank" rel="noopener noreferrer">手机</a>
             </zwMenuItem>
 
             <zwMenuItem>
 
-              <zwMenuItem v-show="!isLogin" >
-                  <a href="javascript:void(0)"  @click="goLogin" >登录</a>
-            </zwMenuItem>
-
+              <zwMenuItem v-show="!isLogin">
+                <a href="javascript:void(0)" @click="goLogin">登录</a>
+              </zwMenuItem>
 
               <!--  <zwDropDown v-show="!isLogin">
                 <zwButton slot="button" sizeNum="">
@@ -77,121 +78,111 @@
                         </zwForm>
                     -->
 
-                </div>
-              </zwDropDown>
+        </div>
+        </zwDropDown>
 
-            </zwMenuItem>
-           <zwSubMenu style="width:20%" v-show="isLogin">
-                       <template slot="title"> {{user.userName}}</template>
-                       <zwMenuItem key="setting:1">
-                         <zwIcon type="user" />修改个人信息</zwMenuItem>
-                       <zwMenuItem key="setting:1">
+        </zwMenuItem>
+        <zwSubMenu style="width:20%" v-show="isLogin">
+          <template slot="title"> {{user.userName}}</template>
+          <zwMenuItem key="setting:1">
+            <zwIcon type="user" />修改个人信息</zwMenuItem>
+          <zwMenuItem key="setting:1">
 
-                         <zwIcon type="sign-out" />
-                            <a href="#" click="goLoginOut()">退出登录 </a>
-                         </zwMenuItem>
-                       <zwMenuItemGroup title="购物">
-                         <zwMenuItem key="setting:1">我的收藏</zwMenuItem>
-                         <zwMenuItem key="setting:2">我的购物车</zwMenuItem>
-                       </zwMenuItemGroup>
+            <zwIcon type="sign-out" />
+            <a href="#" click="goLoginOut()">退出登录 </a>
+          </zwMenuItem>
+          <zwMenuItemGroup title="购物">
+            <zwMenuItem key="setting:1">我的收藏</zwMenuItem>
+            <zwMenuItem key="setting:2">我的购物车</zwMenuItem>
+          </zwMenuItemGroup>
 
-                     </zwSubMenu>
+        </zwSubMenu>
 
-          </zwMenu>
+</span >
+        </zwMenu>
 
-       </zwCol>
+      </zwCol>
 
       </zwRow>
     </zwHeader>
     <zwLayout class="zw-layout-has-sider ">
 
-
-      <zwContent  :style="getWinWidth">
+      <zwContent :style="getWinWidth">
         <div id="router">
-                <zwRow style="margin:12px;">
-<zwCol  style="min-width:300px" class="zw-col-sm-24 pull-left" span=6>
+          <zwRow style="margin:12px;">
 
+            <zwCol style="min-width:300px" class="zw-col-sm-24 pull-left" span=15>
 
-            <zwPanel :canFold=false state="open" style="">
-                          <span slot="title" name="title">重大事件</span>
-                           <p  slot="body" name="body">
+              <zwPanel :canFold=false state="open" style="">
+                <span slot="title" name="title">发布消息</span>
+                <p slot="body" name="body">
+                  <zwPcImgList2 :list="imgList"></zwPcImgList2>
 
-                            <zwSimpleTable :list="list" :param="tableParam"> </zwSimpleTable>
+                </p>
 
-                            </p>
+              </zwPanel>
 
-                        </zwPanel>
-  <zwPanel :canFold=false state="open" style="">
-                          <span slot="title" name="title">最新动态</span>
-                           <p  slot="body" name="body">
+            </zwCol>
 
-                            <zwSimpleTable :list="list" :param="tableParam"> </zwSimpleTable>
+            <zwCol style="min-width:300px" class="zw-col-sm-10 pull-left" span=6>
+              <zwPanel :canFold=false state="open" style="">
+                <span slot="title" name="title">最新消息</span>
+                <p slot="body" name="body">
+                  <zwSimpleTable :list="list" :param="tableParam"> </zwSimpleTable>
 
-                            </p>
+                </p>
 
-                        </zwPanel>
-                         </zwCol>
+              </zwPanel>
 
+              <zwPanel :canFold=false state="open" style="">
+                <span slot="title" name="title">相册</span>
+                <p slot="body" name="body">
 
-<zwCol  style="min-width:300px" class="zw-col-sm-24 pull-left" span=12>
+                  <zwCrousel :imglist="imglist" width="300" height=150> </zwCrousel>
 
- <zwPanel :canFold=false state="open" style="">
-                                                   <span slot="title" name="title">发布消息</span>
-                                                    <p  slot="body" name="body">
+                </p>
 
-                                                         <blogInput @submitCallBack="refreshBlogView"></blogInput>
-                                                     </p>
+              </zwPanel>
 
-                                                 </zwPanel>
+              <zwPanel :canFold=false state="open" style="">
+                <span slot="title" name="title">最新消息</span>
+                <p slot="body" name="body">
 
-<zwPanel :canFold=false state="open" style="">
-<span slot="title" name="title">最新消息</span>
-<p  slot="body" name="body">
+                  <blogInput @submitCallBack="refreshBlogView"></blogInput>
+                </p>
 
-<blogViewList   ref="blogViewList" ></blogViewList>
-</p>
+              </zwPanel>
+              <zwPanel :canFold=false state="open" style="">
+                <span slot="title" name="title">最新消息</span>
+                <p slot="body" name="body">
 
-</zwPanel>
+                  <blogViewList ref="blogViewList"></blogViewList>
+                </p>
 
+              </zwPanel>
+            </zwCol>
+          </zwRow>
+          <zwRow>
+            <zwCol class="pull-left" span=6>
+            </zwCol>
+            <zwCol class="pull-left" span=12>
 
-                         </zwCol>
-
-                         <zwCol   style="min-width:300px" class="zw-col-sm-10 pull-left" span=6>
-
-
-                         <zwPanel :canFold=false state="open" style="">
-                                       <span slot="title" name="title">相册</span>
-                                        <p  slot="body" name="body">
-
-                                         <zwCrousel :imglist="imglist" width="300" height=150> </zwCrousel>
-
-                                         </p>
-
-                                     </zwPanel>
-
-                                      </zwCol>
-                              </zwRow>
-<zwRow>
-<zwCol  class="pull-left" span=6>
-</zwCol>
-<zwCol  class="pull-left" span=12>
-
-</zwCol>
-<zwCol  class="pull-left" span=6>
-</zwCol>
-</zwRow>
+            </zwCol>
+            <zwCol class="pull-left" span=6>
+            </zwCol>
+          </zwRow>
           <!-- 路由出口 -->
           <!-- 路由匹配到的组件将渲染在这里 -->
-
-
 
         </div>
       </zwContent>
     </zwLayout>
 
-    <zwFooter> <div id="router">
-                              <router-view></router-view>
-                            </div></zwFooter>
+    <zwFooter>
+      <div id="router">
+        <router-view></router-view>
+      </div>
+    </zwFooter>
 
   </zwLayout>
 </template>
@@ -221,82 +212,228 @@
   import zwSimpleTable from '../../component/datadisplay/zwSimpleTable.vue';
   import zwTable from '../../component/datadisplay/zwTable.vue';
 
+  import zwCrousel from '../../component/datadisplay/zwCrousel.vue';
+  import blogInput from '../../module/example/dataentry/blogInput.vue';
+  import blogViewList from '../../component/datadisplay/blogViewList2.vue';
 
-import zwCrousel from '../../component/datadisplay/zwCrousel.vue';
-import blogInput from '../../module/example/dataentry/blogInput.vue';
-import blogViewList from '../../component/datadisplay/blogViewList2.vue';
+  import zwGlobalSearch from '../../component/dataentry/zwGlobalSearch.vue';
+  import zwPcImgList2 from '../../component/datadisplay/zwPcImgList2.vue';
+
   export default {
     components: {
-      zwRow, zwCol, zwIcon, zwBox, zwHeader, zwContent, zwFooter, zwLayout, zwSider, zwCollapse, zwPanel, apiPath,
-      zwButton, zwMenu, zwMenuItem, zwMenuItemGroup, zwSubMenu, zwDropDown, zwInput, zwFormItem, zwForm,zwTable,zwSimpleTable,zwCrousel,
-      blogInput,blogViewList
+      zwRow,
+      zwCol,
+      zwIcon,
+      zwBox,
+      zwHeader,
+      zwContent,
+      zwFooter,
+      zwLayout,
+      zwSider,
+      zwCollapse,
+      zwPanel,
+      apiPath,
+      zwButton,
+      zwMenu,
+      zwMenuItem,
+      zwMenuItemGroup,
+      zwSubMenu,
+      zwDropDown,
+      zwInput,
+      zwFormItem,
+      zwForm,
+      zwTable,
+      zwSimpleTable,
+      zwCrousel,
+      blogInput,
+      blogViewList,
+      zwGlobalSearch,
+      zwPcImgList2
     },
     data() {
       return {
-      PATH:PATH,
+        PATH: PATH,
         msg: 'Hello World!',
         isLogin: false,
         loginName: "",
-          user:{},
+        user: {},
+        imgList: [],
+        list: [{
+          titile: "1",
+          subTitle: "2",
+          pic: "/static/img/smarthome/烟感1.png"
+        }, {
+          titile: "1",
+          subTitle: "2",
+          pic: "/static/img/smarthome/烟感1.png"
+        }, {
+          titile: "1",
+          subTitle: "2",
+          pic: "/static/img/smarthome/烟感1.png"
+        }, {
+          titile: "1",
+          subTitle: "2",
+          pic: "/static/img/smarthome/烟感1.png"
+        }, {
+          titile: "1",
+          subTitle: "2",
+          pic: "/static/img/smarthome/烟感1.png"
+        }, {
+          titile: "1",
+          subTitle: "2",
+          pic: "/static/img/smarthome/烟感1.png"
+        }, {
+          titile: "1",
+          subTitle: "2",
+          pic: "/static/img/smarthome/烟感1.png"
+        }, ],
 
-          list:[
-                                     {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
-                                     {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
-                                     {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
-                                     {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
-                                     {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
-                                     {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
-                                     {titile:"1",subTitle:"2",pic:"/static/img/smarthome/烟感1.png"},
-                                     ],
+        imglist: [{
+            titile: "1",
+            subTitle: "2",
+            pic: "http://www.internetke.com/jsEffects/2014052304/images/1.jpg"
+          }, {
+            titile: "1",
+            subTitle: "2",
+            pic: "http://www.internetke.com/jsEffects/2014052304/images/2.jpg"
+          }, {
+            titile: "1",
+            subTitle: "2",
+            pic: "http://www.internetke.com/jsEffects/2014052304/images/3.jpg"
+          }, {
+            titile: "1",
+            subTitle: "2",
+            pic: "http://www.internetke.com/jsEffects/2014052304/images/4.jpg"
+          }, {
+            titile: "1",
+            subTitle: "2",
+            pic: "http://www.internetke.com/jsEffects/2014052304/images/5.jpg"
+          },
 
-                                     imglist:[
-                                      {titile:"1",subTitle:"2",pic:"http://www.internetke.com/jsEffects/2014052304/images/1.jpg"},
-                                      {titile:"1",subTitle:"2",pic:"http://www.internetke.com/jsEffects/2014052304/images/2.jpg"},
-                                      {titile:"1",subTitle:"2",pic:"http://www.internetke.com/jsEffects/2014052304/images/3.jpg"},
-                                      {titile:"1",subTitle:"2",pic:"http://www.internetke.com/jsEffects/2014052304/images/4.jpg"},
-                                      {titile:"1",subTitle:"2",pic:"http://www.internetke.com/jsEffects/2014052304/images/5.jpg"},
-
-                                     ],
-                     tableParam:[
-                      {   name : 'titile',width :10,} ,
-                      {   name : 'subTitle',width : 10, } ,
-                          {   name : 'pic',width : 80, } ,
-                     ],
+        ],
+        tableParam: [{
+          name: 'titile',
+          width: 10,
+        }, {
+          name: 'subTitle',
+          width: 10,
+        }, {
+          name: 'pic',
+          width: 80,
+        }, ],
       }
     },
-    methods:{
-      goLoginOut:function(){
-          window.location=PATH+"/sys/auth/logout.htm";
-        },
-    goLogin:function(){
-      window.location=PATH+"/sys/auth/login.htm";
+    methods: {
+      goLoginOut: function() {
+        window.location = PATH + "/sys/auth/logout.htm";
+      },
+      goLogin: function() {
+        window.location = PATH + "/sys/auth/login.htm";
+      },
+      refreshBlogView: function() {
+        this.$refs.blogViewList.refresh();
+      }
     },
-        refreshBlogView:function(){
-            this.$refs.blogViewList.refresh();
+    mounted: function() {
+      this.imgList = [
+
+        {
+          id: 1,
+          title: "华家池(凯旋路)",
+          tag1: ["设施齐全", "设施齐全", "设施齐全"],
+          tag2: ["80人", "888平米", "已售88份"],
+          tag3: ["支付宝", "有储物柜", "小卖部", "有空调"],
+          score: "5.5",
+          commentCount: "12",
+          price: "1231起步",
+          subtitle: "莫干山路101010号1幢401是",
+          pic: "static/img/carousel/11.png"
+        }, {
+          id: 1,
+          title: "华家池(凯旋路)",
+          tag1: ["设施齐全", "设施齐全", "设施齐全"],
+          tag2: ["80人", "888平米", "已售88份"],
+          tag3: ["支付宝", "有储物柜", "小卖部", "有空调"],
+          score: "5.5",
+          commentCount: "12",
+          price: "1231起步",
+          subtitle: "莫干山路101010号1幢401是",
+          pic: "static/img/carousel/11.png"
+        }, {
+          id: 1,
+          title: "华家池(凯旋路)",
+          tag1: ["设施齐全", "设施齐全", "设施齐全"],
+          tag2: ["80人", "888平米", "已售88份"],
+          tag3: ["支付宝", "有储物柜", "小卖部", "有空调"],
+          score: "5.5",
+          commentCount: "12",
+          price: "1231起步",
+          subtitle: "莫干山路101010号1幢401是",
+          pic: "static/img/carousel/11.png"
+        }, {
+          id: 1,
+          title: "华家池(凯旋路)",
+          tag1: ["设施齐全", "设施齐全", "设施齐全"],
+          tag2: ["80人", "888平米", "已售88份"],
+          tag3: ["支付宝", "有储物柜", "小卖部", "有空调"],
+          score: "5.5",
+          commentCount: "12",
+          price: "1231起步",
+          subtitle: "莫干山路101010号1幢401是",
+          pic: "static/img/carousel/11.png"
+        }, {
+          id: 1,
+          title: "华家池(凯旋路)",
+          tag1: ["设施齐全", "设施齐全", "设施齐全"],
+          tag2: ["80人", "888平米", "已售88份"],
+          tag3: ["支付宝", "有储物柜", "小卖部", "有空调"],
+          score: "5.5",
+          commentCount: "12",
+          price: "1231起步",
+          subtitle: "莫干山路101010号1幢401是",
+          pic: "static/img/carousel/11.png"
         }
-    },
-    mounted:function() {
-      Ajax.getJSON(PATH+"/user/info.json", null, function(result) {
-                    if(result.r == AJAX_SUCC && result.data) {
-                      this.isLogin=true;
-                      this.user=result.data;
-                    }
-                  }.Apply(this));
+
+      ];
+      Ajax.getJSON(PATH + "/user/info.json", null, function(result) {
+        if(result.r == AJAX_SUCC && result.data) {
+          this.isLogin = true;
+          this.user = result.data;
+        }
+      }.Apply(this));
+
+
+       Ajax.getJSON(PATH + "/goods/list.json?curPage=1&pageSize=10", null, function(result) {
+              if(result.r == AJAX_SUCC && result.data) {
+
+                for(var key in result.data){
+                    result.data[key].pic=result.data[key].img;
+                }
+                this.imgList = result.data;
+                                //var result =new Array();
+
+              }
+            }.Apply(this));
+
+
       //this.$refs.blogViewList.width=getWindowWidth()+"px";
-     // $.ajax(PATH + "/userinfo", function(data) {
-    //    })
-        //判断是否已经登录
+      // $.ajax(PATH + "/userinfo", function(data) {
+      //    })
+      //判断是否已经登录
     },
-     computed:{
-            getWinWidth:function(){
-                return  "width:"+getWinWidth()+"px";
-            }
-        }
+    computed: {
+      getWinWidth: function() {
+        return "width:" + getWinWidth() + "px";
+      }
+    }
   }
 </script>
 <style scoped>
   #example {
     background: red;
     height: 100vh;
+  }
+  body{
+      background-color: #f5f5f5;
   }
 </style>

@@ -279,6 +279,15 @@ ul.zw-menu>li>a> .zw-menu-item-text {
     color: $white;
     background-color: $light-black;
 }
+.zw-menu a {
+     color: $white;
+     background-color: $light-black;
+ }
+
+/* .white a {
+     color: $light-black;
+     background-color: $white;
+ }*/
 .zw-menu-white {
     width: 100%;
     color: $light-black;
@@ -482,7 +491,12 @@ ul.zw-menu>li>a> .zw-menu-item-text {
     text-align: left;
     padding-top:5px;
     @include height_size($ft-h3);
-    >li {
+
+
+        -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
+
+     li {
         float: left;
         padding-left: 15px;
         /*display:table-cell;*/
@@ -495,6 +509,10 @@ ul.zw-menu>li>a> .zw-menu-item-text {
             }
         }
     }
+  /*  &.white{
+        background: $white ;
+        background-color: $white;
+    }*/
     .zw-menu-item {
         /*float:left;会引起二级菜单异常*/
         border-bottom: none;

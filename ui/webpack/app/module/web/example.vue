@@ -157,8 +157,8 @@
                       <template slot="title">
                         <zwIcon type="search" />shop</template>
 
-                      <zwMenuItem key="shopIndexTopExample"><a href="#shopIndexTopExample">购物首页上不调</a></zwMenuItem>
-
+                      <zwMenuItem key="shopIndexTopExample"><a href="#shopIndexTopExample">shop global top search bar</a></zwMenuItem>
+  <zwMenuItem key="shopIntegrate"><a href="#shopIntegrate">shop integrate </a></zwMenuItem>
                     </zwSubMenu>
              <zwSubMenu>
                 <template slot="title">

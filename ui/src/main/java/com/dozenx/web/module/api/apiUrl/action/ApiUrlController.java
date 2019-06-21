@@ -1928,7 +1928,7 @@ public class ApiUrlController extends BaseController {
     public void saveApiInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
         //吧json 数据 传入到对应的名称的数据文档里
 
-        URL ur1l = com.cpj.swagger.support.internal.templates.FreemarkerUtils.class.getClassLoader().getResource("/com/cpj/swagger/support/internal/templates/ftlh/api.ftlh");
+        //URL ur1l = com.cpj.swagger.support.internal.templates.FreemarkerUtils.class.getClassLoader().getResource("/com/cpj/swagger/support/internal/templates/ftlh/api.ftlh");
 
         HashMap<String, String> params = new HashMap<>();
 

@@ -314,42 +314,6 @@ export default {
 </script>
 <style>
 
- body, ul, dl, dd, dt, ol, li, p, h1, h2, h3, h4, h5, h6, textarea, form, select, fieldset, table, td, div, input {
-	margin:0;
-	padding:0;
-	-webkit-text-size-adjust: none
-}
-h1, h2, h3, h4, h5, h6 {
-	font-size:12px;
-	font-weight:normal
-}
-body>div {
-	margin:0 auto
-}
-div {
-	text-align:left
-}
-a img {
-	border:0
-}
-body {
-	color: #333;
-	text-align: center;
-	font: 12px "宋体";
-}
-ul, ol, li {
-	list-style-type:none;
-	vertical-align:0
-}
-a {
-	outline-style:none;
-	color:#535353;
-	text-decoration:none
-}
-a:hover {
-	color: #D40000;
-	text-decoration: none
-}
 .button {
 	display: inline-block;
 	zoom: 1;
