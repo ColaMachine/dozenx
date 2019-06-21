@@ -33,22 +33,20 @@
             <zwMenuItem >
                 <a href="/home/static/html/PhoneCalendarView.html" target="_blank" rel="noopener noreferrer">日历</a>
             </zwMenuItem>
-            <zwMenuItem >
-              <a href="/home/manage.htm" target="_blank" rel="noopener noreferrer">管理系统</a>
-            </zwMenuItem>
 
-             <zwMenuItem >
+
+            <zwMenuItem >
               <a href="/home/static/html/vue/vueExample.html#/" target="_blank" rel="noopener noreferrer">组件库</a>
             </zwMenuItem>
-             <zwMenuItem >
-                  <a href="/home/static/html/vue/vuePhoneIndex.html#/phoneMain" target="_blank" rel="noopener noreferrer">手机</a>
-                </zwMenuItem>
+            <zwMenuItem >
+                  <a href="/home/static/html/vue/shopIndex.html#/shopMain" target="_blank" rel="noopener noreferrer">手机</a>
+            </zwMenuItem>
 
             <zwMenuItem>
 
               <zwMenuItem v-show="!isLogin" >
-                              <a href="javascript:void(0)"  @click="goLogin" >登录</a>
-                            </zwMenuItem>
+                  <a href="javascript:void(0)"  @click="goLogin" >登录</a>
+            </zwMenuItem>
 
 
               <!--  <zwDropDown v-show="!isLogin">

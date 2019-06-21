@@ -46,7 +46,7 @@
                 <zwButton slot="button" sizeNum="">登录</zwButton>
                 <div class="zw-menu bg-white" slot="menu">
 
-                  <iframe style="width:250px;height:400px" src="http://127.0.0.1:8080/static/html/login_iframe.html" />
+                  <iframe style="width:250px;height:400px" />
                   <!-- <zwForm >
                                                 <zwFormItem >
                                                     <zwInput  clear=true  label="用户名" placeholder="请输入用户名">
@@ -100,55 +100,57 @@
 
         <zwMenu mode="inline">
           <zwMenuItem key="mail">
-            <zwIcon type="mail" /><a href="#api">api</a>
+            <zwIcon type="mail" /><a href="#/api">api</a>
           </zwMenuItem>
           <zwMenuItem key="layout">
-            <zwIcon type="mail" /><a href="#layout">layout</a>
+            <zwIcon type="mail" /><a href="#/layout">layout</a>
           </zwMenuItem>
           <zwMenuItem key="grid" disabled>
-            <zwIcon type="appstore" /><a href="#grid">grid</a>
+            <zwIcon type="appstore" /><a href="#/grid">grid</a>
           </zwMenuItem>
           <zwMenuItem key="输入框" disabled>
-            <zwIcon type="appstore" /><a href="#input">输入框</a>
+            <zwIcon type="appstore" /><a href="#/input">输入框</a>
           </zwMenuItem>
             <zwMenuItem key="form" disabled>
-                      <zwIcon type="appstore" /><a href="#form">form</a>
+                      <zwIcon type="appstore" /><a href="#/form">form</a>
                     </zwMenuItem>
             <zwMenuItem key="富文本输入框" disabled>
-                      <zwIcon type="appstore" /><a href="#richInputExample">富文本输入框</a>
+                      <zwIcon type="appstore" /><a href="#/richInputExample">富文本输入框</a>
                     </zwMenuItem>
 
-          <zwMenuItem key="grid" disabled>
-            <zwIcon type="appstore" /><a href="#button">button</a>
+          <zwMenuItem key="appstore" disabled>
+            <zwIcon type="appstore" /><a href="#/button">button</a>
+
+
           </zwMenuItem>
           <zwSubMenu>
             <template slot="title">
               <zwIcon type="search" />data display</template>
 
-            <zwMenuItem key="collapse"><a href="#collapse">collapse</a></zwMenuItem>
-            <zwMenuItem key="Tabs"><a href="#tabs">Tabs 标签页</a></zwMenuItem>
-             <zwMenuItem key="手机端底部弹框"><a href="#appDialougeExample">手机端底部弹框</a></zwMenuItem>
-            <zwMenuItem key="table"><a href="#tableExample">table</a></zwMenuItem>
-                <zwMenuItem key="滚动图片"><a href="#crouselExample">滚动图片</a></zwMenuItem>
-                <zwMenuItem key="app"><a href="#phoneAppExample">app</a></zwMenuItem>
-                <zwMenuItem key="小图标链接"><a href="#iconListExample">小图标链接</a></zwMenuItem>
-                   <zwMenuItem key="滚动文字"><a href="#sliderTextExample">滚动文字</a></zwMenuItem>
-                    <zwMenuItem key="手机动态图片列表"><a href="#appImgListExample">手机动态图片列表</a></zwMenuItem>
-                      <zwMenuItem key="zwAppBottomBarExample"><a href="#zwAppBottomBarExample">手机底部工具栏</a></zwMenuItem>
-                        <zwMenuItem key="zwSlidPanelExample"><a href="#zwSlidPanelExample">手机可切换面板</a></zwMenuItem>
-                          <zwMenuItem key="zwJumbotronExample"><a href="#zwJumbotronExample">巨幕</a></zwMenuItem>
-                           <zwMenuItem key="zhihuijiatingExample"><a href="#zhihuijiatingExample">智慧家庭</a></zwMenuItem>
+            <zwMenuItem key="collapse"><a href="#/collapse">collapse</a></zwMenuItem>
+            <zwMenuItem key="Tabs"><a href="#/tabs">Tabs 标签页</a></zwMenuItem>
+             <zwMenuItem key="手机端底部弹框"><a href="#/appDialougeExample">手机端底部弹框</a></zwMenuItem>
+            <zwMenuItem key="table"><a href="#/tableExample">table</a></zwMenuItem>
+                <zwMenuItem key="滚动图片"><a href="#/crouselExample">滚动图片</a></zwMenuItem>
+                <zwMenuItem key="app"><a href="#/phoneAppExample">app</a></zwMenuItem>
+                <zwMenuItem key="小图标链接"><a href="#/iconListExample">小图标链接</a></zwMenuItem>
+                   <zwMenuItem key="滚动文字"><a href="#/sliderTextExample">滚动文字</a></zwMenuItem>
+                    <zwMenuItem key="手机动态图片列表"><a href="#/appImgListExample">手机动态图片列表</a></zwMenuItem>
+                      <zwMenuItem key="zwAppBottomBarExample"><a href="#/zwAppBottomBarExample">手机底部工具栏</a></zwMenuItem>
+                        <zwMenuItem key="zwSlidPanelExample"><a href="#/zwSlidPanelExample">手机可切换面板</a></zwMenuItem>
+                          <zwMenuItem key="zwJumbotronExample"><a href="#/zwJumbotronExample">巨幕</a></zwMenuItem>
+                           <zwMenuItem key="zhihuijiatingExample"><a href="#/zhihuijiatingExample">智慧家庭</a></zwMenuItem>
 
-                            <zwMenuItem key="lockPwdModify"><a href="#lockPwdModify">密码设置</a></zwMenuItem>
+                            <zwMenuItem key="lockPwdModify"><a href="#/lockPwdModify">密码设置</a></zwMenuItem>
           </zwSubMenu>
 
           <zwSubMenu>
             <template slot="title">
               <zwIcon type="search" />Navigation</template>
 
-            <zwMenuItem key="dropdownmenu"><a href="#dropdownmenu">DropDown 下拉菜单</a></zwMenuItem>
-            <zwMenuItem key="menu"><a href="#menu">menu 导航菜单</a></zwMenuItem>
-            <zwMenuItem key="navbar"><a href="#navbar"> 导航条</a></zwMenuItem>
+            <zwMenuItem key="dropdownmenu"><a href="#/dropdownmenu">DropDown 下拉菜单</a></zwMenuItem>
+            <zwMenuItem key="menu"><a href="#/menu">menu 导航菜单</a></zwMenuItem>
+            <zwMenuItem key="navbar"><a href="#/navbar"> 导航条</a></zwMenuItem>
           </zwSubMenu>
 
           <zwSubMenu>
@@ -162,7 +164,7 @@
                 <template slot="title">
                     <zwIcon type="search" />feedback</template>
 
-                    <zwMenuItem key="alert"><a href="#alert">alert</a></zwMenuItem>
+                    <zwMenuItem key="alert"><a href="#/alert">alert</a></zwMenuItem>
 
               </zwSubMenu>
         </zwMenu>
@@ -183,6 +185,7 @@
   </zwLayout>
 </template>
 <script>
+
   import zwRow from '../../component/layout/zwRow.vue';
   import zwCol from '../../component/layout/zwCol.vue';
   import zwIcon from '../../component/icon/zwIcon.vue';
@@ -195,20 +198,20 @@
   import zwFooter from '../../component/layout/zwFooter.vue';
   import zwCollapse from '../../component/datadisplay/zwCollapse.vue';
   import zwPanel from '../../component/datadisplay/zwPanel.vue';
-  import apiPath from '../../component/datadisplay/apiPath.vue';
+  //import apiPath from '../../component/datadisplay/apiPath.vue';
   import zwMenu from '../../component/navigation/menu/zwMenu.vue';
   import zwMenuItem from '../../component/navigation/menu/zwMenuItem.vue';
   import zwSubMenu from '../../component/navigation/menu/zwSubMenu.vue';
   import zwMenuItemGroup from '../../component/navigation/menu/zwMenuItemGroup.vue';
   import zwDropDown from '../../component/navigation/menu/zwDropDown.vue';
-  import zwForm from '../../component/dataentry/zwForm.vue';
+ /* import zwForm from '../../component/dataentry/zwForm.vue';
   import zwFormItem from '../../component/dataentry/zwFormItem.vue';
-  import zwInput from '../../component/dataentry/zwInput.vue';
+  import zwInput from '../../component/dataentry/zwInput.vue';*/
 
   export default {
     components: {
-      zwRow, zwCol, zwIcon, zwBox, zwHeader, zwContent, zwFooter, zwLayout, zwSider, zwCollapse, zwPanel, apiPath,
-      zwButton, zwMenu, zwMenuItem, zwMenuItemGroup, zwSubMenu, zwDropDown, zwInput, zwFormItem, zwForm
+      zwRow, zwCol, zwIcon, zwBox, zwHeader, zwContent, zwFooter, zwLayout, zwSider, zwCollapse, zwPanel, /*apiPath,*/
+      zwButton, zwMenu, zwMenuItem, zwMenuItemGroup, zwSubMenu, zwDropDown, /*zwInput, zwFormItem, zwForm*/
     },
     data() {
       return {

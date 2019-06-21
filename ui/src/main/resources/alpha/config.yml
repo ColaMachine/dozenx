@@ -1,0 +1,66 @@
+#1.项目端口设置
+server:
+  port: 8097
+# 1.1.jar包下打包前缀  war包下前缀 在tomcat下server.xml 配置
+  servlet:
+      context-path : /home
+logging:
+   config : classpath:logback-boot.xml
+#2.项目基础配置
+spring:
+   #2.1数据库配置
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource #Druid 驱动
+        driverClassName: com.mysql.jdbc.Driver #数据库驱动
+        driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
+        platform: mysql
+        name: ms   #数据库配置名称 使用多数据源时区别
+        url: jdbc:mysql://192.168.41.74:3306/awifi_kq #配置数据库连接
+        username: root  #数据库用户名
+        password: root@2015 #数据库密码
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT1FROMDUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        filters: stat,wall,log4j
+        logSlowSql: true
+
+    #2.2 redis 配置
+    redis:
+         database: 2  #redis哪个库
+         host: 192.168.213.5  #redis的ip地址
+         port: 6379  #redis 端口
+         password: Awifi@123  #redis 密码
+
+#2.3项目基础配置
+mybatis:
+    mapper-locations: classpath*:com/awifi/ms/**/*Mapper.xml,classpath*:com/dozenx/**/*Mapper.xml #mapper.xml 扫描地址
+    type-aliases-package: learning.model    #mapper.xml 别名
+    show-sql: true    # sql语句 打印 --打包时移除
+    #configuration:
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#2.4pagehelper分页插件
+pagehelper:
+    helperDialect: mysql #对象数据库 方言
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql # 计算个数
+
+ftpUrl:
+    upload : /service/face-test/
+
+
+
+
+
+
+
+
+

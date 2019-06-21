@@ -13,6 +13,7 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
 
   entry: {
+   'main': './src/main.js',//手机端
     'shopIndex': './app/shopIndex.js',//手机端
     "index": './app/index.js',//web主界面,//pc端管理主界面
             //"blog": PATHS.blog,//pc端管理主界面

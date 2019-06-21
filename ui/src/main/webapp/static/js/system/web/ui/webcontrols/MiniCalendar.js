@@ -28,7 +28,7 @@ MiniCalendar.prototype.render = function(id,callback) {
     this.callback=callback;
     var newDiv = html(str);
     this.div=newDiv;
-    $$(id).parentNode.append(newDiv);
+    $$(id).parentNode.appendChild(newDiv);
     newDiv.style.position="absolute";
     var info = getInfo($$(id));
     console.log(info);
@@ -144,13 +144,13 @@ MiniCalendar.prototype.getCalendarStr = function() {
 	}
 	str += "</tbody></table>"
 
-	+"<select id='mini_calendar_hour'>";
+	+"<select name='mini_calendar_hour' id='mini_calendar_hour'>";
 	for(var i=0;i<24;i++){
 	    str+="<option>"+i+"</option>";
 	}
 	str+="</select>:";
 
-	str+="<select id='mini_calendar_minute'> ";
+	str+="<select name='mini_calendar_minute' id='mini_calendar_minute'> ";
     	for(var i=0;i<59;i++){
     	    str+="<option>"+i+"</option>";
     	}
@@ -251,7 +251,8 @@ MiniCalendar.prototype.selectDate = function(day) {
 MiniCalendar.prototype.sure = function() {
 //	this.callback.call();
     this.dummyDay.setHours(getSelectedValue("mini_calendar_hour"));
-      this.dummyDay.setMinutes(getSelectedValue("mini_calendar_hour"));
+      this.dummyDay.setMinutes(getSelectedValue("mini_calendar_minute"));
+      //alert(getSelectedValue(this.div.getElementById("mini_calendar_hour")));
          this.dummyDay.setSeconds(0);
 
 	this.callback.call();

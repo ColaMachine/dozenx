@@ -1,0 +1,398 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+    <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi ">
+
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1, maximum-scale=1″>
+    <title>后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/home/static/css/bootstrap.min.css" >
+
+    <link rel="stylesheet" type="text/css" href="/home/static/css/main.css" >
+    <link rel="stylesheet" type="text/css" href="/home/static/css/menu3.css" >
+    <link rel="stylesheet" type="text/css" href="/home/static/css/head.css" >
+
+
+    <link rel="stylesheet" type="text/css" href="/home/static/css/collapse.css" >
+    <link rel="stylesheet" type="text/css" href="/home/static/css/font-awesome.css" >
+
+    <script type="text/javascript" src="/home/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/home/static/js/common.js"></script>
+    <script type="text/javascript" src="/home/static/js/router.js"></script>
+    <script type="text/javascript" src="/home/static/js/menu.js"></script>
+    <script type="text/javascript" src="/home/static/js/dom.js"></script>
+
+    <script type="text/javascript" src="/home/static/js/animation.js"></script>
+    <script type="text/javascript" src="/home/static/js/slider.js"></script>
+    <script type="text/javascript" src="/home/static/js/imageUtil.js"></script>
+    <!-- <script src="/static/js/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/slider.css" >  -->
+
+
+    <script type="text/javascript" >
+var WEBCONTEXT="/home";
+var PATH="/home";
+var cssAry=[
+
+"/static/css/grid.css",
+/*"/static/css/bankgrid.css",*/
+/*"/static/css/jqgrid.css",*/
+ "/static/css/head.css",
+
+    "/static/css/widget.css",
+   "/static/css/window.css",
+    "/static/css/zTreeStyle.css",
+    "/static/css/layer.css",
+
+];
+var jsAry=[/*"/static/js/menu.js" ,
+                     "/static/js/validmsg.js",*/
+                     "/static/js/DateUtils.js",
+                    /* "/static/js/jquery-ui.min.js",*/
+                     "/static/js/grid.js",
+                      /* "/static/js/jquery.jqGrid.js",*/
+                      "/static/js/jquery.form.js",
+                      "/static/js/grid.locale-en.js",
+                      "/static/js/My97DatePicker/WdatePicker.js",
+                      "/static/js/jquery.validate.js",
+                      "/static/js/additional-methods.js",
+                     /* "/static/js/index.js",*/
+                      "/static/js/window.js",
+                     "/static/js/bootstrap.min.js",
+                      "/static/js/drag.js",
+                       /* "/static/js/system/view/calendar/calendarView.js",*/
+                      "/static/js/dialog.js",
+                      "/static/js/jquery.ztree.core-3.5.js",
+                      "/static/js/jquery.ztree.excheck-3.5.js",
+                       "/static/js/layer.js",
+                        "/ueditor/ueditor.config.js",
+                         "/ueditor/ueditor.all.js",
+                     /*  "/static/js/location.js",*/
+
+
+                    ];
+includeCSS(cssAry);
+includeJS(jsAry);
+
+         /*   setTimeout("loadCssJs()",1000);
+                   function loadCssJs(){
+                     	Ajax.get(PATH+"/moreCssJs.htm", null, function(data) {
+                                 if(data.indexOf("504")!=-1){
+                                     window.location="/spcity/login.htm";return;
+                                 }
+                     			$('#moreCssJs').html(data);
+                     		});
+                   }*/
+</script>
+
+
+</head>
+<body>
+
+
+
+ <div class="ibox float-e-margins">
+    <form id="yaoguaiEditForm" class="form-horizontal" method="post" action="/yaoguai/save.json" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name" class="col-xs-4 control-label">名称:</label>
+            <div class="col-xs-8">
+                <input  type="text"  id="name" name="name"  class="form-control input-sm"   maxlength="50"  ></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="wg" class="col-xs-4 control-label">物攻:</label>
+            <div class="col-xs-8">
+                <input type="number" id="wg" name="wg"  class="form-control input-sm"  maxlength="2" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="wf" class="col-xs-4 control-label">物防:</label>
+            <div class="col-xs-8">
+                <input type="number" id="wf" name="wf"  class="form-control input-sm"  maxlength="2" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="fg" class="col-xs-4 control-label">法攻:</label>
+            <div class="col-xs-8">
+                <input type="number" id="fg" name="fg"  class="form-control input-sm"  maxlength="2" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="ff" class="col-xs-4 control-label">法防:</label>
+            <div class="col-xs-8">
+                <input type="number" id="ff" name="ff"  class="form-control input-sm"  maxlength="2" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="sm" class="col-xs-4 control-label">生命:</label>
+            <div class="col-xs-8">
+                <input type="number" id="sm" name="sm"  class="form-control input-sm"  maxlength="2" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="zf" class="col-xs-4 control-label">总分:</label>
+            <div class="col-xs-8">
+                <input type="number" id="zf" name="zf"  class="form-control input-sm"  maxlength="3" onkeyup="chkInt(this,8)" onafterpaste="chkInt(this,8)"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="price" class="col-xs-4 control-label">价格:</label>
+            <div class="col-xs-8">
+                <input  id="price" type="number" name="price"  value="null"  class="form-control input-sm"   maxlength="100"></input>        </div>
+
+        </div>
+
+        <div class="form-group">
+        <label for="address" class="col-xs-4 control-label">地址:</label>
+        <div class="col-xs-8">
+            <textarea  id="address" name="address"  class="form-control input-sm"   maxlength="200"  ></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="img" class="col-xs-4 control-label">图片0:</label>
+        <div class="col-xs-8">
+<input  id="img" name="img"  value="null" style="display:none" class="form-control input-sm"   maxlength="100"></input>        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark" class="col-xs-4 control-label">备注:</label>
+        <div class="col-xs-8">
+            <textarea  id="remark" name="remark"  class="form-control input-sm"   maxlength="200"  ></textarea>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="platform" class="col-xs-4 control-label">平台名称:</label>
+        <div class="col-xs-8">
+            <input  type="text"  id="platform" name="platform"  class="form-control input-sm"   maxlength="50"  ></input>
+        </div>
+    </div>
+
+       <div class="hr-line-dashed"></div>
+        <div class="form-group">
+           <div class="col-xs-4 col-xs-offset-2">
+               <button type="button"  class="btn btn-primary saveBtn">保存</button>
+
+           </div>
+            <div class="col-xs-4 col-xs-offset-2">
+                <button type="button" class="btn btn-white cancelBtn">取消</button>
+            </div>
+        </div>
+        </div>
+
+    </form>
+</div><!-- /.modal-content -->
+        
+<script type="text/javascript">
+
+
+
+var yaoguaiEdit={
+    form:null,
+    modal:true,
+    windowIndex:null,
+    formId:"#yaoguaiEditForm",
+    validParam:{
+        rules: {
+                   id:{
+            digits:true
+        },
+        name:{
+            maxlength:50,required:true
+        },
+        address:{
+            maxlength:200
+        },
+        img:{
+            maxlength:100,required:true
+        },
+        remark:{
+            maxlength:200
+        },
+        status:{
+            CheckBox:["1","2","3","9"],digits:true,required:true
+        },
+        price:{
+            
+        },
+        creator:{
+            digits:true
+        },
+        creatorName:{
+            maxlength:50
+        },
+        platform:{
+            maxlength:50
+        },
+        up:{
+            digits:true
+        },
+        wg:{
+            digits:true
+        },
+        wf:{
+            digits:true
+        },
+        fg:{
+            digits:true
+        },
+        ff:{
+            digits:true
+        },
+        sm:{
+            digits:true
+        },
+        zf:{
+            digits:true
+        },
+        createTime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+        updateTime:{
+            ymd:"yyyy-MM-dd HH:mm:ss"
+        },
+
+        },
+        messages:{
+                   id:{
+            digits:"必须输入整数"
+        },
+        name:{
+            maxlength:"名称不能多于50个字符"
+        },
+        address:{
+            maxlength:"地址不能多于200个字符"
+        },
+        img:{
+            maxlength:"图片0不能多于100个字符"
+        },
+        remark:{
+            maxlength:"备注不能多于200个字符"
+        },
+        status:{
+            CheckBox:"必须输入'1','2','3','9'中的值",digits:"必须输入整数"
+        },
+        price:{
+            
+        },
+        creator:{
+            digits:"必须输入整数"
+        },
+        creatorName:{
+            maxlength:"创建人姓名不能多于50个字符"
+        },
+        platform:{
+            maxlength:"平台名称不能多于50个字符"
+        },
+        up:{
+            digits:"必须输入整数"
+        },
+        wg:{
+            digits:"必须输入整数"
+        },
+        wf:{
+            digits:"必须输入整数"
+        },
+        fg:{
+            digits:"必须输入整数"
+        },
+        ff:{
+            digits:"必须输入整数"
+        },
+        sm:{
+            digits:"必须输入整数"
+        },
+        zf:{
+            digits:"必须输入整数"
+        },
+        createTime:{
+            ymd:"必须输入合法日期"
+        },
+        updateTime:{
+            ymd:"必须输入合法日期"
+        },
+
+        }
+    },
+    addEventListener:function(){
+        this.form.find(".saveBtn").click(this.saveInfo.Apply(this));
+        this.form.find(".cancelBtn").click(this.cancel.Apply(this));
+    },
+    init:function(){
+        this.windowIndex=dialog.windowIndex;
+        this.form=$(this.formId);
+        this.addEventListener();
+        $("#yaoguaiEditForm").validate(this.validParam);
+        var imageUtil=new zImageUtil2({"input":"img"});
+        var that =this;
+
+            that.loadData();
+
+    },
+    loadData:function(){
+        var that =this;
+        Ajax.getJSON(PATH+"/yaoguai/view.json?id="+getParam("id"),null,function(data){
+            if(data.r==AJAX_SUCC){
+                if(data.data.bean){
+                    fillJso2Form("#yaoguaiEditForm",data.data.bean);
+                    $("#img").parent().find("img").attr("src",$("#img").val());
+                }
+            }else{
+                dialog.error("获取信息失败"+data.msg,function(index){
+                    goPage("yaoguai/list.htm");
+                    dialog.close(index);
+                });
+            }
+        });
+    },
+
+    saveInfo:function(){
+    var that =this;
+        if (!$("#yaoguaiEditForm").valid())
+            return;
+        var jso = changeForm2Jso("#yaoguaiEditForm");
+        var dialogId=dialog.showWait();
+        var that=this;
+        Ajax.post(PATH+$("#yaoguaiEditForm").attr("action"),jso,function(data){
+            dialog.hideWait(dialogId);
+            if(data.r==0){
+                dialog.alert(data.msg||"保存成功",function(index){
+                    //goPage("yaoguai/list.htm");
+
+                    if(that.modal){
+                        $("#YaoguaiGrid").jqGrid("reloadGrid");
+                    }
+                    dialog.close(index);
+                     that.cancel();
+                });
+            }else{
+                dialog.error(data.msg);
+            }
+        },'json');
+    },
+    cancel:function(){
+
+            goPage("yaoguai/list.htm");
+
+    }
+}
+$(document).ready(function() {
+    //获取传入参数
+    yaoguaiEdit.init();
+
+});
+</script>
+<style>
+    .control-label{
+        text-align:right;
+    }
+    </style>
+</body>
+</html>
