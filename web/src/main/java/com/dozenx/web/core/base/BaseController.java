@@ -8,6 +8,8 @@ import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.service.LogService;
+import com.dozenx.web.util.CookieUtil;
+import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -89,7 +92,7 @@ public class BaseController extends ResultAction {
             }
 
         }/*else if (e instanceof InterfaceException) {
-			result = new ResultDTO(Integer.valueOf(((InterfaceException)e).code),((InterfaceException)e).msg);
+            result = new ResultDTO(Integer.valueOf(((InterfaceException)e).code),((InterfaceException)e).msg);
 		}*/ else {
             logger.error("", e);
             result = getWrongResultFromCfg(e.getMessage());
@@ -100,6 +103,7 @@ public class BaseController extends ResultAction {
             String resultStr = JsonUtil.toJsonString(result);
             response.setHeader("Cache-Control", "no-cache");
             response.setCharacterEncoding("UTF-8");
+
             response.setContentType("application/json;charset=UTF-8");
             //	response.setContentType("text/json;charset=UTF-8");
 
@@ -122,7 +126,7 @@ public class BaseController extends ResultAction {
     public void saveExceptionLog(HttpServletRequest request, Exception e) {
         // StackTraceElement[] s = Thread.currentThread().getStackTrace();
         // 获取service
-		/*
+        /*
 		 * AppExceptionLog log =new AppExceptionLog(); ByteArrayOutputStream
 		 * baos = new ByteArrayOutputStream(); e.printStackTrace(new
 		 * PrintStream(baos)); String exception = baos.toString();
@@ -238,12 +242,75 @@ public class BaseController extends ResultAction {
             logger.error("return the exception through the jso to clien fail", e1);
         }
     }
+
     //统一的sesion设置
-    public void putSession(HttpServletRequest request,String key,Object object){
-        request.getSession().setAttribute(key,object);
+//    public void putSession(HttpServletRequest request, String key, Object object) {
+//        request.getSession().setAttribute(key, object);
+//    }
+//
+//    //统一的sesion获取
+//    public void getSession(HttpServletRequest request, String key, Object object) {
+//        request.getSession().getAttribute(key);
+//    }
+
+    int SESSION_LIVE_TIME = 24 * 7 * 60 * 60;
+
+    public String getSessionKey(HttpServletRequest request) {
+        Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");
+        if (cookie == null) {
+            return null;
+        }
+        String sessionKey = cookie.getValue();
+//        if(StringUtil.isBlank(sessionKey)){
+//            return null;
+//        }
+        return sessionKey;
     }
-    //统一的sesion获取
-    public void getSession(HttpServletRequest request,String key,Object object){
-        request.getSession().getAttribute(key);
+
+    public Object getSessionAttribute(HttpServletRequest request, String key, Class clazz) {
+
+        String sessionKey = getSessionKey(request);
+        if (StringUtil.isBlank(sessionKey)) {
+            return null;
+        }
+        String result = RedisUtil.get(sessionKey + "_" + key);
+        if (StringUtil.isBlank(result)) {
+            return null;
+        }
+        return JsonUtil.toJavaBean(result, clazz);
+
+    }
+
+    public String getSessionParam(HttpServletRequest request, String key) {
+
+        String sessionKey = getSessionKey(request);
+        String result = RedisUtil.get(sessionKey + "_" + key);
+        if (StringUtil.isBlank(result)) {
+            return null;
+        }
+        return result;
+
+    }
+
+    public void setSessionParam(HttpServletRequest request, String key, String value) {
+
+        String sessionKey = getSessionKey(request);
+        RedisUtil.setex(sessionKey + "_" + key, value, SESSION_LIVE_TIME);
+
+
+    }
+
+    public void setSessionAttribute(HttpServletRequest request, String key, Object object) {
+        String sessionKey = getSessionKey(request);
+        if (object == null) {
+
+            return;
+        }
+        RedisUtil.setex(sessionKey + "_" + key, JsonUtil.toJsonString(object), SESSION_LIVE_TIME);
+    }
+
+    public void removeSession(HttpServletRequest request, String key) {
+        String sessionKey = getSessionKey(request);
+        RedisUtil.del(sessionKey + "_" + key);
     }
 }

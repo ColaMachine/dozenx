@@ -41,4 +41,6 @@ public class IndexController extends BaseController {
         // System.out.println(123);
         return "/jsp/manage.jsp";
     }
+
+
 }

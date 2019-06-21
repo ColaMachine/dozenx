@@ -1144,8 +1144,8 @@ public class Generator {
     public static void main(String[] args) {
         Generator generator = new Generator();
         // generator.generate(new String[]{"SysUser"});
-        generator.generate(new String[]{"ApiUrl"});
-//        generator.generate(new String[]{"FaceInfo","FaceCapture"});
+//        generator.generate(new String[]{"ApiUrl"});
+        generator.generate(new String[]{/*"FaceInfo","FaceCapture",*/"CheckinDaily","CheckinConfig"});
 
 //        generator.generate(new String[]{"SysOrg","SysOrgUser","SysUser","Album","SysGroup","SysOrgGroup","SysGroupUser"});
 //        generator.generate(new String[]{});
@@ -1154,7 +1154,7 @@ public class Generator {
 //                "WriteoffInstance" ,"MssWriteoffInstToSupplier"
 //                ,"vatInvoiceForImage","vatInvoiceInfo","CertificateTitle","CertificateDetail"});
         //generator.generate(new String[]{"Holiday"});
-        generator.generate(new String[]{"FaceCheckinOut"});
+//        generator.generate(new String[]{"School","Monitor","SysGroup","MonitorGroup","SysUser","Clazz","ClazzUser","Camera"});
 
         // generator.generate(new String[]{"CheckinOut"});
 //        generator.generate(new String[]{"SSCFilterForm"});

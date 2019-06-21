@@ -936,7 +936,7 @@ public class LoginController extends BaseController {
         return "/jsp/index.jsp";
     }
 
-    @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/index.htm", method = RequestMethod.GET ,produces = "text/html")
     public String index(HttpServletRequest request) {
         // System.out.println(request.getParameter("path"));
         // System.out.println(request.getSession().getAttribute("path"));
@@ -1139,10 +1139,7 @@ public class LoginController extends BaseController {
 //		hit.setDomain("www.zifansky.cn");//子域，在这个子域下才可以访问该Cookie
 		hit.setPath("/");//在这个路径下面的页面才可以访问该Cookie
 //		hit.setSecure(true);//如果设置了Secure，则只有当使用https协议连接时cookie才可以被页面访问
-
         response.addCookie(hit);
-
-
         UUID uuid = UUID.randomUUID();
         String sessionId = uuid.toString();
         request.getSession().setAttribute("uid", sessionId);

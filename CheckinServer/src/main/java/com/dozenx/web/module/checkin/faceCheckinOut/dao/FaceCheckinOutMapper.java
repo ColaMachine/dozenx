@@ -75,5 +75,5 @@ public interface FaceCheckinOutMapper {
 
     int countByOrParams(HashMap map);
 
-      
+    FaceCheckinOut getNewest();
 }

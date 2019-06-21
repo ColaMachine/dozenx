@@ -25,6 +25,17 @@ public class FaceInfo {
     private String face;
     /**宽高位置信息 null**/
     private String remark;
+
+    private String absPath;
+
+    public String getAbsPath() {
+        return absPath;
+    }
+
+    public void setAbsPath(String absPath) {
+        this.absPath = absPath;
+    }
+
     /**用户名 null**/
     private String name;
     public Long getId(){
@@ -62,6 +73,16 @@ public class FaceInfo {
     }
     public void setName(String name){
         this.name=name;
+    }
+
+    public  Long outId;
+
+    public Long getOutId() {
+        return outId;
+    }
+
+    public void setOutId(Long outId) {
+        this.outId = outId;
     }
 
     Double[] faceAry;

@@ -64,7 +64,7 @@ import phoneMain from '../../module/phone/phoneMain.vue';
 import map from '../../module/phone/map.vue';
 import placeView from '../../module/phone/placeView.vue';
 import goodView from '../../module/phone/goodView.vue';
-
+import shopIndexTopExample from '../../module/example/shop/shopIndexTopExample.vue';
 import shopMain from '../../module/phone/shopMain.vue';//登录注册页面
 // 然后定义路由(routes)，components还可以是Vue.extend()创建的
 const routes = [
@@ -118,7 +118,7 @@ const routes = [
 { path: '/navbar', component:zwNavExample },
 { path: '/userInfo', component:userInfo },
 //web页面展示
-
+{ path: '/shopIndexTopExample', component:shopIndexTopExample },
 //手机页面展示
 { path: '/phoneMain', component:phoneMain },
 { path: '/placeView', component:placeView },

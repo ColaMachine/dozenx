@@ -59,6 +59,16 @@ public class SysUser implements Serializable {
     private String depart;
     private String pinyin;
 
+    private Long createUser;
+
+    public Long getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Long createUser) {
+        this.createUser = createUser;
+    }
+
     public String getPinyin() {
         return pinyin;
     }

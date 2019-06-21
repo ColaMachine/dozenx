@@ -4,6 +4,7 @@ import com.dozenx.core.config.SysConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +22,7 @@ public class SysListener extends HttpServlet implements ServletContextListener {
 	}
 
 	// 用于在容器开启时,操作
+
 	public void contextInitialized(ServletContextEvent sce) {
 		//PropertiesUtil.init();
 		String realPath = sce.getServletContext().getRealPath("/");

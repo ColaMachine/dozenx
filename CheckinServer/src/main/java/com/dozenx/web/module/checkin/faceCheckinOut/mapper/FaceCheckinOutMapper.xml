@@ -18,9 +18,11 @@
         <result column="remark" jdbcType="VARCHAR" property="remark" />
         <result column="time" jdbcType="INTEGER" property="time" />
         <result column="cameraId" jdbcType="BIGINT" property="cameraId" />
+        <result column="group_id" jdbcType="BIGINT" property="groupId" />
     </resultMap>
     <sql id="Base_Column_List">
-        FaceCheckinOut.`id` ,FaceCheckinOut.`userId` ,FaceCheckinOut.`userName` ,FaceCheckinOut.`camera` ,FaceCheckinOut.`checkType` ,FaceCheckinOut.`checkTime` ,FaceCheckinOut.`score` ,FaceCheckinOut.`cost` ,FaceCheckinOut.`avgScore` ,FaceCheckinOut.`regUrl` ,FaceCheckinOut.`oriUrl` ,FaceCheckinOut.`regPath` ,FaceCheckinOut.`oriPath` ,FaceCheckinOut.`remark` ,FaceCheckinOut.`time` ,FaceCheckinOut.`cameraId`
+        FaceCheckinOut.`id` ,FaceCheckinOut.`userId` ,FaceCheckinOut.`userName` ,FaceCheckinOut.`camera` ,FaceCheckinOut.`checkType` ,FaceCheckinOut.`checkTime` ,FaceCheckinOut.`score` ,FaceCheckinOut.`cost` ,FaceCheckinOut.`avgScore` ,FaceCheckinOut.`regUrl` ,FaceCheckinOut.`oriUrl` ,FaceCheckinOut.`regPath` ,FaceCheckinOut.`oriPath`
+        ,FaceCheckinOut.`remark` ,FaceCheckinOut.`time` ,FaceCheckinOut.`cameraId`,FaceCheckinOut.`group_id`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -52,6 +54,7 @@
         ,#{remark,jdbcType=VARCHAR}
         ,#{time,jdbcType=INTEGER}
         ,#{cameraId,jdbcType=BIGINT}
+        ,#{groupId,jdbcType=BIGINT}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
@@ -102,6 +105,9 @@
             <if test="time != null" >
                 `time`,
             </if>
+            <if test="groupId != null" >
+                `group_id`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -148,6 +154,9 @@
             </if>
             <if test="time != null" >
                 #{time,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null" >
+                #{groupId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -544,4 +553,12 @@
             )
         </foreach >
     </insert>
+
+
+    <select id="getNewest"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from FaceCheckinOut order by id desc limit 1
+
+    </select>
 </mapper>

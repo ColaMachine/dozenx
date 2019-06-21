@@ -118,4 +118,9 @@ public class FaceCheckinOutService extends BaseService {
         }
         return ResultUtil.getSuccResult();
     }
+
+
+    public FaceCheckinOut getNewest(){
+        return faceCheckinOutMapper.getNewest();
+    }
 }

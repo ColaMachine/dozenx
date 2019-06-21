@@ -75,5 +75,6 @@ public interface FaceInfoMapper {
 
     int countByOrParams(HashMap map);
 
-      
+
+    FaceInfo getByOutId(Long id);
 }

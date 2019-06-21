@@ -150,6 +150,14 @@
             <zwMenuItem key="menu"><a href="#menu">menu 导航菜单</a></zwMenuItem>
             <zwMenuItem key="navbar"><a href="#navbar"> 导航条</a></zwMenuItem>
           </zwSubMenu>
+
+          <zwSubMenu>
+                      <template slot="title">
+                        <zwIcon type="search" />shop</template>
+
+                      <zwMenuItem key="shopIndexTopExample"><a href="#shopIndexTopExample">购物首页上不调</a></zwMenuItem>
+
+                    </zwSubMenu>
              <zwSubMenu>
                 <template slot="title">
                     <zwIcon type="search" />feedback</template>

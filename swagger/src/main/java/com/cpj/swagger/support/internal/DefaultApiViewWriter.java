@@ -19,23 +19,21 @@ package com.cpj.swagger.support.internal;
 import com.alibaba.fastjson.JSONWriter;
 import com.cpj.swagger.APIParseable;
 import com.cpj.swagger.APIParser;
-import com.cpj.swagger.support.internal.templates.FreemarkerUtils;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import com.dozenx.util.FileUtil;
+import com.dozenx.util.IoUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import sun.misc.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
 
 /**
  * @author yonghuan
@@ -58,24 +56,56 @@ public class DefaultApiViewWriter implements ApiViewWriter {
 		String path = request.getContextPath();
 		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 		root.put("basePath", basePath);
+		request.setAttribute("basePath", basePath);
+		request.setAttribute("lang", lang);
 		String host = request.getServerName() + ":" + request.getServerPort() + path;
 		String suffix = props.getProperty("suffix");
+
 		if(StringUtils.isBlank(suffix)) {
 			suffix = "";
 		}
 		root.put("getApisUrl","http://" + host + "/api" + suffix);
+		request.setAttribute("getApisUrl","http://" + host + "/api" + suffix);
 		root.put("apiDescription", props.getProperty("apiDescription"));
+		request.setAttribute("apiDescription", props.getProperty("apiDescription"));
 		root.put("apiTitle", props.getProperty("apiTitle"));
+		request.setAttribute("apiTitle", props.getProperty("apiTitle"));
 		root.put("apiVersion", props.getProperty("apiVersion"));
+		request.setAttribute("apiVersion", props.getProperty("apiVersion"));
 		root.put("suffix", suffix);
-        Template template = FreemarkerUtils.getTemplate(getTemplateName());
+		request.setAttribute("suffix", suffix);
+//        Template template = FreemarkerUtils.getTemplate(getTemplateName());
         response.setContentType("text/html;charset=utf-8");
-        Writer out = response.getWriter();
+        OutputStream out = response.getOutputStream();
+
+		byte[] readContent = new byte[254];
         try {
-			template.process(root, out);
-		} catch (TemplateException e) {
+			InputStream fileInputStream = this.getClass().getResourceAsStream("/com/cpj/swagger/support/internal/templates/ftlh/api.ftlh");
+			BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileInputStream));
+			int length =0;
+			String s = fileReader.readLine();
+			StringBuffer stringBuffer =new StringBuffer(1024);
+			while(s!=null){
+				stringBuffer.append(s).append("\r\n");
+				s = fileReader.readLine();
+			}
+			String content=stringBuffer.toString();
+
+			content=content.replaceAll("\\$\\{basePath\\}",basePath);
+			content =content.replaceAll("\\$\\{suffix\\}",suffix);
+			content =content.replaceAll("\\$\\{getApisUrl\\}","http://" + host + "/api" + suffix);
+			content =content.replaceAll("\\$\\{getApisUrl\\}","http://" + host + "/api" + suffix);
+			content =content.replaceAll("\\$\\{apiVersion\\}",props.getProperty("apiVersion"));
+			content =content.replaceAll("\\$\\{apiTitle\\}",props.getProperty("apiTitle"));
+			content =content.replaceAll("\\$\\{apiDescription\\}",props.getProperty("apiDescription"));
+			content =content.replaceAll("\\$\\{lang\\}",lang);
+
+			fileInputStream.close();
+			out.write(content.getBytes());
+		} catch (IOException e) {
 			throw new IOException(e);
 		}
+
         out.flush();
         out.close();
 	}

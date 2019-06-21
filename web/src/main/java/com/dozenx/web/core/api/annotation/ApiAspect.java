@@ -129,6 +129,7 @@ public class ApiAspect {
         if (StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302, validStr);
         }
+
         return pjp.proceed();
 
     }

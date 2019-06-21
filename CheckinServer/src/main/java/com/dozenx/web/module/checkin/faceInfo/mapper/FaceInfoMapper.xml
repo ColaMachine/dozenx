@@ -8,15 +8,24 @@
         <result column="face" jdbcType="LONGVARCHAR" property="face" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
         <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="abs_path" jdbcType="VARCHAR" property="absPath" />
+        <result column="out_id" jdbcType="VARCHAR" property="outId" />
     </resultMap>
     <sql id="Base_Column_List">
-        FaceInfo.`id` ,FaceInfo.`userId` ,FaceInfo.`url` ,FaceInfo.`face` ,FaceInfo.`remark` ,FaceInfo.`name`
+        FaceInfo.`id` ,FaceInfo.`userId` ,FaceInfo.`url` ,FaceInfo.`face` ,FaceInfo.`remark` ,FaceInfo.`name`,FaceInfo.`abs_path`,FaceInfo.`out_id`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from FaceInfo
         where FaceInfo.id =   #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="getByOutId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from FaceInfo
+        where FaceInfo.out_id =   #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from FaceInfo
@@ -32,6 +41,8 @@
         ,#{face,jdbcType=LONGVARCHAR}
         ,#{remark,jdbcType=VARCHAR}
         ,#{name,jdbcType=VARCHAR}
+        ,#{absPath,jdbcType=VARCHAR}
+        ,#{outId,jdbcType=BIGINT}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.dozenx.web.module.checkin.faceInfo.bean.FaceInfo" >
@@ -55,6 +66,9 @@
             <if test="name != null" >
                 `name`,
             </if>
+            <if test="outId != null" >
+                `out_id`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -74,6 +88,9 @@
             </if>
             <if test="name != null" >
                 #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="outId != null" >
+                #{outId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -98,6 +115,9 @@
             <if test="name != null" >
                 `name`=#{name,jdbcType=VARCHAR},
             </if>
+            <if test="outId != null" >
+                `out_id`=#{outId,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -108,7 +128,8 @@
         `url`=#{url,jdbcType=VARCHAR},
         `face`=#{face,jdbcType=LONGVARCHAR},
         `remark`=#{remark,jdbcType=VARCHAR},
-        `name`=#{name,jdbcType=VARCHAR}
+        `name`=#{name,jdbcType=VARCHAR},
+        `out_id`=#{name,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <select id="listByParams" parameterType="map" resultMap="BaseResultMap">

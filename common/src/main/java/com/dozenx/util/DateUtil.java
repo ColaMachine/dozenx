@@ -80,13 +80,15 @@ public final class DateUtil {
 
     /**
      * 返回昨天日期
+     *
      * @return
      */
-    public static Date getYesterday(){
+    public static Date getYesterday() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE,-1);
+        calendar.add(Calendar.DATE, -1);
         return calendar.getTime();
     }
+
     /**
      * 说明: 字符串转日期
      *
@@ -349,6 +351,7 @@ public final class DateUtil {
 
     public static void main(String[] args) {
 
+        List list = DateUtil.getWeekDayList();
 
         System.out.println(DateUtil.getNowTimeStampSeconds());
 
@@ -776,6 +779,7 @@ public final class DateUtil {
 
     /**
      * 本月第一天
+     *
      * @return
      */
     public Date getFirstDayOfMonth() {
@@ -831,6 +835,24 @@ public final class DateUtil {
 //        String startDate = DateUtil.toDateStr(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
 //        return startDate;
 //    }
+
+
+    public static List<Date> getWeekDayList() {
+        Calendar cal = new GregorianCalendar();
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        Date first = cal.getTime();
+        List<Date> weekdays = new ArrayList<>();
+        weekdays.add(first);
+        for (int i = 0; i < 6; i++) {
+            cal.add(Calendar.DATE, 1);
+            weekdays.add(cal.getTime());
+        }
+        return weekdays;
+    }
+
+
 }
 
 

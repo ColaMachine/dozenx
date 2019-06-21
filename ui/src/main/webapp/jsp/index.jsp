@@ -68,7 +68,7 @@
       pageContext.setAttribute("basePath",basePath);
       pageContext.setAttribute("path",path);
       %>
-      
+
 <link rel="stylesheet" type="text/css" href="${path}/static/css/font-awesome.css" >
 <link rel="stylesheet" type="text/css" href="${path}/static/css/slider.css" >
 
@@ -132,7 +132,7 @@
 
 
 
-<script src="/assets/index.js"></script>
+<script src="http://127.0.0.1:7079/assets/index.js"></script>
 
 
 <script>

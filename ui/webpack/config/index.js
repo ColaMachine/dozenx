@@ -21,7 +21,9 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           '^/home': '/'
-        }
+        },
+           logLevel: 'debug',
+            changeOrigin: true
       },
     },
 

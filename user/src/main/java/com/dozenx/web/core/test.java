@@ -24,7 +24,13 @@ import java.util.List;
  */
 public class test {
 
-    public static void main(String args[]){
+    public static void main(String argsp[]){
+        String s="${basePath}123123${basePath}";
+        System.out.println(s);
+        s=s.replaceAll("\\$\\{basePath\\}","hello");
+        System.out.println(s);
+    }
+    public static void main1(String args[]){
         InetAddress wcAddr = new InetSocketAddress(0).getAddress();
         System.out.println(wcAddr.getAddress());
         String s ="123456qs";

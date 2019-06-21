@@ -268,5 +268,9 @@ public void getAccessToken(){
 
     }
 
+    public FaceInfo getByOutId(Long outId){
+        return  faceInfoMapper.getByOutId(outId);
+    }
+
 
 }
