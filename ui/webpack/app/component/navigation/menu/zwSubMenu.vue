@@ -13,13 +13,16 @@ export default {
         name: 'zwSubMenu',
         components: { zwIcon },
         props:{
-
+            triggerType:{
+                              type: String,
+                              default: "click"
+                            },//菜单的次展开是由鼠标移动来触发 还是单机来触发
         },
         data () {
             return {
                 addfixSubMenuClass:"",
-                "active":false,
-                "open":false,
+                //"active":false,
+                //"open":false,
                 "menuShow":false,
 
             };
@@ -29,7 +32,12 @@ export default {
            var  classes= " zw-menu-submenu";
             if(this.active){
                 classes+= " zw-menu-submenu-active";
+
             }
+              if(this.menuShow){
+                            classes+= " zw-menu-submenu-active";
+                                            classes+= " zw-menu-submenu-open";
+                        }
             if(this.open){
                 classes+= " zw-menu-submenu-open";
             }
@@ -44,19 +52,31 @@ export default {
 　　　　　　},
         methods: {
             openMenu:function(){
-                this.open=!this.open;
+              //  this.open=!this.open;
+              this.menuShow=!this.menuShow;
             },
             hideMenu:function(){
-                this.active=false;
+            if(this.triggerType !='move'){
+                            return;
+                        }
+               // this.active=false;
                  this.menuShow = false;
             },
             showMenu:function(){
+            if(this.triggerType !='move'){
+                return;
+            }
                 console.log("movein");
-                this.active = true;
- this.menuShow = true;
-                
+              //  this.active = true;
+                this.menuShow = true;
+
             },
             toggleMenu:function(){console.log("toggle "+this.menuShow);
+            console.log(this.triggerType);
+            if(this.triggerType =='move'){
+                            return;
+                        }
+
                 this.menuShow=!this.menuShow;
                  this.active = !this.active;
                  this.open=!this.open;

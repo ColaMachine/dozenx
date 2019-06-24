@@ -12,10 +12,7 @@
           <zwCol span=24>
             <zwBox class="">
               <div slot="zwCodeBoxDemo">
-
-                <zwGlobalSearch></zwGlobalSearch>
-
-                 <zwPcImgList2></zwPcImgList2>
+                 <zwGlobalSearch></zwGlobalSearch>
               </div>
               <div slot="zwCodeBoxMeta" title="前缀和后缀">
               </div>
@@ -36,21 +33,17 @@
 <script>
   import Vue from 'vue';
 
-  //import { mavonEditor } from 'mavon-editor'
-  //import 'mavon-editor/dist/css/index.css'
   import zwIcon from '../../../component/icon/zwIcon.vue';
   import zwRow from '../../../component/layout/zwRow.vue';
   import zwBox from '../../../component/layout/zwBox.vue';
   import zwCol from '../../../component/layout/zwCol.vue';
   import zwGlobalSearch from '../../../component/dataentry/zwGlobalSearch.vue';
-   import zwPcImgList2 from '../../../component/datadisplay/zwPcImgList2.vue';
-  //import zwMarkDown from '../../../component/dataentry/zwMarkDown.vue';zwMarkDown,
   export default {
     components: {
       zwIcon,
       zwBox,
       zwRow,
-      zwCol,zwGlobalSearch,zwPcImgList2
+      zwCol,zwGlobalSearch
     },
     data() {
 

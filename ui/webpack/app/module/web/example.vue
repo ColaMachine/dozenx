@@ -22,7 +22,7 @@
               <zwIcon type="appstore" />功能2
             </zwMenuItem>
 
-            <zwSubMenu>
+            <zwSubMenu triggerType="move">
               <template slot="title">
                 <zwIcon type="appstore" />功能3</template>
 
@@ -157,8 +157,8 @@
                       <template slot="title">
                         <zwIcon type="search" />shop</template>
 
-                      <zwMenuItem key="shopIndexTopExample"><a href="#shopIndexTopExample">shop global top search bar</a></zwMenuItem>
-  <zwMenuItem key="shopIntegrate"><a href="#shopIntegrate">shop integrate </a></zwMenuItem>
+                      <zwMenuItem key="zwGlobalSearchExample"><a href="#zwGlobalSearchExample"> global search bar</a></zwMenuItem>
+  <zwMenuItem key="zwGoodArticalExample"><a href="#zwGoodArticalExample">GoodArtical</a></zwMenuItem>
                     </zwSubMenu>
              <zwSubMenu>
                 <template slot="title">
