@@ -2,16 +2,16 @@
 <template>
  <div class="comment">
     
-    <div @click="showCommentDialog" style="width:98%;text-align:center"><zwButton type="primary" style="width:80%">发表评论</zwButton></div>
+    <div @click="showCommentDialog(null)" style="width:98%;text-align:center"><zwButton type="primary" style="width:80%">发表评论</zwButton></div>
     <ul class="hot-comment">
         <li v-bind:key="item.id" class="placeholder main-floor"  v-for="item in this.blogList">
-            <Comment :data="item"></Comment>
+            <Comment @readyToReply="showCommentDialog" :data="item"></Comment>
 
         </li>
 
     </ul>
 
-<div style="display:none" id="reply-mask"class="post-comment sdk-mask-close" data-parent-id="" data-user-id="001706319">
+<div v-if="commentDialogShow" style="display:block" id="reply-mask"class="post-comment sdk-mask-close" data-parent-id="" data-user-id="001706319">
     <div class="post-comment-mask sdk-mask"  @click="hideMask( $event)" ></div>
     <div class="post-comment-fixed" role="heading" aria-level="1" aria-label="写评论">
         <div class="post-comment-box">
@@ -43,8 +43,11 @@ export default {
         data () {
             return {
                 //data:{},
+                commentDialogShow:false,
                   blogList:[],
-                  curPage:1
+                  commentType:null,
+                  curPage:1,
+                  nowParentCommentId:null,path:null,objId:null
             };
         },
         computed: {
@@ -54,33 +57,47 @@ export default {
             this.getNews();
         },
         methods: {
-        showCommentDialog:function(){
-            document.getElementsByClassName("post-comment")[0].style.display="block";
-            document.getElementById("pid").value=this.pid;
-             document.getElementById("commentType").value="msginfo";
+
+        showCommentDialog:function(nowParentCommentId){
+            this.commentDialogShow=true;
+            this.nowParentCommentId=nowParentCommentId;
+           // this.path=path;
+            //this.objId=objId;
+         //   document.getElementsByClassName("post-comment")[0].style.display="block";
+           // document.getElementById("pid").value=this.pid;
+           //  document.getElementById("commentType").value="msginfo";
+
+           if(nowParentCommentId){
+            this.commentType="commentscomment";
+           }else{
+            this.commentType="goodscomment";
+           }
         },
 
         submitComment:function(){
             var pinglun =this.$refs.pinglun.value;
-            var content = document.getElementById("pinglun").value;
-            var pid = document.getElementById("pid").value;
-            var type = document.getElementById("commentType").value;
-            if(type=="msginfo"){
-                Ajax.post(PATH+"/goods/comment",{pid:pid,content:pinglun,type:1},function(result){
+            //var content = document.getElementById("pinglun").value;
+            //var pid = document.getElementById("pid").value;
+
+            //var type = document.getElementById("commentType").value;
+            if(this.commentType=="goodscomment"){
+                Ajax.post(PATH+"/goods/comment",{pid:this.pid,content:pinglun,objId:this.pid,type:1},function(result){
                                 //刷新页面
                                 //this.refresh();
                                 //清空值
                                 this.$refs.pinglun.value="";
                                 this.blogList =[result.data].concat(this.blogList);
-                                  document.getElementsByClassName("post-comment")[0].style.display="none";
+                                 this.commentDialogShow=false;
+                                 // document.getElementsByClassName("post-comment")[0].style.display="none";
                             }.Apply(this))
             }else{
-            Ajax.post(PATH+"/msginfo/add.json",{pid:pid,content:pinglun,type:1},function(result){
+            Ajax.post(PATH+"/msginfo/add.json",{objId:this.pid,pid:this.nowParentCommentId,content:pinglun,objId:this.pid,type:1},function(result){
                 //刷新页面
                 //this.refresh();
                 //清空值
                 this.$refs.pinglun.value="";
-                document.getElementsByClassName("post-comment")[0].style.display="none";
+                  this.commentDialogShow=false;
+               // document.getElementsByClassName("post-comment")[0].style.display="none";
             }.Apply(this))
             }
         },

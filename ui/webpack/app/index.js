@@ -24,14 +24,14 @@ import "./css/widget.scss"
 //document.write(require("./content.js"));
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+
 
 import head from './module/web/index.vue'
+
+//import router from "./module/route/route.js"
 new Vue({
   el: '#head',
+  //router,
   render: h => h(head)
 })
-
-
-Vue.use(VueRouter)
 

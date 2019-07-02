@@ -25,6 +25,7 @@ const PATHS={
     build:path.resolve(__dirname,'../src/main/webapp/static/js/'),
       index:path.resolve(__dirname,'./app/index.js'),//web主界面
        shopIndex:path.resolve(__dirname,'./app/shopIndex.js'),//web主界面
+       PcGoodView:path.resolve(__dirname,'./app/PcGoodView.js'),
       //phoneIndex:path.resolve(__dirname,'./app/phoneIndex.js'),
 };
 console.log("build path:"+PATHS.build);
@@ -40,6 +41,7 @@ module.exports = {
         //"zhihuijiating":PATHS.zhihuijiating,//智慧家庭
         "vuePhoneIndex":PATHS.vuePhoneIndex,//手机端
           "shopIndex":PATHS.shopIndex,//手机端
+          "PcGoodView":PATHS.PcGoodView,
        //   "phoneIndex":PATHS.phoneIndex//手机端
      },
      output: {

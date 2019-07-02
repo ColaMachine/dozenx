@@ -9,11 +9,125 @@
         </p>
         <h3>代码演示<zwIcon type="windows" title="展开全部代码"></zwIcon></h3>
         <zwRow>
+
+         <zwCol span=12>
+
+                    <zwBox class="">
+                      <div slot="zwCodeBoxDemo">
+
+                     <div class="geetest_wrap">
+   <zwTabs  >
+                <zwTabPanel tab="登录" tabIndex=1>
+                    <zwForm  onSubmit={this.handleSubmit}>
+                                              <zwFormItem>
+
+                                                <zwInput placeholder="username">
+                                                  <zwIcon slot="prefix" type="user"></zwIcon>
+
+                                                </zwInput>
+                                              </zwFormItem>
+                                              <zwFormItem>
+                                                <zwInput placeholder="password">
+                                                  <zwIcon slot="prefix" type="lock"></zwIcon>
+                                                </zwInput>
+                                              </zwFormItem>
+                                              <zwFormItem>
+                                                <input type="checkbox"> remember me</input>
+                                                <a>forget password</a>
+                                              </zwFormItem>
+
+
+
+
+                                              <div class="twoWeeks">
+                                                                      <div class="loginL">
+                                                                          <a href="javascript:;" data-style="quick" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_快捷登陆', '频道名': channel_name}); }">手机快捷登录</a>
+                                                                      </div>
+                                                                      <div class="loginR">
+                                                                          <input type="checkbox" id="rememberme" name="rememberme" class="ckeckBox" checked="checked"><label for="rememberme">记住我</label><span class="cb-line">|</span><a href="/user/pass/lost/" class="a_underline" target="_blank" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_忘记密码按钮', '频道名':channel_name}); }">忘记密码</a>
+                                                                      </div>
+                                                                  </div>
+
+                                                                  <p class="notice_error notice_error_300"></p>
+
+                                                <zwButton color="red" class="btn_login" type="primary" >login</zwButton>
+
+
+                                            </zwForm>
+
+
+
+
+                </zwTabPanel >
+              <zwTabPanel tab="注册" tabIndex=2>
+                 <zwForm  ref="registerForm" id="loginForm">
+                                        <zwFormItem>
+                                                <zwInput  placeholder="请输入邮箱地址" id="email" name="email"></zwInput>
+
+                                           </zwFormItem>
+
+
+                                                <zwFormItem>
+                                                <zwInput placeholder="请输入密码" id="pwd" name="pwd"  type="password"  ></zwInput>
+                                                </zwFormItem>
+
+                                                 <zwFormItem>
+                                                     <zwInput id="emailCode" name="emailCode"  placeholder="邮箱验证码">
+
+
+                                                     <zwButton slot="append" type="primary"  v-on:clickFn="getEamilCaptcha" loadedText="已发送邮箱验证码" :loading=true  :start_loading_state=false  :loading_delay=6>邮箱验证码</zwButton>
+
+                                                     </zwInput>
+                                                </zwFormItem>
+<div class="captchaBox">
+                        <div class="twoWeeks">
+                            <div class="loginL">
+                                <input type="checkbox" id="agreement" class="ckeckBox" tabindex="6">
+                            <label for="agreement">同意什么值得买<a href="http://www.smzdm.com/user/register/provisions/" class="a_underline" target="_blank">《用户协议》</a></label>
+                            </div>
+                            <div class="loginR">
+                                <!-- <a target="_top" href="https://zhiyou.smzdm.com/user/register/?redirect_to=">邮箱注册</a> -->
+                            </div>
+                        </div>
+                    </div>
+                                                 <zwFormItem>
+                                                                    <zwButton type="primary"  v-on:clickFn="saveRegister"  class="login-form-button btn_reg">立即注册</zwButton>
+                                                                  </zwFormItem>
+                                         </zwForm>
+              </zwTabPanel >
+
+
+            </zwTabs>
+
+</div>
+
+
+
+
+
+
+
+
+                      </div>
+                      <div slot="zwCodeBoxMeta" title="基本使用">
+                        基本使用
+                      </div>
+                      <div slot="zwCodeBoxPanel">
+
+                        <textarea ref="textarea" id="textarea" name="textarea">
+                       <zwInput placeholder="Basic usage"></zwInput>
+                         </textarea>
+
+                      </div>
+                    </zwBox>
+                  </zwCol>
+
+
           <zwCol span=12>
 
             <zwBox class="">
               <div slot="zwCodeBoxDemo">
-                <zwForm layout="inline" onSubmit={this.handleSubmit}>
+                <zwForm  onSubmit={this.handleSubmit}>
                   <zwFormItem>
 
                     <zwInput placeholder="username">
@@ -322,9 +436,17 @@
   import zwForm from '../../../component/dataentry/zwForm.vue';
   import zwFormItem from '../../../component/dataentry/zwFormItem.vue';
   import zwCol from '../../../component/layout/zwCol.vue';
+
+
+import zwCollapse from '../../../component/datadisplay/zwCollapse.vue';
+import zwTabs from '../../../component/datadisplay/zwTabs.vue';
+import zwTabPanel from '../../../component/datadisplay/zwTabPanel.vue';
+
+
+
   export default {
     components: {
-      zwButton,
+      zwButton,zwCollapse,zwTabs,zwTabPanel,
       zwIcon,
       zwBox,
       zwRow,
@@ -467,5 +589,67 @@ console.log("getPicCaptcha");
   }
 </script>
 <style scoped>
+.geetest_wrap {
+    width: auto;
+    padding: 0 10px;
+}
+.geetest_wrap {
+    position: relative;
+    overflow: hidden;
+    width: 315px;
+}
+
+
+.twoWeeks {
+    width: 100%;
+}
+.twoWeeks {
+    position: relative;
+    height: auto;
+    padding-top: 0;
+    margin-top: -5px;
+    overflow: visible;
+}
+
+
+.twoWeeks .loginL {
+    float: left;
+}
+
+.twoWeeks .loginR {
+    float: right;
+}
+
+
+
+
+
+
+
+.form-input, .notice_error_300 {
+    width: 300px;
+}
+
+
+.notice_error {
+    padding-bottom: 10px;
+    color: #e62828;
+    max-width: 300px;
+}
+
+
+.form-item>span, .notice_error, .twoWeeks {
+    font-size: 12px;
+}
+
+.notice_error {
+    min-height: 18px;
+    width: 100%;
+    max-width: none;
+    overflow: hidden;
+    opacity: 0;
+}
+
+
 
 </style>

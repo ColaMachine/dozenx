@@ -4,6 +4,18 @@
   </form>
 </template>
 <script type="text/javascript">
+/**
+## 属性 layout="inline"
+form 有两种模式 inline 和非inline  inline的话 所有的输入框都会在一行显示 排列不下会换行  样式为zw-form-inline
+不加inline  每个formitem都独占一行 适用于 登录框
+##
+
+
+
+
+
+
+**/
   export default {
     name: 'zwForm',
     components: {},

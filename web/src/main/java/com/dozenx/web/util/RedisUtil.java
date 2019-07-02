@@ -118,7 +118,7 @@ public final class RedisUtil {
             /** 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException； */
             MAX_WAIT = Config.getInstance().getCache().getRedis().getMaxWait();
             /** 连接超时 */
-            TIMEOUT = Config.getInstance().getCache().getRedis().getTcimeout();
+            TIMEOUT = Config.getInstance().getCache().getRedis().getTimeout();
             TEST_ON_BORROW = Config.getInstance().getCache().getRedis().isTestOnBorrow();
             JedisPoolConfig config = new JedisPoolConfig();
             // config.setMaxActive(MAX_ACTIVE);

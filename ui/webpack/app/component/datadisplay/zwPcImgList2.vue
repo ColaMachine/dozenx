@@ -5,18 +5,18 @@
 
 
     
-    <li v-for="result in list" key={{result.id}} >
+    <li v-for="(result,index) in list" v-bind:key="index" >
 
-
+key:{{result.id}}
 
 <span class="embed-card  main-site" style=""><a itemprop="description" target="_blank"
                                                 onclick="gtmWikiCard({'id':'1759529'});" class=""
-                                                href="https://www.smzdm.com/youhui/"><span class="z-tag-baike">国内</span></a><span
+                                               :href="result.url" ><span class="z-tag-baike">国内</span></a><span
         class="embed-card-logo"><a itemprop="description" target="_blank" onclick="gtmWikiCard({'id':'1759529'});"
-                                   class="" href="https://www.smzdm.com/p/14039324/"><img class=""
+                                   class="" :href="result.url" ><img class=""
                                                                                           :src="result.pic"></a></span><span
         class="embed-card-info"><a itemprop="description" target="_blank" onclick="gtmWikiCard({'id':'1759529'});"
-                                   class="" href="https://www.smzdm.com/p/14039324/"><span class="card-name">{{result.title}}<strong
+                                   class="" :href="result.url"><span class="card-name">{{result.title}}<strong
         class="price">{{result.price}}</strong></span></a><span class="card-abstract">{{result.subtitle}}</span><span
         class="card-controls"><span class="group-data"> <i>值</i>{{result.score}}</span><span
         class="group-data"> <i>评论</i>{{result.commments}}</span><span class="group-data"> <i>收藏</i>{{result.stars}}</span><a itemprop="description"

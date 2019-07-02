@@ -79,13 +79,20 @@ function AjaxClass()
         {
             return IframePost();
         }
+
+        //处理 data
         if(this.data){
+            if(this.dataType && this.dataType.toLowerCase()=="json"&& this.Method!="GET"){
+            this.data=JSON.stringify(this.data);
+            }else
+            {
             var arr=new Array();
                         for(var key in this.data){
                             arr.push(encodeURIComponent( key)+"="+encodeURIComponent(this.data[key]));
 
                         }
                         this.data= arr.join("&");
+                        }
 
         }
         if(this.Method=="GET"&&this.data){
@@ -106,6 +113,7 @@ function AjaxClass()
 
        if (this.dataType&& this.dataType.toLowerCase()=="json")
             {
+
                 XmlHttp.setRequestHeader("Content-Type","application/json");
 
             }else{
@@ -142,6 +150,8 @@ function AjaxClass()
         }
         if (this.Method=="POST")
         {
+
+
             XmlHttp.send(this.data);
         }
         else
@@ -269,6 +279,7 @@ var Ajax={
          	options.data = inputData;
          	if(options.dataType && options.dataType.toLowerCase()=="json" ){
          	options.contentType="application/json;charset=utf-8";
+         	//options.data = JSON.stringify(inputData);
          	}else
          	options.contentType="application/x-www-form-urlencoded";//"application/json;charset=utf-8";//
          	//options.data = encodeURIComponent(JSON.stringify(inputData));

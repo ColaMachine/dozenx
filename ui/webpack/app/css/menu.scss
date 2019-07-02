@@ -323,11 +323,15 @@ ul.zw-menu>li>a> .zw-menu-item-text {
 .menu-wrap .nav .open>a.active,
 .zw-menu-submenu-open>a:focus,
 .zw-menu-submenu-open>a:hover {
-    background-color: rgba(0, 0, 0, 0.077);
+   background-color: rgba(0, 0, 0, 0.077);
     border-color: rgba(0, 0, 0, 0.077);
 }
 .zw-menu-submenu-active {
     background-color: rgba(1,1, 1, 0.077);
+}
+
+.zw-menu-horizontal .zw-menu-submenu-active {
+    background-color: rgba(0,0,0, 0);
 }
 .zw-menu-sub>li a {
     opacity: 0.85;
@@ -348,11 +352,17 @@ ul.zw-menu>li>a> .zw-menu-item-text {
     box-sizing: border-box;
     border-left: 5px solid #3c8dbc !important;
 }
+
+
 .zw-menu-white ul,
 .zw-menu-white,
 .zw-menu-white a {
     color: #555;
     background-color: $white;
+}
+.zw-menu-horizontal .zw-menu-submenu-open>a{
+ border-left: 0px solid #3c8dbc !important;
+
 }
 .zw-menu-white .zw-menu>ul.nav>li.open>a,
 .zw-menu-white .zw-menu li>a:hover {
@@ -376,7 +386,7 @@ ul.zw-menu>li>a> .zw-menu-item-text {
     }
     .zw-menu-submenu-open>a,
     .zw-menu li>a:hover {
-        opacity: 0 !important;
+        /*opacity: 0 !important;会引起字体看不到*/
         color: $dark-gray;
         background-color: $white !important;
     }

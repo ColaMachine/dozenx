@@ -656,19 +656,33 @@ public class MsgInfoController extends BaseController{
             }
             msgInfo.setType(1);
             msgInfo.setCommentedCount(0);
+
+            msgInfo.setObjId(Long.valueOf(request.getParameter("objId")));
             msgInfo.setCommentCount(0);
             msgInfo.setTransferredCount(0);
             msgInfo.setStatus(1);
+            msgInfo.setUp(0);
+            msgInfo.setDown(0);
             SessionUser sessionUser = this.getUser(request);
-            msgInfo.setCreateUser(sessionUser.getUserId());
-            msgInfo.setFace(sessionUser.getFace());
-            msgInfo.setUserName(sessionUser.getUserName());
+
+            if(sessionUser==null){
+
+                msgInfo.setUserName("游客");
+            }else {
+                msgInfo.setCreateUser(sessionUser.getUserId());
+                msgInfo.setFace(sessionUser.getFace());
+                msgInfo.setUserName(sessionUser.getUserName());
+            }
             String pic = request.getParameter("pic");
             if(!StringUtil.isBlank(pic)){
                 msgInfo.setPic(pic);
             }
             msgInfo.setCreatetime(DateUtil.getNowTimeStamp());
             msgInfo.setUpdatetime(DateUtil.getNowTimeStamp());
+
+
+            MsgInfo parentMsg = msgInfoService.selectByPrimaryKey(msgInfo.getPid());
+            msgInfo.setPath(parentMsg.getPath()+"/"+parentMsg.getId());
 
 
             //valid
@@ -1320,6 +1334,13 @@ public class MsgInfoController extends BaseController{
         if(!StringUtil.isBlank(pid)){
                 msgInfo.setPid(Long.valueOf(pid));
         }
+
+        String objId = MapUtils.getString(bodyParam,"objId");
+        if(!StringUtil.isBlank(objId)){
+            msgInfo.setObjId(Long.valueOf(objId));
+        }
+
+
         String content = MapUtils.getString(bodyParam,"content");
         if(!StringUtil.isBlank(content)){
                 msgInfo.setContent(String.valueOf(content));

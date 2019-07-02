@@ -31,7 +31,7 @@ export default {
             getSubMenuClasses:function(){
            var  classes= " zw-menu-submenu";
             if(this.active){
-                classes+= " zw-menu-submenu-active";
+               // classes+= " zw-menu-submenu-active";
 
             }
               if(this.menuShow){

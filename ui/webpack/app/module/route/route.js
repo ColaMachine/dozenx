@@ -69,7 +69,9 @@ import shopMain from '../../module/phone/shopMain.vue';//登录注册页面
 
   import zwGlobalSearchExample from '../../module/example/shop/zwGlobalSearchExample.vue';
    import zwGoodArticalExample from '../../module/example/shop/zwGoodArticalExample.vue';
+   import PcGoodView from '../../module/shop/PcGoodView.vue';
 
+   import zwLoginExample from '../../module/example/dataentry/zwLoginExample.vue';//登录注册页面
 
 // 然后定义路由(routes)，components还可以是Vue.extend()创建的
 const routes = [
@@ -143,6 +145,9 @@ const routes = [
 { path: '/goodView', component:goodView },
 { path: '/map', component:map },
 { path: '/shopMain', component:shopMain },
+{ path: '/PcGoodView', component:PcGoodView },
+{ path: '/zwLoginExample', component:zwLoginExample },
+
 
 ];
 // 接着创建路由实例

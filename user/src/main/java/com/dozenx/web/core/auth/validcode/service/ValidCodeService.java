@@ -542,6 +542,7 @@ public class ValidCodeService {
      */
     public ResultDTO imgValidCode(String systemCode, String sessionid, String code) {
 
+
         return this.validCode(systemCode, sessionid, code, false);
     }
 

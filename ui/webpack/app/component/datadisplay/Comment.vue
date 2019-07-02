@@ -101,9 +101,11 @@ this.getCommentList();
                                   }.Apply(this));
                             },
         reply:function(){
-            document.getElementsByClassName("post-comment")[0].style.display="block";
-            document.getElementById("pid").value=this.data.id;
-            document.getElementById("commentType").value="pubCOmment";
+            //document.getElementsByClassName("post-comment")[0].style.display="block";
+           // document.getElementById("pid").value=this.data.id;
+            //document.getElementById("commentType").value="pubCOmment";
+
+            this.$emit("readyToReply",this.data.id,this.data.path,this.data.objId);
         },
         down:function(item){
             Ajax.post(PATH+"/msginfo/down",{"pid":item.id,"type":2,"category":2},function(result){

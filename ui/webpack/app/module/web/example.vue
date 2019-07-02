@@ -111,6 +111,9 @@
           <zwMenuItem key="输入框" disabled>
             <zwIcon type="appstore" /><a href="#/input">输入框</a>
           </zwMenuItem>
+           <zwMenuItem key="登录" disabled>
+                      <zwIcon type="appstore" /><a href="#/zwLoginExample">登录框</a>
+                    </zwMenuItem>
             <zwMenuItem key="form" disabled>
                       <zwIcon type="appstore" /><a href="#/form">form</a>
                     </zwMenuItem>

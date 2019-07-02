@@ -3058,6 +3058,12 @@ public class GoodsController extends BaseController{
         if(!StringUtil.isBlank(content)){
             msgInfo.setContent(content);
         }
+
+        msgInfo.setObjId(Long.valueOf(request.getParameter("objId")));
+
+
+        msgInfo.setPath("goods:"+pid);
+
         msgInfo.setType(1);
             msgInfo.setCommentedCount(0);
             msgInfo.setCommentCount(0);

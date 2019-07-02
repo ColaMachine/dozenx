@@ -198,3 +198,32 @@ export default {
         },
     };
 </script>
+<style>
+
+
+.btn_grey, .btn_login, .btn_reg, a.a_greyBlock, a.a_redBlock, a.a_redBlock_small {
+    border: none;
+    display: block;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #e62828;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0 auto 20px;
+}
+
+
+
+.btn_login {
+    margin-left: 75px;
+}
+
+
+.btn_login {
+    width: 100%;
+    margin-left: auto;
+}
+</style>

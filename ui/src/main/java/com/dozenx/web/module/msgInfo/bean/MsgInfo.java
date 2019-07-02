@@ -46,6 +46,26 @@ public class MsgInfo {
     /**创建时间 null**/
     private Timestamp createtime;
     /**更新时间 null**/
+
+    private Long objId;
+    private String path;
+
+    public Long getObjId() {
+        return objId;
+    }
+
+    public void setObjId(Long objId) {
+        this.objId = objId;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     private Timestamp updatetime;
     public Long getId(){
         return id;

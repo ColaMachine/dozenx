@@ -36,7 +36,18 @@
         <div slot="zwCodeBoxPanel"  >
 
             <textarea ref="textarea" id="textarea" name="textarea">
+                 <zwTabs  >
+                                <zwTabPanel tab="Tab1" tabIndex=1>
+                                    Content of Tab Pane 11
+                                </zwTabPanel >
+                              <zwTabPanel tab="Tab2" tabIndex=2>
+                                  Content of Tab Pane 21
+                              </zwTabPanel >
+                              <zwTabPanel tab="Tab3" tabIndex=3>
+                                  Content of Tab Pane 31
+                              </zwTabPanel >
 
+                            </zwTabs>
             </textarea>
 
        </div>
@@ -72,7 +83,18 @@
         <div slot="zwCodeBoxPanel"  >
 
             <textarea ref="textarea" id="textarea" name="textarea">
+                  <zwTabs type="card" >
+                                <zwTabPanel tab="Tab1" tabIndex=1>
+                                    Content of Tab Pane 11
+                                </zwTabPanel >
+                              <zwTabPanel tab="Tab2" tabIndex=2>
+                                  Content of Tab Pane 21
+                              </zwTabPanel >
+                              <zwTabPanel tab="Tab3" tabIndex=3>
+                                  Content of Tab Pane 31
+                              </zwTabPanel >
 
+                            </zwTabs>
             </textarea>
 
        </div>
@@ -97,12 +119,23 @@
             </zwTabs>
         </div>
         <div slot="zwCodeBoxMeta"  title="按钮类型">
-            可以同时展开多个面板。
+            用于手机地部。
         </div>
         <div slot="zwCodeBoxPanel"  >
 
             <textarea ref="textarea" id="textarea" name="textarea">
+                  <zwTabs type="appbottom" >
+                                <zwTabPanel tab="Tab1" icon="home"  icons="home"  tabIndex=1>
+                                    Content of Tab Pane 11
+                                </zwTabPanel >
+                              <zwTabPanel tab="Tab2" icon="home"  tabIndex=2>
+                                  Content of Tab Pane 21
+                              </zwTabPanel >
+                              <zwTabPanel tab="Tab3" icon="home"  tabIndex=3>
+                                  Content of Tab Pane 31
+                              </zwTabPanel >
 
+                            </zwTabs>
             </textarea>
 
        </div>
@@ -128,12 +161,21 @@
             </zwTabs>
         </div>
         <div slot="zwCodeBoxMeta"  title="按钮类型">
-            可以同时展开多个面板。
+           换一种theme
         </div>
         <div slot="zwCodeBoxPanel"  >
 
             <textarea ref="textarea" id="textarea" name="textarea">
+                     <zwTabs type="appbottom" theme="purple_yellow" panel="no">
+                                    <zwTabPanel tab="Tab1" icon="home"  icons="home"  tabIndex=1>
 
+                                    </zwTabPanel >
+                                  <zwTabPanel tab="Tab2" icon="home"  tabIndex=2>
+                                      Content of Tab Pane 21
+                                  </zwTabPanel >
+                                  <zwTabPanel tab="Tab3" icon="user"  tabIndex=3>
+                                      Content of Tab Pane 31
+                                  </zwTabPanel >
             </textarea>
 
        </div>

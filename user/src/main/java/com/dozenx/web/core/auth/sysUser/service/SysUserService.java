@@ -416,7 +416,7 @@ public class SysUserService extends BaseService {
 
     /**
      * @Author: dozen.zhang
-     * @Description:验证机密后的密码
+     * @Description:验证单次加密后的密码
      * @Date: 2018/2/9
      */
     public ResultDTO loginValidWithEncryptedPwd(String account, String encryptedPwd) {

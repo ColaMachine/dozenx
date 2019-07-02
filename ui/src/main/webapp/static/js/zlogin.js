@@ -95,13 +95,14 @@ var loginForm={
         var jso={};
         jso.account=this.doms.userName.value;
         if(this.doms.pwd.value.length!=32){
-         jso.pwd=$.md5($.md5(this.doms.pwd.value));
+         jso.pwd=$.md5(this.doms.pwd.value);
         }else{
          jso.pwd=this.doms.pwd.value;
         }
 
        // alert(jso.pwd);
         jso.picCaptcha=this.doms.picCaptchaInput.value;
+        jso.loginName=jso.account ;
         //jso.password=$$.md5(jso.password);
         //先禁用按钮
        // $("loginBtn")
@@ -120,8 +121,11 @@ var loginForm={
             this.setCookie('password', jso.pwd, 365);
         }
         var that =this;
-        Ajax.post(PATH + "/sys/auth/loginPost.json", jso, function(data) {console.log(data);//alert(data);
+        Ajax.postJSON(PATH + "/sys/auth/login", jso, function(data) {console.log(data);//alert(data);
             if (data[AJAX_RESULT] == AJAX_SUCC) {
+                try{
+                localStorage.setItem('user',JSON.stringify(data.data));
+                }catch(e){}
                 this.setCookie('userId', data.data, 7);
                 var pre= getQueryString("pre");
                 if(pre){
@@ -155,7 +159,7 @@ var loginForm={
     //获取验证码图片点击事件
     getPicCaptcha:function(){
         that =this;
-        Ajax.getJSON(PATH+"/code/img/request.json",null,function(result){
+        Ajax.getJSON(PATH+"/sys/auth/login/pic/captcha",null,function(result){
             if(result.r==AJAX_SUCC){
              //  that.doms.picCaptchaImg.setAttribute("src","data:image/png;base64,"+result.data.imgdata);
 

@@ -19,9 +19,12 @@
         <result column="pic" jdbcType="VARCHAR" property="pic" />
         <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
         <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="obj_id" jdbcType="BIGINT" property="objId" />
     </resultMap>
     <sql id="Base_Column_List">
         msg_info.`id` ,msg_info.`pid` ,msg_info.`content` ,msg_info.`type` ,msg_info.`commented_count` ,msg_info.`comment_count` ,msg_info.`transferred_count` ,msg_info.`transfer_count` ,msg_info.`up` ,msg_info.`down` ,msg_info.`status` ,msg_info.`create_user` ,msg_info.`userName` ,msg_info.`face` ,msg_info.`pic` ,msg_info.`createtime` ,msg_info.`updatetime`
+        ,msg_info.`path`,msg_info.`obj_id`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -54,6 +57,8 @@
         ,#{pic,jdbcType=VARCHAR}
         ,#{createtime,jdbcType=TIMESTAMP}
         ,#{updatetime,jdbcType=TIMESTAMP}
+        ,#{path,jdbcType=VARCHAR}
+        ,#{objId,jdbcType=BIGINT}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.dozenx.web.module.msgInfo.bean.MsgInfo" >
@@ -110,6 +115,12 @@
             <if test="updatetime != null" >
                 `updatetime`,
             </if>
+            <if test="path != null" >
+                `path`,
+            </if>
+            <if test="objId != null" >
+                `obj_id`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -162,6 +173,12 @@
             </if>
             <if test="updatetime != null" >
                 #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="path != null" >
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="obj_id != null" >
+                #{objId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -334,6 +351,9 @@
         <if test="updatetimeEnd != null and updatetimeEnd != '' ">
             and `updatetime` &lt;= #{updatetimeEnd}
         </if>
+        <if test="objId != null and objId != '' ">
+            and `obj_id` = #{objId}
+        </if>
     </select>
     <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
         select
@@ -415,6 +435,9 @@
         </if>
         <if test="updatetimeEnd != null and updatetimeEnd != '' ">
             and msg_info.`updatetime` &lt;= #{updatetimeEnd}
+        </if>
+        <if test="objId != null and objId != '' ">
+            and `obj_id` = #{objId}
         </if>
     </select>
     <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
