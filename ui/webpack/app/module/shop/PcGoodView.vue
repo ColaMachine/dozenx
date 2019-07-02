@@ -47,7 +47,15 @@ import ShopNav from './ShopNav.vue'
    import zwGoodArtical from '../../component/datadisplay/zwGoodArtical.vue'
 
   //import {PATH,getQueryString,Ajax} from "../../../../src/main/webapp/static/js/zwcommon"
+    /**
+        PcGoodView
+             zwGoodArtical
+                PcComments
+                    - PcComment
 
+
+
+    **/
   export default {
   extends:zwBase,
 
@@ -70,7 +78,7 @@ import ShopNav from './ShopNav.vue'
       zwForm,zwAlbum,Comments,
       zwFormItem,zwAppBuyBottomBar
     },
-    name: "phoneMain",
+    name: "PcGoodView",
     data() {
 
       return {
@@ -90,30 +98,30 @@ import ShopNav from './ShopNav.vue'
                                    this.goodData =result.data;
 
                                    var ary =[];
-                                   ary.push({url:'',pic:window.getPathValue(this.data.img)});
-                                    ary.push({url:'',pic:window.getPathValue(this.data.img1)});
-                                     ary.push({url:'',pic:window.getPathValue(this.data.img2)});
-                                      ary.push({url:'',pic:window.getPathValue(this.data.img3)});
+                                   ary.push({url:'',pic:window.getPathValue(this.goodData.img)});
+                                    ary.push({url:'',pic:window.getPathValue(this.goodData.img1)});
+                                     ary.push({url:'',pic:window.getPathValue(this.goodData.img2)});
+                                      ary.push({url:'',pic:window.getPathValue(this.goodData.img3)});
                                         console.log("imgList",this.imgList)
                                       this.imgList= ary;
 
 
 
 
-        currLink =location.href;
-        title = this.data.name;
+        //currLink =location.href;
+        //title = this.goodData.name;
 
-        imgUrl = "http://www.dapark.top/home/"+this.data.img;
+        //imgUrl = "http://www.dapark.top/home/"+this.goodData.img;
         //alert(document.domain);
-        desc = this.data.name;
+        //desc = this.goodData.name;
 
-
+/*
        Ajax.getJSON(PATH+"/weixin/signatrue",{url:window.location.href},function(sinatrueResult){
           var sinatrueResultData = sinatrueResult.data;
            initWx(sinatrueResultData);
 
 
-       });
+       });*/
 
                                     //  console.log("---------------------------")
                                    //   console.log(ary)

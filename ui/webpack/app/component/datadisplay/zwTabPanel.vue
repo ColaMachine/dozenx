@@ -24,7 +24,7 @@ export default {
 
         },
         methods: {
-        clickFunction:function(){alert(123);
+        clickFunction:function(){//alert(123);
             this.$emit("clickFn","");
 
         }

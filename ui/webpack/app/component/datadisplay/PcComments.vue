@@ -161,7 +161,7 @@ export default {
                                 //清空值
                                 this.$refs.pinglun.value="";
                                 this.blogList =[result.data].concat(this.blogList);
-                                  document.getElementsByClassName("post-comment")[0].style.display="none";
+                                //  document.getElementsByClassName("post-comment")[0].style.display="none";
                             }.Apply(this))
             //}else{
             //Ajax.post(PATH+"/msginfo/add.json",{pid:pid,content:pinglun,type:1},function(result){
@@ -185,7 +185,7 @@ export default {
             return ;
             //    jso.pid=0;
             }
-            Ajax.get(PATH+"/msginfo/list.json",jso,this.showData);
+            Ajax.get(PATH+"/msginfo/list.json?type=1",jso,this.showData);
         },
         showData:function(result){
             for(var i=0;i<result.data.length;i++){

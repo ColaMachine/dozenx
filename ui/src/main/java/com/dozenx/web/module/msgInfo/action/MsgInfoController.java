@@ -662,6 +662,7 @@ public class MsgInfoController extends BaseController{
             msgInfo.setTransferredCount(0);
             msgInfo.setStatus(1);
             msgInfo.setUp(0);
+            msgInfo.setType(2);
             msgInfo.setDown(0);
             SessionUser sessionUser = this.getUser(request);
 

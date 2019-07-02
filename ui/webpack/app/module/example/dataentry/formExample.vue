@@ -21,25 +21,19 @@
                     <zwForm  onSubmit={this.handleSubmit}>
                                               <zwFormItem>
 
-                                                <zwInput placeholder="username">
+                                                <zwInput placeholder="邮箱">
                                                   <zwIcon slot="prefix" type="user"></zwIcon>
 
                                                 </zwInput>
                                               </zwFormItem>
                                               <zwFormItem>
-                                                <zwInput placeholder="password">
+                                                <zwInput placeholder="密码" type="password">
                                                   <zwIcon slot="prefix" type="lock"></zwIcon>
                                                 </zwInput>
                                               </zwFormItem>
-                                              <zwFormItem>
-                                                <input type="checkbox"> remember me</input>
-                                                <a>forget password</a>
-                                              </zwFormItem>
 
 
-
-
-                                              <div class="twoWeeks">
+  <div class="twoWeeks">
                                                                       <div class="loginL">
                                                                           <a href="javascript:;" data-style="quick" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_快捷登陆', '频道名': channel_name}); }">手机快捷登录</a>
                                                                       </div>
@@ -47,12 +41,12 @@
                                                                           <input type="checkbox" id="rememberme" name="rememberme" class="ckeckBox" checked="checked"><label for="rememberme">记住我</label><span class="cb-line">|</span><a href="/user/pass/lost/" class="a_underline" target="_blank" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_忘记密码按钮', '频道名':channel_name}); }">忘记密码</a>
                                                                       </div>
                                                                   </div>
-
                                                                   <p class="notice_error notice_error_300"></p>
 
-                                                <zwButton color="red" class="btn_login" type="primary" >login</zwButton>
+ <zwFormItem>
+                                                <zwButton color="red" class="btn_login" type="primary" >登 录</zwButton>
 
-
+  </zwFormItem>
                                             </zwForm>
 
 
@@ -75,7 +69,7 @@
                                                      <zwInput id="emailCode" name="emailCode"  placeholder="邮箱验证码">
 
 
-                                                     <zwButton slot="append" type="primary"  v-on:clickFn="getEamilCaptcha" loadedText="已发送邮箱验证码" :loading=true  :start_loading_state=false  :loading_delay=6>邮箱验证码</zwButton>
+                                                     <zwButton slot="append" type="blue"  v-on:clickFn="getEamilCaptcha" loadedText="已发送邮箱验证码" :loading=true  :start_loading_state=false  :loading_delay=6>发送邮箱验证码</zwButton>
 
                                                      </zwInput>
                                                 </zwFormItem>
@@ -83,7 +77,7 @@
                         <div class="twoWeeks">
                             <div class="loginL">
                                 <input type="checkbox" id="agreement" class="ckeckBox" tabindex="6">
-                            <label for="agreement">同意什么值得买<a href="http://www.smzdm.com/user/register/provisions/" class="a_underline" target="_blank">《用户协议》</a></label>
+                            <label for="agreement">同意<a href="http://www.smzdm.com/user/register/provisions/" class="a_underline" target="_blank">《用户协议》</a></label>
                             </div>
                             <div class="loginR">
                                 <!-- <a target="_top" href="https://zhiyou.smzdm.com/user/register/?redirect_to=">邮箱注册</a> -->
@@ -589,66 +583,7 @@ console.log("getPicCaptcha");
   }
 </script>
 <style scoped>
-.geetest_wrap {
-    width: auto;
-    padding: 0 10px;
-}
-.geetest_wrap {
-    position: relative;
-    overflow: hidden;
-    width: 315px;
-}
 
-
-.twoWeeks {
-    width: 100%;
-}
-.twoWeeks {
-    position: relative;
-    height: auto;
-    padding-top: 0;
-    margin-top: -5px;
-    overflow: visible;
-}
-
-
-.twoWeeks .loginL {
-    float: left;
-}
-
-.twoWeeks .loginR {
-    float: right;
-}
-
-
-
-
-
-
-
-.form-input, .notice_error_300 {
-    width: 300px;
-}
-
-
-.notice_error {
-    padding-bottom: 10px;
-    color: #e62828;
-    max-width: 300px;
-}
-
-
-.form-item>span, .notice_error, .twoWeeks {
-    font-size: 12px;
-}
-
-.notice_error {
-    min-height: 18px;
-    width: 100%;
-    max-width: none;
-    overflow: hidden;
-    opacity: 0;
-}
 
 
 

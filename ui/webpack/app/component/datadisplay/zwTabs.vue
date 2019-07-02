@@ -137,5 +137,8 @@ export default {
 
 </script>
 <style>
-
+.zw-tabs-nav-scroll{
+text-align:center;
+font-size:20px;
+}
 </style>

@@ -14,7 +14,7 @@
               <router-view></router-view>
             </div>-->
         <div >
-          <zwRow style="margin:12px;">
+          <zwRow style="">
 
             <zwCol style="min-width:300px" class="zw-col-sm-24 pull-left" span=15>
 
@@ -309,7 +309,9 @@
               if(result.r == AJAX_SUCC && result.data) {
 
                 for(var key in result.data){
-
+result.data[key].title=result.data[key].name;
+result.data[key].subTitle= result.data[key].subName;
+result.data[key].content=result.data[key].detail;
                     result.data[key].url=PATH+"/static/html/vue/PcGoodView.html?id="+result.data[key].id;
 
                     result.data[key].pic=result.data[key].img;
@@ -340,5 +342,8 @@
   }
   body{
       background-color: #f5f5f5;
+  }
+  .zw-content{
+  margin-left: 80px;
   }
 </style>

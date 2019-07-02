@@ -277,11 +277,11 @@ white-space:nowrap;
 
 .pagination>li>a,.pagination>li>span{
 	position:relative;
-	float:left;
+	/*float:left;*/
 	margin-left:-1px;
 	line-height:1.42857143;
 	text-decoration:none;
-    margin-left:15px;
+    /*margin-left:15px;*/
 
 
     font-size:18px;
@@ -311,6 +311,9 @@ white-space:nowrap;
   border:1px solid #ccc;
   color:#ccc;
 }
+
+
+
 .pagination>li>a{
 
 /*    background:#cecece;
@@ -323,7 +326,7 @@ white-space:nowrap;
 	z-index:3;
 /*    background:#1ab394;
     border-color: #1ab394;*/
-    color: #64686D;
+
 }
    .commondity_pic{
    /* background:url('http://content.battlenet.com.cn/wow/icons/36/inv_misc_food_70.jpg') center no-repeat ;*/
@@ -422,3 +425,90 @@ content:"最后页"
      color:gray;
 
  }
+
+
+
+
+
+.pagination {
+    text-align: center;
+    margin: 30px 0 0;
+    overflow: hidden;
+    font-size: 0;
+    -webkit-text-size-adjust: none;
+}
+
+
+
+.pagination li {
+    min-width: 30px;
+    display: inline-block;
+    width: auto;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 4px;
+    color: #666;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    background: #f7f7f7;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.pagination a {
+    display: block;
+    width: auto;
+    height: 100%;
+    color: #666;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+.pagination .pageCurrent, .pagination .pageCurrent:hover, .pagination a:hover {
+    background-color: #e62828;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    color: #fff;
+    font-weight: 700;
+}
+
+
+.comment_wrap .pagedown, .comment_wrap .pageup {
+    padding: 0;
+}
+
+
+.pagination li.jumpToPage {
+    width: 100px;
+    background-color: #fff;
+}
+
+.input_num {
+    vertical-align: 1px;
+    height: 28px!important;
+    line-height: 28px!important;
+    border: 1px solid #dcdcdc!important;
+    -webkit-border-radius: 2px!important;
+    -moz-border-radius: 2px!important;
+    -ms-border-radius: 2px!important;
+    -o-border-radius: 2px!important;
+    border-radius: 2px!important;
+    padding: 0 5px!important;
+    color: #666!important;
+    width: 46px!important;
+    margin: 0 5px!important;
+    -webkit-box-sizing: border-box!important;
+    box-sizing: border-box!important;
+}
+
+
+.pagination li span, .pagination li span.dotStyle {
+    padding: 0;
+}
+.pagination span {
+    font-size: 12px;
+}

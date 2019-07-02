@@ -226,4 +226,8 @@ export default {
     width: 100%;
     margin-left: auto;
 }
+
+.login-form-button{
+    width:100%;
+}
 </style>

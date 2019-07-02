@@ -135,7 +135,7 @@
                                                                                  </div>
                                                                              </div>
                                                                              <div class="comment_share">
-                                                                                 <button type="submit" @click="submitComment" class="btn_sub" id="textCommentSubmitQuick">提交</button>
+                                                                                 <button type="submit" @click="submitComment()" class="btn_sub" id="textCommentSubmitQuick">提交</button>
                                                                                                          </div>
                                                                          </div>
                                                                      </form>
@@ -192,7 +192,7 @@ this.getCommentList();
                    // var pid = document.getElementById("pid").value;
                     //var type = document.getElementById("commentType").value;
 
-                    Ajax.post(PATH+"/msginfo/add.json",{pid:this.data.id,content:pinglun,type:1,objId:this.data.objId},function(result){
+                    Ajax.post(PATH+"/msginfo/add.json",{type:2,pid:this.data.id,content:pinglun,type:1,objId:this.data.objId},function(result){
                         //刷新页面
                         //this.refresh();
                         //清空值
@@ -205,7 +205,7 @@ this.getCommentList();
                 },
          getCommentList:function(){
          console.log("getCommmentList");
-                                  Ajax.getJSON(PATH+"/msginfo/list.json?curpage=1&pagesize=10",{pid:this.data.id,curPage:1,pageSize:10},function(result){
+                                  Ajax.getJSON(PATH+"/msginfo/list.json?type=2&curpage=1&pagesize=10",{pid:this.data.id,curPage:1,pageSize:10},function(result){
                                        console.log("/msginfo/list.json");
                                       if(result.r==AJAX_SUCC){
                                           //for(var i=0;i<result.data.length;i++){

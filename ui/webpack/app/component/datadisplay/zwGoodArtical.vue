@@ -169,7 +169,7 @@
 
     },
     props:["data"],
-    name: "phoneMain",
+    name: "zwGoodArtical",
     data() {
 
       return {

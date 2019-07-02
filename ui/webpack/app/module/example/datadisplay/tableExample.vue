@@ -92,6 +92,46 @@
 
 </zwRow>
 
+
+
+
+
+
+<zwRow >
+<zwCol span=24>
+    <zwBox class="">
+        <div slot="zwCodeBoxDemo">
+<ul class="pagination">
+    <li><a href="https://www.smzdm.com/p/14698489/#comments" class="pageCurrent">1</a></li>
+    <li><a href="https://www.smzdm.com/p/14698489/p2/#comments">2</a></li>
+    <li><a href="https://www.smzdm.com/p/14698489/p3/#comments">3</a></li>
+    <li><a href="https://www.smzdm.com/p/14698489/p4/#comments">4</a></li>
+    <li><a href="https://www.smzdm.com/p/14698489/p5/#comments">5</a></li>
+    <li><a href="https://www.smzdm.com/p/14698489/p6/#comments">6</a></li>
+    <li><span class="dotStyle">...</span></li>
+    <li><a href="https://www.smzdm.com/p/14698489/p14/#comments">14</a></li>
+    <li class="pagedown"><a href="https://www.smzdm.com/p/14698489/p2/#comments"><i class="icon-angle-right-o-thin">下一页</i></a>
+    </li>
+    <li class="jumpToPage">转至<input type="text" class="input_num" id="input_num">页</li>
+    <li><a href="javascript:void(0);" class="a_jumpTo"
+           onclick="return on_check_comment_page(14, 'https://www.smzdm.com/p/14698489/', this)">GO</a></li>
+</ul>
+        </div>
+        <div slot="zwCodeBoxMeta"  title="tab类型">
+            zwSimpleTable 是适用于简单的标行列结构 内部用ul li 实现
+        </div>
+        <div slot="zwCodeBoxPanel"  >
+
+            <textarea ref="textarea" id="textarea" name="textarea">
+ <zwAppDialogue ></zwAppDialogue>
+            </textarea>
+
+       </div>
+    </zwBox>
+</zwCol>
+
+</zwRow>
+
 </section>
 </article>
 </div>
@@ -203,5 +243,7 @@ export default {
 }
 </script>
 <style scoped>
+
+
 
 </style>

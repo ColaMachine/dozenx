@@ -73,7 +73,12 @@ textarea {
     border:1px solid #4A90E2;
     color:#4A90E2;
      border-radius: 0px;
+      background-color:$tec-blue !important;;
+         color:white !important;
 }
+
+
+
 .btn-border-red{
     border:1px solid #F05C5C;
     color:#F05C5C;
@@ -153,6 +158,9 @@ textarea {
 	background-color:#f04134;
 	border-color:#0c8365;
 }
+
+
+
 .circle{
    border-radius: 25px;
 

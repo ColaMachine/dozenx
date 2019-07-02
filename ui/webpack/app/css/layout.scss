@@ -458,11 +458,13 @@ background: #ececec;
     padding-top: 15px;
 }
 .zw-panel {
-    margin-top: 15px;
+    margin-top: 10px;
+    margin-right:10px;
 }
 .zw-panel-header {
     @include height_size($ft-nm);
-    font-size: $ft-nm;
+    font-size: $ft-nm*1.3;
+    color:$black;
     /*line-height: 22px;*/
     padding: 8px 0 8px 32px;
     color: rgba(0, 0, 0, .85);
@@ -471,7 +473,7 @@ background: #ececec;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
     @include height_size($ft-nm);
-  /*  background-color: $light-gray;*/
+    background-color: $white;
     border-bottom: 1px solid $gray;
 }
 .zw-panel-header>span {
@@ -619,7 +621,7 @@ justify-content:flex-start;
 
 
     margin: 0 0 10px;
-padding: 15px 10px;
+padding: 10px 10px;
 /*background-color: #fff;*/
 display: flex !important;
 padding: 10px;

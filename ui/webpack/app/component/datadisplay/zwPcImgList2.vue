@@ -7,7 +7,7 @@
     
     <li v-for="(result,index) in list" v-bind:key="index" >
 
-key:{{result.id}}
+
 
 <span class="embed-card  main-site" style=""><a itemprop="description" target="_blank"
                                                 onclick="gtmWikiCard({'id':'1759529'});" class=""
@@ -16,16 +16,20 @@ key:{{result.id}}
                                    class="" :href="result.url" ><img class=""
                                                                                           :src="result.pic"></a></span><span
         class="embed-card-info"><a itemprop="description" target="_blank" onclick="gtmWikiCard({'id':'1759529'});"
-                                   class="" :href="result.url"><span class="card-name">{{result.title}}<strong
-        class="price">{{result.price}}</strong></span></a><span class="card-abstract">{{result.subtitle}}</span><span
-        class="card-controls"><span class="group-data"> <i>值</i>{{result.score}}</span><span
-        class="group-data"> <i>评论</i>{{result.commments}}</span><span class="group-data"> <i>收藏</i>{{result.stars}}</span><a itemprop="description"
-                                                                                             target="_blank"
-                                                                                             onclick="gtmAddToCart({'name':'佳偶 双层直筒玻璃杯 350ml *2件','id':'1759529' , 'price':'17.8','brand':'无' ,'mall':'无', 'category':'无/无/无/无','metric1':'17.8','dimension10':'smzdm.com','dimension9':'youhui','dimension11':'1阶价格','dimension20':'无','dimension25':'无','dimension64':'yuanchuang'});if(typeof change_direct_url != 'undefined' &amp;&amp; change_direct_url instanceof Function){change_direct_url(this)}"
-                                                                                             class=""
-                                                                                             href="https://go.smzdm.com/60d47db5d96365b8/ca_aa_yh_1515_14039434_10728_0_0_322337"
-                                                                                             rel="nofollow"><span
-        class="card-btn-deep">去购买</span></a></span></span></span>
+                                   class="" :href="result.url"><span class="card-name">{{result.title}}
+         <strong class="price">{{result.price}}</strong></span></a>
+
+         <span class="card-abstract">{{result.subTitle}}</span>
+          <span class="card-abstract">{{result.content}}</span>
+         <span class="card-controls"><span class="group-data"> <i>值</i>{{result.score}}</span>
+         <span class="group-data"> <i>评论</i>{{result.commments}}</span><span class="group-data"> <i>收藏</i>{{result.stars}}</span>
+         <a itemprop="description"
+             target="_blank"
+             onclick="gtmAddToCart({'name':'佳偶 双层直筒玻璃杯 350ml *2件','id':'1759529' , 'price':'17.8','brand':'无' ,'mall':'无', 'category':'无/无/无/无','metric1':'17.8','dimension10':'smzdm.com','dimension9':'youhui','dimension11':'1阶价格','dimension20':'无','dimension25':'无','dimension64':'yuanchuang'});if(typeof change_direct_url != 'undefined' &amp;&amp; change_direct_url instanceof Function){change_direct_url(this)}"
+             class=""
+             href="https://go.smzdm.com/60d47db5d96365b8/ca_aa_yh_1515_14039434_10728_0_0_322337"
+             rel="nofollow">
+         <span class="card-btn-deep">去购买</span></a></span></span></span>
 
 
 
@@ -37,6 +41,8 @@ key:{{result.id}}
 </template>
 <script type="text/javascript">
 /**
+数据类型 title 标题  content 内容 price 价格 url 点击的链接
+subtitle 副标题
 采用两个display block 的 span 做横向展示
 use two displayblock span to hirozontal show view   the second span  set overflow hidden can make the two block display in one row
  amazing
@@ -82,9 +88,9 @@ use two displayblock span to hirozontal show view   the second span  set overflo
 .embed-card, span.embed-card {
     display: block;
     position: relative;
-    width: 602px;
+   /* width: 602px;*/
     padding: 10px;
-    margin: 30px auto;
+    margin: 10px 10px;
     overflow: hidden;
     background: #fff;
     -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.08);
