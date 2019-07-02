@@ -1,0 +1,388 @@
+<template>
+
+<div class="popup-wrap" style="z-index: 9999;">
+    <div class="popup-bg" onclick="dataLayer.push({&quot;event&quot;:&quot;首页_半透明区域&quot;})"></div>
+    <div class="popup-content" style="position: relative; top: 122px; width: 500px;">
+        <div class="z-popup login-popup" id="J_login_popup" style="display: block;">
+            <div class="z-popup-head z-clearfix"><a href="javascript:;"
+                                                    onclick="dataLayer.push({&quot;event&quot;:&quot;首页_关闭按钮&quot;})"
+                                                    class="z-popup-close z-icons icon-times-o J_popup_close"></a></div>
+            <div class="z-popup-content">
+                <iframe id="J_login_iframe" name="J_login_iframe" frameborder="0"
+                        src="https://zhiyou.smzdm.com/user/login/window/#redirect_url=https%3A%2F%2Fwww.smzdm.com%2F"></iframe>
+
+
+
+                <div class="geetest_wrap">
+                    <ul class="login-tab" id="login_tab">
+                        <li class="active" data-style="common">
+                            <a href="javascript:;">登录</a>
+                            <!-- TODO需要加上redirect_do -->
+                        </li>
+                        <li data-style="register" class="registerBtn">
+                            <a href="javascript:;">注册</a>
+                        </li>
+                    </ul>
+                    <div class="login-cons" id="login_cons">
+
+                        <form id="login_form" action="https://zhiyou.smzdm.com/user/login/" method="post" onsubmit="return false;">
+                            <!-- form-item -->
+                            <div class="form-item">
+                                <div class="item-tip">手机号/邮箱</div>
+                                <input id="username" class="form-input" type="text" name="username" value="" tabindex="1" autocomplete="off">
+                                <!-- <span class="greyNotice">什么值得买即将停用用户名登录，点击<a href="www.smzdm.com/yonghuming" class="a_underline" target="_blank">查看详情</a></span> -->
+                            </div>
+                            <!-- form-item end -->
+                            <!-- form-item -->
+                            <div class="form-item">
+                                <div class="item-tip">密码</div>
+                                <input id="password" class="form-input" type="password" name="password" value="" tabindex="2" autocomplete="off">
+                            </div>
+                            <!-- form-item end -->
+                            <input type="hidden" id="is_pop_login" value="1">
+                            <!-- form-item end -->
+                            <div class="twoWeeks">
+                                <div class="loginL">
+                                    <a href="javascript:;" data-style="quick" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_快捷登陆', '频道名': channel_name}); }">手机快捷登录</a>
+                                </div>
+                                <div class="loginR">
+                                    <input type="checkbox" id="rememberme" name="rememberme" class="ckeckBox" checked="checked"><label for="rememberme">记住我</label><span class="cb-line">|</span><a href="/user/pass/lost/" class="a_underline" target="_blank" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_忘记密码按钮', '频道名':channel_name}); }">忘记密码</a>
+                                </div>
+                            </div>
+
+                            <p class="notice_error notice_error_300"></p>
+                            <!--<p style="color: #F35A5A">维护期间暂停登录，给您带来的不便深表歉意！</p>-->
+                            <input type="button" id="login_submit" class="btn_login login_submit" value="登&nbsp;&nbsp;录" tabindex="4" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_登录按钮','频道名':channel_name}); }">
+                        </form>
+                        <form id="login_quick_form" style="display: none;" action="" method="post" onsubmit="return false;">
+                            <!-- form-item -->
+                            <div class="form-item">
+                                <div class="item-tip">手机号</div>
+                                <input id="mobile" class="form-input" type="text" name="mobile" value="" tabindex="1" autocomplete="off">
+                            </div>
+                            <!-- form-item end -->
+                            <!-- form-item -->
+                            <div class="captchaBox form-item clearfix">
+                                <div class="form-item">
+                                    <div class="item-tip">输入验证码</div>
+                                    <input id="mobile_code" class="form-input" type="text" name="mobile_code" tabindex="2" autocomplete="off">
+                                </div>
+                                <button class="btn-captcha" id="login_mobile_code" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_快捷登陆发送验证码','频道名':channel_name}); }">发送短信验证码</button>
+
+                            </div>
+                            <!-- form-item end -->
+                            <div class="twoWeeks">
+                                <div class="loginL">
+                                    <a href="javascript:;" data-style="common" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_快捷登陆', '频道名': channel_name}); }">账号密码登录</a>
+                                </div>
+                                <div class="loginR">
+                                    <input type="checkbox" id="rememberme_quick" name="rememberme" class="ckeckBox" checked="checked"><label for="rememberme">记住我</label>
+                                </div>
+                            </div>
+
+                            <p class="notice_error notice_error_300"></p>
+
+                            <!--<p style="color: #F35A5A">维护期间暂停登录，给您带来的不便深表歉意！</p>-->
+                            <input type="button" id="login_quick_submit" class="btn_login login_submit" value="登&nbsp;&nbsp;录" tabindex="4" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_快捷登录按钮', '频道名':channel_name}); }">
+                        </form>
+                        <form id="register_form" class="form-content" autocomplete="off" action="https://zhiyou.smzdm.com/user/register/mobile/" method="post" style="display: none;">
+                            <!-- form-item -->
+                            <div class="form-item">
+                                <div class="item-tip">手机号</div>
+                                <input class="form-input" type="text" name="mobile_reg" id="mobile_reg" tabindex="1" autocomplete="off">
+                            </div>
+                            <!-- form-item end -->
+                            <div class="captchaBox form-item clearfix">
+                                <div class="form-item">
+                                    <div class="item-tip">输入验证码</div>
+                                    <input id="mobile_code_reg" class="form-input" type="text" autocomplete="off" name="mobile_code_reg" tabindex="2">
+                                </div>
+                                <button class="btn-captcha" id="register_mobile_code" onclick="dataLayer.push({'event':'注册页_发送验证码'});">发送短信验证码</button>
+                            </div>
+                            <!-- form-item -->
+                            <div class="form-item">
+                                <div class="item-tip">密码</div>
+                                <input class="form-input input-pswd " type="password" name="password_reg" autocomplete="off" id="password_reg" tabindex="3">
+                                <input class="form-input input-show" type="text" id="js_pswd_show">
+                                <span class="pswd-eye" id="js_btn_pswd"></span>
+                            </div>
+                            <!-- form-item end -->
+                            <!-- form-item -->
+                            <div class="captchaBox">
+                                <div class="twoWeeks">
+                                    <div class="loginL">
+                                        <input type="checkbox" id="agreement" class="ckeckBox" tabindex="6">
+                                        <label for="agreement">同意什么值得买<a href="http://www.smzdm.com/user/register/provisions/" class="a_underline" target="_blank">《用户协议》</a></label>
+                                    </div>
+                                    <div class="loginR">
+                                        <!-- <a target="_top" href="https://zhiyou.smzdm.com/user/register/?redirect_to=">邮箱注册</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- form-item end -->
+                            <p class="notice_error notice_error_300"></p>
+                            <input type="button" class="btn_reg register_submit" value="注&nbsp;&nbsp;册" tabindex="7" onclick="dataLayer.push({'event':'注册页_注册按钮'});">
+                        </form>
+                    </div>
+                    <div class="co_login">联合登录
+                        <a href="http://zhiyou.smzdm.com/user/third/sina/?redirect_to=https%3A%2F%2Fwww.smzdm.com%2F" target="_blank" class="a_underline" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_分享平台','频道名':channel_name,'分享平台':'新浪微博'}); }">新浪微博</a>
+                        <a href="http://zhiyou.smzdm.com/user/third/qq/?redirect_to=https%3A%2F%2Fwww.smzdm.com%2F" target="_blank" class="a_underline" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_分享平台','频道名':channel_name,'分享平台':'腾讯QQ'}); }">腾讯QQ</a>
+                        <a href="http://zhiyou.smzdm.com/user/third/wmw/?redirect_to=https%3A%2F%2Fwww.smzdm.com%2F" target="_blank" class="a_underline" _hover-ignore="1" onclick="if (channel_name) { dataLayer.push({'event':'登录浮窗_分享平台','频道名':channel_name,'分享平台':'我买网'}); }">我买网</a>
+                    </div>
+
+                    <!-- 极验遮罩层 -->
+                    <div class="captcha-cover geetest_con">
+                        <div id="geetest_captcha"><div class="gt_holder gt_bind" style="touch-action: none;"><div class="gt_widget gt_clean"><div class="gt_holder_top"></div><div class="gt_box_holder" style="height: 116px;"><div class="gt_box"><div class="gt_loading"><div class="gt_loading_icon"></div><div class="gt_loading_text">加载中...</div></div><a class="gt_bg gt_show" style="background-image: none;"><div class="gt_cut_bg gt_show"><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -157px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -145px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -265px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -277px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -181px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -169px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -241px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -253px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -109px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -97px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -289px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -301px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -85px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -73px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -25px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -37px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -13px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -1px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -121px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -133px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -61px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -49px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -217px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -229px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -205px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -193px -58px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -145px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -157px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -277px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -265px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -169px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -181px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -253px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -241px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -97px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -109px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -301px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -289px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -73px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -85px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -37px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -25px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -1px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -13px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -133px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -121px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -49px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -61px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -229px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -217px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -193px 0px;"></div><div class="gt_cut_bg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/bg/ff721547c.webp&quot;); background-position: -205px 0px;"></div></div><div class="gt_slice gt_show" style="left: 0px; width: 60px; height: 51px; top: 10px; background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/slice/ff721547c.png&quot;);"></div></a><a class="gt_fullbg gt_show" style="cursor: default; background-image: none;"><div class="gt_cut_fullbg gt_show"><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -157px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -145px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -265px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -277px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -181px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -169px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -241px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -253px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -109px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -97px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -289px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -301px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -85px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -73px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -25px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -37px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -13px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -1px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -121px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -133px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -61px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -49px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -217px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -229px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -205px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -193px -58px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -145px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -157px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -277px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -265px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -169px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -181px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -253px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -241px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -97px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -109px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -301px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -289px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -73px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -85px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -37px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -25px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -1px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -13px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -133px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -121px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -49px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -61px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -229px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -217px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -193px 0px;"></div><div class="gt_cut_fullbg_slice" style="background-image: url(&quot;https://static.geetest.com/pictures/gt/8bc4cb7fa/8bc4cb7fa.webp&quot;); background-position: -205px 0px;"></div></div><div class="gt_flash" style="height: 94px;"></div><div class="gt_ie_success"></div></a><a class="gt_curtain gt_hide" style="background-image: none;"><div class="gt_curtain_bg_wrap"><div class="gt_curtain_bg"><div class="gt_cut_curtain"></div></div></div><div class="gt_curtain_button gt_hide"></div></a><a class="gt_box_tips" style="display: none;"></a></div><div class="gt_info"><div class="gt_info_tip"><div class="gt_info_icon"></div><div class="gt_info_text"></div></div></div></div><div class="gt_bottom"><a class="gt_refresh_button"><div class="gt_refresh_tips">刷新验证</div></a><a class="gt_help_button" href="" target="_blank"><div class="gt_help_tips">帮助反馈</div></a><a class="gt_logo_button gt_no_logo"></a></div></div><div class="gt_input"><input class="geetest_challenge" type="hidden" name="geetest_challenge"><input class="geetest_validate" type="hidden" name="geetest_validate"><input class="geetest_seccode" type="hidden" name="geetest_seccode"></div><div class="gt_slider"><div class="gt_guide_tip gt_show">按住左边滑块，拖动完成上方拼图</div><div class="gt_slider_knob gt_show" style="left: 0px;"></div><div class="gt_curtain_tip gt_hide">点击上图按钮并沿道路拖动到终点处</div><div class="gt_curtain_knob gt_hide">移动到此开始验证</div><div class="gt_ajax_tip gt_ready"></div></div></div></div>
+                    </div>
+
+                    <!-- <script id="geetest_change" src="//api.geetest.com/get.php?callback=login_obj.init_geetest_captcha"></script> -->
+                    <!-- 极验遮罩层end -->
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="agree-wrap">
+                    <h2 class="agree-tit">什么值得买《用户使用协议》和《隐私政策》</h2>
+                    <div class="agree-con">
+                        <p>欢迎您来到“什么值得买”。</p>
+                        <p><u><b>“什么值得买”在此特别提醒，您在申请注册流程中点击同意《用户使用协议》、《隐私政策》前，或在点击同意更新后的前述协议前，请您务必审慎阅读前述协议的全部条款、充分理解各条款内容，特别是免除或者限制“什么值得买”责任的条款、对您的权利形成限制的条款、法律适用和争议解决条款，这些条款将尽可能以加粗方式标识。</b></u></p>
+                        <p><u><b>如果您不同意《用户使用协议》或《隐私政策》任何条款及/或更新后的内容，您应立即停止注册程序或停止使用“什么值得买”提供的服务。如您点击同意上述协议且完成全部注册流程，或者在“什么值得买”更新前述协议后点击同意或继续使用“什么值得买”提供的服务，即表示您已充分阅读、理解并接受协议全部内容；并表明您也同意“什么值得买”可以依据《隐私政策》（新版）的内容来收集使用您的个人信息。</b></u></p>
+                        <p><u><b>“什么值得买”非常重视用户隐私和个人信息的保护并严格遵守相关法律法规的要求。“什么值得买”对《隐私政策》进行了更新，新版《隐私政策》已经上线，请您注意查阅。</b></u></p>
+                        <p class="sub-title"><a target="_blank" href="https://www.smzdm.com/user/register/provisions/">《用户使用协议》</a>将帮助您了解以下内容：</p>
+                        <ul>
+                            <li>一、账号注册与使用</li>
+                            <li>二、服务内容与用户行为规范</li>
+                            <li>三、知识产权</li>
+                            <li>四、侵权行为的举报与投诉</li>
+                            <li>五、用户个人信息的保护</li>
+                            <li>六、协议修改</li>
+                            <li>七、免责声明</li>
+                            <li>八、其他</li>
+                        </ul>
+
+                        <p class="sub-title"><a target="_blank" href="https://zhiyou.smzdm.com/user/register/privacy/">《隐私政策》</a>将帮助您了解以下内容：</p>
+                        <ul>
+                            <li>一、我们如何收集和使用您的个人信息</li>
+                            <li>二、我们会如何使用Cookies和同类技术</li>
+                            <li>三、我们会如何共享、转让、公开披露您的个人信息</li>
+                            <li>四、我们会如何保护和保存您的个人信息</li>
+                            <li>五、您的权利</li>
+                            <li>六、第三方提供商及其服务</li>
+                            <li>七、我们会如何处理未成年人的个人信息</li>
+                            <li>八、本政策如何更新</li>
+                            <li>九、联系我们</li>
+                        </ul>
+                        <p>协议完整内容，请点击此处阅读<a target="_blank" href="https://www.smzdm.com/user/register/provisions/">《用户使用协议》</a>及<a target="_blank" href="https://zhiyou.smzdm.com/user/register/privacy/">《隐私政策》</a>。</p>
+                    </div>
+                    <div class="submit-btn">
+                        <p>点击同意即表示您已阅读<a target="_blank" href="https://www.smzdm.com/user/register/provisions/">《用户使用协议》</a>与<a target="_blank" href="https://zhiyou.smzdm.com/user/register/privacy/">《隐私政策》</a></p>
+                        <button type="button" class="agree-btn disagree J_disagree_btn">不同意</button>
+                        <button type="button" class="agree-btn J_agree_btn">确定并同意</button>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</template>
+<script type="text/javascript">
+  export default {
+    name: 'zwForm',
+    components: {},
+    props: [
+      "layout"
+
+    ],
+    data() {
+      return {
+
+      };
+    },
+    computed: {
+      getComputeClass: function() {
+        var cls = "zw-form ";
+        if(this.layout == "inline") {
+          cls += " zw-form-inline"
+        }
+        return cls
+      }
+    },
+    mounted() {
+
+    },
+    methods: {
+
+    },
+
+    events: {
+
+    }
+  };
+</script>
+<style>
+.popup-wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.5);
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 9999;
+}
+
+
+.popup-wrap .popup-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+.popup-wrap .popup-content {
+    margin: 0 auto;
+}
+
+.z-popup {
+    width: 500px;
+    padding-bottom: 40px;
+    background-color: #fff;
+}
+
+
+.z-popup .z-popup-head {
+    position: relative;
+    height: 60px;
+    padding: 0 20px;
+    line-height: 60px;
+}
+.z-clearfix, .z-hor-feed {
+    zoom: 1;
+}
+
+.z-clearfix:after, .z-clearfix:before, .z-hor-feed:after, .z-hor-feed:before {
+    content: "";
+    display: table;
+}
+
+.z-popup .z-popup-head .z-popup-close {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    color: #999;
+    font-size: 16px;
+    text-align: center;
+    line-height: 24px;
+}
+
+.z-popup .z-popup-content {
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+.z-popup.login-popup .z-popup-content>iframe {
+    display: block;
+    width: 315px;
+    height: 310px;
+    margin: 0 auto;
+}
+
+
+
+/***iframe 里面**/
+
+
+.geetest_wrap {
+    position: relative;
+    overflow: hidden;
+    width: 315px;
+}
+
+@media screen and (max-width: 480px)
+.geetest_wrap {
+    width: auto;
+    padding: 0 10px;
+}
+
+
+
+@media screen and (max-width: 480px)
+.login-tab {
+    margin-bottom: 24px;
+}
+.login-tab {
+    text-align: center;
+    font-size: 18px;
+}
+.login-tab, .pop-content .login-tab {
+    margin-top: 0;
+}
+
+
+
+
+.login-tab>li.active {
+    border-bottom: 3px solid #f43c37;
+}
+.login-tab>li {
+    margin: 0 20px;
+    zoom: 1;
+}
+.form-item>*, .login-tab>li, .right-inner {
+    display: inline-block;
+}
+.slick-dots, li {
+    list-style: none;
+}
+*, .form-input-focus, .slick-dots li button:focus {
+    outline: 0;
+}
+
+
+
+
+.login-tab>li.active>a, .pop-title a.a_underline:hover, .refresh a.a_underline:hover, span.error a.a_underline:hover {
+    color: #333;
+}
+.login-tab>li>a {
+    color: #666;
+    line-height: 20px;
+}
+
+
+
+
+
+</style>
