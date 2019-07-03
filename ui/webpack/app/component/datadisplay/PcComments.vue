@@ -42,6 +42,8 @@
                   <li class="tab_comment_li"><span>最热</span></li>
               </ul>
               <div class="tab_info" id="commentTabBlockNew">
+
+              <zwPagination @goPage="goPage" :page="page"></zwPagination></br>
                   <ul class="pagination"><li><a href="https://www.smzdm.com/p/14039324/#comments" class="pageCurrent">1</a></li><li><a href="https://www.smzdm.com/p/14039324/p2/#comments">2</a></li><li class="pagedown"><a href="https://www.smzdm.com/p/14039324/p2/#comments"><i class="icon-angle-right-o-thin"></i></a></li><li class="jumpToPage">转至<input type="text" class="input_num" id="input_num">页</li><li><a href="javascript:void(0);" class="a_jumpTo" onclick="return on_check_comment_page(2, 'https://www.smzdm.com/p/14039324/', this)">GO</a></li></ul>
                   <ul class="comment_listBox">
                       <span id="li_comment_new"></span>
@@ -88,8 +90,9 @@ import zwIcon from '../icon/zwIcon.vue';
 import zwBase from '../../component/zwBase.vue';
 import zwButton from '../../component/button/zwButton.vue';
 import PcComment from '../../component/datadisplay/PcComment.vue';
+import zwPagination from '../../component/datadisplay/zwPagination.vue';
 export default {
-         components:{zwIcon,Comment,zwButton,PcComment},
+         components:{zwIcon,Comment,zwButton,PcComment,zwPagination},
         props:["data","pid"],// blogviewlist 列表 blogview 每个item  bloginput输入框 引入 zwRichInput
         data () {
             return {
@@ -97,7 +100,8 @@ export default {
                   blogList:[],
                   loginUser:{},
                   isLogin:false,
-                  curPage:1
+                  curPage:1,
+                  page:null,
             };
         },
         computed: {
@@ -125,7 +129,9 @@ export default {
             }
           },
         methods: {
-
+        goPage:function(index){
+            this.page.curPage=index;
+        },
         goLogin:function(){
             goLoginPage();
 
@@ -180,7 +186,7 @@ export default {
            this.getNews();
         },
         getNews:function( content){
-            var jso = {pid:this.pid,curPage:this.curPage,pageSize:10};
+            var jso = {pid:this.pid,curPage:this.curPage,pageSize:1};
             if(!this.pid){
             return ;
             //    jso.pid=0;
@@ -192,6 +198,7 @@ export default {
             result.data[i].showCommentInput=false;
             this.blogList.push(result.data[i]);
             }
+            this.page=result.page;
             //this.blogList=result.data;
 
         },
