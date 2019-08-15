@@ -33,9 +33,9 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
         platform: mysql
         name: ms   #数据库配置名称 使用多数据源时区别
-        url: jdbc:mysql://192.168.41.74:3306/awifi_advert_test?serverTimezone=GMT%2B8 #配置数据库连接
+        url: jdbc:mysql://localhost:3306/colamachine?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8 #配置数据库连接
         username: root  #数据库用户名
-        password: root@2015 #数据库密码
+        password: 123456 #数据库密码
         initialSize: 5
         minIdle: 5
         maxActive: 20
@@ -52,10 +52,14 @@ spring:
     #2.2 redis 配置
     redis:
          database: 0  #redis哪个库
-         host: 192.168.213.5 #redis的ip地址
+         host: 127.0.0.1#redis的ip地址
          port: 6379  #redis 端口
-         password: Awifi@123   #redis 密码
-
+         password:   #redis 密码
+    jackson:
+         date-format: yyyy-MM-dd HH:mm:ss
+         time-zone: GMT+8
+         serialization:
+              write-dates-as-timestamps: false
 #2.3项目基础配置
 mybatis:
     mapper-locations: classpath*:com/awifi/ms/**/*Mapper.xml,classpath*:com/dozenx/**/*Mapper.xml #mapper.xml 扫描地址

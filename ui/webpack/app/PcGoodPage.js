@@ -27,12 +27,12 @@ import Vue from 'vue'
 //import VueRouter from 'vue-router'
 //这个作为主页面
 
-import PcGoodView from './module/shop/PcGoodView.vue'
+import PcGoodPage from './module/shop/PcGoodPage.vue'
 
 //初始化一个路由
 new Vue({
   el: '#head',
-  render: h => h(PcGoodView)
+  render: h => h(PcGoodPage)
 })
 //Vue.use(VueRouter)
 //require('./module/route/shopRoute.vue');

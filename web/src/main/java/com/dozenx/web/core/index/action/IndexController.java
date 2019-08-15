@@ -1,6 +1,7 @@
 package com.dozenx.web.core.index.action;
 
 import com.dozenx.core.config.SysConfig;
+import com.dozenx.web.core.annotation.RequiresAdmin;
 import com.dozenx.web.core.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class IndexController extends BaseController {
         return "/jsp/index.jsp";
     }
 
+    @RequiresAdmin
     @RequestMapping(value = "/manage.htm", method = RequestMethod.GET)
     public String manage(HttpServletRequest request) {
         // System.out.println(request.getParameter("path"));

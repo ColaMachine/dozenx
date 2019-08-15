@@ -16,7 +16,8 @@ module.exports = {
    'main': './src/main.js',//手机端
     'shopIndex': './app/shopIndex.js',//手机端
     "index": './app/index.js',//web主界面,//pc端管理主界面
-    "PcGoodView":'./app/PcGoodView.js',//商品查看页面
+    "PcGoodPage":'./app/PcGoodPage.js',//商品查看页面
+     "PcArticalPage":'./app/PcArticalPage.js',//商品查看页面
             //"blog": PATHS.blog,//pc端管理主界面
            "example": './app/example.js',//组件库
             "vueUserInfo": './app/vueUserInfo.js',//组件库

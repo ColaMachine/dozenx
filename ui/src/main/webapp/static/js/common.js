@@ -1522,7 +1522,7 @@ var dialog={
 //
 //        return;
         //  jLoading.start();
-
+//alert(flag)
         $.ajax({
             type: 'GET',
             url: PATH+url,

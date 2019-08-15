@@ -18,10 +18,7 @@ import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.bean.OperLog;
 import com.dozenx.web.core.rules.*;
-import com.dozenx.web.util.RequestUtil;
-import com.dozenx.web.util.ResultUtil;
-import com.dozenx.web.util.TerminalUtil;
-import com.dozenx.web.util.ValidateUtil;
+import com.dozenx.web.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,8 +186,13 @@ public class LoginController extends BaseController {
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ResultDTO loginWithAccountAndPwdAndCaptcha(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) {
+    public ResultDTO loginWithAccountAndPwdAndCaptcha(HttpServletRequest request, HttpServletResponse response,@RequestBody(required = true) Map<String, Object> bodyParam) {
+        //保存长期登录状态的方案上次看到有一个 newwt的方案 现在又找不到了
+        //我的思路是 先按照原先的方式登录 那么 在 后台的session 中会贮存用户对象 然后再在redis中序列化 以sessionkey 为key的用户对象
+        //那么这种方案就不能在多机的方案中使用 需要session 同步  然后我们需要再在 getsessionUser方面进行该着 先从requet中去取用户信息
+        //如果取不到 就拿sessionid 去redis去取 ,
 
+        //这种就能确保用户的信息长期保存了 这个 前端
         // Map cookies = HttpRequestUtil.ReadCookieMap(request);
         String userAgent = request.getHeader("user-agent");
         String type = TerminalUtil.getTerminalType(userAgent);
@@ -201,7 +203,7 @@ public class LoginController extends BaseController {
 
         //为了防止用户暴力碰库 验证码验证用户提交信息安全与否
         //如果用OpmsRedirect会出现sessionId是空
-        ResultDTO result = validCodeService.imgValidCode("calendar", (String) request.getSession().getAttribute("uid"), imgCaptcha);
+        ResultDTO result = validCodeService.imgValidCode("calendar", this.getSessionParam( request,"uid"), imgCaptcha);
         if (!result.isRight()) {
             return result;
         }
@@ -209,8 +211,13 @@ public class LoginController extends BaseController {
 
         result = this.userService.loginValidWithEncryptedPwd(account, pwd);
         if (result.isRight()) {
+
+
+            //延长cookie的时间
+            this.resetLoginToken(request,response,this.getSessionId(request));
+         //   CookieUtil.setCookie(response,"jsessionid",this.getSessionId(request),SESSION_LIVE_TIME);
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             //获取这个人的所有权限
             //List<SysPermission> permissions = authService.listPermissionByUserid(user.getId());
             List<String> permissions = authService.listPermissionStrByUserid(user.getId());
@@ -224,11 +231,12 @@ public class LoginController extends BaseController {
                     }
 
                 }
-                request.getSession().setAttribute(Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
+                this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);
+                //this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
             }
 
 
-            request.getSession().setAttribute(Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
             //   List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 
 
@@ -269,11 +277,13 @@ public class LoginController extends BaseController {
                     finalList.remove(i);
                 }
             }
-            request.getSession().setAttribute(Constants.SESSION_MENUS, finalList);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_MENUS, finalList);//塞入到用户session中
 
 
         }
         OperLogUtil.add(request,"登录","用户名密码登录","登录账号:"+account);
+
+
         //若果密码输入多次 增加 验证码 和锁定功能
         return result;
     }
@@ -311,7 +321,7 @@ public class LoginController extends BaseController {
         result = this.userService.loginValidWithEncryptedPwd(account, pwd);
         if (result.isRight()) {
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             //获取这个人的所有权限
             //List<SysPermission> permissions = authService.listPermissionByUserid(user.getId());
             List<String> permissions = authService.listPermissionStrByUserid(user.getId());
@@ -325,11 +335,11 @@ public class LoginController extends BaseController {
                     }
 
                 }
-                request.getSession().setAttribute(Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
+                this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
             }
 
 
-            request.getSession().setAttribute(Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
             //   List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 
 
@@ -375,7 +385,7 @@ public class LoginController extends BaseController {
                     finalList.remove(i);
                 }
             }
-            request.getSession().setAttribute(Constants.SESSION_MENUS, finalList);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_MENUS, finalList);//塞入到用户session中
 
 
         }
@@ -430,7 +440,7 @@ public class LoginController extends BaseController {
         ResultDTO result = this.userService.loginValidWithEncryptedPwd(account, pwd);
         if (result.isRight()) {
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             //获取这个人的所有权限
             //List<SysPermission> permissions = authService.listPermissionByUserid(user.getId());
             List<String> permissions = authService.listPermissionStrByUserid(user.getId());
@@ -444,11 +454,11 @@ public class LoginController extends BaseController {
                     }
 
                 }
-                request.getSession().setAttribute(Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
+                this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
             }
 
 
-            request.getSession().setAttribute(Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
             //   List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 
 
@@ -494,7 +504,7 @@ public class LoginController extends BaseController {
                     finalList.remove(i);
                 }
             }
-            request.getSession().setAttribute(Constants.SESSION_MENUS, finalList);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_MENUS, finalList);//塞入到用户session中
 
 
         }
@@ -541,13 +551,13 @@ public class LoginController extends BaseController {
         result = this.userService.loginValid(account, pwd);
         if (result.isRight()) {
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             // List<SysResource> resources = authService.listResourcesByUserid(user.getId());
           /*  List<SysMenu> menus = authService.listMenusByUserid(user.getId());
             List<String> resStr = new ArrayList<String>();
 
-            request.getSession().setAttribute("resourceList", resStr);
-            request.getSession().setAttribute("resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
+            this.setSessionAttribute(request , "resourceList", resStr);
+            this.setSessionAttribute(request , "resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
             result.setData(user.getId());//不能把用户信息传给前端 会泄漏信息
         }
 
@@ -622,13 +632,13 @@ public class LoginController extends BaseController {
 //        userService.save(user);
 //
 //
-//        request.getSession().setAttribute(Constants.SESSION_USER, user);//塞入到用户session中
+//        this.setSessionAttribute(request , Constants.SESSION_USER, user);//塞入到用户session中
 //        // List<SysResource> resources = authService.listResourcesByUserid(user.getId());
 //      /*  List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 //        List<String> resStr = new ArrayList<String>();
 //
-//        request.getSession().setAttribute("resourceList", resStr);
-//        request.getSession().setAttribute("resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
+//        this.setSessionAttribute(request , "resourceList", resStr);
+//        this.setSessionAttribute(request , "resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
 //        result.setData(null);//不能把用户信息传给前端 会泄漏信息
 //        // }
 //
@@ -921,7 +931,7 @@ public class LoginController extends BaseController {
         if (result.isRight()) {
             // 把用户信息传入到session 中并让他登录到首页
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute("user", user);
+            this.setSessionAttribute(request , "user", user);
         } else {
             // 提示激活url无效
             request.setAttribute("msg", result.getMsg());
@@ -975,7 +985,7 @@ public class LoginController extends BaseController {
         String imgName = returnStr[0];
         String code = returnStr[1];
         request.setAttribute("imgname", imgName);
-        request.getSession().setAttribute("validatecode", code);
+        this.setSessionAttribute(request , "validatecode", code);
         // TODO 需增加回收机制 回收已经生成过的图片
         return "/static/html/zforgetpwd.html";
     }
@@ -993,7 +1003,7 @@ public class LoginController extends BaseController {
         String imgName = returnStr[0];
         String code = returnStr[1];
         ResultDTO result = new ResultDTO();
-        request.getSession().setAttribute("validatecode", code);
+        this.setSessionAttribute(request , "validatecode", code);
         result.setR(1);
         result.setData(imgName);
 
@@ -1142,7 +1152,7 @@ public class LoginController extends BaseController {
         response.addCookie(hit);
         UUID uuid = UUID.randomUUID();
         String sessionId = uuid.toString();
-        request.getSession().setAttribute("uid", sessionId);
+        this.setSessionAttribute(request , "uid", sessionId);
         return validCodeService.getImgValidCode("calendar", sessionId);
     }
 

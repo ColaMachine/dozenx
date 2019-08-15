@@ -7,7 +7,7 @@
                           <div id="hidden_vote_div" style="display:none;"></div>
                       <p id="comment_error" class="red"></p>
               <div class="comment_avatar">
-                  <span class="userPic"><img :src="isLogin?loginUser.face:'//res.smzdm.com/images/header/default_small.png'" id="comment_avatar" width="60" height="60"></span>
+                  <span class="userPic"><img :src="isLogin?loginUser.face:'/home/static/img/noavatar.png'" id="comment_avatar" onerror="this.img='/home/static/img/noavatar.png'" width="60" height="60"></span>
               </div>
               <div class="comment_sendPart">
                   <form id="commentform" class="commentform" onsubmit="return false;" method="post" action="">
@@ -44,7 +44,7 @@
               <div class="tab_info" id="commentTabBlockNew">
 
               <zwPagination @goPage="goPage" :page="page"></zwPagination></br>
-                  <ul class="pagination"><li><a href="https://www.smzdm.com/p/14039324/#comments" class="pageCurrent">1</a></li><li><a href="https://www.smzdm.com/p/14039324/p2/#comments">2</a></li><li class="pagedown"><a href="https://www.smzdm.com/p/14039324/p2/#comments"><i class="icon-angle-right-o-thin"></i></a></li><li class="jumpToPage">转至<input type="text" class="input_num" id="input_num">页</li><li><a href="javascript:void(0);" class="a_jumpTo" onclick="return on_check_comment_page(2, 'https://www.smzdm.com/p/14039324/', this)">GO</a></li></ul>
+
                   <ul class="comment_listBox">
                       <span id="li_comment_new"></span>
                           <li v-bind:key="item.id" v-for="item in this.blogList" class="comment_list" id="li_comment_132977043" itemprop="review" itemscope="" itemtype="http://schema.org/Review">
@@ -114,12 +114,12 @@ export default {
             }
         },
         mounted () {
-        var storeUser = localStorage.getItem('user');
-        if(storeUser){
-        this.loginUser=eval("("+storeUser+")");
-        this.loginUser.face=PATH+"/"+this.loginUser.face;
+        this.loginUser = getSessionUser();
+        if(this.loginUser){
+            this.loginUser.face = PATH+"/"+this.loginUser.face;
             this.isLogin=true;
         }
+
             this.getNews();
         },
         watch: {
@@ -131,6 +131,14 @@ export default {
         methods: {
         goPage:function(index){
             this.page.curPage=index;
+
+
+             var jso = {pid:this.pid,curPage:index,pageSize:10};
+                        if(!this.pid){
+                        return ;
+                        //    jso.pid=0;
+                        }
+                        Ajax.get(PATH+"/msginfo/list.json?type=1",jso,this.showData);
         },
         goLogin:function(){
             goLoginPage();
@@ -186,7 +194,7 @@ export default {
            this.getNews();
         },
         getNews:function( content){
-            var jso = {pid:this.pid,curPage:this.curPage,pageSize:1};
+            var jso = {pid:this.pid,curPage:this.curPage,pageSize:15};
             if(!this.pid){
             return ;
             //    jso.pid=0;
@@ -196,8 +204,10 @@ export default {
         showData:function(result){
             for(var i=0;i<result.data.length;i++){
             result.data[i].showCommentInput=false;
-            this.blogList.push(result.data[i]);
+           // this.blogList.push(result.data[i]);
             }
+
+            this.blogList= result.data;
             this.page=result.page;
             //this.blogList=result.data;
 
@@ -228,6 +238,7 @@ export default {
 font-size: 14px;
     color: #333;
     margin-top: -30px;
+    text-align:left;
 }
 #comments {
     padding: 50px 0 20px;
@@ -667,4 +678,9 @@ blockquote .comment_con p {
 .comment_action:hover{
     visibility:visible	;
 }*/
+
+.poster-wrapper div{
+text-align:left;
+
+}
 </style>

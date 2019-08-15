@@ -588,7 +588,7 @@ public class SysMenuController extends BaseController{
 //                // sysMenuTree.remove(i);
 //            }
 //        }
-        return  ResultUtil.getDataResult(request.getSession().getAttribute(Constants.SESSION_MENUS));//返回集合
+        return  ResultUtil.getDataResult(new BaseController().getSessionAttribute(request,Constants.SESSION_MENUS,List.class));//返回集合
     }
 
 

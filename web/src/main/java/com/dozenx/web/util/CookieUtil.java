@@ -65,6 +65,16 @@ public class CookieUtil {
 	 *            保存值
 	 * @author jxf
 	 */
+
+
+	/**
+	 *
+	 * @param response
+	 * @param name
+	 * @param value
+	 * @param time 秒
+     * @return
+     */
 	public static HttpServletResponse setCookie(HttpServletResponse response, String name, String value,int time) {
 		// new一个Cookie对象,键值对为参数
 		Cookie cookie = new Cookie(name, value);
@@ -78,6 +88,8 @@ public class CookieUtil {
 		}
 		cookie.setMaxAge(time);
 		// 将Cookie添加到Response中,使之生效
+//		HttpServletRequest request;
+
 		response.addCookie(cookie); // addCookie后，如果已经存在相同名字的cookie，则最新的覆盖旧的cookie
 		return response;
 	}

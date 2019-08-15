@@ -1,27 +1,22 @@
 <template>
   <div>
-    <div id="editor">
-      <textarea rows=30 :value="input" @input="update"></textarea>
-      <!--<div contenteditable=true></div>-->
-      <div v-html="compiledMarkdown"></div>
-    </div>
-    <div id="editor">
-      <mavon-editor style="height: 100%"></mavon-editor>
+    <div id="main">
+        <mavon-editor v-model="value"/>
     </div>
   </div>
 </template>
 <script>
   // Local Registration
-  import marked from 'marked'
+ // import marked from 'marked'
   import {
     mavonEditor
   } from 'mavon-editor'
-  import 'mavon-editor/dist/css/index.css'
+  //import 'mavon-editor/dist/css/index.css'
   export default {
     name: 'editor',
     components: {
       mavonEditor,
-      marked
+     // marked
       // or 'mavon-editor': mavonEditor
     },
     data() {
@@ -85,4 +80,6 @@
   code {
     color: #f66;
   }
+
+  @import "https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css"
 </style>

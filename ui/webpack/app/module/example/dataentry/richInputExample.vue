@@ -96,9 +96,9 @@ import zwPanel from '../../../component/datadisplay/zwPanel.vue';
 import zwRichInput from '../../../component/dataentry/zwRichInput.vue';
 
 
-//import zwMarkDown from '../../../component/dataentry/zwMarkDown.vue';zwMarkDown,
+import zwMarkDown from '../../../component/dataentry/zwMarkDown.vue';
 export default {
-    components:{zwButton,zwIcon,zwBox,zwRow,zwCol,zwDropDown,zwMenu,zwMenuItem,zwButtonGroup,zwInput,zwPanel,zwRichInput},
+    components:{zwButton,zwIcon,zwBox,zwRow,zwCol,zwDropDown,zwMenu,zwMarkDown,zwMenuItem,zwButtonGroup,zwInput,zwPanel,zwRichInput},
     data () {
 
         return {

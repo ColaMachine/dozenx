@@ -87,4 +87,7 @@ public class Artical {
     }
 
     public int commentCount;//评论数
+
+
+
 }

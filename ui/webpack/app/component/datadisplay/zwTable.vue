@@ -23,7 +23,7 @@ export default {
 
         },
         mounted () {
-            console.log(this.param);
+            //console.log(this.param);
         //    alert("zwtable mounted");
              if(this.param){
                this.param.grid = this.$refs.tableGrid;

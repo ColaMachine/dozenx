@@ -173,7 +173,13 @@ public class ZanServiceImpl extends BaseService implements ZanService {
     public void down(Long userId, Long pid, int category) {
         {
             if(userId ==null){
-                throw new BizException(30102001,"未登录");
+                throw new BizException(30102176,"未登录");
+            }
+            if(pid ==null){
+                throw new BizException(30102177,"参数错误");
+            }
+            if(category !=1 && category !=2){
+                throw new BizException(30102178,"参数错误");
             }
             HashMap params = new HashMap();
             params.put("userId",userId);
@@ -196,7 +202,7 @@ public class ZanServiceImpl extends BaseService implements ZanService {
 
                 Zan zan = new Zan();
                 //查看是否有重复点赞
-                byte type =1;
+                byte type =2;
                 zan.setType(type);
                 zan.setPid(pid);
                 zan.setCategory(category);

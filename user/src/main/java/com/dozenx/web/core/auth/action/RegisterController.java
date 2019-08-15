@@ -7,6 +7,7 @@ import com.dozenx.util.RandomValidateCode;
 import com.dozenx.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.service.AuthService;
+import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 import com.dozenx.web.core.auth.sysMenu.service.SysMenuService;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
@@ -312,14 +313,14 @@ public class RegisterController extends BaseController {
     @ResponseBody
     ResultDTO requestValidPhoneCode(HttpServletRequest request) {
         String ip = RequestUtil.getIp(request);
-        SysUser user = (SysUser) request.getSession().getAttribute("user");
+        SessionUser user = this.getUser(request);
         if (user == null) {
             return ResultUtil.getResult(30106112, "未登陆");
         }
-        if (StringUtil.isBlank(user.getTelno())) {
+        if (StringUtil.isBlank(user.getPhone())) {
             return ResultUtil.getResult(30106111, "手机号未填写");
         }
-        String phone = user.getTelno();
+        String phone = user.getPhone();
 
 
         //status 位置标识 0000 新注册  冻结 邮箱验证  手机验证

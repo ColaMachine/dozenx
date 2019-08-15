@@ -1,7 +1,7 @@
 <template>
   <div>
 <ShopNav></ShopNav>
-<zwRow >
+<zwRow  style="margin-top:20px;">
 
 <zwCol class="pull-right" span=24>
 <zwGoodArtical :data="goodData"></zwGoodArtical>
@@ -16,69 +16,25 @@
 <script>
 
   import zwRow from '../../component/layout/zwRow.vue';
-import ShopNav from './ShopNav.vue'
-    import zwInput from '../../component/dataentry/zwInput.vue';
+   import zwGoodArtical from '../../component/datadisplay/zwGoodArtical.vue';
+
+
+
+    import ShopNav from './ShopNav.vue'
+
   import zwCol from '../../component/layout/zwCol.vue';
   import zwIcon from '../../component/icon/zwIcon.vue';
-  import zwBox from '../../component/layout/zwBox.vue';
 
-  import zwCrousel from '../../component/datadisplay/zwCrousel.vue';
-
-
-  import zwAppBottomBar from '../../component/datadisplay/zwAppBottomBar.vue';
-  import zwButton from '../../component/button/zwButton.vue';
-  import zwButtonGroup from '../../component/button/zwButtonGroup.vue';
-
- import zwAppTopBar from '../../component/navigation/zwAppTopBar.vue';
-
- import zwJumbotron from '../../component/datadisplay/zwJumbotron.vue';
-
-  import zwForm from '../../component/dataentry/zwForm.vue';
-  import zwFormItem from '../../component/dataentry/zwFormItem.vue';
-
-  import Comments from '../../component/datadisplay/Comments.vue';
-  import zwBase from '../../component/zwBase.vue';
- import zwPanel from '../../component/datadisplay/zwPanel.vue';
-  import zwAlbum from '../../component/datadisplay/zwAlbum.vue';
-
-  import zwAppBuyBottomBar from '../../component/datadisplay/zwAppBuyBottomBar.vue';
-
-
-   import zwGoodArtical from '../../component/datadisplay/zwGoodArtical.vue'
-
-  //import {PATH,getQueryString,Ajax} from "../../../../src/main/webapp/static/js/zwcommon"
-    /**
-        PcGoodView
-             zwGoodArtical
-                PcComments
-                    - PcComment
-
-
-
-    **/
   export default {
-  extends:zwBase,
+//  extends:zwBase,
 
     components: {
-    zwBase,zwPanel,zwGoodArtical,ShopNav,
+    zwGoodArtical,ShopNav,
       zwRow,
       zwCol,
-      zwIcon,
-      zwBox,
 
-      zwCrousel,
-
-      zwAppBottomBar,
-
-      zwButtonGroup,
-      zwButton,
-      zwInput,
-      zwAppTopBar,
-      zwJumbotron,
-      zwForm,zwAlbum,Comments,
-      zwFormItem,zwAppBuyBottomBar
     },
-    name: "PcGoodView",
+    name: "PcGoodPage",
     data() {
 
       return {

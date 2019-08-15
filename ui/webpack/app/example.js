@@ -18,6 +18,16 @@ import "./css/iconlist.scss"
 import "./css/slider_text.scss"
 import "./css/widget.scss"
 import "./css/codedemo.scss"
+//import "mavon-editor/dist/css/index.css"
+
+
+//
+import mavonEditor from 'mavon-editor'
+//require ('mavon-editor/dist/css/index.css')
+//// use
+Vue.use(mavonEditor)
+//
+
 
 //import app from "./vueTest"
 //const app= require("./head/head.vue");
@@ -31,6 +41,10 @@ import Vue from 'vue'
 import head from './module/web/example.vue'
 
 import router from "./module/route/route.js"
+
+
+
+
 new Vue({
   el: '#head',
   router,

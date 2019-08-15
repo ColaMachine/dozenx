@@ -5,10 +5,11 @@
                                     <div class="comment_avatar">
                                         <div class="user-box-new">
                                             <a class="user-avatar" :href="'https://user.dapark.com/user/'+data.userId" target="_blank">
-                                                <img :src="data.face?data.face:'/home/static/img/noavatar.png'">
+
+                                                <img :src="data.face?getPathValue(data.face):'/home/static/img/noavatar.png' "  onerror="this.src='/home/static/img/noavatar.png'">
                                             </a>
                                         </div>
-                                        <span class="grey">41楼</span>
+                                        <span class="grey">{{data.id}}楼</span>
                                     </div>
                                     <div class="comment_conBox">
                                         <div class="comment_avatar_time ">

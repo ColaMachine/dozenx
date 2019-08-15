@@ -1,7 +1,7 @@
 <template>
 
   <div class="app-img-blocks">
-    <div v-for="result in list" key={{result.id}} class=" app-img-block ">
+    <div v-for="result in list" :key="result.id" class=" app-img-block ">
       <div class="app-img-block-pic">
         <a :href='"?id="+ result.id +"#goodView"'><img onerror="" :src='getPathValue( result.pic)' /></a>
       </div>

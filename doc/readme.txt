@@ -77,3 +77,20 @@ http://ip:port/#/login
 1-59/10 23  * * * curl  "http://127.0.0.1:8085/ezhikesrv/probe/cache"
 #缓存探针对应信息 每天固化一下
 50 23 * * * curl  "http://127.0.0.1:8081/ezhikesrv/stat/35"
+
+
+
+2019-08-06 23:21:20
+
+sys_user表要把多余的字段放到其他表
+
+sys_user表的userName字段不明却
+nkname 太拗口 应该直接叫nick
+昵称没有冲突判断
+应该提供单独修改昵称的页面
+昵称的修改应该有记录可查 并对最近修改的昵称进行核查
+jsp!!!! 很重要啊
+
+单独提供用户根据id 的缓存方案
+sys_user表还要有个业务id 不能老存自增id
+pbkdf2

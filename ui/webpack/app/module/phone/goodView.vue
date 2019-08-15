@@ -8,7 +8,7 @@
     <a slot="left" href="#/shopMain">
   <img  class=""  :src="getPathValue('/static/img/header/back.png')">
   </a>
-<span slot="middle"> 商品详情</span>
+<span style="font-size:2.25rem" slot="middle"> 商品详情</span>
 
            <a slot="right" href="/home/static/html/vue/vueUserInfo.html">
 <img  class="" :src="getPathValue('/static/img/header/information.png')">

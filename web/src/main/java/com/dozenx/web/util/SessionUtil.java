@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.session.SessionUser;
+import com.dozenx.web.core.base.BaseController;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -34,7 +35,7 @@ public class SessionUtil {
     public static SessionUser getCurSessionUser(HttpServletRequest request){
         /*1.先从Attribute获取sessionUser对象存在直接返回*/
 
-        SessionUser sessionUser =  (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        SessionUser sessionUser =  new BaseController().getUser(request);
         return sessionUser;
 //
 //        if(request.getAttribute("sessionUser") != null){

@@ -75,9 +75,21 @@ export default {
                  if(this.type=="sign-out"){
                                     return "zw-icon  zw-icon-user fa  fa-sign-out";
                                 }
+
+                    if(this.type=="comment"){
+                                                    return "zw-icon  zw-icon-user fa  fa-commenting-o";
+                                                }
+
+                     if(this.type=="good"){
+                          return "zw-icon  zw-icon-user fa  fa-heart";
+                      }
+
+
                 if(this.type && this.type.indexOf("fa")!=-1){
                     return this.type;
                 }
+
+
                 return "zw-icon   fas fa-"+this.type;
             }
         },

@@ -249,6 +249,10 @@ border:1px solid $light-gray;
 .zw-input-group-prepend ,.zw-input-group-append {
   background-color: $light-gray;
 }
+.zw-form-item-label{
+    text-align:right;
+    padding-rigth:10px;
+}
 .zw-form-item{
    font-size: 14px;
        line-height: 1.5;
