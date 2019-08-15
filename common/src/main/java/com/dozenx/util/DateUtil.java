@@ -352,7 +352,8 @@ public final class DateUtil {
     public static void main(String[] args) {
 
         List list = DateUtil.getWeekDayList();
-
+        String s ="2019-07-17T16:00:00.000Z";
+        System.out.println(UTCStringtODefaultString(s));
         System.out.println(DateUtil.getNowTimeStampSeconds());
 
         System.out.println(DateUtil.getNowTimeStampSeconds() - 60);
@@ -851,6 +852,29 @@ public final class DateUtil {
         }
         return weekdays;
     }
+
+
+
+    public static String UTCStringtODefaultString(String UTCString) {
+        try
+        {
+            if (StringUtil.isNotBlank(UTCString) && UTCString.indexOf("T")>0) {
+                UTCString = UTCString.replace("Z", " UTC");
+                SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+                SimpleDateFormat defaultFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = utcFormat.parse(UTCString);
+                return defaultFormat.format(date);
+            }else{
+                return null;
+            }
+
+        } catch(ParseException pe)
+        {
+            pe.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 }

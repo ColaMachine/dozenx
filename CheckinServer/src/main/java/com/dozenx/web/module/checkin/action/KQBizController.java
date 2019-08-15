@@ -53,10 +53,20 @@ public class KQBizController extends BaseController {
     @Resource
     private FaceCheckinOutService faceCheckinOutService;
 
-    /**
-     * 权限service
-     **/
 
+    /**
+     *
+     * ai识别结果推送
+     * person_id  用户所属文件夹的name
+     * reg_patH 识别到的路径
+     * db_img_path 识别的路径
+     * max_score 最大分数
+     * ave_score 平均分数
+     * db_id 人脸库id 用户文件夹上一层 25 26
+     * _cam_id 摄像头的rtsp地址
+     * big_img_path 大图地址
+     * Cost 识别时间
+     */
 
     @API(summary = "kq05 人脸推送接口开发",
             description = "http://alpha-np.51awifi.com/home/checkin/face/receiveRegResult?access_token=xxxxx" +
@@ -75,6 +85,9 @@ public class KQBizController extends BaseController {
 //                    @Param(name = "corpId", description = "公司id", in = InType.body, dataType = DataType.STRING, required = false),// true
 
             })
+
+
+
     @RequestMapping(value = "/receiveRegResult")
     @ResponseBody
     public ResultDTO receiveRegResult(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
@@ -82,41 +95,30 @@ public class KQBizController extends BaseController {
         logger.info(JsonUtil.toJsonString(bodyParam));
         Long start = System.currentTimeMillis();
         String camera= MapUtils.getString(bodyParam, "cam_id");//cam_id rtsp流的地址 rtsp://admin:admin123@192.168.120.111:554
-
-
 //        if(cameraId.indexOf("192.168.6.20")>=0 ){//硬编码 希望以后能改成 配置的形式
 //            doorPort=7098;
 //        }
-
         String userIdStr = MapUtils.getString(bodyParam, "person_id");
-
-
         String userAry[] = userIdStr.split("-");// zhangzhiwei_226
         String pinying = userAry[0];
         if (userAry.length > 1) {
             String userCode = userAry[1];
         }
         // Long userCode = Long.valueOf(userIdStr.split("-")[1]);
-
-
         String regPath = MapUtils.getString(bodyParam, "reg_path");
         ///home/yanxingjun/face_cy_4/face_sdk/data/reg_images/2019-04-30/person1/111328-513-503.jpg
 //        regPath ="/mssrv/static"+ regPath.substring(regPath.indexOf("face_sdk")+"face_sdk".length());
-
         String regUrl = "/mssrv/static" + regPath.substring(regPath.indexOf("face_sdk") + "face_sdk".length());
-
         String dbImgPath = MapUtils.getString(bodyParam, "db_img_path");
-
-
 //        dbImgPath ="/mssrv/static"+ dbImgPath.substring(dbImgPath.indexOf("face_sdk")+"face_sdk".length());
-
         String oriUrl = "/mssrv/static" + dbImgPath.substring(dbImgPath.indexOf("face_sdk") + "face_sdk".length());
         String score = MapUtils.getString(bodyParam, "max_score");
-        String avgScore = MapUtils.getString(bodyParam, "ave_score");
-        String corpId = MapUtils.getString(bodyParam, "db_id");//库id
+       // String avgScore = MapUtils.getString(bodyParam, "ave_score");
+      ///  String corpId = MapUtils.getString(bodyParam, "db_id");//库id
         String _cam_id = MapUtils.getString(bodyParam, "_cam_id");//库id
+        String bigImgPath = MapUtils.getString(bodyParam, "big_img_path");
         logger.info(userIdStr);
-
+        Float cost = MapUtils.getFloat(bodyParam,"cost");
         //查询上次该code 的考勤时间
         //参数校验
         HashMap map = new HashMap();
@@ -125,53 +127,47 @@ public class KQBizController extends BaseController {
         SysUser sysUser = null;
         List<SysUser> sysUserList = sysUserService.listByParams(map);
         if (sysUserList == null || sysUserList.size() == 0) {
-            logger.error("未找到用户 " + pinying);
+            logger.error("not find user 未找到用户 " + pinying);
             //   return this.getWrongResultFromCfg("err.USER_NOT_FOUND.code");
             map.put("pinyin", "admin");
             sysUserList = sysUserService.listByParams(map);
             sysUser = sysUserList.get(0);
         } else {
+            logger.error("get the user by pinyin ("+pinying+") the result size is "+sysUserList.size()+" did need make modify in code add the condition of user code !!!!");
             sysUser = sysUserList.get(0);
         }
-
-
         if (sysUser == null) {
             return this.getWrongResultFromCfg("err.USER_NOT_FOUND.code");
         }
-        if (RedisUtil.incr("kq_rece_result_" + userIdStr, Integer.valueOf(ConfigUtil.getConfig("kq.chekcin.face.interval"))) > 1) {
-            return this.getWrongResultFromCfg("err.kq.too.freq.userid.regnize");
-        }
-
         FaceCheckinOut checkinOut = new FaceCheckinOut();
         checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
 //        checkinOut.setRemakr();
-
         checkinOut.setUserId(sysUser.getId());
         checkinOut.setCheckType(3);//人脸考勤
-        checkinOut.setScore(Float.valueOf(score) / 10);
-
-
-
+        checkinOut.setScore(Float.valueOf(score) / 10);//归到100制
+        checkinOut.setBigImgPath(bigImgPath);
             //根据camera的rtsp地址找到camera的id
-
-
-
-
         logger.info("_cam_id"+_cam_id);
-        checkinOut.setCamera(camera);
-        checkinOut.setCameraId(Long.valueOf(_cam_id));
-        checkinOut.setUserName(sysUser.getUsername());
-        checkinOut.setRegPath(regPath);
-        checkinOut.setOriPath(dbImgPath);
-        checkinOut.setRegUrl(regUrl);
-        checkinOut.setOriUrl(oriUrl);checkinOut.setCheckTime(DateUtil.getNowTimeStamp());
+        checkinOut.setCamera(camera);   //摄像头rtsp地址
+        checkinOut.setCameraId(Long.valueOf(_cam_id));  //摄像头id
+        checkinOut.setUserName(sysUser.getUsername());  //从数据库中获取用户名
+        checkinOut.setRegPath(regPath); //识别的图片的地址
+        checkinOut.setOriPath(dbImgPath);   //原始人脸图片地址
+        checkinOut.setCost(cost);   //耗时
+        checkinOut.setRegUrl(regUrl);   //识别的url
+        checkinOut.setOriUrl(oriUrl);checkinOut.setCheckTime(DateUtil.getNowTimeStamp());   //原始url
 
         //如果这个时间段已经有过人脸打卡了 那么就不人脸识别了
         faceCheckinOutService.save(checkinOut);
+
+        //如果这个摄像头已经开过门了 就不再开门
+
         try {
 
 
             int doorPort = 7099;
+
+
             //从cameraId中截取ip地址
             logger.info(camera);
             System.out.println(camera);
@@ -196,8 +192,16 @@ public class KQBizController extends BaseController {
                 doorPort = Integer.valueOf(ConfigUtil.getConfig("kq.camera_door_" + ip));
 
 
-                logger.info("open door开门 cost:" + (System.currentTimeMillis() - start));
-                VirtualDoorService.open(doorPort);//开门加上消息推送
+                if (StringUtil.isNotBlank(RedisUtil.get("kq_rece_result_"+ doorPort))) {
+
+                }else{
+                    RedisUtil.incr("kq_rece_result_" + userIdStr, Integer.valueOf(ConfigUtil.getConfig("kq.chekcin.face.interval")));
+
+                    logger.info("open door开门 cost:" + (System.currentTimeMillis() - start));
+
+
+                    VirtualDoorService.open(doorPort);//开门加上消息推送
+                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,7 +236,13 @@ public class KQBizController extends BaseController {
         return this.getResult();
     }
 
-
+    /**
+     *
+     * 测试人脸开门的url
+     * @param request
+     * @return
+     * @throws Exception
+     */
     //http://192.168.213.7:8097/home/checkin/faceinfo/opendoor?camera=7099
     @RequestMapping(value = "/opendoor")
     @ResponseBody

@@ -9,7 +9,7 @@
         <result column="checkType" jdbcType="INTEGER" property="checkType" />
         <result column="checkTime" jdbcType="TIMESTAMP" property="checkTime" />
         <result column="score" jdbcType="FLOAT" property="score" />
-        <result column="cost" jdbcType="INTEGER" property="cost" />
+        <result column="cost" jdbcType="FLOAT" property="cost" />
         <result column="avgScore" jdbcType="FLOAT" property="avgScore" />
         <result column="regUrl" jdbcType="VARCHAR" property="regUrl" />
         <result column="oriUrl" jdbcType="VARCHAR" property="oriUrl" />
@@ -19,10 +19,12 @@
         <result column="time" jdbcType="INTEGER" property="time" />
         <result column="cameraId" jdbcType="BIGINT" property="cameraId" />
         <result column="group_id" jdbcType="BIGINT" property="groupId" />
+        <result column="big_img_path" jdbcType="VARCHAR" property="bigImgPath" />
     </resultMap>
     <sql id="Base_Column_List">
         FaceCheckinOut.`id` ,FaceCheckinOut.`userId` ,FaceCheckinOut.`userName` ,FaceCheckinOut.`camera` ,FaceCheckinOut.`checkType` ,FaceCheckinOut.`checkTime` ,FaceCheckinOut.`score` ,FaceCheckinOut.`cost` ,FaceCheckinOut.`avgScore` ,FaceCheckinOut.`regUrl` ,FaceCheckinOut.`oriUrl` ,FaceCheckinOut.`regPath` ,FaceCheckinOut.`oriPath`
         ,FaceCheckinOut.`remark` ,FaceCheckinOut.`time` ,FaceCheckinOut.`cameraId`,FaceCheckinOut.`group_id`
+        ,FaceCheckinOut.`big_img_path`
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -45,7 +47,7 @@
         ,#{checkType,jdbcType=INTEGER}
         ,#{checkTime,jdbcType=TIMESTAMP}
         ,#{score,jdbcType=FLOAT}
-        ,#{cost,jdbcType=INTEGER}
+        ,#{cost,jdbcType=FLOAT}
         ,#{avgScore,jdbcType=FLOAT}
         ,#{regUrl,jdbcType=VARCHAR}
         ,#{oriUrl,jdbcType=VARCHAR}
@@ -55,6 +57,7 @@
         ,#{time,jdbcType=INTEGER}
         ,#{cameraId,jdbcType=BIGINT}
         ,#{groupId,jdbcType=BIGINT}
+        ,#{bigImgPath,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut" >
@@ -108,6 +111,9 @@
             <if test="groupId != null" >
                 `group_id`,
             </if>
+            <if test="bigImgPath != null" >
+                `big_img_path`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -132,7 +138,7 @@
                 #{score,jdbcType=FLOAT},
             </if>
             <if test="cost != null" >
-                #{cost,jdbcType=INTEGER},
+                #{cost,jdbcType=FLOAT},
             </if>
             <if test="avgScore != null" >
                 #{avgScore,jdbcType=FLOAT},
@@ -157,6 +163,9 @@
             </if>
             <if test="groupId != null" >
                 #{groupId,jdbcType=BIGINT},
+            </if>
+            <if test="bigImgPath != null" >
+                #{bigImgPath,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -185,7 +194,7 @@
                 `score`=#{score,jdbcType=FLOAT},
             </if>
             <if test="cost != null" >
-                `cost`=#{cost,jdbcType=INTEGER},
+                `cost`=#{cost,jdbcType=FLOAT},
             </if>
             <if test="avgScore != null" >
                 `avgScore`=#{avgScore,jdbcType=FLOAT},
@@ -220,7 +229,7 @@
         `checkType`=#{checkType,jdbcType=INTEGER},
         `checkTime`=#{checkTime,jdbcType=TIMESTAMP},
         `score`=#{score,jdbcType=FLOAT},
-        `cost`=#{cost,jdbcType=INTEGER},
+        `cost`=#{cost,jdbcType=FLOAT},
         `avgScore`=#{avgScore,jdbcType=FLOAT},
         `regUrl`=#{regUrl,jdbcType=VARCHAR},
         `oriUrl`=#{oriUrl,jdbcType=VARCHAR},
@@ -383,11 +392,11 @@
         <if test="time != null and time != '' ">
             and FaceCheckinOut.`time` = #{time}
         </if>
-        <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+        <if test="checkTimeBegin != null  ">
             and `checkTime` &gt;= #{checkTimeBegin }
         </if>
 
-        <if test="checkTimeEnd != null and checkTimeEnd != '' ">
+        <if test="checkTimeEnd != null  ">
             and `checkTime` &lt;= #{checkTimeEnd}
         </if>
         <if test="cameraId != null and cameraId != '' ">
@@ -542,7 +551,7 @@
             ,#{record.checkType,jdbcType=INTEGER}
             ,#{record.checkTime,jdbcType=TIMESTAMP}
             ,#{record.score,jdbcType=FLOAT}
-            ,#{record.cost,jdbcType=INTEGER}
+            ,#{record.cost,jdbcType=FLOAT}
             ,#{record.avgScore,jdbcType=FLOAT}
             ,#{record.regUrl,jdbcType=VARCHAR}
             ,#{record.oriUrl,jdbcType=VARCHAR}

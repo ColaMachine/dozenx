@@ -1152,6 +1152,7 @@ public class FaceCheckinOutController extends BaseController {
         }
         String checkTime = MapUtils.getString(params, "checkTime");
         if (!StringUtil.isBlank(checkTime)) {
+
             if (StringUtil.checkNumeric(checkTime)) {
                 params.put("checkTime", checkTime);
             } else if (StringUtil.checkDateStr(checkTime, "yyyy-MM-dd HH:mm:ss")) {
@@ -1160,19 +1161,31 @@ public class FaceCheckinOutController extends BaseController {
         }
         String checkTimeBegin = MapUtils.getString(params, "checkTimeBegin");
         if (!StringUtil.isBlank(checkTimeBegin)) {
+            if(checkTimeBegin.indexOf("T")!=-1){
+                checkTimeBegin= DateUtil.UTCStringtODefaultString(checkTimeBegin);
+                params.put("checkTimeBegin", checkTimeBegin);
+            }
             if (StringUtil.checkNumeric(checkTimeBegin)) {
                 params.put("checkTimeBegin", checkTimeBegin);
             } else if (StringUtil.checkDateStr(checkTimeBegin, "yyyy-MM-dd HH:mm:ss")) {
                 params.put("checkTimeBegin", new Timestamp(DateUtil.parseToDate(checkTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
+        }else{
+            params.remove("checkTimeBegin");
         }
         String checkTimeEnd = MapUtils.getString(params, "checkTimeEnd");
         if (!StringUtil.isBlank(checkTimeEnd)) {
+            if(checkTimeEnd.indexOf("T")!=-1){
+                checkTimeEnd= DateUtil.UTCStringtODefaultString(checkTimeEnd);
+                params.put("checkTimeEnd", checkTimeEnd);
+            }
             if (StringUtil.checkNumeric(checkTimeEnd)) {
                 params.put("checkTimeEnd", checkTimeEnd);
             } else if (StringUtil.checkDateStr(checkTimeEnd, "yyyy-MM-dd HH:mm:ss")) {
                 params.put("checkTimeEnd", new Timestamp(DateUtil.parseToDate(checkTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
+        }else{
+            params.remove("checkTimeEnd");
         }
         String score = MapUtils.getString(params, "score");
         if (!StringUtil.isBlank(score)) {

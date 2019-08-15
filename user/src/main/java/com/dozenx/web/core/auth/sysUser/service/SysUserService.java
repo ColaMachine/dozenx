@@ -388,7 +388,7 @@ public class SysUserService extends BaseService {
             SysUser  user = (SysUser) list.get(0);
             if(StringUtil.isNotBlank(user.getPassword())){
                 try {//二次加密后传入给后台 跟数据库中的拿出来md5之后做对比
-                    if(encryptedPwd.equals(MD5Util.getStringMD5String(user.getPassword()))){
+                    if(encryptedPwd.equals(user.getPassword())  || encryptedPwd.equals(MD5Util.getStringMD5String(user.getPassword()))){
                         ResultDTO result = ResultUtil.getSuccResult();
                         result.setData(user);
                         return result;
@@ -443,7 +443,7 @@ public class SysUserService extends BaseService {
             SysUser  user = (SysUser) list.get(0);
             if(StringUtil.isNotBlank(user.getPassword())){
                 try {
-                    if(encryptedPwd.equals(user.getPassword())){
+                    if(encryptedPwd.equals(user.getPassword()) ||  encryptedPwd.equals(MD5Util.getStringMD5String(user.getPassword())) ){
                         ResultDTO result = ResultUtil.getSuccResult();
                         user.setPassword(null);//返回的时候不能把密码返回给对方
                         result.setData(user);
