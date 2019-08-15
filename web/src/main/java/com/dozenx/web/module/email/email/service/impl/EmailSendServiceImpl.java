@@ -42,11 +42,7 @@ public class EmailSendServiceImpl extends BaseService implements EmailSendServic
 
     @Override
     public void sendEmail(String to, String title, String content) {
-        MailSenderInfo mailSenderInfo = new MailSenderInfo(ConfigUtil.getConfig("mail.smtp.host"),
-                Integer.valueOf(ConfigUtil.getConfig("mail.smtp.port")),
-                ConfigUtil.getConfig("mail.username"),
-                ConfigUtil.getConfig("mail.pwd"),
-                ConfigUtil.getConfig("mail.from"));
+        MailSenderInfo mailSenderInfo =getMailInfo();
         SimpleMailSender simpleMailSender =new SimpleMailSender() ;
         mailSenderInfo.setSubject(title);
         mailSenderInfo.setToAddress(to);
@@ -65,11 +61,7 @@ public class EmailSendServiceImpl extends BaseService implements EmailSendServic
 
     @Override
     public void sendEmail(String to, String title, String content,String file) {
-        MailSenderInfo mailSenderInfo = new MailSenderInfo(ConfigUtil.getConfig("mail.smtp.host"),
-                Integer.valueOf(ConfigUtil.getConfig("mail.smtp.port")),
-                ConfigUtil.getConfig("mail.username"),
-                ConfigUtil.getConfig("mail.pwd"),
-                ConfigUtil.getConfig("mail.from"));
+        MailSenderInfo mailSenderInfo =getMailInfo();
         mailSenderInfo.setToAddress(to);
         SimpleMailSender simpleMailSender =new SimpleMailSender() ;
         mailSenderInfo.setSubject(title);
@@ -91,11 +83,7 @@ public class EmailSendServiceImpl extends BaseService implements EmailSendServic
 
     @Override
     public void sendEmail(List<String> toList, String title, String content,String file) {
-        MailSenderInfo mailSenderInfo = new MailSenderInfo(ConfigUtil.getConfig("mail.smtp.host"),
-                Integer.valueOf(ConfigUtil.getConfig("mail.smtp.port")),
-                ConfigUtil.getConfig("mail.username"),
-                ConfigUtil.getConfig("mail.pwd"),
-                ConfigUtil.getConfig("mail.from"));
+        MailSenderInfo mailSenderInfo = getMailInfo();
         mailSenderInfo.setToAddressList(toList);
         SimpleMailSender simpleMailSender =new SimpleMailSender() ;
         mailSenderInfo.setSubject(title);
@@ -113,5 +101,13 @@ public class EmailSendServiceImpl extends BaseService implements EmailSendServic
             throw new BizException(30105197,"发送邮件报错");
         }
 
+    }
+
+    public MailSenderInfo getMailInfo(){
+        return      new MailSenderInfo(ConfigUtil.getConfig("email.host"),
+                Integer.valueOf(ConfigUtil.getConfig("email.port")),
+                ConfigUtil.getConfig("email.username"),
+                ConfigUtil.getConfig("email.pwd"),
+                ConfigUtil.getConfig("email.use"));
     }
 }

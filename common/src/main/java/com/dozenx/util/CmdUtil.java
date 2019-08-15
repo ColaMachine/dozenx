@@ -18,7 +18,7 @@ public class CmdUtil {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CmdUtil.class);
     public static String execCommand(String commandStr,String filePath)throws IOException{
         try {
-
+            logger.info("在"+filePath+"下执行命令"+commandStr);
             File dir = new File(filePath);
             // String command="netstat -an";
             String os = System.getProperty("os.name");
@@ -50,6 +50,8 @@ public class CmdUtil {
 
     }
     public String execCommand(String[] arstringCommand)throws IOException {
+
+        logger.info("执行命令"+arstringCommand[0]);
         for (int i = 0; i < arstringCommand.length; i++) {
             System.out.print(arstringCommand[i] + " ");
         }
@@ -74,6 +76,7 @@ public class CmdUtil {
 
     }
     public String execCommand(String arstringCommand) throws IOException {
+        logger.info("执行命令"+arstringCommand);
         try {
             Runtime r = Runtime.getRuntime();
             Process p = r.exec(arstringCommand);

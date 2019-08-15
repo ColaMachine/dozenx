@@ -7,12 +7,16 @@
     <title>Document</title>
 </head>
 <body>
-<div id="player" style="position:relative;text-align:center;"></div>
+<div id="player" style="display:inline-block;position:relative;text-align:center;"></div>
+<div id="player1" style="display:inline-block;position:relative;text-align:center;"></div>
 
+<div id="player2" style="display:inline-block;position:relative;text-align:center;"></div>
+<div id="player3" style="display:inline-block;position:relative;text-align:center;"></div>
+<div id="player4" style="display:inline-block;position:relative;text-align:center;"></div>
 
+<div id="player5" style="display:inline-block;position:relative;text-align:center;"></div>
 
-
-
+<!--
 <OBJECT classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" id="vlc"
         codebase="http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
         width="800" height="600" id="vlc" events="True">
@@ -28,16 +32,15 @@
            text="Waiting for video"
            name="vlc"
     ></EMBED>
-</OBJECT>
+</OBJECT>-->
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="index.js"></script>
 </body>
 <script>
-    $(function(){
-    var url = "rtsp://admin:admin123@192.168.120.111:554";//rtsp视频
-  //  url = "rtmp://live.hkstv.hk.lxdns.com/live/hks";//rtmp视频
+      function show(domid,url){
+
     if(url){
-        theHtml = '<object type="application/x-vlc-plugin" pluginspage="http://www.videolan.org/" id="vlc" events="false" width="480" height="300">'+
+        theHtml = '<object type="application/x-vlc-plugin" pluginspage="http://www.videolan.org/" id="vlc'+domid+'" events="false" width="480" height="300">'+
                         '<param name="mrl" value="' + url + '" />'+
                         '<param name="volume" value="50" />'+
                         '<param name="autoplay" value="true" />'+
@@ -49,9 +52,17 @@
     }else{
         theHtml = "暂无视频连接";
     }
-    document.getElementById("player").innerHTML = theHtml;
-    $("#vlc").css("width","480");
-    $("#vlc").css("height","300");
-})
+    document.getElementById(domid).innerHTML = theHtml;
+   $("#vlc"+domid).css("width","480");
+   $("#vlc"+domid).css("height","300");
+}
+show("player","rtsp://admin:awifi@123@192.168.6.203:554");
+show("player1","rtsp://admin:awifi@123@192.168.6.200:554");
+show("player2","rtsp://admin:awifi@123@192.168.6.204:554");
+
+
+show("player3","rtsp://admin:admin123@192.168.6.205:554");
+show("player4","rtsp://admin:admin123@192.168.6.206:554");
+show("player5","rtsp://admin:admin123@192.168.120.111:554");
 </script>
 </html>

@@ -1,12 +1,13 @@
 package dozenx.keyrobot.net;
 
-import com.dozenx.util.FileUtil;
 import util.ColorPicker;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 

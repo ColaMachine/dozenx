@@ -28,7 +28,7 @@ public class FaceCheckinOut {
     /**人脸匹配度 null**/
     private Float score;
     /**耗时 null**/
-    private Integer cost;
+    private Float cost;
     /**平均分数 null**/
     private Float avgScore;
     /**识别图片地址 null**/
@@ -43,6 +43,17 @@ public class FaceCheckinOut {
     private Long cameraId;
 
     private Long groupId;
+
+
+    private String bigImgPath;
+
+    public String getBigImgPath() {
+        return bigImgPath;
+    }
+
+    public void setBigImgPath(String bigImgPath) {
+        this.bigImgPath = bigImgPath;
+    }
 
     public Long getGroupId() {
         return groupId;
@@ -106,10 +117,10 @@ public class FaceCheckinOut {
     public void setScore(Float score){
         this.score=score;
     }
-    public Integer getCost(){
+    public Float getCost(){
         return cost;
     }
-    public void setCost(Integer cost){
+    public void setCost(Float cost){
         this.cost=cost;
     }
     public Float getAvgScore(){

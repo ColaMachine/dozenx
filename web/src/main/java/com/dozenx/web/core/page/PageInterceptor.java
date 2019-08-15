@@ -28,9 +28,9 @@ import java.util.Properties;
 /**
  * 通过拦截<code>StatementHandler</code>的<code>prepare</code>方法，重写sql语句实现物理分页。
  * 老规矩，签名里要拦截的类型只能是接口。
- * 
+ *
  * @author
- * 
+ *
  */
 @Component
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare",
@@ -104,7 +104,7 @@ public class PageInterceptor implements Interceptor {
     /**
      * 从数据库里查询总的记录数并计算总页数，回写进分页参数<code>PageParameter</code>,这样调用者就可用通过 分页参数
      * <code>PageParameter</code>获得相关信息。
-     * 
+     *
      * @param sql
      * @param connection
      * @param mappedStatement
@@ -151,7 +151,7 @@ public class PageInterceptor implements Interceptor {
 
     /**
      * 对SQL参数(?)设值
-     * 
+     *
      * @param ps
      * @param mappedStatement
      * @param boundSql
@@ -166,7 +166,7 @@ public class PageInterceptor implements Interceptor {
 
     /**
      * 根据数据库类型，生成特定的分页sql
-     * 
+     *
      * @param sql
      * @param page
      * @return
@@ -189,7 +189,7 @@ public class PageInterceptor implements Interceptor {
 
     /**
      * mysql的分页语句
-     * 
+     *
      * @param sql
      * @param page
      * @return String
@@ -204,7 +204,7 @@ public class PageInterceptor implements Interceptor {
 
     /**
      * 参考hibernate的实现完成oracle的分页
-     * 
+     *
      * @param sql
      * @param page
      * @return String

@@ -65,6 +65,11 @@ public class LoginController extends BaseController {
      */
 /*  @Log(name="您访问了aop2方法")*/
 
+    /**
+     * 跳转登录页面
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/login.htm", method = RequestMethod.GET)
     public String loginGet(HttpServletRequest request) {
         // String s =request.getParameter("s");

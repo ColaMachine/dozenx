@@ -512,7 +512,7 @@ public class ValidCodeService {
         // 返回验证码
         HashMap<String,String> map = new HashMap<String,String>();
         // map.put("code", finalCode);
-        map.put("img", FilePathUtil.joinPath(ConfigUtil.getConfig("server.domain"),"/",ConfigUtil.getConfig("server.servlet.context-path"),fileName));
+        map.put("img", FilePathUtil.joinPath(Config.getInstance().getImage().getServerUrl(),fileName));
         map.put("sessionid", sessionid);
         map.put("imgdata", codeAry[2]);
         result = ResultUtil.getDataResult(map);

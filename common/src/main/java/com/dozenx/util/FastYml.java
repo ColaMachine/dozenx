@@ -280,7 +280,7 @@ public class FastYml {
                         value ="";
                     }
                     properties.put(getStackStr(stack), value);
-                    logger.info(getStackStr(stack) + ":" + value);
+//                    logger.info(getStackStr(stack) + ":" + value);
                 }
             }
         } catch (IOException e) {
