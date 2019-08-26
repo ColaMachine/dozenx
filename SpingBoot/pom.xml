@@ -146,14 +146,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-        <dependency>
+    <!--    <dependency>
             <groupId>com.pinyin</groupId>
             <artifactId>pinyin</artifactId>
             <version>2.5.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/pinyin4j-2.5.0.jar</systemPath>
 
-        </dependency>
+        </dependency>-->
 
 
         <dependency>

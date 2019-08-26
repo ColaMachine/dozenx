@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -446,7 +447,12 @@ public class ArticalController extends BaseController{
     public Object viewPage( HttpServletRequest request) {
         return "/static/html/ArticalView.html";
     }
-   
+    @RequestMapping(value = "/viewpage/{id}")
+    public Object viewPage1(HttpServletRequest request, @PathVariable  Long id) {
+        request.setAttribute("article",articalService.selectByPrimaryKey(id));
+        return "/WEB-INF/jsp/artical/view.jsp";
+    }
+
     @RequestMapping(value = "/view.json")
     @ResponseBody
     public Object view(HttpServletRequest request) {

@@ -60,6 +60,12 @@ spring:
          time-zone: GMT+8
          serialization:
               write-dates-as-timestamps: false
+    mvc:
+        servlet:
+          load-on-startup: 1
+        #view:
+          #suffix: .jsp
+          #prefix: /WEB-INF/jsp/
 #2.3项目基础配置
 mybatis:
     mapper-locations: classpath*:com/awifi/ms/**/*Mapper.xml,classpath*:com/dozenx/**/*Mapper.xml #mapper.xml 扫描地址
@@ -132,12 +138,13 @@ email :
     ##设置传输协议
     protocol : smtp
     ##设置发信邮箱的smtp地址
-    host : xxx.xxx.com
+    host : smtp.163.com
     auth : true
     debug : true
     port : 25
-    user : xxxx@xxx.com
-    pwd :
+    user : colamachine@163.com
+    pwd : dapark123
+    username: zhangzw
 
 validCode :
     #//系统url

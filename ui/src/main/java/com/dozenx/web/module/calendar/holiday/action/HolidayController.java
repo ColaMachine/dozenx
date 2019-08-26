@@ -943,7 +943,7 @@ public class HolidayController extends BaseController{
          */
         @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
         public String listHtml() {
-            return "/jsp/index.jsp";
+            return "index";
         }
 
         @RequestMapping(value = "/listMapper.htm", method = RequestMethod.GET)

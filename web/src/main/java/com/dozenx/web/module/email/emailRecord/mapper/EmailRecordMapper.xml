@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.email.emailRecord.dao.EmailRecordMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.email.emailRecord.bean.EmailRecord">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="to" jdbcType="CHAR" property="to" />
+      <result column="platform" jdbcType="VARCHAR" property="platform" />
+      <result column="biz" jdbcType="VARCHAR" property="biz" />
+      <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+      <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="status" jdbcType="TINYINT" property="status" />
+      <result column="reason" jdbcType="VARCHAR" property="reason" />
+      <result column="user" jdbcType="BIGINT" property="user" />
+      <result column="ip" jdbcType="VARCHAR" property="ip" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    email_record.`id` ,email_record.`to` ,email_record.`platform` ,email_record.`biz` ,email_record.`add_time` ,email_record.`content` ,email_record.`title` ,email_record.`status` ,email_record.`reason` ,email_record.`user` ,email_record.`ip` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from email_record
+    where email_record.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from email_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.email.emailRecord.bean.EmailRecord" >
+
+    insert into email_record (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{to,jdbcType=CHAR}
+,#{platform,jdbcType=VARCHAR}
+,#{biz,jdbcType=VARCHAR}
+,#{addTime,jdbcType=TIMESTAMP}
+,#{content,jdbcType=VARCHAR}
+,#{title,jdbcType=VARCHAR}
+,#{status,jdbcType=TINYINT}
+,#{reason,jdbcType=VARCHAR}
+,#{user,jdbcType=BIGINT}
+,#{ip,jdbcType=VARCHAR}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.email.emailRecord.bean.EmailRecord" >
+    insert into email_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="to != null" >  
+           `to`,
+        </if>  
+        <if test="platform != null" >  
+           `platform`,
+        </if>  
+        <if test="biz != null" >  
+           `biz`,
+        </if>  
+        <if test="addTime != null" >  
+           `add_time`,
+        </if>  
+        <if test="content != null" >  
+           `content`,
+        </if>  
+        <if test="title != null" >  
+           `title`,
+        </if>  
+        <if test="status != null" >  
+           `status`,
+        </if>  
+        <if test="reason != null" >  
+           `reason`,
+        </if>  
+        <if test="user != null" >  
+           `user`,
+        </if>  
+        <if test="ip != null" >  
+           `ip`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="to != null" >  
+          #{to,jdbcType=CHAR},
+        </if>  
+        <if test="platform != null" >  
+          #{platform,jdbcType=VARCHAR},
+        </if>  
+        <if test="biz != null" >  
+          #{biz,jdbcType=VARCHAR},
+        </if>  
+        <if test="addTime != null" >  
+          #{addTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="content != null" >  
+          #{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="title != null" >  
+          #{title,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=TINYINT},
+        </if>  
+        <if test="reason != null" >  
+          #{reason,jdbcType=VARCHAR},
+        </if>  
+        <if test="user != null" >  
+          #{user,jdbcType=BIGINT},
+        </if>  
+        <if test="ip != null" >  
+          #{ip,jdbcType=VARCHAR},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.email.emailRecord.bean.EmailRecord" >
+    update email_record
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="to != null" >  
+             `to`=#{to,jdbcType=CHAR},
+        </if>  
+        <if test="platform != null" >  
+             `platform`=#{platform,jdbcType=VARCHAR},
+        </if>  
+        <if test="biz != null" >  
+             `biz`=#{biz,jdbcType=VARCHAR},
+        </if>  
+        <if test="addTime != null" >  
+             `add_time`=#{addTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="content != null" >  
+             `content`=#{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="title != null" >  
+             `title`=#{title,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=TINYINT},
+        </if>  
+        <if test="reason != null" >  
+             `reason`=#{reason,jdbcType=VARCHAR},
+        </if>  
+        <if test="user != null" >  
+             `user`=#{user,jdbcType=BIGINT},
+        </if>  
+        <if test="ip != null" >  
+             `ip`=#{ip,jdbcType=VARCHAR},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.email.emailRecord.bean.EmailRecord" >
+    update email_record
+    set 
+              `to`=#{to,jdbcType=CHAR},
+              `platform`=#{platform,jdbcType=VARCHAR},
+              `biz`=#{biz,jdbcType=VARCHAR},
+              `add_time`=#{addTime,jdbcType=TIMESTAMP},
+              `content`=#{content,jdbcType=VARCHAR},
+              `title`=#{title,jdbcType=VARCHAR},
+              `status`=#{status,jdbcType=TINYINT},
+              `reason`=#{reason,jdbcType=VARCHAR},
+              `user`=#{user,jdbcType=BIGINT},
+              `ip`=#{ip,jdbcType=VARCHAR}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from email_record where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="to != null and to != '' ">  
+           and `to` = #{to}
+        </if>  
+        <if test="toLike != null and toLike != '' ">  
+             and `to` like CONCAT('%',#{toLike}},'%')
+        </if>   
+        <if test="platform != null and platform != '' ">  
+           and `platform` = #{platform}
+        </if>  
+        <if test="platformLike != null and platformLike != '' ">
+             and `platform` like CONCAT('%',#{platformLike},'%')
+        </if>   
+        <if test="biz != null and biz != '' ">  
+           and `biz` = #{biz}
+        </if>  
+        <if test="bizLike != null and bizLike != '' ">
+             and `biz` like CONCAT('%',#{bizLike},'%')
+        </if>   
+        <if test="addTime != null and addTime != '' ">  
+           and `add_time` = #{addTime}
+        </if>  
+        <if test="addTimeBegin != null and addTimeBegin != '' ">  
+             and `add_time` &gt;= #{addTimeBegin}
+        </if>   
+         <if test="addTimeEnd != null and addTimeEnd != '' ">  
+             and `add_time` &lt;= #{addTimeEnd}
+        </if> 
+        <if test="addTimeBegin != null and addTimeBegin != '' ">  
+             and `add_time` &gt;= #{addTimeBegin}
+        </if>   
+         <if test="addTimeEnd != null and addTimeEnd != '' ">  
+             and `add_time` &lt;= #{addTimeEnd}
+        </if> 
+        <if test="content != null and content != '' ">  
+           and `content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">
+             and `content` like CONCAT('%',#{contentLike},'%')
+        </if>   
+        <if test="title != null and title != '' ">  
+           and `title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">
+             and `title` like CONCAT('%',#{titleLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="reason != null and reason != '' ">  
+           and `reason` = #{reason}
+        </if>  
+        <if test="reasonLike != null and reasonLike != '' ">
+             and `reason` like CONCAT('%',#{reasonLike},'%')
+        </if>   
+        <if test="user != null and user != '' ">  
+           and `user` = #{user}
+        </if>  
+        <if test="ip != null and ip != '' ">  
+           and `ip` = #{ip}
+        </if>  
+        <if test="ipLike != null and ipLike != '' ">
+             and `ip` like CONCAT('%',#{ipLike},'%')
+        </if>   
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from email_record
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and email_record.`id` = #{id}
+        </if>  
+        <if test="to != null and to != '' ">  
+           and email_record.`to` = #{to}
+        </if>  
+        <if test="toLike != null and toLike != '' ">  
+             and email_record.`to` like CONCAT('%',#{toLike},'%')
+        </if>   
+        <if test="platform != null and platform != '' ">  
+           and email_record.`platform` = #{platform}
+        </if>  
+        <if test="platformLike != null and platformLike != '' ">  
+             and email_record.`platform` like CONCAT('%',#{platformLike},'%')
+        </if>   
+        <if test="biz != null and biz != '' ">  
+           and email_record.`biz` = #{biz}
+        </if>  
+        <if test="bizLike != null and bizLike != '' ">  
+             and email_record.`biz` like CONCAT('%',#{bizLike},'%')
+        </if>   
+        <if test="addTime != null and addTime != '' ">  
+           and email_record.`add_time` = #{addTime}
+        </if>  
+               <if test="addTimeBegin != null and addTimeBegin != '' ">
+                    and `add_time` &gt;= #{addTimeBegin}
+               </if>
+                <if test="addTimeEnd != null and addTimeEnd != '' ">
+                    and `add_time` &lt;= #{addTimeEnd}
+               </if>
+               <if test="addTimeBegin != null and addTimeBegin != '' ">
+                    and `add_time` &gt;= #{addTimeBegin}
+               </if>
+                <if test="addTimeEnd != null and addTimeEnd != '' ">
+                    and `add_time` &lt;= #{addTimeEnd}
+               </if>
+        <if test="content != null and content != '' ">  
+           and email_record.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and email_record.`content` like CONCAT('%',#{contentLike},'%')
+        </if>   
+        <if test="title != null and title != '' ">  
+           and email_record.`title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">  
+             and email_record.`title` like CONCAT('%',#{titleLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and email_record.`status` = #{status}
+        </if>  
+        <if test="reason != null and reason != '' ">  
+           and email_record.`reason` = #{reason}
+        </if>  
+        <if test="reasonLike != null and reasonLike != '' ">  
+             and email_record.`reason` like CONCAT('%',#{reasonLike},'%')
+        </if>   
+        <if test="user != null and user != '' ">  
+           and email_record.`user` = #{user}
+        </if>  
+        <if test="ip != null and ip != '' ">  
+           and email_record.`ip` = #{ip}
+        </if>  
+        <if test="ipLike != null and ipLike != '' ">  
+             and email_record.`ip` like CONCAT('%',#{ipLike},'%')
+        </if>   
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from email_record where 1=1
+        <if test="id != null and id != '' ">  
+           and email_record.`id` = #{id}
+        </if>  
+        <if test="to != null and to != '' ">  
+           and email_record.`to` = #{to}
+        </if>  
+        <if test="toLike != null and toLike != '' ">  
+             and email_record.`to` like CONCAT('%',#{toLike},'%')
+        </if>   
+        <if test="platform != null and platform != '' ">  
+           and email_record.`platform` = #{platform}
+        </if>  
+        <if test="platformLike != null and platformLike != '' ">  
+             and email_record.`platform` like CONCAT('%',#{platformLike},'%')
+        </if>   
+        <if test="biz != null and biz != '' ">  
+           and email_record.`biz` = #{biz}
+        </if>  
+        <if test="bizLike != null and bizLike != '' ">  
+             and email_record.`biz` like CONCAT('%',#{bizLike},'%')
+        </if>   
+        <if test="addTime != null and addTime != '' ">  
+           and email_record.`add_time` = #{addTime}
+        </if>  
+        <if test="addTimeBegin != null and addTimeBegin != '' ">  
+             and email_record.`add_time` &gt;= #{addTimeBegin}
+        </if>   
+         <if test="addTimeEnd != null and addTimeEnd != '' ">  
+             and email_record.`add_time` &lt;= #{addTimeEnd}
+        </if> 
+        <if test="content != null and content != '' ">  
+           and email_record.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and email_record.`content` like CONCAT('%',#{contentLike},'%')
+        </if>   
+        <if test="title != null and title != '' ">  
+           and email_record.`title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">  
+             and email_record.`title` like CONCAT('%',#{titleLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and email_record.`status` = #{status}
+        </if>  
+        <if test="reason != null and reason != '' ">  
+           and email_record.`reason` = #{reason}
+        </if>  
+        <if test="reasonLike != null and reasonLike != '' ">  
+             and email_record.`reason` like CONCAT('%',#{reasonLike},'%')
+        </if>   
+        <if test="user != null and user != '' ">  
+           and email_record.`user` = #{user}
+        </if>  
+        <if test="ip != null and ip != '' ">  
+           and email_record.`ip` = #{ip}
+        </if>  
+        <if test="ipLike != null and ipLike != '' ">  
+             and email_record.`ip` like CONCAT('%',#{ipLike},'%')
+        </if>   
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from email_record where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="to != null and to != '' ">
+           or `to` = #{to}
+        </if>
+        <if test="platform != null and platform != '' ">
+           or `platform` = #{platform}
+        </if>
+        <if test="biz != null and biz != '' ">
+           or `biz` = #{biz}
+        </if>
+        <if test="addTime != null and addTime != '' ">
+           or `add_time` = #{addTime}
+        </if>
+        <if test="content != null and content != '' ">
+           or `content` = #{content}
+        </if>
+        <if test="title != null and title != '' ">
+           or `title` = #{title}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="reason != null and reason != '' ">
+           or `reason` = #{reason}
+        </if>
+        <if test="user != null and user != '' ">
+           or `user` = #{user}
+        </if>
+        <if test="ip != null and ip != '' ">
+           or `ip` = #{ip}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into email_record (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.to,jdbcType=CHAR}
+,#{record.platform,jdbcType=VARCHAR}
+,#{record.biz,jdbcType=VARCHAR}
+,#{record.addTime,jdbcType=TIMESTAMP}
+,#{record.content,jdbcType=VARCHAR}
+,#{record.title,jdbcType=VARCHAR}
+,#{record.status,jdbcType=TINYINT}
+,#{record.reason,jdbcType=VARCHAR}
+,#{record.user,jdbcType=BIGINT}
+,#{record.ip,jdbcType=VARCHAR}
+)
+        </foreach >
+    </insert>
+</mapper>

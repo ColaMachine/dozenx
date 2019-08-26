@@ -70,7 +70,7 @@ public class RegisterController extends BaseController {
     @RequestMapping(value = "/htm", method = RequestMethod.GET)
     public String registerGet(HttpServletRequest request) {
         request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/registerWithEmail.jsp";
+        return "/WEB-INF/jsp/registerWithEmail.jsp";
     }
 
 
@@ -448,7 +448,7 @@ public class RegisterController extends BaseController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index3(HttpServletRequest request) {
         request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/index.jsp";
+        return "/WEB-INF/jsp/index.jsp";
     }
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
@@ -460,7 +460,7 @@ public class RegisterController extends BaseController {
         // logger.debug("s");
         // LogUtil.debug("nihao");
         // System.out.println(123);
-        return "/jsp/index.jsp";
+        return "/WEB-INF/jsp/index.jsp";
     }
 
     @RequestMapping(value = "/index2", method = RequestMethod.GET)
@@ -476,7 +476,7 @@ public class RegisterController extends BaseController {
     public String moreCssJs(HttpServletRequest request) {
 
         request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/moreCssJs.jsp";
+        return "/WEB-INF/jsp/moreCssJs.jsp";
     }
 
     @RequestMapping(value = "/forgetpwd.htm", method = RequestMethod.GET)
@@ -581,7 +581,7 @@ public class RegisterController extends BaseController {
     @RequestMapping(value = "/logout.htm", method = RequestMethod.GET)
     public String logouthtm(HttpServletRequest request) {
         request.getSession().removeAttribute(Constants.SESSION_USER);
-        return "/jsp/login.jsp";
+        return "/WEB-INF/jsp/login.jsp";
     }
 
     @RequestMapping(value = "/logout.json", method = RequestMethod.GET)

@@ -194,7 +194,7 @@ public class SpiderController extends BaseController {
         }
         return "/static/html/HotelUrlView.html";
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         String crawlStorageFolder = "G:/crawler";// 定义爬虫数据存储位置
         int numberOfCrawlers = 7;// 定义了7个爬虫，也就是7个线程
 
@@ -210,7 +210,12 @@ public class SpiderController extends BaseController {
         // 规定了该网站哪些页面可以爬，哪些页面禁止爬，该类是对robots.txt规范的实现
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         // 实例化爬虫控制器
-        CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+        CrawlController controller = null;
+        try {
+            controller = new CrawlController(config, pageFetcher, robotstxtServer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         /*
          * 对于每次抓取，您需要添加一些种子网址。 这些是抓取的第一个URL，然后抓取工具开始跟随这些页面中的链接

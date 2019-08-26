@@ -1145,9 +1145,9 @@ public class Generator {
         Generator generator = new Generator();
         // generator.generate(new String[]{"SysUser"});
 //        generator.generate(new String[]{"ApiUrl"});
-        generator.generate(new String[]{/*"FaceInfo","FaceCapture",*/"CheckinDaily","CheckinConfig"});
-
-        generator.generate(new String[]{"JudgeRule"});
+       // generator.generate(new String[]{/*"FaceInfo","FaceCapture",*/"CheckinDaily","CheckinConfig"});
+        generator.generate(new String[]{"EmailRecord"});
+       // generator.generate(new String[]{"JudgeRule"});
 
 //        generator.generate(new String[]{"SysOrg","SysOrgUser","SysUser","Album","SysGroup","SysOrgGroup","SysGroupUser"});
 //        generator.generate(new String[]{});

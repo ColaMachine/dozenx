@@ -356,6 +356,7 @@ public final class PathManager {
             vcodePath = webRootPath.resolve(config.getInstance().getImage().getVcodeDir());
             Files.createDirectories(vcodePath);
         } catch (Exception e) {
+            logger.info("非服务器启动");
             e.printStackTrace();
         }
 

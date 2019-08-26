@@ -57,6 +57,9 @@ public class EmailSendServiceImpl extends BaseService implements EmailSendServic
             throw new BizException(30105197,"发送邮件报错");
         }
 
+        //保存操作记录
+
+
     }
 
     @Override
@@ -108,6 +111,6 @@ public class EmailSendServiceImpl extends BaseService implements EmailSendServic
                 Integer.valueOf(ConfigUtil.getConfig("email.port")),
                 ConfigUtil.getConfig("email.username"),
                 ConfigUtil.getConfig("email.pwd"),
-                ConfigUtil.getConfig("email.use"));
+                ConfigUtil.getConfig("email.user"));
     }
 }

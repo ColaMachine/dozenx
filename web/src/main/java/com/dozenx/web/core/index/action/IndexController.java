@@ -28,7 +28,7 @@ public class IndexController extends BaseController {
         // logger.debug("s");
         // LogUtil.debug("nihao");
         // System.out.println(123);
-        return "/jsp/index.jsp";
+        return "/WEB-INF/jsp/index.jsp";
     }
 
     @RequiresAdmin
@@ -41,7 +41,7 @@ public class IndexController extends BaseController {
         // logger.debug("s");
         // LogUtil.debug("nihao");
         // System.out.println(123);
-        return "/jsp/manage.jsp";
+        return "/WEB-INF/jsp/manage.jsp";
     }
 
 
