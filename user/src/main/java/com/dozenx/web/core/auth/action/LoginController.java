@@ -1111,11 +1111,11 @@ public class LoginController extends BaseController {
     }*/
 
 
-    public static void main(String[] args) {
-        ApplicationContext ac = new FileSystemXmlApplicationContext("C:\\Users\\dozen.zhang\\Documents\\calendar\\src\\main\\resources\\config\\xml\\applicationContext.xml");
-        Object object = ac.getBean("validCodeService");
-        System.out.println(object);
-    }
+//    public static void main(String[] args) {
+//        ApplicationContext ac = new FileSystemXmlApplicationContext("C:\\Users\\dozen.zhang\\Documents\\calendar\\src\\main\\resources\\config\\xml\\applicationContext.xml");
+//        Object object = ac.getBean("validCodeService");
+//        System.out.println(object);
+//    }
 
 
     /**
@@ -1135,10 +1135,8 @@ public class LoginController extends BaseController {
     ResultDTO imgCode(HttpServletRequest request, HttpServletResponse response) {
         request.getSession(true);//强制生成session 以防止 getRequestedSessionId返回为null
         logger.info("sessionid:" + request.getSession().getId());
-
-        ;
+        //===设置到网站的根目录下 jsession cookie值 这样访问任何微服务都会带上这个cookie值
         Cookie hit=new Cookie("JSESSIONID",request.getSession().getId());
-
         hit.setHttpOnly(true);//如果设置了"HttpOnly"属性，那么通过程序(JS脚本、Applet等)将无法访问该Cookie
         hit.setMaxAge(60*60);//设置生存期为1小时
 //		hit.setDomain("www.zifansky.cn");//子域，在这个子域下才可以访问该Cookie
