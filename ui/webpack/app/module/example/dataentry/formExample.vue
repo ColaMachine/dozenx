@@ -360,42 +360,49 @@
             <zwBox class="">
               <div slot="zwCodeBoxDemo">
                 <zwForm>
-                  <zwFormItem   >
+                  <zwFormItem  label="登录名" >
 
+<span >阿萨德姐夫克拉;伺机待发</span>
 
-                    <div class="app-li-it">
-
-                         <div class="app-li-it-pic">
-                                <img  src="/home/static/img/smarthome/个人中心1.png" ></img>
-                            </div>
-                            <div class="app-li-it-content clearfix" >
-                                 <span style="color:#333">张智威</span>
-                                 <p style="color:gray;font-size:8px"> 账号:371452875@qq.com</p>
-
-
-
-                            </div>
-                    </div>
                   </zwFormItem>
-                  <zwFormItem >
-                    <zwInput placeholder="password">
+
+                     <zwFormItem label="登录名">
+                      <zwInput name="username" :value="user.account" placeholder="登录名">
+
+                      </zwInput>
+                      </zwFormItem>
+                  <zwFormItem label="密码">
+                    <zwInput name="pwd" :value="user.pwd" placeholder="password">
 
                     </zwInput>
                   </zwFormItem>
+
+                    <zwFormItem label="头像">
+                                <zwPopup ref="popup" >  <zwImgInput @saveImg="saveImg"></zwImgInput></zwPopup>
+                    </zwFormItem>
+
+ <zwFormItem label="头像">
+                    <img :src="user.face"></img>
+                  </zwFormItem>
                   <zwFormItem label="头像">
-                  <div style="width:100px;float:right;margin-right:50px" >
-<input  id="face" name="face"  value="/home/static/img/timg.jpeg" style="display:none" class="form-control input-sm"   maxlength="100"></input></div>
+
+
+<input  id="face" name="face"  value="/home/static/img/timg.jpeg" style="display:none" class="form-control input-sm"   maxlength="100"></input>
                   </zwFormItem>
                   <zwFormItem label="昵称">
-                    <zwInput> </zwInput>
+                    <zwInput  name="nkname" :value="user.nkname" > </zwInput>
                   </zwFormItem>
-                  <zwFormItem label="联系电话">
+                  <zwFormItem  name="telno" :value="user.telno" label="联系电话">
                     <zwInput> </zwInput>
                   </zwFormItem>
                   <zwFormItem label="地址">
-                    <zwInput>
+                    <zwInput  name="address" :value="user.address">
                     </zwInput>
                   </zwFormItem>
+                   <zwFormItem label="邮箱">
+                      <zwInput  name="email" :value="user.email">
+                      </zwInput>
+                    </zwFormItem>
 
                 </zwForm>
               </div>
@@ -437,10 +444,13 @@ import zwTabs from '../../../component/datadisplay/zwTabs.vue';
 import zwTabPanel from '../../../component/datadisplay/zwTabPanel.vue';
 
 
+ import zwImgInput from '../../../component/dataentry/zwImgInput.vue';
+
+import zwPopup from '../../../component/datadisplay/zwPopup.vue';
 
   export default {
     components: {
-      zwButton,zwCollapse,zwTabs,zwTabPanel,
+      zwButton,zwCollapse,zwTabs,zwTabPanel,zwImgInput,zwPopup,
       zwIcon,
       zwBox,
       zwRow,
@@ -457,7 +467,7 @@ import zwTabPanel from '../../../component/datadisplay/zwTabPanel.vue';
 
       return {
         email:"",
-
+        user:getSessionUser(),
          valid:{
                 rules : {
 
@@ -506,51 +516,48 @@ import zwTabPanel from '../../../component/datadisplay/zwTabPanel.vue';
  var imageUtil=new zImageUtil2({"input":"face"});
     },
     computed: {
-getPicCaptchaBtnText(){
-    return  "获取图片验证码";
-}
+        getPicCaptchaBtnText(){
+        return  "获取图片验证码";
+    }
     },
     methods: {
-getPicCaptcha:function(){
-console.log("getPicCaptcha");
-          Ajax.getJSON(PATH+"/code/img/request.json",null,function(result){//登录的时候获取验证码
-                       if(result.r==AJAX_SUCC){
-                        //  that.doms.picCaptchaImg.setAttribute("src","data:image/png;base64,"+result.data.imgdata);
+        getPicCaptcha:function(){
+            console.log("getPicCaptcha");
+            Ajax.getJSON(PATH+"/code/img/request.json",null,function(result){//登录的时候获取验证码
+                   if(result.r==AJAX_SUCC){
+                    //  that.doms.picCaptchaImg.setAttribute("src","data:image/png;base64,"+result.data.imgdata);
 
-                             document.getElementById("vcodeImg").src="data:image/png;base64,"+result.data.imgdata;
-                             //this.$refs.captcha.text="";
-                       }else{
-                           dialog.error(result.msg);
-                       }
-                   }.Apply(this));
-   },
-     getEamilCaptcha:function(){
+                         document.getElementById("vcodeImg").src="data:image/png;base64,"+result.data.imgdata;
+                         //this.$refs.captcha.text="";
+                   }else{
+                       dialog.error(result.msg);
+                   }
+               }.Apply(this));
+        },
+        getEamilCaptcha:function(){
 
-        var email = document.getElementById("email").value;
-        if(!StringUtil.isEmail(email)){
-            dialog.error("请正确填写邮箱");
-            return;
-        }else{
+            var email = document.getElementById("email").value;
+            if(!StringUtil.isEmail(email)){
+                dialog.error("请正确填写邮箱");
+                return;
+            }else{
 
-        }
-               Ajax.getJSON(PATH+"/sys/auth/reg/email/code.json",{email:email},function(result){//登录的时候获取验证码
-                            if(result.r==AJAX_SUCC){
-                             //  that.doms.picCaptchaImg.setAttribute("src","data:image/png;base64,"+result.data.imgdata);
-                            dialog.alert("请检查邮箱接收验证码");
-                            }else{
-                                dialog.error(result.msg);
-                            }
-                        });
+            }
+           Ajax.getJSON(PATH+"/sys/auth/reg/email/code.json",{email:email},function(result){//登录的时候获取验证码
+                if(result.r==AJAX_SUCC){
+                 //  that.doms.picCaptchaImg.setAttribute("src","data:image/png;base64,"+result.data.imgdata);
+                dialog.alert("请检查邮箱接收验证码");
+                }else{
+                    dialog.error(result.msg);
+                }
+            });
 
-     },
-     saveRegister:function(){
+        },
+        saveRegister:function(){
+            if(!this.validator.valid(this.$refs.registerForm.$el)){
 
-
-
-             if(!this.validator.valid(this.$refs.registerForm.$el)){
-                	//if (!this.doms.form.valid()) {
-                		return;
-                	}
+                return;
+            }
 
             var jso={};
            var email = document.getElementById("email").value;
@@ -578,9 +585,18 @@ console.log("getPicCaptcha");
 
                     });
 
-     }
+     },
+
+    saveImg:function(src){console.log("收到saveImg")
+        this.$refs.popup.hideThis();
+        this.user.face = src
     }
+
+
+
   }
+
+  };
 </script>
 <style scoped>
 

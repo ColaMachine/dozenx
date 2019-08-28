@@ -11,11 +11,18 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/home/static',
     proxyTable: {
+       '/api': {
+               target: 'http://127.0.0.1:8094/',
+               changeOrigin: true,
+               pathRewrite: {
+                '^/api': ''
+              }
+            },
       '/home': {
         //alpha
 
        //target: 'http://192.168.120.88:8082/advertsrv',
-       target: 'http://127.0.0.1:8081/home',
+       target: 'http://127.0.0.1:8094/mssrv',
         //target: 'http://192.168.212.90:8096/advertsrv',
 
         changeOrigin: true,

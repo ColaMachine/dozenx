@@ -69,7 +69,7 @@ import shopMain from '../../module/phone/shopMain.vue';//登录注册页面
 
   import zwGlobalSearchExample from '../../module/example/shop/zwGlobalSearchExample.vue';
    import zwGoodArticalExample from '../../module/example/shop/zwGoodArticalExample.vue';
-   import PcGoodView from '../../module/shop/PcGoodView.vue';
+   //import PcGoodPage from '../../module/shop/PcGoodPage.vue';
 
    import zwLoginExample from '../../module/example/dataentry/zwLoginExample.vue';//登录注册页面
 
@@ -145,7 +145,7 @@ const routes = [
 { path: '/goodView', component:goodView },
 { path: '/map', component:map },
 { path: '/shopMain', component:shopMain },
-{ path: '/PcGoodView', component:PcGoodView },
+//{ path: '/PcGoodPage', component:PcGoodPage },
 { path: '/zwLoginExample', component:zwLoginExample },
 
 

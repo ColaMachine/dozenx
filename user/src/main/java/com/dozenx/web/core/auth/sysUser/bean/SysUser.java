@@ -273,6 +273,10 @@ public class SysUser implements Serializable {
         sessionUser.setSex(getSex()==null ? 0:getSex());
         sessionUser.setFace(this.getFace());
         sessionUser.setUserName(this.getUsername());
+
+        sessionUser.setStatus(this.getStatus());
+
+
         return sessionUser;
     }
 

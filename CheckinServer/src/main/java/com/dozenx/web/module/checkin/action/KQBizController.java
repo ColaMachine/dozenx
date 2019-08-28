@@ -91,7 +91,7 @@ public class KQBizController extends BaseController {
     @RequestMapping(value = "/receiveRegResult")
     @ResponseBody
     public ResultDTO receiveRegResult(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-        logger.info("接收到消息推送");
+        logger.info("接收到消息推送:  "+ System.currentTimeMillis());
         logger.info(JsonUtil.toJsonString(bodyParam));
         Long start = System.currentTimeMillis();
         String camera= MapUtils.getString(bodyParam, "cam_id");//cam_id rtsp流的地址 rtsp://admin:admin123@192.168.120.111:554
@@ -195,7 +195,7 @@ public class KQBizController extends BaseController {
                 if (StringUtil.isNotBlank(RedisUtil.get("kq_rece_result_"+ doorPort))) {
 
                 }else{
-                    RedisUtil.incr("kq_rece_result_" + userIdStr, Integer.valueOf(ConfigUtil.getConfig("kq.chekcin.face.interval")));
+                    RedisUtil.incr("kq_rece_result_" + doorPort, Integer.valueOf(ConfigUtil.getConfig("kq.chekcin.face.interval")));
 
                     logger.info("open door开门 cost:" + (System.currentTimeMillis() - start));
 
@@ -228,10 +228,11 @@ public class KQBizController extends BaseController {
             logger.error("",e);
         }
 
-        logger.info("push weixin msg face recog 微信推送" + sysUser.getUsername(), "识别成功");
+        logger.info("push weixin msg face recog 微信推送 " + sysUser.getUsername(), "识别成功");
         VirtualWeixinService.sendMsg(sysUser.getUsername(), "识别成功" + DateUtil.toDateStr(new Date(), "yyyy-MM-dd-HH:mm:ss"));
         //  break;
 
+        logger.info("all cost:" + (System.currentTimeMillis()-start)+"   now timme:"+System.currentTimeMillis() );
 
         return this.getResult();
     }

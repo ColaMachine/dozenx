@@ -553,7 +553,7 @@ public class SysRoleController extends BaseController{
     @RequestMapping(value = "/drop/list",method=RequestMethod.GET,produces="application/json")
     @ResponseBody
     public Object droplistRestful(HttpServletRequest request) {
-        List<SysRole> sysRoles = sysRoleService.listByParams(new HashMap<>());
+        List<SysRole> sysRoles = sysRoleService.listByParams(new HashMap<String,Object>());
         return ResultUtil.getDataResult(sysRoles);
     }
 

@@ -65,9 +65,10 @@ body {
             margin: 0;
             /* padding:0 0 0 5px;*/
             cursor: pointer;
-            line-height: $ft-nm*3;
+            line-height: $ft-nm*2.9;
             display: block;
             width: 100%;
+            z-index:99;
         }
         ul {
             /**ul**/
@@ -303,7 +304,7 @@ ul.zw-menu>li>a> .zw-menu-item-text {
         background-color: $white;
     }
     li {
-        border-left: 1px solid $gray1;
+       /* border-left: 1px solid $gray1;导致了横向菜单出现左边竖杠*/
     }
 }
 .zw-menu-item:hover,
@@ -493,18 +494,20 @@ ul.zw-menu>li>a> .zw-menu-item-text {
 .zw-menu-horizontal {
     /* display:table;
    flex-wrap: wrap;
-   */
     min-height: 50px;
+   */
+
     border-radius: 0;
     background-color: $light-black;
     width: 100% !important;
     text-align: left;
-    padding-top:5px;
+    /*padding-top:0px;*/
     @include height_size($ft-h3);
 
 
-        -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
-        box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
+        -webkit-box-shadow:     0 1px 2px 0 rgba(0, 0, 0, 0.06);
+
+           box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
      li {
         float: left;
@@ -530,20 +533,25 @@ ul.zw-menu>li>a> .zw-menu-item-text {
     }
     .zw-menu-item-text {
         position: relative;
-        min-width: 50px;
+        min-width: 40px;
         padding-right: 0;
     }
     .zw-menu-sub {
         position: absolute;
-        min-width: 155px;
+        /*min-width: 155px;*/
         list-style: none;
-        padding: 0px 0px;
+        left: 0;
+            right: 0;
+                padding: 7px 0;
+        top:40px;/***要求横向的菜单的高度为40px***/
+
         margin: 0px 0px 0px;
-        border-radius: 5px;
+        border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
         border: none;
-        box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
+           box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
         text-align: left;
-        z-index: 1000;
+        z-index: 24;
           /*  background-color:  #2E3E4E;*/
         a > .zw-icon-arrow {
             position: absolute;
@@ -564,9 +572,17 @@ ul.zw-menu>li>a> .zw-menu-item-text {
             /*如果有子菜单需要缩进*/
         }
     }
-    .zw-menu-submenu-active .zw-menu-sub {
-        display: block;
+    .zw-menu-submenu-active{
+
+               /* background-color: #fff;*/
+                -webkit-box-shadow: 0 6px 6px 0 rgba(0,0,0,.12);
+                box-shadow: 0 6px 6px 0 rgba(0,0,0,.12);
+                z-index: 999;
+
+        .zw-menu-sub {
+             display: block;
         /**z只有当水平的菜单 鼠标移动上去会自动打开**/
+         }
     }
 }
 .zw-menu-horizontal:after {
@@ -685,4 +701,351 @@ ul {
 .WB_row_line .pos {
     display: block;
     margin-left: -1px;
+}
+
+
+
+/******************** nav ***************/
+
+#global-nav {
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #fff;
+    color: #333;
+    z-index: 1001;
+    font-family: PingFangSC-Medium,arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+#global-nav.sub-channel {
+    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
+}
+#global-nav.fixed, #global-nav.sub-channel {
+    position: fixed;
+    top: 0;
+    bottom: auto;
+}
+
+
+
+
+
+#global-nav .nav-inner {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+
+#global-nav nav {
+    float: left;
+    margin-right: -3px;
+}
+
+
+
+.nav-list>li:first-child {
+    width: auto;
+    padding-left: 14px;
+    padding-right: 30px;
+}
+.nav-list>li {
+    width: 98px;
+    padding: 0;
+}
+.control-list>li, .login-control-list>li, .nav-list>li {
+    float: left;
+    height: 40px;
+    position: relative;
+    text-align: center;
+}
+
+
+
+
+
+
+.control-list .nav-search #nav-search-form form.show-history, .nav-list li.channel-msg, .nav-list li.channel-new, .nav-list>li>a {
+    position: relative;
+}
+.nav-list>li>a {
+    font-weight: 700;
+    background-color: #fff;
+    width: 100%;
+    z-index: 99;
+}
+.nav-list>li>a {
+    font-size: 16px;
+}
+.control-list>li>a, .login-control-list>li>a, .nav-list>li>a {
+    display: block;
+    height: 40px;
+    color: #333;
+    text-align: center;
+    line-height: 40px;
+    white-space: nowrap;
+}
+.control-list>li>a, .login-control-list>li>a, .nav-list>li>a {
+    display: block;
+    height: 40px;
+    color: #333;
+    text-align: center;
+    line-height: 40px;
+    white-space: nowrap;
+}
+
+
+element.style {
+    display: none;
+    height: 120px;
+    padding-top: 7px;
+    margin-top: 0px;
+    padding-bottom: 7px;
+    margin-bottom: 0px;
+}
+.sub-nav {
+
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    top: 40px;
+    padding: 7px 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 2px 10px 0 rgba(0,0,0,.16);
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,.16);
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+}
+
+/*
+li:hover > .sub-nav {
+
+    display:list-item;
+}
+*/
+
+a {
+    color: #5188a6;
+    text-decoration: none;
+    cursor: pointer;
+}
+.sub-nav li a {
+    display: inline-block;
+    height: 30px;
+    width: 100%;
+    color: #333;
+    line-height: 30px;
+    text-align: center;
+    font-size:14px;
+}
+
+
+
+
+
+.login-control-list>li.user-entry {
+    display: none;
+    width: 104px;
+}
+.control-list>li, .login-control-list>li {
+    width: 138px;
+}
+.control-list>li, .login-control-list>li, .nav-list>li {
+    float: left;
+    height: 40px;
+    position: relative;
+    text-align: center;
+}
+
+
+
+
+
+.control-list>li>a, .login-control-list>li>a, .nav-logins a {
+    font-size: 14px;
+}
+.nav-logins a {
+    line-height: 40px;
+    color: #333;
+}
+.nav-logins, .nav-logins a {
+    display: inline-block;
+    height: 40px;
+}
+
+
+
+.nav-logins .z-split {
+    height: 14px;
+    border-color: #7e7e7e;
+    display: inline-block;
+    width: 0;
+    margin: 0 7px;
+    border-right: 1px solid #333;
+    vertical-align: -2px;
+}
+.z-split {
+    display: inline-block;
+    height: 14px;
+    width: 0;
+    margin: 0 7px;
+    border-right: 1px solid #fff;
+    vertical-align: -2px;
+}
+
+
+
+.nav-controls {
+    float: right;
+    position: relative;
+}
+
+.control-list {
+    float: left!important;
+    padding-left: 0;
+    padding-right: 34px;
+}
+
+
+
+.control-list>li, .login-control-list>li, .nav-list>li {
+    float: left;
+    height: 40px;
+    position: relative;
+    text-align: center;
+}
+
+
+.control-list>li, .login-control-list>li {
+    width: 138px;
+}
+
+.control-list .nav-search {
+    width: 170px;
+    height: 40px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: none;
+}
+
+
+.control-list .nav-search #nav-search-form {
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 28px;
+    margin: 6px 0;
+    float: right;
+}
+
+
+
+.control-list>li.app-entry {
+    border-left: none;
+}
+.control-list>li.app-entry, .login-control-list>li.app-entry {
+    width: 90px;
+}
+.control-list>li, .login-control-list>li {
+    width: 138px;
+}
+.control-list>li, .login-control-list>li, .nav-list>li {
+    float: left;
+    height: 40px;
+    position: relative;
+    text-align: center;
+}
+
+
+
+
+.control-list>li.app-entry>a {
+    width: 90px;
+}
+.control-list>li>a, .login-control-list>li>a, .nav-logins a {
+    font-size: 14px;
+}
+.control-list>li>a {
+    width: auto;
+    min-width: 90px;
+}
+.control-list>li>a, .login-control-list>li>a {
+    background-color: #fff;
+    z-index: 99;
+    position: relative;
+}
+.control-list>li>a, .login-control-list>li>a, .nav-list>li>a {
+    display: block;
+    height: 40px;
+    color: #333;
+    text-align: center;
+    line-height: 40px;
+    white-space: nowrap;
+}
+
+
+
+#chief-notice, #focus-notice {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    top: 40px;
+    width: 180px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    display: none;
+    border: 1px solid #f5f5f5;
+    background-color: #fff;
+}
+
+#chief-notice {
+    border-radius: 2px;
+    padding: 0;
+    z-index: 2;
+}
+
+
+
+.icon-cross-lighter, .icon-loginright, .icon-logintanhao, .icon-small, .z-icons, i[class*=" z-icon-"], i[class^=icon-], i[class^=z-icon-] {
+    font-family: zdm-icons!important;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    letter-spacing: 0;
+    -webkit-font-feature-settings: "liga";
+    -moz-font-feature-settings: "liga=1";
+    -moz-font-feature-settings: "liga";
+    -ms-font-feature-settings: "liga" 1;
+    font-feature-settings: "liga";
+    -webkit-font-variant-ligatures: discretionary-ligatures;
+    font-variant-ligatures: discretionary-ligatures;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+#chief-notice i, #focus-notice i {
+    position: absolute;
+    right: 8px!important;
+    top: 8px!important;
+    font-size: 10px!important;
+    cursor: pointer;
+    color: #999;
+    z-index: 1;
+}
+
+
+.nav-logins {
+    padding: 0 14px;
+    text-align: center;
+    white-space: nowrap;
+}
+.nav-logins, .nav-logins a {
+    display: inline-block;
+    height: 40px;
 }

@@ -288,7 +288,7 @@ public class ValidCodeController extends BaseController{
         String phone =request.getParameter("phone");
 
         //防止短信被滥用接口
-        if(request.getSession().getAttribute("hellosms")==null){
+        if(this.getSessionParam(request,"hellosms")==null){
             logger.error("cheater ip:"+   request.getRemoteAddr()+" xforward "+request.getHeader("x-forwarded-for")+"phone:"+phone);
             return this.getResult(30106601);
         }

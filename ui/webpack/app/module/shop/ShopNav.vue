@@ -3,14 +3,14 @@
           <zwCol class="pull-left " span=24 style="background-color:white" >
 
               <zwGlobalSearch></zwGlobalSearch>
-            <zwMenu mode="horizontal" class="sub-channel" style="padding-left:3%;padding-right:3%"  color="white"  theme="white">
+            <zwMenu mode="horizontal" class="sub-channel" style="margin-top:30px;padding-left:3%;padding-right:3%"  color="white"  theme="white">
 
 
-          <span style="float:left" >
+          <div style="float:left" >
               <zwMenuItem key="mail" >
-                <zwIcon type="home" />首页
+                <a href="/home/index.htm"><zwIcon type="home" />好物</a>
               </zwMenuItem>
-          </span >
+          </div >
 
           <span style="float:right">
               <zwSubMenu  triggerType="move">
@@ -27,7 +27,9 @@
                 </zwMenuItemGroup>
 
               </zwSubMenu>
-
+ <zwMenuItem>
+                <a href="/home/static/html/PhoneCalendarView.html" target="_blank" rel="noopener noreferrer">论坛</a>
+              </zwMenuItem>
               <zwMenuItem>
                 <a href="/home/static/html/PhoneCalendarView.html" target="_blank" rel="noopener noreferrer">日历</a>
               </zwMenuItem>
@@ -41,50 +43,25 @@
 
               <zwMenuItem>
 
-                <zwMenuItem v-show="!isLogin">
-                  <a href="javascript:void(0)" @click="goLogin">登录</a>
-                </zwMenuItem>
 
-                <!--  <zwDropDown v-show="!isLogin">
-                  <zwButton slot="button" sizeNum="">
 
-                  <a href="javascript:void(0)"  @click="goLogin" >登录</a>
 
-                  </zwButton>
-                  <div class="zw-menu bg-white" slot="menu">
 
-                    <iframe style="width:250px;height:400px" :src="PATH+'/static/html/login_iframe.html'" />
-                   <zwForm >
-                              <zwFormItem >
-                                  <zwInput  clear=true  label="用户名" placeholder="请输入用户名">
-                                  </zwInput>
-                              </zwFormItem>
-                               <zwFormItem >
-                                  <zwInput icon="password"  clear=true type="password" placeholder="请输入密码"></zwInput>
-                               </zwFormItem>
-
-                                 <zwFormItem >
-                                      <zwInput icon="code"   placeholder="请输入验证密码">
-                                          <span  slot="append"> <img style="width:100%" src="" ></img></span>
-                                      </zwInput>
-                                </zwFormItem>
-
-                              <zwFormItem><zwButton style="width:100%" type="primary" :loading_delay=5 sizeNum="large">登录</zwButton></zwFormItem>
-                          </zwForm>
-                      -->
-
-          </div>
           </zwDropDown>
 
           </zwMenuItem>
-          <zwSubMenu triggerType="move" style="width:20%" v-show="isLogin">
-            <template slot="title"> {{user.userName}}</template>
+
+           <zwMenuItem v-show="!isLogin">
+                <a  @click="goLogin" target="_blank" rel="noopener noreferrer">登录 | 注册</a>
+        </zwMenuItem>
+          <zwSubMenu  triggerType="move" style="width:20%" v-show="isLogin">
+            <template slot="title"> {{ loginUser.nkname || loginUser.username}}</template>
             <zwMenuItem key="setting:personinfo">
               <zwIcon type="user" />修改个人信息</zwMenuItem>
             <zwMenuItem key="setting:1">
 
               <zwIcon type="sign-out" />
-              <a href="#" click="goLoginOut()">退出登录 </a>
+              <a href="#" @click="goLoginOut">退出登录 </a>
             </zwMenuItem>
             <zwMenuItemGroup title="购物">
               <zwMenuItem key="setting:mycollect">我的收藏</zwMenuItem>
@@ -143,6 +120,7 @@ zwGlobalSearch,
        user: {},
         isLogin: false,
         userName:null,
+        loginUser:{}
        }
 
 
@@ -152,11 +130,11 @@ zwGlobalSearch,
     },
     mounted() {
 
-  var storeUser = localStorage.getItem('user');
-        if(storeUser){
-        this.loginUser=eval("("+storeUser+")");
-        this.loginUser.face=PATH+"/"+this.loginUser.face;
-            this.isLogin=true;
+  var storeUser = getSessionUser();
+
+        if(storeUser && storeUser.id){
+         this.isLogin=true;
+        this.loginUser= storeUser;
         }
 
     },
@@ -167,6 +145,7 @@ zwGlobalSearch,
 
 goLoginOut: function() {
         window.location = PATH + "/sys/auth/logout.htm";
+        removeSessionUser("user");
       },
       goLogin: function() {
         window.location = PATH + "/sys/auth/login.htm";

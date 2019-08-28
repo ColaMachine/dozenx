@@ -2,24 +2,39 @@
 
   <zwLayout :style="getWinWidth">
 
+
+
     <zwHeader>
+
+
 
       <ShopNav></ShopNav>
     </zwHeader>
     <zwLayout class="zw-layout-has-sider ">
 
       <zwContent :style="getWinWidth">
-<!--
+
       <div id="router">
               <router-view></router-view>
-            </div>-->
+            </div>
         <div >
           <zwRow style="">
 
-            <zwCol style="min-width:300px" class="zw-col-sm-24 pull-left" span=15>
+
+
+            <zwCol style="min-width:300px" class="zw-col-sm-24 pull-left" span=17>
+
+             <zwPanel :canFold=false state="open" style="">
+                <span slot="title" name="title">好文</span>
+                <p slot="body" name="body">
+                  <zwPcImgBlocks :list="articalList"></zwPcImgBlocks>
+
+                </p>
+
+              </zwPanel>
 
               <zwPanel :canFold=false state="open" style="">
-                <span slot="title" name="title">发布消息</span>
+                <span slot="title" name="title">好物分享</span>
                 <p slot="body" name="body">
                   <zwPcImgList2 :list="imgList"></zwPcImgList2>
 
@@ -31,9 +46,9 @@
 
             <zwCol style="min-width:300px" class="zw-col-sm-10 pull-left" span=6>
               <zwPanel :canFold=false state="open" style="">
-                <span slot="title" name="title">最新消息</span>
+                <span slot="title" name="title">最新文章</span>
                 <p slot="body" name="body">
-                  <zwSimpleTable :list="list" :param="tableParam"> </zwSimpleTable>
+                  <zwSimpleTable :list="articalList" :param="tableParam"> </zwSimpleTable>
 
                 </p>
 
@@ -49,8 +64,10 @@
 
               </zwPanel>
 
+
+
               <zwPanel :canFold=false state="open" style="">
-                <span slot="title" name="title">最新消息</span>
+                <span slot="title" name="title">留言板块</span>
                 <p slot="body" name="body">
 
                   <blogInput @submitCallBack="refreshBlogView"></blogInput>
@@ -58,7 +75,7 @@
 
               </zwPanel>
               <zwPanel :canFold=false state="open" style="">
-                <span slot="title" name="title">最新消息</span>
+                <span slot="title" name="title">最新留言</span>
                 <p slot="body" name="body">
 
                   <blogViewList ref="blogViewList"></blogViewList>
@@ -120,6 +137,7 @@
   import blogViewList from '../../component/datadisplay/blogViewList2.vue';
 
 
+import zwPcImgBlocks from '../../component/datadisplay/zwPcImgBlocks.vue';
   import zwPcImgList2 from '../../component/datadisplay/zwPcImgList2.vue';
  import ShopNav from '../../module/shop/ShopNav.vue';
   export default {
@@ -136,7 +154,7 @@
       zwCollapse,
       zwPanel,
       apiPath,
-      zwButton,
+      zwButton,zwPcImgBlocks,
     /*  zwMenu,
       zwMenuItem,
       zwMenuItemGroup,
@@ -189,6 +207,7 @@
           subTitle: "2",
           pic: "/static/img/smarthome/烟感1.png"
         }, ],
+        articalList:[],
 
         imglist: [{
             titile: "1",
@@ -214,15 +233,15 @@
 
         ],
         tableParam: [{
-          name: 'titile',
+          name: 'title',
           width: 10,
+          render:function(row){
+            return  "<a href='/home/artical/view.json?id="+row.id+"'>"+row.title+"</a>"
+          }
         }, {
           name: 'subTitle',
           width: 10,
-        }, {
-          name: 'pic',
-          width: 80,
-        }, ],
+        } ],
       }
     },
     methods: {
@@ -297,13 +316,32 @@
         }
 
       ];
-      Ajax.getJSON(PATH + "/user/info.json", null, function(result) {
+     /* Ajax.getJSON(PATH + "/user/info.json", null, function(result) {
         if(result.r == AJAX_SUCC && result.data) {
           this.isLogin = true;
           this.user = result.data;
+
+
+        }
+      }.Apply(this));*/
+ Ajax.getJSON(PATH + "/artical/list.json", {pageSize:10,curPage:1}, function(result) {
+        if(result.r == AJAX_SUCC && result.data) {
+
+
+               for(var key in result.data){
+
+
+
+                                  result.data[key].url=PATH+"/static/html/vue/PcArticalPage.html?id="+result.data[key].id;
+                                 result.data[key].content=filterHTMLTag(result.data[key].content);
+                                result.data[key].nick=result.data[key].creatorname;
+                                 // result.data[key].pic=result.data[key].img;
+                              }
+                               this.articalList = result.data;
+
+
         }
       }.Apply(this));
-
 
        Ajax.getJSON(PATH + "/goods/list.json?curPage=1&pageSize=10", null, function(result) {
               if(result.r == AJAX_SUCC && result.data) {
@@ -312,7 +350,7 @@
 result.data[key].title=result.data[key].name;
 result.data[key].subTitle= result.data[key].subName;
 result.data[key].content=result.data[key].detail;
-                    result.data[key].url=PATH+"/static/html/vue/PcGoodView.html?id="+result.data[key].id;
+                    result.data[key].url=PATH+"/static/html/vue/PcGoodPage.html?id="+result.data[key].id;
 
                     result.data[key].pic=result.data[key].img;
                 }

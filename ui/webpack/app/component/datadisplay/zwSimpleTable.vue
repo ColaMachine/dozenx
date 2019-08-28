@@ -6,7 +6,9 @@
 
      </span>
      <a  v-if="!render"  :href="item.link"   v-for="colItem in param" :style=getWidth(colItem.width)>
-        <span >
+
+         <span v-if="colItem.render" v-html="colItem.render(item)"  > </span>
+              <span v-else>
             {{item[colItem.name]}}
         </span>
         <i v-if="item.count" class="zw-app-list-red-circle"/>

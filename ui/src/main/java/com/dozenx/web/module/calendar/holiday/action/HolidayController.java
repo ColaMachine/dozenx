@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +54,7 @@ import com.dozenx.core.Path.PathManager;
 import com.dozenx.core.exception.BizException;
 import java.nio.file.Files;
 import com.dozenx.core.config.SysConfig;
+import org.springframework.web.servlet.ModelAndView;
 
 @APIs(description = "节假日")
 @Controller
@@ -942,8 +944,9 @@ public class HolidayController extends BaseController{
          * @date 2015年11月15日下午12:30:45
          */
         @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
-        public String listHtml() {
-            return "/jsp/index.jsp";
+        public ModelAndView listHtml(Model model) {
+            model.addAttribute("userName","zhangzw");
+            return new ModelAndView("index","user",model);
         }
 
         @RequestMapping(value = "/listMapper.htm", method = RequestMethod.GET)

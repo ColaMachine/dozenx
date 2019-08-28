@@ -120,7 +120,8 @@ public class SimpleMailSender {
      * @param mailInfo 待发送的邮件信息
      */
     public static boolean sendHtmlMail(MailSenderInfo mailInfo) throws MessagingException, UnsupportedEncodingException {
-        System.setProperty("mail.mime.splitlongparameters","false");
+        System.setProperty("mail.mime.splitlongparameters","false");//大致意思就是，编码后的文件名长度如果大于60并且splitLongParameters的值为true，encodeParameters的值为true，文件名就会被截取，想想编码后的值被截取是什么样子？也只能是文章开头截图的显示了。
+
         // 判断是否需要身份认证
         MyAuthenticator authenticator = null;
         Properties pro = mailInfo.getProperties();
@@ -129,10 +130,19 @@ public class SimpleMailSender {
         //如果需要身份认证，则创建一个密码验证器
         //===================================
         if (mailInfo.isValidate()) {
-            authenticator = new MyAuthenticator(mailInfo.getUserName(), mailInfo.getPassword());
+
+
+            authenticator = new MyAuthenticator(mailInfo.getFromAddress(), mailInfo.getPassword());
         }
         // 根据邮件会话属性和密码验证器构造一个发送邮件的session
         Session sendMailSession = Session.getDefaultInstance(pro, authenticator);
+
+//         sendMailSession = Session.getDefaultInstance(pro, new Authenticator() {
+//            public PasswordAuthentication getPasswordAuthentication() { // qq邮箱服务器账户、第三方登录授权码
+//                return new PasswordAuthentication(mailInfo.getUserName(), mailInfo.getPassword()); // 发件人邮件用户名、密码
+//            }
+//        });
+
         //另外一种写法如下 只不过我继承了MyAuthenticator 这个类而已 其实是一样的
 //      Session session = Session.getDefaultInstance(properties, new Authenticator() {
 //        public PasswordAuthentication getPasswordAuthentication() { // qq邮箱服务器账户、第三方登录授权码

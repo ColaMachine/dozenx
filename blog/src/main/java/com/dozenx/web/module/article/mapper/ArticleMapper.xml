@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.article.dao.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.article.bean.Article">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="creator" jdbcType="BIGINT" property="creator" />
+      <result column="pic" jdbcType="VARCHAR" property="pic" />
+      <result column="creatorname" jdbcType="VARCHAR" property="creatorname" />
+      <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+      <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+      <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    article.`id` ,article.`title` ,article.`content` ,article.`type` ,article.`status` ,article.`remark` ,article.`creator`
+      ,article.`pic` ,article.`creatorname` ,article.`createtime` ,article.`updatetime`,article.`comment_count`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article
+    where article.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from article
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.article.bean.Article" >
+
+    insert into article (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{title,jdbcType=VARCHAR}
+,#{content,jdbcType=VARCHAR}
+,#{type,jdbcType=INTEGER}
+,#{status,jdbcType=INTEGER}
+,#{remark,jdbcType=VARCHAR}
+,#{creator,jdbcType=BIGINT}
+,#{pic,jdbcType=VARCHAR}
+,#{creatorname,jdbcType=VARCHAR}
+,#{createtime,jdbcType=TIMESTAMP}
+,#{updatetime,jdbcType=TIMESTAMP}
+ ,#{commentCount,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.article.bean.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="title != null" >  
+           `title`, 
+        </if>  
+        <if test="content != null" >  
+           `content`, 
+        </if>  
+        <if test="type != null" >  
+           `type`, 
+        </if>  
+        <if test="status != null" >  
+           `status`, 
+        </if>  
+        <if test="remark != null" >  
+           `remark`, 
+        </if>  
+        <if test="creator != null" >  
+           `creator`, 
+        </if>  
+        <if test="pic != null" >  
+           `pic`, 
+        </if>  
+        <if test="creatorname != null" >  
+           `creatorname`, 
+        </if>  
+        <if test="createtime != null" >  
+           `createtime`, 
+        </if>  
+        <if test="updatetime != null" >  
+           `updatetime`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="title != null" >  
+          #{title,jdbcType=VARCHAR},
+        </if>  
+        <if test="content != null" >  
+          #{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="creator != null" >  
+          #{creator,jdbcType=BIGINT},
+        </if>  
+        <if test="pic != null" >  
+          #{pic,jdbcType=VARCHAR},
+        </if>  
+        <if test="creatorname != null" >  
+          #{creatorname,jdbcType=VARCHAR},
+        </if>  
+        <if test="createtime != null" >  
+          #{createtime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updatetime != null" >  
+          #{updatetime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.article.bean.Article" >
+    update article
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="title != null" >  
+             `title`=#{title,jdbcType=VARCHAR},
+        </if>  
+        <if test="content != null" >  
+             `content`=#{content,jdbcType=VARCHAR},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="creator != null" >  
+             `creator`=#{creator,jdbcType=BIGINT},
+        </if>  
+        <if test="pic != null" >  
+             `pic`=#{pic,jdbcType=VARCHAR},
+        </if>  
+        <if test="creatorname != null" >  
+             `creatorname`=#{creatorname,jdbcType=VARCHAR},
+        </if>  
+        <if test="createtime != null" >  
+             `createtime`=#{createtime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updatetime != null" >  
+             `updatetime`=#{updatetime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.article.bean.Article" >
+    update article
+    set 
+              `title`=#{title,jdbcType=VARCHAR},  
+              `content`=#{content,jdbcType=VARCHAR},  
+              `type`=#{type,jdbcType=INTEGER},  
+              `status`=#{status,jdbcType=INTEGER},  
+              `remark`=#{remark,jdbcType=VARCHAR},  
+              `creator`=#{creator,jdbcType=BIGINT},  
+              `pic`=#{pic,jdbcType=VARCHAR},  
+              `creatorname`=#{creatorname,jdbcType=VARCHAR},  
+              `createtime`=#{createtime,jdbcType=TIMESTAMP},  
+              `updatetime`=#{updatetime,jdbcType=TIMESTAMP}  
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="title != null and title != '' ">  
+           and `title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">  
+             and `title` like "%"#{titleLike}"%"
+        </if>   
+        <if test="content != null and content != '' ">  
+           and `content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and `content` like "%"#{contentLike}"%"
+        </if>   
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and `remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and `creator` = #{creator}
+        </if>  
+        <if test="pic != null and pic != '' ">  
+           and `pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">  
+             and `pic` like "%"#{picLike}"%"
+        </if>   
+        <if test="creatorname != null and creatorname != '' ">  
+           and `creatorname` = #{creatorname}
+        </if>  
+        <if test="creatornameLike != null and creatornameLike != '' ">  
+             and `creatorname` like "%"#{creatornameLike}"%"
+        </if>   
+        <if test="createtime != null and createtime != '' ">  
+           and `createtime` = #{createtime}
+        </if>  
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and `createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and `createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and `createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and `createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and `updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and `updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and `updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and article.`id` = #{id}
+        </if>  
+        <if test="title != null and title != '' ">  
+           and article.`title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">  
+             and article.`title` like "%"#{titleLike}"%"
+        </if>   
+        <if test="content != null and content != '' ">  
+           and article.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and article.`content` like "%"#{contentLike}"%"
+        </if>   
+        <if test="type != null and type != '' ">  
+           and article.`type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and article.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and article.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and article.`remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and article.`creator` = #{creator}
+        </if>  
+        <if test="pic != null and pic != '' ">  
+           and article.`pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">  
+             and article.`pic` like "%"#{picLike}"%"
+        </if>   
+        <if test="creatorname != null and creatorname != '' ">  
+           and article.`creatorname` = #{creatorname}
+        </if>  
+        <if test="creatornameLike != null and creatornameLike != '' ">  
+             and article.`creatorname` like "%"#{creatornameLike}"%"
+        </if>   
+        <if test="createtime != null and createtime != '' ">  
+           and article.`createtime` = #{createtime}
+        </if>  
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and article.`createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and article.`createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and article.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and article.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and article.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+
+
+    <select id="listWithUserInfoByParams4Page" parameterType="map" resultType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List" />,sys_user.username,sys_user.nkname,sys_user.face
+        from article  left join sys_user on article.creator = sys_user.id
+
+        where 1=1
+        <if test="id != null and id != '' ">
+            and article.`id` = #{id}
+        </if>
+        <if test="title != null and title != '' ">
+            and article.`title` = #{title}
+        </if>
+        <if test="titleLike != null and titleLike != '' ">
+            and article.`title` like "%"#{titleLike}"%"
+        </if>
+        <if test="content != null and content != '' ">
+            and article.`content` = #{content}
+        </if>
+        <if test="contentLike != null and contentLike != '' ">
+            and article.`content` like "%"#{contentLike}"%"
+        </if>
+        <if test="type != null and type != '' ">
+            and article.`type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+            and article.`status` = #{status}
+        </if>
+        <if test="remark != null and remark != '' ">
+            and article.`remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and article.`remark` like "%"#{remarkLike}"%"
+        </if>
+        <if test="creator != null and creator != '' ">
+            and article.`creator` = #{creator}
+        </if>
+        <if test="pic != null and pic != '' ">
+            and article.`pic` = #{pic}
+        </if>
+        <if test="picLike != null and picLike != '' ">
+            and article.`pic` like "%"#{picLike}"%"
+        </if>
+        <if test="creatorname != null and creatorname != '' ">
+            and article.`creatorname` = #{creatorname}
+        </if>
+        <if test="creatornameLike != null and creatornameLike != '' ">
+            and article.`creatorname` like "%"#{creatornameLike}"%"
+        </if>
+        <if test="createtime != null and createtime != '' ">
+            and article.`createtime` = #{createtime}
+        </if>
+        <if test="createtimeBegin != null and createtimeBegin != '' ">
+            and article.`createtime` &gt;= #{createtimeBegin}
+        </if>
+        <if test="createtimeEnd != null and createtimeEnd != '' ">
+            and article.`createtime` &lt;= #{createtimeEnd}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+            and article.`updatetime` = #{updatetime}
+        </if>
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+            and article.`updatetime` &gt;= #{updatetimeBegin}
+        </if>
+        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+            and article.`updatetime` &lt;= #{updatetimeEnd}
+        </if>
+        order by article.id desc
+    </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from article where 1=1
+        <if test="id != null and id != '' ">  
+           and article.`id` = #{id}
+        </if>  
+        <if test="title != null and title != '' ">  
+           and article.`title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">  
+             and article.`title` like "%"#{titleLike}"%"
+        </if>   
+        <if test="content != null and content != '' ">  
+           and article.`content` = #{content}
+        </if>  
+        <if test="contentLike != null and contentLike != '' ">  
+             and article.`content` like "%"#{contentLike}"%"
+        </if>   
+        <if test="type != null and type != '' ">  
+           and article.`type` = #{type}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and article.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and article.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and article.`remark` like "%"#{remarkLike}"%"
+        </if>   
+        <if test="creator != null and creator != '' ">  
+           and article.`creator` = #{creator}
+        </if>  
+        <if test="pic != null and pic != '' ">  
+           and article.`pic` = #{pic}
+        </if>  
+        <if test="picLike != null and picLike != '' ">  
+             and article.`pic` like "%"#{picLike}"%"
+        </if>   
+        <if test="creatorname != null and creatorname != '' ">  
+           and article.`creatorname` = #{creatorname}
+        </if>  
+        <if test="creatornameLike != null and creatornameLike != '' ">  
+             and article.`creatorname` like "%"#{creatornameLike}"%"
+        </if>   
+        <if test="createtime != null and createtime != '' ">  
+           and article.`createtime` = #{createtime}
+        </if>  
+        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+             and article.`createtime` &gt;= #{createtimeBegin}
+        </if>   
+         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+             and article.`createtime` &lt;= #{createtimeEnd}
+        </if> 
+        <if test="updatetime != null and updatetime != '' ">  
+           and article.`updatetime` = #{updatetime}
+        </if>  
+        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+             and article.`updatetime` &gt;= #{updatetimeBegin}
+        </if>   
+         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+             and article.`updatetime` &lt;= #{updatetimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from article where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="title != null and title != '' ">
+           or `title` = #{title}
+        </if>
+        <if test="content != null and content != '' ">
+           or `content` = #{content}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+        <if test="creator != null and creator != '' ">
+           or `creator` = #{creator}
+        </if>
+        <if test="pic != null and pic != '' ">
+           or `pic` = #{pic}
+        </if>
+        <if test="creatorname != null and creatorname != '' ">
+           or `creatorname` = #{creatorname}
+        </if>
+        <if test="createtime != null and createtime != '' ">
+           or `createtime` = #{createtime}
+        </if>
+        <if test="updatetime != null and updatetime != '' ">
+           or `updatetime` = #{updatetime}
+        </if>
+  </select>
+
+
+    <update id="updateCommentCountById" parameterType="java.lang.Long" >
+        update article set comment_count=(select count(1) from pub_comment where pid = #{id,jdbcType=BIGINT})
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

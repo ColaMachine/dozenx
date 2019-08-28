@@ -158,7 +158,7 @@ $('#content-row').append(html);
                 formatter : function(value, grid, rows) {
                   return new Date(value).format("yyyy-MM-dd");
                 }
-            } 
+            }
               ,
             {   name : 'operation',
                 width : 150,
@@ -185,7 +185,7 @@ $('#content-row').append(html);
         dialog.window('/artical/edit.htm',this.modal);
     },
     editInfo:function (id){
-        dialog.window("/artical/edit.htm?id="+id,this.modal);
+        dialog.window("/artical/edit.htm?id="+id,false);
     },
     auditInfo:function(id){
     dialog.window("/artical/audit.htm?id="+id,this.modal);

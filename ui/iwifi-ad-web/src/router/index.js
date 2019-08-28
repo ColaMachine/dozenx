@@ -11,6 +11,9 @@ import AdMaterial from '../components/advertisement/material/PageBody.vue';
 import AdAuditing from '../components/advertisement/auditing/PageBody.vue';
 import PlatformList from '../components/platform/list/PageBody.vue';
 import DailyReport from '../components/report/daily/PageBody.vue';
+
+
+//系统管理
 import SystemRole from '../components/system/role/PageBody.vue';
 import SystemAccount from '../components/system/account/PageBody.vue';
 import SystemLogger from '../components/system/logger/PageBody.vue';
@@ -18,6 +21,23 @@ import FaceCheckinOut from '../components/kq/FaceCheckinOut/PageBody.vue';
 import CheckinOut from '../components/kq/CheckinOut/PageBody.vue';
 import CheckinLate from '../components/kq/CheckinLate/PageBody.vue';
 //import Parent from '../components/Parent.vue';
+
+
+// 人脸卡口
+import Face from '../components/face/face';
+import FaceList from '../components/face/faceList';
+// 机构管理
+import Organization from '../components/organization/organization';
+import LinkVideo from '../components/organization/linkVideo';
+import LinkPhoto from '../components/organization/linkPhoto';
+// 底库管理
+import Library from '../components/library/library'
+import LibraryPhoto from '../components/library/libraryList'
+// 视频源管理
+import Video from '../components/video/video'
+// 数据统计
+import Capture from '../components/statistics/capture'
+import Alarm from '../components/statistics/alarm'
 
 Vue.use(Router);
 
@@ -28,6 +48,19 @@ export default new Router({
       name: 'home',
       component: Home,
       children: [
+
+
+
+       {path: '/face',component: Face},
+              {path: '/face/list',component: FaceList},
+              {path: '/organization',component: Organization},
+              {path: '/organization/linkVideo',component: LinkVideo},
+              {path: '/organization/linkPhoto',component: LinkPhoto},
+              {path: '/library',component: Library},
+              {path: '/library/photo',component: LibraryPhoto},
+              {path: '/video',component: Video},
+              {path: '/statistics/capture',component: Capture},
+              {path: '/statistics/alarm',component: Alarm},
         //左侧菜单路由请在这里配置
         // {
         //   path: 'forgetPassword',

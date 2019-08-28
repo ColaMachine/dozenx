@@ -1,6 +1,6 @@
 
 <template>
-  <ul :class="getClasses"><slot></slot></ul>
+  <div :class="getClasses"><div class="nav-inner clearfix"><slot></slot></div></div>
 </template>
 <script type="text/javascript">
 export default {

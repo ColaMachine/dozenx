@@ -7,6 +7,7 @@ import com.dozenx.util.RandomValidateCode;
 import com.dozenx.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.service.AuthService;
+import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 import com.dozenx.web.core.auth.sysMenu.service.SysMenuService;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
@@ -26,7 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -67,9 +70,8 @@ public class RegisterController extends BaseController {
      * @date 2015年5月14日上午11:33:55
      */
     @RequestMapping(value = "/htm", method = RequestMethod.GET)
-    public String registerGet(HttpServletRequest request) {
-        request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/registerWithEmail.jsp";
+    public ModelAndView registerGet(HttpServletRequest request, Model model) {
+        return new ModelAndView( "registerWithEmail","path", SysConfig.PATH);
     }
 
 
@@ -312,14 +314,14 @@ public class RegisterController extends BaseController {
     @ResponseBody
     ResultDTO requestValidPhoneCode(HttpServletRequest request) {
         String ip = RequestUtil.getIp(request);
-        SysUser user = (SysUser) request.getSession().getAttribute("user");
+        SessionUser user = this.getUser(request);
         if (user == null) {
             return ResultUtil.getResult(30106112, "未登陆");
         }
-        if (StringUtil.isBlank(user.getTelno())) {
+        if (StringUtil.isBlank(user.getPhone())) {
             return ResultUtil.getResult(30106111, "手机号未填写");
         }
-        String phone = user.getTelno();
+        String phone = user.getPhone();
 
 
         //status 位置标识 0000 新注册  冻结 邮箱验证  手机验证
@@ -399,256 +401,6 @@ public class RegisterController extends BaseController {
             session.setAttribute("user", user);
         }
         return result;
-    }
-
-    /**
-     * 说明:等待激活页面
-     *
-     * @param request
-     * @return
-     * @author dozen.zhang
-     * @date 2015年5月14日上午11:34:35
-     */
-//    @RequestMapping(value = "/waitActive.htm", method = RequestMethod.GET)
-//    public String waitActive(HttpServletRequest request) {
-//        return "/active/waitActive.html";
-//    }
-
-    /**
-     * 说明:激活邮件回跳页面
-     *
-     * @param request
-     * @return
-     * @author dozen.zhang
-     * @date 2015年5月14日上午11:35:09
-     */
-//    @RequestMapping(value = "/active.htm", method = RequestMethod.GET)
-//    public String active(HttpServletRequest request) {
-//        String activeid = request.getParameter("activeid");
-//        ResultDTO result;
-//        if (StringUtil.isNotBlank(activeid)) {
-//            result = this.userService.updateUserActive(activeid);
-//        } else {
-//            request.setAttribute("msg", "激活url无效");
-//            return "/error.jsp";
-//        }
-//        if (result.isRight()) {
-//            // 把用户信息传入到session 中并让他登录到首页
-//            SysUser user = (SysUser) result.getData();
-//            request.getSession().setAttribute("user", user);
-//        } else {
-//            // 提示激活url无效
-//            request.setAttribute("msg", result.getMsg());
-//            return "/error.jsp";
-//        }
-//        return "/active/active.jsp";
-//    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index3(HttpServletRequest request) {
-        request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/index.jsp";
-    }
-
-    @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
-    public String index(HttpServletRequest request) {
-        // System.out.println(request.getParameter("path"));
-        // System.out.println(request.getSession().getAttribute("path"));
-        // System.out.println(request.getServletContext().getAttribute("path"));
-        request.setAttribute("path", SysConfig.PATH);
-        // logger.debug("s");
-        // LogUtil.debug("nihao");
-        // System.out.println(123);
-        return "/jsp/index.jsp";
-    }
-
-    @RequestMapping(value = "/index2", method = RequestMethod.GET)
-    public String index2(HttpServletRequest request) {
-        // System.out.println(request.getParameter("path"));
-        // System.out.println(request.getSession().getAttribute("path"));
-        // System.out.println(request.getServletContext().getAttribute("path"));
-        request.setAttribute("path", SysConfig.PATH);
-        return "/index.jsp";
-    }
-
-    @RequestMapping(value = "/moreCssJs.htm", method = RequestMethod.GET)
-    public String moreCssJs(HttpServletRequest request) {
-
-        request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/moreCssJs.jsp";
-    }
-
-    @RequestMapping(value = "/forgetpwd.htm", method = RequestMethod.GET)
-    public String forgetPwd(HttpServletRequest request) {
-        RandomValidateCode r = new RandomValidateCode();
-        String[] returnStr = new String[2];
-        try {
-            returnStr = r.getImgRandcode();
-        } catch (Exception e) {
-        }
-        String imgName = returnStr[0];
-        String code = returnStr[1];
-        request.setAttribute("imgname", imgName);
-        request.getSession().setAttribute("validatecode", code);
-        // TODO 需增加回收机制 回收已经生成过的图片
-        return "/static/html/zforgetpwd.html";
-    }
-
-    @RequestMapping(value = "/validatecode", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResultDTO validateCode(HttpServletRequest request) {
-        RandomValidateCode r = new RandomValidateCode();
-        String[] returnStr = new String[2];
-        try {
-            returnStr = r.getImgRandcode();
-        } catch (Exception e) {
-        }
-        String imgName = returnStr[0];
-        String code = returnStr[1];
-        ResultDTO result = new ResultDTO();
-        request.getSession().setAttribute("validatecode", code);
-        result.setR(1);
-        result.setData(imgName);
-
-        return result;
-    }
-
-    @RequestMapping(value = "/forgetpwd/save.json", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResultDTO sendPwdRstEmail(HttpServletRequest request) {
-        // 生成图片
-        // 得到验证码
-//        String validatecode = (String) request.getSession().getAttribute("validatecode");
-        // 验证验证码
-//        String code = request.getParameter("code");
-        /*if (!validatecode.equals(code)) {
-            return this.getWrongResultFromCfg("validatecode.wrong");
-        }*/
-
-        if (StringUtil.isEmail(request.getParameter("phone"))) {
-            String email = request.getParameter("phone");
-            return userService.saveSendPwdrstEmail(email);
-        } else {
-            return this.getResult(301, "参数错误");
-        }
-
-        // 发送邮件
-        // return "/login/pwdreset.jsp";
-    }
-
-    /**
-     * 说明:从密码重置链接中跳转到系统的密码重置页面
-     *
-     * @param id
-     * @param request
-     * @return
-     * @author dozen.zhang
-     * @date 2015年5月20日下午4:24:22
-     */
-    @RequestMapping(value = "/pwdrst/edit.htm", method = RequestMethod.POST)
-    public String editPwdrst(@PathVariable String id, HttpServletRequest request) {
-        request.setAttribute("id", id);
-        return "/login/pwdreset.jsp";
-    }
-
-    @RequestMapping(value = "/pwdrst/save.json", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResultDTO savePwdrst(HttpServletRequest request) {
-        String account = request.getParameter("account");
-        if (StringUtil.isBlank(account)) {
-            return ResultUtil.getResult(30106109, "账号不能为空");
-        }
-        if (StringUtil.isEmail(account)) {
-
-        } else if (StringUtil.isPhone(account)) {
-
-        } else {
-            return ResultUtil.getFailResult("ACCOUNT_FORMAT_ERR");
-        }
-        String pwd = request.getParameter("pwd");
-        String code = request.getParameter("code");
-
-
-        ResultDTO result = userService.savePwdrst(account, pwd, code);
-        // 发送邮件
-        return result;
-    }
-
-    @RequestMapping(value = "/logout.htm", method = RequestMethod.GET)
-    public String logouthtm(HttpServletRequest request) {
-        request.getSession().removeAttribute(Constants.SESSION_USER);
-        return "/jsp/login.jsp";
-    }
-
-    @RequestMapping(value = "/logout.json", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResultDTO logoutJson(HttpServletRequest request) {
-        request.getSession().removeAttribute(Constants.SESSION_USER);
-        return this.getResult();
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResultDTO logout(HttpServletRequest request) {
-        request.getSession().removeAttribute(Constants.SESSION_USER);
-        return this.getResult();
-    }
-
-    @RequestMapping(value = "/user/edit.htm", method = RequestMethod.GET)
-    public String userEdit(HttpServletRequest request) {
-        request.getSession().removeAttribute("user");
-        return "/static/html/userEdit.html";
-    }
-/*
-    @RequestMapping(value = "/user/edit.htm", method = RequestMethod.GET)
-    public String editUser(@PathVariable String userid, HttpServletRequest request) {
-        User user = this.userService.getUserByUserid(userid);
-        request.setAttribute("user", user);
-        return "/user/editUser";
-    }
-
-    @RequestMapping(value = "/user/view.htm", method = RequestMethod.GET)
-    public String viewUser(@PathVariable String userid, HttpServletRequest request) {
-        User user = this.userService.getUserByUserid(userid);
-        request.setAttribute("user", user);
-        return "/user/viewUser";
-    }*/
-
-
-    public static void main(String[] args) {
-        ApplicationContext ac = new FileSystemXmlApplicationContext("C:\\Users\\dozen.zhang\\Documents\\calendar\\src\\main\\resources\\config\\xml\\applicationContext.xml");
-        Object object = ac.getBean("validCodeService");
-        System.out.println(object);
-    }
-
-
-    /**
-     * @Author: dozen.zhang
-     * @Description:获取二维验证码图片接口
-     * @Date: 2018/2/8
-     */
-    @API(summary = "获取验证码",
-            consumes = "application/x-www-form-urlencoded",
-            description = " ", parameters = {
-
-    })
-    @APIResponse(value = "{\"r\":0,\"data\":base64二维验证码图片}")
-    @RequestMapping(value = "/login/pic/captcha", method = RequestMethod.GET, produces = "application/json")
-    public
-    @ResponseBody
-    ResultDTO imgCode(HttpServletRequest request) {
-        request.getSession(true);//强制生成session 以防止 getRequestedSessionId返回为null
-        logger.debug("sessionid:" + request.getRequestedSessionId());
-
-        UUID uuid = UUID.randomUUID();
-        String sessionId = uuid.toString();
-        request.getSession().setAttribute("uid", sessionId);
-        return validCodeService.getImgValidCode("calendar", sessionId);
     }
 
 }

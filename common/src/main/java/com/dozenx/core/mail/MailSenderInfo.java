@@ -12,10 +12,10 @@ public class MailSenderInfo {
     public MailSenderInfo (){
 
     }
-    public MailSenderInfo (String host,int port,String user,String password,String fromAddress){
+    public MailSenderInfo (String host,int port,String userName,String password,String fromAddress){
         this.mailServerHost=host;
         this.mailServerPort = port+"";
-        this.userName = user;
+        this.userName = userName;
         this.password = password;
         this.fromAddress = fromAddress;
     }

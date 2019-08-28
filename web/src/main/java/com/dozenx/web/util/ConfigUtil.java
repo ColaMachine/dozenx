@@ -106,9 +106,14 @@ public class ConfigUtil {
         if (files != null)
             for (File file : files) {
                 try {
+                    if (file.getName().startsWith("message.properties")) {
+                        continue;
+                    }
                     if (file.getName().endsWith(".properties")) {
                         logger.debug("loading from outside properties");
-                        properties.load(new FileInputStream(file));
+                        Properties prop = new Properties();
+                        prop .load(new FileInputStream(file));
+                        properties.putAll(prop);
                     } else if (file.getName().endsWith(".yml")) {
                         logger.debug("properties size"+properties.size());
                         logger.debug("loading from outside yml");

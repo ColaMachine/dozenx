@@ -1,0 +1,99 @@
+/**文章的封面图**/
+.left-wrap .poster-wraper {
+    position: relative;
+}
+
+.left-wrap .poster-wraper .detailed_banner {
+    width: 742px;
+    height: 314px;
+    overflow: hidden;
+}
+
+.left-wrap .poster-wraper .detailed_banner img {
+    width: 100%;
+    height: 100%;
+}
+
+
+article {
+    color: #333;
+    margin-top: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+/** 标题**/
+article h1 {
+    font-weight: 400;
+    font-size: 28px;
+    padding-bottom: 15px;
+    word-break: break-all;
+    line-height: 44px;
+}
+
+
+/** 标题右侧的提示**/
+article h1 .edit_interface {
+    color: #5188a6;
+    padding-left: 5px;
+    display: block;
+    float: right;
+    font-size: 12px;
+}
+
+/** 标题下面的作者信息**/
+article .recommend-tab {
+    height: auto;
+    padding-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+article .recommend-tab .xilie {
+    float: left;
+}
+
+.z-clearfix:after, .z-clearfix:before, .z-hor-feed:after, .z-hor-feed:before {
+    content: "";
+    display: table;
+}
+
+article .recommend-tab .xilie span {
+    font-size: 12px;
+    color: #999;
+    display: inline-block;
+    padding-right: 10px;
+    line-height: 28px;
+}
+
+
+/** 正文的信息**/
+
+article p {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+article h2, article h3, article h4 {
+    font-size: 20px;
+    line-height: 28px;
+    padding-bottom: 20px;
+    font-weight: 700;
+}
+
+article p a img {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 682px;
+    cursor: pointer;
+}
+
+
+article ul {
+
+padding-left: 2em; margin-bottom: 16px; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, 微软雅黑, "PingFang SC", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei", SimSun, 宋体, Heiti, 黑体, sans-serif; font-size: 14px; line-height: 21px;
+
+}

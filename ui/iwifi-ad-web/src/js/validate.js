@@ -90,6 +90,23 @@ export function validatePassword(rule, value, callback, source, options) {
     callback();
   }
 }
+export function validateMinute(rule, value, callback, source) {
+ if (value&&(!/^[0-9]*$/.test(value)||value>360)) {
+   callback(new Error('请输入0~360间的数字'));
+ }else {
+   callback();
+ }
+}
+
+export function validateOrgName(rule, value, callback, source) {
+  if (!value) {
+    callback(new Error('必填'));
+  }else if (!/^[0-9a-zA-Z\u4e00-\u9fa5]*$/.test(value)) {
+   callback(new Error('请输入中英文或数字'));
+ } else {
+   callback();
+ }
+}
 // 再次输入密码校验
 export function validatePassCheck(rule, value, callback, source, options){
     if (value === '') {

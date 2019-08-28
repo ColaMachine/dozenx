@@ -16,7 +16,7 @@
          </template>
 
     </li>
-<li class="jumpToPage">转至<input type="text" class="input_num" id="input_num">页</li><li><a href="javascript:void(0);" class="a_jumpTo" onclick="return on_check_comment_page(2, 'https://www.smzdm.com/p/14039324/', this)">GO</a></li>
+<li class="jumpToPage">转至<input type="text" ref="inputNum" class="input_num" id="input_num">页</li><li><a @click="goInputNumPage()" href="javascript:void(0);" class="a_jumpTo" onclick="return on_check_comment_page(2, 'https://www.smzdm.com/p/14039324/', this)">GO</a></li>
 </ul>
 
 </template>
@@ -64,6 +64,15 @@ export default {
                  this.goPage(  this.page.curPage-1);
 
                 }
+            },
+            goInputNumPage:function(){
+                var inputNum = this.$refs.inputNum.value;
+               if(!isNumber(inputNum)|| inputNum>this.page.totalPage){
+                    alert("请输入合法页数");
+                    return;
+               }
+
+                this.goPage(inputNum);
             },
             renderPage:function(){
 
@@ -173,11 +182,11 @@ console.log(page);
           page(newVal,oldVal){  console.log("page 发生变化了");
             this.renderPage(newVal);
           },
-          page:{
-            curPage(newVal,oldVal){
+         //这里会导致一个问题 一个开始的page是个undefinde对象 会导致报错
+            'page.curPage'(newVal,oldVal){
                  this.renderPage(this.page);
             }
-          }
+
         },
          events: {
 

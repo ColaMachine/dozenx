@@ -174,6 +174,9 @@
             <if test="createUser != null" >
                 `create_user`,
             </if>
+            <if test="pinyin != null" >
+                `pinyin`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -261,6 +264,10 @@
             <if test="createUser != null" >
                 #{createUser,jdbcType=BIGINT},
             </if>
+
+            <if test="pinyin != null" >
+                #{pinyin,jdbcType=VARCHAR},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysUser.bean.SysUser" >
@@ -344,7 +351,9 @@
             <if test="depart != null" >
                 `depart`=#{depart,jdbcType=VARCHAR},
             </if>
-
+            <if test="pinyin != null" >
+                `pinyin`=#{pinyin,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -375,9 +384,9 @@
         `outId`=#{outId,jdbcType=BIGINT},
         `code`=#{code,jdbcType=TIMESTAMP},
         `org`=#{org,jdbcType=TIMESTAMP},
-        `depart`=#{depart,jdbcType=BIGINT}
+        `depart`=#{depart,jdbcType=BIGINT},
 
-
+        `pinyin`=#{pinyin,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
@@ -504,6 +513,10 @@
 
         <if test="createUser != null and createUser != '' ">
             and sys_user.`create_user`  = #{createUser}
+        </if>
+
+        <if test="pinyin != null and pinyin != '' ">
+            and sys_user.`pinyin`  = #{pinyin}
         </if>
     </select>
     <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class ImageUtilTest {
     private static final Logger logger = LoggerFactory.getLogger(ImageUtilTest.class);
-    @Test
+    //@Test
     public void testSaveImageFromUrl() throws Exception {
         String rightImageUrl ="https://www.baidu.com/img/bd_logo1.png?where=super";
         ImageUtil.saveImageFromUrl(rightImageUrl, PathManager.getInstance().getHomePath().resolve("test"),"testSaveImageFromUrl");

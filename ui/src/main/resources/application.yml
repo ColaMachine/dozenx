@@ -1,6 +1,6 @@
 #1.项目端口设置
 server:
-  domain: http://192.168.154.32  #必须修改  当前的应用的域名 或者IP地址  暂时未用到
+  domain: http://192.168.154.32
   port: 8081
   tomcat:
       accesslog:
@@ -33,7 +33,7 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
         platform: mysql
         name: ms   #数据库配置名称 使用多数据源时区别
-        url: jdbc:mysql://192.168.41.74:3306/awifi_advert_test?serverTimezone=GMT%2B8 #配置数据库连接
+        url: jdbc:mysql://192.168.41.74:3306/awifi_advert_test?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8 #配置数据库连接
         username: root  #数据库用户名
         password: root@2015 #数据库密码
         initialSize: 5
@@ -87,7 +87,7 @@ kq:
     #door : /data/service/tomcat-kq-8087/door_control
     #迟到时间段   结算的时间点  -   正常的考勤时间开始时间  - 正常的考情时间结束  -   未打卡截止时间  ,
     late.check.time : 9:32-6:30-8:31-9:30,11:22-11:50-12:21-13:20,13:52-13:20-13:51-14:51,19:32-15:30-16:30-19:31,16:20-6:30-8:31-9:30,
-    ###同一个人 人脸识别间隔时间  单位秒 才会开门
+    ###同一个人 人脸识别间隔时间  单位秒
     chekcin.face.interval : 3
     #人脸识别接口
     #ai.face.recogize.url : http://192.168.188.8:3502/atomsrv/face/recog/multi
@@ -113,7 +113,7 @@ kq:
 image :
     serverEnable  :  false
     serverIp : xxx.xxx.xx.xxx
-    serverDir : G:\camera-school\video-school   #上传图片的本地根目录 必须
+    serverDir : G:\camera-school\video-school
     serverUser : root
     maxSize : 1024
     type : png
@@ -123,18 +123,17 @@ image :
     posterTemplate : src.jpg
     posterZipDir : poster_zip
     vcodeDir : static/vc
-    serverUrl : http://192.168.213.91:2019/mssrv/static  #用在上传图片的返回url服务器前缀 必须
+    serverUrl : http://192.168.213.91:2019/mssrv/static
 email :
-  ##设置传输协议
-  protocol : smtp
-  ##设置发信邮箱的smtp地址
-  host : smtp.163.com
-  auth : true
-  debug : true
-  port : 25
-  user : likegadfly@163.com
-  pwd : Awhti323
-  username : zhangzw
+    ##设置传输协议
+    protocol : smtp
+    ##设置发信邮箱的smtp地址
+    host : xxx.xxx.com
+    auth : true
+    debug : true
+    port : 25
+    user : xxxx@xxx.com
+    pwd :
 
 validCode :
     #//系统url
@@ -180,11 +179,11 @@ cache:
     redis:
         enable : true
         #//addr : 192.168.10.145
-        addr : 192.168.213.91
+        addr : 192.168.41.75
         #//Redis的端口号
         port : 6379
         #//访问密码
-        auth : Awifi@123
+        auth : null
         #//可用连接实例的最大数目，默认值为8；
         #//如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
         maxActive : 50
@@ -209,5 +208,3 @@ beixiang:
     account: wensanschool
     password: geye@2018!
     address: http://alpha-sp.51iwifi.com
-
-userPwd: awifi@123

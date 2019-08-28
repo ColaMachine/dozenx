@@ -34,6 +34,16 @@ public class SessionUser implements Serializable {
     private String address;
     private String birth;
 
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getAddress() {
         return address;
     }

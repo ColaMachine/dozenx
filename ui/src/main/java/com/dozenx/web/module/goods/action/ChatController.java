@@ -66,7 +66,7 @@ public class ChatController extends BaseController{
     @RequestMapping(value = "/match" , method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO match(HttpServletRequest request) throws Exception{
-      SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        SessionUser sessionUser =  this.getUser(request);
 //       String userName =  sessionUser.getUserName();
 //        chatSession.remove(userName);//重新开始匹配了的话 从已匹配中离开
 //        if(wattingRoom.get(userName)!=null){//已经在等待了
@@ -95,7 +95,7 @@ public class ChatController extends BaseController{
     @RequestMapping(value = "/status" , method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO  status(HttpServletRequest request){
-        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        SessionUser sessionUser =  this.getUser(request);
         ChatSessionUser chatSessionUser = ChatRegistry.getSessionUser(sessionUser.getUserId());
         return chatAction.status(chatSessionUser);
     }
@@ -103,7 +103,7 @@ public class ChatController extends BaseController{
     @RequestMapping(value = "/quit" , method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO  quit(HttpServletRequest request){
-        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        SessionUser sessionUser =  this.getUser(request);
         ChatSessionUser chatSessionUser = ChatRegistry.getSessionUser(sessionUser.getUserId());
         return chatAction.quit(chatSessionUser);
     }

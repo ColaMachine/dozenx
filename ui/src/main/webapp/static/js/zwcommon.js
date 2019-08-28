@@ -2764,3 +2764,33 @@ function goLoginPage(){
 function stopEvent(event){
 try{event.stopPropagation();}catch(e){event.cancelBubble=true;}
 }
+
+
+
+function removeSessionUser(){
+    localStorage.removeItem('user');
+
+}
+
+function setSessionUser(user){
+    localStorage.setItem('user',JSON.stringify(user));
+
+}
+
+function getSessionUser(){
+    var userStr = localStorage.getItem('user');
+    if(userStr){
+        return eval("("+userStr+")");
+
+    }
+    return   null;
+}
+
+
+
+var filterHTMLTag = function (msg) {
+        var msg = msg.replace(/<\/?[^>]*>/g, ''); //去除HTML Tag
+        msg = msg.replace(/[|]*\n/, '') //去除行尾空格
+        msg = msg.replace(/&npsp;/ig, ''); //去掉npsp
+        return msg;
+}

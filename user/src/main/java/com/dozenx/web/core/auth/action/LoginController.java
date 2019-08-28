@@ -18,17 +18,16 @@ import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.bean.OperLog;
 import com.dozenx.web.core.rules.*;
-import com.dozenx.web.util.RequestUtil;
-import com.dozenx.web.util.ResultUtil;
-import com.dozenx.web.util.TerminalUtil;
-import com.dozenx.web.util.ValidateUtil;
+import com.dozenx.web.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -74,27 +73,8 @@ public class LoginController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/login.htm", method = RequestMethod.GET)
-    public String loginGet(HttpServletRequest request) {
-        // String s =request.getParameter("s");
-        // s.substring(12);
-        // logger.debug("s");
-        // System.out.println(123);
-        //getJedis().set("1","2");
-     /*   ServletContext context = request.getSession().getServletContext();
-        WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-        for(String name:wac.getBeanDefinitionNames()){
-            System.out.println("[ioc]"+name+"    ");
-        }
-        WebApplicationContext wac2 = ContextLoader.getCurrentWebApplicationContext();
-
-        for(String name:wac2.getBeanDefinitionNames()){
-            System.out.println("[ioc111-------------]"+name+"    ");
-        }*/
-        //ConfigUtil.getConfig("1234");
-        request.setAttribute("path", SysConfig.PATH);
-
-        //System.out.println("登录页面");
-        return "/jsp/login.jsp";
+    public ModelAndView loginGet(HttpServletRequest request, Model model) {
+        return new ModelAndView( "login","path", SysConfig.PATH);
     }
 
    /* @RequestMapping(value = "/user/listTree.json", method = RequestMethod.GET)
@@ -194,8 +174,13 @@ public class LoginController extends BaseController {
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ResultDTO loginWithAccountAndPwdAndCaptcha(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) {
+    public ResultDTO loginWithAccountAndPwdAndCaptcha(HttpServletRequest request, HttpServletResponse response,@RequestBody(required = true) Map<String, Object> bodyParam) {
+        //保存长期登录状态的方案上次看到有一个 newwt的方案 现在又找不到了
+        //我的思路是 先按照原先的方式登录 那么 在 后台的session 中会贮存用户对象 然后再在redis中序列化 以sessionkey 为key的用户对象
+        //那么这种方案就不能在多机的方案中使用 需要session 同步  然后我们需要再在 getsessionUser方面进行该着 先从requet中去取用户信息
+        //如果取不到 就拿sessionid 去redis去取 ,
 
+        //这种就能确保用户的信息长期保存了 这个 前端
         // Map cookies = HttpRequestUtil.ReadCookieMap(request);
         String userAgent = request.getHeader("user-agent");
         String type = TerminalUtil.getTerminalType(userAgent);
@@ -206,7 +191,7 @@ public class LoginController extends BaseController {
 
         //为了防止用户暴力碰库 验证码验证用户提交信息安全与否
         //如果用OpmsRedirect会出现sessionId是空
-        ResultDTO result = validCodeService.imgValidCode("calendar", (String) request.getSession().getAttribute("uid"), imgCaptcha);
+        ResultDTO result = validCodeService.imgValidCode("calendar", this.getSessionParam( request,"uid"), imgCaptcha);
         if (!result.isRight()) {
             return result;
         }
@@ -214,8 +199,13 @@ public class LoginController extends BaseController {
 
         result = this.userService.loginValidWithEncryptedPwd(account, pwd);
         if (result.isRight()) {
+
+
+            //延长cookie的时间
+            this.resetLoginToken(request,response,this.getSessionId(request));
+         //   CookieUtil.setCookie(response,"jsessionid",this.getSessionId(request),SESSION_LIVE_TIME);
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             //获取这个人的所有权限
             //List<SysPermission> permissions = authService.listPermissionByUserid(user.getId());
             List<String> permissions = authService.listPermissionStrByUserid(user.getId());
@@ -229,11 +219,12 @@ public class LoginController extends BaseController {
                     }
 
                 }
-                request.getSession().setAttribute(Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
+                this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);
+                //this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
             }
 
 
-            request.getSession().setAttribute(Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
             //   List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 
 
@@ -274,11 +265,13 @@ public class LoginController extends BaseController {
                     finalList.remove(i);
                 }
             }
-            request.getSession().setAttribute(Constants.SESSION_MENUS, finalList);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_MENUS, finalList);//塞入到用户session中
 
 
         }
         OperLogUtil.add(request,"登录","用户名密码登录","登录账号:"+account);
+
+
         //若果密码输入多次 增加 验证码 和锁定功能
         return result;
     }
@@ -316,7 +309,7 @@ public class LoginController extends BaseController {
         result = this.userService.loginValidWithEncryptedPwd(account, pwd);
         if (result.isRight()) {
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             //获取这个人的所有权限
             //List<SysPermission> permissions = authService.listPermissionByUserid(user.getId());
             List<String> permissions = authService.listPermissionStrByUserid(user.getId());
@@ -330,11 +323,11 @@ public class LoginController extends BaseController {
                     }
 
                 }
-                request.getSession().setAttribute(Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
+                this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
             }
 
 
-            request.getSession().setAttribute(Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
             //   List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 
 
@@ -380,7 +373,7 @@ public class LoginController extends BaseController {
                     finalList.remove(i);
                 }
             }
-            request.getSession().setAttribute(Constants.SESSION_MENUS, finalList);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_MENUS, finalList);//塞入到用户session中
 
 
         }
@@ -435,7 +428,7 @@ public class LoginController extends BaseController {
         ResultDTO result = this.userService.loginValidWithEncryptedPwd(account, pwd);
         if (result.isRight()) {
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             //获取这个人的所有权限
             //List<SysPermission> permissions = authService.listPermissionByUserid(user.getId());
             List<String> permissions = authService.listPermissionStrByUserid(user.getId());
@@ -449,11 +442,11 @@ public class LoginController extends BaseController {
                     }
 
                 }
-                request.getSession().setAttribute(Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
+                this.setSessionAttribute(request , Constants.SESSION_ROLES, roleCodesAry);//塞入到用户session中
             }
 
 
-            request.getSession().setAttribute(Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_PERMISSIONS, permissions);//塞入到用户session中
             //   List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 
 
@@ -499,7 +492,7 @@ public class LoginController extends BaseController {
                     finalList.remove(i);
                 }
             }
-            request.getSession().setAttribute(Constants.SESSION_MENUS, finalList);//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_MENUS, finalList);//塞入到用户session中
 
 
         }
@@ -546,13 +539,13 @@ public class LoginController extends BaseController {
         result = this.userService.loginValid(account, pwd);
         if (result.isRight()) {
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute(Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
+            this.setSessionAttribute(request , Constants.SESSION_USER, user.getSessionUser());//塞入到用户session中
             // List<SysResource> resources = authService.listResourcesByUserid(user.getId());
           /*  List<SysMenu> menus = authService.listMenusByUserid(user.getId());
             List<String> resStr = new ArrayList<String>();
 
-            request.getSession().setAttribute("resourceList", resStr);
-            request.getSession().setAttribute("resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
+            this.setSessionAttribute(request , "resourceList", resStr);
+            this.setSessionAttribute(request , "resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
             result.setData(user.getId());//不能把用户信息传给前端 会泄漏信息
         }
 
@@ -627,13 +620,13 @@ public class LoginController extends BaseController {
 //        userService.save(user);
 //
 //
-//        request.getSession().setAttribute(Constants.SESSION_USER, user);//塞入到用户session中
+//        this.setSessionAttribute(request , Constants.SESSION_USER, user);//塞入到用户session中
 //        // List<SysResource> resources = authService.listResourcesByUserid(user.getId());
 //      /*  List<SysMenu> menus = authService.listMenusByUserid(user.getId());
 //        List<String> resStr = new ArrayList<String>();
 //
-//        request.getSession().setAttribute("resourceList", resStr);
-//        request.getSession().setAttribute("resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
+//        this.setSessionAttribute(request , "resourceList", resStr);
+//        this.setSessionAttribute(request , "resourceStr", StringUtil.join(",",resStr.toArray(new String[resStr.size()])));*/
 //        result.setData(null);//不能把用户信息传给前端 会泄漏信息
 //        // }
 //
@@ -650,11 +643,9 @@ public class LoginController extends BaseController {
      * @date 2015年5月14日上午11:33:55
      */
     @RequestMapping(value = "/register.htm", method = RequestMethod.GET)
-    public String registerGet(HttpServletRequest request) {
-        request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/registerWithEmail.jsp";
+    public ModelAndView registerGet(HttpServletRequest request, Model model) {
+        return new ModelAndView( "registerWithEmail","path", SysConfig.PATH);
     }
-
 
     /**
      * 说明:注册提交
@@ -926,7 +917,7 @@ public class LoginController extends BaseController {
         if (result.isRight()) {
             // 把用户信息传入到session 中并让他登录到首页
             SysUser user = (SysUser) result.getData();
-            request.getSession().setAttribute("user", user);
+            this.setSessionAttribute(request , "user", user);
         } else {
             // 提示激活url无效
             request.setAttribute("msg", result.getMsg());
@@ -936,38 +927,26 @@ public class LoginController extends BaseController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index3(HttpServletRequest request) {
-        request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/index.jsp";
+    public ModelAndView index3(HttpServletRequest request, Model model) {
+        return new ModelAndView( "index","path", SysConfig.PATH);
     }
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET ,produces = "text/html")
-    public String index(HttpServletRequest request) {
-        // System.out.println(request.getParameter("path"));
-        // System.out.println(request.getSession().getAttribute("path"));
-        // System.out.println(request.getServletContext().getAttribute("path"));
-        request.setAttribute("path", SysConfig.PATH);
-        // logger.debug("s");
-        // LogUtil.debug("nihao");
-        // System.out.println(123);
-        return "/jsp/index.jsp";
+    public ModelAndView index(HttpServletRequest request, Model model) {
+        return new ModelAndView( "index","path", SysConfig.PATH);
     }
 
     @RequestMapping(value = "/index2", method = RequestMethod.GET)
-    public String index2(HttpServletRequest request) {
-        // System.out.println(request.getParameter("path"));
-        // System.out.println(request.getSession().getAttribute("path"));
-        // System.out.println(request.getServletContext().getAttribute("path"));
-        request.setAttribute("path", SysConfig.PATH);
-        return "/index.jsp";
+    public ModelAndView index2(HttpServletRequest request, Model model) {
+        return new ModelAndView( "index","path", SysConfig.PATH);
     }
+
 
     @RequestMapping(value = "/moreCssJs.htm", method = RequestMethod.GET)
-    public String moreCssJs(HttpServletRequest request) {
-
-        request.setAttribute("path", SysConfig.PATH);
-        return "/jsp/moreCssJs.jsp";
+    public ModelAndView moreCssJs(HttpServletRequest request, Model model) {
+        return new ModelAndView( "moreCssJs","path", SysConfig.PATH);
     }
+
 
     @RequestMapping(value = "/forgetpwd.htm", method = RequestMethod.GET)
     public String forgetPwd(HttpServletRequest request) {
@@ -980,10 +959,11 @@ public class LoginController extends BaseController {
         String imgName = returnStr[0];
         String code = returnStr[1];
         request.setAttribute("imgname", imgName);
-        request.getSession().setAttribute("validatecode", code);
+        this.setSessionAttribute(request , "validatecode", code);
         // TODO 需增加回收机制 回收已经生成过的图片
         return "/static/html/zforgetpwd.html";
     }
+
 
     @RequestMapping(value = "/validatecode", method = RequestMethod.GET)
     public
@@ -998,7 +978,7 @@ public class LoginController extends BaseController {
         String imgName = returnStr[0];
         String code = returnStr[1];
         ResultDTO result = new ResultDTO();
-        request.getSession().setAttribute("validatecode", code);
+        this.setSessionAttribute(request , "validatecode", code);
         result.setR(1);
         result.setData(imgName);
 
@@ -1069,10 +1049,13 @@ public class LoginController extends BaseController {
     }
 
     @RequestMapping(value = "/logout.htm", method = RequestMethod.GET)
-    public String logouthtm(HttpServletRequest request) {
+    public ModelAndView ModelAndView(HttpServletRequest request, Model model) {
         request.getSession().removeAttribute(Constants.SESSION_USER);
-        return "/jsp/login.jsp";
+        return new ModelAndView( "login","path",SysConfig.PATH);
+
     }
+
+
 
     @RequestMapping(value = "/logout.json", method = RequestMethod.GET)
     public
@@ -1145,7 +1128,7 @@ public class LoginController extends BaseController {
         response.addCookie(hit);
         UUID uuid = UUID.randomUUID();
         String sessionId = uuid.toString();
-        request.getSession().setAttribute("uid", sessionId);
+        this.setSessionAttribute(request , "uid", sessionId);
         return validCodeService.getImgValidCode("calendar", sessionId);
     }
 

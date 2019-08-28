@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Editable WYSIWYG</title>
     <link href="../../../static/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../../static/css/font-awesome-new.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.6.1/css/font-awesome.css" rel="stylesheet">
 
     <style>
+        .btn-group{
+            display:inline-block;
+        }
         #editor {
         resize:vertical;
         overflow:auto;
@@ -17,22 +20,49 @@
         box-shadow: inset 0 0 10px silver;
         padding:1em;
         }
+        .fengmian img{
+            width:auto;
+        height:250px;
+        margin-bottom:12px;
+        }
+        .btn{
+
+        }
     </style>
 </head>
 <body>
 <div class="content">
+
+    <button class="btn btn-primary primary" id="submit" onclick="submit()" type="button">发布</button>
     <div class="container-fluid">
         <div id='pad-wrapper'>
             <div id="editparent">
+                <div class="fengmian" style="text-align:center">
+                <input  id="fengmian" name="fengmian"  value="static/img/timg.jpeg" style="display:none" class="form-control input-sm"   maxlength="100"></input>
+</div>
+                <input type="text" id="title" style="font-size:40px;font-weight:bold;width:100%"  placeholder="请输入标题(最多50个字)"/>
+
                 <div id='editControls' class='span12' style='text-align:center; padding:5px;'>
+
                     <div class='btn-group'>
-                        <a class='btn' data-role='InsertImage' href='#'><i class='fa fa-image'></i></a>
+
+
+                        <a class='btn' id="addImgBtn" data-role='InsertImage' href='#'><i class='fa fa-image'></i></a>
+                        <a class='btn' id="addImgLink" data-role='InsertImageLink' href='#'><b>图片链接</b></a>
+
+                        <a class='btn' id="addCodeBtn" data-role='pre' href='#'><b>代码</b></a>
+                    </div>
+
+                    <div class='btn-group'>
+
                         <a class='btn' data-role='RemoveFormat' href='#'><i class='fa fa-eraser'></i></a>
                         <a class='btn' data-role='undo' href='#'><i class='fa fa-undo'></i></a>
                         <a class='btn' data-role='redo' href='#'><i class='fa fa-repeat'></i></a>
                     </div>
                     <div class='btn-group'>
-                        <a class='btn' data-role='bold' href='#'><b>Bold</b></a>
+
+                        <a class='btn' data-role='bold' href='#'>
+                             <b>Bold</b></a>
                         <a class='btn' data-role='italic' href='#'><em>Italic</em></a>
                         <a class='btn' data-role='underline' href='#'><u><b>U</b></u></a>
                         <a class='btn' data-role='strikeThrough' href='#'><strike>abc</strike></a>
@@ -65,12 +95,22 @@
                     <h1>This is a title!</h1>
                     <p>This is just some example text to start us off</p>
                 </div>
+
+
+
+
             </div>
         </div>
     </div>
 </div>
+
+
+
 <script src="../../../static/js/jquery.min.js"></script>
 <script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/imageUtil.js" charset="UTF-8"></script>
+<script src="../../../static/js/zwcommon.js" charset="UTF-8"></script>
+<script src="../../../static/js/dom.js" charset="UTF-8"></script>
 <script>
 
             $(function() {
@@ -78,14 +118,30 @@
                     switch($(this).data('role')) {
                         case 'h1':
                         case 'h2':
-
+                        case 'pre':
                         case 'p':
                             document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
                             break;
+
+                        //  document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
+                            break;
                          case 'InsertImage':
                           //  document.execCommand('InsertImage', true, 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1365155501,963298376&fm=173&app=25&f=JPEG?w=218&h=146&s=BFB151870E09305D14F4C8AF0300F003');
+                            addImage(e);
+                            //document.execCommand('insertHtml', true, '<img class="artical-img" onclick="changeImage(this)" src=\'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1365155501,963298376&fm=173&app=25&f=JPEG?w=218&h=146&s=BFB151870E09305D14F4C8AF0300F003\'</img>');
+                            break;
+                         //case 'pre':
+                          //  document.execCommand('insertHtml', true, '<pre>111  <span>在这里输入代码</span></pre>');
+                           // break;
+                         case 'InsertImageLink':
+                            var word = prompt("请输图片地址","");
+                            if(word){
+                                 //输出word的格式
+                               //  alert("已获得:"+word);
+                                document.getElementById("editor").focus();
+                                 document.execCommand('insertHtml', true, '<img   onclick="changeImage(this)"   class="artical-img" src=\''+word+'\'</img>');
 
-                            document.execCommand('insertHtml', true, '<img onclick="changeImage(this)" src=\'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1365155501,963298376&fm=173&app=25&f=JPEG?w=218&h=146&s=BFB151870E09305D14F4C8AF0300F003\'</img>');
+                             }
                             break;
                         default:
                             document.execCommand($(this).data('role'), false, null);
@@ -95,11 +151,42 @@
                 })
             });
 
+function addImage(e){
 
+   // document.execCommand('insertHtml', true, '<img onclick="changeImage(this)" src=\'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1365155501,963298376&fm=173&app=25&f=JPEG?w=218&h=146&s=BFB151870E09305D14F4C8AF0300F003\'</img>');
+
+
+}
+
+
+var imageUtil=new zImageUtil2({"input":"fengmian"});
+var imageUtil=new getUploadImag({"clickDom":document.getElementById("addImgBtn"),"callback":function(src){//alert(src.data);
+
+
+
+document.getElementById("editor").focus();
+document.execCommand('insertHtml', true, '<img  class="artical-img" onclick="changeImage(this)" src=\''+PATH+"/"+src.data+'\'></img>');
+}});
+
+
+function submit(){
+    var title = document.getElementById("title").value;
+    var content = document.getElementById("editor").innerHTML;
+    var pic = document.getElementById("fengmian").value;
+    var json = {"title":title,content:content,pic:pic,type:1};
+    Ajax.post("/home/artical/save.json",json,function(data){
+
+        console.log(data);
+    });
+}
 </script>
 
 
 <style>
+    .artical-img{
+        display:block;
+    width:50%;
+    }
     * {
     margin: 0;
     padding: 0
@@ -221,6 +308,9 @@ function getInfo(o){//取得坐标
 	   	return to;
 }
   function changeImage(image) {
+
+  setTimeout(function(){document.getElementById("box").style.display="block";},300);
+
             var oDiv = document.getElementsByClassName('box')[0];
 
             var posInfo = getInfo(image)
@@ -408,9 +498,24 @@ function isNull(str) {
 
 }
 
+document.body.addEventListener("click",function(){
+
+    document.getElementById("box").style.display="none";
+})
+
+
+function addImgLink(){
+
+    var word = prompt("请输图片地址","");
+        if(word){
+             //输出word的格式
+             alert("已获得:"+word);
+         }
+}
+
 </script>
 
-<div class="box">
+<div style="display:none" class="box" id="box">
     <span class="r"></span>
     <span class="l"></span>
     <span class="t"></span>

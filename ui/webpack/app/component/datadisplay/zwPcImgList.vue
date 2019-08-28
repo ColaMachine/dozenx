@@ -1,7 +1,7 @@
 <template>
 
   <ul class="app-li pc">
-    <li v-for="result in list" key={{result.id}} class="zw-box app-li-it ">
+    <li v-for="result in list" :key="result.id" class="zw-box app-li-it ">
       <div class="app-li-it-pic">
         <a :href='"/static/html/editor/index.html?id=3&goodsid="+ result.id '><img onerror="" :src='"/"+ result.pic' /></a>
       </div>

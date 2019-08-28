@@ -21,8 +21,9 @@
 
          <span class="card-abstract">{{result.subTitle}}</span>
           <span class="card-abstract">{{result.content}}</span>
-         <span class="card-controls"><span class="group-data"> <i>值</i>{{result.score}}</span>
-         <span class="group-data"> <i>评论</i>{{result.commments}}</span><span class="group-data"> <i>收藏</i>{{result.stars}}</span>
+         <span class="card-controls"><span class="group-data"> <i><zwIcon type="good"></zwIcon>赞</i>{{result.up}}</span>
+         <span class="group-data"> <i><zwIcon type="comment"></zwIcon>评论</i>{{result.commments}}</span>
+         <span class="group-data"> <i><zwIcon type="star"></zwIcon>收藏</i>{{result.stars}}</span>
          <a itemprop="description"
              target="_blank"
              onclick="gtmAddToCart({'name':'佳偶 双层直筒玻璃杯 350ml *2件','id':'1759529' , 'price':'17.8','brand':'无' ,'mall':'无', 'category':'无/无/无/无','metric1':'17.8','dimension10':'smzdm.com','dimension9':'youhui','dimension11':'1阶价格','dimension20':'无','dimension25':'无','dimension64':'yuanchuang'});if(typeof change_direct_url != 'undefined' &amp;&amp; change_direct_url instanceof Function){change_direct_url(this)}"

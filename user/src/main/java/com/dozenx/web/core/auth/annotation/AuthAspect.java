@@ -4,7 +4,9 @@ import com.dozenx.core.config.SysConfig;
 import com.dozenx.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.annotation.RequiresPermission;
+import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
+import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.SpringUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -45,7 +47,7 @@ public class AuthAspect {
             return pjp.proceed();
             //  throw new Exception( "request 不能为空");
         }else{
-            Object session = request.getSession().getAttribute(Constants.SESSION_USER);
+            SessionUser session = (SessionUser) new BaseController().getUser(request);
             if(session==null){
                 return ResultUtil.getResult(504,"未登录");
 
@@ -96,10 +98,10 @@ public class AuthAspect {
 //                boolean hasPermission =false;
 
 
-                List<String > permissions = (List<String >)request.getSession().getAttribute(Constants.SESSION_PERMISSIONS);
+                List<String > permissions = (List<String >)new BaseController().getSessionAttribute(request,Constants.SESSION_PERMISSIONS,List.class);
                 if(permissions==null ){
                     //如果permissions为null 既有可能是session过期了
-                    Object session = request.getSession().getAttribute(Constants.SESSION_USER);
+                    Object session = new BaseController().getUser(request);
                     if(session==null){
                         return ResultUtil.getResult(504,"未登录");
 

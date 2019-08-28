@@ -49,7 +49,7 @@
 <script>
   import {setSessionObj, getSessionObj} from '../js/util';
   import $http from '@/js/http2';
-
+    import menu from '../data/menu.json';
   let activeMenuItem = getSessionObj('activeMenuItem') || '';
   let openMenus = getSessionObj('openMenus') || [];
   console.log(activeMenuItem, openMenus);
@@ -80,8 +80,11 @@
         setSessionObj('openMenus', openMenus);
       },
       getMenuList() {
+
+       // return;
         $http.get('/home/sys/auth/menu/tree/my').then((data) => {
-          this.menuList = data.data;
+       //   this.menuList = data.data;
+          this.menuList = menu;
           //bug fix
           //!!!!防止死循环调用
           //在mounted的时候由于发送了ajax请求，导致了如果在home组件中token验证失败，重定向至首页。

@@ -50,7 +50,7 @@ public class UserController extends BaseController {
     @RequiresLogin
     public ResultDTO info(HttpServletRequest request) {
         // SysUser sysUser = (SysUser) request.getSession().getAttribute(Constants.SESSION_USER);
-        SessionUser sysUser = (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        SessionUser sysUser = this.getUser(request);
         /*sessionUser.setNick("nick");
         sessionUser.setAddress("address");
         sessionUser.setBirthday(new Date().getTime());
@@ -64,7 +64,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/info")
     @ResponseBody
     public ResultDTO info1(HttpServletRequest request) {
-        SessionUser sysUser = (SessionUser) request.getSession().getAttribute(Constants.SESSION_USER);
+        SessionUser sysUser = this.getUser(request);
         return this.getResult(sysUser);
     }
 

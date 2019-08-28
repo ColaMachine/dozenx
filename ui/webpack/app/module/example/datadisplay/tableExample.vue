@@ -102,15 +102,15 @@
     <zwBox class="">
         <div slot="zwCodeBoxDemo">
 <ul class="pagination">
-    <li><a href="https://www.smzdm.com/p/14698489/#comments" class="pageCurrent">1</a></li>
-    <li><a href="https://www.smzdm.com/p/14698489/p2/#comments">2</a></li>
-    <li><a href="https://www.smzdm.com/p/14698489/p3/#comments">3</a></li>
-    <li><a href="https://www.smzdm.com/p/14698489/p4/#comments">4</a></li>
-    <li><a href="https://www.smzdm.com/p/14698489/p5/#comments">5</a></li>
-    <li><a href="https://www.smzdm.com/p/14698489/p6/#comments">6</a></li>
+    <li><a href="" class="pageCurrent">1</a></li>
+    <li><a href="">2</a></li>
+    <li><a href="">3</a></li>
+    <li><a href="">4</a></li>
+    <li><a href="">5</a></li>
+    <li><a href="">6</a></li>
     <li><span class="dotStyle">...</span></li>
-    <li><a href="https://www.smzdm.com/p/14698489/p14/#comments">14</a></li>
-    <li class="pagedown"><a href="https://www.smzdm.com/p/14698489/p2/#comments"><i class="icon-angle-right-o-thin">下一页</i></a>
+    <li><a href="">14</a></li>
+    <li class="pagedown"><a href=""><i class="icon-angle-right-o-thin">下一页</i></a>
     </li>
     <li class="jumpToPage">转至<input type="text" class="input_num" id="input_num">页</li>
     <li><a href="javascript:void(0);" class="a_jumpTo"

@@ -124,7 +124,7 @@ var loginForm={
         Ajax.postJSON(PATH + "/sys/auth/login", jso, function(data) {console.log(data);//alert(data);
             if (data[AJAX_RESULT] == AJAX_SUCC) {
                 try{
-                localStorage.setItem('user',JSON.stringify(data.data));
+                setSessionUser(data.data);
                 }catch(e){}
                 this.setCookie('userId', data.data, 7);
                 var pre= getQueryString("pre");
@@ -527,9 +527,6 @@ $$(document).ready(function() {
  *
  *
  */
-
-
-
 
 
 

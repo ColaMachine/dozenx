@@ -186,7 +186,7 @@ public class EmailUtil {
         // 发件人电子邮箱
         final String from = PropertiesUtil.get("mail.from");//"likegadfly@163.com";
         // 发件人电子邮箱密码
-        final String pass = PropertiesUtil.get("mail.pwd");//"wangyi216568";
+        final String pass = PropertiesUtil.get("mail.pwd");
         // 指定发送邮件的主机为 smtp.qq.com
         // String host = "smtp.163.com"; // 邮件服务器
 
@@ -199,7 +199,7 @@ public class EmailUtil {
         // 设置邮件服务器
 
         properties.put("mail.smtp.port", Integer.valueOf(PropertiesUtil.get("mail.smtp.port")));
-        properties.put("mail.smtp.auth", PropertiesUtil.get("mail.smtp.auth"));
+
 //        properties.put("mail.smtp.ssl.enable", "true");
 //
 //        MailSSLSocketFactory sf = new MailSSLSocketFactory();

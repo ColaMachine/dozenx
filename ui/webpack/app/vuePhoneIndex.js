@@ -29,6 +29,7 @@ import Vue from 'vue'
 
 import vuePhoneIndex from './module/phone/vuePhoneIndex.vue'
 
+import router from "./module/route/route.js"
 //初始化一个路由
 new Vue({
   el: '#head',

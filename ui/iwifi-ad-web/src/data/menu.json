@@ -1,50 +1,51 @@
 [
-  {
-    "id": "1",
-    "name": "广告位管理",
-    "children": [
-      {
-        "id": "/ad/advertisPosition",
-        "name": "广告位列表"
-      },
-      {
-        "id": "/ad/advertisStrategy",
-        "name": "广告策略列表"
-      }
-    ]
-  },
-  {
-    "id": "4",
-    "name": "数据报表",
-    "children": [
-      {
-        "id": "/report/daily",
-        "name": "日报表"
-      }
-    ]
-  },
-  {
-    "id": "6",
-    "name": "合作平台管理",
-    "children": [
-      {
-        "id": "/platform/list",
-        "name": "平台列表"
-      }
-    ]
-  },
+
   {
     "id": "8",
     "name": "系统管理",
-    "children": [
+    "url":"/system",
+    "childs": [
       {
-        "id": "9",
+        "url": "/system/role",
         "name": "角色配置"
       },
       {
-        "id": "10",
+        "url": "/system/account",
         "name": "账号管理"
       }
     ]
+  },
+  {
+    "name": "人脸卡口",
+    "url": "/face"
+  },
+  {
+    "name": "机构管理",
+    "url": "/organization"
+  },
+  {
+    "name": "底库管理",
+    "url": "/library"
+  },
+  {
+    "name": "视频源管理",
+    "url": "/video"
+  },
+  {
+    "name": "数据统计",
+    "url":"/statistics",
+    "childs": [
+      {
+        "name": "抓拍统计",
+        "url": "/statistics/capture"
+      },
+      {
+        "name": "报警统计",
+        "url": "/statistics/alarm"
+      }
+    ]
   }
+
+
+
 ]

@@ -1,27 +1,33 @@
 package com.dozenx.web.core.base;
 
 
+import com.alibaba.fastjson.JSON;
 import com.dozenx.core.exception.MyException;
 import com.dozenx.util.JsonUtil;
 import com.dozenx.util.StringUtil;
+import com.dozenx.util.UUIDUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.service.LogService;
 import com.dozenx.web.util.CookieUtil;
 import com.dozenx.web.util.RedisUtil;
+import org.apache.poi.ss.formula.functions.T;
+import org.apache.tools.ant.taskdefs.condition.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 //import com.dozenx.web.message.ErrorMessage;
 
@@ -158,12 +164,13 @@ public class BaseController extends ResultAction {
     public Long getUserId(HttpServletRequest request) {
 
 
-        HttpSession session = request.getSession();
-        SessionUser sessionUser = (SessionUser) session.getAttribute(Constants.SESSION_USER);
+
 //		SessionUser sessionUser = null;
         if (request.getParameter("userId") != null) {
             return Long.valueOf(request.getParameter("userId"));
         }
+
+        SessionUser sessionUser =this.getUser(request);
         if (sessionUser != null && sessionUser.getUserId() != null) {
 //			sessionUser = seesionDTO.getSessionUser();
             return sessionUser.getUserId();
@@ -176,14 +183,22 @@ public class BaseController extends ResultAction {
      * @Date:17:02 2018/1/2
      */
     public String getUserName(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        SessionUser sessionUser = (SessionUser) session.getAttribute(Constants.SESSION_USER);
+
+
+
+
 //		SessionUser sessionUser = null;
+        if (request.getParameter("userName") != null) {
+            return String.valueOf(request.getParameter("userName"));
+        }
+
+        SessionUser sessionUser =this.getUser(request);
         if (sessionUser != null && sessionUser.getUserId() != null) {
 //			sessionUser = seesionDTO.getSessionUser();
             return sessionUser.getUserName();
         }
         return null;
+
     }
 
     /* @Author: dozen.zhang
@@ -214,17 +229,36 @@ public class BaseController extends ResultAction {
 
         return isAdmin;
     }
+    public void setUser(HttpServletRequest reuest){
 
+    }
     /**
      * @Author: dozen.zhang
      * @Description: 获取当前用户
      * @Date: 2018/1/3
      */
     public SessionUser getUser(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        SessionUser sessionUser = (SessionUser) session.getAttribute(Constants.SESSION_USER);
 
-        return sessionUser;
+        return this.getSessionAttribute(request,Constants.SESSION_USER,SessionUser.class);
+//        HttpSession session = request.getSession();
+//        SessionUser sessionUser = (SessionUser) session.getAttribute(Constants.SESSION_USER);
+//        if(sessionUser == null){
+//            String loginToken = getLoginToken(request);
+//            if(loginToken==null){
+//                return null;
+//            }else{
+//
+//                String userStr= RedisUtil.get("logintoken"+loginToken);
+//                if(userStr ==null ){
+//                    return null;
+//                }else{
+//
+//                    sessionUser= JsonUtil.toJavaBean(userStr,SessionUser.class);
+//                }
+//            }
+//        }
+//
+//        return sessionUser;
     }
 
     public void writeJsonStr(HttpServletResponse response, String resultStr) {
@@ -253,55 +287,132 @@ public class BaseController extends ResultAction {
 //        request.getSession().getAttribute(key);
 //    }
 
-    int SESSION_LIVE_TIME = 24 * 7 * 60 * 60;
+    public int SESSION_LIVE_TIME = 24 * 7 * 60 * 60;
 
-    public String getSessionKey(HttpServletRequest request) {
-        Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");
+
+    public void generateCookieSessionKey(HttpServletRequest request,HttpServletResponse response){
+        Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
         if (cookie == null) {
-            return null;
+
+            String uuid = UUIDUtil.getUUID();
+            CookieUtil.setCookie(response,"dpksk",uuid,SESSION_LIVE_TIME);
         }
-        String sessionKey = cookie.getValue();
+
+    }
+    /**
+     * 通过cookie中的token来活取值 如果没有token 就默认分配一个
+     * @param request
+     * @return
+     */
+    public String getSessionId(HttpServletRequest request/*,HttpServletResponse response*/ ) {
+        return request.getSession(true).getId();
+    //    Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
+       // if (cookie == null) {
+
+//            String uuid = UUIDUtil.getUUID();
+//            CookieUtil.setCookie(response,"dpksk",uuid,SESSION_LIVE_TIME);
+         //   return null;
+        //}
+       // String sessionKey = cookie.getValue();
 //        if(StringUtil.isBlank(sessionKey)){
 //            return null;
 //        }
-        return sessionKey;
+      //  return sessionKey;
+    }
+    public void resetLoginToken(HttpServletRequest request, HttpServletResponse response,String token){
+        CookieUtil.setCookie(response, "JSESSIONID",getSessionId(request),SESSION_LIVE_TIME);//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
+
+    }
+    public String getLoginToken(HttpServletRequest request){
+        Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
+         if (cookie == null) {
+
+//            String uuid = UUIDUtil.getUUID();
+//            CookieUtil.setCookie(response,"dpksk",uuid,SESSION_LIVE_TIME);
+           return null;
+        }
+         String loginToken = cookie.getValue();
+        if(StringUtil.isBlank(loginToken)){
+            return null;
+        }
+          return loginToken;
     }
 
-    public Object getSessionAttribute(HttpServletRequest request, String key, Class clazz) {
+    public static void main(String args[]){
+        List list = JSON.parseObject("['1','2']",List.class);
+        System.out.println(list.size());
+    }
 
-        String sessionKey = getSessionKey(request);
+    public <T> T getSessionAttribute(HttpServletRequest request, String key, Class<T> clazz) {
+        //先从session中直接去取
+        Object object = request.getSession().getAttribute(key);
+        if(object!=null)
+            return (T)object;
+        //没有的话拿到这个人的token
+
+
+        String sessionKey = getSessionId(request);
         if (StringUtil.isBlank(sessionKey)) {
+
+            return null;    //如果token也是空的那么肯定没有登录过
+        }
+        String result = RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
+        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
             return null;
         }
-        String result = RedisUtil.get(sessionKey + "_" + key);
-        if (StringUtil.isBlank(result)) {
-            return null;
-        }
-        return JsonUtil.toJavaBean(result, clazz);
+
+        object =  JsonUtil.toJavaBean(result, clazz);
+
+        request.getSession().setAttribute(key,object);
+        return (T)object;
 
     }
 
     public String getSessionParam(HttpServletRequest request, String key) {
 
-        String sessionKey = getSessionKey(request);
-        String result = RedisUtil.get(sessionKey + "_" + key);
-        if (StringUtil.isBlank(result)) {
+        String s = (String)request.getSession().getAttribute(key);
+        if(s!=null)
+            return s;
+        //没有的话拿到这个人的token
+
+
+        String sessionKey = getSessionId(request);
+        if (StringUtil.isBlank(sessionKey)) {
+
+            return null;    //如果token也是空的那么肯定没有登录过
+        }
+        String result = RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
+        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
             return null;
         }
+
+
         return result;
 
     }
-
+//
     public void setSessionParam(HttpServletRequest request, String key, String value) {
 
-        String sessionKey = getSessionKey(request);
-        RedisUtil.setex(sessionKey + "_" + key, value, SESSION_LIVE_TIME);
+        String sessionKey = getSessionId(request);
+        if(StringUtil.isBlank(value)){  //如果是空的 就删除对应属性
+            request.getSession().removeAttribute(key);
+            RedisUtil.del(sessionKey + "_" + key);
+            return;
+        }
+        request.getSession().setAttribute(key,value);
+
+        if (value == null) {
+            return;
+        }
+        RedisUtil.setex(sessionKey + "_" + key, key, SESSION_LIVE_TIME);
 
 
     }
 
     public void setSessionAttribute(HttpServletRequest request, String key, Object object) {
-        String sessionKey = getSessionKey(request);
+        //先往session里面存放 再在redis中存放
+        request.getSession().setAttribute(key,object);
+        String sessionKey = getSessionId(request);
         if (object == null) {
 
             return;
@@ -310,7 +421,8 @@ public class BaseController extends ResultAction {
     }
 
     public void removeSession(HttpServletRequest request, String key) {
-        String sessionKey = getSessionKey(request);
+        String sessionKey = getSessionId(request);
+        request.getSession().removeAttribute(key);
         RedisUtil.del(sessionKey + "_" + key);
     }
 }
