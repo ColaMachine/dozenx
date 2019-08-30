@@ -1813,7 +1813,7 @@ public class PubImageController extends BaseController {
                     @Param(name = "accessToken", description = "accessToken", dataType = DataType.STRING, required = false),
                     @Param(name = "width", description = "width", dataType = DataType.INTEGER, required = false),
                     @Param(name = "height", description = "height", dataType = DataType.INTEGER, required = false),// false
-                    @Param(name = "base64", description = "base64", dataType = DataType.STRING, required = false),// false
+                    @Param(name = "base64", description = "imageData", dataType = DataType.STRING, required = false),// false
                     @Param(name = "path", description = "文件的绝对路径", dataType = DataType.STRING, required = false),// false
                     @Param(name = "fileNamePrefix", description = "需要保存的文件名称", dataType = DataType.STRING, required = false),// false
                     @Param(name = "relativePath", description = "相对路径", dataType = DataType.STRING, required = false),// false

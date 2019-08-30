@@ -36,6 +36,7 @@ public class AuthAspect {
         Object result=null;
 
         Object[] objectAry =  pjp.getArgs();
+
         HttpServletRequest request =null;
         for ( int i=0;i<objectAry.length;i++){
             if(objectAry[i] instanceof HttpServletRequest){

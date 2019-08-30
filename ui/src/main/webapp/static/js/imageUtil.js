@@ -99,7 +99,7 @@ function zImageUtil2(config) {
 			+" </img>");
 			this.maxHeight = jso.maxHeight||633;
 			this.maxWidth = jso.maxWidth||300;
-			this.postUrl = jso.postUrl||(PATH+"/image/upload.json");
+			this.postUrl = jso.postUrl||(PATH+"/pubimage/base64/upload");
 			var that =this;
 			this.callback = jso.callback||function(result){
                 $(that.input).val(result.data);

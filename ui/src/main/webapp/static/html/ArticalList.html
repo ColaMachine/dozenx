@@ -71,7 +71,7 @@ var articalList={
         rowNum:10,
         rowList:[10,20,30],
         multiselect : false,
-        url : PATH+'/artical/list.json',
+        url : PATH+'/article/list.json',
         autowidth:true,
         grid:"#ArticalGrid",
         pager:"#ArticalGrid-Pager",
@@ -112,7 +112,8 @@ var articalList={
             {   name : 'operation',
                 width : 150,
                 formatter : function(value, grid, rows) {
-                    return gridHelper.getViewHtml(rows.id,"articalList")+gridHelper.getEditHtml(rows.id,"articalList")+gridHelper.getDelHtml(rows.id,"articalList");
+                    return gridHelper.getViewHtml(rows.id,"articalList")+gridHelper.getEditHtml(rows.id,"articalList")+gridHelper.getDelHtml(rows.id,"articalList")
+                    +"<a style='margin-left:2px' target=\"_blank\" href=\"/home/article/viewpage/"+rows.id+"\" >预览</a>";
                 }
             }
         ],
@@ -126,7 +127,7 @@ var articalList={
     saveInfo:function(){
     },
     addInfo:function (){
-        dialog.window('/artical/edit.htm',this.modal);
+        dialog.window('/article/edit.htm',this.modal);
     },
     editSelectInfo:function(){
         var rowid =this.mygrid.jqGrid("getGridParam","selrow");
@@ -135,11 +136,11 @@ var articalList={
         if(StringUtil.isBlank(id)){
             dialog.alert("请选中一行数据");
         }else{
-            dialog.window("/artical/edit.htm?id="+id,this.modal);
+            dialog.window("/article/edit.htm?id="+id,this.modal);
         }
     },
     editInfo:function (id){
-        dialog.window("/artical/edit.htm?id="+id,this.modal);
+        dialog.window("/article/edit.htm?id="+id,this.modal);
     },
     searchInfo:function (){
         var jso = changeForm2Jso(".app-search");
@@ -147,11 +148,11 @@ var articalList={
         this.mygrid.jqGrid("setGridParam", { search: true ,"postData":jso}).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
     },
     viewInfo:function (id){
-        dialog.window("/artical/view.htm?id="+id,this.modal);
+        dialog.window("/article/view.htm?id="+id,this.modal);
     },
     exportInfo:function (){
         var jso= changeForm2Jso(".app-search");
-        Ajax.getJSON(PATH+"/artical/export.json",jso,function(data){
+        Ajax.getJSON(PATH+"/article/export.json",jso,function(data){
             if(data.r==AJAX_SUCC){
                 window.location=PATH+"/"+data.data;
             }else{
@@ -163,7 +164,7 @@ var articalList={
         var that =this;
          //弹窗
         dialog.confirm("确定删除数据:"+id,function(){
-            Ajax.post(PATH+"/artical/del.json",{id:id},function(result){
+            Ajax.post(PATH+"/article/del.json",{id:id},function(result){
                 result=ajaxResultHandler(result);
                 if(result.r==AJAX_SUCC){
                     var did=dialog.alert("删除成功，数据："+id,function(index){
@@ -190,7 +191,7 @@ var articalList={
         //弹窗
         var that=this;
         var dialogid= dialog.confirm("确定删除数据:"+ids.join(","),function(){
-            Ajax.post(PATH+"/artical/mdel.json?",{ids:ids.join(",")},function(result){
+            Ajax.post(PATH+"/article/mdel.json?",{ids:ids.join(",")},function(result){
                 result=ajaxResultHandler(result);
                 if(result.r==AJAX_SUCC){
                     dialogid=dialog.alert("删除成功，数据："+ids.join(","),function(index){

@@ -2,6 +2,7 @@ package com.dozenx.web.core.index.action;
 
 import com.dozenx.core.config.SysConfig;
 import com.dozenx.web.core.annotation.RequiresAdmin;
+import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,11 @@ public class IndexController extends BaseController {
      */
     @RequiresAdmin
     @RequestMapping(value = "/manage.htm", method = RequestMethod.GET)
+    //@RequiresLogin
     public ModelAndView manage(HttpServletRequest request, Model model) {
+        if(this.getUser(request) ==null){
+            return new ModelAndView( "login","path",SysConfig.PATH);
+        }
         return new ModelAndView( "manage","path",SysConfig.PATH);
     }
 

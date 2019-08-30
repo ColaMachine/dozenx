@@ -1,5 +1,5 @@
  <div class="ibox float-e-margins">
-    <form id="articalEditForm" class="form-horizontal" method="post" action="/artical/save.json" enctype="multipart/form-data">
+    <form id="articalEditForm" class="form-horizontal" method="post" action="/article/save.json" enctype="multipart/form-data">
         <!--<div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title">新闻咨询编辑</h4>
@@ -194,7 +194,7 @@ var articalEdit={
     },
     loadData:function(){
         var that =this;
-        Ajax.getJSON(PATH+"/artical/view.json?id="+getParam("id"),null,function(data){
+        Ajax.getJSON(PATH+"/article/view.json?id="+getParam("id"),null,function(data){
             if(data.r==AJAX_SUCC){
                 if(data.data.bean){
                     fillJso2Form("#articalEditForm",data.data.bean);
@@ -211,7 +211,7 @@ var articalEdit={
     },
 
     saveInfo:function(){
-    var that =this;
+        var that =this;
         $("#content").val(this.ue.getContent());
         if (!$("#articalEditForm").valid())
             return;

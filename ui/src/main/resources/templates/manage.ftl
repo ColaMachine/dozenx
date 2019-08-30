@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -28,14 +26,6 @@
 <script type="text/javascript" src="${path}/static/js/imageUtil.js"></script>
 <!-- <script src="/static/js/vue.js"></script>
 <link rel="stylesheet" type="text/css" href="/static/css/slider.css" >  -->
-<%
-String path = request.getContextPath();
-
-String basePath = request.getScheme()+"://"+request.getServerName()
-+":"+request.getServerPort()+path+"/";
-
-pageContext.setAttribute("basePath",basePath);
-%>
 
 <script type="text/javascript" >
 var WEBCONTEXT="${path}";
@@ -102,8 +92,6 @@ includeJS(jsAry);
         <div class="logo">
             <!-- <span class="logo-head">aWiFi</span> -->
 
-            <%-- <img src="${path}/statics/img/logo.png"></img>
- --%>
              <div class="logo-desc" ><span class="nav-icon"><i onclick="$('#page').toggleClass('collapse1')" style="" class="fa fa-reorder">&nbsp;</i></span><span class="logo-desc-text"'>后台管理系统</span></div>
         </div>
         <div id="menu" class="menu">
@@ -282,9 +270,6 @@ includeJS(jsAry);
 <script type="text/javascript" >
 Ajax.getJSON(PATH+"/sys/auth/menu/list.json",null,function(result){
     var menuList =result.data;
-    <% HttpSession s= request.getSession();
-        String resourceStr = (String)s.getAttribute("resourceStr");
-    %>
 
    // zMenu.init("menu",menuList,{id:"id",url:"url",pid:"pid",name:"name"});
 });
@@ -347,9 +332,9 @@ var menuList=[
 
 {id:30,name:"资料",url:"",icon:"fa fa-spinner",pid:0},///*海绵城市*/
 
-    {id:302,name:"新闻资讯",url:"/artical/list.htm",icon:"fa fa-spinner",pid:30},
-    {id:303,name:"新闻资讯审核",url:"/artical/listAudit.htm",icon:"fa fa-spinner",pid:30},
-    {id:303,name:"新闻资讯审核",url:"/artical/listAudit.htm",icon:"fa fa-spinner",pid:30},
+    {id:302,name:"新闻资讯",url:"/article/list.htm",icon:"fa fa-spinner",pid:30},
+    {id:303,name:"新闻资讯审核",url:"/article/listAudit.htm",icon:"fa fa-spinner",pid:30},
+    {id:303,name:"新闻资讯审核",url:"/article/listAudit.htm",icon:"fa fa-spinner",pid:30},
     {id:304,name:"专家智库",url:"/expert/list.htm",icon:"fa fa-spinner",pid:30},
     {id:305,name:"合作伙伴",url:"/partner/list.htm",icon:"fa fa-spinner",pid:30},
     {id:306,name:"专家介绍",url:"/expertDetail/list.htm",icon:"fa fa-spinner",pid:30},
@@ -402,7 +387,7 @@ if($(".page-wrap").height()<$(window).height())
 
  $(document).ready(function(){
     $("#loginOut").click(function(){
-        window.location=PATH+"/logout.htm";
+        window.location=PATH+"/sys/auth/logout.htm";
     })
 
     function fix_height(){
