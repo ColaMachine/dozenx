@@ -19,6 +19,10 @@ import java.util.Properties;
 /**
  * 简单邮件（不带附件的邮件）发送器
  * http://www.bt285.cn BT下载
+ *
+ * 使用mailInfo 构造邮件服务器信息 通过配置文件获取 在application.yml里配置
+ * 再设置 发送内容参数
+ *
  */
 public class SimpleMailSender {
     private final static Logger logger = LoggerFactory.getLogger(SimpleMailSender.class);

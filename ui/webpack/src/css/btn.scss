@@ -1,0 +1,232 @@
+@import 'base';
+@CHARSET "UTF-8";
+@mixin btn-size($size) {
+    font-size:$size ;
+    height:$size * 2.3;
+    line-height:$size * 2.3;
+     min-height: $size*2.3;
+     padding: $size*0.1 $size*0.5;
+      span,i{
+              padding: $size*0.12 $size*0.15;
+             line-height: $size*1.7;
+             height: $size*1.7;
+             min-height: $size*1.7;
+
+         }
+}
+
+button {
+	border: 1px solid transparent;
+/*	height: inherit;*/
+	line-height: inherit;
+	/*width: 100%;*/
+	/*padding: 0;*/
+	background: $white;
+	color: #ffffff;
+
+	border-radius: 2%;
+	/*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);*/
+	border-radius: 5px;
+}
+
+[role="button"] {
+    cursor: pointer;
+}
+
+button,
+input,
+select,
+textarea {
+	/*font-size: $ft-nm * 1.1;*/
+	outline: 0;
+	/*border-radius: 1%;*/
+	border: 1px solid #D4D4D4;
+	padding: 0;
+}
+
+.btn {
+    display: inline-block;
+
+    margin-bottom: 0px;
+    line-height: $ft-nm*2;
+    height: $ft-nm*2;
+    min-height: $ft-nm*2;
+    font-size:$ft-nm ;
+    font-weight: 400;
+
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+  /*  margin:5px 5px 5px;*/
+
+    @include btn-size($ft-nm);
+    height:32px;
+    color:$black;
+}
+.btn-border-blue{
+    border:1px solid #4A90E2;
+    color:#4A90E2;
+     border-radius: 0px;
+      background-color:$tec-blue !important;;
+         color:white !important;
+}
+
+
+
+.btn-border-red{
+    border:1px solid #F05C5C;
+    color:#F05C5C;
+     border-radius: 0px;
+}
+.btn-border-yellow{
+    border:1px solid #fcd70f;
+        color:#F05C5C;
+          background-color: #fcd70f;
+}
+.btn.focus, .btn:focus, .btn:hover {
+    color: #333;
+    text-decoration: none;
+}
+/**default**/
+.btn-default {
+    color: $dark-gray;/*rgba(0,0,0,.65)*/
+    background-color: #fff;
+    border-color: #d9d9d9;
+}
+.btn-default.focus,.btn-default:focus {
+	color: $dark-gray;
+	background-color:#fff;
+	border-color:#d9d9d9
+}
+.btn-default:hover {
+	color:#333;
+	background-color:#fff;
+	border-color:#adadad
+}
+/**primary**/
+.btn-primary {
+	color:#fff;
+	background-color:#1ab394;
+	border-color:#1ab394
+}
+.btn-primary:hover {
+	color:#fff;
+	background-color:#aab2b0;
+	border-color:#aab2b0
+}
+.btn-primary:focus {
+	color:#fff;
+	background-color:#0c8365;
+	border-color:#0c8365;
+}
+/**dashed**/
+.btn-dashed {
+    color: rgba(0,0,0,.65);
+	background-color:#fff;
+	border-color:#d9d9d9;
+    border-style: dashed ;
+}
+.btn-dashed:hover {
+	color:rgba(0,0,0,.65);
+	background-color:#fff;
+	border-color:#49a9ee;
+}
+.btn-dashed:focus {
+	color:rgba(0,0,0,.65);
+    background-color:#fff;
+    border-color:#49a9ee;
+}
+/**danger**/
+.btn-danger {
+	color:#f04134;
+	background-color:#fff;
+	border-color:#d9d9d9;
+}
+.btn-danger:hover {
+	color:#fff;
+	background-color:#f04134;
+	border-color:#aab2b0
+}
+.btn-danger:focus {
+	color:#fff;
+	background-color:#f04134;
+	border-color:#0c8365;
+}
+
+
+
+.circle{
+   border-radius: 25px;
+
+   width: $ft-nm*3;
+   height: $ft-nm*3;
+   padding:0 0;
+   span,i{
+
+   }
+}
+.zw-btn-large{
+
+        @include btn-size($ft-nm*1.2);
+}
+.zw-btn-small{
+  @include btn-size($ft-nm*0.7);
+}
+/*.btn-default,.btn-default:hover,.btn-default:focus {
+    background-color: #FFF;
+    border-color: #000;
+    color: #FFFFFF;
+}*/
+
+.zw-btn-text{
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.zw-btn-group{
+   .btn{
+        border-radius:0px;
+        margin-top:0px;
+        margin-bottom:0px;
+
+        margin-left:-3px;
+        margin-right:-2px;
+
+
+        span {
+
+            vertical-align:center;
+        }
+        i{
+
+            vertical-align:center;
+        }
+   }
+}
+
+.btn[disabled]{
+    border-color:#d9d9d9;
+    color:$disabled-color;
+    background:$lighter-gray;
+    cursor:not-allowed;
+}
+
+.btn-loading .fa-spinner{
+     animation:mymove 2s   linear   infinite;
+     -webkit-animation:mymove 2s  linear   infinite; /*Safari and Chrome*/
+    /*transition: all 2s;*/
+
+ }
+
+
+ @keyframes mymove
+ {
+    from{transform:rotate(0)}
+    to{transform:rotate(360deg)}
+ }

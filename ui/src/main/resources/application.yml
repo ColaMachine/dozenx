@@ -126,15 +126,16 @@ image :
     serverUrl : http://192.168.213.91:2019/mssrv/static
 email :
     ##设置传输协议
-    protocol : smtp
+    protocol : smtp  #协议
     ##设置发信邮箱的smtp地址
-    host : xxx.xxx.com
-    auth : true
-    debug : true
-    port : 25
-    user : xxxx@xxx.com
-    pwd :
-
+    host : smtp.163.com #邮件服务器地址
+    auth : true #是否需要密码
+    debug : true  #是否debug
+    port : 465    #邮件服务器端口
+    ssl: true #是否启用ssl
+    user : likegadfly@163.com #来者邮件地址
+    pwd : Awhti323  #邮件服务器面
+    username: zhangzw #邮件来信人称呼
 validCode :
     #//系统url
     #//serverUrl : http : //127.0.0.1 : 8081

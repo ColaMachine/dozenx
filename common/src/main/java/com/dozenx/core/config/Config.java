@@ -57,15 +57,15 @@ public class Config {
     /**
      * 单例 配置
      */
-//    private static EmailConfig emailConfig =new EmailConfig();
-//
-//    public static EmailConfig getEmailConfig() {
-//        return emailConfig;
-//    }
-//
-//    public static void setEmailConfig(EmailConfig emailConfig) {
-//        Config.emailConfig = emailConfig;
-//    }
+    private static EmailConfig email =new EmailConfig();
+
+    public static EmailConfig getEmail() {
+        return email;
+    }
+
+    public static void setEmail(EmailConfig email) {
+        Config.email = email;
+    }
 
     /**
      * 单例配置获取

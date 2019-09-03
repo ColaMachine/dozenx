@@ -17,9 +17,19 @@ public class EmailConfig {
     //端口
     private int port;
     //用户
-    private String user;
+    private String username;
     //密码
     private String pwd;
+    //是否启用ssl
+    private boolean ssl;
+
+    public boolean isSsl() {
+        return ssl;
+    }
+
+    public void setSsl(boolean ssl) {
+        this.ssl = ssl;
+    }
 
     public String getProtocol() {
         return protocol;
@@ -61,12 +71,12 @@ public class EmailConfig {
         this.port = port;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPwd() {

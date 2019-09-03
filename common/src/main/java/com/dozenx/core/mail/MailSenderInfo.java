@@ -12,13 +12,24 @@ public class MailSenderInfo {
     public MailSenderInfo (){
 
     }
+
+    /**
+     *
+     * @param host server host
+     * @param port server port
+     * @param userName 邮件中的来者姓名
+     * @param password 密码
+     * @param fromAddress  来信地址
+     */
     public MailSenderInfo (String host,int port,String userName,String password,String fromAddress){
         this.mailServerHost=host;
         this.mailServerPort = port+"";
         this.userName = userName;
         this.password = password;
         this.fromAddress = fromAddress;
+
     }
+
 
     // 发送邮件的服务器的IP和端口    
     private String mailServerHost;
@@ -70,14 +81,30 @@ public class MailSenderInfo {
         p.setProperty("mail.transport.protocol", protocol);// 设置传输协议
         p.put("mail.smtp.host", this.mailServerHost);
         p.put("mail.smtp.port", this.mailServerPort);
-
         p.put("mail.smtp.auth", validate ? "true" : "false");
         p.put("mail.debug", debug);//便于调试
+
+        if(isSsl()){
+            p.put("mail.smtp.ssl.enable", true);//便于调试
+            /*
+            p.put("mail.smtp.socketFactory.port", "465");
+            p.put("mail.smtp.socketFactory.class",
+                    "javax.net.ssl.SSLSocketFactory");*/
+        }
         return p;
     }
 
     public String getMailServerHost() {
         return mailServerHost;
+    }
+    public boolean ssl=false;
+
+    public boolean isSsl() {
+        return ssl;
+    }
+
+    public void setSsl(boolean ssl) {
+        this.ssl = ssl;
     }
 
     public void setMailServerHost(String mailServerHost) {
@@ -162,5 +189,19 @@ public class MailSenderInfo {
 
     public void setDebug(String debug) {
         this.debug = debug;
+    }
+
+    public MailSenderInfo clone(){
+
+        MailSenderInfo mailSenderInfo = new MailSenderInfo();
+        mailSenderInfo.setMailServerHost(this.getMailServerHost());
+        mailSenderInfo.setUserName(this.getUserName());
+        mailSenderInfo.setMailServerPort(this.getMailServerPort());
+        mailSenderInfo.setPassword(this.getPassword());
+        mailSenderInfo.setFromAddress(this.getFromAddress());
+        mailSenderInfo.setSsl(this.isSsl());
+        mailSenderInfo.setDebug( this.getDebug());
+
+        return mailSenderInfo;
     }
 }

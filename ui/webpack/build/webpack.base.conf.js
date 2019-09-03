@@ -14,15 +14,15 @@ module.exports = {
 
   entry: {
    'main': './src/main.js',//手机端
-    'shopIndex': './app/shopIndex.js',//手机端
-    "index": './app/index.js',//web主界面,//pc端管理主界面
-    "PcGoodPage":'./app/PcGoodPage.js',//商品查看页面
-     "PcArticalPage":'./app/PcArticalPage.js',//商品查看页面
+    'shopIndex': './src/shopIndex.js',//手机端
+    "index": './src/index.js',//web主界面,//pc端管理主界面
+    "PcGoodPage":'./src/PcGoodPage.js',//商品查看页面
+     "PcArticlePage":'./src/PcArticlePage.js',//商品查看页面
             //"blog": PATHS.blog,//pc端管理主界面
-           "example": './app/example.js',//组件库
-            "vueUserInfo": './app/vueUserInfo.js',//组件库
+           "example": './src/example.js',//组件库
+            "vueUserInfo": './src/vueUserInfo.js',//组件库
             //"zhihuijiating":PATHS.zhihuijiating,//智慧家庭
-            "vuePhoneIndex":'./app/vuePhoneIndex.js',//手机端
+            "vuePhoneIndex":'./src/vuePhoneIndex.js',//手机端
 
   },
   output: {
