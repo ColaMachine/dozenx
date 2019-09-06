@@ -8,14 +8,14 @@
 
 package com.dozenx.web.module.spider.hotel.url.hotelUrl.action;
 
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.APIs;
-import com.cpj.swagger.annotation.DataType;
-import com.cpj.swagger.annotation.Param;
+import com.dozenx.swagger.annotation.API;
+import com.dozenx.swagger.annotation.APIs;
+import com.dozenx.swagger.annotation.DataType;
+import com.dozenx.swagger.annotation.Param;
 import com.dozenx.web.module.spider.action.MyCrawler;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.ExcelUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.ExcelUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.page.Page;

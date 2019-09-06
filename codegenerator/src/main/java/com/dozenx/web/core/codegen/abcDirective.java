@@ -1,6 +1,6 @@
 package com.dozenx.web.core.codegen;
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import freemarker.core.Environment;
 import freemarker.template.*;
 

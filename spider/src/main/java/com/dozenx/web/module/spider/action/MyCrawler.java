@@ -1,8 +1,7 @@
 package com.dozenx.web.module.spider.action;
 
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.StringUtil;
-import com.dozenx.web.module.spider.hotel.comment.hotelComment.bean.HotelComment;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.module.spider.hotel.comment.hotelComment.service.HotelCommentService;
 import com.dozenx.web.module.spider.hotel.url.hotelUrl.bean.HotelUrl;
 import com.dozenx.web.module.spider.hotel.url.hotelUrl.service.HotelUrlService;
@@ -14,10 +13,7 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.sql.Timestamp;
 import java.util.regex.Pattern;
 
 /**

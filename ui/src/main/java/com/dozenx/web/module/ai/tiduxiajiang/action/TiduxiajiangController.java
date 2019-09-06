@@ -1,36 +1,19 @@
 package com.dozenx.web.module.ai.tiduxiajiang.action;
 
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.APIs;
-import com.cpj.swagger.annotation.DataType;
-import com.cpj.swagger.annotation.Param;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.StringUtil;
-import com.dozenx.web.core.base.BaseController;
-import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.web.core.page.Page;
-import com.dozenx.web.module.pubImage.bean.PubImage;
-import com.dozenx.web.module.pubImage.service.PubImageService;
-import com.dozenx.web.util.RequestUtil;
-import com.dozenx.web.util.ResultUtil;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.StringUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

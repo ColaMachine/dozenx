@@ -7,22 +7,19 @@
  */
 
 package com.dozenx.web.core.auth.sysRole.action;
-
-import com.cpj.swagger.annotation.*;
-import com.dozenx.util.*;
+import com.dozenx.common.util.*;
+import com.dozenx.swagger.annotation.*;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.annotation.RequiresPermission;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysRole.service.SysRoleService;
 import com.dozenx.web.core.base.BaseController;
-import com.dozenx.web.core.location.service.LocationService;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.util.RequestUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +28,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.sql.Timestamp;

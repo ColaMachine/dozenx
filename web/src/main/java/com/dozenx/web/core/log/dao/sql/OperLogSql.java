@@ -1,10 +1,9 @@
 package com.dozenx.web.core.log.dao.sql;
 
-import org.apache.commons.lang3.StringUtils;
+import com.dozenx.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -33,10 +32,10 @@ public class OperLogSql {
         if(userId !=null){
            sql.append(" and user_id= #{userId} ");
         }
-        if(StringUtils.isNotBlank(userName)){
+        if(StringUtil.isNotBlank(userName)){
             sql.append("and user_name like concat('%',#{userName},'%') ");
         }
-        if(StringUtils.isNotBlank(keywords)){
+        if(StringUtil.isNotBlank(keywords)){
             sql.append("and concat(ifnull(module_name,''),ifnull(comp_name,''),ifnull(detail,''))  like concat('%',#{keywords},'%') ");
         }
         sql.append(" order by create_time desc ");//排序倒序
@@ -59,10 +58,10 @@ public class OperLogSql {
         if(userId !=null){
             sql.append(" and user_id= #{userId} ");
         }
-        if(StringUtils.isNotBlank(userName)){
+        if(StringUtil.isNotBlank(userName)){
             sql.append("and user_name like concat('%',#{userName},'%') ");
         }
-        if(StringUtils.isNotBlank(keywords)){
+        if(StringUtil.isNotBlank(keywords)){
             sql.append("and concat(ifnull(module_name,''),ifnull(comp_name,''),ifnull(detail,''))  like concat('%',#{keywords},'%') ");
         }
         logger.debug("系统操作日志：计算总数sql： " +sql.toString());

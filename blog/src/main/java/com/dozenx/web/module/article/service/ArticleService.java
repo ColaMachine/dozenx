@@ -8,10 +8,10 @@
 
 package com.dozenx.web.module.article.service;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.FileUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.FileUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.module.article.bean.Article;
@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;

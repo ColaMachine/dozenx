@@ -160,7 +160,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="status != null and status != '' ">  
            and `status` = #{status}
         </if>  
-        <if test="activedTime != null and activedTime != '' ">  
+        <if test="activedTime != null  ">
            and `activedTime` = #{activedTime}
         </if>  
         <if test="account != null and account != '' ">  
@@ -169,7 +169,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="accountLike != null and accountLike != '' ">
              and `account` like "%"#{accountLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>  
   </select>
@@ -200,7 +200,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="status != null and status != '' ">  
            and active.`status` = #{status}
         </if>  
-        <if test="activedTime != null and activedTime != '' ">  
+        <if test="activedTime != null  ">
            and active.`activedTime` = #{activedTime}
         </if>  
         <if test="account != null and account != '' ">  
@@ -209,7 +209,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="accountLike != null and accountLike != '' ">  
              and active.`account` like "%"#{accountLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and active.`createTime` = #{createTime}
         </if>  
   </select>
@@ -238,7 +238,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="status != null and status != '' ">  
            and active.`status` = #{status}
         </if>  
-        <if test="activedTime != null and activedTime != '' ">  
+        <if test="activedTime != null  ">
            and active.`activedTime` = #{activedTime}
         </if>  
         <if test="account != null and account != '' ">  
@@ -247,7 +247,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="accountLike != null and accountLike != '' ">  
              and active.`account` like "%"#{accountLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and active.`createTime` = #{createTime}
         </if>  
   </select>
@@ -270,13 +270,13 @@ where id = #{id,jdbcType=INTEGER}
         <if test="status != null and status != '' ">
            or `status` = #{status}
         </if>
-        <if test="activedTime != null and activedTime != '' ">
+        <if test="activedTime != null  ">
            or `activedTime` = #{activedTime}
         </if>
         <if test="account != null and account != '' ">
            or `account` = #{account}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `createTime` = #{createTime}
         </if>
   </select>

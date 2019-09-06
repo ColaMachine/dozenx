@@ -1,8 +1,8 @@
 package com.dozenx.web.core.filter;
 
-import com.dozenx.util.JsonUtil;
+import com.dozenx.common.util.JsonUtil;
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.util.RequestUtil;

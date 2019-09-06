@@ -1,7 +1,7 @@
 package com.dozenx.web.util;
 
-import com.dozenx.core.exception.ValidException;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.exception.ValidException;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.rules.Rule;
 import org.slf4j.Logger;

@@ -1,8 +1,8 @@
 package com.dozenx.web.util;
 
-import com.dozenx.util.CastUtil;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.JsonUtil;
+import com.dozenx.common.util.CastUtil;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

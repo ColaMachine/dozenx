@@ -1,8 +1,8 @@
 package com.dozenx.web.module.spider.service.ctrip;
 
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.module.spider.hotel.comment.hotelComment.bean.HotelComment;
 import com.dozenx.web.module.spider.hotel.comment.hotelComment.service.HotelCommentService;
 import com.dozenx.web.module.spider.service.SpiderServiceInterface;

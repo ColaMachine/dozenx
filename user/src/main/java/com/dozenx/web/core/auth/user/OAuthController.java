@@ -7,7 +7,7 @@
  */
 package com.dozenx.web.core.auth.user;
 
-import com.dozenx.util.UUIDUtil;
+import com.dozenx.common.util.UUIDUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

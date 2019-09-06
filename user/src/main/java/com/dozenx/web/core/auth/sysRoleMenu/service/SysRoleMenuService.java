@@ -9,17 +9,13 @@
 package com.dozenx.web.core.auth.sysRoleMenu.service;
 
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 import com.dozenx.web.core.auth.sysMenu.dao.SysMenuMapper;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysRole.dao.SysRoleMapper;
 import com.dozenx.web.core.auth.sysRoleMenu.bean.SysRoleMenu;
 import com.dozenx.web.core.auth.sysRoleMenu.dao.SysRoleMenuMapper;
-import com.dozenx.web.core.auth.sysUser.bean.SysUser;
-import com.dozenx.web.core.auth.sysUser.dao.SysUserMapper;
-import com.dozenx.web.core.auth.sysUserRole.bean.SysUserRole;
-import com.dozenx.web.core.auth.sysUserRole.dao.SysUserRoleMapper;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
 import org.slf4j.Logger;

@@ -1,11 +1,11 @@
 package com.dozenx;
 
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.ExcelUtil;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.PropertiesUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.ExcelUtil;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

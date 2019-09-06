@@ -1,8 +1,8 @@
 package com.dozenx.web.util;
 
 import com.alibaba.fastjson.JSON;
-import com.dozenx.core.config.CacheConfig;
-import com.dozenx.core.config.Config;
+import com.dozenx.common.config.CacheConfig;
+import com.dozenx.common.config.Config;
 import com.dozenx.web.core.RedisConstants;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;

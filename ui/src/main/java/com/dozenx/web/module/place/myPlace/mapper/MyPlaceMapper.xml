@@ -328,10 +328,10 @@ where id = #{id,jdbcType=INTEGER}
         <if test="picLike != null and picLike != '' ">
              and `pic` like "%"#{picLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>  
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and `updateTime` = #{updateTime}
         </if>  
         <if test="telno != null and telno != '' ">  
@@ -419,10 +419,10 @@ where id = #{id,jdbcType=INTEGER}
         <if test="picLike != null and picLike != '' ">  
              and my_place.`pic` like "%"#{picLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and my_place.`create_time` = #{createTime}
         </if>  
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and my_place.`update_time` = #{updateTime}
         </if>  
         <if test="telno != null and telno != '' ">  
@@ -508,10 +508,10 @@ where id = #{id,jdbcType=INTEGER}
         <if test="picLike != null and picLike != '' ">  
              and my_place.`pic` like "%"#{picLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and my_place.`create_time` = #{createTime}
         </if>  
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and my_place.`update_time` = #{updateTime}
         </if>  
         <if test="telno != null and telno != '' ">  
@@ -582,10 +582,10 @@ where id = #{id,jdbcType=INTEGER}
         <if test="pic != null and pic != '' ">
            or `pic` = #{pic}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `create_time` = #{createTime}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
            or `update_time` = #{updateTime}
         </if>
         <if test="telno != null and telno != '' ">

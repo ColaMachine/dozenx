@@ -1,20 +1,8 @@
 package com.dozenx.web.core;
-import com.dozenx.util.MD5Util;
-import org.springframework.cglib.core.ReflectUtils;
-import org.springframework.web.context.ContextLoaderListener;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import sun.misc.Launcher;
-import sun.misc.URLClassPath;
+import com.dozenx.common.util.MD5Util;
 
-import java.io.FileNotFoundException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author: dozen.zhang
@@ -106,8 +94,8 @@ public class test {
 //        packages.add("com.dozenx");
 //        List<Class<?>> classes = null;
 //        try {
-//            //classes =  com.cpj.swagger.util.ReflectUtils.scanPackage().scanClazzs(packages);
-//            List<Package> pkgs =  com.cpj.swagger.util.ReflectUtils.scanPackage("com.dozenx",true);
+//            //classes =  com.dozenx.swagger.util.ReflectUtils.scanPackage().scanClazzs(packages);
+//            List<Package> pkgs =  com.dozenx.swagger.util.ReflectUtils.scanPackage("com.dozenx",true);
 //        System.out.print(pkgs.size());
 //        } catch (Exception  e) {
 //            e.printStackTrace();

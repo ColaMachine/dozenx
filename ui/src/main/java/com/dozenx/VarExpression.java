@@ -1,6 +1,6 @@
 package com.dozenx;
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.FileUtil;
-import com.dozenx.util.HttpRequestUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.util.FileUtil;
+import com.dozenx.common.util.HttpRequestUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;

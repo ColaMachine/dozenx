@@ -152,19 +152,19 @@ where id = #{id,jdbcType=INTEGER}
         <if test="systemNoLike != null and systemNoLike != '' ">  
              and `systemNo` like '%#{systemNoLike}%'
         </if>   
-        <if test="sendTime != null and sendTime != '' ">  
+        <if test="sendTime != null  ">
            and `sendTime` = #{sendTime}
         </if>  
-        <if test="sendTimeBegin != null and sendTimeBegin != '' ">  
+        <if test="sendTimeBegin != null  ">
              and `sendTime` &gt;= #{sendTimeBegin}
         </if>   
-         <if test="sendTimeEnd != null and sendTimeEnd != '' ">  
+         <if test="sendTimeEnd != null  ">
              and `sendTime` &lt;= #{sendTimeEnd}
         </if> 
-        <if test="sendTimeBegin != null and sendTimeBegin != '' ">  
+        <if test="sendTimeBegin != null  ">
              and `sendTime` &gt;= #{sendTimeBegin}
         </if>   
-         <if test="sendTimeEnd != null and sendTimeEnd != '' ">  
+         <if test="sendTimeEnd != null  ">
              and `sendTime` &lt;= #{sendTimeEnd}
         </if> 
         <if test="content != null and content != '' ">  
@@ -202,13 +202,13 @@ where id = #{id,jdbcType=INTEGER}
         <if test="systemNoLike != null and systemNoLike != '' ">  
              and `systemNo` like '%#{systemNoLike}%'
         </if>   
-        <if test="sendTime != null and sendTime != '' ">  
+        <if test="sendTime != null  ">
            and `sendTime` = #{sendTime}
         </if>  
-        <if test="sendTimeBegin != null and sendTimeBegin != '' ">  
+        <if test="sendTimeBegin != null  ">
              and `sendTime` &gt;= #{sendTimeBegin}
         </if>   
-         <if test="sendTimeEnd != null and sendTimeEnd != '' ">  
+         <if test="sendTimeEnd != null  ">
              and `sendTime` &lt;= #{sendTimeEnd}
         </if> 
         <if test="content != null and content != '' ">  
@@ -246,13 +246,13 @@ where id = #{id,jdbcType=INTEGER}
         <if test="systemNoLike != null and systemNoLike != '' ">  
              and `systemNo` like '%#{systemNoLike}%'
         </if>   
-        <if test="sendTime != null and sendTime != '' ">  
+        <if test="sendTime != null  ">
            and `sendTime` = #{sendTime}
         </if>  
-        <if test="sendTimeBegin != null and sendTimeBegin != '' ">  
+        <if test="sendTimeBegin != null  ">
              and `sendTime` &gt;= #{sendTimeBegin}
         </if>   
-         <if test="sendTimeEnd != null and sendTimeEnd != '' ">  
+         <if test="sendTimeEnd != null  ">
              and `sendTime` &lt;= #{sendTimeEnd}
         </if> 
         <if test="content != null and content != '' ">  

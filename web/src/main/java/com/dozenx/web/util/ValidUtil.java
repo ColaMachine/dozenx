@@ -1,10 +1,12 @@
 package com.dozenx.web.util;
 
-import com.dozenx.core.exception.ValidException;
-import com.dozenx.util.*;
+import com.dozenx.common.exception.ValidException;
+import com.dozenx.common.util.CastUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.RegexConstants;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.log.ResultDTO;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -258,7 +260,7 @@ public class ValidUtil {
             return;
         }
         String valueStr = (String)value;
-        if(StringUtils.isBlank(valueStr)){//空串，自动跳过
+        if(StringUtil.isBlank(valueStr)){//空串，自动跳过
             return;
         }
         if(valueStr.length() > length){
@@ -281,7 +283,7 @@ public class ValidUtil {
             return;
         }
         String valueStr = (String)value;
-        if(StringUtils.isBlank(valueStr)){//空串，自动跳过
+        if(StringUtil.isBlank(valueStr)){//空串，自动跳过
             return;
         }
         if(valueStr.length() < length){

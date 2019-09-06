@@ -1,6 +1,6 @@
 package com.dozenx.web.util;
 
-import com.dozenx.util.HttpRequestUtil;
+import com.dozenx.common.util.HttpRequestUtil;
 import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;

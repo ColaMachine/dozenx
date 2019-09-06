@@ -9,7 +9,7 @@
 package com.dozenx.web.core.auth.sysUserRole.service;
 
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysRole.dao.SysRoleMapper;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.List;
 
 @Service("sysUserRoleService")
 public class SysUserRoleService extends BaseService {

@@ -3,7 +3,7 @@ package com.dozenx.web.module.hbase.util;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
 import org.springframework.core.convert.ConversionService;

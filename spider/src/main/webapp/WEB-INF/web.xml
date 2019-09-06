@@ -51,7 +51,7 @@
 
 	<!--<servlet>
 		<servlet-name>apiServlet</servlet-name>
-		<servlet-class>com.cpj.swagger.support.servlet.ApiServlet</servlet-class>
+		<servlet-class>com.dozenx.swagger.support.servlet.ApiServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>apiServlet</servlet-name>

@@ -8,7 +8,7 @@
 
 package com.dozenx.web.core.sms.action;
 
-import com.dozenx.util.*;
+import com.dozenx.common.util.*;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.rules.*;

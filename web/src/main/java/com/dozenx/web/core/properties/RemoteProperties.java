@@ -1,11 +1,11 @@
 package com.dozenx.web.core.properties;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.config.Config;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.PropertiesUtil;
-import com.dozenx.util.StringUtil;
-import com.dozenx.util.db.MysqlUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.PropertiesUtil;
+import com.dozenx.common.util.StringUtil;
+import com.dozenx.common.util.db.MysqlUtil;
 import com.dozenx.web.util.ConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -107,7 +106,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
         //首先创建properties对象 //首先加载主目录下的main.properties配置文件
         properties = new Properties(); //PropertiesUtil.load("main.properties");
         //查找底下的所有properties文件 不进入文件夹 说明所有的配置文件都必须要拷贝到WEBROOT目录下   //如果是spring boot jar包方式 那么需要读取 jar包统计目录下的文件了
-        List<File> files = com.dozenx.util.FileUtil.listFile(PathManager.getInstance().getClassPath().toFile(), false);
+        List<File> files = com.dozenx.common.util.FileUtil.listFile(PathManager.getInstance().getClassPath().toFile(), false);
         if (files != null)
             for (File file : files) {
                 try {
@@ -141,7 +140,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
                         File basePropertiesFolder = PathManager.getInstance().getClassPath().resolve(basePropertiesPath).toFile();
                         if (basePropertiesFolder != null && basePropertiesFolder.exists()) {
                             logger.info("load porperties from basePropertiesFolder " + basePropertiesPath);
-                            files = com.dozenx.util.FileUtil.listFile(basePropertiesFolder);
+                            files = com.dozenx.common.util.FileUtil.listFile(basePropertiesFolder);
                             if (files != null) {
                                 for (File file : files) {
                                     if (file.getName().equals("messsage.properties")) {
@@ -166,7 +165,7 @@ public class RemoteProperties implements InitializingBean, FactoryBean<Propertie
                                 // String basePropertiesPathReal = PathManager.getInstance().getClassPath().resolve(basePropertiesPath).toString();
 
                                 //其次加载beta alpha 文件夹
-                                files = com.dozenx.util.FileUtil.listFile(addPropertiesFolder);
+                                files = com.dozenx.common.util.FileUtil.listFile(addPropertiesFolder);
                                 for (File file : files) {
 
                                     logger.debug("begin load properties:" + file.getAbsolutePath() + file.getName());

@@ -1,10 +1,10 @@
 package com.dozenx.web.util;
 
 
-import com.dozenx.core.config.Config;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -8,11 +8,10 @@
 
 package com.dozenx.web.core.auth.sysRoleMenu.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.util.*;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.util.MapUtils;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.sysRoleMenu.service.SysRoleMenuService;
-import com.dozenx.web.core.auth.sysUserRole.service.SysUserRoleService;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.rules.Digits;
 import com.dozenx.web.core.rules.Required;

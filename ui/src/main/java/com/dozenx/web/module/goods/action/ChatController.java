@@ -8,36 +8,22 @@
 
 package com.dozenx.web.module.goods.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.config.SysConfig;
-import com.dozenx.core.exception.BizException;
-import com.dozenx.core.exception.ParamException;
-import com.dozenx.util.*;
-import com.dozenx.web.core.Constants;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.config.SysConfig;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.exception.ParamException;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.web.core.page.Page;
-import com.dozenx.web.core.rules.*;
-import com.dozenx.web.module.goods.bean.Goods;
 import com.dozenx.web.module.goods.service.GoodsService;
-import com.dozenx.web.util.RequestUtil;
-import com.dozenx.web.util.ResultUtil;
-import com.dozenx.web.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.nio.file.Files;
-import java.sql.Timestamp;
 import java.util.*;
 
 @APIs(description = "商品")

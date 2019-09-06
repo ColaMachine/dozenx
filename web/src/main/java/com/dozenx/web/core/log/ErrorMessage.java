@@ -1,6 +1,6 @@
 package com.dozenx.web.core.log;
 
-import com.dozenx.core.Path.PathManager;
+import com.dozenx.common.Path.PathManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

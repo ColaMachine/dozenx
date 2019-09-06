@@ -1,10 +1,10 @@
 package com.dozenx;
 
 
-import com.dozenx.core.Path.PathManager;
+import com.dozenx.common.Path.PathManager;
 import com.dozenx.service.CheckinOutService;
-import com.dozenx.util.PropertiesUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.PropertiesUtil;
+import com.dozenx.common.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -152,21 +152,22 @@ public class ReadAccess {
 //            CheckinOutService checkinOutService =new CheckinOutService();
             checkinOutService.initConnection2Access(mdbFile);
             // initConnection2Access(mdbFile);//开始连接数据库
-//            checkinOutService.initUser();//根据userInfo 获取有效用户
-            ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
+         //   checkinOutService.initUser();//根据userInfo 获取有效用户
+          //  ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
             // 从现在开始1秒钟之后，每隔1秒钟执行一次job1
-            service.scheduleAtFixedRate(
-                    new PushByModifyThread(checkinOutService), 60,
-                    5, TimeUnit.SECONDS);
-//            // 从现在开始2秒钟之后，每隔2秒钟执行一次job2
-//
-//
-            service.scheduleWithFixedDelay(
-                    new PushBy10minThread(checkinOutService), 1,
-                    8 * 60, TimeUnit.SECONDS);//
-////            service.scheduleWithFixedDelay(
-////                    new PushUserThread(checkinOutService), 1,
-////                    *60*60, TimeUnit.SECONDS);//
+            new PushByModifyThread(checkinOutService).run();
+//            service.scheduleAtFixedRate(
+//                    new PushByModifyThread(checkinOutService), 60,
+//                    1440, TimeUnit.SECONDS);
+////            // 从现在开始2秒钟之后，每隔2秒钟执行一次job2
+////
+////
+//            service.scheduleWithFixedDelay(
+//                    new PushBy10minThread(checkinOutService), 1,
+//                    8 * 60, TimeUnit.SECONDS);//
+//            service.scheduleWithFixedDelay(
+//                    new PushUserThread(checkinOutService), 1,24
+//                    *60*60, TimeUnit.SECONDS );//
 //            service.scheduleWithFixedDelay(
 //                    new PushByChidaoThread(checkinOutService), 1,
 //                    60, TimeUnit.SECONDS);//1分钟确保只执行一次
@@ -187,38 +188,38 @@ public class ReadAccess {
 //            }
 
 
-            //创建scheduler
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-
-            //定义一个Trigger
-            String timeStr = PropertiesUtil.get("late.check.time");
-            String[] timeSecAry = timeStr.split(",");
-
-
-            for (int i = 0; i < timeSecAry.length; i++) {
-                String timeSec = timeSecAry[i];
-                if (StringUtil.isBlank(timeSec)) {
-                    continue;
-                }
-                String[] shijianFanWeiAry = timeSec.split("-");
-                if (shijianFanWeiAry.length == 0) {
-                    logger.error("late.check.time is error format" + timeStr);
-                }
-
-                String[] time = shijianFanWeiAry[0].split(":");
-
-                JobDetail job = newJob(Push4TimeOneDayJob.class) //定义Job类为HelloQuartz类，这是真正的执行逻辑所在
-                        .withIdentity("job" + i, "group1") //定义name/group
-                        .usingJobData("name", timeSec) //定义属性
-                        .build();
-
-                //创建一trigger
-                Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger_" + i, "group_2")
-                        .startNow().withSchedule(CronScheduleBuilder.cronSchedule("0 " + time[1] + " " + time[0] + " * * ?")).build();
-
-
-                scheduler.scheduleJob(job, trigger);
-            }
+//            //创建scheduler
+//            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+//
+//            //定义一个Trigger
+//            String timeStr = PropertiesUtil.get("late.check.time");
+//            String[] timeSecAry = timeStr.split(",");
+//
+//
+//            for (int i = 0; i < timeSecAry.length; i++) {
+//                String timeSec = timeSecAry[i];
+//                if (StringUtil.isBlank(timeSec)) {
+//                    continue;
+//                }
+//                String[] shijianFanWeiAry = timeSec.split("-");
+//                if (shijianFanWeiAry.length == 0) {
+//                    logger.error("late.check.time is error format" + timeStr);
+//                }
+//
+//                String[] time = shijianFanWeiAry[0].split(":");
+//
+//                JobDetail job = newJob(Push4TimeOneDayJob.class) //定义Job类为HelloQuartz类，这是真正的执行逻辑所在
+//                        .withIdentity("job" + i, "group1") //定义name/group
+//                        .usingJobData("name", timeSec) //定义属性
+//                        .build();
+//
+//                //创建一trigger
+//                Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger_" + i, "group_2")
+//                        .startNow().withSchedule(CronScheduleBuilder.cronSchedule("0 " + time[1] + " " + time[0] + " * * ?")).build();
+//
+//
+//                scheduler.scheduleJob(job, trigger);
+//            }
 
 //            Trigger trigger8 = cronSchedule("0 31 8 * * ?") // 每天8:00-17:00，每隔2分钟执行一次
 //                    .build();
@@ -238,7 +239,7 @@ public class ReadAccess {
 //
 //            scheduler.scheduleJob(job, trigger23);
 
-            scheduler.start();
+//            scheduler.start();
 
         } catch (Exception e) {
             e.printStackTrace();

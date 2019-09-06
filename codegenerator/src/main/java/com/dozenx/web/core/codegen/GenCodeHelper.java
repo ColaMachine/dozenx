@@ -7,9 +7,9 @@
  */
 package com.dozenx.web.core.codegen;
 
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.ReflactorUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.ReflactorUtil;
+import com.dozenx.common.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;

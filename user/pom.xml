@@ -3,20 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>myproj</artifactId>
         <groupId>com.dozenx</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>myproj</artifactId>
+        <version>2.0-SNAPSHOT</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.dozenx</groupId>
     <artifactId>user</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${dozenx.version}</version>
     <packaging>jar</packaging>
-    <properties>
-        <dozenx.version>1.0-SNAPSHOT</dozenx.version>
+    <!--<properties>
+        <dozenx.version>${dozenx.version}</dozenx.version>
 
-    </properties>
+    </properties>-->
     <dependencies>
         <dependency>
             <groupId>com.dozenx</groupId>
@@ -39,20 +40,128 @@
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
+        <!-- maven 插件开始 -->
         <plugins>
+            <!-- 资源插件 -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>1.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.3</version>
                 <configuration>
-                    <path>/</path>
-                    <port>80</port>
-                    <uriEncoding>UTF-8</uriEncoding>
-                    <url>http://localhost:8081/manager/html</url>
-                    <server>tomcat7</server>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-        </plugins>
+            <!-- 编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>${java.version}</source><!-- 源代码使用的开发版本 -->
+                    <target>${java.version}</target><!-- 需要生成的目标class文件的编译版本 -->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- tomcat插件 -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
+                </configuration>
+            </plugin>
+            <!-- 解决maven test命令时console出现中文乱码乱码 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.7.2</version>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <!-- <skip>true</skip> -->
+                </configuration>
+            </plugin>
 
+
+            <!-- 打war包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/resources/${profiles.active}</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                        <resource>
+                            <directory>${project.build.directory}/classes</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <excludes>
+                                <exclude>src/main/resources/${profiles.active}/*</exclude>
+                                <filtering>true</filtering>
+                            </excludes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>6.6</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+        <!-- maven 插件结束 -->
+        <resources>
+
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+                <excludes>
+                    <exclude>env/alpha/*</exclude>
+                    <exclude>env/beta/*</exclude>
+                    <exclude>env/prd/*</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${profiles.active}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>src/main/resources/${profiles.active}</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </testResource>
+        </testResources>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
     </build>
 </project>

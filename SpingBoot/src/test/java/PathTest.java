@@ -1,13 +1,8 @@
-import com.dozenx.core.config.Config;
-import com.dozenx.util.StreamUtil;
-import com.dozenx.web.core.log.ResultDTO;
+import com.dozenx.common.config.Config;
 import com.dozenx.web.module.test.TestController;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.InputStream;
 
 /**
  * @Author: dozen.zhang

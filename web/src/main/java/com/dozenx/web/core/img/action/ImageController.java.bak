@@ -7,11 +7,11 @@
  */
 package com.dozenx.web.core.img.action;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.config.Config;
-import com.dozenx.util.FilePathUtil;
-import com.dozenx.util.ImageUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.util.FilePathUtil;
+import com.dozenx.common.util.ImageUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.util.ResultUtil;

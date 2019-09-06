@@ -1,11 +1,10 @@
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.ImageUtil;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.MapUtils;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.ImageUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.MapUtils;
 //import com.dozenx.web.util.EmailUtil;
 import org.slf4j.LoggerFactory;
 
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 

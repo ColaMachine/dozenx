@@ -189,10 +189,10 @@
         <if test="titleLike != null and titleLike != '' ">
             and `title` like "%"#{titleLike}"%"
         </if>
-        <if test="startTime != null and startTime != '' ">
+        <if test="startTime != null  ">
             and `startTime` = #{startTime}
         </if>
-        <if test="endTime != null and endTime != '' ">
+        <if test="endTime != null  ">
             and `endTime` = #{endTime}
         </if>
         <if test="address != null and address != '' ">
@@ -236,10 +236,10 @@
         <if test="titleLike != null and titleLike != '' ">
             and `title` like "%"#{titleLike}"%"
         </if>
-        <if test="startTime != null and startTime != '' ">
+        <if test="startTime != null  ">
             and `startTime` = #{startTime}
         </if>
-        <if test="endTime != null and endTime != '' ">
+        <if test="endTime != null  ">
             and `endTime` = #{endTime}
         </if>
         <if test="address != null and address != '' ">
@@ -283,10 +283,10 @@
         <if test="titleLike != null and titleLike != '' ">
             and `title` like "%"#{titleLike}"%"
         </if>
-        <if test="startTime != null and startTime != '' ">
+        <if test="startTime != null  ">
             and `startTime` = #{startTime}
         </if>
-        <if test="endTime != null and endTime != '' ">
+        <if test="endTime != null  ">
             and `endTime` = #{endTime}
         </if>
         <if test="address != null and address != '' ">

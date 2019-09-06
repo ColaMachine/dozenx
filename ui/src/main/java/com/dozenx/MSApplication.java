@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @MapperScan({"com.awifi.**.dao","com.dozenx.**.dao"})
-@ComponentScan(basePackages = {"com.awifi.**","com.dozenx.**","com.cpj.swagger.**"})
+@ComponentScan(basePackages = {"com.awifi.**","com.dozenx.**","com.dozenx.swagger.**"})
 public class MSApplication extends SpringBootServletInitializer{
 	public static void main(String[] args) {
 		SpringApplication.run(MSApplication.class, args);

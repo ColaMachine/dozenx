@@ -9,7 +9,7 @@
 package com.dozenx.web.core.auth.sysUserPermission.service;
 
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
 import com.dozenx.web.core.auth.sysPermission.dao.SysPermissionMapper;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;

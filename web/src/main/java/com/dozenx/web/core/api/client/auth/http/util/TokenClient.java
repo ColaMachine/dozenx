@@ -1,10 +1,10 @@
 package com.dozenx.web.core.api.client.auth.http.util;
 
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.RedisConstants;
 import com.dozenx.web.core.api.client.auth.token.service.TokenService;
 import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.RedisUtil;
-import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -45,7 +45,7 @@ public class TokenClient {
     public static String getAccessToken(){
         String key = RedisConstants.TOKEN_REDIS_KEY;//获取数据中心access_token rediskey
         String accessToken = RedisUtil.get(key);//redis获取access_token
-        if(StringUtils.isNotBlank(accessToken)){//如果不为空
+        if(StringUtil.isNotBlank(accessToken)){//如果不为空
             return accessToken;//返回access_token
         }
         return getTokenService().getAccessToken(key);//返回生成的access_token

@@ -1,16 +1,12 @@
 package com.dozenx.web.core.auth.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.core.config.SysConfig;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.RandomValidateCode;
-import com.dozenx.util.StringUtil;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.config.SysConfig;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.service.AuthService;
 import com.dozenx.web.core.auth.session.SessionUser;
-import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 import com.dozenx.web.core.auth.sysMenu.service.SysMenuService;
-import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.core.auth.validcode.service.ValidCodeService;
@@ -19,13 +15,10 @@ import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.util.RequestUtil;
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.web.util.TerminalUtil;
 import com.dozenx.web.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 //import com.dozenx.web.module.merchant.bean.SessionDTO;
 //import com.dozenx.web.third.weixin.WeixinConstants;

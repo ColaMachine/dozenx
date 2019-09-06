@@ -1,6 +1,6 @@
 package com.dozenx.web.module.checkin.faceInfo.service;
 
-import com.dozenx.util.CmdUtil;
+import com.dozenx.common.util.CmdUtil;
 
 import java.io.IOException;
 

@@ -1,25 +1,21 @@
 package com.dozenx.web.core.api.client.auth.token.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.dozenx.core.exception.BizException;
-import com.dozenx.core.exception.InterfaceException;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.MD5Util;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.exception.InterfaceException;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.MD5Util;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.api.client.auth.http.util.HttpUtil;
 import com.dozenx.web.core.api.client.auth.token.service.TokenService;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.util.ConfigUtil;
 import com.dozenx.web.util.RedisUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 
 /**
@@ -57,7 +53,7 @@ public class TokenServiceImpl implements TokenService {
             e.printStackTrace();
         }
         String result = HttpRequestUtil.sendGet(HttpUtil.joinUrlAndParams(url,"token="+token+"&timestamp="+currentTime+"&appid="+appId));//接口返回值
-        if(StringUtils.isBlank(result)){//如果为空
+        if(StringUtil.isBlank(result)){//如果为空
             throw new InterfaceException(ErrorMessage.getErrorMsg("err.net.http.result.null.code"),url);//抛接口异常 接口无返回值！
         }
         Map<String, Object> resultMap = JsonUtil.fromJson(result, Map.class);//转成map

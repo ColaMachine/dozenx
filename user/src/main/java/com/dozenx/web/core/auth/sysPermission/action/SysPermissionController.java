@@ -7,17 +7,14 @@
  */
 
 package com.dozenx.web.core.auth.sysPermission.action;
-
-import com.cpj.swagger.annotation.*;
-import com.dozenx.core.exception.ValidException;
-import com.dozenx.util.*;
+import com.dozenx.common.util.*;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.exception.ValidException;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.auth.service.AuthService;
-import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
 import com.dozenx.web.core.auth.sysPermission.service.SysPermissionService;
-import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.log.ResultDTO;

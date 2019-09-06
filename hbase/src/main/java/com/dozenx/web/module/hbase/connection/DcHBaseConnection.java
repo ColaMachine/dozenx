@@ -1,6 +1,6 @@
 package com.dozenx.web.module.hbase.connection;
 
-import com.dozenx.util.PropertiesUtil;
+import com.dozenx.common.util.PropertiesUtil;
 import com.dozenx.web.util.ConfigUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;

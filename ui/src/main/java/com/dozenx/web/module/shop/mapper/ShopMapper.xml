@@ -181,37 +181,37 @@ where id = #{id,jdbcType=INTEGER}
         <if test="creator != null and creator != '' ">  
            and `creator` = #{creator}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
         <if test="status != null and status != '' ">  
            and `status` = #{status}
         </if>  
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and `updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and `updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and `updateTime` &lt;= #{updateTimeEnd}
         </if> 
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and `updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and `updateTime` &lt;= #{updateTimeEnd}
         </if> 
   </select>
@@ -251,25 +251,25 @@ where id = #{id,jdbcType=INTEGER}
         <if test="creator != null and creator != '' ">  
            and Shop.`creator` = #{creator}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and Shop.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and Shop.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and Shop.`createTime` &lt;= #{createTimeEnd}
         </if> 
         <if test="status != null and status != '' ">  
            and Shop.`status` = #{status}
         </if>  
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and Shop.`updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and Shop.`updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and Shop.`updateTime` &lt;= #{updateTimeEnd}
         </if> 
   </select>
@@ -307,25 +307,25 @@ where id = #{id,jdbcType=INTEGER}
         <if test="creator != null and creator != '' ">  
            and Shop.`creator` = #{creator}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and Shop.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and Shop.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and Shop.`createTime` &lt;= #{createTimeEnd}
         </if> 
         <if test="status != null and status != '' ">  
            and Shop.`status` = #{status}
         </if>  
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and Shop.`updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and Shop.`updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and Shop.`updateTime` &lt;= #{updateTimeEnd}
         </if> 
   </select>
@@ -351,13 +351,13 @@ where id = #{id,jdbcType=INTEGER}
         <if test="creator != null and creator != '' ">
            or `creator` = #{creator}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `createTime` = #{createTime}
         </if>
         <if test="status != null and status != '' ">
            or `status` = #{status}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
            or `updateTime` = #{updateTime}
         </if>
   </select>

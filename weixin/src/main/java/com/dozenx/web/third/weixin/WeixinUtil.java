@@ -1,11 +1,11 @@
 package com.dozenx.web.third.weixin;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dozenx.core.exception.InterfaceException;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.HttpsConnection;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.exception.InterfaceException;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.HttpsConnection;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.log.MessagePropertiesResolver;

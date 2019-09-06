@@ -10,23 +10,20 @@
 package com.dozenx.web.core.location.service;
 
 
-import com.dozenx.util.*;
+import com.dozenx.common.util.CastUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
+import com.dozenx.web.core.RedisConstants;
+import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.location.bean.Location;
 import com.dozenx.web.core.location.dao.LocationMapper;
 import com.dozenx.web.util.RedisUtil;
-import com.dozenx.web.core.Constants;
-import com.dozenx.web.core.RedisConstants;
-import com.dozenx.web.core.base.BaseService;
-import com.dozenx.web.util.ConfigUtil;
-import com.sun.javafx.collections.MappingChange;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 @Service(value = "loctionApiService")
@@ -145,21 +142,21 @@ public class LoctionApiService extends BaseService {
         Long parentId = (Long)locationMap.get("parentId");//父id
         String type = (String)locationMap.get("type");//地区级别：PROVINCE 省、CITY 市、 COUNTY 区县
 
-        if(id == null || StringUtils.isBlank(name) || parentId == null){
+        if(id == null || StringUtil.isBlank(name) || parentId == null){
 //            logger.debug("错误：存在空的记录  id[" + id + "] : name[" + name + "] : parentId[" + parentId + "]");
             return null;
         }
 
         Map<String,String> locationStrMap = new LinkedHashMap<String,String>(5);
         locationStrMap.put("id", id.toString());//地区id
-        locationStrMap.put("name", StringUtils.defaultString(name));//地区名称
-        locationStrMap.put("fullName", StringUtils.defaultString(fullName));//地区全路径
-        locationStrMap.put("code", StringUtils.defaultString(code));//地区编号 -- 用于排序
+        locationStrMap.put("name", StringUtil.defaultString(name));//地区名称
+        locationStrMap.put("fullName", StringUtil.defaultString(fullName));//地区全路径
+        locationStrMap.put("code", StringUtil.defaultString(code));//地区编号 -- 用于排序
         locationStrMap.put("parentId", parentId.toString());//父id
         locationStrMap.put("type", type);//地区级别：PROVINCE 省、CITY 市、 COUNTY 区县
         /* 配置子地区 */
         String childs = configChilds(id, type, allLocationMap);
-        if(StringUtils.isNotBlank(childs)){
+        if(StringUtil.isNotBlank(childs)){
             locationStrMap.put("childs", childs);//子地区集合
         }
         return locationStrMap;
@@ -175,7 +172,7 @@ public class LoctionApiService extends BaseService {
      * @date 2017年11月3日 上午9:45:40
      */
     private static String configChilds(Long id, String type, Map<Long,Map<String,Object>> allLocationMap){
-        if(StringUtils.isBlank(type) || type.equals("COUNTY")){//type为空或为区县时，跳过
+        if(StringUtil.isBlank(type) || type.equals("COUNTY")){//type为空或为区县时，跳过
             return null;
         }
         List<Map<String,Object>> childList = new ArrayList<Map<String, Object>>();//地区map
@@ -327,16 +324,16 @@ public class LoctionApiService extends BaseService {
         for(Map.Entry<Long, Map<String,Object>> entry : allLocationMap.entrySet()){
             Map<String,Object> locationMap = entry.getValue();//地区map
             String type = (String)locationMap.get("type");//类别： PROVINCE 省、CITY 市、 COUNTY 区县
-            if(StringUtils.isBlank(type)){
+            if(StringUtil.isBlank(type)){
                 logger.debug("错误：type 为空！");
                 continue;
             }
             if(type.equals("COUNTRY")){//国家
                 String countryName = (String)locationMap.get("name");//国家名称
-                locationMap.put("fullName", StringUtils.defaultString(countryName));//设置地区全路径
+                locationMap.put("fullName", StringUtil.defaultString(countryName));//设置地区全路径
             } else if(type.equals("PROVINCE")){//省
                 String provinceName = (String)locationMap.get("name");//省名称
-                locationMap.put("fullName", StringUtils.defaultString(provinceName));//设置地区全路径
+                locationMap.put("fullName", StringUtil.defaultString(provinceName));//设置地区全路径
             }else if(type.equals("CITY")){//市
                 String cityName = (String)locationMap.get("name");//市名称
 
@@ -349,7 +346,7 @@ public class LoctionApiService extends BaseService {
 
                 String provinceName = (String)provinceMap.get("name");//省名称
 
-                locationMap.put("fullName", StringUtils.defaultString(provinceName) + StringUtils.defaultString(cityName));//设置地区全路径
+                locationMap.put("fullName", StringUtil.defaultString(provinceName) + StringUtil.defaultString(cityName));//设置地区全路径
             }else if(type.equals("COUNTY")){//区县
                 String countyName = (String)locationMap.get("name");//区县名称
 
@@ -373,7 +370,7 @@ public class LoctionApiService extends BaseService {
                 Map<String,Object> provinceMap = allLocationMap.get(provinceId);//省map
                 String provinceName = (String)provinceMap.get("name");//省名称
 
-                locationMap.put("fullName", StringUtils.defaultString(provinceName) + StringUtils.defaultString(cityName) + StringUtils.defaultString(countyName));//设置地区全路径
+                locationMap.put("fullName", StringUtil.defaultString(provinceName) + StringUtil.defaultString(cityName) + StringUtil.defaultString(countyName));//设置地区全路径
             }else{
                 logger.debug("错误：type[" + type + "]超出了范围[COUNTRY|PROVINCE|CITY|COUNTY].");
             }
@@ -385,17 +382,17 @@ public class LoctionApiService extends BaseService {
         for(Map.Entry<Long, Location> entry : allLocationMap.entrySet()){
             Location location = entry.getValue();//地区map
             String type = location.getType();//类别： PROVINCE 省、CITY 市、 COUNTY 区县
-            if(StringUtils.isBlank(type)){
+            if(StringUtil.isBlank(type)){
                 logger.debug("错误：type 为空！");
                 continue;
             }
             if(type.equals("COUNTRY")){//国家
                 String countryName = location.getAreaName();//国家名称
-                location.setFullName(StringUtils.defaultString(countryName));
+                location.setFullName(StringUtil.defaultString(countryName));
             } else if(type.equals("PROVINCE")){//省
 
                 String provinceName = location.getAreaName();//省名称
-                location.setFullName(StringUtils.defaultString(provinceName));
+                location.setFullName(StringUtil.defaultString(provinceName));
             }else if(type.equals("CITY")){//市
                 String cityName = location.getAreaName();//市名称
 
@@ -407,7 +404,7 @@ public class LoctionApiService extends BaseService {
                Location  provinceBean = allLocationMap.get(provinceId);//省map
 
                 String provinceName = provinceBean.getAreaName();//省名称
-                location.setFullName(StringUtils.defaultString(provinceName) + StringUtils.defaultString(cityName));
+                location.setFullName(StringUtil.defaultString(provinceName) + StringUtil.defaultString(cityName));
             }else if(type.equals("COUNTY")){//区县
                 String countyName = location.getAreaName();;//区县名称
 
@@ -431,7 +428,7 @@ public class LoctionApiService extends BaseService {
                 Location provinceMap = allLocationMap.get(provinceId);//省map
                 String provinceName = provinceMap.getAreaName();//省名称
 
-                location.setFullName(StringUtils.defaultString(provinceName) + StringUtils.defaultString(cityName) + StringUtils.defaultString(countyName));//设置地区全路径
+                location.setFullName(StringUtil.defaultString(provinceName) + StringUtil.defaultString(cityName) + StringUtil.defaultString(countyName));//设置地区全路径
             }else{
                 logger.debug("错误：type[" + type + "]超出了范围[COUNTRY|PROVINCE|CITY|COUNTY].");
             }

@@ -1,6 +1,6 @@
 package com.dozenx.web.core.location.action;
 
-import com.dozenx.util.JsonUtil;
+import com.dozenx.common.util.JsonUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.location.service.LocationService;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 

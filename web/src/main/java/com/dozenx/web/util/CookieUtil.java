@@ -1,22 +1,15 @@
 package com.dozenx.web.util;
 
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.StringUtil;
-import com.dozenx.web.core.page.Page;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class CookieUtil {

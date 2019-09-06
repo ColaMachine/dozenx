@@ -1,8 +1,8 @@
 package com.dozenx.web.module.test;
 
-import com.dozenx.core.config.Config;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.StreamUtil;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.StreamUtil;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.util.ConfigUtil;

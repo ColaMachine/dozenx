@@ -2,8 +2,8 @@ package com.dozenx.service;
 
 import com.dozenx.CheckInOut;
 import com.dozenx.UserInfo;
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.*;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.util.*;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -183,16 +183,25 @@ public class CheckinOutService {
     }
 
 
-    public List<UserInfo> alreadyUser = null;
+   public List<UserInfo> alreadyUser = null;
     public HashMap<String, String> id2NameMap = new HashMap();
 
     public void initUser() throws IOException {
         //查找用户信息 这一步从access 读取出用户的姓名和id 的列表数据
         List<UserInfo> usersFromAccess = this.getUserListFromAccess();
+        List<HashMap<String, String>> list = new ArrayList<>();
+        for (UserInfo userInfo : usersFromAccess) {
+            HashMap<String, String> map = new HashMap<>();
+            if (StringUtil.isBlank(userInfo.getUserId()))
+                continue;
+            map.put("outId", userInfo.getUserId());
+            map.put("username", userInfo.getName());
+            list.add(map);
+        }
         //这一步从excel 读取出用户的基本信息数据 主要以姓名为主键 然后从access的数据里提取出userid
-        alreadyUser = this.getUserListFromExcel();
+       // alreadyUser = this.getUserListFromExcel();
         //姓名对应的id
-        HashMap<String, String> name2idMap = new HashMap();
+      /*  HashMap<String, String> name2idMap = new HashMap();
 
 
         for (UserInfo userInfo : usersFromAccess) {
@@ -219,14 +228,14 @@ public class CheckinOutService {
             map.put("remark", userInfo.getCode());
             list.add(map);
         }
-
+*/
         //将用户端的用户推送给服务器端
-//        try {
-//            HashMap map = new HashMap();
-//            map.put("params", JsonUtil.toJson(list));
-//            HttpRequestUtil.sendPost(PropertiesUtil.get("synuser.url"), map);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            HashMap map = new HashMap();
+            map.put("params", JsonUtil.toJson(list));
+            HttpRequestUtil.sendPost(PropertiesUtil.get("synuser.url"), map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

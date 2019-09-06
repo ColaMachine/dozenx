@@ -7,9 +7,9 @@
  */
 package com.dozenx.web.core.codegen;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.FileUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.util.FileUtil;
+import com.dozenx.common.util.StringUtil;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

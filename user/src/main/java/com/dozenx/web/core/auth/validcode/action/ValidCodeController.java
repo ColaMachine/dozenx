@@ -1,13 +1,12 @@
 package com.dozenx.web.core.auth.validcode.action;
 
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.APIResponse;
-import com.cpj.swagger.annotation.APIs;
-import com.dozenx.core.config.Config;
-import com.dozenx.core.config.ValidCodeConfig;
-import com.dozenx.util.RandomUtil;
+import com.dozenx.swagger.annotation.API;
+import com.dozenx.swagger.annotation.APIResponse;
+import com.dozenx.swagger.annotation.APIs;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.config.ValidCodeConfig;
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.validcode.service.ValidCodeService;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;

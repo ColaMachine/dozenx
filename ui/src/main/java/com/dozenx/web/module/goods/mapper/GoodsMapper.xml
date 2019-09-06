@@ -472,34 +472,34 @@
         <if test="down != null and down != '' ">
             and `down` = #{down}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and `createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and `createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and `createTime` &lt;= #{createTimeEnd}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and `createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null ">
             and `createTime` &lt;= #{createTimeEnd}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             and `updateTime` = #{updateTime}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and `updateTime` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null ">
             and `updateTime` &lt;= #{updateTimeEnd}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and `updateTime` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null  ">
             and `updateTime` &lt;= #{updateTimeEnd}
         </if>
     </select>
@@ -626,22 +626,22 @@
         <if test="down != null and down != '' ">
             and Goods.`down` = #{down}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and Goods.`createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and Goods.`createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and Goods.`createTime` &lt;= #{createTimeEnd}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             and Goods.`updateTime` = #{updateTime}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and Goods.`updateTime` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null  ">
             and Goods.`updateTime` &lt;= #{updateTimeEnd}
         </if>
     </select>
@@ -766,22 +766,22 @@
         <if test="down != null and down != '' ">
             and Goods.`down` = #{down}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and Goods.`createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and Goods.`createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and Goods.`createTime` &lt;= #{createTimeEnd}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             and Goods.`updateTime` = #{updateTime}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and Goods.`updateTime` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null  ">
             and Goods.`updateTime` &lt;= #{updateTimeEnd}
         </if>
     </select>
@@ -861,10 +861,10 @@
         <if test="down != null and down != '' ">
             or `down` = #{down}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             or `createTime` = #{createTime}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             or `updateTime` = #{updateTime}
         </if>
     </select>

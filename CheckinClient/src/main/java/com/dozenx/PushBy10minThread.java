@@ -1,10 +1,10 @@
 package com.dozenx;
 
         import com.dozenx.service.CheckinOutService;
-        import com.dozenx.util.DateUtil;
-        import com.dozenx.util.HttpRequestUtil;
-        import com.dozenx.util.JsonUtil;
-        import com.dozenx.util.PropertiesUtil;
+        import com.dozenx.common.util.DateUtil;
+        import com.dozenx.common.util.HttpRequestUtil;
+        import com.dozenx.common.util.JsonUtil;
+        import com.dozenx.common.util.PropertiesUtil;
         import org.apache.log4j.Logger;
 
         import java.util.Calendar;
@@ -31,7 +31,7 @@ public class PushBy10minThread implements Runnable {
         logger.info("PushBy10minThread run");
         Calendar calendar = Calendar.getInstance();
         String nowDate = DateUtil.toDateStr(calendar.getTime(), DateUtil.YYYY_MM_DD_HH_MM_SS);
-        calendar.add(Calendar.MINUTE, -10);
+        calendar.add(Calendar.HOUR, -48);
         String startDate = DateUtil.toDateStr(calendar.getTime(), DateUtil.YYYY_MM_DD_HH_MM_SS);
         try {
             List<CheckInOut> checkInOuts = checkinOutService.getCheckInOuts(startDate, nowDate);

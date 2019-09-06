@@ -1,16 +1,14 @@
 package com.dozenx;
 
-import com.dozenx.service.CheckinOutService;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.PropertiesUtil;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.PropertiesUtil;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 

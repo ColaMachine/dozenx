@@ -1,6 +1,6 @@
 package com.dozenx.web.module.checkin.checkinOut.action;
 
-import com.dozenx.util.DateUtil;
+import com.dozenx.common.util.DateUtil;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.module.checkin.checkinLate.bean.CheckinLate;
 import com.dozenx.web.module.checkin.checkinLate.service.CheckinLateService;

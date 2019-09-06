@@ -130,19 +130,19 @@
         <if test="category != null and category != '' ">
             and `category` = #{category}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null   ">
             and `createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null   ">
             and `createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null   ">
             and `createTime` &lt;= #{createTimeEnd}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null   ">
             and `createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null   ">
             and `createTime` &lt;= #{createTimeEnd}
         </if>
     </select>
@@ -167,13 +167,13 @@
         <if test="category != null and category != '' ">
             and zan.`category` = #{category}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null   ">
             and zan.`createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null   ">
             and zan.`createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and zan.`createTime` &lt;= #{createTimeEnd}
         </if>
     </select>
@@ -196,13 +196,13 @@
         <if test="category != null and category != '' ">
             and zan.`category` = #{category}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and zan.`createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and zan.`createTime` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and zan.`createTime` &lt;= #{createTimeEnd}
         </if>
     </select>
@@ -225,7 +225,7 @@
         <if test="category != null and category != '' ">
             or `category` = #{category}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             or `createTime` = #{createTime}
         </if>
     </select>

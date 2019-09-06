@@ -7,20 +7,19 @@
  */
 package com.dozenx.web.core.auth.service;
 
-import com.dozenx.util.PermissionUtil;
+import com.dozenx.common.util.PermissionUtil;
 import com.dozenx.web.core.auth.session.SessionUser;
-import com.dozenx.core.config.SysConfig;
+import com.dozenx.common.config.SysConfig;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.dao.SysAuthMapper;
 import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 import com.dozenx.web.core.auth.sysMenu.service.SysMenuService;
 import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.validcode.service.ValidCodeService;
-import com.dozenx.web.core.log.LogType;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.ServiceCode;
 import com.dozenx.web.core.log.service.LogUtilService;

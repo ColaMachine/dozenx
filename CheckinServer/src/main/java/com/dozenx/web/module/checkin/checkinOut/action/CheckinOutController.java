@@ -10,12 +10,12 @@ package com.dozenx.web.module.checkin.checkinOut.action;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cpj.swagger.annotation.*;
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.config.SysConfig;
-import com.dozenx.core.exception.BizException;
-import com.dozenx.core.exception.ParamException;
-import com.dozenx.util.*;
+import com.dozenx.common.util.*;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.config.SysConfig;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.exception.ParamException;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
@@ -42,15 +42,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.net.URLEncoder;
-import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -147,138 +144,138 @@ public class CheckinOutController extends BaseController {
 //    }
 //
 //
-//    @API(summary = "考勤列表接口",
-//            description = "考勤列表接口",
-//            parameters = {
-//                    @Param(name = "pageSize", description = "分页大小", dataType = DataType.INTEGER, required = true),
-//                    @Param(name = "curPage", description = "当前页", dataType = DataType.INTEGER, required = true),
-//                    @Param(name = "id", description = "编号", dataType = DataType.LONG, required = false),// false
-//                    @Param(name = "userId", description = "用户Id", dataType = DataType.LONG, required = false),// true
-//                    @Param(name = "checkType", description = "考勤类型", dataType = DataType.INTEGER, required = false),// true
-//                    @Param(name = "checkTime", description = "创建时间", dataType = DataType.DATE_TIME, required = false),// false
-//            })
-//    @RequestMapping(value = "/listActivities.json", method = RequestMethod.GET)
-//    @ResponseBody
-//    public ResultDTO listActivities(HttpServletRequest request) throws Exception {
-//        Page page = RequestUtil.getPage(request);
-//        if (page == null) {
-//            return this.getWrongResultFromCfg("err.param.page");
-//        }
-//
-//        HashMap<String, Object> params = new HashMap<String, Object>();
-//        String id = request.getParameter("id");
-//        if (!StringUtil.isBlank(id)) {
-//            params.put("id", id);
-//        }
-//
-//        String userId = request.getParameter("userId");
-//        SysUser sysUser = sysUserService.getUserById(Long.valueOf(userId));
-//        if (sysUser == null) {
-//            return this.getResult(30801163, "该用户不存在");
-//        }
-//        Long otherUserId = sysUser.getOutId();
-//        if (otherUserId == null) {
-//            return this.getResult(30801163, "该用户的考勤模块不存在");
-//        } else {
-//            params.put("userId", otherUserId);
-//        }
-//        String checkType = request.getParameter("checkType");
-//        if (!StringUtil.isBlank(checkType)) {
-//            params.put("checkType", checkType);
-//        }
-//        String checkTime = request.getParameter("checkTime");
-//        if (!StringUtil.isBlank(checkTime)) {
-//            if (StringUtil.checkNumeric(checkTime)) {
-//                params.put("checkTime", checkTime);
-//            } else if (StringUtil.checkDateStr(checkTime, "yyyy-MM-dd HH:mm:ss")) {
-//                params.put("checkTime", new Timestamp(DateUtil.parseToDate(checkTime, "yyyy-MM-dd HH:mm:ss").getTime()));
-//            }
-//        }
-//        String checkTimeBegin = request.getParameter("checkTimeBegin");
-//        if (!StringUtil.isBlank(checkTimeBegin)) {
-//            if (StringUtil.checkNumeric(checkTimeBegin)) {
-//                params.put("checkTimeBegin", checkTimeBegin);
-//            } else if (StringUtil.checkDateStr(checkTimeBegin, "yyyy-MM-dd HH:mm:ss")) {
-//                params.put("checkTimeBegin", new Timestamp(DateUtil.parseToDate(checkTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
-//            }
-//        }
-//        String checkTimeEnd = request.getParameter("checkTimeEnd");
-//        if (!StringUtil.isBlank(checkTimeEnd)) {
-//            if (StringUtil.checkNumeric(checkTimeEnd)) {
-//                params.put("checkTimeEnd", checkTimeEnd);
-//            } else if (StringUtil.checkDateStr(checkTimeEnd, "yyyy-MM-dd HH:mm:ss")) {
-//                params.put("checkTimeEnd", new Timestamp(DateUtil.parseToDate(checkTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
-//            }
-//        }
-//
-//        params.put("page", page);
-//        List<CheckinOut> checkinOuts = checkinOutService.listByParams(params);
-//        List finalList = new ArrayList<>();
-//
-//        for (CheckinOut checkinOut : checkinOuts) {
-//            HashMap map = new HashMap();
-//            map.put("isdel", false);
-//            map.put("title", "签到" + DateUtil.toDateStr(new Date(checkinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-//            map.put("id", checkinOut.getId());
-//            map.put("startTime", checkinOut.getCheckTime().getTime() / 60000);
-//            map.put("endTime", checkinOut.getCheckTime().getTime() / 60000);
-//            map.put("userId", otherUserId);
-//            map.put("type", 9);
-//            map.put("edit", 0);
-////            "isdel": false,
-////                    "title": "写学习博客",
-////                    "id": 2018111245,
-////                    "startTime": 25700040,
-////                    "endTime": 25700100,
-////                    "userId": 207,
-////                    "type": 0,
-////                    "privacy": 0
-//
-//            finalList.add(map);
-//        }
-//
-//
-//        params.put("userId", sysUser.getId());
-//        List<CheckinLate> checkinLates = checkinLateService.listByParams(params);
-//
-//
-//        for (CheckinLate checkinLate : checkinLates) {
-//            HashMap map = new HashMap();
-//            map.put("isdel", false);
-//            if (checkinLate.getCheckType() == 1) {
-//                map.put("title", "迟到" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-//
-//            } else {
-//                map.put("title", "未打卡" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-//
-//            }
-//            map.put("id", checkinLate.getId());
-//            map.put("startTime", checkinLate.getCheckTime().getTime() / 60000);
-//            map.put("endTime", checkinLate.getCheckTime().getTime() / 60000);
-//            map.put("userId", otherUserId);
-//            map.put("type", 10);
-//            map.put("edit", 0);
-//            finalList.add(map);
-//        }
-//
-//
-//        List<FaceCheckinOut> faceCheckinOuts = faceCheckinOutService.listByParams(params);
-//
-//
-//        for (FaceCheckinOut faceCheckinOut : faceCheckinOuts) {
-//            HashMap map = new HashMap();
-//            map.put("isdel", false);
-//            map.put("title", "摄像头打卡" + DateUtil.toDateStr(new Date(faceCheckinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-//            map.put("id", faceCheckinOut.getId());
-//            map.put("startTime", faceCheckinOut.getCheckTime().getTime() / 60000);
-//            map.put("endTime", faceCheckinOut.getCheckTime().getTime() / 60000);
-//            map.put("userId", otherUserId);
-//            map.put("type", 9);
-//            map.put("edit", 0);
-//            finalList.add(map);
-//        }
-//        return ResultUtil.getResult(finalList, page);
-//    }
+    @API(summary = "考勤列表接口",
+            description = "考勤列表接口",
+            parameters = {
+                    @Param(name = "pageSize", description = "分页大小", dataType = DataType.INTEGER, required = true),
+                    @Param(name = "curPage", description = "当前页", dataType = DataType.INTEGER, required = true),
+                    @Param(name = "id", description = "编号", dataType = DataType.LONG, required = false),// false
+                    @Param(name = "userId", description = "用户Id", dataType = DataType.LONG, required = false),// true
+                    @Param(name = "checkType", description = "考勤类型", dataType = DataType.INTEGER, required = false),// true
+                    @Param(name = "checkTime", description = "创建时间", dataType = DataType.DATE_TIME, required = false),// false
+            })
+    @RequestMapping(value = "/listActivities.json", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultDTO listActivities(HttpServletRequest request) throws Exception {
+        Page page = RequestUtil.getPage(request);
+        if (page == null) {
+            return this.getWrongResultFromCfg("err.param.page");
+        }
+
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        String id = request.getParameter("id");
+        if (!StringUtil.isBlank(id)) {
+            params.put("id", id);
+        }
+
+        String userId = request.getParameter("userId");
+        SysUser sysUser = sysUserService.getUserById(Long.valueOf(userId));
+        if (sysUser == null) {
+            return this.getResult(30801163, "该用户不存在");
+        }
+        Long otherUserId = sysUser.getOutId();
+        if (otherUserId == null) {
+            return this.getResult(30801163, "该用户的考勤模块不存在");
+        } else {
+            params.put("userId", otherUserId);
+        }
+        String checkType = request.getParameter("checkType");
+        if (!StringUtil.isBlank(checkType)) {
+            params.put("checkType", checkType);
+        }
+        String checkTime = request.getParameter("checkTime");
+        if (!StringUtil.isBlank(checkTime)) {
+            if (StringUtil.checkNumeric(checkTime)) {
+                params.put("checkTime", checkTime);
+            } else if (StringUtil.checkDateStr(checkTime, "yyyy-MM-dd HH:mm:ss")) {
+                params.put("checkTime", new Timestamp(DateUtil.parseToDate(checkTime, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
+        String checkTimeBegin = request.getParameter("checkTimeBegin");
+        if (!StringUtil.isBlank(checkTimeBegin)) {
+            if (StringUtil.checkNumeric(checkTimeBegin)) {
+                params.put("checkTimeBegin", checkTimeBegin);
+            } else if (StringUtil.checkDateStr(checkTimeBegin, "yyyy-MM-dd HH:mm:ss")) {
+                params.put("checkTimeBegin", new Timestamp(DateUtil.parseToDate(checkTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
+        String checkTimeEnd = request.getParameter("checkTimeEnd");
+        if (!StringUtil.isBlank(checkTimeEnd)) {
+            if (StringUtil.checkNumeric(checkTimeEnd)) {
+                params.put("checkTimeEnd", checkTimeEnd);
+            } else if (StringUtil.checkDateStr(checkTimeEnd, "yyyy-MM-dd HH:mm:ss")) {
+                params.put("checkTimeEnd", new Timestamp(DateUtil.parseToDate(checkTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
+
+        params.put("page", page);
+        List<CheckinOut> checkinOuts = checkinOutService.listByParams(params);
+        List finalList = new ArrayList<>();
+
+        for (CheckinOut checkinOut : checkinOuts) {
+            HashMap map = new HashMap();
+            map.put("isdel", false);
+            map.put("title", "签到" + DateUtil.toDateStr(new Date(checkinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+            map.put("id", checkinOut.getId());
+            map.put("startTime", checkinOut.getCheckTime().getTime() / 60000);
+            map.put("endTime", checkinOut.getCheckTime().getTime() / 60000);
+            map.put("userId", otherUserId);
+            map.put("type", 9);
+            map.put("edit", 0);
+//            "isdel": false,
+//                    "title": "写学习博客",
+//                    "id": 2018111245,
+//                    "startTime": 25700040,
+//                    "endTime": 25700100,
+//                    "userId": 207,
+//                    "type": 0,
+//                    "privacy": 0
+
+            finalList.add(map);
+        }
+
+
+        params.put("userId", sysUser.getId());
+        List<CheckinLate> checkinLates = checkinLateService.listByParams(params);
+
+
+        for (CheckinLate checkinLate : checkinLates) {
+            HashMap map = new HashMap();
+            map.put("isdel", false);
+            if (checkinLate.getCheckType() == 1) {
+                map.put("title", "迟到" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+
+            } else {
+                map.put("title", "未打卡" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+
+            }
+            map.put("id", checkinLate.getId());
+            map.put("startTime", checkinLate.getCheckTime().getTime() / 60000);
+            map.put("endTime", checkinLate.getCheckTime().getTime() / 60000);
+            map.put("userId", otherUserId);
+            map.put("type", 10);
+            map.put("edit", 0);
+            finalList.add(map);
+        }
+
+
+        List<FaceCheckinOut> faceCheckinOuts = faceCheckinOutService.listByParams(params);
+
+
+        for (FaceCheckinOut faceCheckinOut : faceCheckinOuts) {
+            HashMap map = new HashMap();
+            map.put("isdel", false);
+            map.put("title", "摄像头打卡" + DateUtil.toDateStr(new Date(faceCheckinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+            map.put("id", faceCheckinOut.getId());
+            map.put("startTime", faceCheckinOut.getCheckTime().getTime() / 60000);
+            map.put("endTime", faceCheckinOut.getCheckTime().getTime() / 60000);
+            map.put("userId", otherUserId);
+            map.put("type", 9);
+            map.put("edit", 0);
+            finalList.add(map);
+        }
+        return ResultUtil.getResult(finalList, page);
+    }
 //
 //    /**
 //     * 说明:ajax请求CheckinOut信息 无分页版本

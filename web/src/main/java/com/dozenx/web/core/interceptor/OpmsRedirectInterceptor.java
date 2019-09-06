@@ -10,10 +10,9 @@
 package com.dozenx.web.core.interceptor;
 
 import com.dozenx.web.util.HttpPostUtil;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.StringUtil;
-import okhttp3.OkHttpClient;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -26,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -92,7 +90,7 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
       //  String urlSuffix = requestUri.substring(index+"/proxy".length());//截取proxy后面的内容
 
         //拼接后的url为
-        String newUrl  = com.dozenx.util.URLUtil.connact(host,proxyUrl);
+        String newUrl  = com.dozenx.common.util.URLUtil.connact(host,proxyUrl);
 
 //        if(newUrl.indexOf("?")>-1){
 //            newUrl =newUrl.substring(0,newUrl.indexOf("?"));

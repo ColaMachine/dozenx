@@ -1,9 +1,9 @@
 package com.dozenx.web.core.auth.action;
 
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.StringUtil;
-import com.dozenx.web.core.Constants;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.auth.service.AuthService;
 import com.dozenx.web.core.auth.session.SessionUser;
@@ -12,17 +12,21 @@ import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.rules.*;
+import com.dozenx.web.module.storage.bean.LitemallStorage;
+import com.dozenx.web.module.storage.service.Storage;
+import com.dozenx.web.module.storage.service.StorageService;
 import com.dozenx.web.util.ConfigUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Map;
 
 //import com.dozenx.web.module.merchant.bean.SessionDTO;
 //import com.dozenx.web.module.merchant.bean.SessionUser;
@@ -248,4 +252,64 @@ public class UserController extends BaseController {
 //        String phone =request.getParameter("phone");
 //        return authService.sendSmsValidCode4LoginDirectRegister(ip,phone,(String)request.getSession().getAttribute("hellosms"));
 //    }
+
+
+    /**
+     * 用户个人资料修改
+     *
+     * @param face
+     * @param nick
+     * @param sex
+     * @param birth
+     * @param address
+     * @return
+     * @author 宋展辉 2015年12月17日 上午9:28:41
+     */
+    @RequestMapping(value = "/avatar/update", method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresLogin
+    public Object updateMineFace(HttpServletRequest request,@RequestParam(value = "file", required = true) MultipartFile file, @RequestBody(required = true) Map<String, Object> bodyParam) {
+        //String avatar = MapUtils.getString(bodyParam,"avatar");
+        SessionUser sessionUser = this.getUser(request);
+        String url ="";
+        try {
+           LitemallStorage litemallStorage =  storageService.store(file.getInputStream(), file.getSize(),
+                    file.getContentType(), file.getOriginalFilename());
+            url = litemallStorage.getUrl();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            SysUser sysUser = userService.selectByPrimaryKey(sessionUser.getUserId());
+            ResultDTO result =null;
+            if (sysUser != null) {
+                sysUser.setFace(url);
+                if(StringUtil.isNotBlank(sessionUser.getBirth())){
+                    sysUser.setBirth(DateUtil.parseToDate(sessionUser.getBirth(),"yyyy-MM-dd"));
+                }
+
+
+                result = userService.save(sysUser);
+                if(!result.isRight())
+                    return result;
+                //异步任务 推算出 个人的 人脸特征矩阵 并录入到数据库中
+                if(StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))){
+                    String resultStr =   HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face")+"?userId="+sessionUser.getUserId());
+
+                }
+
+
+            }
+            return getResult(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return getWrongResultFromCfg("err.db");
+        }
+
+
+
+    }
+
+    @Autowired
+    StorageService storageService;
 }

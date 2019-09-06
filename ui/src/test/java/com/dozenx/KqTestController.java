@@ -1,8 +1,8 @@
 package com.dozenx;
 
-import com.cpj.swagger.util.ReflectUtils;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.ImageUtil;
+import com.dozenx.swagger.util.ReflectUtils;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.ImageUtil;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,11 +11,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;

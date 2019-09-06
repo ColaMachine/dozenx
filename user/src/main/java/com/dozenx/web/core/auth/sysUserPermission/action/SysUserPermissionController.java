@@ -7,8 +7,7 @@
  */
 
 package com.dozenx.web.core.auth.sysUserPermission.action;
-
-import com.dozenx.util.*;
+import com.dozenx.common.util.*;
 import com.dozenx.web.core.auth.sysUserPermission.bean.SysUserPermission;
 import com.dozenx.web.core.auth.sysUserPermission.service.SysUserPermissionService;
 import com.dozenx.web.core.base.BaseController;

@@ -3,7 +3,7 @@
  */
 package com.dozenx.web.core.base;
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;

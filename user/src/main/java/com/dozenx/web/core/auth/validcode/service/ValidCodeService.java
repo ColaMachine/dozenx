@@ -1,11 +1,10 @@
 package com.dozenx.web.core.auth.validcode.service;
 
 import com.alibaba.fastjson.JSON;
-import com.dozenx.core.config.Config;
-import com.dozenx.core.config.SystemValidCodeConfig;
-import com.dozenx.core.config.ValidCodeConfig;
-import com.dozenx.util.*;
-import com.dozenx.util.EmailUtil;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.config.SystemValidCodeConfig;
+import com.dozenx.common.config.ValidCodeConfig;
+import com.dozenx.common.util.*;
 import com.dozenx.web.core.log.LogType;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.ServiceCode;

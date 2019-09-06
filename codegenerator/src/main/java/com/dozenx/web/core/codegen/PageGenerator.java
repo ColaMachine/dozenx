@@ -7,25 +7,7 @@
  */
 package com.dozenx.web.core.codegen;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.FileUtil;
-import com.dozenx.util.StringUtil;
-import com.google.gson.*;
-import freemarker.cache.StringTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.dozenx.common.Path.PathManager;
 
 public class PageGenerator {
 

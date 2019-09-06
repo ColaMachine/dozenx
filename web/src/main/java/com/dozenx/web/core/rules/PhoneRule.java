@@ -1,7 +1,7 @@
 package com.dozenx.web.core.rules;
 
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 
 public class PhoneRule extends Rule {
 	

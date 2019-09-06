@@ -1,7 +1,7 @@
 package com.dozenx.web.module.hbase.service;
 
 import com.alibaba.fastjson.JSON;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.module.hbase.connection.DcHBaseConnection;
 import com.google.common.collect.Lists;
 import org.apache.hadoop.hbase.*;

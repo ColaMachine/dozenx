@@ -7,8 +7,8 @@
  */
 package com.dozenx.web.core.codegen;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.util.StringUtil;
 import com.google.gson.*;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;

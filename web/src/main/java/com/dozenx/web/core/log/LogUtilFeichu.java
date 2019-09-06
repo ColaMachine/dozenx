@@ -1,7 +1,7 @@
 package com.dozenx.web.core.log;
 
-import com.dozenx.util.NetWorkUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.NetWorkUtil;
+import com.dozenx.common.util.StringUtil;
 
 import java.util.Date;
 

@@ -154,19 +154,19 @@ where id = #{id,jdbcType=BIGINT}
         <if test="module != null and module != '' ">  
            and `module` = #{module}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `create_time` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `create_time` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `create_time` &lt;= #{createTimeEnd}
         </if> 
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `create_time` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `create_time` &lt;= #{createTimeEnd}
         </if> 
   </select>
@@ -203,13 +203,13 @@ where id = #{id,jdbcType=BIGINT}
         <if test="module != null and module != '' ">  
            and email.`module` = #{module}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and email.`create_time` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and email.`create_time` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and email.`create_time` &lt;= #{createTimeEnd}
         </if> 
   </select>
@@ -244,13 +244,13 @@ where id = #{id,jdbcType=BIGINT}
         <if test="module != null and module != '' ">  
            and email.`module` = #{module}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and email.`create_time` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and email.`create_time` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and email.`create_time` &lt;= #{createTimeEnd}
         </if> 
   </select>
@@ -276,7 +276,7 @@ where id = #{id,jdbcType=BIGINT}
         <if test="module != null and module != '' ">
            or `module` = #{module}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `create_time` = #{createTime}
         </if>
   </select>

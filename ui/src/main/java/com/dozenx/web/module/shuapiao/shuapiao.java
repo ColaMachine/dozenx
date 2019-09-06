@@ -1,7 +1,7 @@
 package com.dozenx.web.module.shuapiao;
 
-import com.dozenx.util.StringUtil;
-import com.dozenx.util.idcard.IdCardVerification;
+import com.dozenx.common.util.StringUtil;
+import com.dozenx.common.util.idcard.IdCardVerification;
 
 import java.io.*;
 import java.net.URLEncoder;

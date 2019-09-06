@@ -1,6 +1,6 @@
 package com.dozenx;
 
-import com.dozenx.util.LogUtil;
+import com.dozenx.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;

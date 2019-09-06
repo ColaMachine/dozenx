@@ -321,34 +321,34 @@
         <if test="picLike != null and picLike != '' ">
             and `pic` like CONCAT('%',#{picLike},'%')
         </if>
-        <if test="createtime != null and createtime != '' ">
+        <if test="createtime != null  ">
             and `createtime` = #{createtime}
         </if>
-        <if test="createtimeBegin != null and createtimeBegin != '' ">
+        <if test="createtimeBegin != null  ">
             and `createtime` &gt;= #{createtimeBegin}
         </if>
-        <if test="createtimeEnd != null and createtimeEnd != '' ">
+        <if test="createtimeEnd != null  ">
             and `createtime` &lt;= #{createtimeEnd}
         </if>
-        <if test="createtimeBegin != null and createtimeBegin != '' ">
+        <if test="createtimeBegin != null  ">
             and `createtime` &gt;= #{createtimeBegin}
         </if>
-        <if test="createtimeEnd != null and createtimeEnd != '' ">
+        <if test="createtimeEnd != null  ">
             and `createtime` &lt;= #{createtimeEnd}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null  ">
             and `updatetime` = #{updatetime}
         </if>
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+        <if test="updatetimeBegin != null  ">
             and `updatetime` &gt;= #{updatetimeBegin}
         </if>
-        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+        <if test="updatetimeEnd != null  ">
             and `updatetime` &lt;= #{updatetimeEnd}
         </if>
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+        <if test="updatetimeBegin != null  ">
             and `updatetime` &gt;= #{updatetimeBegin}
         </if>
-        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+        <if test="updatetimeEnd != null  ">
             and `updatetime` &lt;= #{updatetimeEnd}
         </if>
         <if test="objId != null and objId != '' ">
@@ -418,22 +418,22 @@
         <if test="picLike != null and picLike != '' ">
             and msg_info.`pic` like CONCAT('%',#{picLike},'%')
         </if>
-        <if test="createtime != null and createtime != '' ">
+        <if test="createtime != null  ">
             and msg_info.`createtime` = #{createtime}
         </if>
-        <if test="createtimeBegin != null and createtimeBegin != '' ">
+        <if test="createtimeBegin != null  ">
             and msg_info.`createtime` &gt;= #{createtimeBegin}
         </if>
-        <if test="createtimeEnd != null and createtimeEnd != '' ">
+        <if test="createtimeEnd != null  ">
             and msg_info.`createtime` &lt;= #{createtimeEnd}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null  ">
             and msg_info.`updatetime` = #{updatetime}
         </if>
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+        <if test="updatetimeBegin != null  ">
             and msg_info.`updatetime` &gt;= #{updatetimeBegin}
         </if>
-        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+        <if test="updatetimeEnd != null  ">
             and msg_info.`updatetime` &lt;= #{updatetimeEnd}
         </if>
         <if test="objId != null and objId != '' ">
@@ -501,22 +501,22 @@
         <if test="picLike != null and picLike != '' ">
             and msg_info.`pic` like CONCAT('%',#{picLike},'%')
         </if>
-        <if test="createtime != null and createtime != '' ">
+        <if test="createtime != null  ">
             and msg_info.`createtime` = #{createtime}
         </if>
-        <if test="createtimeBegin != null and createtimeBegin != '' ">
+        <if test="createtimeBegin != null  ">
             and msg_info.`createtime` &gt;= #{createtimeBegin}
         </if>
-        <if test="createtimeEnd != null and createtimeEnd != '' ">
+        <if test="createtimeEnd != null  ">
             and msg_info.`createtime` &lt;= #{createtimeEnd}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null  ">
             and msg_info.`updatetime` = #{updatetime}
         </if>
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+        <if test="updatetimeBegin != null  ">
             and msg_info.`updatetime` &gt;= #{updatetimeBegin}
         </if>
-        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+        <if test="updatetimeEnd != null  ">
             and msg_info.`updatetime` &lt;= #{updatetimeEnd}
         </if>
     </select>
@@ -569,10 +569,10 @@
         <if test="pic != null and pic != '' ">
             or `pic` = #{pic}
         </if>
-        <if test="createtime != null and createtime != '' ">
+        <if test="createtime != null  ">
             or `createtime` = #{createtime}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null  ">
             or `updatetime` = #{updatetime}
         </if>
     </select>

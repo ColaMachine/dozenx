@@ -1,14 +1,11 @@
 package com.dozenx.web.module.checkin.faceInfo.service;
 
-import com.dozenx.util.CmdUtil;
-import com.dozenx.web.util.ConfigUtil;
+import com.dozenx.common.util.CmdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 /**

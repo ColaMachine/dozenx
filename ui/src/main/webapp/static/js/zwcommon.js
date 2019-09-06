@@ -2794,3 +2794,42 @@ var filterHTMLTag = function (msg) {
         msg = msg.replace(/&npsp;/ig, ''); //去掉npsp
         return msg;
 }
+
+var StringUtil={};
+StringUtil.isNull=function(it){
+	if(it==null || typeof it=='undefinded' || it==''){
+		return true;
+	}
+	return null;
+}
+StringUtil.isBlank=function(it){
+	if(it==null || typeof it=='undefinded' || it==''){
+		return true;
+	}
+	return null;
+}
+StringUtil.startWith=function(str,content){
+                       var reg=new RegExp("^"+content);
+                       return reg.test(str);
+                     }
+
+                  //   alert(StringUtil.startWith("123.png","png1"));
+StringUtil.endWith=function(str,content){
+                       var reg=new RegExp(content+"$");
+                       return reg.test(str);
+                     }
+String.prototype.startWith=function(str){
+  var reg=new RegExp("^"+str);
+  return reg.test(this);
+}
+
+String.prototype.endWith=function(str){
+  var reg=new RegExp(str+"$");
+  return reg.test(this);
+}
+StringUtil.isPhone=function(it){
+return /^[1][3578][0-9]{9}$/.test(it);
+}
+StringUtil.isEmail=function(it){
+}
+moduel.exports={Tool,StringUtil}

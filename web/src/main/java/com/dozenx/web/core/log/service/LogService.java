@@ -7,7 +7,7 @@
  */
 package com.dozenx.web.core.log.service;
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.log.bean.AppExceptionLog;
 import com.dozenx.web.core.log.bean.AppExceptionLogExample;
 import com.dozenx.web.core.log.bean.FwLog;

@@ -1,6 +1,6 @@
 package com.dozenx.web.util;
 
-import org.apache.commons.lang3.StringUtils;
+import com.dozenx.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -61,7 +61,7 @@ public class SpringUtil {
             interfaceCode.append(methodMappingValue);
         }
         String annotationMethod = getRequestMappingMethod(methodRequestMapping);//http请求方式
-        if (StringUtils.isNoneBlank(annotationMethod)) {
+        if (StringUtil.isBlank(annotationMethod)) {
             interfaceCode.append(":").append(annotationMethod);
         }
         return interfaceCode.toString();

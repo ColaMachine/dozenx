@@ -1,9 +1,8 @@
 package com.dozenx.web.util;
 
-import com.dozenx.util.JsonUtil;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.dozenx.common.util.FileUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -104,7 +103,7 @@ public class IOUtil {
      * @date 2017年4月13日 下午2:19:38
      */
     public static void mkDirsByFilePath(String filePath){
-        if(StringUtils.isBlank(filePath)){
+        if(StringUtil.isBlank(filePath)){
             return;
         }
         int lastIndex = filePath.lastIndexOf("/");
@@ -128,7 +127,7 @@ public class IOUtil {
      * @date 2017年4月13日 上午10:28:19
      */
     public static void mkDirs(String path) {
-        if (StringUtils.isBlank(path)) {
+        if (StringUtil.isBlank(path)) {
             logger.debug("错误：path 为空！");
             return;
         }
@@ -164,7 +163,14 @@ public class IOUtil {
         OutputStream os = null;
         try {
             os = new FileOutputStream(to);
-            fileSize = IOUtils.copy(is, os);
+            int len;
+            byte[] bytes = new byte[1024];
+            while ((len= is.read(bytes))!=0){
+                os.write(bytes,0,len);
+                fileSize+=len;
+            }
+
+           // fileSize = IOUtils.copy(is, os);
             logger.debug("提示：文件大小= " + fileSize);
         } catch (Exception e) {
              logger.error("",e);
@@ -184,7 +190,7 @@ public class IOUtil {
      * @date 2017年4月13日 下午2:17:13
      */
     public static void remove(String path) throws Exception {
-        if (StringUtils.isBlank(path)) {
+        if (StringUtil.isBlank(path)) {
             logger.debug("提示：需要删除文件的【path】为空！");
             return;
         }
@@ -192,7 +198,7 @@ public class IOUtil {
         file = new File(path);
         if (file.isDirectory()) {// 目录
             logger.debug("提示：开始删除目录{ " + path + " }");
-            FileUtils.deleteDirectory(file);
+            FileUtil.deleteDir(file);
         } else if (file.isFile()) {// 文件
             logger.debug("提示：开始删除文件{ " + path + " }");
             file.delete();
@@ -208,7 +214,7 @@ public class IOUtil {
      */
     public static void remove(File file) throws Exception {
         if (file.isDirectory()) {// 目录
-            FileUtils.deleteDirectory(file);
+            FileUtil.deleteDir(file);
         } else if (file.isFile()) {// 文件
             file.delete();
         }

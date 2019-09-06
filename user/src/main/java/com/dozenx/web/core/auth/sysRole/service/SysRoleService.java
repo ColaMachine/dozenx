@@ -8,7 +8,7 @@
 
 package com.dozenx.web.core.auth.sysRole.service;
 
-import com.dozenx.util.DateUtil;
+import com.dozenx.common.util.DateUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysRole.dao.SysRoleMapper;
@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

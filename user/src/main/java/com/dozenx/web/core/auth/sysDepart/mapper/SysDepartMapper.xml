@@ -178,34 +178,34 @@ where id = #{id,jdbcType=BIGINT}
         <if test="remarkLike != null and remarkLike != '' ">
              and `remark` like "%"#{remarkLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and `updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and `updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and `updateTime` &lt;= #{updateTimeEnd}
         </if> 
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and `updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and `updateTime` &lt;= #{updateTimeEnd}
         </if> 
         <if test="userId != null and userId != '' ">  
@@ -245,22 +245,22 @@ where id = #{id,jdbcType=BIGINT}
         <if test="remarkLike != null and remarkLike != '' ">  
              and sys_depart.`remark` like "%"#{remarkLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and sys_depart.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and sys_depart.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and sys_depart.`createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and sys_depart.`updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and sys_depart.`updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and sys_depart.`updateTime` &lt;= #{updateTimeEnd}
         </if> 
         <if test="userId != null and userId != '' ">  
@@ -298,22 +298,22 @@ where id = #{id,jdbcType=BIGINT}
         <if test="remarkLike != null and remarkLike != '' ">  
              and sys_depart.`remark` like "%"#{remarkLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and sys_depart.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and sys_depart.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and sys_depart.`createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and sys_depart.`updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and sys_depart.`updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and sys_depart.`updateTime` &lt;= #{updateTimeEnd}
         </if> 
         <if test="userId != null and userId != '' ">  
@@ -342,10 +342,10 @@ where id = #{id,jdbcType=BIGINT}
         <if test="remark != null and remark != '' ">
            or `remark` = #{remark}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `createTime` = #{createTime}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
            or `updateTime` = #{updateTime}
         </if>
         <if test="userId != null and userId != '' ">

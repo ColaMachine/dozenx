@@ -9,21 +9,21 @@
 */
 package com.dozenx.web.core.api.client.auth.http.util;
 
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Map;
-
-import com.dozenx.core.exception.BizException;
-import com.dozenx.core.exception.InterfaceException;
-import com.dozenx.core.exception.ValidException;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.exception.InterfaceException;
+import com.dozenx.common.exception.ValidException;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.api.client.auth.http.bean.HttpResult;
 import com.dozenx.web.core.api.client.auth.http.service.HttpApi;
 import com.dozenx.web.core.api.client.auth.http.service.impl.HttpApiConnectionImpl;
 import com.dozenx.web.core.log.ErrorMessage;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
 
 public class HttpUtil {
 
@@ -212,10 +212,10 @@ public class HttpUtil {
      * @date 2017年9月1日 下午5:08:24
      */
     public static String joinUrlAndParams(String url, String param){
-        if(StringUtils.isBlank(url)){
+        if(StringUtil.isBlank(url)){
             throw new ValidException("E0000002", ErrorMessage.getErrorMsg("E0000002", "接口地址"));//{0}不允许为空!
         }
-        if(StringUtils.isBlank(param)){
+        if(StringUtil.isBlank(param)){
             return url;
         }
         return (url.indexOf("?") > -1) ? url + "&" + param : url + "?" + param;
@@ -231,12 +231,12 @@ public class HttpUtil {
      */
     public static String getParams(Map<String, String> paramMap){
         if(paramMap == null || paramMap.size()<= 0){
-            return StringUtils.EMPTY;
+            return StringUtil.EMPTY;
         }
         StringBuilder params = new StringBuilder();
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             String key = entry.getKey();
-            String value = StringUtils.defaultString(entry.getValue());
+            String value = StringUtil.defaultString(entry.getValue());
             try {
                 params.append(key).append('=').append(URLEncoder.encode(value, "UTF-8")).append('&');
             } catch (UnsupportedEncodingException e) {
@@ -286,16 +286,16 @@ public class HttpUtil {
         //日志内容格式化输出
         StringBuilder log = new StringBuilder();
         log.append("提示：接口http请求方式（").append(method).append("），");
-        if(StringUtils.isNotBlank(url)){
+        if(StringUtil.isNotBlank(url)){
             log.append("请求url（").append(url).append("），");
         }
-        if(StringUtils.isNotBlank(params)){
+        if(StringUtil.isNotBlank(params)){
             if(params.length()>300){
                 params=params.substring(0,300);
             }
             log.append("请求参数（").append(params).append("），");
         }
-        if(StringUtils.isNotBlank(bodyParams)){
+        if(StringUtil.isNotBlank(bodyParams)){
             if(bodyParams.length()>300){
                 bodyParams=bodyParams.substring(0,300);
             }

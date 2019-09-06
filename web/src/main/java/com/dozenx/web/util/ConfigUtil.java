@@ -1,11 +1,11 @@
 package com.dozenx.web.util;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.config.Config;
-import com.dozenx.util.FastYml;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.StringUtil;
-import com.dozenx.util.db.MysqlUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.util.FastYml;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
+import com.dozenx.common.util.db.MysqlUtil;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -102,7 +102,7 @@ public class ConfigUtil {
         }
 
         //查找底下的所有properties文件 不进入文件夹 说明所有的配置文件都必须要拷贝到WEBROOT目录下
-        List<File> files = com.dozenx.util.FileUtil.listFile(PathManager.getInstance().getClassPath().toFile(), false);
+        List<File> files = com.dozenx.common.util.FileUtil.listFile(PathManager.getInstance().getClassPath().toFile(), false);
         if (files != null)
             for (File file : files) {
                 try {
@@ -142,7 +142,7 @@ public class ConfigUtil {
                         //优先加载properties 文件夹
                         File basePropertiesFolder = PathManager.getInstance().getClassPath().resolve(basePropertiesPath).toFile();
                         if (basePropertiesFolder != null && basePropertiesFolder.exists()) {
-                            files = com.dozenx.util.FileUtil.listFile(basePropertiesFolder);
+                            files = com.dozenx.common.util.FileUtil.listFile(basePropertiesFolder);
                             if (files != null)
                                 for (File file : files) {
 
@@ -161,7 +161,7 @@ public class ConfigUtil {
                                 // String basePropertiesPathReal = PathManager.getInstance().getClassPath().resolve(basePropertiesPath).toString();
 
                                 //其次加载beta alpha 文件夹
-                                files = com.dozenx.util.FileUtil.listFile(addPropertiesFolder);
+                                files = com.dozenx.common.util.FileUtil.listFile(addPropertiesFolder);
                                 for (File file : files) {
 
                                     logger.debug("begin load properties:" + file.getAbsolutePath() + file.getName());

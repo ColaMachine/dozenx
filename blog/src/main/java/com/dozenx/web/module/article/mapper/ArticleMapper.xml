@@ -222,34 +222,34 @@ where id = #{id,jdbcType=BIGINT}
         <if test="creatornameLike != null and creatornameLike != '' ">  
              and `creatorname` like "%"#{creatornameLike}"%"
         </if>   
-        <if test="createtime != null and createtime != '' ">  
+        <if test="createtime != null  ">
            and `createtime` = #{createtime}
         </if>  
-        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+        <if test="createtimeBegin != null  ">
              and `createtime` &gt;= #{createtimeBegin}
         </if>   
-         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+         <if test="createtimeEnd != null  ">
              and `createtime` &lt;= #{createtimeEnd}
         </if> 
-        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+        <if test="createtimeBegin != null  ">
              and `createtime` &gt;= #{createtimeBegin}
         </if>   
-         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+         <if test="createtimeEnd != null  ">
              and `createtime` &lt;= #{createtimeEnd}
         </if> 
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null  ">
            and `updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null ">
              and `updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and `updatetime` &lt;= #{updatetimeEnd}
         </if> 
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null  ">
              and `updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and `updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
@@ -301,22 +301,22 @@ where id = #{id,jdbcType=BIGINT}
         <if test="creatornameLike != null and creatornameLike != '' ">  
              and article.`creatorname` like "%"#{creatornameLike}"%"
         </if>   
-        <if test="createtime != null and createtime != '' ">  
+        <if test="createtime != null  ">
            and article.`createtime` = #{createtime}
         </if>  
-        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+        <if test="createtimeBegin != null  ">
              and article.`createtime` &gt;= #{createtimeBegin}
         </if>   
-         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+         <if test="createtimeEnd != null  ">
              and article.`createtime` &lt;= #{createtimeEnd}
         </if> 
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null  ">
            and article.`updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null  ">
              and article.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and article.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
@@ -370,22 +370,22 @@ where id = #{id,jdbcType=BIGINT}
         <if test="creatornameLike != null and creatornameLike != '' ">
             and article.`creatorname` like "%"#{creatornameLike}"%"
         </if>
-        <if test="createtime != null and createtime != '' ">
+        <if test="createtime != null  ">
             and article.`createtime` = #{createtime}
         </if>
-        <if test="createtimeBegin != null and createtimeBegin != '' ">
+        <if test="createtimeBegin != null  ">
             and article.`createtime` &gt;= #{createtimeBegin}
         </if>
-        <if test="createtimeEnd != null and createtimeEnd != '' ">
+        <if test="createtimeEnd != null  ">
             and article.`createtime` &lt;= #{createtimeEnd}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null  ">
             and article.`updatetime` = #{updatetime}
         </if>
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">
+        <if test="updatetimeBegin != null  ">
             and article.`updatetime` &gt;= #{updatetimeBegin}
         </if>
-        <if test="updatetimeEnd != null and updatetimeEnd != '' ">
+        <if test="updatetimeEnd != null  ">
             and article.`updatetime` &lt;= #{updatetimeEnd}
         </if>
         order by article.id desc
@@ -436,22 +436,22 @@ where id = #{id,jdbcType=BIGINT}
         <if test="creatornameLike != null and creatornameLike != '' ">  
              and article.`creatorname` like "%"#{creatornameLike}"%"
         </if>   
-        <if test="createtime != null and createtime != '' ">  
+        <if test="createtime != null  ">
            and article.`createtime` = #{createtime}
         </if>  
-        <if test="createtimeBegin != null and createtimeBegin != '' ">  
+        <if test="createtimeBegin != null  ">
              and article.`createtime` &gt;= #{createtimeBegin}
         </if>   
-         <if test="createtimeEnd != null and createtimeEnd != '' ">  
+         <if test="createtimeEnd != null  ">
              and article.`createtime` &lt;= #{createtimeEnd}
         </if> 
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null  ">
            and article.`updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null  ">
              and article.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and article.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
@@ -486,10 +486,10 @@ where id = #{id,jdbcType=BIGINT}
         <if test="creatorname != null and creatorname != '' ">
            or `creatorname` = #{creatorname}
         </if>
-        <if test="createtime != null and createtime != '' ">
+        <if test="createtime != null  ">
            or `createtime` = #{createtime}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null  ">
            or `updatetime` = #{updatetime}
         </if>
   </select>

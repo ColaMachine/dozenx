@@ -9,17 +9,17 @@
 */
 package com.dozenx.web.core.log;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.log.bean.OperLog;
 import com.dozenx.web.core.log.service.OperLogService;
 import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.RequestUtil;
 import com.dozenx.web.util.SessionUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 public class OperLogUtil {
@@ -59,7 +59,7 @@ public class OperLogUtil {
             } catch (Exception e) {
                 logger.error("取不到用户信息", e);
             }
-            if (StringUtils.isNotBlank(detail) && detail.length() > MAX_LENTH_DETAIL) {
+            if (StringUtil.isNotBlank(detail) && detail.length() > MAX_LENTH_DETAIL) {
             	logger.info("提示：操作详情detail长度:" + detail.length() + ",超过最大长度,需要截取!");
             	logger.info(detail);//如果日志要被截取那么先截取到 将所有日志输出到日志文件当中
                 detail = detail.substring(0, MAX_LENTH_DETAIL);

@@ -1,10 +1,9 @@
 package com.dozenx.web.core.listener;
 
-import com.dozenx.core.config.SysConfig;
+import com.dozenx.common.config.SysConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServlet;

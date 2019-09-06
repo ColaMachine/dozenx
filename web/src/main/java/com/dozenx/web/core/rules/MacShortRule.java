@@ -1,7 +1,7 @@
 package com.dozenx.web.core.rules;
 
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

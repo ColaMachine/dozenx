@@ -1,12 +1,13 @@
 package com.dozenx.web.util;
 
-import com.dozenx.core.exception.ValidException;
-import com.dozenx.util.*;
-import com.dozenx.util.encrypt.Base64Decoder;
+import com.dozenx.common.exception.ValidException;
+import com.dozenx.common.util.FilePathUtil;
+import com.dozenx.common.util.FileUtil;
+import com.dozenx.common.util.encrypt.Base64Decoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.dozenx.common.util.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

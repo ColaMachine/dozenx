@@ -9,12 +9,12 @@
 package com.dozenx.web.core.auth.sysUser.action;
 
 import com.alibaba.fastjson.JSON;
-import com.cpj.swagger.annotation.*;
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.exception.BizException;
-import com.dozenx.core.exception.ParamException;
-import com.dozenx.util.*;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.exception.ParamException;
 import com.dozenx.web.core.Constants;
+import com.dozenx.common.util.*;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.annotation.RequiresPermission;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
@@ -1211,15 +1211,29 @@ public class SysUserController extends BaseController {
                     SysUser bean = getInfoFromMap(map);
                     //查看这个outId是否有了
                     HashMap outIdMap = new HashMap();
-                    outIdMap.put("outId", bean.getOutId());
+                    outIdMap.put("username", bean.getUsername());
                     List<SysUser> sysUsers = sysUserService.listByParams(outIdMap);
                     if (sysUsers != null && sysUsers.size() > 0) {
-                        bean.setId(sysUsers.get(0).getId());
+                        SysUser sysUser = sysUsers.get(0);
+                        sysUser.setOutId(bean.getOutId());//从access同步到用户id
+                        if(StringUtil.isBlank(sysUser.getEmail()) && StringUtil.isNotBlank(bean.getEmail())){
+                            sysUser.setEmail(bean.getEmail());//从user.xls同步到用户信息
+                        }
+                        if(StringUtil.isBlank(sysUser.getTelno()) && StringUtil.isNotBlank(bean.getTelno())){
+                            sysUser.setTelno(bean.getTelno());//从user.xls同步到用户信息
+                        }
+                        ResultDTO resultDTO =sysUserService.save(sysUser);
+                        if(!resultDTO.isRight()){
+                            throw new BizException("E2000016",  resultDTO.getMsg());
+
+                        }
+                    }else{
+                        logger.info("数据库不存在该用户:"+bean.getUsername());
                     }
-                    sysUserService.save(bean);
+
                     success++;//成功数增加
                 } catch (Exception e) {
-
+                    logger.error("error",e);
                     fail++;//失败数增加
                     logger.info("packageservice import conf ==> update fail ==>the telphone:" + email + "", e);
                     errorMsg.append("the telphone:" + email + " update fail;");

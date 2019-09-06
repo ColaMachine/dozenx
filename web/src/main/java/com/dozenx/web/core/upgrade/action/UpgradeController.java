@@ -1,16 +1,15 @@
 package com.dozenx.web.core.upgrade.action;
 
-import com.cpj.swagger.annotation.APIs;
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.CmdUtil;
-import com.dozenx.util.FileUtil;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.swagger.annotation.APIs;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.util.CmdUtil;
+import com.dozenx.common.util.FileUtil;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

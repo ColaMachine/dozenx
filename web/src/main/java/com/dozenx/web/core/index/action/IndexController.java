@@ -1,8 +1,7 @@
 package com.dozenx.web.core.index.action;
 
-import com.dozenx.core.config.SysConfig;
+import com.dozenx.common.config.SysConfig;
 import com.dozenx.web.core.annotation.RequiresAdmin;
-import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

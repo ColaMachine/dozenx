@@ -11,10 +11,9 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.util.*;
 
-import com.dozenx.util.*;
-
 import javax.servlet.http.HttpServletRequest;
 
+import com.dozenx.common.util.ExcelUtil;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.module.pubComment.bean.PubComment;
 import com.dozenx.web.util.ResultUtil;
@@ -28,19 +27,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.APIs;
-import com.cpj.swagger.annotation.DataType;
-import com.cpj.swagger.annotation.Param;
+import com.dozenx.swagger.annotation.API;
+import com.dozenx.swagger.annotation.APIs;
+import com.dozenx.swagger.annotation.DataType;
+import com.dozenx.swagger.annotation.Param;
 import com.dozenx.web.module.pubComment.service.PubCommentService;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseController;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.util.RequestUtil;
 import org.springframework.web.bind.annotation.*;
 import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.util.DateUtil;
+import com.dozenx.common.util.DateUtil;
 @APIs(description = "评论")
 @Controller
 @RequestMapping("/pub/comment")

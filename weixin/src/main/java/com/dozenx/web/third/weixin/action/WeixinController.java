@@ -7,10 +7,10 @@
  */
 package com.dozenx.web.third.weixin.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.StringUtil;
-import com.dozenx.util.encrypt.EncryptUtil;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.StringUtil;
+import com.dozenx.common.util.encrypt.EncryptUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.service.AuthService;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;

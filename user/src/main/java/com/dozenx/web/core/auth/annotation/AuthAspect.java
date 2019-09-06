@@ -1,11 +1,10 @@
 package com.dozenx.web.core.auth.annotation;
 
-import com.dozenx.core.config.SysConfig;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.config.SysConfig;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.annotation.RequiresPermission;
 import com.dozenx.web.core.auth.session.SessionUser;
-import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.SpringUtil;

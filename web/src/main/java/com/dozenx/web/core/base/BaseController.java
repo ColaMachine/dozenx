@@ -2,26 +2,23 @@ package com.dozenx.web.core.base;
 
 
 import com.alibaba.fastjson.JSON;
-import com.dozenx.core.exception.MyException;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.StringUtil;
-import com.dozenx.util.UUIDUtil;
+import com.dozenx.common.exception.MyException;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.StringUtil;
+import com.dozenx.common.util.UUIDUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.service.LogService;
 import com.dozenx.web.util.CookieUtil;
 import com.dozenx.web.util.RedisUtil;
-import org.apache.poi.ss.formula.functions.T;
-import org.apache.tools.ant.taskdefs.condition.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.util.WebUtils;
-
+import com.dozenx.common.util.MapUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

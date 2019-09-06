@@ -7,10 +7,10 @@
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.RandomUtil;
-import com.dozenx.util.StringUtil;
+
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.RandomUtil;
+import com.dozenx.common.util.StringUtil;
 
 public class ConcurrentTest {
 

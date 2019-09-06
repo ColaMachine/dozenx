@@ -8,14 +8,14 @@
 
 package com.dozenx.web.module.pubImage.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.config.Config;
-import com.dozenx.core.config.SysConfig;
-import com.dozenx.core.exception.BizException;
-import com.dozenx.core.exception.ValidException;
-import com.dozenx.util.*;
-import com.dozenx.util.encrypt.Base64Util;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.config.SysConfig;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.exception.ValidException;
+import com.dozenx.common.util.*;
+import com.dozenx.common.util.encrypt.Base64Util;
+import com.dozenx.swagger.annotation.*;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ErrorMessage;
@@ -28,8 +28,6 @@ import com.dozenx.web.core.rules.Rule;
 import com.dozenx.web.module.pubImage.bean.PubImage;
 import com.dozenx.web.module.pubImage.service.PubImageService;
 import com.dozenx.web.util.*;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1489,7 +1487,7 @@ public class PubImageController extends BaseController {
         String createByName = CastUtil.toString(paramsMap.get("createByName"));
         String updateByName = CastUtil.toString(paramsMap.get("updateByName"));
 
-        Integer pageNo = ObjectUtils.defaultIfNull(CastUtil.toInteger(paramsMap.get("pageNo")), 1);//页码，数字，允许为空，默认第1页
+        Integer pageNo = MapUtils.getInteger(paramsMap,"pageNo", 1);//页码，数字，允许为空，默认第1页
         Integer pageSize = CastUtil.toInteger(paramsMap.get("pageSize"));//每页记录数
         ValidUtil.valid("开始页数[pageNo]", pageNo, "{'required':true,'numeric':{'pageNo':" + pageNo + "}}");//开始页数
         ValidUtil.valid("每页数量[pageSize]", pageSize, "{'required':true,'numeric':{'createTime':" + pageSize + "}}");//记录数量
@@ -1527,7 +1525,7 @@ public class PubImageController extends BaseController {
         if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
             throw new ValidException("E3300002", "上传的图片为空!");
         }
-        if (StringUtils.isBlank(contentType)) {
+        if (StringUtil.isBlank(contentType)) {
             throw new ValidException("E5071010", "图片格式不正确!");
         }
         if (!"image/jpeg".equals(contentType) && !"image/png".equals(contentType) && !"image/bmp".equals(contentType)) {
@@ -1642,12 +1640,12 @@ public class PubImageController extends BaseController {
         //=============参数校验========================
         String contentType = image.getContentType();
 
-        if (!"image/jpeg".equals(contentType) && !"image/png".equals(contentType) && !"image/bmp".equals(contentType)) {
+        if (!"image/jpeg".equals(contentType) && !"image/png".equals(contentType) && !"image/bmp".equals(contentType)&& !"image/webp".equals(contentType)) {
             throw new ValidException("E5071010", "图片格式不正确!");
         }
         String type = contentType.substring(6);
         //================================
-        BufferedImage bufferedImage;
+      //  BufferedImage bufferedImage;
         int success = 0;
         // String message = "";
         //ByteArrayInputStream in = new ByteArrayInputStream(data);    //将b作为输入流；
@@ -1657,7 +1655,7 @@ public class PubImageController extends BaseController {
         //bufferedImage.flush();
 //        in.close();
         //=========================================
-//        if(StringUtils.isBlank(contentType)){
+//        if(StringUtil.isBlank(contentType)){
 //            throw new ValidException("E5071010","图片格式不正确!");
 //        }
 //        if ( !"image/jpeg".equals(contentType) && !"image/png".equals(contentType) && !"image/bmp".equals(contentType)) {
@@ -1797,7 +1795,7 @@ public class PubImageController extends BaseController {
         }
 //        resultMap.put("imgTimePathName", imgWidthAndHeightPath+"/"+imgTimePathName);
 
-        return this.getResult(FilePathUtil.joinPath(Config.getInstance().getImage().getServerUrl(), "/", "jpg", relativePath, pubImage.getName()));
+        return this.getDataResult(FilePathUtil.joinPath(Config.getInstance().getImage().getServerUrl(), "/", "jpg", relativePath, pubImage.getName()));
 
     }
 
@@ -1853,7 +1851,7 @@ public class PubImageController extends BaseController {
         //bufferedImage.flush();
 //        in.close();
         //=========================================
-//        if(StringUtils.isBlank(contentType)){
+//        if(StringUtil.isBlank(contentType)){
 //            throw new ValidException("E5071010","图片格式不正确!");
 //        }
 //        if ( !"image/jpeg".equals(contentType) && !"image/png".equals(contentType) && !"image/bmp".equals(contentType)) {

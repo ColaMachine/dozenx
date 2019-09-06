@@ -8,30 +8,21 @@
 
 package com.dozenx.web.core.auth.sysUserRole.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.util.*;
-import com.dozenx.web.core.annotation.RequiresPermission;
-import com.dozenx.web.core.auth.sysUserRole.bean.SysUserRole;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.util.MapUtils;
 import com.dozenx.web.core.auth.sysUserRole.service.SysUserRoleService;
 import com.dozenx.web.core.base.BaseController;
-import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.rules.Digits;
-import com.dozenx.web.core.rules.NotEmpty;
 import com.dozenx.web.core.rules.Required;
 import com.dozenx.web.core.rules.Rule;
-import com.dozenx.web.util.RequestUtil;
-import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.*;
 @APIs(description = "用户角色模块")
 @Controller

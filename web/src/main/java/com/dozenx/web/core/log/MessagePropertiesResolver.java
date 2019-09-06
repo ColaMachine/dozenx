@@ -1,10 +1,6 @@
 package com.dozenx.web.core.log;
 
-import com.dozenx.util.FilePathUtil;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import com.dozenx.common.util.FilePathUtil;
 
 /**
  * 系统错误信息实现类

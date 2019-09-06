@@ -1,13 +1,9 @@
 package com.dozenx.web.util;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.base.BaseController;
-import org.apache.commons.lang3.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

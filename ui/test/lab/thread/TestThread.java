@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @Modified By:
  */
 public class TestThread {
-@Test
+//@Test
     public void TestExcutorWhenException(){
         ScheduledExecutorService executorService ;
 

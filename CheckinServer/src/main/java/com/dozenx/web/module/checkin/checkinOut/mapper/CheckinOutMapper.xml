@@ -118,26 +118,26 @@
     <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from CheckinOut where 1=1
+        from CheckinOut where 2=2
         <if test="id != null and id != '' ">
             and `id` = #{id}
         </if>
         <if test="userId != null and userId != '' ">
             and `userId` = #{userId}
         </if>
-        <if test="checkType != null and checkType != '' ">
+        <if test="checkType != null  ">
             and `checkType` = #{checkType}
         </if>
-        <if test="checkTime != null and checkTime != '' ">
+        <if test="checkTime != null ">
             and `checkTime` = #{checkTime}
         </if>
 
-        <if test="checkTimeBegin != null and checkTimeBegin != '' ">
-            and `checkTime` &gt;= #{checkTimeBegin}
+        <if test="checkTimeBegin != null  ">
+            and `checkTime` &gt;= #{checkTimeBegin,jdbcType=TIMESTAMP}
         </if>
 
-        <if test="checkTimeEnd != null and checkTimeEnd != '' ">
-            and `checkTime` &lt;= #{checkTimeEnd}
+        <if test="checkTimeEnd != null  ">
+            and `checkTime` &lt;= #{checkTimeEnd,jdbcType=TIMESTAMP}
         </if>
     </select>
     <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
@@ -152,18 +152,18 @@
         <if test="userId != null and userId != '' ">
             and CheckinOut.`userId` = #{userId}
         </if>
-        <if test="checkType != null and checkType != '' ">
+        <if test="checkType != null  ">
             and CheckinOut.`checkType` = #{checkType}
         </if>
-        <if test="checkTime != null and checkTime != '' ">
+        <if test="checkTime != null  ">
             and CheckinOut.`checkTime` = #{checkTime}
         </if>
 
-        <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+        <if test="checkTimeBegin != null  ">
             and `checkTime` &gt;= #{checkTimeBegin}
         </if>
 
-        <if test="checkTimeEnd != null and checkTimeEnd != '' ">
+        <if test="checkTimeEnd != null ">
             and `checkTime` &lt;= #{checkTimeEnd}
         </if>
     </select>
@@ -180,7 +180,7 @@
         <if test="checkType != null and checkType != '' ">
             and CheckinOut.`checkType` = #{checkType}
         </if>
-        <if test="checkTime != null and checkTime != '' ">
+        <if test="checkTime != null  ">
             and CheckinOut.`checkTime` = #{checkTime}
         </if>
     </select>
@@ -197,7 +197,7 @@
         <if test="checkType != null and checkType != '' ">
             or `checkType` = #{checkType}
         </if>
-        <if test="checkTime != null and checkTime != '' ">
+        <if test="checkTime != null  ">
             or `checkTime` = #{checkTime}
         </if>
     </select>

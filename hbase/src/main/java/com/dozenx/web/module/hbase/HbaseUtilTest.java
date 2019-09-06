@@ -1,20 +1,16 @@
 package com.dozenx.web.module.hbase;
 
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.web.module.hbase.HbaseConstants;
+import com.dozenx.common.Path.PathManager;
 import com.dozenx.web.util.ConfigUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 

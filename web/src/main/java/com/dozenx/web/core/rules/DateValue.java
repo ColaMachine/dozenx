@@ -1,8 +1,8 @@
 package com.dozenx.web.core.rules;
 
 
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.StringUtil;
 
 public class DateValue extends Rule {
 	public String formatStr="";

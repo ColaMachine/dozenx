@@ -354,6 +354,9 @@
             <if test="pinyin != null" >
                 `pinyin`=#{pinyin,jdbcType=VARCHAR},
             </if>
+            <if test="outId != null" >
+                `outId`=#{outId,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -475,23 +478,23 @@
         <if test="remarkLike != null and remarkLike != '' ">
             and `remark` like "%"#{remarkLike}"%"
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and `create_time` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and `create_time` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and `create_time` &lt;= #{createTimeEnd}
         </if>
 
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             and `update_time` = #{updateTime}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and `update_time` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null  ">
             and `update_time` &lt;= #{updateTimeEnd}
         </if>
         <if test="province != null and province != '' ">
@@ -606,22 +609,22 @@
         <if test="remarkLike != null and remarkLike != '' ">
             and sys_user.`remark` like "%"#{remarkLike}"%"
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and sys_user.`create_time` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and sys_user.`create_time` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and sys_user.`create_time` &lt;= #{createTimeEnd}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             and sys_user.`update_time` = #{updateTime}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and sys_user.`update_time` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null  ">
             and sys_user.`update_time` &lt;= #{updateTimeEnd}
         </if>
 
@@ -747,22 +750,22 @@
         <if test="remarkLike != null and remarkLike != '' ">
             and sys_user.`remark` like "%"#{remarkLike}"%"
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and sys_user.`create_time` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and sys_user.`create_time` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and sys_user.`create_time` &lt;= #{createTimeEnd}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             and sys_user.`update_time` = #{updateTime}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and sys_user.`update_time` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null  ">
             and sys_user.`update_time` &lt;= #{updateTimeEnd}
         </if>
 
@@ -849,10 +852,10 @@
         <if test="remark != null and remark != '' ">
             or `remark` = #{remark}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             or `create_time` = #{createTime}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             or `update_time` = #{updateTime}
         </if>
         <if test="account != null and account != '' ">
@@ -1036,23 +1039,23 @@
         <if test="remarkLike != null and remarkLike != '' ">
             and `remark` like "%"#{remarkLike}"%"
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
             and `create_time` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
             and `create_time` &gt;= #{createTimeBegin}
         </if>
-        <if test="createTimeEnd != null and createTimeEnd != '' ">
+        <if test="createTimeEnd != null  ">
             and `create_time` &lt;= #{createTimeEnd}
         </if>
 
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
             and `update_time` = #{updateTime}
         </if>
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+        <if test="updateTimeBegin != null  ">
             and `update_time` &gt;= #{updateTimeBegin}
         </if>
-        <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+        <if test="updateTimeEnd != null  ">
             and `update_time` &lt;= #{updateTimeEnd}
         </if>
         <if test="province != null and province != '' ">

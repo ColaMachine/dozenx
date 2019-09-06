@@ -1,7 +1,7 @@
 package com.dozenx.web.core.page;
 
 
-import com.dozenx.util.MapUtils;
+import com.dozenx.common.util.MapUtils;
 
 import java.util.HashMap;
 import java.util.Map;

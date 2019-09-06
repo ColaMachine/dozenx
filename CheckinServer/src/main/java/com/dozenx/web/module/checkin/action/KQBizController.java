@@ -1,10 +1,10 @@
 package com.dozenx.web.module.checkin.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.StringUtil;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.core.base.BaseController;

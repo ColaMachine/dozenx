@@ -10,12 +10,11 @@
 package com.dozenx.web.core.location.service;
 
 import com.alibaba.fastjson.JSON;
-import com.dozenx.util.StringUtil;
-import com.dozenx.web.util.RedisUtil;
+import com.dozenx.common.util.CastUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.RedisConstants;
 import com.dozenx.web.core.base.BaseService;
-import com.dozenx.util.CastUtil;
-import org.apache.commons.lang3.StringUtils;
+import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -162,7 +161,7 @@ public class LocationService extends BaseService {
     @SuppressWarnings("unchecked")
     private List<Map<String,Object>> formatChild(List<String> redisList) {
         String childs = redisList.get(0);//子地区json格式字符串
-        if(StringUtils.isBlank(childs)){//如果为空，流程结束
+        if(StringUtil.isBlank(childs)){//如果为空，流程结束
             return null;
         }
         List<Map<String,Object>> childList = JSON.parseObject(childs, List.class);//字符串转成集合
@@ -173,7 +172,7 @@ public class LocationService extends BaseService {
         for(int i=0; i<maxSize; i++){//循环集合
             Map<String,Object>cacheLocationMap = childList.get(i);//缓存中的地区map
             Long id = CastUtil.toLong(cacheLocationMap.get("id"));//地区id
-            String areaName = StringUtils.defaultString((String)cacheLocationMap.get("name"));//地区名称
+            String areaName = StringUtil.defaultString((String)cacheLocationMap.get("name"));//地区名称
 
             Map<String, Object> locationMap = new LinkedHashMap<String,Object>(2);
             locationMap.put("id", id);//地区id
@@ -196,8 +195,8 @@ public class LocationService extends BaseService {
                 Map<String,Object> curMap = locationMapList.get(j);//地区map
                 Map<String,Object> nextMap = locationMapList.get(j+1);//地区map
 
-                String curCode = StringUtils.defaultString((String)curMap.get("code"), "zzz");//地区编号，为空时赋值为zzz，为了排序靠后
-                String nextCode = StringUtils.defaultString((String)nextMap.get("code"), "zzz");//地区编号，为空时赋值为zzz，为了排序靠后
+                String curCode = StringUtil.defaultString((String)curMap.get("code"), "zzz");//地区编号，为空时赋值为zzz，为了排序靠后
+                String nextCode = StringUtil.defaultString((String)nextMap.get("code"), "zzz");//地区编号，为空时赋值为zzz，为了排序靠后
 
                 if((curCode.compareTo(nextCode)) > 0){//位置互换
                     locationMapList.set(j, nextMap);

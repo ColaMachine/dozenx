@@ -211,34 +211,34 @@ where id = #{id,jdbcType=INTEGER}
         <if test="authorLike != null and authorLike != '' ">
              and `author` like "%"#{authorLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null  ">
            and `updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null  ">
              and `updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and `updatetime` &lt;= #{updatetimeEnd}
         </if> 
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null  ">
              and `updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and `updatetime` &lt;= #{updatetimeEnd}
         </if> 
         <if test="outId != null and outId != '' ">  
@@ -284,22 +284,22 @@ where id = #{id,jdbcType=INTEGER}
         <if test="authorLike != null and authorLike != '' ">  
              and art_comment.`author` like "%"#{authorLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and art_comment.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and art_comment.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and art_comment.`createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null  ">
            and art_comment.`updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null  ">
              and art_comment.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and art_comment.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
         <if test="outId != null and outId != '' ">  
@@ -343,22 +343,22 @@ where id = #{id,jdbcType=INTEGER}
         <if test="authorLike != null and authorLike != '' ">  
              and art_comment.`author` like "%"#{authorLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and art_comment.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and art_comment.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and art_comment.`createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null  ">
            and art_comment.`updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null  ">
              and art_comment.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null  ">
              and art_comment.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
         <if test="outId != null and outId != '' ">  
@@ -393,10 +393,10 @@ where id = #{id,jdbcType=INTEGER}
         <if test="author != null and author != '' ">
            or `author` = #{author}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `createTime` = #{createTime}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null  ">
            or `updatetime` = #{updatetime}
         </if>
         <if test="outId != null and outId != '' ">

@@ -1,11 +1,8 @@
 package com.dozenx.web.module.checkin.faceInfo.service;
 
-import com.dozenx.util.CmdUtil;
-import com.dozenx.util.DateUtil;
+import com.dozenx.common.util.CmdUtil;
+import com.dozenx.common.util.DateUtil;
 import com.dozenx.web.util.RedisUtil;
-
-import java.io.IOException;
-import java.util.Date;
 
 /**
  * @Author: dozen.zhang

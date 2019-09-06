@@ -1,7 +1,7 @@
 package com.dozenx.web.core.codegen.bean;
 
 //import ch.ethz.ssh2.crypto.digest.MD5;
-import com.dozenx.util.MD5Util;
+import com.dozenx.common.util.MD5Util;
 
 /**
  * Created by dozen.zhang on 2017/9/28.

@@ -181,19 +181,19 @@ where id = #{id,jdbcType=BIGINT}
         <if test="addressLike != null and addressLike != '' ">  
              and `address` like "%"#{addressLike}"%"
         </if>   
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null   ">
            and `updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null   ">
              and `updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null   ">
              and `updatetime` &lt;= #{updatetimeEnd}
         </if> 
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null   ">
              and `updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null   ">
              and `updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
@@ -233,13 +233,13 @@ where id = #{id,jdbcType=BIGINT}
         <if test="addressLike != null and addressLike != '' ">  
              and map_data.`address` like "%"#{addressLike}"%"
         </if>   
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null   ">
            and map_data.`updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null   ">
              and map_data.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null   ">
              and map_data.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
@@ -277,13 +277,13 @@ where id = #{id,jdbcType=BIGINT}
         <if test="addressLike != null and addressLike != '' ">  
              and map_data.`address` like "%"#{addressLike}"%"
         </if>   
-        <if test="updatetime != null and updatetime != '' ">  
+        <if test="updatetime != null   ">
            and map_data.`updatetime` = #{updatetime}
         </if>  
-        <if test="updatetimeBegin != null and updatetimeBegin != '' ">  
+        <if test="updatetimeBegin != null   ">
              and map_data.`updatetime` &gt;= #{updatetimeBegin}
         </if>   
-         <if test="updatetimeEnd != null and updatetimeEnd != '' ">  
+         <if test="updatetimeEnd != null   ">
              and map_data.`updatetime` &lt;= #{updatetimeEnd}
         </if> 
   </select>
@@ -312,7 +312,7 @@ where id = #{id,jdbcType=BIGINT}
         <if test="address != null and address != '' ">
            or `address` = #{address}
         </if>
-        <if test="updatetime != null and updatetime != '' ">
+        <if test="updatetime != null   ">
            or `updatetime` = #{updatetime}
         </if>
   </select>

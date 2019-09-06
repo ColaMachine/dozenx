@@ -1,6 +1,6 @@
 package com.dozenx.web.core.rules;
 
-import com.dozenx.util.CastUtil;
+import com.dozenx.common.util.CastUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,9 +1,9 @@
 package com.dozenx;
 
 import com.dozenx.service.CheckinOutService;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.JsonUtil;
-import com.dozenx.util.PropertiesUtil;
+import com.dozenx.common.util.HttpRequestUtil;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.PropertiesUtil;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -32,7 +32,7 @@ public class PushByModifyThread implements Runnable {
         try {
             mdbFile = new File(PropertiesUtil.get("access.path"));
 
-            if (mdbFile.lastModified() > lastModifyedTime) {
+          ///  if (mdbFile.lastModified() > lastModifyedTime) {
 
                 logger.info("======考勤数据有新数据 kaoqing access file has been updated ");
                 //查询上次到现在的数据 推送给服务器
@@ -41,7 +41,7 @@ public class PushByModifyThread implements Runnable {
 //                Date start = calendar.getTime();
 //                calendar.setTimeInMillis(System.currentTimeMillis());
 //                Date end = calendar.getTime();
-                List<CheckInOut> checkInOuts = checkinOutService.getCheckInOuts(lastModifyedTime-50000, System.currentTimeMillis()+50000);
+                List<CheckInOut> checkInOuts = checkinOutService.getCheckInOuts(System.currentTimeMillis()-4*24*60*60*1000, System.currentTimeMillis()+50000);
                 lastModifyedTime = mdbFile.lastModified();
 
                 if (checkInOuts == null || checkInOuts.size() == 0) {
@@ -60,7 +60,7 @@ public class PushByModifyThread implements Runnable {
 
                 logger.info("======准备推送新考情数据 send newest kaoqing data "+jsonStr);
                 HttpRequestUtil.sendPost(PropertiesUtil.get("server.url")+PropertiesUtil.get("checkin.sync.url"), postmap);
-            }
+           // }
         } catch (Exception e) {
             e.printStackTrace();
         }

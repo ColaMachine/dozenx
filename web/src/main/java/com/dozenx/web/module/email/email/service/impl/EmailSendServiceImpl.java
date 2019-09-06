@@ -8,10 +8,10 @@
 
 package com.dozenx.web.module.email.email.service.impl;
 
-import com.dozenx.core.exception.BizException;
-import com.dozenx.core.mail.MailSenderInfo;
-import com.dozenx.core.mail.SimpleMailSender;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.mail.MailSenderInfo;
+import com.dozenx.common.mail.SimpleMailSender;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.module.email.email.dao.EmailMapper;
 import com.dozenx.web.module.email.email.service.EmailSendService;

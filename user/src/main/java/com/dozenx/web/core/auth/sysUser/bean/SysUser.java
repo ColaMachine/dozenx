@@ -6,10 +6,9 @@
  * 文件说明: 
  */
 package com.dozenx.web.core.auth.sysUser.bean;
-import com.dozenx.util.DateUtil;
+import com.dozenx.common.util.DateUtil;
 import com.dozenx.web.core.auth.session.SessionUser;
 
-import javax.mail.Session;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;

@@ -10,11 +10,12 @@ package com.dozenx.web.module.checkin.faceInfo.action;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.APIs;
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.exception.BizException;
-import com.dozenx.util.*;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.util.*;
+import com.dozenx.swagger.annotation.API;
+import com.dozenx.swagger.annotation.APIs;
+import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.core.base.BaseController;
@@ -24,22 +25,23 @@ import com.dozenx.web.module.checkin.checkinOut.bean.FinishTaskData;
 import com.dozenx.web.module.checkin.checkinOut.service.CheckinOutService;
 import com.dozenx.web.module.checkin.faceInfo.bean.FaceInfo;
 import com.dozenx.web.module.checkin.faceInfo.service.FaceInfoService;
+import com.dozenx.web.module.pubImage.bean.PubImage;
+import com.dozenx.web.module.pubImage.service.PubImageService;
 import com.dozenx.web.util.ConfigUtil;
+import com.dozenx.web.util.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @APIs(description = "人脸信息")
 @Controller
@@ -53,7 +55,8 @@ public class FaceInfoController extends BaseController {
      * 权限service
      **/
 
-
+    @Autowired
+    PubImageService pubImageService;
     @Autowired
     private FaceInfoService faceInfoService;
     @Autowired
@@ -716,33 +719,40 @@ public class FaceInfoController extends BaseController {
 //    }
 //
 //
-//    /**
-//     * 说明:添加FaceInfo信息
-//     *
-//     * @param request
-//     * @return ResultDTO
-//     * @throws Exception
-//     * @author dozen.zhang
-//     * @date 2018-11-19 9:41:34
-//     */
-//    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
-//    @API(summary = "添加单个人脸信息信息",
-//            description = "添加单个人脸信息信息",
-//            parameters = {
+
+    /**
+     * 说明:添加FaceInfo信息
+     *
+     * @param request
+     * @return ResultDTO
+     * @throws Exception
+     * @author dozen.zhang
+     * @date 2018-11-19 9:41:34
+     */
+    // @RequiresPermissions(value={"auth:edit" ,"auth:save" },logical=Logical.OR)
+    @API(summary = "添加单个人脸信息信息",
+            description = "添加单个人脸信息信息",
+            parameters = {
 //                    @Param(name = "id", description = "编号", in = InType.body, dataType = DataType.LONG, required = false),
 //                    @Param(name = "userId", description = "用户Id", in = InType.body, dataType = DataType.LONG, required = true),
 //                    @Param(name = "face", description = "人脸特征数组", in = InType.body, dataType = DataType.STRING, required = true),
-//            })
-//    @RequestMapping(value = "add", method = RequestMethod.POST)
-//    @ResponseBody
-//    public ResultDTO saveInBody(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-//        FaceInfo faceInfo = getInfoFromMap(bodyParam);
-//
-//
-//        return faceInfoService.save(faceInfo);
-//
-//    }
-//
+            })
+    @RequestMapping(value = "multi/save", method = RequestMethod.POST)
+    @ResponseBody
+    @RequiresLogin
+    public ResultDTO multiSave(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+
+
+        Long userId = this.getUserId(request);
+        List<String> uploadFaceUrlList = (List<String>) bodyParam.get("faces");
+        List<PubImage> pubImageList = new ArrayList();
+
+        faceInfoService.batchUpdate(userId, "", uploadFaceUrlList, false);
+
+        return this.getResult();
+
+    }
+
 //
 //    /**
 //     * 说明:添加FaceInfo信息
@@ -768,7 +778,31 @@ public class FaceInfoController extends BaseController {
 //        return faceInfoService.save(faceInfo);
 //
 //    }
-//
+
+    /**
+     * 说明:ajax请求FaceInfo信息
+     *
+     * @return String
+     * @author dozen.zhang
+     * @date 2018-11-19 9:41:34
+     */
+    @API(summary = "人脸信息列表接口",
+            description = "人脸信息列表接口",
+            parameters = {
+            })
+    @RequestMapping(value = "/yoursfaces", method = RequestMethod.GET)
+    @RequiresLogin
+    @ResponseBody
+    public ResultDTO yoursfaces(HttpServletRequest request) throws Exception {
+        Long userId = this.getUserId(request);
+        if(userId ==null){
+            throw new BizException(504,"未登录");
+        }
+        HashMap params = new HashMap();
+        params.put("userId", userId);
+        List<FaceInfo> faceInfos = faceInfoService.listByParams(params);
+        return ResultUtil.getDataResult(faceInfos);
+    }
 //    /**
 //     * 说明:ajax请求FaceInfo信息
 //     *
@@ -799,10 +833,8 @@ public class FaceInfoController extends BaseController {
 //        if (!StringUtil.isBlank(id)) {
 //            params.put("id", id);
 //        }
-//        String userId = MapUtils.getString(params, "userId");
-//        if (!StringUtil.isBlank(userId)) {
-//            params.put("userId", userId);
-//        }
+//        String userId = this.getUserId(request);
+//        List<String>  faces = body
 //        String face = MapUtils.getString(params, "face");
 //        if (!StringUtil.isBlank(face)) {
 //            params.put("face", face);
@@ -922,7 +954,7 @@ public class FaceInfoController extends BaseController {
             })
     @RequestMapping(value = "/cache", method = RequestMethod.GET)
     @ResponseBody
-  //  @PostConstruct
+    //  @PostConstruct
     public ResultDTO cache() throws Exception {
         employeList.clear();
         List<FaceInfo> list = faceInfoService.listByParams(new HashMap());
@@ -943,7 +975,7 @@ public class FaceInfoController extends BaseController {
 
     }
 
-//    @API(summary = "kq02 每秒人脸识别接口",
+    //    @API(summary = "kq02 每秒人脸识别接口",
 //            description = "//参考https://blog.csdn.net/nfmsr/article/details/78559930 " +
 //                    "利用python 脚本获取摄像头图片每次获取一下图片 " +
 //                    "并把名称用http接口方式调用接口 接口去访问磁盘上的图片 " +
@@ -1007,22 +1039,22 @@ public class FaceInfoController extends BaseController {
 //
 //
 //    }
-    public static String accessToken ="";
+    public static String accessToken = "";
 
-    public void getAccessToken(){
-        String url="http://192.168.188.8:3502/atomsrv/access_token";
-        HashMap map =new HashMap();
-        map.put("appid","0001");
+    public void getAccessToken() {
+        String url = "http://192.168.188.8:3502/atomsrv/access_token";
+        HashMap map = new HashMap();
+        map.put("appid", "0001");
 
-        String currentTime =""+ System.currentTimeMillis()/1000;
-        map.put("timestamp",currentTime);
+        String currentTime = "" + System.currentTimeMillis() / 1000;
+        map.put("timestamp", currentTime);
         try {
-            String token =MD5Util.getStringMD5String("0001_"+"Awifi_Ai_Biz_Image_Key_"+currentTime);
-            map.put("token",token);
+            String token = MD5Util.getStringMD5String("0001_" + "Awifi_Ai_Biz_Image_Key_" + currentTime);
+            map.put("token", token);
             String result = HttpRequestUtil.sendGet(url, map);//http://192.168.188.8:3502
-            JSONObject jsonObject = (JSONObject)JSON.parse(result);
-            JSONObject obj = (JSONObject)jsonObject.get("data");
-            accessToken =obj.getString("access_token");
+            JSONObject jsonObject = (JSONObject) JSON.parse(result);
+            JSONObject obj = (JSONObject) jsonObject.get("data");
+            accessToken = obj.getString("access_token");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1030,6 +1062,7 @@ public class FaceInfoController extends BaseController {
 
 
     }
+
     @API(summary = "kq02 每秒人脸识别接口",
             description = "//参考https://blog.csdn.net/nfmsr/article/details/78559930 " +
                     "利用python 脚本获取摄像头图片每次获取一下图片 " +
@@ -1055,29 +1088,29 @@ public class FaceInfoController extends BaseController {
         map.put("maxFaceNum", "1");
         map.put("faceFields", "embedding");
 //        map.put("filename", DateUtil.getNow() + ".jpg");
-        faceInfoService.recognize(camera,data,map);
+        faceInfoService.recognize(camera, data, map);
         return this.getResult();
     }
 
 
     @API(summary = "kq02 更新人脸之后算出这人的人脸特征",
             description = "当用户上传个人的头像后需要更新这个人的人脸特征"
-                    ,
+            ,
             parameters = {
             })
     @RequestMapping(value = "/updateByUserFace")
     @ResponseBody
     public ResultDTO updateByUserFace(HttpServletRequest request) throws Exception {
         String userId = request.getParameter("userId");
-        if(StringUtil.isBlank(userId))
-            throw new BizException(50105125,"用户id不能为空");
+        if (StringUtil.isBlank(userId))
+            throw new BizException(50105125, "用户id不能为空");
         SysUser sysUser = sysUserService.getUserById(Long.valueOf(userId));
-        if(sysUser== null)
-            throw new BizException(50105128,"查无此用户");
+        if (sysUser == null)
+            throw new BizException(50105128, "查无此用户");
         String faceUrl = sysUser.getFace();
         File file = PathManager.getInstance().getWebRootPath().resolve(faceUrl).toFile();
-        if(!file.exists())
-            throw new BizException(50105132,"查无此用户头像");
+        if (!file.exists())
+            throw new BizException(50105132, "查无此用户头像");
         String base64 = ImageUtil.ImageToBase64ByLocal(file.getAbsolutePath());
         HashMap postMap = new HashMap();
         //logger.info(data);
@@ -1086,39 +1119,39 @@ public class FaceInfoController extends BaseController {
         postMap.put("faceFields", "embedding");
         postMap.put("filename", DateUtil.getNow() + ".jpg");
         getAccessToken();
-        String result  = HttpRequestUtil.sendPost(ConfigUtil.getConfig("kq.ai.face.recogize.url")+"?access_token="+accessToken, JsonUtil.toJson(postMap));
+        String result = HttpRequestUtil.sendPost(ConfigUtil.getConfig("kq.ai.face.recogize.url") + "?access_token=" + accessToken, JsonUtil.toJson(postMap));
         //String result = HttpRequestUtil.sendPost("http://192.168.188.8:3502/atomsrv/face/recog/multi?access_token="+accessToken, map);//http://192.168.188.8:3502
         HashMap resultMap = JsonUtil.toJavaBean(result, HashMap.class);
-        String code =MapUtils.getString(resultMap,"code") ;
+        String code = MapUtils.getString(resultMap, "code");
         if (!code.equals("0")) {
-            logger.error("人脸录入调用ai接口报错"+result);
+            logger.error("人脸录入调用ai接口报错" + result);
 
-            return this.getResult(50104148,result);
+            return this.getResult(50104148, result);
         }
         JSONObject jsonObject = (JSONObject) resultMap.get("data");
         FinishTaskData finishTaskData = JSON.toJavaObject(jsonObject, FinishTaskData.class);
-        if(finishTaskData.getResultNum()==0)
+        if (finishTaskData.getResultNum() == 0)
             return this.getResult();
         for (int i = 0; i < finishTaskData.getResult().size(); i++) {
             FinishTask finishTask = finishTaskData.getResult().get(i);
             if (finishTask.getLocation().getWidth() < 20) continue;
 
-            logger.info("file:"+file.getAbsolutePath()+"left:"+finishTask.getLocation().getLeft()+"top:"+finishTask.getLocation().getTop()+
-                    "height:"+finishTask.getLocation().getHeight()+"width:"+finishTask.getLocation().getWidth());
+            logger.info("file:" + file.getAbsolutePath() + "left:" + finishTask.getLocation().getLeft() + "top:" + finishTask.getLocation().getTop() +
+                    "height:" + finishTask.getLocation().getHeight() + "width:" + finishTask.getLocation().getWidth());
             Double[] thisMan = finishTask.getEmbedding();
 
             String value = JSON.toJSONString(thisMan);
-            FaceInfo faceInfo =new FaceInfo();
+            FaceInfo faceInfo = new FaceInfo();
             faceInfo.setUserId(sysUser.getId());
-            HashMap<String,Object> params  =new HashMap();
+            HashMap<String, Object> params = new HashMap();
 
-            params.put("userId",userId);
-           List<FaceInfo >  faceInfoList = faceInfoService.listByParams(params);
-            if(faceInfoList!=null && faceInfoList.size()>0){
-                faceInfo= faceInfoList.get(0);
+            params.put("userId", userId);
+            List<FaceInfo> faceInfoList = faceInfoService.listByParams(params);
+            if (faceInfoList != null && faceInfoList.size() > 0) {
+                faceInfo = faceInfoList.get(0);
             }
-            faceInfo.setRemark("{file:\""+file.getAbsolutePath()+"\",left:"+finishTask.getLocation().getLeft()+",top:"+finishTask.getLocation().getTop()+
-                    "height:"+finishTask.getLocation().getHeight()+",width:"+finishTask.getLocation().getWidth()+"}");
+            faceInfo.setRemark("{file:\"" + file.getAbsolutePath() + "\",left:" + finishTask.getLocation().getLeft() + ",top:" + finishTask.getLocation().getTop() +
+                    "height:" + finishTask.getLocation().getHeight() + ",width:" + finishTask.getLocation().getWidth() + "}");
             faceInfo.setFace(value);
             faceInfo.setName(sysUser.getUsername());
             faceInfoService.save(faceInfo);
@@ -1129,11 +1162,6 @@ public class FaceInfoController extends BaseController {
         }
         return this.getResult();
     }
-
-
-
-
-
 
 
 }

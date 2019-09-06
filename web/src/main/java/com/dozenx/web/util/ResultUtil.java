@@ -10,7 +10,7 @@ package com.dozenx.web.util;
 
 /*import cola.machine.util.log.ServiceMsg;*/
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.log.LogType;
 import com.dozenx.web.core.log.ResultDTO;
@@ -18,6 +18,10 @@ import com.dozenx.web.core.log.ServiceCode;
 import com.dozenx.web.core.page.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ResultUtil {
     public static int succ=0;
@@ -158,6 +162,18 @@ public class ResultUtil {
         return new ResultDTO(result, data, msg, page);
     }
 
+	public static  ResultDTO getPageResult(int result, Object data, String msg , Page page){
+
+
+		ResultDTO resultDTO  =new ResultDTO();
+		resultDTO.setR(0);
+		resultDTO.setData(data);
+
+
+		resultDTO.setPage(page);
+		return resultDTO;
+	}
+
 	/**
 	 * 返回成功，默认代码1
 	 * @return
@@ -200,5 +216,106 @@ public class ResultUtil {
 	 */
 	public static  ResultDTO getResult(ServiceCode serviceCode, LogType type, int result, Object data, String msg){
 		return getResult((serviceCode.ordinal()+1)*100000+(type.ordinal()+1)*1000+result, data, msg,null);
+	}
+
+
+
+
+
+	public static Object ok() {
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("errno", 0);
+		obj.put("errmsg", "成功");
+		return obj;
+	}
+
+	public static ResultDTO ok(Object data) {
+		return getDataResult(data);
+	}
+
+	public static Object okList(List list) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("list", list);
+
+		if (list instanceof com.github.pagehelper.Page) {
+
+			com.github.pagehelper.Page page = (com.github.pagehelper.Page) list;
+			Page page2 =new Page();
+
+			page2.setTotalPage(page.getPages());
+			page2.setBeginIndex(page.getStartRow());
+			page2.setCurPage(page.getPageNum());
+			page2.setPageSize(page.getPageSize());
+			return getPageResult(0,list,"",page2);
+		} else {
+			return getPageResult(0,list,"",new Page(1,list.size()));
+
+		}
+
+	}
+
+	public static Object okList(List list, List pagedList) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("list", list);
+
+		if (pagedList instanceof com.github.pagehelper.Page) {
+			com.github.pagehelper.Page page = (com.github.pagehelper.Page) pagedList;
+			Page page2 =new Page();
+
+			page2.setTotalPage(page.getPages());
+			page2.setBeginIndex(page.getStartRow());
+			page2.setCurPage(page.getPageNum());
+			page2.setPageSize(page.getPageSize());
+			return getPageResult(0,list,"",page2);
+		} else {
+			return getPageResult(0,list,"",new Page(1,list.size()));
+		}
+
+	}
+
+	public static Object fail() {
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("r", -1);
+		obj.put("msg", "错误");
+		return obj;
+	}
+
+	public static Object fail(int errno, String errmsg) {
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("r", errno);
+		obj.put("msg", errmsg);
+		return obj;
+	}
+
+	public static Object badArgument() {
+		return fail(401, "参数不对");
+	}
+
+	public static Object badArgumentValue() {
+		return fail(402, "参数值不对");
+	}
+
+	public static Object unlogin() {
+		return fail(501, "请登录");
+	}
+
+	public static Object serious() {
+		return fail(502, "系统内部错误");
+	}
+
+	public static Object unsupport() {
+		return fail(503, "业务不支持");
+	}
+
+	public static Object updatedDateExpired() {
+		return fail(504, "更新数据已经失效");
+	}
+
+	public static Object updatedDataFailed() {
+		return fail(505, "更新数据失败");
+	}
+
+	public static Object unauthz() {
+		return fail(506, "无操作权限");
 	}
 }

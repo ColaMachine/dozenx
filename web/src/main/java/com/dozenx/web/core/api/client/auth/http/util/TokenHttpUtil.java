@@ -9,16 +9,15 @@
 */
 package com.dozenx.web.core.api.client.auth.http.util;
 
-import java.util.Map;
-
-import com.dozenx.core.exception.InterfaceException;
-import com.dozenx.core.exception.ValidException;
-import com.dozenx.util.JsonUtil;
+import com.dozenx.common.exception.InterfaceException;
+import com.dozenx.common.exception.ValidException;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.api.client.auth.http.bean.HttpResult;
 import com.dozenx.web.core.api.client.auth.http.bean.TokenHttpResult;
 import com.dozenx.web.core.log.ErrorMessage;
-import org.apache.commons.lang3.StringUtils;
-import org.aspectj.bridge.MessageUtil;
+
+import java.util.Map;
 
 
 @SuppressWarnings("unchecked")
@@ -32,7 +31,7 @@ public class TokenHttpUtil {
      * @date 2017年9月5日 下午7:12:23
      */
     public static String urlAddAccessToken(String url){
-        if(StringUtils.isBlank(url)){
+        if(StringUtil.isBlank(url)){
             throw new ValidException("E0000002", ErrorMessage.getErrorMsg("E0000002", "接口地址"));//{0}不允许为空!
         }
         StringBuilder newURL = new StringBuilder(url);//生成的新的url，自动拼接access_token
@@ -52,7 +51,7 @@ public class TokenHttpUtil {
      * @date 2017年9月5日 下午7:12:23
      */
     public static String urlResetAccessToken(String url){
-        if(StringUtils.isBlank(url)){
+        if(StringUtil.isBlank(url)){
             throw new ValidException("E0000002", ErrorMessage.getErrorMsg("E0000002", "接口地址"));//{0}不允许为空!
         }
         StringBuilder newURL = new StringBuilder(url);//生成的新的url，自动拼接access_token
@@ -87,13 +86,13 @@ public class TokenHttpUtil {
         }
         /* 403  Forbidden  资源不可用。服务器理解客户的请求，但拒绝处理它，通常由于服务器上文件或目录的权限设置导致。  */
         else if(code == 403){//针对数据中心token失效
-            if(StringUtils.isBlank(result)){
+            if(StringUtil.isBlank(result)){
                 //非token失效，则抛出异常信息
                 throw new InterfaceException("04640129211",ErrorMessage.getErrorMsg("E2000009"), path, params);//接口无返回值!
             }
             Map<String,Object> returnMap = JsonUtil.fromJson(result, Map.class);
             String errorMessage = (String) returnMap.get("errormessage");//错误信息
-            if(StringUtils.isBlank(errorMessage)){
+            if(StringUtil.isBlank(errorMessage)){
                 throw new InterfaceException(ErrorMessage.getErrorMsg("E0000002", "errorMessage"), path, params, result);//{0}不允许为空!
             }
             if(errorMessage.indexOf("凭证无效") > -1){
@@ -130,13 +129,13 @@ public class TokenHttpUtil {
         }
         /* 403  Forbidden  资源不可用。服务器理解客户的请求，但拒绝处理它，通常由于服务器上文件或目录的权限设置导致。  */
         else if(code == 403){ //"403"
-            if(StringUtils.isBlank(result)){
+            if(StringUtil.isBlank(result)){
                 //非token失效，则抛出异常信息
                 throw new InterfaceException("04640129212",ErrorMessage.getErrorMsg("E2000009"), path, params);//接口无返回值!
             }
             Map<String,Object> returnMap = JsonUtil.fromJson(result, Map.class);
             String errorMessage = (String) returnMap.get("errormessage");//错误信息
-            if(StringUtils.isBlank(errorMessage)){
+            if(StringUtil.isBlank(errorMessage)){
                 throw new InterfaceException(ErrorMessage.getErrorMsg("E0000002", "errorMessage"), path, params, result);//{0}不允许为空!
             }
             throw new InterfaceException(errorMessage, path, params, result);//接口异常!

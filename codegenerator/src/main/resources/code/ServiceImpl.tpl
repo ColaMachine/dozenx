@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 import ${table.pkg}.${abc}.bean.${Abc};
 import ${table.pkg}.${abc}.dao.${Abc}Mapper;
 import com.dozenx.web.util.ResultUtil;
-import com.dozenx.util.UUIDUtil;
+import com.dozenx.common.util.UUIDUtil;
 import com.dozenx.web.util.ValidateUtil;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.base.BaseService;
 <#if table.mapper??>

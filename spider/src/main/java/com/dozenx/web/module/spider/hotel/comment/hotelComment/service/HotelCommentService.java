@@ -11,26 +11,21 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.dozenx.util.DateUtil;
-import com.dozenx.util.HttpRequestUtil;
+import com.dozenx.common.util.DateUtil;
+import com.dozenx.common.util.HttpRequestUtil;
 import com.dozenx.web.module.spider.hotel.url.hotelUrl.bean.HotelUrl;
 import com.dozenx.web.util.ResultUtil;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.dozenx.web.module.spider.hotel.comment.hotelComment.bean.HotelComment;
 import com.dozenx.web.module.spider.hotel.comment.hotelComment.dao.HotelCommentMapper;
-import com.dozenx.util.UUIDUtil;
-import com.dozenx.util.StringUtil;
-import com.dozenx.web.core.page.Page;
+import com.dozenx.common.util.UUIDUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
 

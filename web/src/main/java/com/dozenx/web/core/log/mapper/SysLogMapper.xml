@@ -184,34 +184,34 @@ where id = #{id,jdbcType=INTEGER}
         <if test="msgLike != null and msgLike != '' ">  
              and `msg` like "%"#{msgLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="startTime != null and startTime != '' ">  
+        <if test="startTime != null  ">
            and `startTime` = #{startTime}
         </if>  
-        <if test="startTimeBegin != null and startTimeBegin != '' ">  
+        <if test="startTimeBegin != null  ">
              and `startTime` &gt;= #{startTimeBegin}
         </if>   
-         <if test="startTimeEnd != null and startTimeEnd != '' ">  
+         <if test="startTimeEnd != null  ">
              and `startTime` &lt;= #{startTimeEnd}
         </if> 
-        <if test="startTimeBegin != null and startTimeBegin != '' ">  
+        <if test="startTimeBegin != null  ">
              and `startTime` &gt;= #{startTimeBegin}
         </if>   
-         <if test="startTimeEnd != null and startTimeEnd != '' ">  
+         <if test="startTimeEnd != null  ">
              and `startTime` &lt;= #{startTimeEnd}
         </if> 
   </select>
@@ -254,22 +254,22 @@ where id = #{id,jdbcType=INTEGER}
         <if test="msgLike != null and msgLike != '' ">  
              and sys_log.`msg` like "%"#{msgLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and sys_log.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and sys_log.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and sys_log.`createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="startTime != null and startTime != '' ">  
+        <if test="startTime != null  ">
            and sys_log.`startTime` = #{startTime}
         </if>  
-        <if test="startTimeBegin != null and startTimeBegin != '' ">  
+        <if test="startTimeBegin != null  ">
              and sys_log.`startTime` &gt;= #{startTimeBegin}
         </if>   
-         <if test="startTimeEnd != null and startTimeEnd != '' ">  
+         <if test="startTimeEnd != null  ">
              and sys_log.`startTime` &lt;= #{startTimeEnd}
         </if> 
   </select>
@@ -310,22 +310,22 @@ where id = #{id,jdbcType=INTEGER}
         <if test="msgLike != null and msgLike != '' ">  
              and sys_log.`msg` like "%"#{msgLike}"%"
         </if>   
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and sys_log.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and sys_log.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and sys_log.`createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="startTime != null and startTime != '' ">  
+        <if test="startTime != null  ">
            and sys_log.`startTime` = #{startTime}
         </if>  
-        <if test="startTimeBegin != null and startTimeBegin != '' ">  
+        <if test="startTimeBegin != null  ">
              and sys_log.`startTime` &gt;= #{startTimeBegin}
         </if>   
-         <if test="startTimeEnd != null and startTimeEnd != '' ">  
+         <if test="startTimeEnd != null  ">
              and sys_log.`startTime` &lt;= #{startTimeEnd}
         </if> 
   </select>
@@ -354,10 +354,10 @@ where id = #{id,jdbcType=INTEGER}
         <if test="msg != null and msg != '' ">
            or `msg` = #{msg}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `createTime` = #{createTime}
         </if>
-        <if test="startTime != null and startTime != '' ">
+        <if test="startTime != null  ">
            or `startTime` = #{startTime}
         </if>
   </select>

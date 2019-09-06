@@ -1,8 +1,8 @@
 package com.dozenx.web.module.hbase.action;
 
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.APIResponse;
-import com.cpj.swagger.annotation.APIs;
+import com.dozenx.swagger.annotation.API;
+import com.dozenx.swagger.annotation.APIResponse;
+import com.dozenx.swagger.annotation.APIs;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.module.hbase.service.DcHBaseService;

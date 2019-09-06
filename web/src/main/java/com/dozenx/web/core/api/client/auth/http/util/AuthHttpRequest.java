@@ -1,12 +1,11 @@
 package com.dozenx.web.core.api.client.auth.http.util;
 
-import com.dozenx.core.exception.InterfaceException;
-import com.dozenx.util.HttpRequestUtil;
-import com.dozenx.util.JsonUtil;
+import com.dozenx.common.exception.InterfaceException;
+import com.dozenx.common.util.JsonUtil;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.api.client.auth.http.bean.HttpResult;
 import com.dozenx.web.core.api.client.auth.http.bean.TokenHttpResult;
 import com.dozenx.web.core.log.ErrorMessage;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -72,7 +71,7 @@ public class AuthHttpRequest {
      * @date 2017年9月4日 下午6:46:44
      */
     private static Map<String, Object> analysisResultToMap(String interfaceUrl, String interfaceParam, String interfaceResult){
-        if(StringUtils.isBlank(interfaceResult)){
+        if(StringUtil.isBlank(interfaceResult)){
             throw new InterfaceException("E046401201",ErrorMessage.getErrorMsg("E2000009"), interfaceUrl, interfaceParam);//接口无返回值!
         }
         Map<String, Object> resultMap = JsonUtil.fromJson(interfaceResult, Map.class);//将字符串转成json
@@ -80,7 +79,7 @@ public class AuthHttpRequest {
             throw new InterfaceException("E046401201",ErrorMessage.getErrorMsg("E2000009"),interfaceUrl, interfaceParam);//接口返回值转map后为空！
         }
         String resultCode = (String) resultMap.get("code");
-        if(StringUtils.isBlank(resultCode) || !resultCode.equals("0")){
+        if(StringUtil.isBlank(resultCode) || !resultCode.equals("0")){
             throw new InterfaceException((String) resultMap.get("message"), interfaceUrl, interfaceParam, interfaceResult);
         }
         return resultMap;

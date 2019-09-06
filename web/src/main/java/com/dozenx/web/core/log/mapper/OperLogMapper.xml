@@ -192,13 +192,13 @@ where id = #{id,jdbcType=INTEGER}
         <if test="userNameLike != null and userNameLike != '' ">
              and `userName` like "%"#{userNameLike}"%"
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>
-         <if test="createTimeEnd != null and createTimeEnd != '' ">
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if>
 
@@ -248,13 +248,13 @@ where id = #{id,jdbcType=INTEGER}
        <if test="date != null and date != '' ">
            and DATE_FORMAT(oper_log.`createTime`,'%Y-%m-%d') =#{date}
        </if>
-       <if test="createTime != null and createTime != '' ">
+       <if test="createTime != null  ">
            and oper_log.`createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
              and oper_log.`createTime` &gt;= #{createTimeBegin}
         </if>
-         <if test="createTimeEnd != null and createTimeEnd != '' ">
+         <if test="createTimeEnd != null  ">
              and oper_log.`createTime` &lt;= #{createTimeEnd}
         </if>
        <if test="keywords != null and keywords != '' ">
@@ -302,13 +302,13 @@ where id = #{id,jdbcType=INTEGER}
         <if test="userNameLike != null and userNameLike != '' ">
              and oper_log.`userName` like "%"#{userNameLike}"%"
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            and oper_log.`createTime` = #{createTime}
         </if>
-        <if test="createTimeBegin != null and createTimeBegin != '' ">
+        <if test="createTimeBegin != null  ">
              and oper_log.`createTime` &gt;= #{createTimeBegin}
         </if>
-         <if test="createTimeEnd != null and createTimeEnd != '' ">
+         <if test="createTimeEnd != null  ">
              and oper_log.`createTime` &lt;= #{createTimeEnd}
         </if>
   </select>
@@ -337,7 +337,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="userName != null and userName != '' ">
            or `userName` = #{userName}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `createTime` = #{createTime}
         </if>
   </select>

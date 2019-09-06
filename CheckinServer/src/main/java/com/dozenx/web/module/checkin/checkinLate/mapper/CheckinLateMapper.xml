@@ -130,19 +130,19 @@ where id = #{id,jdbcType=BIGINT}
         <if test="checkType != null and checkType != '' ">  
            and `checkType` = #{checkType}
         </if>  
-        <if test="checkTime != null and checkTime != '' ">  
+        <if test="checkTime != null  ">
            and `checkTime` = #{checkTime}
         </if>  
         <if test="kqUserId != null and kqUserId != '' ">  
            and `kqUserId` = #{kqUserId}
         </if>
 
-          <if test="checkTimeBegin != null and checkTimeBegin != '' ">
-              and `checkTime` &gt;= #{checkTimeBegin}
+          <if test="checkTimeBegin != null  ">
+              and `checkTime` &gt;= #{checkTimeBegin,jdbcType=TIMESTAMP}
           </if>
 
-          <if test="checkTimeEnd != null and checkTimeEnd != '' ">
-              and `checkTime` &lt;= #{checkTimeEnd}
+          <if test="checkTimeEnd != null  ">
+              and `checkTime` &lt;= #{checkTimeEnd,jdbcType=TIMESTAMP}
           </if>
   </select>
    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
@@ -166,14 +166,14 @@ where id = #{id,jdbcType=BIGINT}
         <if test="checkType != null and checkType != '' ">  
            and CheckinLate.`checkType` = #{checkType}
         </if>  
-        <if test="checkTime != null and checkTime != '' ">  
+        <if test="checkTime != null ">
            and CheckinLate.`checkTime` = #{checkTime}
         </if>  
         <if test="kqUserId != null and kqUserId != '' ">  
            and CheckinLate.`kqUserId` = #{kqUserId}
         </if>
 
-       <if test="checkTimeBegin != null and checkTimeBegin != '' ">
+       <if test="checkTimeBegin != null  ">
            and `checkTime` &gt;= #{checkTimeBegin}
        </if>
 
@@ -201,7 +201,7 @@ where id = #{id,jdbcType=BIGINT}
         <if test="checkType != null and checkType != '' ">  
            and CheckinLate.`checkType` = #{checkType}
         </if>  
-        <if test="checkTime != null and checkTime != '' ">  
+        <if test="checkTime != null  ">
            and CheckinLate.`checkTime` = #{checkTime}
         </if>  
         <if test="kqUserId != null and kqUserId != '' ">  
@@ -224,7 +224,7 @@ where id = #{id,jdbcType=BIGINT}
         <if test="checkType != null and checkType != '' ">
            or `checkType` = #{checkType}
         </if>
-        <if test="checkTime != null and checkTime != '' ">
+        <if test="checkTime != null  ">
            or `checkTime` = #{checkTime}
         </if>
         <if test="kqUserId != null and kqUserId != '' ">

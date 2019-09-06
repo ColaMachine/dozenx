@@ -16,8 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
-import com.dozenx.core.exception.InterfaceException;
-import com.dozenx.util.IoUtil;
+import com.dozenx.common.exception.InterfaceException;
 import com.dozenx.web.core.api.client.auth.http.bean.HttpResult;
 import com.dozenx.web.core.api.client.auth.http.service.HttpApi;
 import com.dozenx.web.core.api.client.auth.http.util.HttpUtil;

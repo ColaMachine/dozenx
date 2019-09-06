@@ -1,11 +1,10 @@
-import com.dozenx.core.Path.PathManager;
-import com.dozenx.core.config.Config;
-import com.dozenx.core.config.EmailConfig;
-import com.dozenx.core.mail.MailSenderInfo;
-import com.dozenx.core.mail.SimpleMailSender;
-import com.dozenx.util.DateUtil;
+import com.dozenx.common.Path.PathManager;
+import com.dozenx.common.config.Config;
+import com.dozenx.common.config.EmailConfig;
+import com.dozenx.common.mail.MailSenderInfo;
+import com.dozenx.common.mail.SimpleMailSender;
+import com.dozenx.common.util.DateUtil;
 import com.dozenx.web.module.email.email.service.EmailSendService;
-import org.junit.Test;
 
 import javax.annotation.Resource;
 import javax.mail.*;

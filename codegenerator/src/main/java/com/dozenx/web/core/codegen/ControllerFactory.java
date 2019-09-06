@@ -7,7 +7,7 @@
  */
 package com.dozenx.web.core.codegen;
 
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

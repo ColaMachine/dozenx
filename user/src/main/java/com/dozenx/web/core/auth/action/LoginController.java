@@ -1,10 +1,10 @@
 package com.dozenx.web.core.auth.action;
 
-import com.cpj.swagger.annotation.*;
-import com.dozenx.core.config.SysConfig;
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.RandomValidateCode;
-import com.dozenx.util.StringUtil;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.common.config.SysConfig;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.RandomValidateCode;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.service.AuthService;
 import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
@@ -16,14 +16,11 @@ import com.dozenx.web.core.auth.validcode.service.ValidCodeService;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.web.core.log.bean.OperLog;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -1061,11 +1058,13 @@ public class LoginController extends BaseController {
     public
     @ResponseBody
     ResultDTO logoutJson(HttpServletRequest request) {
-        request.getSession().removeAttribute(Constants.SESSION_USER);
+        this.removeSession(request,Constants.SESSION_USER);
+       // request.getSession().removeAttribute(Constants.SESSION_USER);
         return this.getResult();
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method ={ RequestMethod.GET ,RequestMethod.POST})
+
     public
     @ResponseBody
     ResultDTO logout(HttpServletRequest request) {

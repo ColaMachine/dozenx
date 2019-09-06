@@ -15,7 +15,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.dozenx.util.DateUtil;
+import com.dozenx.common.util.DateUtil;
 import com.dozenx.web.util.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

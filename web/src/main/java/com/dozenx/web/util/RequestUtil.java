@@ -1,7 +1,7 @@
 package com.dozenx.web.util;
 
-import com.dozenx.util.MapUtils;
-import com.dozenx.util.StringUtil;
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.page.Page;
 
 import javax.servlet.http.HttpServletRequest;

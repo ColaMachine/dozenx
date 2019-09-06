@@ -8,21 +8,18 @@
 
 package com.dozenx.web.core.auth.sysMenu.action;
 
-import com.cpj.swagger.annotation.APIs;
+import com.dozenx.swagger.annotation.APIs;
 
-
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.APIResponse;
-import com.cpj.swagger.annotation.DataType;
-import com.cpj.swagger.annotation.Param;
-import com.dozenx.util.*;
+import com.dozenx.common.util.*;
+import com.dozenx.swagger.annotation.API;
+import com.dozenx.swagger.annotation.APIResponse;
+import com.dozenx.swagger.annotation.DataType;
+import com.dozenx.swagger.annotation.Param;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.annotation.RequiresLogin;
-import com.dozenx.web.core.annotation.RequiresPermission;
 import com.dozenx.web.core.auth.service.AuthService;
 import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 import com.dozenx.web.core.auth.sysMenu.service.SysMenuService;
-import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.log.ResultDTO;

@@ -1,9 +1,9 @@
 package com.dozenx.web.core.api.annotation;
 
-import com.cpj.swagger.annotation.API;
-import com.cpj.swagger.annotation.DataType;
-import com.cpj.swagger.annotation.Param;
-import com.dozenx.util.StringUtil;
+import com.dozenx.swagger.annotation.API;
+import com.dozenx.swagger.annotation.DataType;
+import com.dozenx.swagger.annotation.Param;
+import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
@@ -35,13 +35,13 @@ public class ApiAspect {
     /**
      * 定义缓存逻辑
      */
-    @Around("execution(* *.*(..)) && @annotation(com.cpj.swagger.annotation.API)")
+    @Around("execution(* *.*(..)) && @annotation(com.dozenx.swagger.annotation.API)")
     public Object validParam(ProceedingJoinPoint pjp) throws Throwable {
         Object result = null;
         Method method = getMethod(pjp);
 
 
-        API api = method.getAnnotation(com.cpj.swagger.annotation.API.class);
+        API api = method.getAnnotation(com.dozenx.swagger.annotation.API.class);
 
         if (api == null)
             return pjp.proceed();

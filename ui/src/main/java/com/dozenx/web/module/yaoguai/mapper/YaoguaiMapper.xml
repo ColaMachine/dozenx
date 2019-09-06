@@ -340,34 +340,34 @@ where id = #{id,jdbcType=BIGINT}
         <if test="zf != null and zf != '' ">  
            and `zf` = #{zf}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and `createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and `createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and `createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and `updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and `updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and `updateTime` &lt;= #{updateTimeEnd}
         </if> 
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and `updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and `updateTime` &lt;= #{updateTimeEnd}
         </if> 
   </select>
@@ -446,34 +446,34 @@ where id = #{id,jdbcType=BIGINT}
         <if test="zf != null and zf != '' ">  
            and Yaoguai.`zf` = #{zf}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and Yaoguai.`createTime` = #{createTime}
         </if>  
-               <if test="createTimeBegin != null and createTimeBegin != '' ">
+               <if test="createTimeBegin != null  ">
                     and `createTime` &gt;= #{createTimeBegin}
                </if>
-                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                <if test="createTimeEnd != null  ">
                     and `createTime` &lt;= #{createTimeEnd}
                </if>
-               <if test="createTimeBegin != null and createTimeBegin != '' ">
+               <if test="createTimeBegin != null  ">
                     and `createTime` &gt;= #{createTimeBegin}
                </if>
-                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                <if test="createTimeEnd != null  ">
                     and `createTime` &lt;= #{createTimeEnd}
                </if>
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and Yaoguai.`updateTime` = #{updateTime}
         </if>  
-               <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+               <if test="updateTimeBegin != null  ">
                     and `updateTime` &gt;= #{updateTimeBegin}
                </if>
-                <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+                <if test="updateTimeEnd != null  ">
                     and `updateTime` &lt;= #{updateTimeEnd}
                </if>
-               <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+               <if test="updateTimeBegin != null  ">
                     and `updateTime` &gt;= #{updateTimeBegin}
                </if>
-                <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+                <if test="updateTimeEnd != null  ">
                     and `updateTime` &lt;= #{updateTimeEnd}
                </if>
   </select>
@@ -550,22 +550,22 @@ where id = #{id,jdbcType=BIGINT}
         <if test="zf != null and zf != '' ">  
            and Yaoguai.`zf` = #{zf}
         </if>  
-        <if test="createTime != null and createTime != '' ">  
+        <if test="createTime != null  ">
            and Yaoguai.`createTime` = #{createTime}
         </if>  
-        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+        <if test="createTimeBegin != null  ">
              and Yaoguai.`createTime` &gt;= #{createTimeBegin}
         </if>   
-         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+         <if test="createTimeEnd != null  ">
              and Yaoguai.`createTime` &lt;= #{createTimeEnd}
         </if> 
-        <if test="updateTime != null and updateTime != '' ">  
+        <if test="updateTime != null  ">
            and Yaoguai.`updateTime` = #{updateTime}
         </if>  
-        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+        <if test="updateTimeBegin != null  ">
              and Yaoguai.`updateTime` &gt;= #{updateTimeBegin}
         </if>   
-         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+         <if test="updateTimeEnd != null  ">
              and Yaoguai.`updateTime` &lt;= #{updateTimeEnd}
         </if> 
   </select>
@@ -624,10 +624,10 @@ where id = #{id,jdbcType=BIGINT}
         <if test="zf != null and zf != '' ">
            or `zf` = #{zf}
         </if>
-        <if test="createTime != null and createTime != '' ">
+        <if test="createTime != null  ">
            or `createTime` = #{createTime}
         </if>
-        <if test="updateTime != null and updateTime != '' ">
+        <if test="updateTime != null  ">
            or `updateTime` = #{updateTime}
         </if>
   </select>

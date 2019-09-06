@@ -196,19 +196,19 @@ where id = #{id,jdbcType=INTEGER}
         <if test="bizLike != null and bizLike != '' ">
              and `biz` like CONCAT('%',#{bizLike},'%')
         </if>   
-        <if test="addTime != null and addTime != '' ">  
+        <if test="addTime != null  ">
            and `add_time` = #{addTime}
         </if>  
-        <if test="addTimeBegin != null and addTimeBegin != '' ">  
+        <if test="addTimeBegin != null  ">
              and `add_time` &gt;= #{addTimeBegin}
         </if>   
-         <if test="addTimeEnd != null and addTimeEnd != '' ">  
+         <if test="addTimeEnd != null  ">
              and `add_time` &lt;= #{addTimeEnd}
         </if> 
-        <if test="addTimeBegin != null and addTimeBegin != '' ">  
+        <if test="addTimeBegin != null  ">
              and `add_time` &gt;= #{addTimeBegin}
         </if>   
-         <if test="addTimeEnd != null and addTimeEnd != '' ">  
+         <if test="addTimeEnd != null  ">
              and `add_time` &lt;= #{addTimeEnd}
         </if> 
         <if test="content != null and content != '' ">  
@@ -269,19 +269,19 @@ where id = #{id,jdbcType=INTEGER}
         <if test="bizLike != null and bizLike != '' ">  
              and email_record.`biz` like CONCAT('%',#{bizLike},'%')
         </if>   
-        <if test="addTime != null and addTime != '' ">  
+        <if test="addTime != null  ">
            and email_record.`add_time` = #{addTime}
         </if>  
-               <if test="addTimeBegin != null and addTimeBegin != '' ">
+               <if test="addTimeBegin != null  ">
                     and `add_time` &gt;= #{addTimeBegin}
                </if>
-                <if test="addTimeEnd != null and addTimeEnd != '' ">
+                <if test="addTimeEnd != null  ">
                     and `add_time` &lt;= #{addTimeEnd}
                </if>
-               <if test="addTimeBegin != null and addTimeBegin != '' ">
+               <if test="addTimeBegin != null  ">
                     and `add_time` &gt;= #{addTimeBegin}
                </if>
-                <if test="addTimeEnd != null and addTimeEnd != '' ">
+                <if test="addTimeEnd != null  ">
                     and `add_time` &lt;= #{addTimeEnd}
                </if>
         <if test="content != null and content != '' ">  
@@ -340,13 +340,13 @@ where id = #{id,jdbcType=INTEGER}
         <if test="bizLike != null and bizLike != '' ">  
              and email_record.`biz` like CONCAT('%',#{bizLike},'%')
         </if>   
-        <if test="addTime != null and addTime != '' ">  
+        <if test="addTime != null  ">
            and email_record.`add_time` = #{addTime}
         </if>  
-        <if test="addTimeBegin != null and addTimeBegin != '' ">  
+        <if test="addTimeBegin != null  ">
              and email_record.`add_time` &gt;= #{addTimeBegin}
         </if>   
-         <if test="addTimeEnd != null and addTimeEnd != '' ">  
+         <if test="addTimeEnd != null  ">
              and email_record.`add_time` &lt;= #{addTimeEnd}
         </if> 
         <if test="content != null and content != '' ">  
@@ -396,7 +396,7 @@ where id = #{id,jdbcType=INTEGER}
         <if test="biz != null and biz != '' ">
            or `biz` = #{biz}
         </if>
-        <if test="addTime != null and addTime != '' ">
+        <if test="addTime != null  ">
            or `add_time` = #{addTime}
         </if>
         <if test="content != null and content != '' ">
