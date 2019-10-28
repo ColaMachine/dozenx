@@ -33,7 +33,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
     platform: mysql
     name: ms   #数据库配置名称 使用多数据源时区别
-    url: jdbc:mysql://192.168.41.74:3306/awifi_market_supervision?serverTimezone=GMT%2B8 #配置数据库连接
+    url: jdbc:mysql://192.168.41.74:3306/awifi_advert_test?serverTimezone=GMT%2B8 #配置数据库连接
     username: root  #数据库用户名
     password: root@2015 #数据库密码
     initialSize: 5
@@ -80,7 +80,7 @@ calendar:
     url: http://timor.tech/api/holiday/info/{date}
   #非activity表的日历事项 抽取接口
   subscribe:
-    url: http://localhost:8094/mssrv/checkin/listActivities.json?userId=${userId}&pageSize=100&curPage=1&checkTimeBegin=${begin}&checkTimeEnd=${end}
+    url: http://192.168.188.21:8094/mssrv/checkin/listActivities.json?userId=${userId}&pageSize=100&curPage=1&checkTimeBegin=${begin}&checkTimeEnd=${end}
 
 #######考情模块配置#############
 kq:
@@ -123,7 +123,7 @@ image:
   posterTemplate: src.jpg
   posterZipDir: poster_zip
   vcodeDir: static/vc
-  serverUrl: http://192.168.213.91:2019/mssrv/static
+  serverUrl: http://192.168.213.91:2019/mssrv
 email:
   ##设置传输协议
   protocol: smtp  #协议
@@ -216,7 +216,7 @@ storage:
   local:
     storagePath: storage
     # 这个地方应该是wx模块的WxStorageController的fetch方法对应的地址
-    address: http://localhost:8080/wx/storage/fetch/
+    address: /home/wx/storage/fetch/
   # 阿里云对象存储配置信息
   aliyun:
     endpoint: oss-cn-shenzhen.aliyuncs.com
@@ -236,3 +236,16 @@ storage:
     accessKey: 111111
     secretKey: xxxxxx
     bucketName: litemall
+
+
+
+WEIXIN_APPID: wx87427b31849c8570
+#
+WEIXIN_APPSECRET: d71a63c03ce5ac035a00843546dadcc2
+#accessToken 超时时间
+WEIXIN_ACCESSTOKEN_EXPIRE_IN: 7200
+#accessToken 超时时间
+WEIXIN_OAUTH_ACCESSTOKEN_EXPIRE_IN: 7200
+#
+WEXIN_ACCESSTOKEN_URL: http://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s
+WEXIN_OAUTH_ACCESSTOKEN_URL: https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code

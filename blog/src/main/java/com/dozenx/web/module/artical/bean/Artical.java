@@ -5,11 +5,11 @@
  * 创建日期: 2015年11月15日
  * 文件说明: 
  */
-package com.dozenx.web.module.article.bean;
+package com.dozenx.web.module.artical.bean;
 
 import java.sql.Timestamp;
 
-public class Article {
+public class Artical {
     /**主键**/
     private Long id;
     public Long getId(){
@@ -88,6 +88,13 @@ public class Article {
 
     public int commentCount;//评论数
 
+    public int viewCount;
 
+    public int getViewCount() {
+        return viewCount;
+    }
 
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
 }

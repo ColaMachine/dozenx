@@ -48,7 +48,7 @@ function zImageUtil2(config) {
                                 console.log(data);
                                 console.log(_this.imgDom);
                                 console.log("hello:"+PATH+"/" + data.data);*/
-								$(_this.imgDom).attr("src", PATH+"/" + data.data);
+								$(_this.imgDom).attr("src",  data.data);
 							/*	$(_this).parent().find("#picurl");
 								console.log("imgUrl:" + data.data);*/
 							} else {

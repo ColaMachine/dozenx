@@ -11,6 +11,7 @@ function MiniCalendar() {
 	Calendar.call(this);
 	this.setHashCode();
 	this.index = this.hashCode;
+	 _instances[this.hashCode] = this;
 	this.callback=null;
 }
 
@@ -19,8 +20,8 @@ t.div_id="";
 MiniCalendar.prototype.render = function(id,callback) {
     var innerHTML = $$(id).innerHTML;
     if(innerHTML){
-        this.dummyDay = parseDate(innerHTML,"yyyy-MM-dd HH:mm");
-        this.selectedDay = parseDate(innerHTML,"yyyy-MM-dd HH:mm");
+        this.dummyDay = DateUtil.parseDate(innerHTML,"yyyy-MM-dd HH:mm");
+        this.selectedDay = DateUtil.parseDate(innerHTML,"yyyy-MM-dd HH:mm");
         console.log(this.dummyDay);
     }
 	this.div_id=id;
@@ -52,16 +53,16 @@ MiniCalendar.prototype.getCalendarStr = function() {
 		b_thisMonth = true;
 
 	// var d=this.date.getDate();
-	var _weekFirstDay = CaculateDaysWeekNum(y, m, 1);
-	var _days = CaculateMonthDays(y, m);
+	var _weekFirstDay = DateUtil.CaculateDaysWeekNum(y, m, 1);
+	var _days = DateUtil.CaculateMonthDays(y, m);
 
 	if(m==1){
-		var pre_days = CaculateMonthDays(y-1, 12);
+		var pre_days = DateUtil.CaculateMonthDays(y-1, 12);
 
 	}else{
-		var pre_days = CaculateMonthDays(y, m-1);
+		var pre_days = DateUtil.CaculateMonthDays(y, m-1);
 	}
-	var _weekLastDay = CaculateDaysWeekNum(y, m, _days)
+	var _weekLastDay = DateUtil.CaculateDaysWeekNum(y, m, _days)
 	var _index = new Number(0);
 	var _date = new Number(1);
 	var _rows = new Number(1);
@@ -268,7 +269,10 @@ MiniCalendar.prototype.close = function() {
 
 MiniCalendar.prototype.hide = function() {
    // hide($$(".minicalendar_wrap")[0]);
-    this.div.parentNode.removeChild(this.div);
+   if( this.div.parentNode){
+     this.div.parentNode.removeChild(this.div);
+   }
+
    stopEvent(event);
 };
 

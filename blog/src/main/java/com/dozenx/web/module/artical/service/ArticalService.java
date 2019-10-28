@@ -6,7 +6,7 @@
  * 文件说明: 
  */
 
-package com.dozenx.web.module.article.service;
+package com.dozenx.web.module.artical.service;
 
 import com.dozenx.common.Path.PathManager;
 import com.dozenx.common.util.DateUtil;
@@ -14,8 +14,8 @@ import com.dozenx.common.util.FileUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.web.module.article.bean.Article;
-import com.dozenx.web.module.article.dao.ArticleMapper;
+import com.dozenx.web.module.artical.bean.Artical;
+import com.dozenx.web.module.artical.dao.ArticalMapper;
 import com.dozenx.web.util.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +29,25 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service("articalService")
-public class ArticleService extends BaseService {
+public class ArticalService extends BaseService {
     private static final Logger logger = LoggerFactory
-            .getLogger(ArticleService.class);
+            .getLogger(ArticalService.class);
     @Resource
-    private ArticleMapper articalMapper;
+    private ArticalMapper articalMapper;
     /**
      * 说明:list by page and params根据参数返回列表
      * @return List<HashMap>
      * @author dozen.zhang
      * @date 2015年11月15日下午12:36:24
      */
-    public List<Article> listByParams4Page(HashMap params) {
+    public List<Artical> listByParams4Page(HashMap params) {
         return articalMapper.listByParams4Page(params);
     }
 
     public List<HashMap<String,Object>> listWithUserInfoByParams4Page(HashMap params) {
         return articalMapper.listWithUserInfoByParams4Page(params);
     }
-    public List<Article> listByParams(HashMap params) {
+    public List<Artical> listByParams(HashMap params) {
         return articalMapper.listByParams(params);
     }
 
@@ -69,7 +69,7 @@ public class ArticleService extends BaseService {
      * @author dozen.zhang
      * @date 2015年11月15日下午1:33:54
      */
-    public ResultDTO save(Article artical) {
+    public ResultDTO save(Artical artical) {
         // 进行字段验证
       /* ValidateUtil<Artical> vu = new ValidateUtil<Artical>();
         ResultDTO result = vu.valid(artical);
@@ -121,8 +121,8 @@ public class ArticleService extends BaseService {
     * @author dozen.zhang
     * @date 2015年12月27日下午10:56:38
     */
-    public Article selectByPrimaryKey(Long id){
-        Article article = articalMapper.selectByPrimaryKey(id);
+    public Artical selectByPrimaryKey(Long id){
+        Artical article = articalMapper.selectByPrimaryKey(id);
         if(StringUtil.isBlank(article.getContent())){
            // ossService.get("article"+id);
             try {
@@ -147,5 +147,10 @@ public class ArticleService extends BaseService {
 
     public void updatePinglunCount(Long id){
         articalMapper.updateCommentCountById(id);
+    }
+
+
+    public void updateViewCount(long id,int viewCount){
+        articalMapper.updateViewCount(id,viewCount);
     }
 }

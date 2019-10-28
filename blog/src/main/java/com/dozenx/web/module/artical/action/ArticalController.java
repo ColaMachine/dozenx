@@ -6,17 +6,18 @@
  * 文件说明: 
  */
 
-package com.dozenx.web.module.article.action;
+package com.dozenx.web.module.artical.action;
 
 import com.dozenx.common.util.DateUtil;
 import com.dozenx.common.util.ExcelUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.base.BaseController;
+import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.page.Page;
 import com.dozenx.web.core.rules.*;
-import com.dozenx.web.module.article.bean.Article;
-import com.dozenx.web.module.article.service.ArticleService;
+import com.dozenx.web.module.artical.bean.Artical;
+import com.dozenx.web.module.artical.service.ArticalService;
 import com.dozenx.web.util.RequestUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
@@ -38,13 +39,13 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.util.*;
 @Controller
-@RequestMapping("/article")
-public class ArticleController extends BaseController{
+@RequestMapping("/artical")
+public class ArticalController extends BaseController{
     /** 日志 **/
-    private Logger logger = LoggerFactory.getLogger(ArticleController.class);
+    private Logger logger = LoggerFactory.getLogger(ArticalController.class);
     /** 权限service **/
     @Autowired
-    private ArticleService articalService;
+    private ArticalService articleService;
     
     /**
      * 说明: 跳转到角色列表页面
@@ -56,12 +57,12 @@ public class ArticleController extends BaseController{
      */
     @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
     public String list() {
-        return "/static/html/ArticalList.html";
+        return "/static/html/ArticleList.html";
     }
 
     @RequestMapping(value = "/listMapper.htm", method = RequestMethod.GET)
     public String listMapper() {
-        return "/static/html/ArticalListMapper.html";
+        return "/static/html/ArticleListMapper.html";
     }
 
     /**
@@ -186,8 +187,8 @@ public class ArticleController extends BaseController{
         }
 
         params.put("page",page);
-        List<Article> articals = articalService.listByParams4Page(params);
-        return ResultUtil.getResult(articals, page);
+        List<Artical> articles = articleService.listByParams4Page(params);
+        return ResultUtil.getResult(articles, page);
     }
 
 
@@ -314,8 +315,8 @@ public class ArticleController extends BaseController{
         }
 
         params.put("page",page);
-        List<HashMap<String,Object>> articals = articalService.listWithUserInfoByParams4Page(params);
-        return ResultUtil.getResult(articals, page);
+        List<HashMap<String,Object>> articles = articleService.listWithUserInfoByParams4Page(params);
+        return ResultUtil.getResult(articles, page);
     }
    /**
     * 说明:ajax请求角色信息 无分页版本
@@ -432,8 +433,8 @@ public class ArticleController extends BaseController{
             }
         }
 
-        List<Article> articals = articalService.listByParams(params);
-        return ResultUtil.getDataResult(articals);
+        List<Artical> articles = articleService.listByParams(params);
+        return ResultUtil.getDataResult(articles);
     }
     
     /**
@@ -443,15 +444,23 @@ public class ArticleController extends BaseController{
     @RequestMapping(value = "/edit.htm")
     public Object edit( HttpServletRequest request) {
         // 查找所有的角色
-        return "/static/html/ArticalEdit.html";
+        return "/static/html/ArticleEdit.html";
     }
     @RequestMapping(value = "/view.htm")
     public Object viewPage( HttpServletRequest request) {
-        return "/static/html/ArticalView.html";
+        return "/static/html/ArticleView.html";
     }
     @RequestMapping(value = "/viewpage/{id}")
     public ModelAndView viewPage1(HttpServletRequest request, Model model,@PathVariable  Long id) {
-        return new ModelAndView( "article/view","article", articalService.selectByPrimaryKey(id));
+
+        Artical article  =  articleService.selectByPrimaryKey(id);
+        article.setViewCount( article.getViewCount()+1);
+        articleService.updateViewCount(article.getId() ,article.getViewCount());
+
+        OperLogUtil.add(request,"article","viewpage",id+"");
+
+        return new ModelAndView( "article/view","article", articleService.selectByPrimaryKey(id));
+
     }
 
     @RequestMapping(value = "/view.json")
@@ -460,13 +469,13 @@ public class ArticleController extends BaseController{
             String id = request.getParameter("id");
         HashMap<String,Object> result =new HashMap<String,Object>();
         if(!StringUtil.isBlank(id)){
-            Article bean = articalService.selectByPrimaryKey(Long.valueOf(id));
+            Artical bean = articleService.selectByPrimaryKey(Long.valueOf(id));
             result.put("bean", bean);
         }
         return this.getResult(result);
 
       /*  String id = request.getParameter("id");
-        Artical bean = articalService.selectByPrimaryKey(Long.valueOf(id));
+        Article bean = articleService.selectByPrimaryKey(Long.valueOf(id));
         HashMap<String,Object> result =new HashMap<String,Object>();
         result.put("bean", bean);
         return this.getResult(bean);*/
@@ -497,91 +506,91 @@ public class ArticleController extends BaseController{
     @RequiresLogin
     public Object save(HttpServletRequest request) throws Exception {
 
-        Article artical =new Article();
+        Artical article =new Artical();
         /*
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
-            artical.setId(Long.valueOf(id)) ;
+            article.setId(Long.valueOf(id)) ;
         }
         
         String title = request.getParameter("title");
         if(!StringUtil.isBlank(title)){
-            artical.setTitle(String.valueOf(title)) ;
+            article.setTitle(String.valueOf(title)) ;
         }
         
         String content = request.getParameter("content");
         if(!StringUtil.isBlank(content)){
-            artical.setContent(String.valueOf(content)) ;
+            article.setContent(String.valueOf(content)) ;
         }
         
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            artical.setType(Integer.valueOf(type)) ;
+            article.setType(Integer.valueOf(type)) ;
         }
         
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
-            artical.setStatus(Integer.valueOf(status)) ;
+            article.setStatus(Integer.valueOf(status)) ;
         }
         
         String remark = request.getParameter("remark");
         if(!StringUtil.isBlank(remark)){
-            artical.setRemark(String.valueOf(remark)) ;
+            article.setRemark(String.valueOf(remark)) ;
         }
         
         String creator = request.getParameter("creator");
         if(!StringUtil.isBlank(creator)){
-            artical.setCreator(Long.valueOf(creator)) ;
+            article.setCreator(Long.valueOf(creator)) ;
         }
         
         String pic = request.getParameter("pic");
         if(!StringUtil.isBlank(pic)){
-            artical.setPic(String.valueOf(pic)) ;
+            article.setPic(String.valueOf(pic)) ;
         }
         
         String creatorname = request.getParameter("creatorname");
         if(!StringUtil.isBlank(creatorname)){
-            artical.setCreatorname(String.valueOf(creatorname)) ;
+            article.setCreatorname(String.valueOf(creatorname)) ;
         }
         
         String createtime = request.getParameter("createtime");
         if(!StringUtil.isBlank(createtime)){
-            artical.setCreatetime(Timestamp.valueOf(createtime)) ;
+            article.setCreatetime(Timestamp.valueOf(createtime)) ;
         }
         
         String updatetime = request.getParameter("updatetime");
         if(!StringUtil.isBlank(updatetime)){
-            artical.setUpdatetime(Timestamp.valueOf(updatetime)) ;
+            article.setUpdatetime(Timestamp.valueOf(updatetime)) ;
         }
         */
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
-            artical.setId(Long.valueOf(id));
+            article.setId(Long.valueOf(id));
         }
         String title = request.getParameter("title");
         if(!StringUtil.isBlank(title)){
-            artical.setTitle(title);
+            article.setTitle(title);
         }
         String content = request.getParameter("content");
         if(!StringUtil.isBlank(content)){
-            artical.setContent(content);
+            article.setContent(content);
         }
         String type = request.getParameter("type");
         if(!StringUtil.isBlank(type)){
-            artical.setType(Integer.valueOf(type));
+            article.setType(Integer.valueOf(type));
         }
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
-            artical.setStatus(Integer.valueOf(status));
+            article.setStatus(Integer.valueOf(status));
         }
         String remark = request.getParameter("remark");
         if(!StringUtil.isBlank(remark)){
-            artical.setRemark(remark);
+            article.setRemark(remark);
         }
 
         String pic = request.getParameter("pic");
         if(!StringUtil.isBlank(pic)){
-            artical.setPic(pic);
+            article.setPic(pic);
         }
 
 
@@ -599,9 +608,9 @@ public class ArticleController extends BaseController{
         if(StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302,validStr);
         }
-        artical.setCreator(this.getUserId(request));
-        artical.setCreatorname(this.getUserName(request));
-        return articalService.save(artical);
+        article.setCreator(this.getUserId(request));
+        article.setCreatorname(this.getUserName(request));
+        return articleService.save(article);
        
     }
 
@@ -613,7 +622,7 @@ public class ArticleController extends BaseController{
             return this.getWrongResultFromCfg("err.param.notnull");
         }
         Long id = Long.valueOf(idStr);
-        articalService.delete(id);
+        articleService.delete(id);
         return this.getResult(SUCC);
     }
      /**
@@ -650,7 +659,7 @@ public class ArticleController extends BaseController{
             }
             idAry[i]=Long.valueOf(idStrAry[i]);
         }
-       return  articalService.multilDelete(idAry);
+       return  articleService.multilDelete(idAry);
     }
 
     /**
@@ -769,7 +778,7 @@ public class ArticleController extends BaseController{
         }
 
         // 查询list集合
-        List<Article> list =articalService.listByParams(params);
+        List<Artical> list =articleService.listByParams(params);
         // 存放临时文件
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -799,7 +808,7 @@ public class ArticleController extends BaseController{
         colTitle.put("updatetime", "更新时间");
         List finalList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
-            Article sm = list.get(i);
+            Artical sm = list.get(i);
             HashMap<String,Object> map = new HashMap<String,Object>();
             map.put("id",  list.get(i).getId());
             map.put("title",  list.get(i).getTitle());

@@ -118,6 +118,8 @@ public class ApiAspect {
                 rules.add(new MacShortRule());
             } else if (type == DataType.PHONE) {
                 rules.add(new PhoneRule());
+            }else if (type == DataType.FILE) {
+                continue;
             }
             if (params[i].required()) {
                 rules.add(new Required());

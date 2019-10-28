@@ -4,7 +4,7 @@
     <div class="user_avatar">
       <img :src="avatar" alt="头像" width="55" height="55">
     </div>
-    <div>{{nickName}}</div>
+    <div>{{userName}}</div>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
 
   data() {
     return {
-      nickName: '昵称',
+      userName: '姓名',
       avatar: avatar_default,
       background_image: bg_default
     };
@@ -38,10 +38,12 @@ export default {
   methods: {
     getUserInfo() {
       const infoData = getLocalStorage(
-        'nickName',
+        'userName',
+         'nickName',
         'avatar'
       );
       this.avatar = infoData.avatar || avatar_default;
+      this.userName = infoData.userName || '姓名';
       this.nickName = infoData.nickName || '昵称';
     },
     toSetting() {

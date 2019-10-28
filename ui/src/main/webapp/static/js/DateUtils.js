@@ -13,6 +13,11 @@
  * @author colamachine
  * 日期格式化
  */
+
+ 'use strict';
+   function DateUtils(){
+ }
+
 Date.prototype.format = function(format)
    {
     var o = {
@@ -42,9 +47,9 @@ Date.prototype.format = function(format)
  * @author colamachine
  * 根据指定日期字符串 和 日期格式转化成 date 对象返回
  */
-function parseDate(dateStr,format){
+DateUtils.prototype.parseDate= function (dateStr,format){
 	var year ,month,day,hour=0,minute=0,seconds=0;
-	
+
 	var date =new Date();
 	if(/(y+)/.test(format)){
 		 year=parseInt(dateStr.substr(format.indexOf(RegExp.$1),RegExp.$1.length));
@@ -61,7 +66,7 @@ function parseDate(dateStr,format){
 	if(/(h+)/.test(format)){
 		 hour=parseInt(dateStr.substr(format.indexOf(RegExp.$1),RegExp.$1.length));
 		//date+=hour*60*60000;
-		 
+
 	}date.setHours(hour);
 	if(/(H+)/.test(format)){
     		 hour=parseInt(dateStr.substr(format.indexOf(RegExp.$1),RegExp.$1.length));
@@ -71,24 +76,24 @@ function parseDate(dateStr,format){
 	if(/(m+)/.test(format)){
 		 minute=parseInt(dateStr.substr(format.indexOf(RegExp.$1),RegExp.$1.length));
 //		date+=minute*60000;
-		
+
 	} date.setMinutes(minute);
 	if(/(s+)/.test(format)){
 		 seconds=parseInt(dateStr.substr(format.indexOf(RegExp.$1),RegExp.$1.length));
 //		date+=seconds*1000;
-		
-	} 
+
+	}
 	date.setSeconds(seconds);
-	
+
 	return new Date(date);
 }
 
-function getDayTimeStamp(daystr){
+DateUtils.prototype.getDayTimeStamp= function (daystr){
 	var date = parseDate(daystr,"yyyy-MM-dd");
-	
+
 	return parseInt(date.getTime()/1000/60/24/60);
 }
-function hhmmStamp2Str(val){
+DateUtils.prototype.hhmmStamp2Str= function  (val){
 	var hh=parseInt(val/60);
 	var mm=val%60;
 	if(hh<10)
@@ -97,7 +102,7 @@ function hhmmStamp2Str(val){
 		mm="0"+mm;
 	return hh+":"+mm;
 }
-function YMDStamp2Str(val){
+DateUtils.prototype.YMDStamp2Str= function   (val){
 	var date = new Date(val*24*60*60000).format("yyyy-MM-dd");
 	return date;
 }
@@ -106,7 +111,7 @@ function YMDStamp2Str(val){
  * @param val
  * @returns
  */
-function getDateTime(val){
+DateUtils.prototype.getDateTime= function   (val){
 	var date = new Date(val*60000);
 	 date.setMinutes(0);
 	 date.setHours(0);
@@ -114,7 +119,7 @@ function getDateTime(val){
 	 return parseInt(date.getTime()/6000);
 }
 
-function getDateStrByFen(val){
+DateUtils.prototype.getDateStrByFen= function    (val){
 	var date = new Date(val*60000);
 	return date.format("yyyy-MM-dd HH:mm")
 
@@ -124,19 +129,19 @@ function getDateStrByFen(val){
  * @param val
  * @returns
  */
-function getHMTime(val){
+DateUtils.prototype.getHMTime= function   (val){
 	var date = new Date(val*60000);
 	 return parseInt(date.getHours()*60+date.getMinutes());
 }
-function add4HHMM(timeStart,minutes){
+DateUtils.prototype.add4HHMM= function   (timeStart,minutes){
 	var arr= timeStart.split(":");
 	var h1 =parseInt(arr[0]);
 	var m1= parseInt(arr[1]);
 	h1=h1+parseInt(minutes/60);
+	if(h1<10)
 	m1+=minutes%60;
 	if(m1==60)
 		{m1=0;h1+=1;}
-	if(h1<10)
 		h1="0"+h1;
 	if(m1<10)
 		m1="0"+m1;
@@ -148,8 +153,8 @@ function add4HHMM(timeStart,minutes){
  * @param timeEnd
  * @returns {Number}
  */
-function getTimeLongsBetweenHHMM(timeStart,timeEnd){
-	
+DateUtils.prototype.getTimeLongsBetweenHHMM= function  (timeStart,timeEnd){
+
 	var arr= timeStart.split(":");
 	var h1 =parseInt(arr[0]);
 	var m1= parseInt(arr[1]);
@@ -165,8 +170,8 @@ function getTimeLongsBetweenHHMM(timeStart,timeEnd){
  * @param increment
  * @returns {Date}
  */
-function DateAdd(day,increment){//date int
-	
+DateUtils.prototype.DateAdd= function   (day,increment){//date int
+
 	var d=day.getDate();
 	var m=day.getMonth();
 	var y=day.getFullYear();
@@ -177,7 +182,7 @@ function DateAdd(day,increment){//date int
 	return myDay;
 
 }
-function DateAddInSelf(day,increment){//date int
+DateUtils.prototype.DateAddInSelf= function   (day,increment){//date int
 
 
 	day.setDate(day.getDate()+increment);
@@ -190,8 +195,8 @@ function DateAddInSelf(day,increment){//date int
  * @param day
  * @returns {Array} 星期天~星期六
  */
-function getDateOfWeek( day)//date
-	{	
+DateUtils.prototype.getDateOfWeek= function    ( day)//date
+	{
 		var myDay=day;
 		var mon;
 		var tues;
@@ -200,15 +205,15 @@ function getDateOfWeek( day)//date
 		var fri;
 		var sat;
 		var sun;
-		var mydate = CaculateDaysWeekNum(myDay.getFullYear(),myDay.getMonth()+1,myDay.getDate());
+		var mydate = this.CaculateDaysWeekNum(myDay.getFullYear(),myDay.getMonth()+1,myDay.getDate());
 		//1 代表 日 2 代表1 7代表6 8
-			mon=DateAdd(myDay,1-mydate);
-			tues=DateAdd(myDay,2-mydate);
-			wed=DateAdd(myDay,3-mydate);
-			thurs=DateAdd(myDay,4-mydate);
-			fri=DateAdd(myDay,5-mydate);
-			sat=DateAdd(myDay,6-mydate);
-			sun=DateAdd(myDay,7-mydate);
+			mon=this.DateAdd(myDay,1-mydate);
+			tues=this.DateAdd(myDay,2-mydate);
+			wed=this.DateAdd(myDay,3-mydate);
+			thurs=this.DateAdd(myDay,4-mydate);
+			fri=this.DateAdd(myDay,5-mydate);
+			sat=this.DateAdd(myDay,6-mydate);
+			sun=this.DateAdd(myDay,7-mydate);
 		var arr=[mon,tues,wed,thurs,fri,sat,sun];
 		return arr;
 	}
@@ -220,7 +225,7 @@ function getDateOfWeek( day)//date
  * @param d
  * @returns {Number} 星期几 星期一是1 星期天是7
  */
-function CaculateDaysWeekNum( y, m,d){
+DateUtils.prototype.CaculateDaysWeekNum= function    ( y, m,d){
 	y=new Number(y);
 	m=new Number(m);
 	d=new Number(d);
@@ -228,12 +233,12 @@ function CaculateDaysWeekNum( y, m,d){
 	m+=12;
 	y--;
 	}
-	var week=(d+2*m+Math.floor(3*(m+1)/5)+y+Math.floor(y/4)-Math.floor(y/100)+Math.floor(y/400))%7; 
+	var week=(d+2*m+Math.floor(3*(m+1)/5)+y+Math.floor(y/4)-Math.floor(y/100)+Math.floor(y/400))%7;
 	return week+1;
 };
 
 
-//get the amount of day in appointed month   
+//get the amount of day in appointed month
 
 /**
  * 计算这个年月有多少天
@@ -241,7 +246,7 @@ function CaculateDaysWeekNum( y, m,d){
  * @param m
  * @returns 天数
  */
-function CaculateMonthDays(y,m){
+DateUtils.prototype.CaculateMonthDays= function   (y,m){
 	y=new Number(y);
 	m=new Number(m);
 	var MonthDays=[31,28,31,30,31,30,31,31,30,31,30,31];
@@ -253,7 +258,7 @@ function CaculateMonthDays(y,m){
 /*function getAllDaysOfThisWeek(y,m,d){
 	var week;
 	var weeknum=CaculateDaysWeekNum(y,m,d);
-	
+
 	week[0]=;
 
 }*/
@@ -264,7 +269,7 @@ function CaculateMonthDays(y,m){
  * @param date
  * @returns {String}
  */
-function getdayStrFromDate(date){
+DateUtils.prototype.getdayStrFromDate= function  (date){
 	//其实可以使用 format 的
 	return date.getFullYear()
 				+ "-"
@@ -280,12 +285,12 @@ function getdayStrFromDate(date){
  * @param flag
  * @returns {Number}
  */
-function getTimeEndIndex(time,flag){
+DateUtils.prototype.getTimeEndIndex= function   (time,flag){
 	var hour=parseInt(time.substr(0,2));
 //	var min=parseInt(time.substr(3,2));
 	var index=hour*2;
 	/*if(min<30){
-	
+
 	}else{
 		index++;
 	}*/
@@ -299,28 +304,28 @@ function getTimeEndIndex(time,flag){
 /**
  *把当前日期 转成date time  转成分钟数
  * @param date日期 保留日期的年月日
- * @param time 0~23 代表小时数目 
- * @returns 日期和小时代表的分钟数 
+ * @param time 0~23 代表小时数目
+ * @returns 日期和小时代表的分钟数
  */
-function getTimes(date,time){
+DateUtils.prototype.getTimes= function  (date,time){
 	//var dateTime = parseInt( Date.parse(date+"T"+time+":00")/60000);
 //	alert(date+"T"+time+":00");
 //	alert( new Date(Date.parse(date+"T"+time+":00")));
-	
-	var date = 
-	parseDate(date+"T"+time,"yyyy-MM-ddThh:mm");
+
+	var date =
+	this.parseDate(date+"T"+time,"yyyy-MM-ddThh:mm");
 	var times = date.getTime();
 	var minuteTime = parseInt(date.getTime()/60000);
 	console.log(date.format("yyyy-MM-dd hh:mm:ss"));
 	return minuteTime;
 }
 /**
- * 
+ *
  * @param date 时间戳/(24*60*60000)
  * @param time 时间戳%(24*60*60000)
  * @returns 时间戳/60000
  */
-function getTimeStamp(date,time){
+DateUtils.prototype.getTimeStamp= function   (date,time){
 	return date*24*60+time;
 }
 var YMD= {
@@ -332,7 +337,7 @@ var YMD= {
 /**
  * 到前年
  */
-function getPreYear (day){
+DateUtils.prototype.getPreYear= function   (day){
 	//var day = this.dummyDay;
 	var y = day.getFullYear();
 	var m = day.getMonth();
@@ -340,7 +345,7 @@ function getPreYear (day){
 	y--;
 
 	if (d > 28) {
-		var endDay = CaculateMonthDays(y, m);
+		var endDay = this.CaculateMonthDays(y, m);
 		d = d > endDay ? endDay : d;
 	}
 	day.setYear(y);
@@ -350,7 +355,7 @@ function getPreYear (day){
 }
 
 
-function getNextYear (day) {
+DateUtils.prototype. getNextYear =function (day) {
 	//var day = this.dummyDay;
 	var y = day.getYear();
 	var m = day.getMonth();
@@ -358,7 +363,7 @@ function getNextYear (day) {
 	y++;
 
 	if (d > 28) {
-		var endDay = CaculateMonthDays(y, m);
+		var endDay = this.CaculateMonthDays(y, m);
 		d = d > endDay ? endDay : d;
 	}
 	day.setYear(y);
@@ -372,7 +377,7 @@ function getNextYear (day) {
 /**
  * 到上月
  */
-function getPreMonth  (day) {
+DateUtils.prototype. getPreMonth =function    (day) {
 	//var day = this.dummyDay;
 	var m = day.getMonth();
 	var y = day.getFullYear();
@@ -384,7 +389,7 @@ function getPreMonth  (day) {
 		m--;
 	}
 	if (d > 28) {
-		var endDay = CaculateMonthDays(y, m);
+		var endDay = this.CaculateMonthDays(y, m);
 		d = d > endDay ? endDay : d;
 	}
 	day.setYear(y);
@@ -395,7 +400,7 @@ function getPreMonth  (day) {
 /**
  * 到下月
  */
-function getNextMonth(day) {
+DateUtils.prototype. getNextMonth =function    (day) {
 	//var day = this.dummyDay;
 	var m = day.getMonth();
 	var y = day.getFullYear();
@@ -407,7 +412,7 @@ function getNextMonth(day) {
 		m++;
 	}
 	if (d > 28) {
-		var endDay = CaculateMonthDays(y, m + 1);
+		var endDay = this.CaculateMonthDays(y, m + 1);
 		d = (d > endDay ? endDay : d);
 	}
 	day.setYear(y);
@@ -422,7 +427,7 @@ function getNextMonth(day) {
  * @param day
  * @returns {Date}
  */
-function getNextDay(day){
+DateUtils.prototype. getNextDay =function (day){
 	var m=day.getMonth();
 	var y=day.getFullYear();
 	var d=day.getDate();
@@ -432,7 +437,7 @@ function getNextDay(day){
 	{
 		if(m<11){
 			m++;
-			
+
 		}else{
 			y++;
 			m=0;
@@ -446,8 +451,8 @@ function getNextDay(day){
 	myDate.setDate(day.getDate()+1)
 	return myDate;
 }
-function getFirstMonthDay(date){
-    var day =DateUtils.copyDate(date);
+DateUtils.prototype. getFirstMonthDay =function (date){
+    var day =this.copyDate(date);
     day.setHours(0);
     day.setMinutes(0);
     day.setSeconds(0);
@@ -456,12 +461,12 @@ function getFirstMonthDay(date){
 
     return day;
 }
-function getLastMonthDay(date){
-    var day =DateUtils.copyDate(date);
+DateUtils.prototype. getLastMonthDay =function  (date){
+    var day =this.copyDate(date);
         day.setHours(0);
         day.setMinutes(0);
         day.setSeconds(0);
-        day.setDate(CaculateMonthDays(day.getFullYear,day.getMonth()+1));
+        day.setDate(this.CaculateMonthDays(day.getFullYear,day.getMonth()+1));
         return day;
 }
 
@@ -470,7 +475,7 @@ function getLastMonthDay(date){
  * @param day
  * @returns {Date}
  */
-function getPreDay(day){//date
+DateUtils.prototype. getPreDay =function  (day){//date
 	var m=day.getMonth();
 	var y=day.getFullYear();
 	var d=day.getDate();
@@ -480,7 +485,7 @@ function getPreDay(day){//date
 	{
 		if(m>0){
 			m--;
-			
+
 		}else{
 			y--;
 			m=11;
@@ -500,7 +505,7 @@ function getPreDay(day){//date
  * @param day
  * @returns {Date}
  */
-function getPreWeek(day){//date
+DateUtils.prototype. getPreWeek =function  (day){//date
 	var m=day.getMonth();
 	var y=day.getFullYear();
 	var d=day.getDate();
@@ -517,7 +522,7 @@ function getPreWeek(day){//date
  * @param day
  * @returns {Date}
  */
-function getNextWeek(day){//date
+DateUtils.prototype. getNextWeek =function   (day){//date
 	var m=day.getMonth();
 	var y=day.getFullYear();
 	var d=day.getDate();
@@ -528,9 +533,9 @@ function getNextWeek(day){//date
 	myDate.setDate(day.getDate()+7);
 	return myDate;
 }
-function eqToday(date){
+DateUtils.prototype. eqToday =function   (date){
 	var now =new Date();
-	if(date.getFullYear()==now.getFullYear() && 
+	if(date.getFullYear()==now.getFullYear() &&
 			date.getMonth()==now.getMonth() &&
 			date.getDate()==now.getDate()
 	)
@@ -542,7 +547,7 @@ function eqToday(date){
  * @param startDate yyyy-MM-dd
  * @param endDate yyyy-MM-dd
  */
-function compareYMD(startDate,endDate){
+DateUtils.prototype. compareYMD =function (startDate,endDate){
 	var startDateInt = YMD2Int(startDate);
 	var endDateInt=YMD2Int(endDate);
 	if(startDateInt<endDateInt)
@@ -553,7 +558,7 @@ function compareYMD(startDate,endDate){
 		return -1;
 }
 
-function YMD2Int(str){
+DateUtils.prototype. YMD2Int =function (str){
 	if(str.length!=10){
 		logger.log("日期格式不正确");
 		return;
@@ -563,31 +568,36 @@ function YMD2Int(str){
 	var date = getDFromYMD(str);
 	return year*10000+month*100+date;
 }
-function getYFromYMD(str){
+DateUtils.prototype. getYFromYMD =function  (str){
 	return parseInt(str.substr(0,4));
 }
-function getMFromYMD(str){
+DateUtils.prototype. getMFromYMD =function  (str){
 	return parseInt(str.substr(6,2));
 }
-function getDFromYMD(str){
+DateUtils.prototype. getDFromYMD =function  (str){
 	return parseInt(str.substr(8,2));
 }
-var DateUtils={}
-DateUtils.retainDay=function(date){
+//var DateUtils={}
+DateUtils.prototype. retainDay =function (date){
     date.setSeconds(0);
     date.setMinutes(0);
     date.setHours(0);
     return date;
 }
-DateUtils.copyDate=function(date){
+DateUtils.prototype.copyDate=function(date){
 var dateNew =new Date(date.getTime());
 
     return dateNew;
 }
-function getDateSince1972(date){
+DateUtils.prototype. getDateSince1972=function(date){
     return date.getTime()/1000/60/60/24;
 }
-function autoChange(originStartDay ,changedStartDay,originEndDay){
-return DateAdd(parseDate(changedStartDay,"yyyy-MM-dd"),getDateSince1972(parseDate(originEndDay,"yyyy-MM-dd"))-getDateSince1972(parseDate( originStartDay,"yyyy-MM-dd"))).format("yyyy-MM-dd");
+DateUtils.prototype. autoChange=function (originStartDay ,changedStartDay,originEndDay){
+    return this.DateAdd(this.parseDate(changedStartDay,"yyyy-MM-dd"),this.getDateSince1972(this.parseDate(originEndDay,"yyyy-MM-dd"))-this.getDateSince1972(this.parseDate( originStartDay,"yyyy-MM-dd"))).format("yyyy-MM-dd");
 
 }
+var DateUtil = new DateUtils();
+
+/*
+if(module)
+module.exports = DateUtil;*/

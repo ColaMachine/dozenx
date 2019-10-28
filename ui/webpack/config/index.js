@@ -10,7 +10,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'assets',
-    assetsPublicPath: '/assets',
+    assetsPublicPath: '/',
     proxyTable: {
       '/home': {
         //alpha

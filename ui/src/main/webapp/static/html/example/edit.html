@@ -174,7 +174,7 @@ function submit(){
     var content = document.getElementById("editor").innerHTML;
     var pic = document.getElementById("fengmian").value;
     var json = {"title":title,content:content,pic:pic,type:1};
-    Ajax.post("/home/artical/save.json",json,function(data){
+    Ajax.post("/home/article/save.json",json,function(data){
 
         console.log(data);
     });

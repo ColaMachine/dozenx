@@ -1,3 +1,5 @@
+/*if(import)
+import {Tool} from "./zwcommon"*/
 function findByName(str){
     return document.getElementsByName(str);
 }
@@ -31,7 +33,7 @@ function getChild(parentNode,name){
 }
 
 
-zzw=function( selector, context){
+var zzw=function( selector, context){
    	return  zzw.fn.init( selector, context );
 }
 
@@ -97,7 +99,7 @@ function find(selector){
            return dom;
         }
 }
-$$=zzw;
+var $$=zzw;
 function extend(obj1,obj2){
 
     for (i in obj2)
@@ -511,12 +513,12 @@ function getRadioValueByName(str) {
 
 }
 function isDom(obj){
-         return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
-         }
+return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
+}
 
 
 function getInfo(o){//取得坐标
-		if(isNull(o)){
+		if(Tool.isNull(o)){
 	     	alert("can't find it:"+o);
 
      	}
@@ -525,8 +527,8 @@ function getInfo(o){//取得坐标
 
 	   	var twidth=o.offsetWidth;
 	   	var theight=o.offsetHeight;
-	   	while(o!=document.body && !isNull(o)){
-	   		if(isNull(o.offsetParent)){
+	   	while(o!=document.body && !Tool.isNull(o)){
+	   		if(Tool.isNull(o.offsetParent)){
 	     		//alert("can't find it's parentNode1:"+o);
 	     	}
 	     	to.left+=o.offsetLeft;
@@ -538,3 +540,33 @@ function getInfo(o){//取得坐标
      	to.bottom=to.top+theight;
 	   	return to;
 }
+
+function bind(dom,event_name,function_name){
+
+      //  dom.addEventListener(function_name,function_name, false);
+        dom.attachEvent(event_name,function_name,false);
+		/*switch( event_name){
+			case 'click':
+				//if(Sys.ie){
+				//	dom.attachEvent("onclick", function_name);
+
+			//	}else{
+					dom.addEventListener("click",function_name, false);
+			//	}
+
+				break;
+            case 'mousemover':
+
+                    dom.addEventListener("mousemover",function_name, false);
+             case 'onmousedown':
+
+                    dom.addEventListener("mousedown",function_name, false);
+                case 'dblclick':
+
+                       dom.addEventListener("dblclick",function_name, false);
+		}
+*/
+
+}/*
+if(module)
+module.exports={$$,getInfo,bind};*/

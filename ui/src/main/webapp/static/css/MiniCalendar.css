@@ -1,6 +1,7 @@
 
 .minicalendar_wrap{
     position:absolute;
+    left:0px;
     border:1px solid background;
 }
 .table_CalendarView {

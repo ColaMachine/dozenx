@@ -74,15 +74,17 @@ CREATE TABLE `sys_user` (
 
 
 
-
 CREATE TABLE `active` (
-  `activeid` varchar(32) NOT NULL COMMENT '主键',
-  `userid` bigint(40) NOT NULL COMMENT '名称',
-  `actived` int(1) NOT NULL COMMENT '激活',
-  `activedtime` int(11) DEFAULT NULL COMMENT '激活时间',
-  `createdtime` varchar(40) DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`activeid`)
+  `id` bigint(11) NOT NULL,
+  `active_code` varchar(32) NOT NULL COMMENT '激活码',
+  `user_id` bigint(40) NOT NULL COMMENT '名称',
+  `actived_status` tinyint(4) NOT NULL COMMENT '激活',
+  `actived_time` datetime DEFAULT NULL COMMENT '激活时间',
+  `add_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_active_code` (`active_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='激活码';
+SELECT * FROM awifi_videocloud.active;
 
 
 

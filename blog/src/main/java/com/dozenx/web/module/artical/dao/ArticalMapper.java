@@ -1,24 +1,25 @@
-package com.dozenx.web.module.article.dao;
+package com.dozenx.web.module.artical.dao;
 
 
-import com.dozenx.web.module.article.bean.Article;
+import com.dozenx.web.module.artical.bean.Artical;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public interface ArticleMapper {
+public interface ArticalMapper {
     
     int deleteByPrimaryKey(Long id);
 
     
-    int insert(Article record);
+    int insert(Artical record);
 
    
-    int insertSelective(Article record);
+    int insertSelective(Artical record);
 
     
-    Article selectByPrimaryKey(Long id);
+    Artical selectByPrimaryKey(Long id);
 
     /**
      * 说明:根据主键修改所存在属性内容
@@ -27,7 +28,7 @@ public interface ArticleMapper {
      * @author dozen.zhang
      * @date 2015年5月14日上午11:34:13
      */
-    int updateByPrimaryKeySelective(Article artical);
+    int updateByPrimaryKeySelective(Artical artical);
 
     /**
      * 说明:根据主键修改record完整内容
@@ -36,7 +37,7 @@ public interface ArticleMapper {
      * @author dozen.zhang
      * @date 2015年5月14日上午11:34:13
      */
-    int updateByPrimaryKey(Article artical);
+    int updateByPrimaryKey(Artical artical);
 
     /**
      * 说明:根据map查找bean结果集
@@ -45,7 +46,7 @@ public interface ArticleMapper {
      * @author dozen.zhang
      * @date 2015年5月14日上午11:34:13
      */
-    List<Article> listByParams(Map artical);
+    List<Artical> listByParams(Map artical);
     
     /**
      * 说明:根据bean查找bean结果集
@@ -54,7 +55,7 @@ public interface ArticleMapper {
      * @author dozen.zhang
      * @date 2015年5月14日上午11:34:13
      */
-    List<Article> listByParams4Page(Map artical);
+    List<Artical> listByParams4Page(Map artical);
 
 
     List<HashMap<String,Object>> listWithUserInfoByParams4Page(Map artical);
@@ -85,4 +86,6 @@ public interface ArticleMapper {
 
 
     void updateCommentCountById(Long id);
+
+    void updateViewCount(@Param("id") Long articleId, @Param("viewCount")int viewCount);
 }

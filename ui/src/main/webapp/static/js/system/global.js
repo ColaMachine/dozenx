@@ -153,6 +153,7 @@ function showCalendar(it){
 	var d = new MiniCalendar();
 	d.render(it.id,function(){it.innerHTML= d.getDateStr()});
 
+    var mask =new Mask(function(){d.hide()});
 	/*var span=document.createElement("span");
 	var calendar_dialogue_time_input=document.createElement("input");
 	calendar_dialogue_time_input.value=it.innerHTML;
@@ -160,6 +161,18 @@ function showCalendar(it){
 	span.appendChild(calendar_dialogue_time_input);
 	it.parentNode.appendChild(span);
 	*/
+
+}
+
+function Mask(callback){
+   // var div =new Div();
+   // div.className="mask";
+
+    var closeMask=function(){
+        callback.call();
+        document.removeEventListener("click",closeMask);
+    }
+   document. addEventListener("click", closeMask);
 
 }
 function date2intArr(day){

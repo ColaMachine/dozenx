@@ -342,6 +342,7 @@
         for(var i=0;i<result.data.length;i++){
             result.data[i].pic= result.data[i].img;
             result.data[i].title= result.data[i].name;
+            result.data[i].url= "?id="+result.data[i].id+"#/goodView";
         }
 
           this.goodsList = result.data;

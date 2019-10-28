@@ -125,7 +125,7 @@
 
 
 
-<script src="http://127.0.0.1:7079/assets/index.js"></script>
+<script src="/assets/js/index.js"></script>
 
 
 <script>

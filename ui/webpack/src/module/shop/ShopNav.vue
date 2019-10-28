@@ -8,7 +8,7 @@
 
           <div style="float:left" >
               <zwMenuItem key="mail" >
-                <a href="/home/index.htm"><zwIcon type="home" />好物</a>
+                <a href="index.htm"><zwIcon type="home" />好物</a>
               </zwMenuItem>
           </div >
 

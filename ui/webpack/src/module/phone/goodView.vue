@@ -224,7 +224,7 @@ onclick="dataLayer.push({'event':'WAP优惠详情_分类','商品分类名':'冰
     data() {
 
       return {
-      id:getHashValue("id"),
+      id:getQueryString("id"),
 
       images:[],
         user:{},

@@ -338,7 +338,7 @@ var menuList=[
     {id:304,name:"专家智库",url:"/expert/list.htm",icon:"fa fa-spinner",pid:30},
     {id:305,name:"合作伙伴",url:"/partner/list.htm",icon:"fa fa-spinner",pid:30},
     {id:306,name:"专家介绍",url:"/expertDetail/list.htm",icon:"fa fa-spinner",pid:30},
-    {id:307,name:"专家文献",url:"/expertArtical/list.htm",icon:"fa fa-spinner",pid:30},
+    {id:307,name:"专家文献",url:"/expertArticle/list.htm",icon:"fa fa-spinner",pid:30},
     {id:308,name:"合作伙伴介绍",url:"/partnerDetail/list.htm",icon:"fa fa-spinner",pid:30},
 
 {id:31,name:"图表",url:"",icon:"fa fa-bar-chart",pid:0},

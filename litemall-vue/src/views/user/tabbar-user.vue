@@ -9,8 +9,6 @@
 
 <script>
 import userHeader from './tabbar-user-header';
-import orderGroup from './tabbar-user-order';
-import couponGroup from './tabbar-user-coupon';
 import userModule from './tabbar-user-module';
 import kqGroup from './tabbar-user-kq';
 export default {
@@ -33,8 +31,7 @@ export default {
 
   components: {
     [userHeader.name]: userHeader,
-    [orderGroup.name]: orderGroup,
-    [couponGroup.name]: couponGroup,
+
     [userModule.name]: userModule,
      [kqGroup.name]: kqGroup
   }

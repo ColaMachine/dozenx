@@ -1,5 +1,5 @@
- <div id="ArticalAudit" class="modal-content">
-    <form id="editForm" class="form-horizontal" method="post" action="/artical/save.json" enctype="multipart/form-data">
+ <div id="ArticleAudit" class="modal-content">
+    <form id="editForm" class="form-horizontal" method="post" action="/article/save.json" enctype="multipart/form-data">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title">新闻咨询查看</h4>
@@ -60,7 +60,7 @@
 </div><!-- /.modal-content -->
 
 <!--<div class="body_title">| 新闻咨询编辑</div>
-<form id="editForm" class="form-horizontal" method="post" action="/artical/save.json" enctype="multipart/form-data">
+<form id="editForm" class="form-horizontal" method="post" action="/article/save.json" enctype="multipart/form-data">
      <input type="hidden" id="id" name="id">
     <div class="form-group">
         <label for="title" class="col-sm-2 control-label">标题:</label>
@@ -114,17 +114,17 @@
 </div>
 </div>-->
 <script type="text/javascript">
-var articalAudit={
+var articleAudit={
     modal:false,
-    root:$("#ArticalAudit"),
+    root:$("#ArticleAudit"),
     init:function(){
     var that = this;
         this.addEventListener();
         //获取传入参数
             if(!StringUtil.isBlank(getParam("id"))){
-                Ajax.getJSON("artical/view.json?id="+getParam("id"),null,function(data){
+                Ajax.getJSON("article/view.json?id="+getParam("id"),null,function(data){
                     if(data.r==AJAX_SUCC){
-                        fillJso2FormSpan("#ArticalAudit",data.data.bean);
+                        fillJso2FormSpan("#ArticleAudit",data.data.bean);
                         $("#content").html(data.data.bean.content);
                         that.root.find("#id").val(data.data.bean.id);
                     }else{
@@ -139,10 +139,10 @@ var articalAudit={
             }
     },
     cancel:function(){
-        if(articalAudit.modal){
-            dialog.closeWindow("articalAudit");
+        if(articleAudit.modal){
+            dialog.closeWindow("articleAudit");
         }else{
-            goPage("artical/listAudit.htm");
+            goPage("article/listAudit.htm");
         }
     },
     addEventListener:function(){
@@ -155,16 +155,16 @@ var articalAudit={
 
         var that=this;
         var jso={};
-        jso.id= articalAudit.root.find("#id").val();
+        jso.id= articleAudit.root.find("#id").val();
         jso.status= 3;
-        Ajax.post(PATH+"/artical/auditPost.json",jso,function(data){
+        Ajax.post(PATH+"/article/auditPost.json",jso,function(data){
             dialog.hideWait(dialogId);
             if(data.r==0){
                 dialog.alert(data.msg||"批准成功",function(index){
-                    //goPage("artical/list.htm");
-                     articalAudit.cancel();
+                    //goPage("article/list.htm");
+                     articleAudit.cancel();
                     if(this.modal){
-                        $("#articalGrid").jqGrid("reloadGrid");
+                        $("#articleGrid").jqGrid("reloadGrid");
                     }
                      dialog.close(index);
                 });
@@ -178,16 +178,16 @@ var articalAudit={
 
         var that=this;
         var jso={};
-        jso.id= articalAudit.root.find("#id").val();
+        jso.id= articleAudit.root.find("#id").val();
         jso.status= 4;
-        Ajax.post(PATH+"/artical/auditPost.json",jso,function(data){
+        Ajax.post(PATH+"/article/auditPost.json",jso,function(data){
             dialog.hideWait(dialogId);
             if(data.r==0){
                 dialog.alert(data.msg||"驳回成功",function(index){
-                    //goPage("artical/list.htm");
-                     articalAudit.cancel();
+                    //goPage("article/list.htm");
+                     articleAudit.cancel();
                     if(this.modal){
-                        $("#articalGrid").jqGrid("reloadGrid");
+                        $("#articleGrid").jqGrid("reloadGrid");
                     }
                      dialog.close(index);
                 });
@@ -198,7 +198,7 @@ var articalAudit={
     }
 }
 $(document).ready(function() {
-    articalAudit.init();
+    articleAudit.init();
 });
    
 

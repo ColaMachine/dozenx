@@ -2,24 +2,24 @@
   <div>
     <van-cell-group>
       <van-cell title="我的考勤" isLink>
-        <router-link to="/user/order/list/0" class="text-desc">全部考勤</router-link>
+        <router-link to="/user/kq/list/0" class="text-desc">全部考勤</router-link>
       </van-cell>
     </van-cell-group>
     <van-row class="order_status">
       <van-col span="8">
-        <div class="order_status_icon" @click="$router.push({path: '/user/order/list/1'})">
+        <div class="order_status_icon" @click="$router.push({path: '/user/kq/list/0'})">
           <van-icon name="daifukuan" :info="order.unpaid > 0 ? order.unpaid : ''"/>
         </div>
-        <div>机考</div>
+        <div>考勤机</div>
       </van-col>
       <van-col span="8">
-        <div class="order_status_icon" @click="$router.push({path: '/user/order/list/2'})">
+        <div class="order_status_icon" @click="$router.push({path: '/user/kq/list/1'})">
           <van-icon name="daifahuo" :info="order.unship > 0 ? order.unship : ''"/>
         </div>
         <div>摄像头</div>
       </van-col>
       <van-col span="8">
-        <div class="order_status_icon" @click="$router.push({path: '/user/order/list/3'})">
+        <div class="order_status_icon" @click="$router.push({path: '/user/kq/list/2'})">
           <van-icon name="wuliu" :info="order.unrecv > 0 ? order.unrecv : ''"/>
         </div>
         <div>迟到</div>
@@ -47,7 +47,7 @@ export default {
   methods: {
     init() {
       userIndex().then(res => {
-      this.order = res.data.data.order;
+      //this.order = {unpaid:1,unship:1,unrecv:1}//res.data.data.order;
       });
     }
   },

@@ -1,14 +1,3 @@
-function $mz_3__id1372936633538$(){
-/*---------------------------------------------------------------------------*\
-|  Subject:    Calendar 2.0
-|  NameSpace:  Calendar.View
-|  Author:     Cola.Machine
-|  Created:    2010-01-27
-|  Version:    2010-01-27
-|-------------------------------------------------------------
-|
-\*---------------------------------------------------------------------------*/
-
 
 
 function Calendar(){System.call(this);this.index=this.hashcode;}
@@ -149,7 +138,8 @@ Calendar.prototype.goNextDay=function(){
 Calendar.prototype.getDateStr=function(){
 //    console.log(this.dummyDay.format("yyyy-MM-dd HH:mm:ss"));
 	return this.dummyDay.format("yyyy-MM-dd HH:mm");
-
 };
-System._prototypes['System.Data.Calendar']=window['Calendar']=Calendar;
-}$mz_3__id1372936633538$();
+/*
+
+if(module)
+module.exports =Calendar*/

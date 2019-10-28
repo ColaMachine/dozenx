@@ -12,6 +12,7 @@ const UserInfo_SetNickname = () => import('@/views/user/user-information-set/set
 const UserInfo_SetPassword = () => import('@/views/user/user-information-set/set-password');
 
 const UserOrderList = () => import('@/views/user/order-list');
+const UserKqList = () => import('@/views/user/kq-list');
 const UserCouponList = () => import('@/views/user/coupon-list');
 const UserRefundList = () => import('@/views/user/refund-list');
 
@@ -95,6 +96,12 @@ export default [
     props: true,
     component: UserOrderList
   },
+   {
+      path: '/user/kq/list/:active',
+      name: 'user-kq-list',
+      props: true,
+      component: UserKqList
+    },
   {
     path: '/user/coupon/list/:active',
     name: 'user-coupon-list',

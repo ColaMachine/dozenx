@@ -1,6 +1,8 @@
+
 import request from '@/utils/request'
 import md5 from 'js-md5';
-const IndexUrl= 'wx/home/index'; //首页数据接口
+
+const IndexUrl= 'wx/mssrv/index'; //首页数据接口
 export function getHome() {
   return request({
     url: IndexUrl,
@@ -28,7 +30,7 @@ export function catalogCurrent(query) {
 const AuthLoginByWeixin='wx/auth/login_by_weixin'; //微信登录
 
 
-const AuthLoginByAccount='home/sys/auth/login'; //账号登录
+const AuthLoginByAccount='/mssrv/sys/auth/login'; //账号登录
 export function authLoginByAccount(data) {
     data.loginName=data.username;
     data.pwd = md5(data.password);
@@ -39,21 +41,21 @@ export function authLoginByAccount(data) {
     data
   })
 }
-const AuthLogout='home/sys/auth/logout'; //账号登出
+const AuthLogout='/mssrv/sys/auth/logout'; //账号登出
 export function authLogout() {
   return request({
     url: AuthLogout,
     method: 'post'
   })
 }
-const AuthInfo='home/user/info.json'; //用户信息
+const AuthInfo='/mssrv/user/info.json'; //用户信息
 export function authInfo() {
   return request({
     url: AuthInfo,
     method: 'get'
   })
 }
-const AuthProfile='wx/auth/profile'; //账号修改
+const AuthProfile='/mssrv/user/nick/update'; //账号修改
 export function authProfile(data) {
   return request({
     url: AuthProfile,
@@ -417,20 +419,9 @@ const CouponExchange='wx/coupon/exchange'; //优惠券兑换
 
 const StorageUpload='wx/storage/upload'; //图片上传,
 
-const ImageUploadIndex='home/pubimage/file/upload'; //个人页面用户相关信息
-export function imageUploadIndex(data) {
-
-  return request({
-    url: ImageUploadIndex,
-      headers: { "Content-Type": "multipart/form-data" },
-    method: 'post',
-    data
-
-  })
-}
 
 
-const FaceBatchUpdateIndex='home/checkin/faceinfo/multi/save'; //个人页面用户相关信息
+const FaceBatchUpdateIndex='/mssrv/checkin/faceinfo/multi/save'; //个人页面用户相关信息
 export function faceBatchUpdate(data) {
 
   return request({
@@ -443,12 +434,12 @@ export function faceBatchUpdate(data) {
 }
 export function getUsersFaceData(data) {
   return request({
-    url: 'home/checkin/faceinfo/yoursfaces',
+    url: '/mssrv/checkin/faceinfo/yoursfaces',
     method: 'get',
   })
 }
 
-const UserIndex='home/user/info.json'; //个人页面用户相关信息
+const UserIndex='/mssrv/user/info.json'; //个人页面用户相关信息
 export function userIndex() {
   return request({
     url: UserIndex,
@@ -472,3 +463,113 @@ export function getList(api, query) {
 }
 
 export const REFUND_LIST = '';
+
+
+const ImageUploadIndex='/mssrv/pubimage/file/upload'; //个人页面用户相关信息
+export function imageUploadIndex(data) {
+
+  return request({
+    url: ImageUploadIndex,
+      headers: { "Content-Type": "multipart/form-data" },
+    method: 'post',
+    data
+
+  })
+}
+
+export function avatarUploadIndex(data) {
+
+  return request({
+    url: '/mssrv/user/avatar/update',
+      headers: { "Content-Type": "multipart/form-data" },
+    method: 'post',
+    data
+
+  })
+
+
+
+}
+
+
+
+export function saveTelno(data) {
+  return request({
+    url: '/mssrv/user/telno/update',
+    method: 'post',
+    data
+  })
+}
+
+
+export function pwdRest(data) {
+  return request({
+    url: '/mssrv/user/pwd/update',
+    method: 'post',
+    data
+  })
+}
+
+
+export function sexReset(data) {
+  return request({
+    url: '/mssrv/user/sex/update',
+    method: 'post',
+    data
+  })
+}
+export function kqList(query) {
+  return request({
+    url: '/mssrv/activity/getActivities.json',
+    method: 'get',
+    params: query
+  })
+}
+
+
+export function getPicCapthca(data) {
+  return request({
+    url: "/mssrv/sys/auth/login/pic/captcha",
+    method: 'get',
+    data
+  })
+}
+
+
+
+
+
+export function getWxInitData(data) {
+  return request({
+    url: "/mssrv/weixin/signatrue?url="+data.url,
+    method: 'get',
+
+  })
+}
+
+
+export function getSmsValidCode(data) {
+  return request({
+    url: "/mssrv/code/sms?phone="+data.phone+"&systemno=calendar",
+    method: 'get',
+  })
+}
+
+
+
+export function submitRegister(data) {
+  return request({
+    url: "/mssrv/sys/auth/reg/phone/pwd/sms",
+    method: 'post',
+    data
+  })
+}
+
+
+export function pwdSmsCodeRest(data) {
+  return request({
+    url: "/mssrv/sys/auth/pwdrst",
+    method: 'put',
+    data
+  })
+}

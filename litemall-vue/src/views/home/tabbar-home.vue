@@ -5,7 +5,7 @@
     <van-panel title="考勤记录"
                style=" padding-bottom: 10px;">
 
-    <CalendarView></CalendarView>
+
     </van-panel>
 
 
@@ -35,7 +35,7 @@ import {
   Col,
   Tag
 } from 'vant';
-import CalendarView from '../../components/calendar/CalendarView.vue';
+
 
 export default {
   mixins: [scrollFixed],
@@ -76,9 +76,7 @@ export default {
       });
     },
     initViews() {
-      getHome().then(res => {
-        this.shopInfos = res.data.data;
-      });
+
     }
   },
 
