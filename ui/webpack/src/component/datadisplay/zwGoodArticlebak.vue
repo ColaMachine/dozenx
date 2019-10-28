@@ -3021,7 +3021,7 @@
 
 
 
-/**cssartical **/
+/**cssarticle **/
 article.txt-detail {
     color: #333;
     margin-top: 30px;

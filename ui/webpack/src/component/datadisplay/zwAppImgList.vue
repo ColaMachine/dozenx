@@ -8,7 +8,7 @@
 
                 <zwLayout class="zw-layout-has-sider app-card ">
 
-                <zwSider class="app-li-it-pic">  <a :href="'#/goodview/'+result.id"><img onerror="" :src='getPathValue( result.pic)' /></a></zwSider>
+                <zwSider class="app-li-it-pic">  <a :href="result.url"><img onerror="" :src='getPathValue( result.pic)' /></a></zwSider>
                     <zwLayout class="app-li-it-content" >
                     <zwHeader  class="app-li-it-content-head">  <h1>{{result.title}}</h1></zwHeader>
 

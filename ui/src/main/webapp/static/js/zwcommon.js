@@ -1815,45 +1815,6 @@ Tool.isNull=function(it){
 	}
 	return null;
 }
-var StringUtil={};
-StringUtil.isNull=function(it){
-	if(it==null || typeof it=='undefinded' || it==''){
-		return true;
-	}
-	return null;
-}
-StringUtil.isBlank=function(it){
-	if(it==null || typeof it=='undefinded' || it==''){
-		return true;
-	}
-	return null;
-}
-StringUtil.startWith=function(str,content){
-                       var reg=new RegExp("^"+content);
-                       return reg.test(str);
-                     }
-
-                  //   alert(StringUtil.startWith("123.png","png1"));
-StringUtil.endWith=function(str,content){
-                       var reg=new RegExp(content+"$");
-                       return reg.test(str);
-                     }
-String.prototype.startWith=function(str){
-  var reg=new RegExp("^"+str);
-  return reg.test(this);
-}
-
-String.prototype.endWith=function(str){
-  var reg=new RegExp(str+"$");
-  return reg.test(this);
-}
-StringUtil.isPhone=function(it){
-return /^[1][3578][0-9]{9}$/.test(it);
-}
-StringUtil.isEmail=function(it){
-
-return /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(it);
-}
 function getParam(key){
 	if(window.data)
 		return window.data[key]||"";
@@ -2608,7 +2569,6 @@ function getQueryString(name) {
 
 console.log(window.location);
 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-//alert(window.location.search);
 
 var r = window.location.search.substr(1).match(reg);
 if (r != null) return unescape(r[2]); return null;
@@ -2795,6 +2755,21 @@ var filterHTMLTag = function (msg) {
         return msg;
 }
 
+
+String.prototype.startWith=function(str){
+  var reg=new RegExp("^"+str);
+  return reg.test(this);
+}
+
+String.prototype.endWith=function(str){
+  var reg=new RegExp(str+"$");
+  return reg.test(this);
+}
+/*
+if(module){
+moduel.exports={Tool,StringUtil}
+}*/
+
 var StringUtil={};
 StringUtil.isNull=function(it){
 	if(it==null || typeof it=='undefinded' || it==''){
@@ -2831,5 +2806,5 @@ StringUtil.isPhone=function(it){
 return /^[1][3578][0-9]{9}$/.test(it);
 }
 StringUtil.isEmail=function(it){
+return /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(it);
 }
-moduel.exports={Tool,StringUtil}
