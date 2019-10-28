@@ -103,7 +103,37 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           inject: true,
           date:new Date()
         }),
+    new HtmlWebpackPlugin({
+          filename: 'PcArticlePage.html',
+          template: 'index.html',
+          inject:true,
+          title:'this is example.html',
+          author:'zzw',
+          chunks:['PcArticlePage'],
+          inject: true,
+          date:new Date()
+        }),
 
+
+ new HtmlWebpackPlugin({
+                          filename: 'PcGoodPage.html',
+                          template: 'index.html',
+                          inject:true,
+                          title:'this is example.html',
+                          author:'zzw',
+                          chunks:['manifest','vendor','PcGoodPage'],
+                          inject: true,
+                            minify: {
+                                  removeComments: true,
+                                  collapseWhitespace: true,
+                                  removeAttributeQuotes: true
+                                  // more options:
+                                  // https://github.com/kangax/html-minifier#options-quick-reference
+                                },
+                                // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+                                chunksSortMode: 'dependency',
+                          date:new Date()
+                        }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
@@ -114,29 +144,29 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err)
-    } else {
-      // publish the new Port, necessary for e2e tests
-      process.env.PORT = port
-      // add port to devServer config
-      devWebpackConfig.devServer.port = port
-
-      // Add FriendlyErrorsPlugin
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
-        },
-        onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
-      }))
-
-      resolve(devWebpackConfig)
-    }
-  })
-})
+module.exports = devWebpackConfig
+//module.exports = new Promise((resolve, reject) => {
+//  portfinder.basePort = process.env.PORT || config.dev.port
+//  portfinder.getPort((err, port) => {
+//    if (err) {
+//      reject(err)
+//    } else {
+//      // publish the new Port, necessary for e2e tests
+//      process.env.PORT = port
+//      // add port to devServer config
+//      devWebpackConfig.devServer.port = port
+//
+//      // Add FriendlyErrorsPlugin
+//      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
+//        compilationSuccessInfo: {
+//          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
+//        },
+//        onErrors: config.dev.notifyOnErrors
+//        ? utils.createNotifierCallback()
+//        : undefined
+//      }))
+//
+//      resolve(devWebpackConfig)
+//    }
+//  })
+//})

@@ -66,20 +66,134 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
+
+
+
+     new HtmlWebpackPlugin({
+          filename: 'shopIndex.html',
+          template: 'index.html',
+          inject:true,
+          title:'this is a.html',
+          author:'zzw',
+          chunks:['manifest','vendor','shopIndex'],
+          inject: true,
+            minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeAttributeQuotes: true
+                  // more options:
+                  // https://github.com/kangax/html-minifier#options-quick-reference
+                },
+                // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+                chunksSortMode: 'dependency',
+          date:new Date()
+        }),
+         new HtmlWebpackPlugin({
+              filename: 'example.html',
+              template: 'index.html',
+              inject:true,
+              title:'this is example.html',
+              author:'zzw',
+              chunks:['manifest','vendor','example'],
+              inject: true,
+                minify: {
+                      removeComments: true,
+                      collapseWhitespace: true,
+                      removeAttributeQuotes: true
+                      // more options:
+                      // https://github.com/kangax/html-minifier#options-quick-reference
+                    },
+                    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+                    chunksSortMode: 'dependency',
+              date:new Date()
+            }),
+      new HtmlWebpackPlugin({
+              filename: 'index.html',
+              template: 'index.html',
+              inject:true,
+              title:'this is example.html',
+              author:'zzw',
+              chunks:['manifest','vendor','index'],
+              inject: true,
+                minify: {
+                      removeComments: true,
+                      collapseWhitespace: true,
+                      removeAttributeQuotes: true
+                      // more options:
+                      // https://github.com/kangax/html-minifier#options-quick-reference
+                    },
+                    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+                    chunksSortMode: 'dependency',
+              date:new Date()
+            }),
+            new HtmlWebpackPlugin({
+              filename: 'vueUserInfo.html',
+              template: 'index.html',
+              inject:true,
+              title:'this is example.html',
+              author:'zzw',
+              chunks:['manifest','vendor','vueUserInfo'],
+              inject: true,
+                minify: {
+                      removeComments: true,
+                      collapseWhitespace: true,
+                      removeAttributeQuotes: true
+                      // more options:
+                      // https://github.com/kangax/html-minifier#options-quick-reference
+                    },
+                    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+                    chunksSortMode: 'dependency',
+              date:new Date()
+            }),
     new HtmlWebpackPlugin({
-      filename: config.build.index,
-      template: 'index.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
+          filename: 'PcArticlePage.html',
+          template: 'index.html',
+          inject:true,
+          title:'this is example.html',
+          author:'zzw',
+          chunks:['manifest','vendor','PcArticlePage'],
+          inject: true,
+          date:new Date()
+        }),
+             new HtmlWebpackPlugin({
+              filename: 'vuePhoneIndex.html',
+              template: 'index.html',
+              inject:true,
+              title:'this is example.html',
+              author:'zzw',
+              chunks:['manifest','vendor','vuePhoneIndex'],
+              inject: true,
+                minify: {
+                      removeComments: true,
+                      collapseWhitespace: true,
+                      removeAttributeQuotes: true
+                      // more options:
+                      // https://github.com/kangax/html-minifier#options-quick-reference
+                    },
+                    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+                    chunksSortMode: 'dependency',
+              date:new Date()
+            }),
+
+               new HtmlWebpackPlugin({
+                          filename: 'PcGoodPage.html',
+                          template: 'index.html',
+                          inject:true,
+                          title:'this is example.html',
+                          author:'zzw',
+                          chunks:['manifest','vendor','PcGoodPage'],
+                          inject: true,
+                            minify: {
+                                  removeComments: true,
+                                  collapseWhitespace: true,
+                                  removeAttributeQuotes: true
+                                  // more options:
+                                  // https://github.com/kangax/html-minifier#options-quick-reference
+                                },
+                                // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+                                chunksSortMode: 'dependency',
+                          date:new Date()
+                        }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting

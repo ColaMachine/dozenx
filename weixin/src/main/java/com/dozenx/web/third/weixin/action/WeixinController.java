@@ -44,7 +44,7 @@ import java.util.*;
 @APIs(description = "微信集合类")
 @Controller
 @Scope("prototype")
-@RequestMapping(Constants.WEBROOT+"/weixin")
+@RequestMapping("/wx")
 public class WeixinController extends BaseController {
 	@Autowired
 	private SysUserService userService;
@@ -197,15 +197,15 @@ public class WeixinController extends BaseController {
 
 			//插入一条心的数据 让用户重新输入手机号码
 
-			request.getSession().setAttribute(WeixinConstants.WEIXIN_SESSION_OPENID,oauthResult.getOpenid());
+			this.setSessionParam(request,WeixinConstants.WEIXIN_SESSION_OPENID,oauthResult.getOpenid());
 
 			WeixinUser weixinUser = WeixinUtil.getUserInfo(oauthResult.getAccess_token(),oauthResult.getOpenid());
 
-			request.getSession().setAttribute(WeixinConstants.WEIXIN_SESSION_USER,weixinUser);
+			this.setSessionAttribute(request,WeixinConstants.WEIXIN_SESSION_USER,weixinUser);
 			return this.getResult(29905568, ErrorMessage.getErrorMsg("err.weixin.openid.no.user"));
 		}else{
 			//直接拿到用户直接登录
-			request.getSession().setAttribute(Constants.SESSION_USER,sysUsers.get(0));
+			this.setSessionAttribute(request,Constants.SESSION_USER,sysUsers.get(0));
 			//并将用户信息同步到用户表中
 
 //
@@ -268,7 +268,7 @@ public class WeixinController extends BaseController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody
-	ResultDTO login(HttpServletRequest request) throws Exception {
+	ResultDTO loginByOpenId(HttpServletRequest request) throws Exception {
 
 
 		// String value =this.uploadFieldName;
@@ -302,17 +302,17 @@ public class WeixinController extends BaseController {
 		}
 		//需要判断次openid 是否有关联了其他的账号 如果有的话 需要先去掉
 
-		String openid= (String)request.getSession().getAttribute(WeixinConstants.WEIXIN_SESSION_OPENID);
+		String openid= (String)this.getSessionParam(request,WeixinConstants.WEIXIN_SESSION_OPENID);
 		SysUser anotrherAccount = userService.getUserByWxopenid(openid);
 		if(anotrherAccount !=null){
 			anotrherAccount.setWeichat(null);
 			userService.save(anotrherAccount);
 		}
 
-		user.setWeichat((String)request.getSession().getAttribute(WeixinConstants.WEIXIN_SESSION_OPENID));
-		Object object = request.getSession().getAttribute(WeixinConstants.WEIXIN_SESSION_USER);
-		if(object!=null){
-			WeixinUser weixinUser =(WeixinUser)object;
+		user.setWeichat((String)this.getSessionParam(request,WeixinConstants.WEIXIN_SESSION_OPENID));
+		WeixinUser weixinUser = this.getSessionAttribute(request,WeixinConstants.WEIXIN_SESSION_USER,WeixinUser.class);
+		if(weixinUser!=null){
+//			WeixinUser weixinUser =(WeixinUser)object;
 			if(weixinUser!=null){
 				user.setFace(weixinUser.getHeadimgurl());
 				user.setAddress(weixinUser.getProvince()+weixinUser.getCity()+weixinUser.getCountry());
@@ -324,7 +324,7 @@ public class WeixinController extends BaseController {
 		userService.save(user);
 
 
-		request.getSession().setAttribute(Constants.SESSION_USER, user);//塞入到用户session中
+		this.setSessionAttribute(request,Constants.SESSION_USER, user);//塞入到用户session中
 		// List<SysResource> resources = authService.listResourcesByUserid(user.getId());
       /*  List<SysMenu> menus = authService.listMenusByUserid(user.getId());
         List<String> resStr = new ArrayList<String>();

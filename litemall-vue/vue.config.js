@@ -5,6 +5,7 @@ function resolve(dir = '') {
 }
 
 module.exports = {
+
   publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -14,8 +15,8 @@ module.exports = {
     port: 6255,
 
      proxy: {
-          "/home": {
-            target: "http://127.0.0.1:8081",
+          "/mssrv": {
+            target: "http://192.168.:8094",
             changeOrigin: true, // 是否改变域名
             ws: true,
              pathRewrite: {

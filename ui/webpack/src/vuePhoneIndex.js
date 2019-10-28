@@ -33,6 +33,7 @@ import router from "./module/route/route.js"
 //初始化一个路由
 new Vue({
   el: '#head',
+  router,
   render: h => h(vuePhoneIndex)
 })
 
