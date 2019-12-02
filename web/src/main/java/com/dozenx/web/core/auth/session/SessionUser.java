@@ -10,6 +10,17 @@ import java.io.Serializable;
  * @Modified By:
  */
 public class SessionUser implements Serializable {
+
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     /** 用户id **/
     private Long userId;
     /** 用户名称 **/

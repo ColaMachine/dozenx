@@ -93,8 +93,8 @@ int countByBean(Activity record);*/
     int countByParams(HashMap map);
 
 
-    List<HashMap> selectActivityBetween2Date(Map map);
+    List<Activity> selectActivityBetween2Date(Map map);
 
-    List<HashMap> selectActivityBetween2DateByGroup(Map map);
+    List<Activity> selectActivityBetween2DateByGroup(Map map);
     }
 

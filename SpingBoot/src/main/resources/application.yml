@@ -184,3 +184,39 @@ cache:
     ehcache:
         enable:false
 
+version: '3'
+
+services:
+
+  dokuwiki:
+    container_name: doku.lab.io
+    restart: always
+    image: 'bitnami/dokuwiki:0.20180422.201901061035-r12'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:doku.lab.io"
+      - "traefik.frontend.passHostHeader=true"
+      - "traefik.frontend.entryPoints=https,http"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.frameDeny=true"
+      - "traefik.frontend.headers.SSLProxyHeaders=X-Forwarded-Proto:https"
+      - "traefik.frontend.redirect.regex=^https?://doku.lab.io/(.*)"
+      - "traefik.frontend.redirect.replacement=https://doku.lab.io/$${1}"
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin:*"
+    environment:
+      - DOKUWIKI_FULL_NAME=soulteary
+      - DOKUWIKI_EMAIL=soulteary@gmail.com
+      - DOKUWIKI_WIKI_NAME=Wiki
+      - DOKUWIKI_USERNAME=soulteary
+      - DOKUWIKI_PASSWORD=soulteary
+    networks:
+      - traefik
+    expose:
+      - 80
+    volumes:
+      - ./data:/bitnami
+
+networks:
+  traefik:
+    external: true

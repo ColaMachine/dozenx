@@ -624,7 +624,13 @@ public class JsonUtil {
         }
         return newAry;
     }
-
+    public static Integer[] convertDigitAryToIntegerAry(ArrayList<Number> ary) {
+        Integer[] newAry = new Integer[ary.size()];
+        for (int i = 0; i < ary.size(); i++) {
+            newAry[i] = ary.get(i).intValue();
+        }
+        return newAry;
+    }
     /**
      * 将json数组转化为Long型
      *

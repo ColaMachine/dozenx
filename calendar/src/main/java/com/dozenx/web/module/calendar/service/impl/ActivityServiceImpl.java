@@ -86,7 +86,7 @@ public class ActivityServiceImpl implements ActivityService {
         return true;
     }
 
-    public List<HashMap> getActivities(long startDate, long endDate, Long userid) {
+    public List<Activity> getActivities(long startDate, long endDate, Long userid) {
         Map map = new HashMap();
         map.put("startTime", startDate);//23885280
         map.put("endTime", endDate);//23893920
@@ -94,7 +94,7 @@ public class ActivityServiceImpl implements ActivityService {
         return activityDao.selectActivityBetween2Date(map);
     }
 
-    public List<HashMap> getActivities(long startDate, long endDate) {
+    public List<Activity> getActivities(long startDate, long endDate) {
         Map map = new HashMap();
         map.put("startTime", startDate);//23885280
         map.put("endTime", endDate);//23893920

@@ -2,7 +2,7 @@
   <div>
     <div>
       <CheckGroup v-for="item in formData" v-model="item.value"
-                  labelField="name"
+                  labelField="permissionName"
                   valueField="id"
                   :key="item.renderKey"
                   :checkAllLabel="item.checkAllLabel"

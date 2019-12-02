@@ -1,19 +1,21 @@
 package com.dozenx.web.module.calendar.action;
 
 import com.alibaba.fastjson.JSON;
-import com.dozenx.common.util.DateUtil;
-import com.dozenx.common.util.HttpRequestUtil;
-import com.dozenx.common.util.JsonUtil;
-import com.dozenx.common.util.StringUtil;
+import com.dozenx.common.exception.BizException;
+import com.dozenx.common.util.*;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.module.calendar.bean.Activity;
+import com.dozenx.web.module.calendar.calendar.service.CalendarManagerService;
+import com.dozenx.web.module.calendar.event.bean.Event;
+import com.dozenx.web.module.calendar.event.service.EventService;
 import com.dozenx.web.module.calendar.service.ActivityService;
 import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.ConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -26,16 +28,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by dozen.zhang on 2017/3/29.
  */
 
-@Controller
+@Controller("ActivityController")
 @RequestMapping("/activity")
 public class CalendarController extends BaseController {
 
@@ -65,6 +64,10 @@ public class CalendarController extends BaseController {
     @Resource(name = "activityService")
     private ActivityService activityService;
 
+
+    @Resource(name = "eventService")
+    private EventService eventService;
+
      /*   public void setActivityService(ActivityService activityService) {
             this.activityService = activityService;
         }*/
@@ -91,14 +94,14 @@ public class CalendarController extends BaseController {
         log.debug("endDate:" + endDate);
         DateUtil.printTimestampby60(23930940);
         HashMap returnMap = new HashMap();
-//            SysUser user = (SysUser) request.getSession().getAttribute("user");
-//            if (user == null) {
-//                throw new Exception("err.logic.session.notexsist");
-//            }
-//            Long userid = user.getId();
+        //            SysUser user = (SysUser) request.getSession().getAttribute("user");
+        //            if (user == null) {
+        //                throw new Exception("err.logic.session.notexsist");
+        //            }
+        //            Long userid = user.getId();
 
         Long userId = this.getUserId(request);
-        List<HashMap> activities = activityService.getActivities(startDate, endDate,
+        List<Activity> activities = activityService.getActivities(startDate, endDate,
                 userId);
 
         try {
@@ -106,7 +109,7 @@ public class CalendarController extends BaseController {
             if (StringUtil.isNotBlank(service)) {
                 ActivityService activityService = (ActivityService) BeanUtil.getBean(service);
 
-                List<HashMap> results = activityService.getActivities(startDate, endDate, userId);
+                List<Activity> results = activityService.getActivities(startDate, endDate, userId);
                 activities.addAll(results);
             }
         } catch (Exception e) {
@@ -116,8 +119,8 @@ public class CalendarController extends BaseController {
 
         try {
             String url = ConfigUtil.getConfig("calendar.subscribe.url");
-            if(StringUtil.isNotBlank(showType)){
-                url+="&showType="+showType;//0 是普通 1是摄像头 2是迟到
+            if (StringUtil.isNotBlank(showType)) {
+                url += "&showType=" + showType;//0 是普通 1是摄像头 2是迟到
             }
             logger.info("calendar.subscribe.url:" + url);
             if (StringUtil.isNotBlank(url)) {
@@ -125,14 +128,19 @@ public class CalendarController extends BaseController {
                 String result = HttpRequestUtil.sendGet(url);
                 ResultDTO resultDTO = JsonUtil.toJavaBean(result, ResultDTO.class);
                 if (resultDTO.isRight()) {
-                    List<HashMap> list = JsonUtil.toList(resultDTO.getData().toString(), HashMap.class);
+                    List<Activity> list = JsonUtil.toList(resultDTO.getData().toString(), Activity.class);
                     activities.addAll(list);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        List<Event> events = eventService.listByParams(new HashMap());
+        for (Event event : events) {
+            Activity activity = event2Activity(event);
+//
+            activities.add(activity);
+        }
 
 
         /*    {
@@ -194,17 +202,49 @@ public class CalendarController extends BaseController {
         DateUtil.printTimestampby60(startDate);
         log.debug("endDate:" + endDate);
         DateUtil.printTimestampby60(endDate);
-        HashMap returnMap = new HashMap();
+//        HashMap returnMap = new HashMap();
 
-        List activities = activityService.getActivities(startDate, endDate);
+        List<Activity> activities = activityService.getActivities(startDate, endDate);
+
+        List<Event> events = eventService.listByParams(new HashMap());
+        for (Event event : events) {
+            Activity activity = new Activity();
+//            activity.setCount(event.get);
+            String rule = event.getRrule();
+            String freq = "";
+            String rruleAry[] = event.getRrule().split(";");
+            String untilStr = "";
+            String counntStr = "";
+            for (int i = 0; i < rruleAry.length; i++) {
+                String[] keyValueAry = rruleAry[i].split("=");//名值对
+                if (keyValueAry[0].equals("FREQ")) {
+                    freq = keyValueAry[1];
+                } else if (keyValueAry[0].equals("UNTIL")) {
+                    untilStr = keyValueAry[1];
+                } else if (keyValueAry[0].equals("COUNT")) {
+                    counntStr = keyValueAry[1];
+                }
+            }
+            activity.setFreq(freq);
+            if (StringUtil.isNotBlank(counntStr))
+                activity.setCount(Integer.valueOf(counntStr));
+            if (StringUtil.isNotBlank(untilStr))
+                activity.setUntil(Long.valueOf(untilStr));
+            activity.setId(event.getId());
+            activities.add(activity);
+        }
+
         return this.getResult(activities);
         // returnMap.put("LIST", activities);
         // returnMap.put(SysConfig.AJAX_RESULT, SysConfig.AJAX_SUCC);
         // return returnMap;
     }
 
+    @Autowired
+    CalendarManagerService calendarManagerService;
+
     /**
-     * 说明:保存事项
+     * 说明:保存事项 保存多个事件 由前端 同步保存 loopCheckAndSave
      *
      * @param request
      * @return
@@ -221,9 +261,14 @@ public class CalendarController extends BaseController {
 
         List<Activity> list = new ArrayList<Activity>();
 
-        for (HashMap object : mapListJson) {
+
+        for (HashMap object : mapListJson) {    //遍历多个
             log.debug("starttime" + object.get("startTime") + "  endtime"
                     + object.get("endTime"));
+
+            String actType = MapUtils.getString(object, "actType");
+            String location = MapUtils.getString(object, "location");
+
             int startTime = (int) object.get("startTime");
             int endTime = (int) object.get("endTime");
             String title = (String) object.get("title");
@@ -237,22 +282,35 @@ public class CalendarController extends BaseController {
             } else if (value instanceof String) {
                 id = Long.valueOf((String) object.get("id"));
             }
-            Activity activity = new Activity();
-            if (object.get("isDel") != null) {
-                activity.setIsdel((Boolean) object.get("isDel"));
-            } else {
-                activity.setIsdel(false);
-            }
 
-            if (object.get("type") != null) {
-                activity.setType(Byte.valueOf(object.get("type") + ""));
+
+            String freq = MapUtils.getString(object, "freq");
+            if (StringUtil.isNotBlank(freq)) {
+                Event event = map2Activity(object);
+
+                calendarManagerService.save(event);
+                //这个event 会有很多的instance
+                //这个instance 要马上产生 如果是无限的 那么就怎么办呢
+//                bean.setEventId(event.getId());
+            } else {
+
+                Activity activity = new Activity();
+                if (object.get("isDel") != null) {
+                    activity.setIsdel((Boolean) object.get("isDel"));
+                } else {
+                    activity.setIsdel(false);
+                }
+
+                if (object.get("type") != null) {
+                    activity.setType(Byte.valueOf(object.get("type") + ""));
+                }
+                activity.setStartTime(startTime);
+                activity.setEndTime(endTime);
+                activity.setTitle(title);
+                activity.setId(id);
+                activity.setUserId(this.getUserId(request));
+                list.add(activity);
             }
-            activity.setStartTime(startTime);
-            activity.setEndTime(endTime);
-            activity.setTitle(title);
-            activity.setId(id);
-            activity.setUserId(this.getUserId(request));
-            list.add(activity);
         }
         if (list.size() > 0)
             activityService.saveActivitys(list);
@@ -269,6 +327,142 @@ public class CalendarController extends BaseController {
         // return returnMap;
     }
 
+    public Activity event2Activity(Event event){
+        Activity activity = new Activity();
+//            activity.setCount(event.get);
+        String rule = event.getRrule();
+        String freq = "";
+        String rruleAry[] = event.getRrule().split(";");
+        String untilStr = "";
+        String counntStr = "";
+        String intervalStr = "";
+        for (int i = 0; i < rruleAry.length; i++) {
+            String[] keyValueAry = rruleAry[i].split("=");//名值对
+            if (keyValueAry[0].equals("FREQ")) {
+                freq = keyValueAry[1];
+            } else if (keyValueAry[0].equals("UNTIL")) {
+                untilStr = keyValueAry[1];
+            } else if (keyValueAry[0].equals("COUNT")) {
+                counntStr = keyValueAry[1];
+            } else if (keyValueAry[0].equals("INTERVAL")) {
+                intervalStr = keyValueAry[1];
+            }
+        }
+        activity.setFreq(freq);
+
+        activity.setTitle(event.getTitle());
+        activity.setStartTime((int)(event.getDtstart()/1000/60));
+        activity.setEndTime((int)(event.getDtend()/1000/60));
+        if (StringUtil.isNotBlank(counntStr))
+            activity.setCount(Integer.valueOf(counntStr));
+        if (StringUtil.isNotBlank(untilStr))
+            activity.setUntil(Long.valueOf(untilStr));
+        if (StringUtil.isNotBlank(intervalStr))
+        activity.setInterval(Integer.valueOf(intervalStr));
+        if(event.getUntil()!=null){
+            activity.setUntil(event.getUntil());
+        }
+
+        activity.setId(event.getId());
+        return  activity;
+    }
+
+    public Event map2Activity(Map<String, Object> map){
+
+        String actType = MapUtils.getString(map, "actType");        //类型
+
+
+        int startTime = (int) map.get("startTime"); //开始时间 分钟单位
+        int endTime = (int) map.get("endTime"); //结束时间
+
+
+        Object value = map.get("id");   //id
+        Long id = 0l;
+        if (value instanceof Integer) {
+            id = Long.valueOf((int) map.get("id"));
+        } else if (value instanceof Long) {
+            id = (Long) map.get("id");
+        } else if (value instanceof String) {
+            id = Long.valueOf((String) map.get("id"));
+        }
+
+
+        String freq = MapUtils.getString(map, "freq");  //频率
+        if (StringUtil.isNotBlank(freq)) {
+            Event event = new Event();
+
+            event.setId(id);
+
+
+            String count = MapUtils.getString(map, "count");        //个数
+
+            String byday = MapUtils.getString(map, "byday");        //星期几
+
+            String location = MapUtils.getString(map, "location");      //位置
+
+            event.setDescription(MapUtils.getString(map, "description")); //说明
+
+            String title = (String) map.get("title");   //标题
+            event.setTitle(title);
+
+            String until = MapUtils.getString(map, "until");
+            if (StringUtil.isNotBlank(until)) {
+                event.setUntil(Long.valueOf(until));
+            }
+
+
+            event.setEventLocation(location);
+            event.setDescription(MapUtils.getString(map, "description"));
+            event.setDtend(endTime * 60l * 1000);
+            //
+            //   Date date = bean.getDstart();
+//                Calendar calendar = Calendar.getInstance();//开始时间默认是当前事件
+//                // calendar.setTime(date);
+//                calendar.set(Calendar.HOUR_OF_DAY, bean.getHour());
+//                calendar.set(Calendar.MINUTE, bean.getMinute());
+//                calendar.set(Calendar.SECOND,0);
+            event.setDtstart(startTime * 60l * 1000);
+            // 反馈信息收集表、制证情况统计表、报错类型统计表
+            event.setDuration(event.getDtend() - event.getDtstart() + "");
+
+            //或者不保存event
+//                if (StringUtil.isNotBlank(bean.getFreq())) {
+
+            String rrule = "FREQ=" + freq.toUpperCase() + ";";
+            if (StringUtil.isNotBlank(byday)) {
+                rrule += "byday=" + byday+ ";";
+                if(!freq.toLowerCase().equals("weekly")){
+                    throw new BizException("30305503","星期几只能在周期是星期的时候设置");
+                }
+            }
+
+
+            if (StringUtil.isNotBlank(until)) {
+                rrule += "until=" + until+ ";";
+            }
+
+            String interval = MapUtils.getString(map, "interval");      //频率间隔
+            if (StringUtil.isNotBlank(interval)) {
+                rrule += "interval=" + interval+ ";";
+            }
+
+//                    if (bean.getDend() != null) {
+//                        calendar.setTime(bean.getDend());
+//                        calendar.set(Calendar.HOUR_OF_DAY, bean.getHour());
+//                        calendar.set(Calendar.MINUTE, bean.getMinute());
+//                        Long until = calendar.getTimeInMillis();
+//                        rrule += "UNTIL=" + until;
+//                    }
+            event.setRrule(rrule.toUpperCase());
+
+            //String newUrl = URLUtil.connact(ConfigUtil.getConfig("serverUrl"), "coepScan/manualScan?params={'id':" + bean.getId() + "}");
+
+            //触发的时候要把该单位的报表发送到该单位底下的所有联系人的邮箱当中
+            //event.setDuration("PT1M");
+            return event;
+        }
+        return  null;
+    }
     /**
      * 说明:保存事项
      *
@@ -278,6 +472,7 @@ public class CalendarController extends BaseController {
      * @date 2015年5月28日下午5:12:26
      */
     @RequiresLogin
+    @Deprecated
     @RequestMapping(value = "/saveActivity.json", method = RequestMethod.POST)
     public @ResponseBody
     ResultDTO saveActivity(HttpServletRequest request) {
@@ -361,4 +556,11 @@ public class CalendarController extends BaseController {
 //    }
 
 
+
+    public static void main(String args[]){
+
+        Long value =26224470l*60*1000*1000;
+
+        System.out.println(value);
+    }
 }

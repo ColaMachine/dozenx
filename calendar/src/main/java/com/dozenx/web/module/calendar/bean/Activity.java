@@ -229,5 +229,55 @@ public class Activity {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String freq;
+
+    public Integer count;
+    public Integer interval;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public Integer getInterval() {
+        return interval;
+    }
+
+    public void setInterval(Integer interval) {
+        this.interval = interval;
+    }
+
+    public String getFreq() {
+        return freq;
+    }
+
+    public void setFreq(String freq) {
+        this.freq = freq;
+    }
+
+    public  String byday;
+
+    public String getByday() {
+        return byday;
+    }
+
+    public void setByday(String byday) {
+        this.byday = byday;
+    }
+
+    public Long getUntil() {
+        return until;
+    }
+
+    public void setUntil(Long until) {
+        this.until = until;
+    }
+
+    Long until;
+
 }
 

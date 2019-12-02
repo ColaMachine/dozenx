@@ -1,6 +1,7 @@
 package com.dozenx.web.core.location.action;
 
 import com.dozenx.common.util.JsonUtil;
+import com.dozenx.swagger.annotation.*;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.location.service.LocationService;
@@ -24,6 +25,10 @@ import java.util.Map;
  */
 
 @SuppressWarnings("unchecked")
+
+
+
+@APIs(description = "地区信息")
 @Controller
 @RequestMapping(value = Constants.WEBROOT+"/db/location/")
 public class LocationController extends BaseController {
@@ -45,6 +50,15 @@ public class LocationController extends BaseController {
         List<Map<String,Object>> provinceMap = locationService.getProvinces();//获取所有省
         return this.getDataResult(provinceMap);
     }
+
+
+
+    @API(summary = "省接口",
+            description = "省接口",
+            consumes = "application/json",
+            parameters = {
+
+            })
 
     @RequestMapping(method = RequestMethod.GET,value = "/provinces")
     public void  getProvinces( HttpServletResponse response) throws Exception{
@@ -71,6 +85,13 @@ public class LocationController extends BaseController {
     }
 
 
+
+    @API(summary = "市接口",
+            description = "市接口",
+            consumes = "application/json",
+            parameters = {
+                    @Param(name = "parentid", description = "父节点id", in = InType.query, dataType = DataType.INTEGER, required = true),
+            })
     @RequestMapping(method = RequestMethod.GET,value = "/cities")
     public void getCitiesJsonStr(@RequestParam(value="parentid",required=true) String parentId,HttpServletResponse response) throws Exception{
        String jsonStr=  locationService.getCitiesJsonStr(parentId);//获取所有市
@@ -94,6 +115,13 @@ public class LocationController extends BaseController {
     }
 
 
+
+    @API(summary = "区接口",
+            description = "区接口",
+            consumes = "application/json",
+            parameters = {
+                    @Param(name = "parentid", description = "父节点id", in = InType.query, dataType = DataType.INTEGER, required = true),
+            })
     @RequestMapping(method = RequestMethod.GET,value = "/areas")
     public void getAreas(@RequestParam(value="parentid",required=true) String parentId,HttpServletResponse response) throws Exception{
 

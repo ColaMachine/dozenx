@@ -21,6 +21,7 @@
 import field from '@/components/field/';
 import fieldGroup from '@/components/field-group/';
 
+import { getSmsValidCode } from '@/api/api';
 export default {
   data() {
     return {
@@ -30,6 +31,11 @@ export default {
 
   methods: {
     submitCode() {
+         getSmsValidCode({phone:this.mobile}).then(res => {
+
+              }).catch(error => {
+                Toast.fail(error.data.msg);
+              });
       this.$router.push({ name: 'registerSubmit' });
     }
   },

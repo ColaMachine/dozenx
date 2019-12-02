@@ -90,13 +90,13 @@ public class SysRolePermissionService extends BaseService {
 
         String[] ridAry = rids.split(",");
         String[] pidAry = pids.split(",");
-        Long[] ridAryReal = new Long[ridAry.length];
-        Long[] pidAryReal = new Long[pidAry.length];
+        Integer[] ridAryReal = new Integer[ridAry.length];
+        Integer[] pidAryReal = new Integer[pidAry.length];
         for (int i = 0; i < ridAry.length; i++) {
             if (!StringUtil.checkNumeric(ridAry[i])) {
                 return ResultUtil.getResult(101, "参数错误");
             }
-            ridAryReal[i] = Long.valueOf(ridAry[i]);
+            ridAryReal[i] = Integer.valueOf(ridAry[i]);
         }
         if (StringUtil.isBlank(pids)) {
             pidAryReal = null;
@@ -107,7 +107,7 @@ public class SysRolePermissionService extends BaseService {
                 if (!StringUtil.checkNumeric(pidAry[i])) {
                     return ResultUtil.getResult(101, "参数错误");
                 }
-                pidAryReal[i] = Long.valueOf(pidAry[i]);
+                pidAryReal[i] = Integer.valueOf(pidAry[i]);
             }
         //验证父亲id 正确性 是否存在
         if (ridAryReal != null)
@@ -133,8 +133,8 @@ public class SysRolePermissionService extends BaseService {
             for (int i = 0; i < ridAryReal.length; i++) {
                 for (int j = 0; j < pidAryReal.length; j++) {
                     SysRolePermission sysRolePermission = new SysRolePermission();
-                    Long rid = ridAryReal[i];
-                    Long pid = pidAryReal[j];
+                    Integer rid = ridAryReal[i];
+                    Integer pid = pidAryReal[j];
                     //查找是否已经有关联数据了
 
                     params.put("pid", pid);
@@ -156,7 +156,7 @@ public class SysRolePermissionService extends BaseService {
     }
 
 
-    public ResultDTO batchUpdate(Long[] parentIds, Long[] childIds) {
+    public ResultDTO batchUpdate(Integer[] parentIds, Integer[] childIds) {
         //验证父亲id 正确性 是否存在
         if (parentIds != null)
             for (int i = 0; i < parentIds.length; i++) {
@@ -182,8 +182,8 @@ public class SysRolePermissionService extends BaseService {
             for (int i = 0; i < parentIds.length; i++) {
                 for (int j = 0; j < childIds.length; j++) {
 
-                    Long parentId = parentIds[i];
-                    Long childId = childIds[j];
+                    Integer parentId = parentIds[i];
+                    Integer childId = childIds[j];
                     //查找是否已经有关联数据了
                     sysUserRole.setRoleId(parentId);
                     sysUserRole.setPermissionId(childId);

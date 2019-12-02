@@ -65,14 +65,14 @@ public class SysUserRoleController extends BaseController{
         ValidateUtil.valid(userId,"userId",new Rule[]{new Required(),new Digits(10,0)});
 
         Object obj = bodyParam.get("roleIds");
-        Long[] roleIds;
+        Integer[] roleIds;
         if(obj==null){
-            roleIds=new Long[]{};
+            roleIds=new Integer[]{};
         }else{
             List<Number> ary = (ArrayList<Number>)bodyParam.get("roleIds");//bodyoaran 只不过的参数是 arryList<Double>格式的
-            roleIds = new Long[ary.size()];
+            roleIds = new Integer[ary.size()];
             for(int i=0;i<ary.size();i++){
-                roleIds[i] = ary.get(i).longValue();
+                roleIds[i] = ary.get(i).intValue();
             }
 
         }

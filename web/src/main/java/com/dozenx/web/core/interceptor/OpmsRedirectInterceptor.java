@@ -189,13 +189,7 @@ public class OpmsRedirectInterceptor extends HandlerInterceptorAdapter {
             }
             if(contentType.startsWith("application/json")) {// it may be like {a:1,b:2}
                 Set<String> keySet = urlQueryParam.keySet();
-
-
                 String bodyParam = HttpRequestUtil.getRequestPostStr(request);
-
-
-
-
                 result = HttpRequestUtil.sendPostWithCookie(newUrl,bodyParam,contentType,cookieMap );
                 //set cookie to response
                 HttpRequestUtil.setCookie(response,cookieMap);

@@ -61,7 +61,7 @@
         return this.currentRole.id ? '修改角色' : '新增角色';
       },
       permissionModalTitle() {
-        return `权限设置 - ${this.currentRole.name}`;
+        return `权限设置 - ${this.currentRole.roleName}`;
       }
     },
     data() {
@@ -80,12 +80,12 @@
         tableCols: [
           {
             title: '角色编码',
-            key: 'code',
+            key: 'roleCode',
             align: 'center',
             width: 300
           }, {
             title: '角色名称',
-            key: 'name',
+            key: 'roleName',
             align: 'center',
             width: 300
           }, {
@@ -183,7 +183,7 @@
         this.showFormModal();
       },
       onDelete(row) {
-        this.confirmDeleteRole(row.id, row.name);
+        this.confirmDeleteRole(row.id, row.roleName);
       },
       onFormSubmit() {
         let isEdit = this.currentRole.id ? true : false;
@@ -233,7 +233,7 @@
             this.currentPermission.push({
               id: item.id,
               renderKey: Math.random(),
-              checkAllLabel: item.name,
+              checkAllLabel: item.roleName,
               options: item.childs,
               value: item.childs.filter((subItem) => {
                 return subItem.checked;

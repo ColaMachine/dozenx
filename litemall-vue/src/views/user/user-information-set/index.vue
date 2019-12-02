@@ -13,8 +13,8 @@
           </div>
         </van-uploader>
       </van-cell>
-
-      <van-cell title="昵称" to="/user/information/setNickname" :value="nickName" isLink/>
+ <van-cell title="姓名"  :value="userName"  />
+      <van-cell title="昵称" to="/user/information/setNickname" :value="nickName" isLink />
       <van-cell title="性别" :value="genderText" @click="showSex = true" isLink/>
       <van-cell title="密码设置" to="/user/information/setPassword" isLink/>
       <van-cell title="手机号" to="/user/information/setMobile" :value="mobile" isLink></van-cell>
@@ -36,9 +36,10 @@
 
 <script>
 import { Uploader, Picker, Popup, Button } from 'vant';
-import { removeLocalStorage } from '@/utils/local-storage';
+import { removeLocalStorage,setLocalStorage} from '@/utils/local-storage';
+import {  } from '@/utils/local-storage';
 import { getLocalStorage } from '@/utils/local-storage';
-import { authInfo, authLogout, authProfile,imageUploadIndex } from '@/api/api';
+import { authInfo, authLogout, authProfile,imageUploadIndex ,avatarUploadIndex,sexReset} from '@/api/api';
 
 export default {
   data() {
@@ -51,6 +52,7 @@ export default {
       ],
       showSex: false,
       avatar: '',
+      userName: '',
       nickName: '',
       gender: 0,
       mobile: ''
@@ -76,21 +78,40 @@ export default {
  upload(file) {
     let fd = new FormData()
     fd.append('file', file.file)
-    imageUploadIndex(fd).then(res => {
-        this.avatar = "/home/"+res.data.data;
+    avatarUploadIndex(fd).then(res => {
+        this.avatar = res.data.data;
+
+         setLocalStorage({
+
+                  avatar: this.avatar,
+
+                });
       }).catch(error => {
         Toast.fail(error.data.errmsg);
       });
   },
     onSexConfirm(value, index) {
-      this.showSex = false;
+    //  this.showSex = false;
+        console.log(value);
+        console.log(index[0]);
+          sexReset({
+              sex:index[0],
+              type: 'bind-sex'
+            }).then(() => {
+              this.$toast.success('修改性别成功');
+                this.gender=index;
+            }).catch(error => {
+              this.$toast.fail(error.data.errmsg);
+
+            })
     },
     getUserInfo() {
       authInfo().then(res => {
         this.avatar = res.data.data.face;
-        this.nickName = res.data.data.nickName;
-        this.gender = res.data.data.gender;
-        this.mobile = res.data.data.mobile;
+        this.nickName = res.data.data.nick;
+         this.userName = res.data.data.userName;
+        this.gender = res.data.data.sex;
+        this.mobile = res.data.data.phone;
       })
     },
     loginOut() {
@@ -98,7 +119,7 @@ export default {
         removeLocalStorage('Authorization')
         removeLocalStorage('avatar')
         removeLocalStorage('nickName')
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'login' });
       });
 
     }

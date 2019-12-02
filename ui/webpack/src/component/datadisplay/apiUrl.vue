@@ -159,7 +159,7 @@ export default {
                   //  var json = changeForm2Jso("#"+this.formId);//将参数转换成json格式
                     //==========为了兼容传输的数据是array 数组这种类型============
 
-                      var url=   this.content.url+"?1=1";    //获取请求 get the request url 默认加上?号
+                    var url=   this.content.url+"?1=1";    //获取请求 get the request url 默认加上?号
                     var params={};
                     var paramsGetFlag =false;
 

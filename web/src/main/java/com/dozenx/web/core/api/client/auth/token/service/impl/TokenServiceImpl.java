@@ -40,12 +40,11 @@ public class TokenServiceImpl implements TokenService {
      */
     @SuppressWarnings("unchecked")
     public String getAccessToken(String key){
-        String url = ConfigUtil.getConfig("token.url");
+        String url = ConfigUtil.getConfig("dbcenter.auth.token.url");
         String currentTime =""+ System.currentTimeMillis()/1000;
         String token ="";
-        String appId = ConfigUtil.getConfig("token.appid");
-        String appKey = ConfigUtil.getConfig("token.appkey");
-        String tokenUrl = ConfigUtil.getConfig("token.url");
+        String appId = ConfigUtil.getConfig("dbcenter.auth.token.appid");
+        String appKey = ConfigUtil.getConfig("dbcenter.auth.token.appkey");
 
         try {
              token = MD5Util.getStringMD5String(appId+"_"+appKey+"_"+currentTime);
@@ -73,6 +72,39 @@ public class TokenServiceImpl implements TokenService {
         return oauthToken;//返回access_token
     }
 
+
+    public String getAccessToken(String key,String codeName,String codeValue,String authCodeName,String expireInName){
+        String url = ConfigUtil.getConfig("dbcenter.auth.token.url");
+        String currentTime =""+ System.currentTimeMillis()/1000;
+        String token ="";
+        String appId = ConfigUtil.getConfig("dbcenter.auth.token.appid");
+        String appKey = ConfigUtil.getConfig("dbcenter.auth.token.appkey");
+
+        try {
+            token = MD5Util.getStringMD5String(appId+"_"+appKey+"_"+currentTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String result = HttpRequestUtil.sendGet(HttpUtil.joinUrlAndParams(url,"token="+token+"&timestamp="+currentTime+"&appid="+appId));//接口返回值
+        if(StringUtil.isBlank(result)){//如果为空
+            throw new InterfaceException(ErrorMessage.getErrorMsg("err.net.http.result.null.code"),url);//抛接口异常 接口无返回值！
+        }
+        Map<String, Object> resultMap = JsonUtil.fromJson(result, Map.class);//转成map
+        if(resultMap == null){//如果为空
+            throw new InterfaceException(ErrorMessage.getErrorMsg("err.param.null"),url);//抛接口异常 接口返回值不允许为空!
+        }
+        if(!resultMap.get(codeName).equals(codeValue)){//如果返回失败 fail
+            throw new BizException(30505048, ErrorMessage.getErrorMsg("err.net.http.result.null.code"));//抛异常 获取数据中心access_token失败!
+        }
+        Map<String, Object> data = (Map<String,Object>)resultMap.get("data");//获取data数据
+        String oauthToken = (String) data.get(authCodeName);//access_token
+        //Long oauthTimestamp = (Long) data.get("oauthTimestamp");//token生成时间
+        //Long loseTimestamp = (Long) data.get("loseTimestamp");//token失效时间
+        // int seconds = (int) ((loseTimestamp-oauthTimestamp)/1000);//access_token有效时间
+        int seconds = (int) data.get(expireInName);
+        RedisUtil.setex(key, oauthToken, seconds);//access_token存到redis
+        return oauthToken;//返回access_token
+    }
 
     Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
     /** 申请token的url */

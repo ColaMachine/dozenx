@@ -243,26 +243,26 @@ var Ajax={
    put:function(url,data,callback){
        this.AjaxFun(url,data,callback,{type:"PUT"});
     },
- AjaxFun1:function(url, inputData, callback, options, callbackOnError){
-      $.ajax({
-            url:url,
-            data:inputData,
-            //contentType:"application/json",
-           // dataType:options.dataType,
-            success:callback,
-            error:callbackOnError,
-            beforeSend: function(request) {
-                             request.setRequestHeader("Content-Type", "application/json");
-
-                         },
-            headers: {
-                        contentType:"application/json",
-
-                      "Content-Type:":"application/json",
-                    }
-            }
-        );
- },
+// AjaxFun1:function(url, inputData, callback, options, callbackOnError){
+//      $.ajax({
+//            url:url,
+//            data:inputData,
+//            //contentType:"application/json",
+//           // dataType:options.dataType,
+//            success:callback,
+//            error:callbackOnError,
+//            beforeSend: function(request) {
+//                             request.setRequestHeader("Content-Type", "application/json");
+//
+//                         },
+//            headers: {
+//                        contentType:"application/json",
+//
+//                      "Content-Type:":"application/json",
+//                    }
+//            }
+//        );
+// },
  AjaxFun:function (url, inputData, callback, options, callbackOnError) {
             var widgetId = dialog.showWait();
 
@@ -998,57 +998,6 @@ function showMsg(caption, contenttext) {
 	dialog.alert(contenttext);
 }
 
-function initProCitySel(jso) {
-	var defProvince = jso.defProvince;
-	var defCity = jso.defCity;
-	var provinceId = jso.provinceId;
-	var cityId = jso.cityId;
-
-	$("#" + provinceId).change(function() {
-		getCity(cityId, provinceId);
-	})
-
-	// 初始化省
-	$.get(PATH + "/member/getProvince", {}, function(data) {
-
-		jQuery("<option value=''>--请选择--</option>").appendTo("#" + provinceId);
-		for (var i = 0, length = data.list.length; i < length; i++) {
-			if (defProvince && defProvince == data.list[i]) {
-				jQuery(
-						"<option selected value='" + data.list[i] + "'>"
-								+ data.list[i] + "</option>").appendTo(
-						"#" + provinceId);
-			} else {
-				jQuery(
-						"<option value='" + data.list[i] + "'>" + data.list[i]
-								+ "</option>").appendTo("#" + provinceId);
-			}
-		}
-		getCity(cityId, provinceId, defCity);
-	});
-
-}
-
-function getCity(cityId, provinceId, defCity) {
-	$.post(PATH + "/member/getCity", {
-		areaname : $("#" + provinceId).val()
-	}, function(data) {
-		$("#" + cityId).empty();
-		jQuery("<option value=''>--请选择--</option>").appendTo("#" + cityId);
-		for (var i = 0, length = data.list.length; i < length; i++) {
-			if (defCity && defCity == data.list[i]) {
-				jQuery(
-						"<option selected value='" + data.list[i] + "'>"
-								+ data.list[i] + "</option>").appendTo(
-						"#" + cityId);
-			} else {
-				jQuery(
-						"<option value='" + data.list[i] + "'>" + data.list[i]
-								+ "</option>").appendTo("#" + cityId);
-			}
-		}
-	});
-}
 /**菜单 导航条**/
 function navPath(level1, level2) {
 	//alert($("#"+level1).find(".menu-text").text() );
@@ -1169,110 +1118,6 @@ function LoadJS( id, fileUrl )
  *
  *
 **/
-/**
- * 对于模态框 tab页进行自动绑定触发事件
- */
-try{
- if($!=null){
- $("*[data-toggle='modal']").each(function(){
-		if($(this).attr("data-target")){
-			$(this).on("click",function(){
-				dialog.showMask();
-				$($(this).attr("data-target")).show();
-			});
-		}
-
-	});
-	$(".dropdown").each(function(){//*[data-toggle='dropdown']
-		//if($(this).attr("role")=="auto"){
-
-	//	}
-		if($(this).attr("role")=="btn"){
-            $(this).on("click",function(event){
-                $(this).addClass('open');
-                event.stopPropagation();
-            }).on("blur",function(){
-                $(this).removeClass('open');
-            });// .on("click",function(){
-        }else{
-            $(this).on("mouseover",function(){
-                $(this).addClass('open');
-            }).on("mouseout",function(){
-                $(this).removeClass('open');
-            });// .on("click",function(){
-
-        }
-
-	});
-	$(document).click(function(){
-		$(".dropdown").removeClass('open');
-	})
-
-	// $(".dropdown-menu").blur(function(){
-// 					$(this).hide();
-// 				});
-
-
-	$("*[data-dismiss='modal']").each(function(){
-		$(this).on("click",function(){
-		dialog.hideMask();
-		$(this).closest(".modal").hide();
-		});
-
-	});
-
-	$(".menu li").each(function(){
-		$(this).on("click",function(){
-			$(".select").removeClass("select");
-			$(this).addClass("select");
-		});
-	})
-
-	$(".nav-tabs li").each(function(){
-		$(this).on("click",function(){
-			$(".active").removeClass("active");
-			$(this).addClass("active");
-		});
-	});
-	}
-	}catch(e){
-	console.log("jquery has not include ");
-	}
-function pageinit(){
-	$("*[data-toggle='modal']").each(function(){
-		if($(this).attr("data-target")){
-			$(this).on("click",function(){
-				dialog.showMask();
-				$($(this).attr("data-target")).show();
-			});
-		}
-
-	});
-
-	$("*[data-dismiss='modal']").each(function(){
-		$(this).on("click",function(){
-		dialog.hideMask();
-		$(this).closest(".modal").hide();
-		});
-
-	});
-
-	$(".menu li").each(function(){
-		$(this).on("click",function(){
-			$(".select").removeClass("select");
-			$(this).addClass("select");
-		});
-	})
-
-	$(".nav-tabs li").each(function(){
-		$(this).on("click",function(){
-			$(".active").removeClass("active");
-			$(this).addClass("active");
-		});
-	});
-}
-
-
 
 
 function initGrid(gridParam){

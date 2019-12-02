@@ -19,6 +19,7 @@ import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.core.base.BaseController;
+import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.module.checkin.checkinOut.bean.FinishTask;
 import com.dozenx.web.module.checkin.checkinOut.bean.FinishTaskData;
@@ -741,16 +742,13 @@ public class FaceInfoController extends BaseController {
     @ResponseBody
     @RequiresLogin
     public ResultDTO multiSave(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-
-
+        //批量修改照片
+        OperLogUtil.add(request,"faceinfo","批量修改照片","");
         Long userId = this.getUserId(request);
         List<String> uploadFaceUrlList = (List<String>) bodyParam.get("faces");
         List<PubImage> pubImageList = new ArrayList();
-
         faceInfoService.batchUpdate(userId, "", uploadFaceUrlList, false);
-
         return this.getResult();
-
     }
 
 //

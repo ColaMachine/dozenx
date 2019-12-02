@@ -21,6 +21,9 @@
 import field from '@/components/field/';
 import fieldGroup from '@/components/field-group/';
 
+import { submitRegister } from '@/api/api';
+
+
 export default {
   data() {
     return {
@@ -32,11 +35,23 @@ export default {
   },
 
   methods: {
+
     registerSubmit() {
-      this.$router.push({
-        name: 'registerStatus',
-        params: { status: 'success' }
+        if(this.password != this.repeatPassword){
+            Toast.fail("密码不一致");
+            return;
+        }
+
+       submitRegister({smsCaptcha:this.code,pwd:this.password}).then(res => {
+        console.log(res);
+          this.$router.push({
+                name: 'registerStatus',
+                params: { status: 'success' }
+              });
+      }).catch(error => {
+        Toast.fail(error.data.msg);
       });
+
     },
 
     getCode() {

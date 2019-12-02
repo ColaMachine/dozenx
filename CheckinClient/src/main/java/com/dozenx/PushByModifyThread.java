@@ -4,7 +4,8 @@ import com.dozenx.service.CheckinOutService;
 import com.dozenx.common.util.HttpRequestUtil;
 import com.dozenx.common.util.JsonUtil;
 import com.dozenx.common.util.PropertiesUtil;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.List;
  * @Modified By:
  */
 public class PushByModifyThread implements Runnable {
-    static final Logger logger = Logger.getLogger(PushByModifyThread.class);
+    static final Logger logger = LoggerFactory.getLogger(PushByModifyThread.class);
     public Long lastModifyedTime = System.currentTimeMillis();//程序启动时间the program start time
     CheckinOutService checkinOutService;
 

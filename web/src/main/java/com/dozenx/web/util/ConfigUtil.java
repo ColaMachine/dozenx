@@ -102,6 +102,12 @@ public class ConfigUtil {
         }
 
         //查找底下的所有properties文件 不进入文件夹 说明所有的配置文件都必须要拷贝到WEBROOT目录下
+        File scanFold = PathManager.getInstance().getClassPath().toFile();
+        if(!scanFold.exists()){
+            logger.error("scan fold not exsists"+scanFold.getAbsolutePath());
+            ConfigUtil.properties = properties;
+            return;
+        }
         List<File> files = com.dozenx.common.util.FileUtil.listFile(PathManager.getInstance().getClassPath().toFile(), false);
         if (files != null)
             for (File file : files) {

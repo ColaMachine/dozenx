@@ -206,7 +206,7 @@ filter:alpha(opacity=30);*/ /* -moz-opacity:0.3;Moz + FF 透锟斤拷锟�0%*/
 	display: none;
 	/*border:1px solid #0060C0;*/
 	background-color: #ffffff;
-	height: 80px;
+	/*height: 80px;*/
 	z-index: 2000;
 	border: 1px solid #696;
 	padding: 8px;
@@ -217,14 +217,19 @@ border-radius: 8px;*/
 	box-shadow: #666 0px 0px 10px;
 	background: white;
 	width: 300px;
-	height: 90px;
+	/*height: 90px;*/
 }
 
 .calendarEventDialog label {
 	font-weight: bold;
 	font-size: 15px;
 }
-
+.calendarEventDialog .interval_num{
+width:50px;
+}
+.calendarEventDialog input{
+border:1px solid gray;
+}
 .calendarEventDialog>div {
 	text-align: left;
 	padding: 3px;

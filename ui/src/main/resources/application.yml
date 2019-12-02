@@ -33,7 +33,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
     platform: mysql
     name: ms   #数据库配置名称 使用多数据源时区别
-    url: jdbc:mysql://192.168.41.74:3306/awifi_advert_test?serverTimezone=GMT%2B8 #配置数据库连接
+    url: jdbc:mysql://192.168.41.74:3306/awifi_videocloud?serverTimezone=GMT%2B8 #配置数据库连接 #先改成视频云的数据库 应为 接口表的数据在这个数据库
     username: root  #数据库用户名
     password: root@2015 #数据库密码
     initialSize: 5
@@ -51,8 +51,8 @@ spring:
 
   #2.2 redis 配置
   redis:
-    database: 0  #redis哪个库
-    host: 192.168.213.5 #redis的ip地址
+    database: 9  #redis哪个库
+    host: 192.168.213.91 #redis的ip地址
     port: 6379  #redis 端口
     password: Awifi@123   #redis 密码
 
@@ -80,7 +80,8 @@ calendar:
     url: http://timor.tech/api/holiday/info/{date}
   #非activity表的日历事项 抽取接口
   subscribe:
-    url: http://192.168.188.21:8094/mssrv/checkin/listActivities.json?userId=${userId}&pageSize=100&curPage=1&checkTimeBegin=${begin}&checkTimeEnd=${end}
+    #url: http://192.168.188.21:8094/mssrv/checkin/listActivities.json?userId=${userId}&pageSize=100&curPage=1&checkTimeBegin=${begin}&checkTimeEnd=${end}
+    url:
 
 #######考情模块配置#############
 kq:
@@ -109,7 +110,7 @@ kq:
     video: /linuxtest/face
   receive.face.match.msg.receiver: faceCheckinOutOnMsg,warnServiceReceiver
 
-
+# 图片相关
 image:
   serverEnable:  false
   serverIp: xxx.xxx.xx.xxx
@@ -153,6 +154,8 @@ validCode:
   imgLiveTime: 600000
   #//短信验证码请求间隔最短时间
   smsRefreshTime: 60000
+  #验证码模板
+  login_sms_template: 短信验证码 %code%
   #//图片验证码请求间隔最短时间
   imgRefreshTime: 1000
   #//最多尝试次数
@@ -199,16 +202,16 @@ cache:
   ehcache:
     enable:false
 
-
-beixiang:
-  app_key: zhejiang
-  v: 2.1
-  oauthUrl: http://192.168.212.89:2019/mssrv/static/data/reg_images/2019-04-30/person1/174249-539-536.jpg
-
-  app_secret: 7HXoDDMV357UDrJuYRZyZyBj5Dg7mK
-  account: wensanschool
-  password: geye@2018!
-  address: http://alpha-sp.51iwifi.com
+#
+#beixiang:
+#  app_key: zhejiang
+#  v: 2.1
+#  oauthUrl: http://192.168.212.89:2019/mssrv/static/data/reg_images/2019-04-30/person1/174249-539-536.jpg
+#
+#  app_secret: 7HXoDDMV357UDrJuYRZyZyBj5Dg7mK
+#  account: wensanschool
+#  password: geye@2018!
+#  address: http://alpha-sp.51iwifi.com
 storage:
   # 当前工作的对象存储模式，分别是local、aliyun、tencent、qiniu
   active: local
@@ -249,3 +252,19 @@ WEIXIN_OAUTH_ACCESSTOKEN_EXPIRE_IN: 7200
 #
 WEXIN_ACCESSTOKEN_URL: http://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s
 WEXIN_OAUTH_ACCESSTOKEN_URL: https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code
+
+
+
+
+# 短信网关配置
+dbcenter:
+  auth:
+    #数据中心token 相关配置
+    token:
+      url: http://192.168.41.49:8085/awifi-oauth-server-web/tokenController/authorizationGrant?oauthCode=np-biz_6uxg #数据中心获取token url
+      appid: 123456   #数据中心token appid
+      appkey: ms    #数据中心token appid
+
+  sms:
+    #短信服务
+    url : http://192.168.41.53/sms-service/sms/send?mobile=%mobile%&msg=%content%

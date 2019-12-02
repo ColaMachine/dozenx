@@ -50,6 +50,16 @@ public class TokenClient {
         }
         return getTokenService().getAccessToken(key);//返回生成的access_token
     }
+
+    public static String getAccessToken(String codeName,String codeValue,String authCodeName,String expireInName){
+        String key = RedisConstants.TOKEN_REDIS_KEY;//获取数据中心access_token rediskey
+        String accessToken = RedisUtil.get(key);//redis获取access_token
+        if(StringUtil.isNotBlank(accessToken)){//如果不为空
+            return accessToken;//返回access_token
+        }
+        return getTokenService().getAccessToken(key,codeName, codeValue, authCodeName, expireInName);//返回生成的access_token
+    }
+
     
     /**
      * 重置access_token

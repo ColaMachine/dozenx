@@ -289,6 +289,133 @@ CREATE TABLE `Activity` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20181121916 DEFAULT CHARSET=utf8 COMMENT='日历事项';
 
+ALTER TABLE `awifi_videocloud`.`sys_user_role`
+DROP FOREIGN KEY `FK_Reference_7`,
+DROP FOREIGN KEY `FK_Reference_6`;
+ALTER TABLE `awifi_videocloud`.`sys_user_role`
+DROP INDEX `FK_Reference_7` ;
+
+
+ALTER TABLE `sys_role_permission`
+DROP FOREIGN KEY `FK_Reference_4`,
+DROP FOREIGN KEY `FK_Reference_3`;
+ALTER TABLE `sys_role_permission`
+DROP INDEX `FK_Reference_4` ;
+
+ALTER TABLE `sys_role_menu`
+DROP FOREIGN KEY `fk_role_menu_menuid`,
+DROP FOREIGN KEY `FK_Reference_1`;
+ALTER TABLE `sys_role_menu`
+DROP INDEX `fk_role_menu_menuid_idx` ;
+
+
+
+
+ALTER TABLE `sys_permission`
+CHANGE COLUMN `id` `id` INT(10) NOT NULL ,
+CHANGE COLUMN `name` `pmsn_name` VARCHAR(20) NULL DEFAULT NULL ,
+CHANGE COLUMN `code` `pmsn_code` VARCHAR(40) NULL DEFAULT NULL ,
+CHANGE COLUMN `url` `pmsn_url` VARCHAR(255) NULL DEFAULT NULL ;
+
+ALTER TABLE `sys_role`
+CHANGE COLUMN `id` `id` INT(10) NOT NULL ,
+CHANGE COLUMN `name` `role_name` VARCHAR(20) NULL ,
+CHANGE COLUMN `code` `role_code` VARCHAR(20) NULL DEFAULT NULL ,
+CHANGE COLUMN `create_time` `create_time` TIMESTAMP NULL DEFAULT NULL ,
+CHANGE COLUMN `update_time` `update_time` TIMESTAMP NULL DEFAULT NULL ;
+
+
+ALTER TABLE `sys_user_role`
+DROP FOREIGN KEY `FK_Reference_7`,
+DROP FOREIGN KEY `FK_Reference_6`;
+ALTER TABLE `sys_user_role`
+DROP INDEX `FK_Reference_7` ;
+
+ALTER TABLE `sys_role_menu`
+CHANGE COLUMN `role_id` `role_id` INT(10) NOT NULL ,
+CHANGE COLUMN `menu_id` `menu_id` INT(10) NOT NULL ;
+
+
+ALTER TABLE `sys_role_permission`
+CHANGE COLUMN `role_id` `role_id` INT(10) NOT NULL ,
+CHANGE COLUMN `permission_id` `permission_id` INT(10) NOT NULL ;
+
+ALTER TABLE `sys_user_permission`
+CHANGE COLUMN `permission_id` `permission_id` INT(10) NOT NULL COMMENT '权限id' ;
+
+
+ALTER TABLE `sys_user_role`
+CHANGE COLUMN `role_id` `role_id` INT(10) NOT NULL COMMENT '角色Id' ;
+
+
+ALTER TABLE `sys_active`
+CHANGE COLUMN `add_time` `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' ;
+
+
+
+
+CREATE TABLE `sys_log` (
+ `id` int   AUTO_INCREMENT  COMMENT '编号',
+ `log_path` varchar(100)    COMMENT '代码路径',
+ `log_type` tinyint    COMMENT '日志类型',
+ `log_code` int    COMMENT '日志编号',
+ `param` varchar(200)    COMMENT '操作参数',
+ `user_name` varchar(40)    COMMENT '用户',
+ `log_msg` varchar(200)    COMMENT '消息',
+ `create_time` timestamp    COMMENT '创建时间',
+ `start_time` timestamp    COMMENT '开始时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
+
+
+
+
+
+CREATE TABLE `sys_oper_log` (
+ `id` int   AUTO_INCREMENT  COMMENT '主键',
+ `module_name` varchar(40)    COMMENT '模块名称',
+ `oper_result` varchar(200)    COMMENT '结果',
+ `params` varchar(200)    COMMENT '参数',
+ `comp_name` varchar(40)    COMMENT '操作对象',
+ `oper_detail` TEXT    COMMENT '操作详情',
+ `user_id` bigint(11)    COMMENT '操作人',
+ `user_ip` varchar(30)    COMMENT '用户ip',
+ `user_name` varchar(30)    COMMENT '操作人',
+ `create_time` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志';
+
+
+
+
+
+
+
+CREATE TABLE `sys_sms_record` (
+ `id` int   AUTO_INCREMENT  COMMENT 'id',
+ `phone` CHAR(11) NOT NULL   COMMENT '手机号码',
+ `biz` VARCHAR(13) NOT NULL   COMMENT '业务类型',
+ `create_time` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP  COMMENT '发送时间',
+ `content` VARCHAR(200) NOT NULL   COMMENT '内容',
+ `status` tinyint    DEFAULT 1  COMMENT '发送状态',
+ `reason` VARCHAR(200)    COMMENT '失败原因',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='短信验证码发送历史';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

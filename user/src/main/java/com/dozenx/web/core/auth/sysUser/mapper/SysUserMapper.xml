@@ -1124,4 +1124,8 @@
     <update id="updatePinyin" >
         update sys_user set pinyin = #{pinying}  where id = #{id}
     </update>
+
+    <update id="updateOutId" >
+        update sys_user set outId = #{outId}  where id = #{id} and status =1
+    </update>
 </mapper>

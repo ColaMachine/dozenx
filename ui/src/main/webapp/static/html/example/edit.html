@@ -106,11 +106,13 @@
 
 
 
-<script src="../../../static/js/jquery.min.js"></script>
-<script src="../../../static/js/bootstrap.min.js"></script>
 <script src="../../../static/js/imageUtil.js" charset="UTF-8"></script>
 <script src="../../../static/js/zwcommon.js" charset="UTF-8"></script>
 <script src="../../../static/js/dom.js" charset="UTF-8"></script>
+
+<script src="../../../static/js/jquery.min.js"></script>
+
+<script src="../../../static/js/bootstrap.min.js"></script>
 <script>
 
             $(function() {
@@ -174,7 +176,7 @@ function submit(){
     var content = document.getElementById("editor").innerHTML;
     var pic = document.getElementById("fengmian").value;
     var json = {"title":title,content:content,pic:pic,type:1};
-    Ajax.post("/home/article/save.json",json,function(data){
+    Ajax.post("/home/artical/save.json",json,function(data){
 
         console.log(data);
     });

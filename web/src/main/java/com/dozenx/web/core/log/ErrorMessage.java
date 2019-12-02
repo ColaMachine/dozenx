@@ -4,7 +4,9 @@ import com.dozenx.common.Path.PathManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
+import java.io.*;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -255,4 +257,22 @@ public class ErrorMessage {
     public static final String INTERFACE_ERROR = "接口错误！";
 
 
+
+    public static void print(){
+//        Properties msgProp =new Properties();
+//        try {
+//            msgProp.load(PathManager.class.getResourceAsStream("/properties/message.properties"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        Enumeration enu2=msgProp.propertyNames();
+        while(enu2.hasMoreElements()){
+            String key = (String)enu2.nextElement();
+            if(key.endsWith("code")){
+                String numb= msgProp.getProperty(key);
+                String value = msgProp.getProperty(key.replaceAll(".code",".msg"));
+                System.out.println(numb+"\t   "+key+" \t"+value) ;
+            }
+        }
+    }
 }

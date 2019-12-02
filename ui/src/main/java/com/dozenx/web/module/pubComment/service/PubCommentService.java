@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.dozenx.web.module.article.dao.ArticleMapper;
 import com.dozenx.web.module.msgInfo.dao.MsgInfoMapper;
 import com.dozenx.web.util.ResultUtil;
 import org.slf4j.Logger;
@@ -32,9 +31,9 @@ public class PubCommentService extends BaseService {
             .getLogger(PubCommentService.class);
     @Resource
     private PubCommentMapper pubCommentMapper;
-
-    @Resource
-    private ArticleMapper articalMapper;
+//
+//    @Resource
+//    private ArticleMapper articleMapper;
     @Resource
     private MsgInfoMapper msgInfoMapper;
     /**

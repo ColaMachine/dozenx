@@ -26,6 +26,7 @@ const PATHS={
       index:path.resolve(__dirname,'./app/index.js'),//web主界面
        shopIndex:path.resolve(__dirname,'./app/shopIndex.js'),//web主界面
        PcGoodView:path.resolve(__dirname,'./app/PcGoodView.js'),
+         hello:path.resolve(__dirname,'./app/hello.js'),
       //phoneIndex:path.resolve(__dirname,'./app/phoneIndex.js'),
 };
 console.log("build path:"+PATHS.build);

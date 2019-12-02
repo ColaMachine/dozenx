@@ -2,6 +2,7 @@ package com.dozenx.web.core.rules;
 
 
 import com.dozenx.common.util.StringUtil;
+import com.dozenx.web.util.ValidateUtil;
 
 public class Digits extends Rule {
 	int integer=10;
@@ -43,5 +44,7 @@ public class Digits extends Rule {
 			}
 		}
 	}
+
+
 
 }

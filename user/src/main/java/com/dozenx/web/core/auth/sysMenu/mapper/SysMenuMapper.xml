@@ -2,203 +2,202 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dozenx.web.core.auth.sysMenu.dao.SysMenuMapper">
   <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysMenu.bean.SysMenu">
-      <id column="id" jdbcType="BIGINT" property="id" />
-      <result column="pid" jdbcType="BIGINT" property="pid" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="code" jdbcType="VARCHAR" property="code" />
-      <result column="permission" jdbcType="VARCHAR" property="permission" />
-      <result column="url" jdbcType="VARCHAR" property="url" />
-      <result column="order_no" jdbcType="INTEGER" property="orderNo" />
-      <result column="status" jdbcType="INTEGER" property="status" />
-      <result column="icon" jdbcType="VARCHAR" property="icon" />
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="pid" jdbcType="INTEGER" property="pid" />
+      <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+      <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
+      <result column="menu_pmsn" jdbcType="VARCHAR" property="menuPermission" />
+      <result column="menur_url" jdbcType="VARCHAR" property="menuUrl" />
+      <result column="order_no" jdbcType="TINYINT" property="orderNo" />
+      <result column="status" jdbcType="TINYINT" property="status" />
       <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="sys_menu_name" jdbcType="VARCHAR" property="sys_menu_name" />
   </resultMap>
   <sql id="Base_Column_List">
-    sys_menu.`id` ,sys_menu.`pid` ,sys_menu.`name` ,sys_menu.`code` ,sys_menu.`permission` ,sys_menu.`url` ,sys_menu.`order_no` ,sys_menu.`status` ,sys_menu.`remark`
-      , sys_menu.`icon`
+    sys_menu.`id` ,sys_menu.`pid` ,sys_menu.`menu_name` ,sys_menu.`menu_code` ,sys_menu.`menu_pmsn` ,sys_menu.`menur_url` ,sys_menu.`order_no` ,sys_menu.`status` ,sys_menu.`remark` ,sys_menu.`icon` 
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
                 ,sys_menu1.name as SysMenu_name
     from sys_menu
                left join sys_menu sys_menu1
                  on sys_menu.pid = sys_menu1.id
-    where sys_menu.id =   #{id,jdbcType=BIGINT} and  status !=9
+    where sys_menu.id =   #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-      update sys_menu set status = 9
-      where id = #{id,jdbcType=BIGINT}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_menu
+    where id = #{id,jdbcType=INTEGER}
   </delete>
  <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysMenu.bean.SysMenu" >
 
     insert into sys_menu (  <include refid="Base_Column_List" />)
     values (
-#{id,jdbcType=BIGINT}
-,#{pid,jdbcType=BIGINT}
-,#{name,jdbcType=VARCHAR}
-,#{code,jdbcType=VARCHAR}
-,#{permission,jdbcType=VARCHAR}
-,#{url,jdbcType=VARCHAR}
-,#{orderNo,jdbcType=INTEGER}
-,#{status,jdbcType=INTEGER}
+#{id,jdbcType=INTEGER}
+,#{pid,jdbcType=INTEGER}
+,#{menuName,jdbcType=VARCHAR}
+,#{menuCode,jdbcType=VARCHAR}
+,#{menuPermission,jdbcType=VARCHAR}
+,#{menuUrl,jdbcType=VARCHAR}
+,#{orderNo,jdbcType=TINYINT}
+,#{status,jdbcType=TINYINT}
 ,#{remark,jdbcType=VARCHAR}
-     ,#{icon,jdbcType=VARCHAR}
+,#{icon,jdbcType=VARCHAR}
     )
   </insert>
    <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysMenu.bean.SysMenu" >
     insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
         <if test="id != null" >  
-           `id`, 
+           `id`,
         </if>  
         <if test="pid != null" >  
-           `pid`, 
+           `pid`,
         </if>  
-        <if test="name != null" >  
-           `name`, 
+        <if test="menuName != null" >  
+           `menu_name`,
         </if>  
-        <if test="code != null" >  
-           `code`, 
+        <if test="menuCode != null" >  
+           `menu_code`,
         </if>  
-        <if test="permission != null" >  
-           `permission`, 
+        <if test="menuPermission != null" >  
+           `menu_pmsn`,
         </if>  
-        <if test="url != null" >  
-           `url`, 
+        <if test="menuUrl != null" >  
+           `menur_url`,
         </if>  
-        <if test="orderNo != null" >
+        <if test="orderNo != null" >  
            `order_no`,
         </if>  
         <if test="status != null" >  
-           `status`, 
+           `status`,
         </if>  
         <if test="remark != null" >  
-           `remark`, 
-        </if>
-        <if test="icon != null" >
-            `icon`,
-        </if>
+           `remark`,
+        </if>  
+        <if test="icon != null" >  
+           `icon`,
+        </if>  
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
         <if test="id != null" >  
-          #{id,jdbcType=BIGINT},
+          #{id,jdbcType=INTEGER},
         </if>  
         <if test="pid != null" >  
-          #{pid,jdbcType=BIGINT},
+          #{pid,jdbcType=INTEGER},
         </if>  
-        <if test="name != null" >  
-          #{name,jdbcType=VARCHAR},
+        <if test="menuName != null" >  
+          #{menuName,jdbcType=VARCHAR},
         </if>  
-        <if test="code != null" >  
-          #{code,jdbcType=VARCHAR},
+        <if test="menuCode != null" >  
+          #{menuCode,jdbcType=VARCHAR},
         </if>  
-        <if test="permission != null" >  
-          #{permission,jdbcType=VARCHAR},
+        <if test="menuPermission != null" >  
+          #{menuPermission,jdbcType=VARCHAR},
         </if>  
-        <if test="url != null" >  
-          #{url,jdbcType=VARCHAR},
+        <if test="menuUrl != null" >  
+          #{menuUrl,jdbcType=VARCHAR},
         </if>  
-        <if test="orderNo != null" >
-          #{orderNo,jdbcType=INTEGER},
+        <if test="orderNo != null" >  
+          #{orderNo,jdbcType=TINYINT},
         </if>  
         <if test="status != null" >  
-          #{status,jdbcType=INTEGER},
+          #{status,jdbcType=TINYINT},
         </if>  
         <if test="remark != null" >  
           #{remark,jdbcType=VARCHAR},
-        </if>
-        <if test="icon != null" >
-            #{icon,jdbcType=VARCHAR},
-        </if>
+        </if>  
+        <if test="icon != null" >  
+          #{icon,jdbcType=VARCHAR},
+        </if>  
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysMenu.bean.SysMenu" >
     update sys_menu
     <set >
         <if test="id != null" >  
-             `id`=#{id,jdbcType=BIGINT},
+             `id`=#{id,jdbcType=INTEGER},
         </if>  
         <if test="pid != null" >  
-             `pid`=#{pid,jdbcType=BIGINT},
+             `pid`=#{pid,jdbcType=INTEGER},
         </if>  
-        <if test="name != null" >  
-             `name`=#{name,jdbcType=VARCHAR},
+        <if test="menuName != null" >  
+             `menu_name`=#{menuName,jdbcType=VARCHAR},
         </if>  
-        <if test="code != null" >  
-             `code`=#{code,jdbcType=VARCHAR},
+        <if test="menuCode != null" >  
+             `menu_code`=#{menuCode,jdbcType=VARCHAR},
         </if>  
-        <if test="permission != null" >  
-             `permission`=#{permission,jdbcType=VARCHAR},
+        <if test="menuPermission != null" >  
+             `menu_pmsn`=#{menuPermission,jdbcType=VARCHAR},
         </if>  
-        <if test="url != null" >  
-             `url`=#{url,jdbcType=VARCHAR},
+        <if test="menuUrl != null" >  
+             `menur_url`=#{menuUrl,jdbcType=VARCHAR},
         </if>  
-        <if test="orderNo != null" >
-             `order_no`=#{orderNo,jdbcType=INTEGER},
+        <if test="orderNo != null" >  
+             `order_no`=#{orderNo,jdbcType=TINYINT},
         </if>  
         <if test="status != null" >  
-             `status`=#{status,jdbcType=INTEGER},
+             `status`=#{status,jdbcType=TINYINT},
         </if>  
         <if test="remark != null" >  
              `remark`=#{remark,jdbcType=VARCHAR},
-        </if>
-        <if test="icon != null" >
-            `icon`=#{icon,jdbcType=VARCHAR},
-        </if>
+        </if>  
+        <if test="icon != null" >  
+             `icon`=#{icon,jdbcType=VARCHAR},
+        </if>  
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysMenu.bean.SysMenu" >
     update sys_menu
     set 
-              `pid`=#{pid,jdbcType=BIGINT},  
-              `name`=#{name,jdbcType=VARCHAR},  
-              `code`=#{code,jdbcType=VARCHAR},  
-              `permission`=#{permission,jdbcType=VARCHAR},  
-              `url`=#{url,jdbcType=VARCHAR},  
-              `order_no`=#{orderNo,jdbcType=INTEGER},
-              `status`=#{status,jdbcType=INTEGER},  
-              `remark`=#{remark,jdbcType=VARCHAR} ,
-      `icon`=#{icon,jdbcType=VARCHAR}
-      where id = #{id,jdbcType=BIGINT}
+              `pid`=#{pid,jdbcType=INTEGER},
+              `menu_name`=#{menuName,jdbcType=VARCHAR},
+              `menu_code`=#{menuCode,jdbcType=VARCHAR},
+              `menu_pmsn`=#{menuPermission,jdbcType=VARCHAR},
+              `menur_url`=#{menuUrl,jdbcType=VARCHAR},
+              `order_no`=#{orderNo,jdbcType=TINYINT},
+              `status`=#{status,jdbcType=TINYINT},
+              `remark`=#{remark,jdbcType=VARCHAR},
+              `icon`=#{icon,jdbcType=VARCHAR}
+where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sys_menu where   status !=9
+    from sys_menu where 1=1
         <if test="id != null and id != '' ">  
            and `id` = #{id}
         </if>  
         <if test="pid != null and pid != '' ">  
            and `pid` = #{pid}
         </if>  
-        <if test="name != null and name != '' ">  
-           and `name` = #{name}
+        <if test="menuName != null and menuName != '' ">  
+           and `menu_name` = #{menuName}
         </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and `name` like "%"#{nameLike}"%"
+        <if test="menuNameLike != null and menuNameLike != '' ">
+             and `menu_name` like CONCAT('%',#{menuNameLike},'%')
         </if>   
-        <if test="code != null and code != '' ">  
-           and `code` = #{code}
+        <if test="menuCode != null and menuCode != '' ">  
+           and `menu_code` = #{menuCode}
         </if>  
-        <if test="codeLike != null and codeLike != '' ">  
-             and `code` like "%"#{codeLike}"%"
+        <if test="menuCodeLike != null and menuCodeLike != '' ">
+             and `menu_code` like CONCAT('%',#{menuCodeLike},'%')
         </if>   
-        <if test="permission != null and permission != '' ">  
-           and `permission` = #{permission}
+        <if test="menuPermission != null and menuPermission != '' ">  
+           and `menu_pmsn` = #{menuPermission}
         </if>  
-        <if test="permissionLike != null and permissionLike != '' ">  
-             and `permission` like "%"#{permissionLike}"%"
+        <if test="menuPermissionLike != null and menuPermissionLike != '' ">
+             and `menu_pmsn` like CONCAT('%',#{menuPermissionLike},'%')
         </if>   
-        <if test="url != null and url != '' ">  
-           and `url` = #{url}
+        <if test="menuUrl != null and menuUrl != '' ">  
+           and `menur_url` = #{menuUrl}
         </if>  
-        <if test="urlLike != null and urlLike != '' ">  
-             and `url` like "%"#{urlLike}"%"
+        <if test="menuUrlLike != null and menuUrlLike != '' ">
+             and `menur_url` like CONCAT('%',#{menuUrlLike},'%')
         </if>   
-        <if test="orderNo != null and orderNo != '' ">
+        <if test="orderNo != null and orderNo != '' ">  
            and `order_no` = #{orderNo}
         </if>  
         <if test="status != null and status != '' ">  
@@ -207,53 +206,59 @@
         <if test="remark != null and remark != '' ">  
            and `remark` = #{remark}
         </if>  
-        <if test="remarkLike != null and remarkLike != '' ">  
-             and `remark` like "%"#{remarkLike}"%"
-        </if>
-
-      order by order_no
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="icon != null and icon != '' ">  
+           and `icon` = #{icon}
+        </if>  
+        <if test="iconLike != null and iconLike != '' ">
+             and `icon` like CONCAT('%',#{iconLike},'%')
+        </if>   
   </select>
    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
+
+
            ,sys_menu1.name as SysMenu_name
     from sys_menu
 
     left join sys_menu sys_menu1
       on sys_menu.pid = sys_menu1.id
 
-    where  sys_menu.status !=9
+    where 1=1
         <if test="id != null and id != '' ">  
            and sys_menu.`id` = #{id}
         </if>  
         <if test="pid != null and pid != '' ">  
            and sys_menu.`pid` = #{pid}
         </if>  
-        <if test="name != null and name != '' ">  
-           and sys_menu.`name` = #{name}
+        <if test="menuName != null and menuName != '' ">  
+           and sys_menu.`menu_name` = #{menuName}
         </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and sys_menu.`name` like "%"#{nameLike}"%"
+        <if test="menuNameLike != null and menuNameLike != '' ">  
+             and sys_menu.`menu_name` like CONCAT('%',#{menuNameLike},'%')
         </if>   
-        <if test="code != null and code != '' ">  
-           and sys_menu.`code` = #{code}
+        <if test="menuCode != null and menuCode != '' ">  
+           and sys_menu.`menu_code` = #{menuCode}
         </if>  
-        <if test="codeLike != null and codeLike != '' ">  
-             and sys_menu.`code` like "%"#{codeLike}"%"
+        <if test="menuCodeLike != null and menuCodeLike != '' ">  
+             and sys_menu.`menu_code` like CONCAT('%',#{menuCodeLike},'%')
         </if>   
-        <if test="permission != null and permission != '' ">  
-           and sys_menu.`permission` = #{permission}
+        <if test="menuPermission != null and menuPermission != '' ">  
+           and sys_menu.`menu_pmsn` = #{menuPermission}
         </if>  
-        <if test="permissionLike != null and permissionLike != '' ">  
-             and sys_menu.`permission` like "%"#{permissionLike}"%"
+        <if test="menuPermissionLike != null and menuPermissionLike != '' ">  
+             and sys_menu.`menu_pmsn` like CONCAT('%',#{menuPermissionLike},'%')
         </if>   
-        <if test="url != null and url != '' ">  
-           and sys_menu.`url` = #{url}
+        <if test="menuUrl != null and menuUrl != '' ">  
+           and sys_menu.`menur_url` = #{menuUrl}
         </if>  
-        <if test="urlLike != null and urlLike != '' ">  
-             and sys_menu.`url` like "%"#{urlLike}"%"
+        <if test="menuUrlLike != null and menuUrlLike != '' ">  
+             and sys_menu.`menur_url` like CONCAT('%',#{menuUrlLike},'%')
         </if>   
-        <if test="orderNo != null and orderNo != '' ">
+        <if test="orderNo != null and orderNo != '' ">  
            and sys_menu.`order_no` = #{orderNo}
         </if>  
         <if test="status != null and status != '' ">  
@@ -263,45 +268,50 @@
            and sys_menu.`remark` = #{remark}
         </if>  
         <if test="remarkLike != null and remarkLike != '' ">  
-             and sys_menu.`remark` like "%"#{remarkLike}"%"
-        </if>
-       order by order_no
+             and sys_menu.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="icon != null and icon != '' ">  
+           and sys_menu.`icon` = #{icon}
+        </if>  
+        <if test="iconLike != null and iconLike != '' ">  
+             and sys_menu.`icon` like CONCAT('%',#{iconLike},'%')
+        </if>   
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
     select 
     count(1) 
-    from sys_menu where sys_menu.status !=9
+    from sys_menu where 1=1
         <if test="id != null and id != '' ">  
            and sys_menu.`id` = #{id}
         </if>  
         <if test="pid != null and pid != '' ">  
            and sys_menu.`pid` = #{pid}
         </if>  
-        <if test="name != null and name != '' ">  
-           and sys_menu.`name` = #{name}
+        <if test="menuName != null and menuName != '' ">  
+           and sys_menu.`menu_name` = #{menuName}
         </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and sys_menu.`name` like "%"#{nameLike}"%"
+        <if test="menuNameLike != null and menuNameLike != '' ">  
+             and sys_menu.`menu_name` like CONCAT('%',#{menuNameLike},'%')
         </if>   
-        <if test="code != null and code != '' ">  
-           and sys_menu.`code` = #{code}
+        <if test="menuCode != null and menuCode != '' ">  
+           and sys_menu.`menu_code` = #{menuCode}
         </if>  
-        <if test="codeLike != null and codeLike != '' ">  
-             and sys_menu.`code` like "%"#{codeLike}"%"
+        <if test="menuCodeLike != null and menuCodeLike != '' ">  
+             and sys_menu.`menu_code` like CONCAT('%',#{menuCodeLike},'%')
         </if>   
-        <if test="permission != null and permission != '' ">  
-           and sys_menu.`permission` = #{permission}
+        <if test="menuPermission != null and menuPermission != '' ">  
+           and sys_menu.`menu_pmsn` = #{menuPermission}
         </if>  
-        <if test="permissionLike != null and permissionLike != '' ">  
-             and sys_menu.`permission` like "%"#{permissionLike}"%"
+        <if test="menuPermissionLike != null and menuPermissionLike != '' ">  
+             and sys_menu.`menu_pmsn` like CONCAT('%',#{menuPermissionLike},'%')
         </if>   
-        <if test="url != null and url != '' ">  
-           and sys_menu.`url` = #{url}
+        <if test="menuUrl != null and menuUrl != '' ">  
+           and sys_menu.`menur_url` = #{menuUrl}
         </if>  
-        <if test="urlLike != null and urlLike != '' ">  
-             and sys_menu.`url` like "%"#{urlLike}"%"
+        <if test="menuUrlLike != null and menuUrlLike != '' ">  
+             and sys_menu.`menur_url` like CONCAT('%',#{menuUrlLike},'%')
         </if>   
-        <if test="orderNo != null and orderNo != '' ">
+        <if test="orderNo != null and orderNo != '' ">  
            and sys_menu.`order_no` = #{orderNo}
         </if>  
         <if test="status != null and status != '' ">  
@@ -311,30 +321,36 @@
            and sys_menu.`remark` = #{remark}
         </if>  
         <if test="remarkLike != null and remarkLike != '' ">  
-             and sys_menu.`remark` like "%"#{remarkLike}"%"
+             and sys_menu.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="icon != null and icon != '' ">  
+           and sys_menu.`icon` = #{icon}
+        </if>  
+        <if test="iconLike != null and iconLike != '' ">  
+             and sys_menu.`icon` like CONCAT('%',#{iconLike},'%')
         </if>   
   </select>
-    <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
-        select
-        count(1)
-        from sys_menu where 1!=1
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_menu where 1!=1
         <if test="id != null and id != '' ">
            or `id` = #{id}
         </if>
         <if test="pid != null and pid != '' ">
            or `pid` = #{pid}
         </if>
-        <if test="name != null and name != '' ">
-           or `name` = #{name}
+        <if test="menuName != null and menuName != '' ">
+           or `menu_name` = #{menuName}
         </if>
-        <if test="code != null and code != '' ">
-           or `code` = #{code}
+        <if test="menuCode != null and menuCode != '' ">
+           or `menu_code` = #{menuCode}
         </if>
-        <if test="permission != null and permission != '' ">
-           or `permission` = #{permission}
+        <if test="menuPermission != null and menuPermission != '' ">
+           or `menu_pmsn` = #{menuPermission}
         </if>
-        <if test="url != null and url != '' ">
-           or `url` = #{url}
+        <if test="menuUrl != null and menuUrl != '' ">
+           or `menur_url` = #{menuUrl}
         </if>
         <if test="orderNo != null and orderNo != '' ">
            or `order_no` = #{orderNo}
@@ -345,7 +361,33 @@
         <if test="remark != null and remark != '' ">
            or `remark` = #{remark}
         </if>
-    </select>
+        <if test="icon != null and icon != '' ">
+           or `icon` = #{icon}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into sys_menu (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.pid,jdbcType=INTEGER}
+,#{record.menuName,jdbcType=VARCHAR}
+,#{record.menuCode,jdbcType=VARCHAR}
+,#{record.menuPermission,jdbcType=VARCHAR}
+,#{record.menuUrl,jdbcType=VARCHAR}
+,#{record.orderNo,jdbcType=TINYINT}
+,#{record.status,jdbcType=TINYINT}
+,#{record.remark,jdbcType=VARCHAR}
+,#{record.icon,jdbcType=VARCHAR}
+)
+        </foreach >
+    </insert>
+
     <select id="selectAllMenu"  resultMap="BaseResultMap">
         select * from sys_menu menu where menu.status !=9
         order by order_no desc
@@ -360,8 +402,4 @@
         select * from sys_menu sr where menu.status !=9 and   menu.id in (select menu_id from sys_role_menu where role_id  =#{roleid}))
         order by order_no
     </select>
-
-
-
-
 </mapper>

@@ -34,7 +34,7 @@ export default {
       if (true) {
         authProfile({ nickName: this.nickName })
           .then(res => {
-            localStorage.setItem('nickName', res.data.data.nickName);
+            localStorage.setItem('nickName', this.nickName);
             return this.$dialog.alert({ message: '保存成功' });
           })
           .then(() => {

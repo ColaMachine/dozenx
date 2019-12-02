@@ -332,7 +332,7 @@ import zwPcImgBlocks from '../../component/datadisplay/zwPcImgBlocks.vue';
 
 
 
-                  result.data[key].url=PATH+"/static/html/vue/PcArticlePage.html?id="+result.data[key].id;
+                  result.data[key].url="/PcArticlePage.html?id="+result.data[key].id;
                  result.data[key].content=filterHTMLTag(result.data[key].content);
                 result.data[key].nick=result.data[key].creatorname;
                  // result.data[key].pic=result.data[key].img;
@@ -350,7 +350,7 @@ import zwPcImgBlocks from '../../component/datadisplay/zwPcImgBlocks.vue';
 result.data[key].title=result.data[key].name;
 result.data[key].subTitle= result.data[key].subName;
 result.data[key].content=result.data[key].detail;
-                    result.data[key].url=PATH+"/static/html/vue/PcGoodPage.html?id="+result.data[key].id;
+                    result.data[key].url="/PcGoodPage.html?id="+result.data[key].id;
 
                     result.data[key].pic=result.data[key].img;
                 }

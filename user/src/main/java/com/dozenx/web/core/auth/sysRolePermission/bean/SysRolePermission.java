@@ -10,26 +10,26 @@ package com.dozenx.web.core.auth.sysRolePermission.bean;
 public class SysRolePermission {
 
  /**角色id**/
-    private Long roleId;
+    private Integer roleId;
 
-    public Long getPermissionId() {
+    public Integer getPermissionId() {
         return permissionId;
     }
 
-    public void setPermissionId(Long permissionId) {
+    public void setPermissionId(Integer permissionId) {
         this.permissionId = permissionId;
     }
 
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 
     /**权限id**/
 
-    private Long permissionId;
+    private Integer permissionId;
 
 }

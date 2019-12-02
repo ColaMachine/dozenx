@@ -1,24 +1,19 @@
 package com.dozenx.web.core.auth.sysPermission.dao;
-
-import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
-
 import java.util.HashMap;
 import java.util.List;
+import java.sql.Timestamp;
 import java.util.Map;
+import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
 
 public interface SysPermissionMapper {
-    
-    int deleteByPrimaryKey(Long id);
-
+    int deleteByPrimaryKey(Integer id);
     
     int insert(SysPermission record);
 
    
     int insertSelective(SysPermission record);
 
-    
-    SysPermission  selectByPrimaryKey(Long id);
-
+    SysPermission  selectByPrimaryKey(Integer id);
     /**
      * 说明:根据主键修改所存在属性内容
      * @param sysPermission
@@ -81,4 +76,7 @@ public interface SysPermissionMapper {
     int countByOrParams(HashMap map);
 
       
+
+
+     void insertBatch(List<SysPermission> list);
 }

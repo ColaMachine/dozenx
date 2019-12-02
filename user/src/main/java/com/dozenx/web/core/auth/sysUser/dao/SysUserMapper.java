@@ -137,4 +137,7 @@ public interface SysUserMapper {
     public SysUser selectUserByOutId(Long openid);
 
     public void updatePinyin(@Param("id") Long userId, @Param("pinying")String pinying);
+
+
+    public void updateOutId(@Param("id") Long userId, @Param("outId")Long outId);
 }

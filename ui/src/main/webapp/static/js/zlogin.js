@@ -91,7 +91,7 @@ var loginForm={
         }
 
         var dialogId = dialog.showWait();
-        var jso = changeForm2Jso("#login_form");
+//        var jso = changeForm2Jso("#login_form");
         var jso={};
         jso.account=this.doms.userName.value;
         if(this.doms.pwd.value.length!=32){

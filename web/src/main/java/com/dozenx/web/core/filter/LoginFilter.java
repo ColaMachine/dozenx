@@ -1,6 +1,7 @@
 package com.dozenx.web.core.filter;
 
 import com.dozenx.common.util.JsonUtil;
+import com.dozenx.web.util.RedisUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
@@ -91,7 +92,7 @@ public class LoginFilter implements Filter {
 		 * filterChain.doFilter(request, response); return; }
 		 */
         // 过滤器 判断是否登录
-        HttpSession session = request.getSession();
+//        HttpSession session = request.getSession();
         if (sessionKey == null) {
             filterChain.doFilter(request, response);
             return;
@@ -103,8 +104,9 @@ public class LoginFilter implements Filter {
 //        if (seesionDTO != null) {
 //            sessionUser = seesionDTO.getSessionUser();
 //        }
-        Object sessionDTO =  session.getAttribute(Constants.SESSION_USER) ;
-        if (sessionDTO == null/* && sessionUser == null*/
+       /// Object sessionDTO =  session.getAttribute(Constants.SESSION_USER) ;
+        byte[] ary= RedisUtil.getByteAry(request.getRequestedSessionId()+"_"+Constants.SESSION_USER);
+        if (ary == null/* && sessionUser == null*/
       //  if (session.getAttribute(sessionKey) == null/* && sessionUser == null*/
                 && (!checkRequestURIIntNotFilterList(request))) {
 

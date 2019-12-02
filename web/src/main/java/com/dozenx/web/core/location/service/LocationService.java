@@ -216,6 +216,7 @@ public class LocationService extends BaseService {
     }
 
     public static  Map<String,Long > nameIdMap=null;
+    public static  Map<String,String > codeNameMap=null;    //code对应name
     public   Long getIdByName(String name){
         if(nameIdMap==null||nameIdMap.size()==0){
             nameIdMap=new HashMap<>();//防止一直报错
@@ -223,4 +224,22 @@ public class LocationService extends BaseService {
         }
         return nameIdMap.get(name);
     }
+    //根据code 拿到name
+    public String getNameByCode(String code ){
+            if(StringUtil.isBlank(code))return null;
+//        if(codeNameMap==null){
+//            codeNameMap
+//        }
+//        if(codeNameMap==null||codeNameMap.size()==0){
+//            String name = RedisUtil.hget("location_code_name",code);
+        String name=loctionApiService.getNameByCode(code);//RedisUtil.hget("location_code_name",code);
+
+        return name;
+//            loctionApiService.cacheJsonStr();//重新进行地区缓存
+//        }
+       // return codeNameMap.get(code);
+    }
+
+
+
 }

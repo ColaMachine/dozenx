@@ -532,7 +532,7 @@ public final class RedisUtil {
      * @param key
      * @return
      */
-    public static void setByteAry(String key, byte[] value) {
+    public static void setByteAry(String key, byte[] value,long expireTime) {
         Jedis jedis = null;
 //        boolean success = true;
         try {
@@ -561,7 +561,7 @@ public final class RedisUtil {
      * @param key
      * @return
      */
-    public static byte[] getByteAry(String key, byte[] value) {
+    public static byte[] getByteAry(String key) {
         Jedis jedis = null;
 //        boolean success = true;
         try {
@@ -756,7 +756,7 @@ public final class RedisUtil {
 
     /**
      * 批量Hash键值设置操作
-     *
+     *  注意 key 和value 都不能为空
      * @param dataMap map
      * @param seconds 有效时间
      * @return 结果

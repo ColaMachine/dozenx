@@ -2,141 +2,138 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dozenx.web.core.auth.sysPermission.dao.SysPermissionMapper">
   <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysPermission.bean.SysPermission">
-      <id column="id" jdbcType="BIGINT" property="id" />
-      <result column="pid" jdbcType="BIGINT" property="pid" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="url" jdbcType="VARCHAR" property="url" />
-      <result column="code" jdbcType="VARCHAR" property="code" />
-      <result column="order_no" jdbcType="INTEGER" property="orderNo" />
-      <result column="status" jdbcType="INTEGER" property="status" />
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="pid" jdbcType="INTEGER" property="pid" />
+      <result column="pmsn_name" jdbcType="VARCHAR" property="permissionName" />
+      <result column="pmsn_code" jdbcType="VARCHAR" property="permissionCode" />
+      <result column="pmsn_url" jdbcType="VARCHAR" property="permissionUrl" />
+      <result column="order_no" jdbcType="TINYINT" property="orderNo" />
+      <result column="status" jdbcType="TINYINT" property="status" />
       <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="sys_permission_name" jdbcType="VARCHAR" property="sys_permission_name" />
   </resultMap>
   <sql id="Base_Column_List">
-    sys_permission.`id` ,sys_permission.`pid` ,sys_permission.`name` ,sys_permission.`code` ,sys_permission.`order_no` ,sys_permission.`status` ,sys_permission.`remark`,sys_permission.`url`
+    sys_permission.`id` ,sys_permission.`pid` ,sys_permission.`pmsn_name` ,sys_permission.`pmsn_code` ,sys_permission.`pmsn_url` ,sys_permission.`order_no` ,sys_permission.`status` ,sys_permission.`remark` 
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-
-    from sys_permission sys_permission
-
-    where sys_permission.id =   #{id,jdbcType=BIGINT}
+    from sys_permission
+    where sys_permission.id =   #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    update  sys_permission set status =9
-    where id = #{id,jdbcType=BIGINT}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_permission
+    where id = #{id,jdbcType=INTEGER}
   </delete>
  <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
 
     insert into sys_permission (  <include refid="Base_Column_List" />)
     values (
-#{id,jdbcType=BIGINT}
-,#{pid,jdbcType=BIGINT}
-,#{name,jdbcType=VARCHAR}
-,#{code,jdbcType=VARCHAR}
-,#{orderNo,jdbcType=INTEGER}
-,#{status,jdbcType=INTEGER}
+#{id,jdbcType=INTEGER}
+,#{pid,jdbcType=INTEGER}
+,#{permissionName,jdbcType=VARCHAR}
+,#{permissionCode,jdbcType=VARCHAR}
+,#{permissionUrl,jdbcType=VARCHAR}
+,#{orderNo,jdbcType=TINYINT}
+,#{status,jdbcType=TINYINT}
 ,#{remark,jdbcType=VARCHAR}
-     ,#{url,jdbcType=VARCHAR}
     )
   </insert>
    <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
     insert into sys_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
         <if test="id != null" >  
-           `id`, 
+           `id`,
         </if>  
         <if test="pid != null" >  
-           `pid`, 
+           `pid`,
         </if>  
-        <if test="name != null" >  
-           `name`, 
+        <if test="permissionName != null" >  
+           `pmsn_name`,
         </if>  
-        <if test="code != null" >  
-           `code`, 
+        <if test="permissionCode != null" >  
+           `pmsn_code`,
         </if>  
-        <if test="orderNo != null" >
-           `orderNo`,
+        <if test="permissionUrl != null" >  
+           `pmsn_url`,
+        </if>  
+        <if test="orderNo != null" >  
+           `order_no`,
         </if>  
         <if test="status != null" >  
-           `status`, 
+           `status`,
         </if>  
         <if test="remark != null" >  
-           `remark`, 
-        </if>
-        <if test="url != null" >
-            `url`,
-        </if>
+           `remark`,
+        </if>  
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
         <if test="id != null" >  
-          #{id,jdbcType=BIGINT},
+          #{id,jdbcType=INTEGER},
         </if>  
         <if test="pid != null" >  
-          #{pid,jdbcType=BIGINT},
+          #{pid,jdbcType=INTEGER},
         </if>  
-        <if test="name != null" >  
-          #{name,jdbcType=VARCHAR},
+        <if test="permissionName != null" >  
+          #{permissionName,jdbcType=VARCHAR},
         </if>  
-        <if test="code != null" >  
-          #{code,jdbcType=VARCHAR},
+        <if test="permissionCode != null" >  
+          #{permissionCode,jdbcType=VARCHAR},
         </if>  
-        <if test="orderNo != null" >
-          #{orderNo,jdbcType=INTEGER},
+        <if test="permissionUrl != null" >  
+          #{permissionUrl,jdbcType=VARCHAR},
+        </if>  
+        <if test="orderNo != null" >  
+          #{orderNo,jdbcType=TINYINT},
         </if>  
         <if test="status != null" >  
-          #{status,jdbcType=INTEGER},
+          #{status,jdbcType=TINYINT},
         </if>  
         <if test="remark != null" >  
           #{remark,jdbcType=VARCHAR},
-        </if>
-        <if test="url != null" >
-            #{url,jdbcType=VARCHAR},
-        </if>
+        </if>  
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
     update sys_permission
     <set >
         <if test="id != null" >  
-             `id`=#{id,jdbcType=BIGINT},
+             `id`=#{id,jdbcType=INTEGER},
         </if>  
         <if test="pid != null" >  
-             `pid`=#{pid,jdbcType=BIGINT},
+             `pid`=#{pid,jdbcType=INTEGER},
         </if>  
-        <if test="name != null" >  
-             `name`=#{name,jdbcType=VARCHAR},
+        <if test="permissionName != null" >  
+             `pmsn_name`=#{permissionName,jdbcType=VARCHAR},
         </if>  
-        <if test="code != null" >  
-             `code`=#{code,jdbcType=VARCHAR},
+        <if test="permissionCode != null" >  
+             `pmsn_code`=#{permissionCode,jdbcType=VARCHAR},
         </if>  
-        <if test="orderNo != null" >
-             `order_no`=#{orderNo,jdbcType=INTEGER},
+        <if test="permissionUrl != null" >  
+             `pmsn_url`=#{permissionUrl,jdbcType=VARCHAR},
+        </if>  
+        <if test="orderNo != null" >  
+             `order_no`=#{orderNo,jdbcType=TINYINT},
         </if>  
         <if test="status != null" >  
-             `status`=#{status,jdbcType=INTEGER},
+             `status`=#{status,jdbcType=TINYINT},
         </if>  
         <if test="remark != null" >  
              `remark`=#{remark,jdbcType=VARCHAR},
-        </if>
-        <if test="url != null" >
-            `url`=#{url,jdbcType=VARCHAR},
-        </if>
+        </if>  
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysPermission.bean.SysPermission" >
     update sys_permission
     set 
-              `pid`=#{pid,jdbcType=BIGINT},  
-              `name`=#{name,jdbcType=VARCHAR},  
-              `code`=#{code,jdbcType=VARCHAR},  
-              `order_no`=#{orderNo,jdbcType=INTEGER},
-              `status`=#{status,jdbcType=INTEGER},  
-              `remark`=#{remark,jdbcType=VARCHAR} ,
-                `url`=#{url,jdbcType=VARCHAR}
-      where id = #{id,jdbcType=BIGINT}
+              `pid`=#{pid,jdbcType=INTEGER},
+              `pmsn_name`=#{permissionName,jdbcType=VARCHAR},
+              `pmsn_code`=#{permissionCode,jdbcType=VARCHAR},
+              `pmsn_url`=#{permissionUrl,jdbcType=VARCHAR},
+              `order_no`=#{orderNo,jdbcType=TINYINT},
+              `status`=#{status,jdbcType=TINYINT},
+              `remark`=#{remark,jdbcType=VARCHAR}
+where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
     select 
@@ -148,19 +145,25 @@
         <if test="pid != null and pid != '' ">  
            and `pid` = #{pid}
         </if>  
-        <if test="name != null and name != '' ">  
-           and `name` = #{name}
+        <if test="permissionName != null and permissionName != '' ">  
+           and `pmsn_name` = #{permissionName}
         </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and `name` like "%"#{nameLike}"%"
+        <if test="permissionNameLike != null and permissionNameLike != '' ">
+             and `pmsn_name` like CONCAT('%',#{permissionNameLike},'%')
         </if>   
-        <if test="code != null and code != '' ">  
-           and `code` = #{code}
+        <if test="permissionCode != null and permissionCode != '' ">  
+           and `pmsn_code` = #{permissionCode}
         </if>  
-        <if test="codeLike != null and codeLike != '' ">  
-             and `code` like "%"#{codeLike}"%"
+        <if test="permissionCodeLike != null and permissionCodeLike != '' ">
+             and `pmsn_code` like CONCAT('%',#{permissionCodeLike},'%')
         </if>   
-        <if test="orderNo != null and orderNo != '' ">
+        <if test="permissionUrl != null and permissionUrl != '' ">  
+           and `pmsn_url` = #{permissionUrl}
+        </if>  
+        <if test="permissionUrlLike != null and permissionUrlLike != '' ">
+             and `pmsn_url` like CONCAT('%',#{permissionUrlLike},'%')
+        </if>   
+        <if test="orderNo != null and orderNo != '' ">  
            and `order_no` = #{orderNo}
         </if>  
         <if test="status != null and status != '' ">  
@@ -169,41 +172,41 @@
         <if test="remark != null and remark != '' ">  
            and `remark` = #{remark}
         </if>  
-        <if test="remarkLike != null and remarkLike != '' ">  
-             and `remark` like "%"#{remarkLike}"%"
-        </if>
-      <if test="url != null and url != '' ">
-          and `url` like "%"#{url}"%"
-      </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
   </select>
    <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-
     from sys_permission
 
-
-
-    where status !=9
+    where 1=1
         <if test="id != null and id != '' ">  
            and sys_permission.`id` = #{id}
         </if>  
         <if test="pid != null and pid != '' ">  
            and sys_permission.`pid` = #{pid}
         </if>  
-        <if test="name != null and name != '' ">  
-           and sys_permission.`name` = #{name}
+        <if test="permissionName != null and permissionName != '' ">  
+           and sys_permission.`pmsn_name` = #{permissionName}
         </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and sys_permission.`name` like "%"#{nameLike}"%"
+        <if test="permissionNameLike != null and permissionNameLike != '' ">  
+             and sys_permission.`pmsn_name` like CONCAT('%',#{permissionNameLike},'%')
         </if>   
-        <if test="code != null and code != '' ">  
-           and sys_permission.`code` = #{code}
+        <if test="permissionCode != null and permissionCode != '' ">  
+           and sys_permission.`pmsn_code` = #{permissionCode}
         </if>  
-        <if test="codeLike != null and codeLike != '' ">  
-             and sys_permission.`code` like "%"#{codeLike}"%"
+        <if test="permissionCodeLike != null and permissionCodeLike != '' ">  
+             and sys_permission.`pmsn_code` like CONCAT('%',#{permissionCodeLike},'%')
         </if>   
-        <if test="orderNo != null and orderNo != '' ">
+        <if test="permissionUrl != null and permissionUrl != '' ">  
+           and sys_permission.`pmsn_url` = #{permissionUrl}
+        </if>  
+        <if test="permissionUrlLike != null and permissionUrlLike != '' ">  
+             and sys_permission.`pmsn_url` like CONCAT('%',#{permissionUrlLike},'%')
+        </if>   
+        <if test="orderNo != null and orderNo != '' ">  
            and sys_permission.`order_no` = #{orderNo}
         </if>  
         <if test="status != null and status != '' ">  
@@ -213,36 +216,38 @@
            and sys_permission.`remark` = #{remark}
         </if>  
         <if test="remarkLike != null and remarkLike != '' ">  
-             and sys_permission.`remark` like "%"#{remarkLike}"%"
-        </if>
-
-       <if test="url != null and url != '' ">
-           and sys_permission.`url` like "%"#{url}"%"
-       </if>
+             and sys_permission.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
   </select>
    <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
     select 
     count(1) 
-    from sys_permission where status!=9
+    from sys_permission where 1=1
         <if test="id != null and id != '' ">  
            and sys_permission.`id` = #{id}
         </if>  
         <if test="pid != null and pid != '' ">  
            and sys_permission.`pid` = #{pid}
         </if>  
-        <if test="name != null and name != '' ">  
-           and sys_permission.`name` = #{name}
+        <if test="permissionName != null and permissionName != '' ">  
+           and sys_permission.`pmsn_name` = #{permissionName}
         </if>  
-        <if test="nameLike != null and nameLike != '' ">  
-             and sys_permission.`name` like "%"#{nameLike}"%"
+        <if test="permissionNameLike != null and permissionNameLike != '' ">  
+             and sys_permission.`pmsn_name` like CONCAT('%',#{permissionNameLike},'%')
         </if>   
-        <if test="code != null and code != '' ">  
-           and sys_permission.`code` = #{code}
+        <if test="permissionCode != null and permissionCode != '' ">  
+           and sys_permission.`pmsn_code` = #{permissionCode}
         </if>  
-        <if test="codeLike != null and codeLike != '' ">  
-             and sys_permission.`code` like "%"#{codeLike}"%"
+        <if test="permissionCodeLike != null and permissionCodeLike != '' ">  
+             and sys_permission.`pmsn_code` like CONCAT('%',#{permissionCodeLike},'%')
         </if>   
-        <if test="orderNo != null and orderNo != '' ">
+        <if test="permissionUrl != null and permissionUrl != '' ">  
+           and sys_permission.`pmsn_url` = #{permissionUrl}
+        </if>  
+        <if test="permissionUrlLike != null and permissionUrlLike != '' ">  
+             and sys_permission.`pmsn_url` like CONCAT('%',#{permissionUrlLike},'%')
+        </if>   
+        <if test="orderNo != null and orderNo != '' ">  
            and sys_permission.`order_no` = #{orderNo}
         </if>  
         <if test="status != null and status != '' ">  
@@ -252,11 +257,8 @@
            and sys_permission.`remark` = #{remark}
         </if>  
         <if test="remarkLike != null and remarkLike != '' ">  
-             and sys_permission.`remark` like "%"#{remarkLike}"%"
-        </if>
-       <if test="url != null and url != '' ">
-           and sys_permission.`url` like "%"#{url}"%"
-       </if>
+             and sys_permission.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
   </select>
  <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
     select
@@ -268,11 +270,14 @@
         <if test="pid != null and pid != '' ">
            or `pid` = #{pid}
         </if>
-        <if test="name != null and name != '' ">
-           or `name` = #{name}
+        <if test="permissionName != null and permissionName != '' ">
+           or `pmsn_name` = #{permissionName}
         </if>
-        <if test="code != null and code != '' ">
-           or `code` = #{code}
+        <if test="permissionCode != null and permissionCode != '' ">
+           or `pmsn_code` = #{permissionCode}
+        </if>
+        <if test="permissionUrl != null and permissionUrl != '' ">
+           or `pmsn_url` = #{permissionUrl}
         </if>
         <if test="orderNo != null and orderNo != '' ">
            or `order_no` = #{orderNo}
@@ -284,4 +289,24 @@
            or `remark` = #{remark}
         </if>
   </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into sys_permission (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.pid,jdbcType=INTEGER}
+,#{record.permissionName,jdbcType=VARCHAR}
+,#{record.permissionCode,jdbcType=VARCHAR}
+,#{record.permissionUrl,jdbcType=VARCHAR}
+,#{record.orderNo,jdbcType=TINYINT}
+,#{record.status,jdbcType=TINYINT}
+,#{record.remark,jdbcType=VARCHAR}
+)
+        </foreach >
+    </insert>
 </mapper>

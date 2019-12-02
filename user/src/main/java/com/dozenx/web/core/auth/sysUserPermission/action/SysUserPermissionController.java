@@ -195,7 +195,7 @@ public class SysUserPermissionController extends BaseController{
         }
         String pid = request.getParameter("pid");
         if(!StringUtil.isBlank(pid)){
-            sysUserPermission.setPid(Long.valueOf(pid));
+            sysUserPermission.setPid(Integer.valueOf(pid));
         }
 
         //valid

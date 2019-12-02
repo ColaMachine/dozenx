@@ -51,7 +51,7 @@ public class DefaultApiViewWriter implements ApiViewWriter {
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("lang", lang);
 		String path = request.getContextPath();
-		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+		String basePath = /*request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()*/path+"/";
 		root.put("basePath", basePath);
 		request.setAttribute("basePath", basePath);
 		request.setAttribute("lang", lang);

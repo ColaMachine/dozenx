@@ -15,13 +15,13 @@
     </resultMap>
 
     <resultMap id="SysRole" type="com.dozenx.web.core.auth.sysRole.bean.SysRole">
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="code" jdbcType="VARCHAR" property="code" />
-        <result column="order_no" jdbcType="INTEGER" property="orderNo" />
-
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+        <result column="orderNo" jdbcType="INTEGER" property="orderNo" />
+        <result column="status" jdbcType="INTEGER" property="status" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
-
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     </resultMap>
    <!-- <select id="selectResourceByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select * from sys_resource sr where sr.id in (select rid from sys_role_resource where roleid in ( select roleid from sys_user_role where uid =#{userid}))
@@ -39,8 +39,8 @@
 
 
     <select id="selectPermissionStrByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
-        select url from sys_permission sr where sr.id in (select permission_id from sys_role_permission where status!=9 and role_id in ( select role_id from sys_user_role where user_id =#{userid}))
-        union (select url from sys_permission sr1 where sr1.id  in (select permission_id from sys_user_permission where user_id =#{userid}))
+        select pmsn_url from sys_permission sr where sr.id in (select permission_id from sys_role_permission where status!=9 and role_id in ( select role_id from sys_user_role where user_id =#{userid}))
+        union (select pmsn_url from sys_permission sr1 where sr1.id  in (select permission_id from sys_user_permission where user_id =#{userid}))
     </select>
 
 

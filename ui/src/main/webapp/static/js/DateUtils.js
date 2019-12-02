@@ -182,6 +182,90 @@ DateUtils.prototype.DateAdd= function   (day,increment){//date int
 	return myDay;
 
 }
+
+DateUtils.prototype.DateAddDay= function   (day,increment){//date int
+
+	var d=day.getDate();
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var myDay=new Date();
+	myDay.setYear(y);
+	myDay.setMonth(m);
+	myDay.setDate(d+increment);
+	return myDay;
+
+}
+
+DateUtils.prototype.DateAddWeek= function   (day,increment){//date int
+
+	var d=day.getDate();
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var myDay=new Date();
+	myDay.setYear(y);
+	myDay.setMonth(m);
+	myDay.setDate(d+increment*7);
+	return myDay;
+
+}
+
+
+DateUtils.prototype.DateAddHour= function   (day,increment){//date int
+    var h = day.getHours();
+	var d=day.getDate();
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var myDay=new Date();
+	myDay.setYear(y);
+	myDay.setMonth(m);
+	myDay.setDate(d);
+	myDay.setHours(h+increment);
+	return myDay;
+
+}
+
+DateUtils.prototype.DateAddMinute= function   (day,increment){//date int
+    var h = day.getHours();
+     var minute = day.getMinutes();
+	var d=day.getDate();
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var myDay=new Date();
+	myDay.setYear(y);
+	myDay.setMonth(m);
+	myDay.setDate(d);
+	myDay.setHours(h);
+    myDay.setMinutes(minute+increment);
+	return myDay;
+
+}
+DateUtils.prototype.DateAddMonth= function   (day,increment){//date int
+
+	var d=day.getDate();
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var myDay=new Date();
+	myDay.setYear(y);
+	myDay.setMonth(m+increment);
+	myDay.setDate(d);
+	console.log(myDay.format("yyyy-MM--dd"))
+	return myDay;
+
+
+}
+
+DateUtils.prototype.DateAddYear= function   (day,increment){//date int
+
+	var d=day.getDate();
+	var m=day.getMonth();
+	var y=day.getFullYear();
+	var myDay=new Date();
+	myDay.setYear(y+increment);
+	myDay.setMonth(m);
+	myDay.setDate(d);
+	return myDay;
+
+}
 DateUtils.prototype.DateAddInSelf= function   (day,increment){//date int
 
 
@@ -427,7 +511,7 @@ DateUtils.prototype. getNextMonth =function    (day) {
  * @param day
  * @returns {Date}
  */
-DateUtils.prototype. getNextDay =function (day){
+DateUtils.prototype.getNextDay =function (day){
 	var m=day.getMonth();
 	var y=day.getFullYear();
 	var d=day.getDate();
@@ -533,6 +617,8 @@ DateUtils.prototype. getNextWeek =function   (day){//date
 	myDate.setDate(day.getDate()+7);
 	return myDate;
 }
+
+//
 DateUtils.prototype. eqToday =function   (date){
 	var now =new Date();
 	if(date.getFullYear()==now.getFullYear() &&
@@ -557,7 +643,7 @@ DateUtils.prototype. compareYMD =function (startDate,endDate){
 	if(startDateInt>endDateInt)
 		return -1;
 }
-
+//转成数字形式
 DateUtils.prototype. YMD2Int =function (str){
 	if(str.length!=10){
 		logger.log("日期格式不正确");
@@ -580,8 +666,16 @@ DateUtils.prototype. getDFromYMD =function  (str){
 //var DateUtils={}
 DateUtils.prototype. retainDay =function (date){
     date.setSeconds(0);
+    date.setMilliseconds(0);
     date.setMinutes(0);
     date.setHours(0);
+    return date;
+}
+DateUtils.prototype. night =function (date){
+    date.setSeconds(59);
+    date.setMilliseconds(999);
+    date.setMinutes(59);
+    date.setHours(23);
     return date;
 }
 DateUtils.prototype.copyDate=function(date){

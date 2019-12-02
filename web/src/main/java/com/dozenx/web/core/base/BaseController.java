@@ -23,7 +23,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 //import com.dozenx.web.message.ErrorMessage;
@@ -203,9 +203,9 @@ public class BaseController extends ResultAction {
      * @Date:17:02 2018/1/2
      */
     public String[] getRoles(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Object object = session.getAttribute(Constants.SESSION_ROLES);
-        return (String[]) session.getAttribute(Constants.SESSION_ROLES);
+//        HttpSession session = request.getSession();
+        String[] object = this.getSessionAttribute(request,Constants.SESSION_ROLES);
+        return object;
 
     }
 
@@ -226,8 +226,8 @@ public class BaseController extends ResultAction {
 
         return isAdmin;
     }
-    public void setUser(HttpServletRequest reuest){
-
+    public void setUser(HttpServletRequest request,SessionUser sessionUser){
+         this.setSessionAttribute(request,Constants.SESSION_USER,sessionUser);
     }
     /**
      * @Author: dozen.zhang
@@ -302,7 +302,13 @@ public class BaseController extends ResultAction {
      * @return
      */
     public String getSessionId(HttpServletRequest request/*,HttpServletResponse response*/ ) {
-        return request.getSession(true).getId();
+        String sessionId =  request.getRequestedSessionId();
+        logger.info(sessionId);
+        if(StringUtil.isBlank(sessionId)){
+            return request.getSession(true).getId();
+        }
+        return sessionId;
+     //   return request.getSession(true).getId();
     //    Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
        // if (cookie == null) {
 
@@ -341,10 +347,11 @@ public class BaseController extends ResultAction {
     }
 
     public <T> T getSessionAttribute(HttpServletRequest request, String key, Class<T> clazz) {
+        logger.info("sessionId: "+getSessionId(request));
         //先从session中直接去取
-        Object object = request.getSession().getAttribute(key);
-        if(object!=null)
-            return (T)object;
+//        Object object = request.getSession().getAttribute(key);
+//        if(object!=null)
+//            return (T)object;
         //没有的话拿到这个人的token
 
 
@@ -353,73 +360,140 @@ public class BaseController extends ResultAction {
 
             return null;    //如果token也是空的那么肯定没有登录过
         }
-        String result = RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
-        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
-            return null;
-        }
-
-        object =  JsonUtil.toJavaBean(result, clazz);
-
-        request.getSession().setAttribute(key,object);
-        return (T)object;
-
-    }
-
-    public String getSessionParam(HttpServletRequest request, String key) {
-
-        String s = (String)request.getSession().getAttribute(key);
-        if(s!=null)
-            return s;
-        //没有的话拿到这个人的token
-
-
-        String sessionKey = getSessionId(request);
-        if (StringUtil.isBlank(sessionKey)) {
-
-            return null;    //如果token也是空的那么肯定没有登录过
-        }
-        String result = RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
-        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
-            return null;
-        }
-
-
-        return result;
-
-    }
+        byte[] result = RedisUtil.getByteAry(sessionKey + "_" + key);//RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
+            if(result==null || result.length==0){
+                return null;
+            }
+        return (T)toObject(result);
+//        ByInputStream ois = new ObjectInputStream(new FileInputStream(file));
+//        User1 newUser = (User1)ois.readObject();
 //
-    public void setSessionParam(HttpServletRequest request, String key, String value) {
+//        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
+//            return null;
+//        }
+//
+//        object =  JsonUtil.toJavaBean(result, clazz);
+//
+//        request.getSession().setAttribute(key,object);
+//        return (T)object;
+
+    }
+    public <T> T getSessionAttribute(HttpServletRequest request, String key) {
+        logger.info("sessionId: "+getSessionId(request));
+        //先从session中直接去取
+//        Object object = request.getSession().getAttribute(key);
+//        if(object!=null)
+//            return (T)object;
+        //没有的话拿到这个人的token
+
 
         String sessionKey = getSessionId(request);
-        if(StringUtil.isBlank(value)){  //如果是空的 就删除对应属性
-            request.getSession().removeAttribute(key);
-            RedisUtil.del(sessionKey + "_" + key);
-            return;
-        }
-        request.getSession().setAttribute(key,value);
+        if (StringUtil.isBlank(sessionKey)) {
 
-        if (value == null) {
-            return;
+            return null;    //如果token也是空的那么肯定没有登录过
         }
-        RedisUtil.setex(sessionKey + "_" + key, key, SESSION_LIVE_TIME);
+        byte[] result = RedisUtil.getByteAry(sessionKey + "_" + key);//RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
+        if(result==null || result.length==0){
+            return null;
+        }
+        return (T)toObject(result);
+    }
+    public String getSessionParam(HttpServletRequest request, String key) {
+            return this.getSessionAttribute(request,key);
+//        String s = (String)request.getSession().getAttribute(key);
+//        if(s!=null)
+//            return s;
+//        //没有的话拿到这个人的token
+//
+//
+//        String sessionKey = getSessionId(request);
+//        if (StringUtil.isBlank(sessionKey)) {
+//
+//            return null;    //如果token也是空的那么肯定没有登录过
+//        }
+//        String result = RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
+//        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
+//            return null;
+//        }
+//
+//
+//        return result;
 
+    }
+    //现在很多bug 由于在session set 和get的时候 param 是直接用redis set string 进去的 而 setAttribute 和 getAttribute 是序列化之后再set进去的 所以导致有个bug 就是 setAttribute进去的东西 用 getParam去取出来头部会多出序列化的乱码值 会出现
+    public void setSessionParam(HttpServletRequest request, String key, String value) {
+        this.setSessionAttribute(request,key,value);
+//        String sessionKey = getSessionId(request);
+//        if(StringUtil.isBlank(value)){  //如果是空的 就删除对应属性
+//            this.removeSession(request,key);
+//            return;
+//        }
+//       // this.setSessionParam(request,key,value);
+////        request.getSession().setAttribute(key,value);
+//
+////        if (value == null) {
+////            return;
+////        }
+//
+//        RedisUtil.setex(sessionKey + "_" + key, key, SESSION_LIVE_TIME);
+//
 
     }
 
     public void setSessionAttribute(HttpServletRequest request, String key, Object object) {
-        //先往session里面存放 再在redis中存放
-        request.getSession().setAttribute(key,object);
-        String sessionKey = getSessionId(request);
         if (object == null) {
 
             return;
         }
-        RedisUtil.setex(sessionKey + "_" + key, JsonUtil.toJsonString(object), SESSION_LIVE_TIME);
+        //先往session里面存放 再在redis中存放
+       // request.getSession().setAttribute(key,object);
+        String sessionKey = getSessionId(request);
+
+        RedisUtil.setByteAry(sessionKey + "_" + key, toByteArray(object),SESSION_LIVE_TIME);
+
     }
 
     public void removeSession(HttpServletRequest request, String key) {
         String sessionKey = getSessionId(request);
-        request.getSession().removeAttribute(key);
+        //request.getSession().removeAttribute(key);
         RedisUtil.del(sessionKey + "_" + key);
+    }
+
+
+    public byte[] toByteArray (Object obj) {
+        byte[] bytes = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(obj);
+            oos.flush();
+            bytes = bos.toByteArray ();
+            oos.close();
+            bos.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return bytes;
+    }
+
+    /**
+     * 数组转对象
+     * @param bytes
+     * @return
+     */
+    public Object toObject (byte[] bytes) {
+        Object obj = null;
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream (bytes);
+            ObjectInputStream ois = new ObjectInputStream (bis);
+            obj = ois.readObject();
+            ois.close();
+            bis.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return obj;
     }
 }

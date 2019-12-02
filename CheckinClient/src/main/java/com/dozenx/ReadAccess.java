@@ -5,9 +5,10 @@ import com.dozenx.common.Path.PathManager;
 import com.dozenx.service.CheckinOutService;
 import com.dozenx.common.util.PropertiesUtil;
 import com.dozenx.common.util.StringUtil;
-import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Calendar;
@@ -24,7 +25,7 @@ import static org.quartz.JobBuilder.newJob;
  * @Modified By:
  */
 public class ReadAccess {
-    static final Logger logger = Logger.getLogger(ReadAccess.class);
+    static final Logger logger = LoggerFactory.getLogger(ReadAccess.class);
 //    Connection conn;
 
 
@@ -152,10 +153,10 @@ public class ReadAccess {
 //            CheckinOutService checkinOutService =new CheckinOutService();
             checkinOutService.initConnection2Access(mdbFile);
             // initConnection2Access(mdbFile);//开始连接数据库
-         //   checkinOutService.initUser();//根据userInfo 获取有效用户
+           checkinOutService.initUser();//根据userInfo 获取有效用户
           //  ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
             // 从现在开始1秒钟之后，每隔1秒钟执行一次job1
-            new PushByModifyThread(checkinOutService).run();
+           // new PushByModifyThread(checkinOutService).run();
 //            service.scheduleAtFixedRate(
 //                    new PushByModifyThread(checkinOutService), 60,
 //                    1440, TimeUnit.SECONDS);

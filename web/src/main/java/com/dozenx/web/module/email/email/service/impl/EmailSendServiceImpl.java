@@ -110,11 +110,13 @@ public class EmailSendServiceImpl extends BaseService implements EmailSendServic
                     ConfigUtil.getConfig("email.pwd"),//密码
                     ConfigUtil.getConfig("email.user"));
             if (("true").equals(ConfigUtil.getConfig("email.ssl"))) {//如果启动了ssl 要设置为true
+                logger.info("use ssl");
                 tempMailSenderInfo.setSsl(true);
             }
             tempMailSenderInfo.setDebug(ConfigUtil.getConfig("email.debug"));
             this.globalMailSenderInfo = tempMailSenderInfo;
         }
+        logger.info("email.ssl"+ConfigUtil.getConfig("email.ssl"));
         //复制一个唯一的对象给发送邮件用
         MailSenderInfo mailSenderInfo = globalMailSenderInfo.clone();
         return mailSenderInfo;

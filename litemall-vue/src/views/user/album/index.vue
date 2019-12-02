@@ -1,6 +1,6 @@
 <template>
   <div class="order_list">
-<van-field
+<van-field style="display:none"
   readonly
   clickable
   label="所属部门"
@@ -67,7 +67,11 @@ export default {
              var list =new Array();
                 console.log("list结果",res.data.data);
                 for(var i=0;i<res.data.data.length;i++){
-                    list.push({url:"/home/"+res.data.data[i].face});
+                    var url= res.data.data[i].face;
+                    if(url.indexOf("http://192.168.188.21:2019")>-1){
+                           url=url.replace("http://192.168.188.21:2019","https://kq.51iwifi.com");
+                    }
+                    list.push({url:url});
                 }
                   console.log("fileList",this.fileList );
                 this.fileList = list;
@@ -94,7 +98,7 @@ export default {
     imageUploadIndex(fd).then(res => {
         console.log("上传结果",res);
 
-        this.fileList[this.fileList.length-1]= { url: "/home/"+res.data.data };
+        this.fileList[this.fileList.length-1]= { url: res.data.data };
         console.log("fileList",fileList);
       }).catch(error => {
         Toast.fail(error.data.errmsg);
@@ -102,22 +106,22 @@ export default {
   },
   submit(){
     //提交这个fileList;
-    if(!this.value){
-        Toast.fail("请先选择部门!");
-        return;
-    }
-     var  groupId =25;
+    //if(!this.value){
+   //     Toast.fail("请先选择部门!");
+     //   return;
+   //}
+    // var  groupId =25;
 
-    if(this.value==网金){
-        groupId=26;
-    }else{
-        groupId=25;
-    }
+    //if(this.value=="网金"){
+    //    groupId=26;
+    //}else{
+    //    groupId=25;
+    //}
     var  urlList = new Array();
     for(var i=0;i<this.fileList.length;i++){
         urlList.push(this.fileList[i].url);
     }
-      faceBatchUpdate({groupId:groupId,faces:urlList}).then(res => {
+      faceBatchUpdate({faces:urlList}).then(res => {
                console.log("上传结果",res);
                  Toast.fail("提交成功");
           }).catch(error => {

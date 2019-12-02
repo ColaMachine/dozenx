@@ -7,27 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>登录</title>
 
-    <link rel="stylesheet" type="text/css" href="/mssrv/static/css/main.css" >
-    <link rel="stylesheet" type="text/css" href="/mssrv/static/css/widget.css" >
-      <link rel="stylesheet" type="text/css" href="/mssrv/static/css/login.css" >
-        <link rel="stylesheet" type="text/css" href="/mssrv/static/css/bootstrap.min.css" >
-    <link rel="stylesheet" type="text/css" href="/mssrv/static/css/style.css" >
-      <link rel="stylesheet" type="text/css" href="/mssrv/static/css/custom.css" >
+    <link rel="stylesheet" type="text/css" href="${path}/static/css/main.css" >
+    <link rel="stylesheet" type="text/css" href="${path}/static/css/widget.css" >
+      <link rel="stylesheet" type="text/css" href="${path}/static/css/login.css" >
+        <link rel="stylesheet" type="text/css" href="${path}/static/css/bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="${path}/static/css/style.css" >
+      <link rel="stylesheet" type="text/css" href="${path}/static/css/custom.css" >
 
     <script type="text/javascript" >
-    var PATH="/mssrv";
+    var PATH="${path}";
     </script>
-    <script src="/mssrv/static/js/jquery.min.js" type="text/javascript"
+     <script src="${path}/static/js/dom.js" type="text/javascript"
+                            charset="utf-8"></script>
+    <script src="${path}/static/js/jquery.min.js" type="text/javascript"
             charset="utf-8"></script>
-    <script src="/mssrv/static/js/zlogin.js" type="text/javascript"
+    <script src="${path}/static/js/zlogin.js" type="text/javascript"
             charset="utf-8"></script>
-            <script src="/mssrv/static/js/dom.js" type="text/javascript"
-                        charset="utf-8"></script>
-      <script src="/mssrv/static/js/zwcommon.js" type="text/javascript"
+
+      <script src="${path}/static/js/zwcommon.js" type="text/javascript"
                 charset="utf-8"></script>
-                   <script src="/mssrv/static/js/layer.js" type="text/javascript"
+                   <script src="${path}/static/js/layer.js" type="text/javascript"
                                 charset="utf-8"></script>
-                                 <script src="/mssrv/static/js/jquery.md5.js" type="text/javascript"
+                                 <script src="${path}/static/js/jquery.md5.js" type="text/javascript"
                                                                 charset="utf-8"></script>
 <style type="text/css">
 .help-block-left-animation{
@@ -89,7 +90,7 @@
                         <p class="text-muted text-center">
                             <small>没有账号?</small>
                         </p>
-                        <a class="btn btn-sm btn-white btn-block" href="/mssrv/sys/auth//register.htm">创建一个账号</a>
+                        <a class="btn btn-sm btn-white btn-block" href="${path}/sys/auth//register.htm">创建一个账号</a>
                     </form>
                     <p class="m-t">
                         <small>为了您的愉悦体验,欢迎反馈您的使用体验 © 2015</small>
@@ -122,7 +123,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="forgetPwdForm" style="" class="form-signin"
-                          action="/mssrv/pwdrestPost" method="post">
+                          action="${path}/pwdrestPost" method="post">
                         <div class="form-group">
 
 
@@ -170,15 +171,15 @@
         </div>
 
 </div>
-   <script src="/mssrv/static/js/icheck.min.js"></script>
+   <!--<script src="${path}/static/js/icheck.min.js"></script> -->
     <script>
-
+/*
         $(document).ready(function(){
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green'
             });
-        });
+        });*/
     </script>
 
 

@@ -1,8 +1,10 @@
 package com.dozenx.web.core.auth.action;
 
-import com.dozenx.swagger.annotation.*;
 import com.dozenx.common.config.SysConfig;
+import com.dozenx.common.util.MD5Util;
+import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.StringUtil;
+import com.dozenx.swagger.annotation.*;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.service.AuthService;
 import com.dozenx.web.core.auth.session.SessionUser;
@@ -21,11 +23,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 //import com.dozenx.web.module.merchant.bean.SessionDTO;
 //import com.dozenx.web.third.weixin.WeixinConstants;
@@ -60,7 +66,7 @@ public class RegisterController extends BaseController {
      */
     @RequestMapping(value = "/htm", method = RequestMethod.GET)
     public ModelAndView registerGet(HttpServletRequest request, Model model) {
-        return new ModelAndView( "registerWithEmail","path", SysConfig.PATH);
+        return new ModelAndView("registerWithEmail", "path", SysConfig.PATH);
     }
 
 
@@ -72,6 +78,8 @@ public class RegisterController extends BaseController {
      * @author dozen.zhang
      * @date 2015年5月14日上午11:34:13
      */
+
+
     @RequestMapping(value = "/registerPost.json", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -124,18 +132,18 @@ public class RegisterController extends BaseController {
         if (!result.isRight()) {
             return result;
         }
-        result = this.userService.saveRegisterUserWithEamilCode(user,request.getParameter("emailCode"));// .loginValid(loginName,
+        result = this.userService.saveRegisterUserWithEamilCode(user, request.getParameter("emailCode"));// .loginValid(loginName,
         // pwd);
         if (result.isRight()) {
-            HttpSession session = request.getSession();
-            user.setPassword("");
-            // user.setStatus(1);
-            session.setAttribute("user", user);
+            this.setUser(request,user.getSessionUser());
+//            HttpSession session = request.getSession();
+//            user.setPassword("");
+//            // user.setStatus(1);
+//            session.setAttribute("user", user);
         }
         return result;
 
     }
-
 
 
     /**
@@ -169,7 +177,7 @@ public class RegisterController extends BaseController {
         ValidateUtil vu = new ValidateUtil();
         String validStr = "";
 
-        vu.add("email", email, "邮箱", new Rule[]{new Required(), new Length(20), new NotEmpty(),new EmailRule()});
+        vu.add("email", email, "邮箱", new Rule[]{new Required(), new Length(20), new NotEmpty(), new EmailRule()});
         vu.add("password", password, "密码", new Rule[]{new Required(), new Length(50), new NotEmpty()});
 
         try {
@@ -198,13 +206,14 @@ public class RegisterController extends BaseController {
         if (!result.isRight()) {
             return result;
         }
-            result = this.userService.saveRegisterUserWithEamilCode(user,emailCode);// .loginValid(loginName,
+        result = this.userService.saveRegisterUserWithEamilCode(user, emailCode);// .loginValid(loginName,
         // pwd);
         if (result.isRight()) {
-            HttpSession session = request.getSession();
-            user.setPassword("");
-            // user.setStatus(1);
-            session.setAttribute("user", user);
+            this.setUser(request,user.getSessionUser());
+//            HttpSession session = request.getSession();
+//            user.setPassword("");
+//            // user.setStatus(1);
+//            session.setAttribute("user", user);
         }
         return result;
 
@@ -218,15 +227,19 @@ public class RegisterController extends BaseController {
      * @author dozen.zhang
      * @date 2015年5月14日上午11:34:13
      */
+
+    @API(summary = "用户注册验证码获取接口",
+            consumes = "application/json",
+            description = "sysRoleController 角色添加接口", parameters = {
+            @Param(name = "email", description = "邮件"
+                    , dataType = DataType.STRING, in = InType.query, required = true),
+    })
     @RequestMapping(value = "/email/code.json", method = RequestMethod.GET)
-    public
     @ResponseBody
-    ResultDTO sendEmailCode(HttpServletRequest request) {
-       String email =request.getParameter("email");
+    public ResultDTO sendEmailCode(HttpServletRequest request) {
+        String email = request.getParameter("email");
         return userService.sendEmailCode(email);
-
     }
-
 
 
     /**
@@ -289,10 +302,11 @@ public class RegisterController extends BaseController {
         result = this.userService.saveRegisterUserSimple(user);// .loginValid(loginName,
         // pwd);
         if (result.isRight()) {
-            HttpSession session = request.getSession();
-            user.setPassword("");
-            // user.setStatus(1);
-            session.setAttribute(Constants.SESSION_USER, user);
+//            HttpSession session = request.getSession();
+//            user.setPassword("");
+//            // user.setStatus(1);
+//            session.setAttribute(Constants.SESSION_USER, user);
+            this.setUser(request,user.getSessionUser());
         }
         return result;
 
@@ -344,6 +358,7 @@ public class RegisterController extends BaseController {
         return result;
     }
 
+
     @RequestMapping(value = "/validPhone.json", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -355,15 +370,16 @@ public class RegisterController extends BaseController {
         // 两次密码输入是否相同
         // 密码是否有效
         // 验证码是否有效
-        HttpSession session = request.getSession();
-        SysUser user = (SysUser) session.getAttribute("user");
+//        HttpSession session = request.getSession();
+//        SysUser user = (SysUser) session.getAttribute("user");
+        SessionUser user = this.getUser(request);
         if (user == null) {
             return ResultUtil.getResult(300, "未登陆");
         }
-        if (StringUtil.isBlank(user.getTelno())) {
+        if (StringUtil.isBlank(user.getPhone())) {
             return ResultUtil.getResult(301, "手机号未填写");
         }
-        String phone = user.getTelno();
+        String phone = user.getPhone();
         // String phone = request.getParameter("phone");
         String smsCaptcha = request.getParameter("smsCaptcha");
         if (StringUtil.isBlank(smsCaptcha) || smsCaptcha.length() < 4 || smsCaptcha.length() > 12) {
@@ -380,16 +396,82 @@ public class RegisterController extends BaseController {
             return ResultUtil.getResult(301, "手机已验证过了");
         }
         status = status | 1;
-        userService.updateStatus(status, user.getId());
+        userService.updateStatus(status, user.getUserId());
         //result = this.userService.saveRegisterUser(user);// .loginValid(loginName,
         // pwd);
         if (result.isRight()) {
-
-            user.setPassword("");
             user.setStatus(status);
-            session.setAttribute("user", user);
+        this.setUser(request,user);
         }
         return result;
     }
+
+    @API(summary = "用户通过短信验证码注册手机和密码",
+            consumes = "application/json",
+            description = " 用户登录接口", parameters = {
+            @Param(name = "body", description = "用户登录json", schema = "{ \"phone\":\"手机号\", \"pwd\": \"未加密密码\", \"smsCaptcha\": \"\"}", in = InType.body, dataType = DataType.STRING, required = true),
+    })
+    @RequestMapping(value = "/phone/pwd/sms", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResultDTO registerByPhoneAndPwdAndSmsCode(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+        // 新注册的用户激活状态为false
+        // 判断邮箱是否邮箱
+        // 判断用户名是否有效
+        // 判断注册邮箱是否重复
+
+        // 两次密码输入是否相同
+        // 密码是否有效
+        // 验证码是否有效
+        String phone = this.getSessionAttribute(request, "phone", String.class);    //手机号码
+        String password = MapUtils.getString(bodyParam, "pwd");      //密码
+        String smsCaptcha = MapUtils.getString(bodyParam, "smsCaptcha");    // 短信验证码
+        // String smsCaptcha = request.getParameter("smsCaptcha");
+        String sessionid = request.getRequestedSessionId();
+
+        ValidateUtil vu = new ValidateUtil();
+        String validStr = "";
+
+        vu.add("phone", phone, "用户名", new Rule[]{new Required(), new PhoneRule(), new NotEmpty()});
+        vu.add("password", password, "密码", new Rule[]{new Required(), new Length(50), new NotEmpty()});
+
+        try {
+            validStr = vu.validateString();
+        } catch (Exception e) {
+
+            return ResultUtil.getResult(302, "验证参数错误");
+        }
+        if (StringUtil.isNotBlank(validStr)) {
+            return ResultUtil.getResult(302, validStr);
+        }
+
+
+        SysUser user = new SysUser();
+        user.setPassword(password);
+        user.setAccount(phone);
+        user.setUsername(phone);
+        if (StringUtil.isPhone(phone)) {
+            user.setTelno(phone);
+        } else {
+            return ResultUtil.getResult(30106113, "手机号输入错误");
+        }
+        ResultDTO result = validCodeService.validCode("calendar", phone, smsCaptcha, true);
+
+        if (!result.isRight()) {
+            return result;
+        }
+        result = this.userService.addSmsValidUnEncrypedRegisterUser(user);// .loginValid(loginName,
+        // pwd);
+        if (result.isRight()) {
+            this.setUser(request,user.getSessionUser());
+//            HttpSession session = request.getSession();
+//            user.setPassword("");
+//            // user.setStatus(1);
+//            session.setAttribute("user", user);
+        }
+        return result;
+
+    }
+
 
 }

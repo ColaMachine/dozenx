@@ -1,5 +1,17 @@
 <template>
   <div class="order_list">
+<van-button type="primary" @click="showPopup">
+选择月份
+ </van-button>
+
+ <van-popup   :style="{ width: '90%' }" v-model="show">
+ <van-datetime-picker
+                             v-model="selectDay"
+                             type="year-month"
+                               @confirm="confirm"
+                             :formatter="formatter"
+                           /></van-popup>
+
     <van-tabs v-model="activeIndex"
               :swipe-threshold="5"
               @click="handleTabClick">
@@ -13,51 +25,19 @@
                   @load="getOrderList">
           <van-panel v-for="(el, i) in orderList"
                      :key="i"
-                     :title="'订单编号: ' + el.orderSn"
+                     :title="'日期'+el.date"
                      :status="el.orderStatusText"
-                     @click.native="toOrderDetail(el.id)">
-            <van-card v-for="(goods, goodsI) in el.goodsList"
-                      :key="goodsI"
-                      :title="goods.goodsName"
-                      :num="goods.number"
-                      :thumb="goods.picUrl">
-              <div slot="desc">
-                <div class="desc">
-                  <van-tag plain
-                           style="margin-right:6px;"
-                           v-for="(spec, index) in goods.specifications"
-                           :key="index">
-                    {{spec}}
-                  </van-tag>
-                </div>
-              </div>
-            </van-card>
-            <div class="total">合计: {{el.actualPrice * 100 | yuan}}（含运费{{el.post_fee | yuan}}）</div>
+                   >
 
-            <div slot="footer"
-                 class="footer_btn">
-              <van-button size="small"
-                          v-if="el.handleOption.cancel"
-                          @click="cancelOrder(el.id)">取消订单</van-button>
-              <van-button size="small"
-                          v-if="el.handleOption.pay"
-                          type="danger"
-                          @click="toPay(el.id)">去支付</van-button>
-              <van-button size="small"
-                          v-if="el.handleOption.refund"
-                          type="danger"
-                          @click="refundOrder(el.id)">退款</van-button>
-              <van-button size="small"
-                          v-if="el.handleOption.confirm"
-                          type="danger"
-                          @click="confirmOrder(el.id)">确认收货</van-button>
-              <van-button size="small"
-                          v-if="el.handleOption.delete"
-                          @click="delOrder(el.id)">删除订单</van-button>
-              <van-button size="small"
-                          v-if="el.handleOption.comment"
-                          @click="commentOrder(el.id)">去评价</van-button>
-            </div>
+                    <van-tag plain
+                                              style="margin-right:6px;"
+                                              v-for="(goods, goodsI) in el.ary"
+                                              :key="index">
+                                       {{goods.title}}
+                                     </van-tag>
+
+
+
 
           </van-panel>
 
@@ -69,10 +49,15 @@
 </template>
 
 <script>
-import { orderList, orderDelete, orderConfirm, orderCancel, orderRefund } from '@/api/api';
+import { kqList } from '@/api/api';
 import _ from 'lodash';
-import { Tab, Tabs, Panel, Card, List, Tag } from 'vant';
 
+
+import { Tab, Tabs, Panel, Card, List, Tag ,DatetimePicker,Popup} from 'vant';
+
+
+
+import {DateUtil} from '../../../DateUtils.js';
 export default {
   name: 'order-list',
 
@@ -88,16 +73,38 @@ export default {
   data() {
     return {
       activeIndex: Number(this.active),
-      tabTitles: ['全部', '待付款', '待发货', '待收货', '待评价'],
+      tabTitles: ['考勤机', '摄像头', '迟到'],
       orderList: [],
       page: 0,
       limit: 10,
       loading: false,
-      finished: false
+      finished: false,
+       selectDay:new Date(),
+      dummyDay:new Date(),
+        show: false
     };
   },
 
   methods: {
+   showPopup() {
+        this.show = true;
+      },
+  confirm(){
+    this.show=false;
+    this.dummyDay=this.selectDay;
+    this.getOrderList();
+    console.log("confirm");
+  },
+    formatter(type, value) {
+        if (type === 'year') {
+          return `${value}年`;
+        } else if (type === 'month') {
+          return `${value}月`
+        }
+        return value;
+      },
+
+
     init() {
       this.page = 0;
       this.orderList = [];
@@ -105,78 +112,82 @@ export default {
     },
     getOrderList() {
       this.page++;
-      orderList({
+      kqList({
+
+       STARTDATE : parseInt(DateUtil.getFirstMonthDay(this.dummyDay).getTime() / 60000),
+        ENDDATE : parseInt((DateUtil.getLastMonthDay(this.dummyDay).getTime() + 24 * 60 * 60 * 1000) / 60000),
         showType: this.activeIndex,
         page: this.page,
         limit: this.limit
       }).then(res => {
-        this.orderList.push(...res.data.data.list);
+        console.log("结果");
+        console.log(res.data);
+
+       //按照天组合在一起
+        var dateAry = new Array();
+        var nowDate;
+        var nowAry=[];
+        var monthDay = DateUtil.CaculateMonthDays(this.dummyDay.getYear(),this.dummyDay.getMonth()+1);
+var firstDay = DateUtil.getFirstMonthDay(this.dummyDay);
+
+        for(var i=0;i<monthDay;i++){
+
+       var newDay =  DateUtil.DateAdd(firstDay,i);
+            dateAry .push({date:newDay.format("yyyy-MM-dd"),ary:new Array()});
+        }
+        for(var i=0;i<res.data.data.length;i++){
+            var ce = this.changeJson2CE(res.data.data[i]);
+           // console.log(ce.day.getDate());
+         //    console.log(dateAry[ ce.day.getDay()]);
+         console.log(ce.day.getDate());
+           dateAry[ ce.day.getDate()-1].ary.push(ce);
+            /*if(nowDate!= ce.startDay){
+                nowDate = ce.startDay;
+                nowAry=[];
+                dateAry.ary.push({date:nowDate,ary:nowAry});
+            }*/
+           // nowAry.push(ce);
+          //  this.orderList.push(ce);
+        }
+       // this.orderList.push(...res.data.data);
+        this.orderList = dateAry;
         this.loading = false;
-        this.finished = res.data.data.page >= res.data.data.pages;
+         this.finished = true;
+       // this.finished = res.data.data.page >= res.data.data.pages;
+        console.log(this.orderList);
       });
     },
-    delOrder(id) {
-      let that = this;
-      this.$dialog
-        .confirm({ message: '确定要删除该订单吗?' })
-        .then(() => {
-          orderDelete({ orderId: id }).then(() => {
-            this.init();
-            this.$toast('已删除订单');
-          });
-        })
-        .catch(() => {});
-    },
-    cancelOrder(id) {
-      this.$dialog
-        .confirm({ message: '确定要取消该订单吗?' })
-        .then(() => {
-          orderDelete({ orderId: id }).then(() => {
-            this.init();
-            this.$toast('已取消该订单');
-          });
-        })
-        .catch(() => {});
-    },
-    refundOrder(id) {
-      this.$dialog
-        .confirm({ message: '确定要申请退款吗?' })
-        .then(() => {
-          orderRefund({ orderId: id }).then(() => {
-            this.init();
-            this.$toast('已申请订单退款');
-          });
-        })
-        .catch(() => {});
-    },    
-    confirmOrder(id) {
-      this.$dialog
-        .confirm({
-          message: '请确认收到货物, 确认收货后无法撤销!'
-        })
-        .then(() => {
-          orderConfirm({ orderId: id }).then(() => {
-            this.init();
-            this.$toast('已确认收货');
-          });
-        })
-        .catch(() => {});
-    },
-    commentOrder(id) {},
-    toPay(id) {
-      this.$router.push({ name: 'payment', params: { orderId: id } });
-    },
+
+
+ changeJson2CE:function (data) {
+  var ce = {};
+  ce.id = data.id; //对应数据库id
+
+  ce.title = data.title; //对应数据库标题
+  ce.startDay = ce.day = new Date(data.startTime * 60000).format("yyyy-MM-dd"); //对应开始日期 yyyy-MM-dd
+ce.day = new Date(data.startTime * 60000);
+  ce.startTimeSV = new Date(data.startTime * 60000).format("HH:mm"); //对应开始日期 小时分钟
+
+  ce.endTimeSV = new Date(data.endTime * 60000).format("HH:mm"); //对应结束时间 小时分钟
+  ce.endDay = new Date(data.endTime * 60000).format("yyyy-MM-dd"); //对应结束日期
+  console.log((data.startTime % (24 * 60) / 60) + ":" + (data.startTime % (60)));
+
+  ce.startTime = data.startTime % (24 * 60);
+  ce.endTime = data.endTime % (24 * 60);
+  ce.isdel = data.isdel;
+  ce.data = data;
+  ce.type=data.type;
+   ce.edit=data.edit;
+  //{"r":0,"data":[{"isdel":false,"title":"123","id":201641653,"startTime":24347040,"endTime":24347100,"address":null,"userId":7,"description":null,"type":0,"privacy":0,"busyLevel":null}],"msg":null,"page":null,"right":true}
+  return ce;
+},
+
     handleTabClick() {
       this.page = 0;
       this.orderList = [];
       this.getOrderList();
-    },
-    toOrderDetail(id) {
-      this.$router.push({
-        path: '/order/order-detail',
-        query: { orderId: id }
-      });
     }
+
   },
   components: {
     [Tab.name]: Tab,
@@ -184,7 +195,11 @@ export default {
     [Panel.name]: Panel,
     [Card.name]: Card,
     [List.name]: List,
-    [Tag.name]: Tag
+    [Tag.name]: Tag,
+     [DatetimePicker.name]: DatetimePicker,
+      [Popup.name]: Popup,
+
+
   }
 };
 </script>

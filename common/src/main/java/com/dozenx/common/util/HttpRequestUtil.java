@@ -286,12 +286,12 @@ public class HttpRequestUtil {
                 result.append(line);
             }
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + urlNameString + " \n cost time:" + (endTime - startTime) + "\n result:" + result);
+            logger.debug("success to httpget \n" + urlNameString + " \n cost time:" + (endTime - startTime) + "\n result:" + result);
 
         } catch (Exception e) {
             // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
-            //   logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //   logger.debug("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
             logger.error("send http get error ", e);
             return "400";
@@ -336,11 +336,11 @@ public class HttpRequestUtil {
 
             String responseCookie = connection.getHeaderField("Set-Cookie");// 取到所用的Cookie
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (IOException e) {
             // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
-            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.debug("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
             logger.error("send http get error " + url, e);
@@ -387,11 +387,11 @@ public class HttpRequestUtil {
 
             String responseCookie = connection.getHeaderField("Set-Cookie");// 取到所用的Cookie
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
             // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
-            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.debug("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
             logger.error("send http get error " + url, e);
@@ -441,11 +441,11 @@ public class HttpRequestUtil {
 
             String responseCookie = connection.getHeaderField("Set-Cookie");// 取到所用的Cookie
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
             // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
-            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.debug("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
             logger.error("send http get error " + url, e);
@@ -503,11 +503,11 @@ public class HttpRequestUtil {
             cookieMap.putAll(newCookieMap);
 
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
             // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
-            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.debug("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
             logger.error("send http get error " + url, e);
@@ -564,11 +564,11 @@ public class HttpRequestUtil {
             cookieMap.putAll(newCookieMap);
 
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
             // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
-            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.debug("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
             logger.error("send http get error " + url, e);
@@ -720,11 +720,11 @@ public class HttpRequestUtil {
                 }
             }
 
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:" + result);
         } catch (Exception e) {
             // logger.debug("发送GET请求出现异常！" + e);
             Long endTime = System.currentTimeMillis();
-            //logger.info("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
+            //logger.debug("fail to httpget \n "+url+"   cost time:"+(endTime-startTime));
             //logger.error("send http get error use url: "+url+"error :"+e.getMessage());
             // logger.error("send http get error use url: "+url+"error :"+"cost time:"+(endTime-startTime),e);
             logger.error("send http get error " + url, e);
@@ -879,7 +879,7 @@ public class HttpRequestUtil {
             }
 
             String session_value = conn.getHeaderField("Set-Cookie");
-            logger.info("session_value" + session_value);
+            logger.debug("session_value" + session_value);
             conn.disconnect();
         } catch (Exception e) {
             // //logger.debug("发送 POST 请求出现异常！" + e);
@@ -1733,17 +1733,17 @@ public class HttpRequestUtil {
         bufferedWriter.flush();
         StringBuffer receiveData = new StringBuffer();
         String s = "";
-        //logger.info(sb.toString());
+        //logger.debug(sb.toString());
         boolean bodyStart = false;
         boolean chunked = false;
         // logger.debug("get开始接收数据");
-        logger.info("get begin receive , timelapse:" + (System.currentTimeMillis() - startTime));
+        logger.debug("get begin receive , timelapse:" + (System.currentTimeMillis() - startTime));
         while (null != (s = bufferedReader.readLine())) {
-            logger.info(s);
-            //logger.info("请求返回结果:"+s);
-            //logger.info("get receive:" + s);
+            logger.debug(s);
+            //logger.debug("请求返回结果:"+s);
+            //logger.debug("get receive:" + s);
             if (StringUtil.checkAlphaNumeric(s) && s.length() == 4) {
-                logger.info("this maybe chunksize:" + s);
+                logger.debug("this maybe chunksize:" + s);
             }
             if (bodyStart) {
                 if (chunked) {
@@ -1758,7 +1758,7 @@ public class HttpRequestUtil {
                             logger.error("chun数字后应该跟着的是 in chunked:"+s);
                         }*/
 
-                        logger.info("chunk size" + numStr + " num:" + num);
+                        logger.debug("chunk size" + numStr + " num:" + num);
                         if (num == 0) {
                             break;
                         }
@@ -1766,13 +1766,13 @@ public class HttpRequestUtil {
                         int chunkSum = 0;
                         while (/*data.length()<num*/chunkSum < num && (s = bufferedReader.readLine()) != null) {
                             if (StringUtil.checkAlphaNumeric(s) && s.length() > 0 && s.length() <= 4) {
-                                logger.info("chunkSum:" + chunkSum + " chunksize:" + num);
-                                logger.info("this maybe chunksize in chunk loop:" + s);
+                                logger.debug("chunkSum:" + chunkSum + " chunksize:" + num);
+                                logger.debug("this maybe chunksize in chunk loop:" + s);
                             }
                             chunkSum += s.getBytes("gbk").length + 2;
-                            logger.info("chunkSum:" + chunkSum + " chunksize:" + num + "conent:" + s);
+                            logger.debug("chunkSum:" + chunkSum + " chunksize:" + num + "conent:" + s);
                             data +=/*new String(s.getBytes(charset),charset)*/s + "\r\n";
-                            //logger.info("post receive:" + s+" data length:"+data.length());
+                            //logger.debug("post receive:" + s+" data length:"+data.length());
                         }
                         receiveData.append(data).append("\r\n");
                         continue;
@@ -1801,7 +1801,7 @@ public class HttpRequestUtil {
 
         }
 
-        logger.info("get receive data complete" + (System.currentTimeMillis() - startTime));
+        logger.debug("get receive data complete" + (System.currentTimeMillis() - startTime));
         return receiveData.toString();
 
 
@@ -1896,18 +1896,18 @@ public class HttpRequestUtil {
         bufferedWriter.flush();
         StringBuffer receiveData = new StringBuffer();
         String s = "";
-        // logger.info(sb.toString());
+        // logger.debug(sb.toString());
         boolean bodyStart = false;
         boolean chunked = false;
 
         //Transfer-Encoding:chunked
 
-        logger.info("post begin receive,timelapse:" + (System.currentTimeMillis() - startTime));
+        logger.debug("post begin receive,timelapse:" + (System.currentTimeMillis() - startTime));
         while (null != (s = bufferedReader.readLine())) {
 
-            //logger.info(s);
+            //logger.debug(s);
             //  logger.debug(s);
-            logger.info("post receive:" + s);
+            logger.debug("post receive:" + s);
             if (bodyStart) {
                 if (chunked) {
                     String numStr = s;
@@ -1915,7 +1915,7 @@ public class HttpRequestUtil {
                         continue;
                     }
                     int num = Integer.parseInt(numStr, 16);
-                    logger.info("chunk size" + numStr + " " + num);
+                    logger.debug("chunk size" + numStr + " " + num);
                     if (num == 0) {
                         break;
                     }
@@ -1925,8 +1925,8 @@ public class HttpRequestUtil {
 
                         data += s + "\r\n";
                         //totalLength += s.getBytes(charset).length+2;
-                        //logger.info("totalLength:"+totalLength);
-                        logger.info("post receive:" + s + " data length:" + data.length());
+                        //logger.debug("totalLength:"+totalLength);
+                        logger.debug("post receive:" + s + " data length:" + data.length());
                     }
                     receiveData.append(s).append("\r\n");
                     continue;
@@ -1951,7 +1951,7 @@ public class HttpRequestUtil {
             }
 
         }
-        logger.info("post receive data complete:" + (System.currentTimeMillis() - startTime));
+        logger.debug("post receive data complete:" + (System.currentTimeMillis() - startTime));
         return receiveData.toString();
 
 
@@ -2334,7 +2334,7 @@ public class HttpRequestUtil {
 
 
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:");
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:");
         } catch (Exception e) {
             logger.error("send http get error " + url, e);
             throw new IOException(e.getMessage());
@@ -2386,7 +2386,7 @@ public class HttpRequestUtil {
 
 
             Long endTime = System.currentTimeMillis();
-            logger.info("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:");
+            logger.debug("success to httpget \n" + url + "  cost time:" + (endTime - startTime) + "\n result:");
 
             return in;
             //开始往外输出文件

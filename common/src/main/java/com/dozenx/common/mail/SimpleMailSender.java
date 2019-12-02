@@ -36,6 +36,7 @@ public class SimpleMailSender {
         // 判断是否需要身份认证
         MyAuthenticator authenticator = null;
         Properties pro = mailInfo.getProperties();
+        logger.info((String)pro.get("mail.smtp.ssl.enable"));
         if (mailInfo.isValidate()) {
             // 如果需要身份认证，则创建一个密码验证器
             authenticator = new MyAuthenticator(mailInfo.getUserName(), mailInfo.getPassword());

@@ -26,6 +26,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.*;
 
+import static com.dozenx.web.core.location.service.LocationService.codeNameMap;
+
 @Service(value = "loctionApiService")
 public class LoctionApiService extends BaseService {
     /**
@@ -68,37 +70,39 @@ public class LoctionApiService extends BaseService {
         RedisUtil.hmsetBatch(cacheLocationMap, RedisConstants.LOCATION_TIME);//redis缓存
     }
 
-
+    private static final Object  lock =new Object();
     public synchronized void cacheJsonStr(){
         //这里会导致再次启动系统就没有idNameMap值了
-        String flag = RedisUtil.get(RedisConstants.LOCATION_CHILDS+1);
-        if(StringUtil.isNotBlank(flag)){
-            return ;
-        }
-        Map<Long,Location> allLocationMap = getAllLocationBean();//全部地区
+        synchronized (lock) {
 
-        String key;//获取地区key前缀
-        Long id;//地区主键
-        Long parentId;//父id
-       Location locationMap;//地区map
-        Map<Long,List<Location>> parentId2ChildLocationsMap = new LinkedHashMap<Long,List<Location>>();
-
-        //组装child数据
-
-        for(Location location:getAllLocationList()){
-
-            parentId = location.getParentId();//获取父id
-            if(parentId == null){//如果为空，跳过本次循环
-                continue;
+            String flag = RedisUtil.get(RedisConstants.LOCATION_CHILDS + 1);
+            if (StringUtil.isNotBlank(flag)) {
+                return;
             }
-            List<Location> childList = parentId2ChildLocationsMap.get(parentId);
-            if(childList!=null ){
-                childList.add(location);
-            }else{
-                childList =new ArrayList<Location>();
-                parentId2ChildLocationsMap.put(parentId,childList);
+            Map<Long, Location> allLocationMap = getAllLocationBean();//全部地区
+
+            String key;//获取地区key前缀
+            Long id;//地区主键
+            Long parentId;//父id
+            Location locationMap;//地区map
+            Map<Long, List<Location>> parentId2ChildLocationsMap = new LinkedHashMap<Long, List<Location>>();
+
+            //组装child数据
+
+            for (Location location : getAllLocationList()) {
+
+                parentId = location.getParentId();//获取父id
+                if (parentId == null) {//如果为空，跳过本次循环
+                    continue;
+                }
+                List<Location> childList = parentId2ChildLocationsMap.get(parentId);
+                if (childList != null) {
+                    childList.add(location);
+                } else {
+                    childList = new ArrayList<Location>();
+                    parentId2ChildLocationsMap.put(parentId, childList);
+                }
             }
-        }
      /*   for(Map.Entry<Long, Location> entry : allLocationMap.entrySet()){//循环map
             id = entry.getKey();//获取地区主键id
             locationMap = entry.getValue();//获取地区属性
@@ -115,14 +119,14 @@ public class LoctionApiService extends BaseService {
             }
 
         }*/
-        //将childs json 数据存入到redis
-        for(Map.Entry<Long, List<Location>> entry : parentId2ChildLocationsMap.entrySet()){//循环map
-            id = entry.getKey();//获取地区主键id
-            List<Location> list  = entry.getValue();//获取地区属性
-            RedisUtil.setex(RedisConstants.LOCATION_CHILDS+id,JsonUtil.toJsonString(list),RedisConstants.DAY_SECONDS*3);
+            //将childs json 数据存入到redis
+            for (Map.Entry<Long, List<Location>> entry : parentId2ChildLocationsMap.entrySet()) {//循环map
+                id = entry.getKey();//获取地区主键id
+                List<Location> list = entry.getValue();//获取地区属性
+                RedisUtil.setex(RedisConstants.LOCATION_CHILDS + id, JsonUtil.toJsonString(list), RedisConstants.DAY_SECONDS * 3);
 
+            }
         }
-
 
     }
 
@@ -281,6 +285,8 @@ public class LoctionApiService extends BaseService {
     //    Map<Long,Location> hasChildLocationBeanMap = new LinkedHashMap<Long,Location>();
         LocationService.idNameMap = new HashMap<Long ,String>();
         LocationService.nameIdMap = new HashMap<String,Long >();
+
+        codeNameMap = new HashMap<String ,String>();
         Map<String, Object> locationMap;
 
         for(Map<String,Object> map : locationList){
@@ -298,17 +304,30 @@ public class LoctionApiService extends BaseService {
             //在内存中维护一个快速名字id 对照表 2018年2月27日13:59:38
             LocationService.idNameMap.put(id,(String) map.get("area_name"));
             LocationService.nameIdMap.put((String) map.get("area_name"),id);
+
+
             Location location  = new Location();
             location.setId(id);
             location.setAreaName(MapUtils.getStringValue(map,"area_name"));
             location.setCode(MapUtils.getStringValue(map,"area_cn_code"));
             location.setType(MapUtils.getStringValue(map,"area_type"));
             location.setParentId(parentId);
+            if(StringUtil.isNotBlank(location.getCode())){
+                codeNameMap.put(location.getCode(),location.getAreaName());
+            }
+
+
 
             allLocationBeanMap.put(id, location);
+
+
+
             allLocationList.add(location);
 
         }
+
+        RedisUtil.hmset("location_code_name",codeNameMap,RedisConstants.DAY_SECONDS*3);
+       // RedisUtil.hmset("location_id_name",LocationService.idNameMap,RedisConstants.DAY_SECONDS*3);
         this.configFullNameBean(allLocationBeanMap);//配置地区全路径
         return allLocationBeanMap;
     }
@@ -434,5 +453,14 @@ public class LoctionApiService extends BaseService {
             }
         }
     }
+    public String getNameByCode(String code ){
+        String name=RedisUtil.hget("location_code_name",code);
+        if(StringUtil.isBlank(name)){
+            cacheJsonStr();
+             name=RedisUtil.hget("location_code_name",code);
+        }
+        return name;
+    }
+
 
 }

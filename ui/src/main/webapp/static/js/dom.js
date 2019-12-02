@@ -31,7 +31,148 @@ function getChild(parentNode,name){
     return null;
 
 }
+function $(str){
+    if(str.indexOf("input[name=")!=-1){
+        var firstIndex = str.indexOf("\'");
+        var name = str.substr(str.indexOf("\'")+1);
+        var secondIndex = name.indexOf("\'");
+        var name = name.substr(0,secondIndex);
+        console.log("name="+name);
 
+        return wrap(document.getElementsByName(name));
+    }
+    if(str.indexOf("#")!=-1){
+        return wrap(document.getElementById(str.substr(1)));
+    }
+    if(str.indexOf(".")!=-1){
+        return wrap(document.getElementsByClassName(str.substr(1)));
+    }
+}
+function wrap(object){
+    return new MyObject(object);
+}
+function MyObject (object){
+    this.obj = object;
+}
+
+ var isDOM = ( typeof HTMLElement === 'object' ) ?
+                function(obj){
+                    return obj instanceof HTMLElement;
+                } :
+                function(obj){
+                    return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
+                }
+
+MyObject.prototype.val = function(value){
+        if(!this.obj)return;
+    if(value){
+    if(this.obj instanceof NodeList){
+        for(var item in this.obj){
+
+            setValue(this.obj[item],value);
+        }
+        }else{
+            setValue(this.obj,value);
+
+        }
+        }else{
+        //获取值
+       if(this.obj instanceof NodeList){
+
+
+                 return getVal(this.obj[0]);
+
+              }else{
+                 return this.obj.value;
+
+              }
+
+        }
+    }
+MyObject.prototype.attr = function(attrKey,attrVal){
+ if(!this.obj)return;
+  if(attrVal || attrVal ==""){
+    if(this.obj instanceof NodeList){
+        for(var item in this.obj){
+            if( this.obj[item])
+            this.obj[item].setAttribute(attrKey,attrVal);
+           // setValue(this.obj[item],value);
+        }
+        }else{
+            if(this.obj)
+            this.obj.setAttribute(attrKey,attrVal);
+        }
+        }else{
+             if(this.obj instanceof NodeList){
+                    for(var item in this.obj){
+                        if( this.obj[item])
+                        return this.obj[item][attrKey];
+                       // setValue(this.obj[item],value);
+                    }
+                    }else{
+                        if(this.obj)
+                        return this.obj[attrKey];
+                    }
+
+        }
+    }
+
+    MyObject.prototype.text = function(value){
+      if(!this.obj)return;
+        if(value || value ==""){
+           if(this.obj instanceof NodeList){
+               for(var item in this.obj){
+
+                   this.obj[item].innerText =value;
+               }
+               }else{
+                        this.obj.innerText =value;
+
+               }
+               }else{
+               //获取值
+              if(this.obj instanceof NodeList){
+
+
+                        return this.obj[0].innerText;
+
+                     }else{
+                        return this.obj.innerText;
+
+                     }
+
+               }
+        }
+function setValue(item,value){
+    if (item && typeof item != 'undefineded') {
+
+
+if (item.tagName.toUpperCase() == 'INPUT' || item.tagName == 'TEXTAREA') {
+            				if(item.type.toUpperCase()=="RADIO"){
+                                if(item.value==value){
+                                    item.checked=true;
+                                }
+            				}else if(item.type.toUpperCase()=="CHECKBOX"){
+                                     if(item.value==value){
+                                        item.checked=true;
+                                    }
+                            }else{
+                                    item.value=value;
+                            }
+
+
+            			} else if (item.tagName.toUpperCase() == 'SELECT') {
+            				setSelectValue(item,value)
+            			} else if (ele.tagName.toUpperCase() == 'CHECKBOX') {
+            				setCheckBoxValue(item,value);
+            			} else if (ele.tagName == 'TEXTAREA') {
+                              obj.value=value;
+            			}else   {
+                               obj.value=value;
+                        }
+
+            }
+}
 
 var zzw=function( selector, context){
    	return  zzw.fn.init( selector, context );
@@ -282,12 +423,16 @@ function getHeight(obj){
     return parseInt(obj.style.height||obj.height||obj.offsetHeight);
 }
 function setSelectValue(id,value){
-var ele = document.getElementById(id) ;
+var ele;
+if(isDOM(id)){
+    ele=id;
+}else{
+ ele = document.getElementById(id) ;
 if(ele){
     ele.value =value;
 }
-
-var selid = document.getElementById(id).childNodes;
+}
+var selid = ele.childNodes;
 for(var i=0;i<selid.length;i++){
   if(selid[i].value == value){//content.belong_type为后台返回来的值
         selid[i].selected = true;

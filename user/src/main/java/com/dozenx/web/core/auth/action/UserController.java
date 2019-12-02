@@ -1,24 +1,28 @@
 package com.dozenx.web.core.auth.action;
 
+import com.dozenx.common.exception.BizException;
 import com.dozenx.common.util.DateUtil;
 import com.dozenx.common.util.HttpRequestUtil;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.StringUtil;
+import com.dozenx.swagger.annotation.*;
+import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.auth.service.AuthService;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
+import com.dozenx.web.core.auth.validcode.service.ValidCodeService;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.rules.*;
 import com.dozenx.web.module.storage.bean.LitemallStorage;
-import com.dozenx.web.module.storage.service.Storage;
 import com.dozenx.web.module.storage.service.StorageService;
 import com.dozenx.web.util.ConfigUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +42,7 @@ import java.util.Map;
  */
 
 
+@APIs(description = "用户模块")
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
@@ -158,7 +163,6 @@ public class UserController extends BaseController {
     }
 
 
-
     /**
      * 用户个人资料修改
      *
@@ -170,15 +174,15 @@ public class UserController extends BaseController {
      * @return
      * @author 宋展辉 2015年12月17日 上午9:28:41
      */
-    @RequestMapping(value = "/face/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/info/update", method = RequestMethod.POST)
     @ResponseBody
     public Object updateUserFace(HttpServletRequest request) {
 
         String face = request.getParameter("face");
-        String nick =request.getParameter("nick");
-        String sex =request.getParameter("sex");
-        String birth =request.getParameter("birth");
-        String address =request.getParameter("address");
+        String nick = request.getParameter("nick");
+        String sex = request.getParameter("sex");
+        String birth = request.getParameter("birth");
+        String address = request.getParameter("address");
         // 获取userid
 //        SessionDTO sessionDTO = (SessionDTO) request.getSession().getAttribute(Constants.SESSION_DTO);
         SessionUser sessionUser = this.getUser(request);
@@ -198,18 +202,18 @@ public class UserController extends BaseController {
         } catch (Exception e) {
             return ResultUtil.getResult(302, "系统错误");
         }
-       sessionUser.setSex(Integer.valueOf(sex));
+        sessionUser.setSex(Integer.valueOf(sex));
         sessionUser.setAddress(address);
         sessionUser.setNick(nick);
-         sessionUser.setBirth(birth);//.str2Date(birthday, "yyyy-MM-dd"));
+        sessionUser.setBirth(birth);//.str2Date(birthday, "yyyy-MM-dd"));
         sessionUser.setFace(face);
         try {
             SysUser sysUser = userService.selectByPrimaryKey(sessionUser.getUserId());
-           ResultDTO result =null;
+            ResultDTO result = null;
             if (sysUser != null) {
                 sysUser.setFace(face);
-                if(StringUtil.isNotBlank(sessionUser.getBirth())){
-                    sysUser.setBirth(DateUtil.parseToDate(sessionUser.getBirth(),"yyyy-MM-dd"));
+                if (StringUtil.isNotBlank(sessionUser.getBirth())) {
+                    sysUser.setBirth(DateUtil.parseToDate(sessionUser.getBirth(), "yyyy-MM-dd"));
                 }
 
                 sysUser.setTelno(sessionUser.getPhone());
@@ -217,11 +221,11 @@ public class UserController extends BaseController {
                 sysUser.setAddress(address);
                 sysUser.setId(sessionUser.getUserId());
                 result = userService.save(sysUser);
-                if(!result.isRight())
+                if (!result.isRight())
                     return result;
                 //异步任务 推算出 个人的 人脸特征矩阵 并录入到数据库中
-                if(StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))){
-                   String resultStr =   HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face")+"?userId="+sessionUser.getUserId());
+                if (StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))) {
+                    String resultStr = HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face") + "?userId=" + sessionUser.getUserId());
 
                 }
 
@@ -232,7 +236,6 @@ public class UserController extends BaseController {
             e.printStackTrace();
             return getWrongResultFromCfg("err.db");
         }
-
 
 
     }
@@ -265,15 +268,27 @@ public class UserController extends BaseController {
      * @return
      * @author 宋展辉 2015年12月17日 上午9:28:41
      */
-    @RequestMapping(value = "/avatar/update", method = RequestMethod.POST)
-    @ResponseBody
+
+
+    @API(summary = "头像更新接口",
+            description = "头像更新接口",
+            parameters = {
+
+                    @Param(name = "file", description = "图片", in = InType.form, dataType = DataType.FILE, required = true),// false
+            })
+    @RequestMapping(value = "avatar/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @RequiresLogin
-    public Object updateMineFace(HttpServletRequest request,@RequestParam(value = "file", required = true) MultipartFile file, @RequestBody(required = true) Map<String, Object> bodyParam) {
+    @ResponseBody
+    public Object updateMineFace(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file) {
         //String avatar = MapUtils.getString(bodyParam,"avatar");
+
+        if (file == null) {
+            throw new BizException(30105289, "上传图片不能为空");
+        }
         SessionUser sessionUser = this.getUser(request);
-        String url ="";
+        String url = "";
         try {
-           LitemallStorage litemallStorage =  storageService.store(file.getInputStream(), file.getSize(),
+            LitemallStorage litemallStorage = storageService.store(file.getInputStream(), file.getSize(),
                     file.getContentType(), file.getOriginalFilename());
             url = litemallStorage.getUrl();
         } catch (IOException e) {
@@ -281,33 +296,241 @@ public class UserController extends BaseController {
         }
         try {
             SysUser sysUser = userService.selectByPrimaryKey(sessionUser.getUserId());
-            ResultDTO result =null;
+            ResultDTO result = null;
             if (sysUser != null) {
                 sysUser.setFace(url);
-                if(StringUtil.isNotBlank(sessionUser.getBirth())){
-                    sysUser.setBirth(DateUtil.parseToDate(sessionUser.getBirth(),"yyyy-MM-dd"));
+                if (StringUtil.isNotBlank(sessionUser.getBirth())) {
+                    sysUser.setBirth(DateUtil.parseToDate(sessionUser.getBirth(), "yyyy-MM-dd"));
                 }
 
 
                 result = userService.save(sysUser);
-                if(!result.isRight())
+                if (!result.isRight())
                     return result;
                 //异步任务 推算出 个人的 人脸特征矩阵 并录入到数据库中
-                if(StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))){
-                    String resultStr =   HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face")+"?userId="+sessionUser.getUserId());
+                if (StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))) {
+                    String resultStr = HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face") + "?userId=" + sessionUser.getUserId());
 
                 }
 
-
+                //更新session值
+                sessionUser.setFace(url);
+                this.setSessionAttribute(request, Constants.SESSION_USER, sessionUser);
             }
-            return getResult(result);
+            return getDataResult(url);
         } catch (Exception e) {
             e.printStackTrace();
             return getWrongResultFromCfg("err.db");
         }
 
 
+    }
 
+    /**
+     * 用户个人资料修改
+     *
+     * @param face
+     * @param nick
+     * @param sex
+     * @param birth
+     * @param address
+     * @return
+     * @author 宋展辉 2015年12月17日 上午9:28:41
+     */
+
+
+    @API(summary = "密码更新",
+            description = "密码更新",
+            parameters = {
+                    @Param(name = "pwd", description = "密码", in = InType.body, schema = "{'oldpwd':'旧密码','newpwd':'新密码'}", dataType = DataType.STRING, required = true),// false
+            })
+
+    @RequestMapping(value = "/pwd/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO pwdUpdate(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) {
+
+        String oldpwd = MapUtils.getString(bodyParam, "oldpwd");
+        String newpwd = MapUtils.getString(bodyParam, "newpwd");
+
+        // 获取userid
+//        SessionDTO sessionDTO = (SessionDTO) request.getSession().getAttribute(Constants.SESSION_DTO);
+        SessionUser sessionUser = this.getUser(request);
+//        if(!sessionUser.getPwd().equals(oldpwd)){
+//            throw new BizException(30105353,"旧密码不对");
+//        }
+        ResultDTO resultDTO = userService.updateUserPwd(sessionUser.getUserId(), oldpwd, newpwd);
+        return resultDTO;
+    }
+
+
+    @API(summary = "昵称更新",
+            description = "昵称更新",
+            parameters = {
+                    @Param(name = "nick", description = "昵称", in = InType.body, schema = "{'nick':'昵称'}", dataType = DataType.STRING, required = true),// false
+            })
+
+    @RequestMapping(value = "/nick/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO nickupdate(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+
+        String nickName = MapUtils.getString(bodyParam, "nickName");
+
+        try {
+            ValidateUtil vu = new ValidateUtil();
+            String validStr = "";
+            vu.add("nickName", nickName, "用户名", new Rule[]{new Length(20), new NotEmpty()});
+            validStr = vu.validateString();
+            if (StringUtil.isNotBlank(validStr)) {
+                return ResultUtil.getResult(302, validStr);
+            }
+
+        } catch (Exception e) {
+            return ResultUtil.getResult(302, "系统错误");
+        }
+        // 获取userid
+//        SessionDTO sessionDTO = (SessionDTO) request.getSession().getAttribute(Constants.SESSION_DTO);
+        SessionUser sessionUser = this.getUser(request);
+        sessionUser.setNick(nickName);
+        this.setSessionAttribute(request,Constants.SESSION_USER,sessionUser);
+        SysUser sysUser = userService.getUserById(sessionUser.getUserId());
+        sysUser.setNkname(nickName);
+
+        return userService.save(sysUser);
+    }
+
+
+    @API(summary = "性别更新",
+            description = "性别更新",
+            parameters = {
+                    @Param(name = "sex", description = "邮箱地址", in = InType.body, schema = "{'setx':'手机号码'}", dataType = DataType.INTEGER, required = true),// false
+            })
+
+    @RequestMapping(value = "/sex/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO sexupdate(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+
+        Integer sex = MapUtils.getInteger(bodyParam, "sex");
+
+        if (sex != 1 && sex != 2 && sex != 0) {
+            return this.getResult(30105395, "性别值错误");
+        }
+        // 获取userid
+//        SessionDTO sessionDTO = (SessionDTO) request.getSession().getAttribute(Constants.SESSION_DTO);
+        SessionUser sessionUser = this.getUser(request);
+        sessionUser.setSex(sex);
+        SysUser sysUser = userService.getUserById(sessionUser.getUserId());
+        sysUser.setSex(sex);
+
+        return userService.save(sysUser);
+    }
+
+    @API(summary = "手机更新",
+            description = "手机更新",
+            parameters = {
+                    @Param(name = "telno", description = "邮箱地址", in = InType.body, schema = "{'code',:'手机验证码','telno':'手机号码'}", dataType = DataType.STRING, required = true),// false
+            })
+    @RequestMapping(value = "/telno/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO telno(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+        String telno = MapUtils.getString(bodyParam, "telno");
+        String pwd = MapUtils.getString(bodyParam, "pwd");
+        String code = MapUtils.getString(bodyParam, "code");
+        ResultDTO result = valideCodeService.imgValidCode("calendar", this.getSessionParam(request, "uid"), code);
+        if (!result.isRight()) {
+            return result;
+        }
+        try {
+            ValidateUtil vu = new ValidateUtil();
+            String validStr = "";
+            vu.add("telno", telno, "手机号", new Rule[]{new PhoneRule(), new NotEmpty()});
+            validStr = vu.validateString();
+            if (StringUtil.isNotBlank(validStr)) {
+                return ResultUtil.getResult(302, validStr);
+            }
+
+        } catch (Exception e) {
+            return ResultUtil.getResult(302, "系统错误");
+        }
+        // 获取userid
+//        SessionDTO sessionDTO = (SessionDTO) request.getSession().getAttribute(Constants.SESSION_DTO);
+        SessionUser sessionUser = this.getUser(request);
+        sessionUser.setPhone(telno);
+        SysUser sysUser = userService.getUserById(sessionUser.getUserId());
+        sysUser.setTelno(telno);
+        return userService.save(sysUser);
+    }
+
+    @Autowired
+    ValidCodeService valideCodeService;
+
+    @API(summary = "邮箱地址更新",
+            description = "邮箱地址更新",
+            parameters = {
+                    @Param(name = "email", description = "邮箱地址", in = InType.body, schema = "{'code',:'邮箱验证码','email':'邮箱地址'}", dataType = DataType.STRING, required = true),// false
+            })
+    @RequestMapping(value = "/email/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO email(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+        String email = MapUtils.getString(bodyParam, "email");
+        String code = MapUtils.getString(bodyParam, "code");
+        ResultDTO resultDTO = valideCodeService.validCode("ca", email, code, false);
+        if (!resultDTO.isRight()) {
+            return resultDTO;
+        }
+        // 获取userid
+//        SessionDTO sessionDTO = (SessionDTO) request.getSession().getAttribute(Constants.SESSION_DTO);
+        SessionUser sessionUser = this.getUser(request);
+
+        try {
+            ValidateUtil vu = new ValidateUtil();
+            String validStr = "";
+            vu.add("email", email, "邮箱地址", new Rule[]{new EmailRule(), new NotEmpty()});
+            validStr = vu.validateString();
+            if (StringUtil.isNotBlank(validStr)) {
+                return ResultUtil.getResult(302, validStr);
+            }
+
+        } catch (Exception e) {
+            return ResultUtil.getResult(302, "系统错误");
+        }
+        sessionUser.setEmail(email);
+        SysUser sysUser = userService.getUserById(sessionUser.getUserId());
+        sysUser.setEmail(email);
+        return userService.save(sysUser);
+    }
+
+
+    @API(summary = "用户名更新",
+            description = "用户名更新",
+            parameters = {
+                    @Param(name = "userName", description = "用户名", in = InType.body, schema = "{'userName':'新的用户名'}", dataType = DataType.STRING, required = true),// false
+            })
+    @RequestMapping(value = "/username/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO usernameupdate(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+
+        String userName = MapUtils.getString(bodyParam, "userName");
+        try {
+            ValidateUtil vu = new ValidateUtil();
+            String validStr = "";
+            vu.add("userName", userName, "用户名", new Rule[]{new Length(20), new NotEmpty()});
+            validStr = vu.validateString();
+            if (StringUtil.isNotBlank(validStr)) {
+                return ResultUtil.getResult(302, validStr);
+            }
+
+        } catch (Exception e) {
+            return ResultUtil.getResult(302, "系统错误");
+        }
+
+        // 获取userid
+//        SessionDTO sessionDTO = (SessionDTO) request.getSession().getAttribute(Constants.SESSION_DTO);
+        SessionUser sessionUser = this.getUser(request);
+        sessionUser.setUserName(userName);
+        SysUser sysUser = userService.getUserById(sessionUser.getUserId());
+        sysUser.setUsername(userName);
+
+        return userService.save(sysUser);
     }
 
     @Autowired

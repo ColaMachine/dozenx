@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysUserRole.bean.SysUserRole">
 
       <result column="user_id" jdbcType="BIGINT" property="userId" />
-      <result column="role_id" jdbcType="BIGINT" property="roleId" />
+      <result column="role_id" jdbcType="INTEGER" property="roleId" />
   </resultMap>
   <sql id="Base_Column_List">
    sys_user_role.`user_id` ,sys_user_role.`role_id`
@@ -32,7 +32,7 @@
     values (
 
        #{userId,jdbcType=BIGINT}
-        ,#{roleId,jdbcType=BIGINT}
+        ,#{roleId,jdbcType=INTEGER}
     )
   </insert>
 

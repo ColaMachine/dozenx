@@ -273,7 +273,7 @@
         </repository>
 <!-- &lt;!&ndash; maven私库 &ndash;&gt; -->
 
-       <!--<repository>
+       <repository>
             <id>aWiFi-rep</id>
             <name>aWiFi Private Repository</name>
             <url>http://192.168.41.25:8081/nexus/content/groups/public/</url>
@@ -284,11 +284,10 @@
             <name>aWiFi Private Repository</name>
             <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
         </repository>
--->
 
 
     </repositories>
-<!--
+
    <distributionManagement>
         <repository>
             <id>releases</id>
@@ -298,7 +297,7 @@
             <id>snapshots</id>
             <url>http://192.168.41.25:8081/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
-    </distributionManagement>-->
+    </distributionManagement>
 
 
 

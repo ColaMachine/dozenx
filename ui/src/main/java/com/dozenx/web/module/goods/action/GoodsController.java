@@ -593,6 +593,10 @@ public class GoodsController extends BaseController{
         @RequestMapping(value = "/view.json",method = RequestMethod.GET)
         @ResponseBody
         public ResultDTO getById(HttpServletRequest request) {
+          logger.info("x-real-ip"+request.getRemoteAddr());
+          logger.info("x-real-ip"+request.getHeader("x-real-ip"));
+          logger.info("x-forwarded-for"+request.getHeader("x-forwarded-for"));
+            String ip =RequestUtil.getIp(request);
          String id = request.getParameter("id");
             Goods bean = goodsService.selectByPrimaryKey(Long.valueOf(id));
           //  HashMap<String,ResultDTO> result =new HashMap<String,ResultDTO>();

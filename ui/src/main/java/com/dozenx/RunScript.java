@@ -1,6 +1,8 @@
 package com.dozenx;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -16,7 +18,7 @@ import java.net.URL;
  * @Modified By:
  */
 public class RunScript {
-
+    private static final Logger logger = LoggerFactory.getLogger(RunScript.class);
     private ScriptEngineManager manager = new ScriptEngineManager();
     private ScriptEngine engine;
     private String fileName;
@@ -47,7 +49,7 @@ public class RunScript {
 
     public static void main(String[] args) throws Exception {
         RunScript rs = new RunScript("g:/test.js");
-        rs.setVar("logger", Logger.getLogger(RunScript.class));
+        rs.setVar("logger", logger);
         rs.start();
     }
 }

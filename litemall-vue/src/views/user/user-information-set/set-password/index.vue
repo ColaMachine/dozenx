@@ -1,30 +1,24 @@
 <template>
   <div>
     <van-cell-group>
-
+          <van-field
+                label="旧密码"
+                v-model="oldpwd"
+                type="password"
+                placeholder="请输入新密码"
+              />
       <van-field
         label="新密码"
-        v-model="password"
+        v-model="newpwd"
         type="password"
         placeholder="请输入新密码"
       />
-
-			<van-field
-				label="验证码"
-				v-model="code"
-				@click-icon="getCode"
-				placeholder="请输入验证码">
-
-				<span slot="icon"
-					class="verifi_code red"
-					:class="{verifi_code_counting: counting}"
-					@click="getCode">
-					<countdown v-if="counting" :time="60000" @countdownend="countdownend">
-					  <template slot-scope="props">{{ +props.seconds || 60 }}秒后获取</template>
-					</countdown>
-					<span v-else>获取验证码</span>
-				</span>
-			</van-field>
+ <van-field
+        label="新密码"
+        v-model="newpwd1"
+        type="password"
+        placeholder="请输入新密码"
+      />
     </van-cell-group>
 
     <div class="bottom_btn">
@@ -35,13 +29,16 @@
 
 
 <script>
-import { authCaptcha, authReset, authLogout } from '@/api/api';
+import { authCaptcha, authReset, authLogout,pwdRest } from '@/api/api';
 import { removeLocalStorage } from '@/utils/local-storage';
 import { Field } from 'vant';
+import md5 from 'js-md5';
 
 export default {
   data: () => ({
-    password: '',
+   oldpwd: '',
+    newpwd: '',
+     newpwd1: '',
     mobile: '',
     code: '',
     counting: false
@@ -50,18 +47,26 @@ export default {
   methods: {
     modifypassword() {
       if (this.passwordValid()) {
-        authReset({
-          password: this.password,
-          mobile: this.mobile,
+        pwdRest({
+          oldpwd: md5(this.oldpwd),
+           newpwd: md5(this.newpwd) ,
+
           code: this.code
         })
         .then(() => {
           this.$dialog.alert({ message: '保存成功, 请重新登录.' })
           authLogout();
-        });
+        }).catch(error => {
+            this.$toast.fail(error.data.msg);
+
+          });
       }
     },
     passwordValid() {
+    if(this.newpwd!=this.newpwd1){
+         this.$toast.fail("密码不相投");
+        return false;
+    }
       return true;
     },
     getCode() {

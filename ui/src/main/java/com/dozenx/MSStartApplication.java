@@ -17,7 +17,7 @@ public class MSStartApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         // 注意这里要指向原先用main方法执行的Application启动类
-        return builder.sources(MSApplication.class);
+        return builder.headless(false).sources(MSApplication.class);
     }
 }
 

@@ -2,9 +2,13 @@ package com.dozenx.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MD5Util {
 	private static char md5Chars[] = { '0', '1', '2', '3', '4', '5', '6', '7',
@@ -68,11 +72,36 @@ public class MD5Util {
 
 	public static void main(String args[]){
 		try {
-			System.out.println(MD5Util.getStringMD5String("123456"));
-			System.out.println(MD5Util.getStringMD5String("awifi@123"));
-			System.out.println(MD5Util.getStringMD5String(MD5Util.getStringMD5String("awifi@123")));
+			long time =System.currentTimeMillis();
+			//String fileMd5= getFileMD5(new File("G:\\software\\操作系统\\Win7 32\\cn_windows_7_ultimate_with_sp1_x86_dvd_618763.iso"));
+			//System.out.println("cost"+(System.currentTimeMillis()-time)+" file md5:"+fileMd5);
+			System.out.println(MD5Util.getStringMD5String("awifi123"));
+			//System.out.println(MD5Util.getStringMD5String("awifi@123"));
+			//System.out.println(MD5Util.getStringMD5String(MD5Util.getStringMD5String("awifi@123")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	public static String getFileMD5(File file){
+		BigInteger bigInt = null;
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] buffer = new byte[1024];
+			int length = -1;
+			while ((length = fis.read(buffer, 0, 1024)) != -1) {
+				md.update(buffer, 0, length);
+			}
+			bigInt = new BigInteger(1, md.digest());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return bigInt.toString(16);
 	}
 }

@@ -51,7 +51,7 @@ public class SysUserRoleService extends BaseService {
             String[] uidAry= userIds.split(",");
             String[] roleidAry=roleIds.split(",");
             Long[] uidAryReal =new  Long[uidAry.length];
-            Long[] roleidAryReal =new  Long[roleidAry.length];
+            Integer[] roleidAryReal =new  Integer[roleidAry.length];
             for(int i=0;i<uidAry.length;i++){
                 if(!StringUtil.checkNumeric(uidAry[i])){
                     return ResultUtil.getResult(101,"参数错误");
@@ -67,14 +67,14 @@ public class SysUserRoleService extends BaseService {
                 if(!StringUtil.checkNumeric(roleidAry[i])){
                     return ResultUtil.getResult(101,"参数错误");
                 }
-                roleidAryReal[i]=Long.valueOf(roleidAry[i]);
+                roleidAryReal[i]=Integer.valueOf(roleidAry[i]);
             }
             batchUpdate(uidAryReal,roleidAryReal);
             //delete from SysUserRole where uid in (1,2,3,4,5) and rid not in(1,2,3)
             return ResultUtil.getSuccResult();
         }
 
-    public  ResultDTO batchUpdate(Long[] uidAryReal,Long[] roleidAryReal){
+    public  ResultDTO batchUpdate(Long[] uidAryReal,Integer[] roleidAryReal){
         //验证父亲id 正确性 是否存在
         if(uidAryReal!=null)
             for(int i=0;i< uidAryReal.length;i++){
@@ -101,7 +101,7 @@ public class SysUserRoleService extends BaseService {
                 for(int j=0;j<roleidAryReal.length;j++){
 
                     Long uid =uidAryReal[i];
-                    Long roleid =roleidAryReal[j];
+                    Integer roleid =roleidAryReal[j];
                     //查找是否已经有关联数据了
                     sysUserRole.setUserId(uid);
                     sysUserRole.setRoleId(roleid);

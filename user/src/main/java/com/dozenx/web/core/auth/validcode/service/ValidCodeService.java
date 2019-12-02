@@ -10,8 +10,9 @@ import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.ServiceCode;
 import com.dozenx.web.core.log.service.LogUtilService;
 import com.dozenx.web.core.sms.bean.SmsHistory;
-import com.dozenx.web.core.sms.bean.SmsRecord;
-import com.dozenx.web.core.sms.service.SmsRecordService;
+import com.dozenx.web.core.sms.sysSmsRecord.bean.SysSmsRecord;
+import com.dozenx.web.core.sms.sysSmsRecord.service.SysSmsRecordService;
+import com.dozenx.web.module.sms.service.SmsSendService;
 import com.dozenx.web.util.*;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -26,13 +27,14 @@ public class ValidCodeService {
     private ServiceCode serviceCode =ServiceCode.ValidCodeService;
     /**日志**/
     private Logger logger =LoggerFactory.getLogger(ValidCodeService.class);
-
+    @Resource
+    SmsSendService smsSendService;
     /**
      * 日志类
      */
     private static final Logger log = LoggerFactory.getLogger(ValidCodeService.class);
     @Resource
-    private SmsRecordService smsRecordService;
+    private SysSmsRecordService smsRecordService;
 
     @Resource
     private LogUtilService LogUtil;
@@ -43,7 +45,8 @@ public class ValidCodeService {
      * @author dozen.zhang
      */
     public ResultDTO getSmsValidCode(String systemCode, String phone,String ip) {
-
+        SysSmsRecord record =new SysSmsRecord();
+        boolean succ =false;
         try {
 
             // 验证systemcode
@@ -68,7 +71,7 @@ public class ValidCodeService {
             // String mapValue = (String)
             // CacheUtil.getInstance().readCache(systemCode + phone,
             // String.class);
-          /*  String json = *//*RedisUtil.get(systemCode + phone);*//*
+            /*  String json = *//*RedisUtil.get(systemCode + phone);*//*
                     (String)  CacheUtil.getInstance().readCache(systemCode + phone,
                             SmsHistory.class);*/
             SmsHistory history =  (SmsHistory) CacheUtil.getInstance().readCache(systemCode + phone,
@@ -80,15 +83,15 @@ public class ValidCodeService {
                 // String[] mapValueAry = mapValue.split("-");
                 // 验证码生存周期
                 //if (nowTime > history.getLast() + systemConfig.getSmsLiveTime()) {
-                    // 超时
-                    // 应该把缓存中的清理掉
-                    //CacheUtil.getInstance().clearCache(systemCode + phone);
-                    /*
-                     * return ResultUtil.getResult(100, "验证码已过期" + (nowTime -
-                     * (Long.valueOf(mapValueAry[1]) +
-                     * Integer.valueOf(PropertiesUtil
-                     * .get("validcode.live.time")))));
-                     */
+                // 超时
+                // 应该把缓存中的清理掉
+                //CacheUtil.getInstance().clearCache(systemCode + phone);
+                /*
+                 * return ResultUtil.getResult(100, "验证码已过期" + (nowTime -
+                 * (Long.valueOf(mapValueAry[1]) +
+                 * Integer.valueOf(PropertiesUtil
+                 * .get("validcode.live.time")))));
+                 */
                 //}
                 //验证是否刷新过快
                 if (nowTime < (history.getLast() + systemConfig.getSmsRefreshTime())) {
@@ -111,7 +114,7 @@ public class ValidCodeService {
             //检查ip在指定范围内是否有限制
             SmsHistory ipHistory= (SmsHistory)CacheUtil.getInstance().readCache("sms"+ip,SmsHistory.class);
             if(ipHistory==null){
-                 ipHistory = new SmsHistory();
+                ipHistory = new SmsHistory();
             }else
             if(beyondErrTimes(ipHistory,30,(long)24*60*60*1000)){
                 return ResultUtil.getResultDetail(serviceCode, LogType.INFO, 305, "SEND_TOO_MUCH_TIMES");
@@ -124,19 +127,34 @@ public class ValidCodeService {
             //map.put("code", finalCode);
             SmsUtil smsUtil = new SmsUtil();
             logger.info("验证码"+finalCode);
-            String rc = smsUtil.sendSms(ConfigUtil.getConfig("login_sms_template").replace("%code%",finalCode), phone, (short) 1);
-            SmsRecord record =new SmsRecord();
+            //String rc = smsUtil.sendSms(ConfigUtil.getConfig("login_sms_template").replace("%code%",finalCode), phone, (short) 1);
+
+
             record.setPhone(phone);
-            String contentTemplate = ConfigUtil.getConfig("login_sms_template");
+            String contentTemplate = ConfigUtil.getConfig("validCode.login_sms_template");
             contentTemplate= contentTemplate.replace("%code%",finalCode);
             record.setContent(finalCode);
 
-            record.setStatus("fail".equals(rc)?(byte)1:(byte)2);
-            record.setSystemNo(systemCode);
-            smsRecordService.save(record);
-            if (!ConfigUtil.getConfig("test").equals("true") && "fail".equals(rc)) {
-                return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 307,"SMS_SEND_FAIL");
+            try {
+                smsSendService.send(phone, contentTemplate);
+                succ=true;
+            }catch (Exception e){
+                succ =false;
+                record.setStatus(succ?(byte)1:(byte)2);
+                record.setBiz(systemCode);
+                smsRecordService.save(record);
+                if (!ConfigUtil.getConfig("test").equals("true")) {
+                    return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 307,"SMS_SEND_FAIL");
+                }
             }
+
+
+
+
+
+//            if (!ConfigUtil.getConfig("test").equals("true")/* && "fail".equals(rc)*/) {
+//                return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 307,"SMS_SEND_FAIL");
+//            }
             result = ResultUtil.getDataResult(map);
 
             if (result.isRight()) {
@@ -150,12 +168,18 @@ public class ValidCodeService {
                 // finalCode + "-" +
                 // nowTime,Integer.valueOf(systemConfig.getSmsLiveTime()));
             }
+
+            record.setStatus(succ?(byte)1:(byte)2);
+            record.setBiz(systemCode);
+            smsRecordService.save(record);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
             LogUtil.system(serviceCode,308,systemCode+phone,e.getMessage(),"");
             return ResultUtil.getResultDetail(serviceCode, LogType.UNKNOW, 308, "UNKNOWN");
+        }finally {
+
         }
     }
 
@@ -250,11 +274,11 @@ public class ValidCodeService {
                 return ResultUtil.getResultDetail(serviceCode, LogType.THIRD, 219, "SEND_FAIL");
             }
 
-            SmsRecord record =new SmsRecord();
+            SysSmsRecord record =new SysSmsRecord();
             record.setPhone(email);
             record.setContent(finalCode);
             record.setStatus((byte)1);
-            record.setSystemNo(systemCode);
+            record.setBiz(systemCode);
             smsRecordService.save(record);
 
             result = ResultUtil.getDataResult(map);

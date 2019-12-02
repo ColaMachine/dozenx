@@ -353,7 +353,7 @@ public final class PathManager {
 //        posterZipPath = imagePath.resolve(config.getInstance().getImage().getPosterZipDir());
 //        Files.createDirectories(posterZipPath);
             logger.info("webRootPath:"+webRootPath);
-            vcodePath = webRootPath.resolve(config.getInstance().getImage().getVcodeDir());
+            vcodePath = webRootPath.resolve(config.getInstance().getImage().getServerDir()).resolve(config.getInstance().getImage().getVcodeDir());
             Files.createDirectories(vcodePath);
         } catch (Exception e) {
             logger.info("非服务器启动");

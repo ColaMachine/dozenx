@@ -42,7 +42,18 @@ public class TokenHttpUtil {
         }
         return newURL.toString();
     }
-    
+    public static String urlAddAccessToken(String url,String codeName,String codeValue,String authCodeName,String expireInName){
+        if(StringUtil.isBlank(url)){
+            throw new ValidException("E0000002", ErrorMessage.getErrorMsg("E0000002", "接口地址"));//{0}不允许为空!
+        }
+        StringBuilder newURL = new StringBuilder(url);//生成的新的url，自动拼接access_token
+        if(url.indexOf("?") == -1){//不包含?时
+            newURL.append("?").append("access_token=").append(TokenClient.getAccessToken( codeName, codeValue, authCodeName, expireInName));
+        } else {//包含?时
+            newURL.append("&").append("access_token=").append(TokenClient.getAccessToken(codeName, codeValue, authCodeName, expireInName));
+        }
+        return newURL.toString();
+    }
     /**
      * 请求参数重置access_token
      * @param url 接口url

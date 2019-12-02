@@ -1,24 +1,19 @@
 package com.dozenx.web.core.auth.sysMenu.dao;
-
-import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
-
 import java.util.HashMap;
 import java.util.List;
+import java.sql.Timestamp;
 import java.util.Map;
+import com.dozenx.web.core.auth.sysMenu.bean.SysMenu;
 
 public interface SysMenuMapper {
-    
-    int deleteByPrimaryKey(Long id);
-
+    int deleteByPrimaryKey(Integer id);
     
     int insert(SysMenu record);
 
    
     int insertSelective(SysMenu record);
 
-    
-    SysMenu  selectByPrimaryKey(Long id);
-
+    SysMenu  selectByPrimaryKey(Integer id);
     /**
      * 说明:根据主键修改所存在属性内容
      * @param sysMenu
@@ -80,6 +75,10 @@ public interface SysMenuMapper {
 
     int countByOrParams(HashMap map);
 
+      
+
+
+     void insertBatch(List<SysMenu> list);
     /**
      * @Author: dozen.zhang
      * @Description:根据用户id 查菜单

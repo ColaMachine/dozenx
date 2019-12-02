@@ -2,45 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dozenx.web.core.auth.sysRole.dao.SysRoleMapper">
     <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysRole.bean.SysRole">
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="code" jdbcType="VARCHAR" property="code" />
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
         <result column="order_no" jdbcType="INTEGER" property="orderNo" />
         <result column="status" jdbcType="INTEGER" property="status" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
-
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     </resultMap>
     <sql id="Base_Column_List">
-        sys_role.`id` ,sys_role.`name` ,sys_role.`code` ,sys_role.`remark`,sys_role.`order_no`
-        ,sys_role.`status`
+        sys_role.`id` ,sys_role.`role_name` ,sys_role.`role_code` ,sys_role.`order_no` ,sys_role.`status` ,sys_role.`remark` ,sys_role.`create_time`
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from sys_role
-        where sys_role.id =   #{id,jdbcType=BIGINT} and status != 9
+        where sys_role.id =   #{id,jdbcType=INTEGER}
     </select>
-    <delete id="realDeleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from sys_role
-    where id = #{id,jdbcType=BIGINT}
-    </delete>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-
-
-        update sys_role set status = 9 where id = #{id,jdbcType=BIGINT}
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from sys_role
+        where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysRole.bean.SysRole" >
 
         insert into sys_role (  <include refid="Base_Column_List" />)
         values (
-        #{id,jdbcType=BIGINT}
-        ,#{name,jdbcType=VARCHAR}
-        ,#{code,jdbcType=VARCHAR}
-
-
-        ,#{remark,jdbcType=VARCHAR}
+        #{id,jdbcType=INTEGER}
+        ,#{roleName,jdbcType=VARCHAR}
+        ,#{roleCode,jdbcType=VARCHAR}
         ,#{orderNo,jdbcType=INTEGER}
         ,#{status,jdbcType=INTEGER}
+        ,#{remark,jdbcType=VARCHAR}
+        ,#{createTime,jdbcType=TIMESTAMP}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysRole.bean.SysRole" >
@@ -49,44 +42,46 @@
             <if test="id != null" >
                 `id`,
             </if>
-            <if test="name != null" >
-                `name`,
+            <if test="roleName != null" >
+                `role_name`,
             </if>
-            <if test="code != null" >
-                `code`,
-            </if>
-
-
-            <if test="remark != null" >
-                `remark`,
+            <if test="roleCode != null" >
+                `role_code`,
             </if>
             <if test="orderNo != null" >
                 `order_no`,
             </if>
-            <if test="orderNo != null" >
+            <if test="status != null" >
                 `status`,
             </if>
-
+            <if test="remark != null" >
+                `remark`,
+            </if>
+            <if test="createTime != null" >
+                `create_time`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
-                #{id,jdbcType=BIGINT},
+                #{id,jdbcType=INTEGER},
             </if>
-            <if test="name != null" >
-                #{name,jdbcType=VARCHAR},
+            <if test="roleName != null" >
+                #{roleName,jdbcType=VARCHAR},
             </if>
-            <if test="code != null" >
-                #{code,jdbcType=VARCHAR},
+            <if test="roleCode != null" >
+                #{roleCode,jdbcType=VARCHAR},
             </if>
-
-            <if test="remark != null" >
-                #{remark,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null" >
+            <if test="orderNo != null" >
                 #{orderNo,jdbcType=INTEGER},
             </if>
             <if test="status != null" >
                 #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -94,35 +89,39 @@
         update sys_role
         <set >
             <if test="id != null" >
-                `id`=#{id,jdbcType=BIGINT},
+                `id`=#{id,jdbcType=INTEGER},
             </if>
-            <if test="name != null" >
-                `name`=#{name,jdbcType=VARCHAR},
+            <if test="roleName != null" >
+                `role_name`=#{roleName,jdbcType=VARCHAR},
             </if>
-            <if test="code != null" >
-                `code`=#{code,jdbcType=VARCHAR},
-            </if>
-
-            <if test="remark != null" >
-                `remark`=#{remark,jdbcType=VARCHAR},
+            <if test="roleCode != null" >
+                `role_code`=#{roleCode,jdbcType=VARCHAR},
             </if>
             <if test="orderNo != null" >
                 `order_no`=#{orderNo,jdbcType=INTEGER},
             </if>
-
+            <if test="status != null" >
+                `status`=#{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null" >
+                `remark`=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                `create_time`=#{createTime,jdbcType=TIMESTAMP},
+            </if>
         </set>
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysRole.bean.SysRole" >
         update sys_role
         set
-        `name`=#{name,jdbcType=VARCHAR},
-        `code`=#{code,jdbcType=VARCHAR},
-
-
-        `remark`=#{remark,jdbcType=VARCHAR},
+        `role_name`=#{roleName,jdbcType=VARCHAR},
+        `role_code`=#{roleCode,jdbcType=VARCHAR},
         `order_no`=#{orderNo,jdbcType=INTEGER},
-        where id = #{id,jdbcType=BIGINT}
+        `status`=#{status,jdbcType=INTEGER},
+        `remark`=#{remark,jdbcType=VARCHAR},
+        `create_time`=#{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
         select
@@ -131,84 +130,135 @@
         <if test="id != null and id != '' ">
             and `id` = #{id}
         </if>
-        <if test="name != null and name != '' ">
-            and `name` = #{name}
+        <if test="roleName != null and roleName != '' ">
+            and `role_name` = #{roleName}
         </if>
-        <if test="nameLike != null and nameLike != '' ">
-            and `name` like "%"#{nameLike}"%"
+        <if test="roleNameLike != null and roleNameLike != '' ">
+            and `role_name` like CONCAT('%',#{roleNameLike},'%')
         </if>
-        <if test="code != null and code != '' ">
-            and `code` = #{code}
+        <if test="roleCode != null and roleCode != '' ">
+            and `role_code` = #{roleCode}
         </if>
-        <if test="codeLike != null and codeLike != '' ">
-            and `code` like "%"#{codeLike}"%"
+        <if test="roleCodeLike != null and roleCodeLike != '' ">
+            and `role_code` like CONCAT('%',#{roleCodeLike},'%')
         </if>
-
+        <if test="orderNo != null and orderNo != '' ">
+            and `order_no` = #{orderNo}
+        </if>
+        <if test="status != null and status != '' ">
+            and `status` = #{status}
+        </if>
         <if test="remark != null and remark != '' ">
             and `remark` = #{remark}
         </if>
         <if test="remarkLike != null and remarkLike != '' ">
-            and `remark` like "%"#{remarkLike}"%"
+            and `remark` like CONCAT('%',#{remarkLike},'%')
         </if>
-        and status != 9
+        <if test="createTime != null and createTime != '' ">
+            and `create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
     </select>
     <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from sys_role
 
-        where status!=9
+        where 1=1
         <if test="id != null and id != '' ">
             and sys_role.`id` = #{id}
         </if>
-        <if test="name != null and name != '' ">
-            and sys_role.`name` = #{name}
+        <if test="roleName != null and roleName != '' ">
+            and sys_role.`role_name` = #{roleName}
         </if>
-        <if test="nameLike != null and nameLike != '' ">
-            and sys_role.`name` like "%"#{nameLike}"%"
+        <if test="roleNameLike != null and roleNameLike != '' ">
+            and sys_role.`role_name` like CONCAT('%',#{roleNameLike},'%')
         </if>
-        <if test="code != null and code != '' ">
-            and sys_role.`code` = #{code}
+        <if test="roleCode != null and roleCode != '' ">
+            and sys_role.`role_code` = #{roleCode}
         </if>
-        <if test="codeLike != null and codeLike != '' ">
-            and sys_role.`code` like "%"#{codeLike}"%"
+        <if test="roleCodeLike != null and roleCodeLike != '' ">
+            and sys_role.`role_code` like CONCAT('%',#{roleCodeLike},'%')
         </if>
-
+        <if test="orderNo != null and orderNo != '' ">
+            and sys_role.`order_no` = #{orderNo}
+        </if>
+        <if test="status != null and status != '' ">
+            and sys_role.`status` = #{status}
+        </if>
         <if test="remark != null and remark != '' ">
             and sys_role.`remark` = #{remark}
         </if>
         <if test="remarkLike != null and remarkLike != '' ">
-            and sys_role.`remark` like "%"#{remarkLike}"%"
+            and sys_role.`remark` like CONCAT('%',#{remarkLike},'%')
         </if>
-
+        <if test="createTime != null and createTime != '' ">
+            and sys_role.`create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
     </select>
     <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
         select
         count(1)
-        from sys_role where status != 9
+        from sys_role where 1=1
         <if test="id != null and id != '' ">
             and sys_role.`id` = #{id}
         </if>
-        <if test="name != null and name != '' ">
-            and sys_role.`name` = #{name}
+        <if test="roleName != null and roleName != '' ">
+            and sys_role.`role_name` = #{roleName}
         </if>
-        <if test="nameLike != null and nameLike != '' ">
-            and sys_role.`name` like "%"#{nameLike}"%"
+        <if test="roleNameLike != null and roleNameLike != '' ">
+            and sys_role.`role_name` like CONCAT('%',#{roleNameLike},'%')
         </if>
-        <if test="code != null and code != '' ">
-            and sys_role.`code` = #{code}
+        <if test="roleCode != null and roleCode != '' ">
+            and sys_role.`role_code` = #{roleCode}
         </if>
-        <if test="codeLike != null and codeLike != '' ">
-            and sys_role.`code` like "%"#{codeLike}"%"
+        <if test="roleCodeLike != null and roleCodeLike != '' ">
+            and sys_role.`role_code` like CONCAT('%',#{roleCodeLike},'%')
         </if>
-
+        <if test="orderNo != null and orderNo != '' ">
+            and sys_role.`order_no` = #{orderNo}
+        </if>
+        <if test="status != null and status != '' ">
+            and sys_role.`status` = #{status}
+        </if>
         <if test="remark != null and remark != '' ">
             and sys_role.`remark` = #{remark}
         </if>
         <if test="remarkLike != null and remarkLike != '' ">
-            and sys_role.`remark` like "%"#{remarkLike}"%"
+            and sys_role.`remark` like CONCAT('%',#{remarkLike},'%')
         </if>
-
+        <if test="createTime != null and createTime != '' ">
+            and sys_role.`create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and sys_role.`create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and sys_role.`create_time` &lt;= #{createTimeEnd}
+        </if>
     </select>
     <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
         select
@@ -217,21 +267,48 @@
         <if test="id != null and id != '' ">
             or `id` = #{id}
         </if>
-        <if test="name != null and name != '' ">
-            or `name` = #{name}
+        <if test="roleName != null and roleName != '' ">
+            or `role_name` = #{roleName}
         </if>
-        <if test="code != null and code != '' ">
-            or `code` = #{code}
+        <if test="roleCode != null and roleCode != '' ">
+            or `role_code` = #{roleCode}
         </if>
-
+        <if test="orderNo != null and orderNo != '' ">
+            or `order_no` = #{orderNo}
+        </if>
+        <if test="status != null and status != '' ">
+            or `status` = #{status}
+        </if>
         <if test="remark != null and remark != '' ">
             or `remark` = #{remark}
         </if>
-        and status != 9
+        <if test="createTime != null and createTime != '' ">
+            or `create_time` = #{createTime}
+        </if>
     </select>
 
 
-    <select id="listByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+
+    <insert id="insertBatch"   parameterType="java.util.List" >
+        insert into sys_role (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+            (
+            #{record.id,jdbcType=INTEGER}
+            ,#{record.roleName,jdbcType=VARCHAR}
+            ,#{record.roleCode,jdbcType=VARCHAR}
+            ,#{record.orderNo,jdbcType=INTEGER}
+            ,#{record.status,jdbcType=INTEGER}
+            ,#{record.remark,jdbcType=VARCHAR}
+            ,#{record.createTime,jdbcType=TIMESTAMP}
+            )
+        </foreach >
+    </insert>
+
+
+
+<select id="listByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from sys_role

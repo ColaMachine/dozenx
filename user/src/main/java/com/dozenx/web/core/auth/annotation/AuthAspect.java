@@ -12,6 +12,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ import java.util.List;
 @Component
 @Aspect
 public class AuthAspect {
-
+    private static final Logger logger = LoggerFactory.getLogger(AuthAspect.class);
 
     @Around("execution(* *.*(..)) && @annotation(com.dozenx.web.core.annotation.RequiresLogin)")
     public Object validLogin(ProceedingJoinPoint pjp ) throws Throwable {
@@ -111,15 +113,15 @@ public class AuthAspect {
                 }
                 boolean hasPermission =false;
 
-
-                String realUrl =request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo())+":"+requestMethod;
-                System.out.println("代校验url"+realUrl);
-                System.out.println("系统根目录"+ SysConfig.PATH);
+//
+//                String realUrl =request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo())+":"+requestMethod;
+//                logger.info("代校验url"+realUrl);
+                logger.info("系统根目录"+ SysConfig.PATH);
                 //如果带校验的url 有 webROOTPATH 的话 需要去掉之后匹配才能成功
 
                 Method pjpMethod=getMethod(pjp);
                 String apiUrl = SpringUtil.getRequestMappingUrl(pjpMethod);
-                System.out.println("代校验api url"+apiUrl);
+                logger.info("代校验api url"+apiUrl);
                 //如果含有{pathVariable}的话就要 模糊匹配了
 //                if(permissions != null )
 //                    for(SysPermission permission1: permissions){
@@ -135,9 +137,9 @@ public class AuthAspect {
 
                 if(permissions!=null  )
                     for(String url: permissions){
-                        System.out.println("匹配的url"+url);
+                        logger.info("匹配的url"+url);
                         if(StringUtil.isNotBlank( url) && (apiUrl.equals(url)||url.endsWith(apiUrl))) {
-                            System.out.println("匹配了");
+                            logger.info("匹配了");
                             hasPermission =true;
                             break;
                         }

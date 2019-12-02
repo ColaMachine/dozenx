@@ -1,47 +1,67 @@
 /**
- * 版权所有：公众信息
+ * 版权所有： dozen.zhang
  * 项目名称:calendar
  * 创建者: dozen.zhang
- * 创建日期: 2015年11月15日
+ * 创建日期: 2019年10月25日
  * 文件说明: 
  */
 package com.dozenx.web.core.auth.sysPermission.bean;
-
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
-public class SysPermission implements Serializable {
-    /**编号**/
-    private Long id;
-    public Long getId(){
-        return id;
-    }    public void setId(Long id){
-        this.id=id;
-    }/**父主键**/
-    private Long pid;
-    public Long getPid(){
-        return pid;
-    }    public void setPid(Long pid){
-        this.pid=pid;
-    }    private String SysPermission_name;
-    public String getSysPermission_name(){
-        return SysPermission_name;
-    }    public void setSysPermission_name(String SysPermission_name){
-        this.SysPermission_name=SysPermission_name;
-    }/**权限名称**/
-    private String name;
-    public String getName(){
-        return name;
-    }    public void setName(String name){
-        this.name=name;
-    }/**权限代码**/
-    private String code;
-    public String getCode(){
-        return code;
-    }    public void setCode(String code){
-        this.code=code;
-    }/**排序id**/
+/**
+ *权限配置实体类
+ **/
+public class SysPermission  implements Serializable {
+        /**编号 null**/
+    private Integer id;
+    /**父主键 null**/
+    private Integer pid;
+    /**权限名称 null**/
+    private String permissionName;
+    /**权限代码 null**/
+    private String permissionCode;
+    /**权限url null**/
+    private String permissionUrl;
+    /**排序id null**/
     private Integer orderNo;
+    /**状态 null**/
+    private Integer status;
+    /**备注 null**/
+    private String remark;
+    public Integer getId(){
+        return id;
+    }
+    public void setId(Integer id){
+        this.id=id;
+    }
+    public Integer getPid(){
+        return pid;
+    }
+    public void setPid(Integer pid){
+        this.pid=pid;
+    }
+    public String getPermissionName(){
+        return permissionName;
+    }
+    public void setPermissionName(String permissionName){
+        this.permissionName=permissionName;
+    }
+    public String getPermissionCode(){
+        return permissionCode;
+    }
+    public void setPermissionCode(String permissionCode){
+        this.permissionCode=permissionCode;
+    }
+    public String getPermissionUrl(){
+        return permissionUrl;
+    }
+    public void setPermissionUrl(String permissionUrl){
+        this.permissionUrl=permissionUrl;
+    }
 
     public Integer getOrderNo() {
         return orderNo;
@@ -51,28 +71,17 @@ public class SysPermission implements Serializable {
         this.orderNo = orderNo;
     }
 
-    /**状态**/
-    private Integer status;
     public Integer getStatus(){
         return status;
-    }    public void setStatus(Integer status){
+    }
+    public void setStatus(Integer status){
         this.status=status;
-    }/**备注**/
-    private String remark;
+    }
     public String getRemark(){
         return remark;
-    }    public void setRemark(String remark){
+    }
+    public void setRemark(String remark){
         this.remark=remark;
-    }
-    //权限链接
-    public String url;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public List<SysPermission> childs ;

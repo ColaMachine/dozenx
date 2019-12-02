@@ -1,60 +1,73 @@
 /**
- * 版权所有：公众信息
+ * 版权所有： dozen.zhang
  * 项目名称:calendar
  * 创建者: dozen.zhang
- * 创建日期: 2015年11月15日
+ * 创建日期: 2019年10月25日
  * 文件说明: 
  */
 package com.dozenx.web.core.auth.sysRole.bean;
-
 import java.sql.Timestamp;
-
+import java.math.BigDecimal;
+import java.util.Date;
+/**
+ *角色实体类
+ **/
 public class SysRole {
-    /**编号**/
-    private Long id;
-    public Long getId(){
-        return id;
-    }    public void setId(Long id){
-        this.id=id;
-    }/**角色名**/
-    private String name;
-    public String getName(){
-        return name;
-    }    public void setName(String name){
-        this.name=name;
-    }/**角色代码**/
-    private String code;
-    public String getCode(){
-        return code;
-    }    public void setCode(String code){
-        this.code=code;
-    }/**排序**/
+        /**编号 null**/
+    private Integer id;
+    /**角色名 null**/
+    private String roleName;
+    /**角色代码 null**/
+    private String roleCode;
+    /**排序 null**/
     private Integer orderNo;
-
-    public Integer getOrderNo() {
+    /**状态 null**/
+    private Integer status;
+    /**备注 null**/
+    private String remark;
+    /**创建时间 null**/
+    private Timestamp createTime;
+    public Integer getId(){
+        return id;
+    }
+    public void setId(Integer id){
+        this.id=id;
+    }
+    public String getRoleName(){
+        return roleName;
+    }
+    public void setRoleName(String roleName){
+        this.roleName=roleName;
+    }
+    public String getRoleCode(){
+        return roleCode;
+    }
+    public void setRoleCode(String roleCode){
+        this.roleCode=roleCode;
+    }
+    public Integer getOrderNo(){
         return orderNo;
     }
-
-    public void setOrderNo(Integer orderNo) {
-        this.orderNo = orderNo;
+    public void setOrderNo(Integer orderNo){
+        this.orderNo=orderNo;
     }
-
-    private Integer status;
     public Integer getStatus(){
         return status;
-    }    public void setStatus(Integer status){
+    }
+    public void setStatus(Integer status){
         this.status=status;
-    }/**备注**/
-    private String remark;
+    }
     public String getRemark(){
         return remark;
-    }    public void setRemark(String remark){
+    }
+    public void setRemark(String remark){
         this.remark=remark;
-    }/**创建时间**/
-    private Timestamp createTime;
+    }
     public Timestamp getCreateTime(){
         return createTime;
-    }    public void setCreatetime(Timestamp createtime){
-        this.createTime=createtime;
     }
+    public void setCreateTime(Timestamp createTime){
+        this.createTime=createTime;
+    }
+
 }

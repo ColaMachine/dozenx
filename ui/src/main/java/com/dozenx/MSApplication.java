@@ -16,7 +16,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = {"com.awifi.**","com.dozenx.**","com.dozenx.swagger.**"})
 public class MSApplication extends SpringBootServletInitializer{
 	public static void main(String[] args) {
-		SpringApplication.run(MSApplication.class, args);
+	//	SpringApplication.run(MSApplication.class, args);
+		SpringApplicationBuilder builder = new SpringApplicationBuilder(MSApplication.class);
+		builder.headless(false).run(args);
 	}
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){

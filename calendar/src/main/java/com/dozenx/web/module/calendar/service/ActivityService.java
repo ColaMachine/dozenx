@@ -61,9 +61,9 @@ public interface ActivityService {
      * @date 2014年4月17日
      * @throws
      */
-    public List<HashMap> getActivities(long startDate, long endDate, Long userid);
+    public List<Activity> getActivities(long startDate, long endDate, Long userid);
 
-    public List<HashMap> getActivities(long startDate, long endDate);
+    public List<Activity> getActivities(long startDate, long endDate);
 
     /**
      * @Title: updagteActivitys

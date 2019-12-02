@@ -21,20 +21,47 @@
 </template>
 
 <script>
+import { Toast } from 'vant';
 import field from '@/components/field/';
 import fieldGroup from '@/components/field-group/';
+import { setLocalStorage,getLocalStorage } from '@/utils/local-storage';
 
+import { pwdSmsCodeRest } from '@/api/api';
 export default {
   data() {
     return {
-      isErrow: true,
+      isErrow: false,
       password: '',
       passwordRepeat: ''
     };
   },
 
   methods: {
-    submitCode() {}
+    submitCode() {
+        if(this.password!= this.passwordRepeat){
+            this.isError=true;
+        }else{
+            this.isError=false
+        }
+    var storage =getLocalStorage("smsCaptcha","phone");
+        var data ={
+        account:storage.phone,
+        code:storage.smsCaptcha,
+        pwd:this.password,
+
+        };
+
+           pwdSmsCodeRest(data).then(res => {
+            if(res.data.r==0){
+                 this.$router.push({ name: 'forgetStatus' });
+            }else{
+                 Toast.fail(error.data.msg);
+            }
+         }).catch(error => {
+            console.log(error)
+           Toast.fail(error.data.msg);
+         });
+    }
   },
 
   components: {

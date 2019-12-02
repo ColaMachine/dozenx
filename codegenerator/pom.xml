@@ -14,7 +14,7 @@
     <version>${dozenx.version}</version>
     <packaging>jar</packaging>
     <properties>
-        <dozenx.version>${dozenx.version}</dozenx.version>
+        <dozenx.version>2.0-SNAPSHOT</dozenx.version>
         <org.springframework.version>4.3.9.RELEASE</org.springframework.version>
         <!-- <org.apache.struts.version>2.3.15.1</org.apache.struts.version> -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.dozenx</groupId>
             <artifactId>common</artifactId>
-            <version>${dozenx.version}</version>
+            <version>2.0-SNAPSHOT</version>
            <!-- <exclusions>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
@@ -43,5 +43,59 @@
 
 
     </dependencies>
+    <repositories><!-- 代码库 -->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+        <!-- &lt;!&ndash; maven私库 &ndash;&gt; -->
 
+        <repository>
+            <id>aWiFi-rep</id>
+            <name>aWiFi Private Repository</name>
+            <url>http://192.168.41.25:8081/nexus/content/groups/public/</url>
+        </repository>
+
+        <repository>
+            <id>dozenx</id>
+            <name>aWiFi Private Repository</name>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+
+
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+<build>
+    <plugins>
+    <plugin>
+        <groupId>org.mybatis.generator</groupId>
+        <artifactId>mybatis-generator-maven-plugin</artifactId>
+        <version>1.3.2</version>
+        <configuration>
+            <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
+            <overwrite>true</overwrite>
+            <verbose>true</verbose>
+        </configuration>
+    </plugin>
+    </plugins>
+
+</build>
 </project>

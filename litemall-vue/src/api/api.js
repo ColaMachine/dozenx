@@ -573,3 +573,12 @@ export function pwdSmsCodeRest(data) {
     data
   })
 }
+
+
+export function apiList(query) {
+  return request({
+    url: '/interface/list',
+    method: 'get',
+    params: query
+  })
+}

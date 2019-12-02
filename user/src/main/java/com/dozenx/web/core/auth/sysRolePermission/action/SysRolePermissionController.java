@@ -237,7 +237,7 @@ public class SysRolePermissionController extends BaseController{
 
 
             @Param(name = "roleId", description = "角色id"
-                    , dataType = DataType.LONG, in="body",required = true),
+                    , dataType = DataType.INTEGER, in="body",required = true),
             @Param(name = "permissionIds", description = "权限id数组"
                     , dataType = DataType.ARRAY, in="body",required = true),
     })
@@ -246,22 +246,22 @@ public class SysRolePermissionController extends BaseController{
     @RequestMapping(value = "/update",method=RequestMethod.PUT,produces="application/json")
     @ResponseBody
     public Object update(HttpServletRequest request,@RequestBody(required=true) Map<String,Object> bodyParam) throws Exception {
-        Long roleId = MapUtils.getLong(bodyParam,"roleId");
+        Integer roleId = MapUtils.getInteger(bodyParam,"roleId");
         ValidateUtil.valid(roleId,"userId",new Rule[]{new Required(),new Digits(10,0)});
 
         Object obj = bodyParam.get("permissionIds");
-        Long[] permissionIds;
+        Integer[] permissionIds;
         if(obj==null){
-            permissionIds=new Long[]{};
+            permissionIds=new Integer[]{};
         }else{
             List<Number> ary = (ArrayList<Number>)bodyParam.get("permissionIds");//bodyoaran 只不过的参数是 arryList<Double>格式的
-            permissionIds = new Long[ary.size()];
+            permissionIds = new Integer[ary.size()];
             for(int i=0;i<ary.size();i++){
-                permissionIds[i] = ary.get(i).longValue();
+                permissionIds[i] = ary.get(i).intValue();
             }
 
         }
-        return sysRolePermissionService.batchUpdate(new Long[]{ roleId}, permissionIds);
+        return sysRolePermissionService.batchUpdate(new Integer[]{ roleId}, permissionIds);
     }
 
     @API(summary = "角色权限树接口",
@@ -271,7 +271,7 @@ public class SysRolePermissionController extends BaseController{
 
 
             @Param(name = "id", description = "角色id"
-                    , dataType = DataType.LONG, in="path",required = true),
+                    , dataType = DataType.INTEGER, in="path",required = true),
 
     })
 
@@ -279,7 +279,7 @@ public class SysRolePermissionController extends BaseController{
 
     @RequestMapping(value = "/tree/{id}",method=RequestMethod.GET,produces="application/json")
     @ResponseBody
-    public Object tree( HttpServletRequest request,@PathVariable("id") Long id) {
+    public Object tree( HttpServletRequest request,@PathVariable("id") Integer id) {
         HashMap<String,Object> params =new HashMap<String,Object>();
         params.put("status",1);//删除的不要展示
         List<SysPermission> sysPermissions = sysPermissionService.listByParams(params);

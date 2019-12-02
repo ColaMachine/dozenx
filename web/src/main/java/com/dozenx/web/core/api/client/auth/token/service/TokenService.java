@@ -12,11 +12,15 @@ public interface TokenService {
 
     /**
      * 获取数据中心access_token
+     *
      * @param key redis key
      * @return access_token
      * @throws Exception 异常
-     * @author 周颖  
+     * @author 周颖
      * @date 2017年1月19日 上午8:36:57
      */
     String getAccessToken(String key);
+
+     String getAccessToken(String key, String codeName, String codeValue, String authCodeName, String expireInName);
+
 }

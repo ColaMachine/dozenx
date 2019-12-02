@@ -11,8 +11,8 @@ package com.dozenx.web.core.log;
 
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.auth.session.SessionUser;
-import com.dozenx.web.core.log.bean.OperLog;
-import com.dozenx.web.core.log.service.OperLogService;
+import com.dozenx.web.core.log.sysOperLog.bean.SysOperLog;
+import com.dozenx.web.core.log.sysOperLog.service.SysOperLogService;
 import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.RequestUtil;
 import com.dozenx.web.util.SessionUtil;
@@ -28,7 +28,7 @@ public class OperLogUtil {
     private static Log logger = LogFactory.getLog(OperLogUtil.class);
 
     /** 异常日志service */
-    private static OperLogService operLogService;
+    private static SysOperLogService operLogService;
 
     /**
      * 操作详情最大长度
@@ -48,7 +48,7 @@ public class OperLogUtil {
     public static void add(HttpServletRequest request, String moduleName, String compName, String detail) {
         try {
             // String logSwitch = SysConfigUtil.getParamValue("error_log_switch");// 异常日志开关：ON代表开、OFF代表关
-            OperLog operLog = new OperLog();
+            SysOperLog operLog = new SysOperLog();
 
             try {
                 SessionUser user = SessionUtil.getCurSessionUser(request);
@@ -66,8 +66,8 @@ public class OperLogUtil {
             }
             
             
-            operLog.setDetail(detail);
-            operLog.setIp(RequestUtil.getIp(request));
+            operLog.setOperDetail(detail);
+            operLog.setUserIp(RequestUtil.getIp(request));
             operLog.setModuleName(moduleName);
             operLog.setCompName(compName);
             getOperLogService().save(operLog);
@@ -123,9 +123,9 @@ public class OperLogUtil {
      * @author dozen.zhang
      * @date 2017年6月22日 下午8:02:04
      */
-    private static OperLogService getOperLogService() {
+    private static SysOperLogService getOperLogService() {
         if (operLogService == null) {
-            operLogService = (OperLogService) BeanUtil.getBean("operLogService");
+            operLogService = (SysOperLogService) BeanUtil.getBean("sysOperLogService");
         }
         return operLogService;
     }

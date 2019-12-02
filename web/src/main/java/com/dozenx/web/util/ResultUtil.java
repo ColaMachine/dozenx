@@ -222,11 +222,9 @@ public class ResultUtil {
 
 
 
-	public static Object ok() {
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put("errno", 0);
-		obj.put("errmsg", "成功");
-		return obj;
+	public static ResultDTO ok() {
+
+		return getSuccResult();
 	}
 
 	public static ResultDTO ok(Object data) {
@@ -317,5 +315,19 @@ public class ResultUtil {
 
 	public static Object unauthz() {
 		return fail(506, "无操作权限");
+	}
+
+
+	public static  ResultDTO getPageResult(com.github.pagehelper.Page page){
+		ResultDTO resultDTO  =new ResultDTO();
+		resultDTO.setR(0);
+		resultDTO.setData(page.getResult());
+		Page page2 =new Page();
+		page2.setPageSize(page.getPageSize());
+		page2.setTotalCount((int)page.getTotal());
+		page2.setTotalPage(page.getPages());
+		page2.setCurPage(page.getPageNum());
+		resultDTO.setPage(page2);
+		return resultDTO;
 	}
 }

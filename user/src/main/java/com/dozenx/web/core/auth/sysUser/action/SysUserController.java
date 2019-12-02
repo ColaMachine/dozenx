@@ -1150,12 +1150,14 @@ public class SysUserController extends BaseController {
 
     @API(summary = "数据批量同步",
             description = "数据批量同步",
-            consumes = "multipart/form-data",
+            consumes = "application/json",
             parameters = {
                     @Param(name = "params", description = "用户列表json字符串", in = InType.form, dataType = DataType.FILE, required = true),
+                    @Param(name = "body", description = "用户列表json字符串", in = InType.body, dataType = DataType.FILE, required = true),
             })
     @RequestMapping(value = "/sync", method = RequestMethod.POST)
     @ResponseBody
+
     public ResultDTO sync(HttpServletRequest request) {
         // 将spring 的file 装成 普通file
 
@@ -1179,21 +1181,21 @@ public class SysUserController extends BaseController {
 
                 Map<String, Object> map = list.get(i);
 
-                String userId = MapUtils.getString(map, "id");
-                String name = MapUtils.getString(map, "name");
-                String telno = MapUtils.getString(map, "telno");
-                String remark = MapUtils.getString(map, "remark");
-                String email = MapUtils.getString(map, "email");
+                Long outId = MapUtils.getLong(map, "outId");
+                String name = MapUtils.getString(map, "username");
+//                String telno = MapUtils.getString(map, "telno");
+//                String remark = MapUtils.getString(map, "remark");
+//                String email = MapUtils.getString(map, "email");
 //                String wechat = MapUtils.getString(map,"wechat");
 //                String nkname = MapUtils.getString(map,"nkname");
                 // 检验手机号是否符合规范,不符合continue
-                if (!StringUtil.isEmail(email)) {
-                    //                    throw new ValidException("E2000016", MessageUtil.getMessage("E2000016", telphone));// 手机号码不符合一般格式。
-                    logger.info(" import conf ==> the telphone:" + email + " is not email");
-                    fail++;
-                    errorMsg.append("" + email + " 不是邮箱地址;");
-                    continue;
-                }
+//                if (!StringUtil.isEmail(email)) {
+//                    //                    throw new ValidException("E2000016", MessageUtil.getMessage("E2000016", telphone));// 手机号码不符合一般格式。
+//                    logger.info(" import conf ==> the telphone:" + email + " is not email");
+//                    fail++;
+//                    errorMsg.append("" + email + " 不是邮箱地址;");
+//                    continue;
+//                }
 
 
                 //  int count = contactsService.countByParams(params);//检查邮箱地址是否存在
@@ -1208,35 +1210,33 @@ public class SysUserController extends BaseController {
                 // }
 
                 try {
-                    SysUser bean = getInfoFromMap(map);
+//                    SysUser bean = getInfoFromMap(map);
                     //查看这个outId是否有了
                     HashMap outIdMap = new HashMap();
-                    outIdMap.put("username", bean.getUsername());
+                    outIdMap.put("username", name);
                     List<SysUser> sysUsers = sysUserService.listByParams(outIdMap);
                     if (sysUsers != null && sysUsers.size() > 0) {
                         SysUser sysUser = sysUsers.get(0);
-                        sysUser.setOutId(bean.getOutId());//从access同步到用户id
-                        if(StringUtil.isBlank(sysUser.getEmail()) && StringUtil.isNotBlank(bean.getEmail())){
+                        sysUser.setOutId(outId);//从access同步到用户id
+
+                        sysUserService.updateOutId(sysUser.getId(),sysUser.getOutId());
+                       /* if(StringUtil.isBlank(sysUser.getEmail()) && StringUtil.isNotBlank(bean.getEmail())){
                             sysUser.setEmail(bean.getEmail());//从user.xls同步到用户信息
                         }
                         if(StringUtil.isBlank(sysUser.getTelno()) && StringUtil.isNotBlank(bean.getTelno())){
                             sysUser.setTelno(bean.getTelno());//从user.xls同步到用户信息
                         }
-                        ResultDTO resultDTO =sysUserService.save(sysUser);
-                        if(!resultDTO.isRight()){
-                            throw new BizException("E2000016",  resultDTO.getMsg());
-
-                        }
+                        ResultDTO resultDTO =sysUserService.save(sysUser);*/
                     }else{
-                        logger.info("数据库不存在该用户:"+bean.getUsername());
+                        logger.info("数据库不存在该用户:"+name);
                     }
 
                     success++;//成功数增加
                 } catch (Exception e) {
                     logger.error("error",e);
                     fail++;//失败数增加
-                    logger.info("packageservice import conf ==> update fail ==>the telphone:" + email + "", e);
-                    errorMsg.append("the telphone:" + email + " update fail;");
+                    logger.info("packageservice import conf ==> update fail ==>the telphone:" + name + "", e);
+                    errorMsg.append("the user:" + name + " update fail;");
                 }
 
             }
@@ -1629,7 +1629,7 @@ public class SysUserController extends BaseController {
 
         Object roleIdsObj = bodyParam.get("roleIds");
         if (roleIdsObj != null) {
-            sysUser.setRoleIds(JsonUtil.convertDigitAryToLongAry((ArrayList<Number>) bodyParam.get("roleIds")));
+            sysUser.setRoleIds(JsonUtil.convertDigitAryToIntegerAry((ArrayList<Number>) bodyParam.get("roleIds")));
         }
 
         //基础的参数校验  不对任何参数进行非空校验 需要的话 自行再校验一般

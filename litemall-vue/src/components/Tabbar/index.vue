@@ -21,14 +21,7 @@ export default {
     return {
       active: 0,
       tabbar: [
-        {
-          name: '考勤',
-          path: '/',
-          pathName: 'home',
-          icon: 'compass-full',
-          dot: false,
-          info: ''
-        },
+
 
         {
           name: '我的',

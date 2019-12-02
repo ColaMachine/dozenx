@@ -2,10 +2,10 @@
   <div>
     <Form ref="roleForm" :model="formData" :rules="readonly?{}:formRules" :label-width="80">
       <FormItem prop="code" label="角色编码" required>
-        <Input v-model="formData.code" placeholder="角色编码" :readonly="readonly" :maxlength="23"></Input>
+        <Input v-model="formData.roleCode" placeholder="角色编码" :readonly="readonly" :maxlength="23"></Input>
       </FormItem>
       <FormItem prop="name" label="角色名称" required>
-        <Input v-model="formData.name" placeholder="角色名称" :readonly="readonly"></Input>
+        <Input v-model="formData.roleName" placeholder="角色名称" :readonly="readonly"></Input>
       </FormItem>
       <FormItem prop="remark" label="角色描述">
         <Input v-model="formData.remark" placeholder="角色描述" :readonly="readonly" :maxlength="100"></Input>
@@ -29,11 +29,11 @@
     data() {
       return {
         formRules: {
-          code: [
+          roleCode: [
             {required: true, message: '请填写角色编码', trigger: 'blur'},
             {validator: validateEnNumber, trigger: 'blur'}
           ],
-          name: [
+          roleName: [
             {required: true, message: '请填写角色名称', trigger: 'blur'},
             {validator: validateChn, trigger: 'blur'}
           ],

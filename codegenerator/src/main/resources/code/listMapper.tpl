@@ -3,7 +3,11 @@
     <div class="main-bd ibox-content clearfix" >
         <div class="body_top" >
             <form class="form-inline app-search">
+
+
+<#if parentsearchhtml?exists>
 ${parentsearchhtml}
+</#if>
                 <button type="button" class="btn btn-default searchBtn">查询</button>
             </form>
 

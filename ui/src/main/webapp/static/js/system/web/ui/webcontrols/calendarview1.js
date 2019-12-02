@@ -12,7 +12,7 @@ loadEventsView
 **/
 /*if(import){
 
-import DateUtil  from "./DateUtils";
+import DateUtil  from "./DateUtil";
 
 import {$$,getInfo,bind} from "./dom";
 import {PATH,Tool,StringUtil,Ajax} from "./zwcommon";
@@ -23,7 +23,8 @@ import {PATH,Tool,StringUtil,Ajax} from "./zwcommon";
 
 */
 
-
+var searchStartDate=null;
+var searchEndDate=null;
 function bubbleSort(arr){
 
 	for(var i=0;i<arr.length;i++){
@@ -132,7 +133,7 @@ Date.prototype.format = function(format)
 
 
 /**
- *日历活动对象
+ *日历活动对象 calendarEvent格式
  */
 function calendarEvent(id,title,day,startTime,endTime){
 	//基础信息
@@ -140,8 +141,8 @@ function calendarEvent(id,title,day,startTime,endTime){
 	this.day=day||"";//格式yyyy-MM-dd
 	this.title=title||"";//标题
 	this.startTimeSV=startTime||"";//hh:mm
-	this.startTime=0;
-	this.endTime=0;
+	this.startTime=0;       //时间戳
+	this.endTime=0;     //结束的时间错
 	this.endTimeSV="";//hh:mm
 	this.isdel=false;
 	this.lastChangeTime=new Date().getTime();
@@ -156,6 +157,9 @@ function calendarEvent(id,title,day,startTime,endTime){
 	this.height=0;
 	this.MaxRepeatedCount=0;
 	this.generation=0;
+
+	this.startDay=null;
+	this.endDay=null;
 	/*this.month="";
 	this.year="";
 	this.start_H="";
@@ -222,7 +226,7 @@ function CalendarView() {
     "六"
   ];
   this.selectMode = true; // true is week false is day;
-  this.viewMode = VIEWMODE_LISTMONTH; // 0是天 1 是 周 2 是月;
+  this.viewMode = VIEWMODE_WEEK; // 0是天 1 是 周 2 是月;
   this.currentEventId = "";
   this.beforeStack = "";
   this.afterStack = "";
@@ -498,25 +502,66 @@ CalendarView.prototype.getCalendarEventDialogView = function() {
     "<tr><td></td><td align=right><i onClick=\"Instance('" +
     this.index +
     "').closeCalendarEventDialog()\" class=\"bubbleclose\" ></i></td></tr>" +
-    "<tr style='font-size:12px'><td><span style='color:gray' >日期:</span></td><td ><span  style=\"position:relative\"  ><span id=\"calendarEventDialog_date_start\" onclick='showCalendar(this)'>123</span></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span style=\"position:relative\" ><span id=\"calendarEventDialog_date_end\" onclick='showCalendar(this)'>123</span></span></td></tr>" +
+    "<tr style='font-size:12px'><td><span style='color:gray' >开始时间:</span></td><td ><span  style=\"position:relative\"  ><input id=\"calendarEventDialog_date_start\" onclick='showCalendar(this)'></input></span></td></tr>" +
+
+     "<tr style='font-size:12px'><td><span style='color:gray' >结束时间:</span></td><td ><span  style=\"position:relative\"  ><input id=\"calendarEventDialog_date_end\" onclick='showCalendar(this)'></input></span></td></tr>" +
     "<tr><td><span style='color:gray' >标题:</span></td><td><input type=\"text\" id=\"calendarEventDialog_title\"></input></td></tr>" +
-    "<tr><td><input type=\"button\" value=\"保存\" onClick=\"Instance('" +
+    "<tr><td colspan=2><input  name='actType' value=1 type='radio' >活动</input><input value=2 name='actType' type='radio' >提醒</input><input value=3 name='actType' type='radio' >任务</input></td></tr>"+
+ //    "<tr><td colspan=2><input  name='eventType' type='radio' >记录</input><input name='eventType' type='radio' >计划</input><input name='eventType' type='radio' >todo</input></td></tr>"+
+       "<tr><td ><input type='checkbox' id='isRepeat'>自定义周期</input>:</td><td ></td></tr>"+
+        "<tr><td >重复频率FREQ:</td><td >每<input type='text' id='interval' name='interval' class='interval'/> <select id='freq'><option value='SECONDLY'>秒</option><option value='MINUTELY'>分</option><option value='HOURLY'>小时</option><option value='DAILY'>天</option><option value='WEEKLY'>周</option><option value='MONTHLY'>月</option><option value='YEARLY'>年</option></select></td></tr>"+
+
+//           "<tr><td >INTERVAL:</td><td ><input name='interval' type='text'></input></tr>"+
+           "<tr><td >BYSECOND:</td><td ><input name='bysecond' id='bysecond' type='text'></input></tr>"+
+           "<tr><td >BYMINUTE:</td><td ><input name='byminute' id='byminute' type='text'></input></tr>"+
+          "<tr><td >BYHOUR:</td><td ><input name='byhour' id='byhour' type='text'></input></tr>"+
+          //BYDAY=MO,TU,WE,TH,FR;
+            "<tr><td >每周第几天: byday:</td><td ><input name='byday' id='byday_mo' type='checkbox'>一</input><input id='byday_tu' name='byday' type='checkbox'>二</input><input id='byday_we' name='byday' type='checkbox'>三</input><input id='byday_th' name='byday' type='checkbox'>四</input><input id='byday_fr' name='byday' type='checkbox'>五</input><input id='byday_sa' name='byday' type='checkbox'>六</input><input id='byday_su' name='byday' type='checkbox'>七</input></td></tr>"+
+          "<tr><td >每月第几天bymonthday:</td><td ><input name='bymonthday' id='bymonthday'  type='text'></input></tr>"+
+         "<tr><td >每年第几天byyearday:</td><td ><input name='byyearday' id='byyearday' type='text'></input></tr>"+
+          "<tr><td >每年第几周byweekno:</td><td ><input name='byweekno' id='byweekno' type='text'></input></tr>"+
+           "<tr><td >每年第几月bymonth:</td><td ><input name='bymonth' id='bymonth' type='text'></input></tr>"+
+           "<tr><td >第几个bysetpos:</td><td ><input name='bysetpos'id='bysetpos'  type='text'></input></tr>"+
+             "<tr><td >WKST:</td><td ><input name='WKST'  id='WKST' type='text'></input></tr>"+
+           "<tr><td ><input name='repeat_week' type='radio'>工作日</input></td><td ></td></tr>"+
+          "<tr><td >结束时间:</td><td ></td></tr>"+
+           "<tr><td ><input  name='cycleType' type='radio' value=1 >永不</input></td><td ></td></tr>"+
+             "<tr><td ><input  name='cycleType' type='radio' value=2>结束日期</input></td><td ><span style=\"position:relative\" ><input id=\"until\" onclick='showCalendar(this)'></input></span></td></tr>"+
+            "<tr><td ><input  name='cycleType' type='radio' value=3>次数</input></td><td ><select id='count'>"+
+            "<option value=1>1</option>"+
+            "<option value=2>2</option>"+
+            "<option value=3>3</option>"+
+            "<option value=4>4</option>"+
+            "<option value=5>5</option>"+
+            "<option value=6>6</option>"+
+            "<option value=7>7</option>"+
+            "<option value=8>8</option>"+
+            "<option value=9>9</option>"+
+            "<option value=10>10</option>"+
+            "<option value=11>11</option>"+
+            "<option value=12>12</option>"+
+
+    "</select></td></tr>"+
+     "<tr><td><span style='color:gray' >说明:</span></td><td><textarea type=\"text\" id=\"description\"></textarea></td></tr>" +
+       "<tr><td><span style='color:gray' >地点:</span></td><td><input type=\"text\" id=\"location\"></input></td></tr>" +
+       "<tr><td>分类:</td><td colspan=2><select id='event_type'>"+
+                "<option value=0>工作</option>"+
+                " <option value=1>生活</option>"+
+                "<option value=2>学习</option>"+
+                //"<option value=9>考勤</option><option value=10>迟到</option>"+
+                "<option value=11>计划</option>"+
+                "<option value=12>正在做</option>"+
+                "<option value=13>带校验</option>"+
+                "<option value=14>已完成</option></select>" +"</td></tr>" +
+    "<tr><td><input type=\"button\"  value=\"保存123\" onClick=\"event.stopPropagation();event.cancelBubble = true;Instance('" +
     this.index +
-    "').saveCalendarEventAction()\"></input></td><td>" +
+    "').saveCalendarEventAction(event);\"></input></td><td>" +
     "<input type=\"button\" value=\"删除\" onClick=\"Instance('" +
     this.index +
     "').deleteCalendarEventAction()\"></input>" +
     "<input type=\"button\" value=\"详细\" onClick=\"Instance('" +
     this.index +
-    "').editCalendarEventAction()\"></input><select id='event_type'>"+
-"<option value=0>工作</option>"+
-" <option value=1>生活</option>"+
-"<option value=2>学习</option>"+
-//"<option value=9>考勤</option><option value=10>迟到</option>"+
-"<option value=11>计划</option>"+
-"<option value=12>正在做</option>"+
-"<option value=13>带校验</option>"+
-"<option value=14>已完成</option></select>" +
+    "').editCalendarEventAction()\"></input>"+
     "</td></tr>" +
     "</table></div>";
   return str;
@@ -1079,6 +1124,10 @@ CalendarView.prototype.displaySingleEvent = function(ce) {
   this.valueStack["event_" + ce.id] = ce;
   var title = ce.title;
   var date = ce.startDay;
+
+  if(ce.isRepeat){
+    console.log("是重复事件"); //后端如果是重复事件的话 不论是不是当天的 只要截止日期没到都会查询出来交给前端自己校验显示
+  }
   var startTimeSV = ce.startTimeSV;
   var endTimeSV = ce.endTimeSV;
   //alert(ce.startTime);
@@ -1134,6 +1183,12 @@ CalendarView.prototype.displaySingleEvent = function(ce) {
 
     Instance(index).openCalendarEventDialog(div_html);
   });
+
+  if(ce.childs){
+        for(var i=0;i<ce.childs.length;i++){
+            this.displaySingleEvent(ce);
+        }
+  }
 };
 
 /**
@@ -1537,13 +1592,47 @@ CalendarView.prototype.selectDate = function(day) {
   this.refreshDatePickerView();
 
 };
-
+// form 2 event
 CalendarView.prototype.saveCalendarEventAction = function(event) {
+   // alert(getRadioValueByName("isRepeat"));
+     try {
+        event.stopPropagation();
+      } catch(e) {
+        event.cancelBubble = true;
+      };
+     //alert(getRadioValueByName("cycleType"));
+
+    var actType=getRadioValueByName("actType");
+    var cycleType= getRadioValueByName("cycleType");
+
 
   // 数据修改
   var ce = this.getCalendarEvent(this.currentEventId);
+    if(actType){
+        ce.actType=actType;
+    }
+    if(cycleType){
+        ce.cycleType=cycleType;
+    }
+    var description = $("#description").val()
+    if(description){
+        ce.description=description;
+    }
+    var title = $("#calendarEventDialog_title").val();
+    if(!title){
+        alert("标题必须填写");return;
+    }
+     ce.cycleType=cycleType;
+  ce.title = $$("calendarEventDialog_title").value;//标题
 
-  ce.title = $$("calendarEventDialog_title").value;
+
+  var isRepeat = $("#isRepeat").attr("checked");
+ if(isRepeat){
+  ce.freq= getSelectedValue("freq");//freq
+ ce.interval =  $$("interval").value;//间隔
+  ce.until =$("#until").val();
+ }
+
   if(ce.id == "newEvent") {
 
     this.currentEventId = this.getEventId();
@@ -1551,14 +1640,16 @@ CalendarView.prototype.saveCalendarEventAction = function(event) {
     ce.id = this.currentEventId;
     $$("event_newEvent").id = "event_" + ce.id;
   }
-  var dateStartStr = $$("calendarEventDialog_date_start").innerHTML;
+  // ce.byday = $$("calendarEventDialog_title").value;//标题
+
+  var dateStartStr = $("#calendarEventDialog_date_start").val();
   if(dateStartStr.length == 10) {//如果是yyyy-MM-dd
     ce.startDay =dateStartStr;
   }else  if(dateStartStr.length == 16){//如果是yyyy-MM-dd HH:mm
     ce.startDay = dateStartStr.substr(0,10) ;
      ce.startTimeSV = dateStartStr.substr(11,15) ;
   }
-   var dateEndStr = $$("calendarEventDialog_date_end").innerHTML;
+   var dateEndStr = $("#calendarEventDialog_date_end").val();
   if(dateEndStr.length == 10) {
     ce.endDay =dateEndStr;
   }else  if(dateStartStr.length == 16){//如果是yyyy-MM-dd HH:mm
@@ -1624,10 +1715,10 @@ CalendarView.prototype.openCalendarEventDialog = function(it) {
     console.log("不能编辑");
     return;
   }
-  $$("calendarEventDialog_date_start").innerHTML = ce.startDay + " " + ce.startTimeSV;
-  $$("calendarEventDialog_date_end").innerHTML = ce.endDay + " " + ce.endTimeSV;
+  $("#calendarEventDialog_date_start").val( ce.startDay + " " + ce.startTimeSV);
+  $("#calendarEventDialog_date_end").val( ce.endDay + " " + ce.endTimeSV);
 
-  $$("calendarEventDialog_title").value = ce.title;
+  $("#calendarEventDialog_title").val(ce.title);
   setSelectValue("event_type",ce.type);
   // get event information from stack
   // select the current event
@@ -1821,14 +1912,66 @@ CalendarView.prototype.refreshCalendarEventBarView = function(id) {
 /**更新弹出框 编辑框的内容**/
 CalendarView.prototype.refreshCalendarEventDialogView = function(id) {
   // 的到event从 堆栈中
+
+  //先清空数据
+  $("#calendarEventDialog_date_start").val( "");  //开始时间
+ $("#calendarEventDialog_date_end").val( "") ;  //开始时间
+ $("#calendarEventDialog_title").val( "");//标题
+
+
+$("#byday").val("");
+$("#bymonth").val("");
+$("#bymonthday").val("");
+$("#bysecond").val("");
+$("#byminute").val("");
+$("#byhour").val("");
+$("#byweekno").val("");
+$("#byyearday").val("");
+$("#description").val("");
+$("#location").val("");
+  $("#interval").val("");//标题
+$("#bysetpos").val("");
+  $("#freq").val("");//标题
+$("#WKST").val("");
+$("#WKST").val("");
+$("#until").val("");
   var ce = this.getCalendarEvent(id);//从缓存中获取时间
 
   if(ce == null) // || (typeof event) == "undefined"
     return;
 
-  $$("calendarEventDialog_date_start").innerHTML = ce.startDay + " " + ce.startTimeSV;  //开始时间
-  $$("calendarEventDialog_date_end").innerHTML = ce.endDay + " " + ce.endTimeSV;//结束时间
+
+
+    $("#calendarEventDialog_date_start").val( ce.startDay + " " + ce.startTimeSV);  //开始时间
+   $("#calendarEventDialog_date_end").val( ce.endDay + " " + ce.endTimeSV) ;  //开始时间
+
   $$("calendarEventDialog_title").value = ce.title;//标题
+ if(id=="new_eventId")
+    return;
+
+  if(ce.freq){
+
+         // alert(ce.freq)
+       $("#freq").val(ce.freq);//标题
+
+       $("#interval").val(ce.interval);
+       if(ce.until)
+         $("#until").text(new Date(ce.until).format("yyyy-MM-dd"));
+
+
+        $("#count").val(ce.count);
+        ce.byday="mo,th";
+
+        if(ce.byday){
+           var ary =  ce.byday.split(",");// 逗号分割
+
+           for(var i=0;i<ary.length;i++){
+                $("#byday_"+ary[i]).attr("checked","true");
+           }
+        }
+
+
+  }
 };
 // 界面的调整变化 在动作的驱动下 界面类动作
 // ----------------------------------显示日历编辑框 弹出框--------------------------------------------------------
@@ -2307,7 +2450,7 @@ CalendarView.prototype.adjust = function(nowColumn, ce) {
  *
  * 堆叠算法 把所有的砖块先平铺摆开 这样的话呈现的是关于序号和 y轴高度的坐标图 然后我们把1号砖列为基准 放置第二块砖 如果第二块砖和第一块相加则
  */
-CalendarView.prototype.VampireAlgorithm = function(vampires) {
+CalendarView.prototype.VampireAlgorithm = function(vampires) {return;
   // 按照top的高度重新排序vampires
   // 设置top
   // console.log("进入VampireAlgorithm的vampires个数为"+vampires.length);
@@ -2630,6 +2773,7 @@ CalendarView.prototype.addEventView = function(ce) {
     ce = new calendarEvent();
     var date = new Date();
     ce.startTimeSV = DateUtil.getTimestrFromDate(date);
+    console.log("startTimeSV:"+ce.startTimeSV);
     ce.endTimeSV = DateUtil.getTimestrFromDate(date);
     ce.id = "newEvent";
 
@@ -2888,14 +3032,20 @@ CalendarView.prototype.loadEventsView = function() { //alert("before loadevents"
     //jso.STARTSZSHIFT=startSzShift;
     jso.ENDDATE = parseInt((DateUtil.retainDay(DateUtil.copyDate(global_weekdays[0])).getTime() + 24 * 60 * 60 * 1000) / 60000);
   } else if(this.viewMode == VIEWMODE_WEEK) {
+
+
     jso.STARTDATE = parseInt(DateUtil.retainDay(DateUtil.copyDate(global_weekdays[0])).getTime() / 60000);
     //jso.STARTSZSHIFT=startSzShift;
     jso.ENDDATE = parseInt((DateUtil.retainDay(DateUtil.copyDate(global_weekdays[6])).getTime() + 7 * 24 * 60 * 60 * 1000) / 60000);
+
+
   } else if(this.viewMode == VIEWMODE_MONTH) {
     jso.STARTDATE = parseInt(DateUtil.getFirstMonthDay(this.dummyDay).getTime() / 60000);
     //jso.STARTSZSHIFT=startSzShift;
 
     jso.ENDDATE = parseInt((DateUtil.getLastMonthDay(this.dummyDay).getTime() + 24 * 60 * 60 * 1000) / 60000);
+
+
     //console.log("startdate:"+jso.STARTDATE+" ENDDATE："+jso.ENDDATE);
   } else if(this.viewMode == VIEWMODE_LONG) {
     jso.STARTDATE = parseInt(DateUtil.getFirstMonthDay(this.dummyDay).getTime() / 60000);
@@ -2924,6 +3074,7 @@ CalendarView.prototype.loadEventsView = function() { //alert("before loadevents"
       //jso.STARTSZSHIFT=startSzShift;
 
       jso.ENDDATE = parseInt((DateUtil.getLastMonthDay(this.dummyDay).getTime() + 24 * 60 * 60 * 1000) / 60000);
+
       //console.log("startdate:"+jso.STARTDATE+" ENDDATE："+jso.ENDDATE);
     }
 
@@ -2931,11 +3082,18 @@ CalendarView.prototype.loadEventsView = function() { //alert("before loadevents"
   /*$.post("http://127.0.0.1:8080/calendar/activity/getActivities",jso,function (data){
   	alert(data[AJAX_RESULT]);
   });*/
+
+      searchStartDate= DateUtil.retainDay(new Date(jso.STARTDATE*60000));
+          searchEndDate= DateUtil.night(new Date( jso.ENDDATE*60000 ));
+
   if(this.viewMode == VIEWMODE_LIST || this.viewMode == VIEWMODE_LONG) {
     Ajax.post(PATH + "/activity/getAllActivities.json", jso, this.loadEventsViewCallBack.Apply(this));
   } else {
     Ajax.post(PATH + "/activity/getActivities.json", jso, this.loadEventsViewCallBack.Apply(this));
   }
+
+  this.startDate = jso.STARTDATE;
+  this.endDate = jso.ENDDATE;
 };
 
 /**
@@ -2949,6 +3107,10 @@ CalendarView.prototype.loadEventsViewCallBack = function(data) { //alert(this);/
   if(this.viewMode == VIEWMODE_LONG) {
     var finalData = {};
     for(var i = 0; i < data.data.length; i++) {
+    //TEST
+//    alert("test");
+//    data.data[i].isRepeat=true;
+// data.data[i].freq="dayly";
       var rowData = data.data[i];
       var title = rowData.title;
       var userName = rowData.userName;
@@ -3142,6 +3304,11 @@ CalendarView.prototype.loadEventsViewCallBack = function(data) { //alert(this);/
         if(data.data[i]) {
           var ce = changeJson2CE(data.data[i]);
           //this.displaySingleEvent(ce);
+          if(ce.childs){
+            for(var j=0;j<ce.childs.length;j++){
+                this.addEventView(ce.childs[j]);
+            }
+          }
           this.addEventView(ce);
         }
       }
@@ -3302,6 +3469,89 @@ CalendarView.prototype.judgeIfSaveInDb = function(id) {
 
 };
 
+function ical2js(ce){
+    if(ce.freq){ //如果freq参数存在的话就说明是重复事件  我希望前端有能力去处理展示重复事件,那将能够节省后端一大笔开销
+    //alert(ce.freq);
+
+    if(!ce.interval)
+        ce.interval=1;
+     ce.childs=[];
+        var eventStartDate = DateUtil.parseDate(ce.startDay,"yyyy-MM-dd");
+//        var eventEndDate =DateUtil.parseDate(ce.until,"yyyy-MM-dd");
+
+        var eventEndDate =new Date(ce.until);
+        console.log("截止时间:"+eventEndDate.format("yyyy-MM-dd"));
+        //超过期限了 就是没有
+        console.log(eventStartDate.getTime() >searchEndDate.getTime());
+        console.log(eventEndDate.getTime() );
+        console.log(searchStartDate.getTime() );
+           if(eventStartDate.getTime() >searchEndDate.getTime()  || eventEndDate.getTime() < searchStartDate.getTime()){
+                return null;
+            }
+
+            var _day =null;
+
+            if(ce.freq.toLowerCase()=="secondly"){
+                _day = DateUtil.DateAddSecond(eventStartDate,ce.interval);
+               }
+              if(ce.freq.toLowerCase()=="hourly"){
+                _day = DateUtil.DateAddHour(eventStartDate,ce.interval);
+               }
+              if(ce.freq.toLowerCase()=="weekly"){
+                _day = DateUtil.DateAddWeek(eventStartDate,ce.interval);
+               }
+               if(ce.freq.toLowerCase()=="daily"){
+                   _day = DateUtil.DateAddDay(eventStartDate,ce.interval);
+                  }
+                   if(ce.freq.toLowerCase()=="monthly"){
+                     _day = DateUtil.DateAddMonth(eventStartDate,ce.interval);
+                    }
+                    if(ce.freq.toLowerCase()=="yearly"){
+                     _day = DateUtil.DateAddYear(eventStartDate,ce.interval);
+                    }
+                          while(true){
+                                if(_day.getTime()>  eventEndDate.getTime())break;
+                                if(between(_day,searchStartDate,searchEndDate)){
+                                    var _event =copyEvent(ce);
+                                    _event.startDay = _event.day = _day.format("yyyy-MM-dd"); //对应开始日期 yyyy-MM-dd
+
+                                        _event.startTimeSV  = _day.format("HH:mm"); //对应开始日期 小时分钟
+                                      //   _event.endTimeSV = _day.format("HH:mm"); //对应结束时间 小时分钟
+
+                                     _event.id+= "_"+ce.childs.length;
+                                    ce.childs.push(_event);
+
+
+
+            if(ce.freq.toLowerCase()=="secondly"){
+                _day = DateUtil.DateAddSecond(_day,ce.interval);
+               }
+              if(ce.freq.toLowerCase()=="hourly"){
+                _day = DateUtil.DateAddHour(_day,ce.interval);
+               }
+                                     if(ce.freq.toLowerCase()=="weekly"){
+                                        _day = DateUtil.DateAddWeek(_day,ce.interval);
+                                       }
+                                       if(ce.freq.toLowerCase()=="daily"){
+                                           _day = DateUtil.DateAddDay(_day,ce.interval);
+                                          }
+                                           if(ce.freq.toLowerCase()=="monthly"){
+
+                                             _day = DateUtil.DateAddMonth(_day,ce.interval);
+                                               alert(_day);
+                                            }
+                                            if(ce.freq.toLowerCase()=="yearly"){
+                                             _day = DateUtil.DateAddYear(_day,ce.interval);
+                                            }
+                                }else{
+                                    break;
+                                }
+                            }
+
+    }
+
+};
+
 function judgeIfNeed2Save(ceid) {
   var ce = ca.getCalendarEvent(ceid);
   console.log("startTime:"+ DateUtil.getTimes(ce.startDay, ce.startTimeSV));
@@ -3353,7 +3603,7 @@ window['CalendarView'] = CalendarView;
 
 /**
  * 将activity转换成calendarevent
- *
+ * 标准格式
  */
 function changeJson2CE(data) {
   var ce = new calendarEvent();
@@ -3368,12 +3618,24 @@ function changeJson2CE(data) {
   ce.endDay = new Date(data.endTime * 60000).format("yyyy-MM-dd"); //对应结束日期
   console.log((data.startTime % (24 * 60) / 60) + ":" + (data.startTime % (60)));
 
-  ce.startTime = data.startTime % (24 * 60);
-  ce.endTime = data.endTime % (24 * 60);
+  ce.startTime = data.startTime ; //分钟小时 // % (24 * 60)
+  ce.endTime = data.endTime;    //分钟小时  // % (24 * 60)
+
   ce.isdel = data.isdel;
   ce.data = data;
   ce.type=data.type;
    ce.edit=data.edit;
+   ce.freq=data.freq;
+
+
+  ce.until= data.until;
+  ce.byday= data.byday;
+    ce.bymonth= data.bymonth;
+    ce.interval =data.interval;
+
+//    alert("test");
+//    ce.freq="dayly";
+   ical2js(ce);
   //{"r":0,"data":[{"isdel":false,"title":"123","id":201641653,"startTime":24347040,"endTime":24347100,"address":null,"userId":7,"description":null,"type":0,"privacy":0,"busyLevel":null}],"msg":null,"page":null,"right":true}
   return ce;
 }
@@ -3387,6 +3649,7 @@ function translateCE2Activity(ce) {
   activity.id = ce.id;
   activity.title = ce.title;
 activity.type=ce.type;
+
   activity.startTime = DateUtil.getTimes(ce.startDay, ce.startTimeSV);
   //	activity. STARTTIME = DateUtil.getTimes(ce.startDay,ce.startTimeSV);
   if(ce.startDay) {
@@ -3400,6 +3663,23 @@ activity.type=ce.type;
     //	activity. ENDTIME = DateUtil.getTimes(ce.endDay,ce.startTimeSV);
   }
   activity.isDel = ce.isdel;
+  activity.actType = ce.actType;
+  activity.location=ce.location;
+
+//  activity.intervalUnit = ce.intervalUnit;  // 单位 年月日天周
+//  activity.repeatEnd=ce.repeatEnd;
+  activity.description = ce.description;
+
+    activity.freq =ce.freq;
+    if( activity.freq ){
+      activity.interval= ce.interval;    // 重复间隔单位 一般是每月
+      activity.until= ce.until;
+      activity.byday= ce.byday;
+        activity.bymonth= ce.bymonth;
+       activity.until =DateUtil.parseDate(ce.until, "yyyy-MM-dd HH").getTime();
+
+    }
+
   return activity;
 }
 
@@ -3429,6 +3709,28 @@ function del(ceid) {
 
 }
 
+function copyEvent(event) {
+  var ce = new calendarEvent();
+  ce.id = event.id; //对应数据库id
+
+  ce.title = event.title; //对应数据库标题
+  ce.startDay =ce.day= event.startDay; //对应开始日期 yyyy-MM-dd
+
+  ce.startTimeSV =event.startTimeSV; //对应开始日期 小时分钟
+
+  ce.endTimeSV = event.endTimeSV;
+  ce.endDay =  event.endDay;
+  //console.log((data.startTime % (24 * 60) / 60) + ":" + (data.startTime % (60)));
+
+  ce.startTime = event.startTime;
+  ce.endTime = event.endTime;
+  ce.isdel = event.isdel;
+  ce.data = event.data;
+  ce.type=event.type;
+   ce.edit=event.edit;
+  //{"r":0,"data":[{"isdel":false,"title":"123","id":201641653,"startTime":24347040,"endTime":24347100,"address":null,"userId":7,"description":null,"type":0,"privacy":0,"busyLevel":null}],"msg":null,"page":null,"right":true}
+  return ce;
+}
 /**
  * 轮循保存数据
  */
@@ -3454,13 +3756,13 @@ function loopCheckAndSave() {
     console.log("begin ajax save");
     Ajax.post(PATH + "/activity/saveActivitys.json", {
       'jsonstr': JSON.stringify(arr)
-    }, saveHandler);
+    }, saveAjaxCallBack);
   } else {
     setTimeout("loopCheckAndSave()", 1000);
   }
 }
 
-function saveHandler(data) {
+function saveAjaxCallBack(data) {
   //TODO 增加失败调用
   console.log(" ajax save complete result:" + data.r);
   synStack = {};
@@ -3545,8 +3847,35 @@ function showListWeek(data){
 
 
 
-}/*
+}
+
+/*
 if(module)
 module.exports = CalendarView;
+保存过程
+点击保存触发
+saveCalendarEventAction  || CalendarView.prototype.saveChangedAction(拖动触发)
+CalendarView.prototype.saveCalendarEventDataService
+==>>
+save() ==>判断是否变化了  ==>变化了 放入stack
+每1秒
+loopCheckAndSave
+translateCE2Activity
+==> ajaxurl ==> ajaxCallBack
 
+
+查找过程
+  Ajax.post(PATH + "/activity/getAllActivities.json", jso, this.loadEventsViewCallBack.Apply(this));
+loadEventsViewCallBack
 */
+
+
+
+function between(nowDate,startDate,endDate){
+
+    if(nowDate.getTime()<=endDate.getTime()){
+        return true;
+    }else{
+        return false;
+    }
+}

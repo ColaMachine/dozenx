@@ -474,7 +474,7 @@ table td{padding:0;}
 		a, blockquote, body, code, dd, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, iframe, img, input, label, li, object, ol, p, q, small, span, strong, table, tbody, td, th, tr, ul {
 		margin: 0;
 		padding: 0;
-		border: 0;
+	/**	border: 0;**/
 		}
 
 
@@ -724,8 +724,8 @@ table td{padding:0;}
 	}
 	//disableMouseSelection(document.documentElement);
 	window.onresize=findDimensions;
-	function hiddenDialogue(){
-console.log("hidedialogue");
+	function hiddenDialogue(){return;
+		console.log("hidedialogue");
 
 		document.getElementById("calendarEventDialog").style.display="none";
 

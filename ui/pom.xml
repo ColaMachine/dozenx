@@ -110,11 +110,11 @@
             <version>${dozenx.version}</version>
         </dependency>
 
-           <dependency>
+        <!--   <dependency>
                <groupId>com.dozenx</groupId>
                <artifactId>CheckinServer</artifactId>
                <version>${dozenx.version}</version>
-           </dependency>
+           </dependency>-->
 
         <!--  <dependency>
               <groupId>org.springframework.boot</groupId>
@@ -311,6 +311,9 @@
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
                 </includes>
+                <excludes>
+                    <exclude>upload/**</exclude>
+                </excludes>
                 <filtering>false</filtering>
             </resource>
 
@@ -344,4 +347,16 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+<!--    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>-->
+
 </project>

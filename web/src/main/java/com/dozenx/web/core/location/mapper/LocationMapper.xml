@@ -5,10 +5,10 @@
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="area_name" jdbcType="VARCHAR" property="areaName" />
         <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
-
+        <result column="area_cn_code" jdbcType="VARCHAR" property="code" />
     </resultMap>
     <sql id="Base_Column_List">
-        id,area_name,parent_id,area_type
+        id,area_name,parent_id,area_type,area_cn_code
     </sql>
     <select id="selectAll"  resultType="java.util.HashMap">
         select

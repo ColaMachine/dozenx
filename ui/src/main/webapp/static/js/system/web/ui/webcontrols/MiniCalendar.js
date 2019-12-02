@@ -280,3 +280,38 @@ MiniCalendar.prototype.hide = function() {
 MiniCalendar.prototype.clear = function() {
 
 };
+
+
+
+function showCalendar(it){
+	/*var div=document.createElement("div");
+	div.style.position="absolute";
+	it.parentNode.appendChild(div);
+	div.style.border="1px solid red";
+	div.style.width=50;
+	div.style.height=100;
+	var arr=getInfo(it);
+
+	div.style.top=arr.top+it.offsetHeight;*/
+
+	//Using("System.Web.UI.WebControls.SelectDate");
+
+	var d = new MiniCalendar();
+	d.render(it.id,function(){
+	    if(it.tagName.toUpperCase() == 'INPUT'){
+ it.value= d.getDateStr()
+}else{
+     it.innerHTML= d.getDateStr()
+}
+	});
+
+    var mask =new Mask(function(){d.hide()});
+	/*var span=document.createElement("span");
+	var calendar_dialogue_time_input=document.createElement("input");
+	calendar_dialogue_time_input.value=it.innerHTML;
+	it.style.display="none";
+	span.appendChild(calendar_dialogue_time_input);
+	it.parentNode.appendChild(span);
+	*/
+
+}

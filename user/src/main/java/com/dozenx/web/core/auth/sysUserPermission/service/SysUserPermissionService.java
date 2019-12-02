@@ -133,7 +133,7 @@ public class SysUserPermissionService extends BaseService {
             String[] uidAry= uids.split(",");
             String[] pidAry=pids.split(",");
             Long[] uidAryReal =new  Long[uidAry.length];
-            Long[] pidAryReal =new  Long[pidAry.length];
+            Integer[] pidAryReal =new  Integer[pidAry.length];
             for(int i=0;i<uidAry.length;i++){
                 if(!StringUtil.checkNumeric(uidAry[i])){
                     return ResultUtil.getResult(101,"参数错误");
@@ -149,7 +149,7 @@ public class SysUserPermissionService extends BaseService {
                 if(!StringUtil.checkNumeric(pidAry[i])){
                     return ResultUtil.getResult(101,"参数错误");
                 }
-                pidAryReal[i]=Long.valueOf(pidAry[i]);
+                pidAryReal[i]=Integer.valueOf(pidAry[i]);
             }
             //验证父亲id 正确性 是否存在
              if(uidAryReal!=null)
@@ -176,7 +176,7 @@ public class SysUserPermissionService extends BaseService {
                 for(int j=0;j<pidAryReal.length;j++){
                    SysUserPermission sysUserPermission =new  SysUserPermission();
                     Long uid =uidAryReal[i];
-                    Long pid =pidAryReal[j];
+                    Integer pid =pidAryReal[j];
                     //查找是否已经有关联数据了
 
                     params.put("pid",pid);

@@ -10,12 +10,11 @@ package com.dozenx.web.module.checkin.checkinOut.action;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.dozenx.common.util.*;
-import com.dozenx.swagger.annotation.*;
-import com.dozenx.common.Path.PathManager;
 import com.dozenx.common.config.SysConfig;
 import com.dozenx.common.exception.BizException;
 import com.dozenx.common.exception.ParamException;
+import com.dozenx.common.util.*;
+import com.dozenx.swagger.annotation.*;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
@@ -36,14 +35,19 @@ import com.dozenx.web.module.checkin.checkinOut.service.CheckinOutService;
 import com.dozenx.web.module.checkin.faceCheckinOut.bean.FaceCheckinOut;
 import com.dozenx.web.module.checkin.faceCheckinOut.service.FaceCheckinOutService;
 import com.dozenx.web.module.checkin.faceInfo.service.VirtualWeixinService;
+import com.dozenx.web.module.email.email.service.EmailSendService;
 import com.dozenx.web.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -75,7 +79,7 @@ public class CheckinOutController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
 
-//    /**
+    //    /**
 //     * 说明:ajax请求CheckinOut信息
 //     *
 //     * @return String
@@ -170,6 +174,9 @@ public class CheckinOutController extends BaseController {
 
         String userId = request.getParameter("userId");
         SysUser sysUser = sysUserService.getUserById(Long.valueOf(userId));
+        logger.info("userId" + userId);
+
+
         if (sysUser == null) {
             return this.getResult(30801163, "该用户不存在");
         }
@@ -207,21 +214,26 @@ public class CheckinOutController extends BaseController {
                 params.put("checkTimeEnd", new Timestamp(DateUtil.parseToDate(checkTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
         }
-
+        String showType = request.getParameter("showType");
         params.put("page", page);
-        List<CheckinOut> checkinOuts = checkinOutService.listByParams(params);
+        logger.info("params" + JsonUtil.toJsonString(params));
         List finalList = new ArrayList<>();
+        if (StringUtil.isBlank(showType) || showType.equals("0")) {
 
-        for (CheckinOut checkinOut : checkinOuts) {
-            HashMap map = new HashMap();
-            map.put("isdel", false);
-            map.put("title", "签到" + DateUtil.toDateStr(new Date(checkinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-            map.put("id", checkinOut.getId());
-            map.put("startTime", checkinOut.getCheckTime().getTime() / 60000);
-            map.put("endTime", checkinOut.getCheckTime().getTime() / 60000);
-            map.put("userId", otherUserId);
-            map.put("type", 9);
-            map.put("edit", 0);
+
+            List<CheckinOut> checkinOuts = checkinOutService.listByParams(params);
+
+            logger.info("checkinOuts" + checkinOuts.size());
+            for (CheckinOut checkinOut : checkinOuts) {
+                HashMap map = new HashMap();
+                map.put("isdel", false);
+                map.put("title", "签到" + DateUtil.toDateStr(new Date(checkinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+                map.put("id", checkinOut.getId());
+                map.put("startTime", checkinOut.getCheckTime().getTime() / 60000);
+                map.put("endTime", checkinOut.getCheckTime().getTime() / 60000);
+                map.put("userId", otherUserId);
+                map.put("type", 9);
+                map.put("edit", 0);
 //            "isdel": false,
 //                    "title": "写学习博客",
 //                    "id": 2018111245,
@@ -231,52 +243,61 @@ public class CheckinOutController extends BaseController {
 //                    "type": 0,
 //                    "privacy": 0
 
-            finalList.add(map);
-        }
-
-
-        params.put("userId", sysUser.getId());
-        List<CheckinLate> checkinLates = checkinLateService.listByParams(params);
-
-
-        for (CheckinLate checkinLate : checkinLates) {
-            HashMap map = new HashMap();
-            map.put("isdel", false);
-            if (checkinLate.getCheckType() == 1) {
-                map.put("title", "迟到" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-
-            } else {
-                map.put("title", "未打卡" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-
+                finalList.add(map);
             }
-            map.put("id", checkinLate.getId());
-            map.put("startTime", checkinLate.getCheckTime().getTime() / 60000);
-            map.put("endTime", checkinLate.getCheckTime().getTime() / 60000);
-            map.put("userId", otherUserId);
-            map.put("type", 10);
-            map.put("edit", 0);
-            finalList.add(map);
         }
 
+        if (StringUtil.isBlank(showType) || showType.equals("2")) {
 
-        List<FaceCheckinOut> faceCheckinOuts = faceCheckinOutService.listByParams(params);
+
+            params.put("userId", sysUser.getId());
+            List<CheckinLate> checkinLates = checkinLateService.listByParams(params);
 
 
-        for (FaceCheckinOut faceCheckinOut : faceCheckinOuts) {
-            HashMap map = new HashMap();
-            map.put("isdel", false);
-            map.put("title", "摄像头打卡" + DateUtil.toDateStr(new Date(faceCheckinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
-            map.put("id", faceCheckinOut.getId());
-            map.put("startTime", faceCheckinOut.getCheckTime().getTime() / 60000);
-            map.put("endTime", faceCheckinOut.getCheckTime().getTime() / 60000);
-            map.put("userId", otherUserId);
-            map.put("type", 9);
-            map.put("edit", 0);
-            finalList.add(map);
+            for (CheckinLate checkinLate : checkinLates) {
+                HashMap map = new HashMap();
+                map.put("isdel", false);
+                if (checkinLate.getCheckType() == 1) {
+                    map.put("title", "迟到" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+
+                } else {
+                    map.put("title", "未打卡" + DateUtil.toDateStr(new Date(checkinLate.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+
+                }
+                map.put("id", checkinLate.getId());
+                map.put("startTime", checkinLate.getCheckTime().getTime() / 60000);
+                map.put("endTime", checkinLate.getCheckTime().getTime() / 60000);
+                map.put("userId", otherUserId);
+                map.put("type", 10);
+                map.put("edit", 0);
+                finalList.add(map);
+            }
+        }
+        if (StringUtil.isBlank(showType) || showType.equals("1")) {
+
+
+            logger.info("params" + JsonUtil.toJsonString(params));
+
+            List<FaceCheckinOut> faceCheckinOuts = faceCheckinOutService.listByParams(params);
+            logger.info("faceCheckinOuts" + faceCheckinOuts.size());
+
+            for (FaceCheckinOut faceCheckinOut : faceCheckinOuts) {
+                HashMap map = new HashMap();
+                map.put("isdel", false);
+                map.put("title", "摄像头打卡" + DateUtil.toDateStr(new Date(faceCheckinOut.getCheckTime().getTime()), "yyyy-MM-dd HH:mm:ss"));
+                map.put("id", faceCheckinOut.getId());
+                map.put("startTime", faceCheckinOut.getCheckTime().getTime() / 60000);
+                map.put("endTime", faceCheckinOut.getCheckTime().getTime() / 60000);
+                map.put("userId", otherUserId);
+                map.put("type", 9);
+                map.put("edit", 0);
+                finalList.add(map);
+            }
         }
         return ResultUtil.getResult(finalList, page);
     }
-//
+
+    //
 //    /**
 //     * 说明:ajax请求CheckinOut信息 无分页版本
 //     *
@@ -1209,11 +1230,11 @@ public class CheckinOutController extends BaseController {
             if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
                 return this.getResult(SUCC, SysConfig.PATH + "/xlstmp/" + randomName, "导出成功");
             }
-                /*
-                 * return new ResponseEntity<byte[]>(
-                 * FileUtils.readFileToByteArray(new File(fileName)), headers,
-                 * HttpStatus.CREATED);
-                 */
+            /*
+             * return new ResponseEntity<byte[]>(
+             * FileUtils.readFileToByteArray(new File(fileName)), headers,
+             * HttpStatus.CREATED);
+             */
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1585,7 +1606,7 @@ public class CheckinOutController extends BaseController {
             })
 
 
-//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public ResultDTO notifyLate() throws Exception {
         Calendar calendar = Calendar.getInstance();
         String timeStrAry[] = ConfigUtil.getConfig("kq.late.check.time").split(",");
@@ -1629,6 +1650,47 @@ public class CheckinOutController extends BaseController {
         return this.getResult();
     }
 
+
+    @API(summary = "考勤列表接口",
+            description = "考勤列表接口",
+            parameters = {
+
+                    @Param(name = "date", description = "日期 2019-9-18", dataType = DataType.STRING, required = false),// false
+
+                    @Param(name = "time", description = "检查时间9:32-6:30-8:31-9:30(结算的时间点  -   正常的考勤时间开始时间  - 正常的考情时间结束  -   未打卡截止时间 )", dataType = DataType.DATE_TIME, required = true),// false
+            })
+
+    @RequestMapping(value = "/late/compute", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultDTO lateCompute(HttpServletRequest request) throws Exception {
+        String timeStrAry = request.getParameter("time");
+        String hourAndMin[] = timeStrAry.split("-")[0].split(":");
+//            if (hour == Integer.valueOf(hourAndMin[0]) && minute == Integer.valueOf(hourAndMin[1])) {//正好在这个点上面 就进行验证
+//                logger.error("it's time to check late  " + timeStrAry);
+//            } else {//否则到下个点去校验
+//                //TODO delete
+//                continue;
+//            }
+        String begin = timeStrAry.split("-")[1];//正常的考勤时间开始时间
+        if (begin == null) {
+            logger.error("error in begin ");
+        }
+        String end = timeStrAry.split("-")[2];//正常的考勤时间结束时间
+        if (begin == null) {
+            logger.error("error in end ");
+        }
+        String noCheckinTime = timeStrAry.split("-")[3];//未打卡的截止时间
+        String date = request.getParameter("date");
+        if (StringUtil.isBlank(date)) {
+            date = DateUtil.getTodayDate();
+        }
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(Integer.valueOf(date.split("-")[0]), Integer.valueOf(date.split("-")[1]), Integer.valueOf(date.split("-")[2]), Integer.valueOf(end.split(":")[0]), Integer.valueOf(end.split(":")[1]));
+        logger.info("开始查询" + date + " " + begin + " " + end + "");
+        computeLate(date, begin, end, noCheckinTime);
+        return this.getResult();
+    }
+
     /**
      * 计算这个人是 正常考勤 迟到 还是缺勤(忘记打卡)
      *
@@ -1654,11 +1716,12 @@ public class CheckinOutController extends BaseController {
 
             //如果在一个小时内都还没有打卡 就是未打卡 否则是迟到
             boolean late = true;
-
+            Long dakashijian =null;
             //去查她下一个时间段有没有打卡
             for (SysUser secondUser : secondLateUserList) {//遍历下一个时间未打卡的人员
                 if (secondUser.getId() == sysUser.getId()) {//如果都没出现
                     //迟到
+
                     late = false;//说明这个人是未打卡
                     break;
                 }
@@ -1682,8 +1745,14 @@ public class CheckinOutController extends BaseController {
                 //发送迟到通知
                 //    CheckinMessageService.sendMsg();
 
-                logger.info("准备发送迟到 未打卡  消息" + sysUser.getUsername() + DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH) + (late ? "迟到" : "未打卡"));
-                VirtualWeixinService.sendMsg(sysUser.getUsername(), DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH) + (late ? "迟到" : "未打卡"));//date + " " + begin + ":00" + "未打卡"
+
+                if(sysUser.getUsername().equals("武俊英") && StringUtil.isNotBlank(sysUser.getEmail())){
+
+                    logger.info("准备发送迟到 未打卡  消息" + sysUser.getUsername() + DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH) + (late ? "迟到" : "未打卡"));
+
+                    emailSendService.sendEmail(sysUser.getEmail(),"考勤异常","【aWiFi】XXX您好，经智慧门禁系统检测，您在"+begin+" 到 " +end+ " 的打卡存在异常，请及时考勤打卡，如已打卡，敬请忽略。详情请关注微信公众号“爱WiFi运营中心”，进入员工之家进行查询");
+                }
+                //VirtualWeixinService.sendMsg(sysUser.getUsername(), DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH) + (late ? "迟到" : "未打卡"));//date + " " + begin + ":00" + "未打卡"
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1696,7 +1765,8 @@ public class CheckinOutController extends BaseController {
         //readFileACCESS(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
         //getUserMap(new File("C:\\Users\\dozen.zhang\\Desktop/ATT2000.MDB"));
     }
-
+@Autowired
+EmailSendService emailSendService;
     /**
      * 测试ai识别接口是否通畅
      *

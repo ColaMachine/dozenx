@@ -3,13 +3,12 @@
 <mapper namespace="com.dozenx.web.core.auth.active.dao.ActiveMapper">
   <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.active.bean.Active">
       <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="type" jdbcType="VARCHAR" property="type" />
-      <result column="code" jdbcType="VARCHAR" property="code" />
-      <result column="userId" jdbcType="BIGINT" property="userId" />
-      <result column="status" jdbcType="INTEGER" property="status" />
-      <result column="activedTime" jdbcType="DATE" property="activedTime" />
-      <result column="account" jdbcType="VARCHAR" property="account" />
-      <result column="createTime" jdbcType="DATE" property="createTime" />
+      <result column="act_type" jdbcType="VARCHAR" property="actType" />
+      <result column="act_code" jdbcType="VARCHAR" property="actCode" />
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="act_status" jdbcType="INTEGER" property="actStatus" />
+      <result column="act_time" jdbcType="DATE" property="actTime" />
+      <result column="add_time" jdbcType="DATE" property="addTime" />
   </resultMap>
   <sql id="Base_Column_List">
     active.`id` ,active.`type` ,active.`code` ,active.`userId` ,active.`status` ,active.`activedTime` ,active.`account` ,active.`createTime` 

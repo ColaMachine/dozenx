@@ -95,19 +95,19 @@ public class camera {
         outputStream.write((end).getBytes() );
         outputStream.write(("--boundarydonotcross"+end).getBytes() );
         outputStream.flush();
-            int left =113;
-            int top=63;
-            int height=660;
-            int width =1113;
+            int left =233;
+            int top=192;
+            int height=756;
+            int width =1677;
 
-            int destWidth=500;
-            int destHeight=300;
+            int destWidth=1677;
+            int destHeight=756;
         BufferedImage newImage =new BufferedImage(destWidth,destHeight, BufferedImage.TYPE_INT_RGB);
 
             Graphics2D graphics =(Graphics2D) newImage.getGraphics();
             graphics.setColor(new Color(246, 96, 0));
          // graphics.scale(0.5, 0.5);
-        while(true){
+       // while(true){
 //            System.out.println("the "+i+" jpg");
             outputStream.write(("Content-Type: image/jpeg"+end).getBytes() );
 
@@ -136,7 +136,7 @@ public class camera {
             outputStream.flush();
             Thread.sleep(200);
 
-        }
+       // }
 //        outputStream.close();
     }
 

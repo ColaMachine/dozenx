@@ -50,6 +50,41 @@ public class SysUser implements Serializable {
     private int province;
     /**区**/
     private int county;
+
+
+    /**省**/
+    private String  cityName;
+    /**市**/
+    private String provinceName;
+    /**区**/
+    private String countyName;
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+
+
     /*账号*/
     private String account;
 
@@ -140,15 +175,15 @@ public class SysUser implements Serializable {
     private Timestamp createTime;
     public Long outId;
 
-    public Long[] getRoleIds() {
+    public Integer[] getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(Long[] roleIds) {
+    public void setRoleIds(Integer[] roleIds) {
         this.roleIds = roleIds;
     }
 
-    private Long[] roleIds;
+    private Integer[] roleIds;
 
 
     public String getUsername(){
@@ -272,10 +307,9 @@ public class SysUser implements Serializable {
         sessionUser.setSex(getSex()==null ? 0:getSex());
         sessionUser.setFace(this.getFace());
         sessionUser.setUserName(this.getUsername());
-
+        sessionUser.setEmail(email);
         sessionUser.setStatus(this.getStatus());
-
-
+        sessionUser.setNick(this.getNkname());
         return sessionUser;
     }
 

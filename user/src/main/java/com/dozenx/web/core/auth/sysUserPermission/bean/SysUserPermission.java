@@ -21,10 +21,10 @@ public class SysUserPermission {
     }    public void setUid(Long uid){
         this.uid=uid;
     }/**权限id**/
-    private Long pid;
-    public Long getPid(){
+    private Integer pid;
+    public Integer getPid(){
         return pid;
-    }    public void setPid(Long pid){
+    }    public void setPid(Integer pid){
         this.pid=pid;
     }
 }

@@ -84,8 +84,8 @@ public class AuthService {
         List<SysPermission> permissions =  authMapper.selectPermissionByUserId(userid);
 
         for(SysPermission sysPermission : permissions){
-            if(StringUtil.isNotBlank( sysPermission.getUrl())){
-                sysPermission.setUrl(sysPermission.getUrl().replaceAll(SysConfig.PATH,""));
+            if(StringUtil.isNotBlank( sysPermission.getPermissionUrl())){
+                sysPermission.setPermissionUrl(sysPermission.getPermissionUrl().replaceAll(SysConfig.PATH,""));
             }
 
         }
@@ -122,7 +122,7 @@ public class AuthService {
         List<SysPermission> permissions = this.listPermissionByUserid(userid);
         HashSet<String> set = new HashSet<String>();
         for (SysPermission sysPermission : permissions) {
-            set.add(sysPermission.getCode());
+            set.add(sysPermission.getPermissionCode());
 
         }
         List<SysMenu> menus = sysMenuService.listByParams(new HashMap());
@@ -137,12 +137,12 @@ public class AuthService {
         }
         for (int i = menus.size() - 1; i >= 0; i--) {
             SysMenu sysMenu = menus.get(i);
-            String permissionStr = sysMenu.getPermission();
+            String permissionStr = sysMenu.getMenuPermission();
 
-            if (StringUtil.isBlank(sysMenu.getUrl())) {
+            if (StringUtil.isBlank(sysMenu.getMenuUrl())) {
                 continue;
             }
-            if (!PermissionUtil.hasPermission(sysMenu.getPermission(), permissionStrAry)) {
+            if (!PermissionUtil.hasPermission(sysMenu.getMenuPermission(), permissionStrAry)) {
                 menus.remove(i);
             }
 
@@ -212,7 +212,7 @@ public class AuthService {
             registerUser.setPassword("123456");
             registerUser.setStatus(1);
 
-            userService.saveRegisterUser(registerUser);
+            userService.addSmsValidUnEncrypedRegisterUser(registerUser);
         }
         //调用第三方 根据手机号码查询用户是否存在 如果不存在 直接注册
         if (thirdUserService != null) {

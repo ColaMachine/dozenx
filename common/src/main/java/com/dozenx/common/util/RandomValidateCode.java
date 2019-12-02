@@ -280,6 +280,7 @@ public class RandomValidateCode {
         }catch (java.io.FileNotFoundException e){
             e.printStackTrace();
         }
-        return new String[]{Config.getInstance().getImage().getVcodeDir()+"/"+filename+".jpg",str,result};
+        //这里我们需要一个根目录 什么是根目录 serverDir是根目录 我们这里返回一个相对目录即可
+        return new String[]{URLUtil.connact(Config.getInstance().getImage().getVcodeDir(),filename+".jpg"),str,result};
     }
 }

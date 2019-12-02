@@ -1,11 +1,12 @@
 package com.dozenx;
 
-import com.dozenx.service.CheckinOutService;
 import com.dozenx.common.util.DateUtil;
 import com.dozenx.common.util.HttpRequestUtil;
 import com.dozenx.common.util.PropertiesUtil;
 import com.dozenx.common.util.StringUtil;
-import org.apache.log4j.Logger;
+import com.dozenx.service.CheckinOutService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.List;
  * @Modified By:
  */
 public class PushByChidaoThread implements Runnable {
-    static final Logger logger = Logger.getLogger(PushByChidaoThread.class);
+    static final Logger logger = LoggerFactory.getLogger(PushByChidaoThread.class);
     public Long lastModifyedTime = System.currentTimeMillis();//程序启动时间the program start time
     CheckinOutService checkinOutService;
     String timeStrAry[] = null;

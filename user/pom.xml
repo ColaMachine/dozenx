@@ -38,6 +38,49 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+
+    <repositories><!-- 代码库 -->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+        <!-- &lt;!&ndash; maven私库 &ndash;&gt; -->
+
+        <repository>
+            <id>aWiFi-rep</id>
+            <name>aWiFi Private Repository</name>
+            <url>http://192.168.41.25:8081/nexus/content/groups/public/</url>
+        </repository>
+
+        <repository>
+            <id>dozenx</id>
+            <name>aWiFi Private Repository</name>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+
+
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://192.168.41.25:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <!-- maven 插件开始 -->

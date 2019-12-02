@@ -55,13 +55,17 @@ public class SpringUtil {
         //2.获取方法中@RequestMapping配置的路径
         RequestMapping methodRequestMapping = method.getAnnotation(RequestMapping.class);
         String methodMappingValue = getRequestMappingValue(methodRequestMapping);
-        System.out.println();
+      //  System.out.println();
 
         if (methodMappingValue != null) {
+            if(interfaceCode.charAt(interfaceCode.length()-1)!='/' &&  !methodMappingValue.startsWith("/") ){
+                interfaceCode.append("/");
+            }
             interfaceCode.append(methodMappingValue);
+
         }
         String annotationMethod = getRequestMappingMethod(methodRequestMapping);//http请求方式
-        if (StringUtil.isBlank(annotationMethod)) {
+        if (StringUtil.isNotBlank(annotationMethod)) {
             interfaceCode.append(":").append(annotationMethod);
         }
         return interfaceCode.toString();

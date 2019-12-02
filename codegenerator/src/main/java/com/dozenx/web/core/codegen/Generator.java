@@ -1146,7 +1146,15 @@ public class Generator {
         // generator.generate(new String[]{"SysUser"});
 //        generator.generate(new String[]{"ApiUrl"});
        // generator.generate(new String[]{/*"FaceInfo","FaceCapture",*/"CheckinDaily","CheckinConfig"});
-        generator.generate(new String[]{"EmailRecord"});
+        generator.generate(new String[]{"SysMenu"});
+        generator.generate(new String[]{"SysPermission"});
+        generator.generate(new String[]{"SysRole"});
+        generator.generate(new String[]{"SysRoleMenu"});
+//        generator.generate(new String[]{"SysOperLog"});
+//        generator.generate(new String[]{"SysLog"});
+        generator.generate(new String[]{"SysSmsRecord"});
+//        generator.generate(new String[]{"SysEmailActive"});
+       // generator.generate(new String[]{"EmailRecord"});
        // generator.generate(new String[]{"JudgeRule"});
 
 //        generator.generate(new String[]{"SysOrg","SysOrgUser","SysUser","Album","SysGroup","SysOrgGroup","SysGroupUser"});
