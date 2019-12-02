@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.log.sysOperLog.dao.SysOperLogMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.log.sysOperLog.bean.SysOperLog">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+      <result column="oper_result" jdbcType="VARCHAR" property="operResult" />
+      <result column="params" jdbcType="VARCHAR" property="params" />
+      <result column="comp_name" jdbcType="VARCHAR" property="compName" />
+      <result column="oper_detail" jdbcType="LONGVARCHAR" property="operDetail" />
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+      <result column="user_name" jdbcType="VARCHAR" property="userName" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_oper_log.`id` ,sys_oper_log.`module_name` ,sys_oper_log.`oper_result` ,sys_oper_log.`params` ,sys_oper_log.`comp_name` ,sys_oper_log.`oper_detail` ,sys_oper_log.`user_id` ,sys_oper_log.`user_ip` ,sys_oper_log.`user_name` ,sys_oper_log.`create_time` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_oper_log
+    where sys_oper_log.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_oper_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.log.sysOperLog.bean.SysOperLog" >
+
+    insert into sys_oper_log (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{moduleName,jdbcType=VARCHAR}
+,#{operResult,jdbcType=VARCHAR}
+,#{params,jdbcType=VARCHAR}
+,#{compName,jdbcType=VARCHAR}
+,#{operDetail,jdbcType=LONGVARCHAR}
+,#{userId,jdbcType=BIGINT}
+,#{userIp,jdbcType=VARCHAR}
+,#{userName,jdbcType=VARCHAR}
+,#{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.log.sysOperLog.bean.SysOperLog" >
+    insert into sys_oper_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="moduleName != null" >  
+           `module_name`,
+        </if>  
+        <if test="operResult != null" >  
+           `oper_result`,
+        </if>  
+        <if test="params != null" >  
+           `params`,
+        </if>  
+        <if test="compName != null" >  
+           `comp_name`,
+        </if>  
+        <if test="operDetail != null" >  
+           `oper_detail`,
+        </if>  
+        <if test="userId != null" >  
+           `user_id`,
+        </if>  
+        <if test="userIp != null" >  
+           `user_ip`,
+        </if>  
+        <if test="userName != null" >  
+           `user_name`,
+        </if>  
+        <if test="createTime != null" >  
+           `create_time`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="moduleName != null" >  
+          #{moduleName,jdbcType=VARCHAR},
+        </if>  
+        <if test="operResult != null" >  
+          #{operResult,jdbcType=VARCHAR},
+        </if>  
+        <if test="params != null" >  
+          #{params,jdbcType=VARCHAR},
+        </if>  
+        <if test="compName != null" >  
+          #{compName,jdbcType=VARCHAR},
+        </if>  
+        <if test="operDetail != null" >  
+          #{operDetail,jdbcType=LONGVARCHAR},
+        </if>  
+        <if test="userId != null" >  
+          #{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="userIp != null" >  
+          #{userIp,jdbcType=VARCHAR},
+        </if>  
+        <if test="userName != null" >  
+          #{userName,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.log.sysOperLog.bean.SysOperLog" >
+    update sys_oper_log
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="moduleName != null" >  
+             `module_name`=#{moduleName,jdbcType=VARCHAR},
+        </if>  
+        <if test="operResult != null" >  
+             `oper_result`=#{operResult,jdbcType=VARCHAR},
+        </if>  
+        <if test="params != null" >  
+             `params`=#{params,jdbcType=VARCHAR},
+        </if>  
+        <if test="compName != null" >  
+             `comp_name`=#{compName,jdbcType=VARCHAR},
+        </if>  
+        <if test="operDetail != null" >  
+             `oper_detail`=#{operDetail,jdbcType=LONGVARCHAR},
+        </if>  
+        <if test="userId != null" >  
+             `user_id`=#{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="userIp != null" >  
+             `user_ip`=#{userIp,jdbcType=VARCHAR},
+        </if>  
+        <if test="userName != null" >  
+             `user_name`=#{userName,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `create_time`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.log.sysOperLog.bean.SysOperLog" >
+    update sys_oper_log
+    set 
+              `module_name`=#{moduleName,jdbcType=VARCHAR},
+              `oper_result`=#{operResult,jdbcType=VARCHAR},
+              `params`=#{params,jdbcType=VARCHAR},
+              `comp_name`=#{compName,jdbcType=VARCHAR},
+              `oper_detail`=#{operDetail,jdbcType=LONGVARCHAR},
+              `user_id`=#{userId,jdbcType=BIGINT},
+              `user_ip`=#{userIp,jdbcType=VARCHAR},
+              `user_name`=#{userName,jdbcType=VARCHAR},
+              `create_time`=#{createTime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_oper_log where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="moduleName != null and moduleName != '' ">  
+           and `module_name` = #{moduleName}
+        </if>  
+        <if test="moduleNameLike != null and moduleNameLike != '' ">
+             and `module_name` like CONCAT('%',#{moduleNameLike},'%')
+        </if>   
+        <if test="operResult != null and operResult != '' ">  
+           and `oper_result` = #{operResult}
+        </if>  
+        <if test="operResultLike != null and operResultLike != '' ">
+             and `oper_result` like CONCAT('%',#{operResultLike},'%')
+        </if>   
+        <if test="params != null and params != '' ">  
+           and `params` = #{params}
+        </if>  
+        <if test="paramsLike != null and paramsLike != '' ">
+             and `params` like CONCAT('%',#{paramsLike},'%')
+        </if>   
+        <if test="compName != null and compName != '' ">  
+           and `comp_name` = #{compName}
+        </if>  
+        <if test="compNameLike != null and compNameLike != '' ">
+             and `comp_name` like CONCAT('%',#{compNameLike},'%')
+        </if>   
+        <if test="operDetail != null and operDetail != '' ">  
+           and `oper_detail` = #{operDetail}
+        </if>  
+        <if test="userId != null and userId != '' ">  
+           and `user_id` = #{userId}
+        </if>  
+        <if test="userIp != null and userIp != '' ">  
+           and `user_ip` = #{userIp}
+        </if>  
+        <if test="userIpLike != null and userIpLike != '' ">
+             and `user_ip` like CONCAT('%',#{userIpLike},'%')
+        </if>   
+        <if test="userName != null and userName != '' ">  
+           and `user_name` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">
+             and `user_name` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_oper_log
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_oper_log.`id` = #{id}
+        </if>  
+        <if test="moduleName != null and moduleName != '' ">  
+           and sys_oper_log.`module_name` = #{moduleName}
+        </if>  
+        <if test="moduleNameLike != null and moduleNameLike != '' ">  
+             and sys_oper_log.`module_name` like CONCAT('%',#{moduleNameLike},'%')
+        </if>   
+        <if test="operResult != null and operResult != '' ">  
+           and sys_oper_log.`oper_result` = #{operResult}
+        </if>  
+        <if test="operResultLike != null and operResultLike != '' ">  
+             and sys_oper_log.`oper_result` like CONCAT('%',#{operResultLike},'%')
+        </if>   
+        <if test="params != null and params != '' ">  
+           and sys_oper_log.`params` = #{params}
+        </if>  
+        <if test="paramsLike != null and paramsLike != '' ">  
+             and sys_oper_log.`params` like CONCAT('%',#{paramsLike},'%')
+        </if>   
+        <if test="compName != null and compName != '' ">  
+           and sys_oper_log.`comp_name` = #{compName}
+        </if>  
+        <if test="compNameLike != null and compNameLike != '' ">  
+             and sys_oper_log.`comp_name` like CONCAT('%',#{compNameLike},'%')
+        </if>   
+        <if test="operDetail != null and operDetail != '' ">  
+           and sys_oper_log.`oper_detail` = #{operDetail}
+        </if>  
+        <if test="userId != null and userId != '' ">  
+           and sys_oper_log.`user_id` = #{userId}
+        </if>  
+        <if test="userIp != null and userIp != '' ">  
+           and sys_oper_log.`user_ip` = #{userIp}
+        </if>  
+        <if test="userIpLike != null and userIpLike != '' ">  
+             and sys_oper_log.`user_ip` like CONCAT('%',#{userIpLike},'%')
+        </if>   
+        <if test="userName != null and userName != '' ">  
+           and sys_oper_log.`user_name` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and sys_oper_log.`user_name` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_oper_log.`create_time` = #{createTime}
+        </if>  
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `create_time` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `create_time` &lt;= #{createTimeEnd}
+               </if>
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `create_time` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `create_time` &lt;= #{createTimeEnd}
+               </if>
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_oper_log where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_oper_log.`id` = #{id}
+        </if>  
+        <if test="moduleName != null and moduleName != '' ">  
+           and sys_oper_log.`module_name` = #{moduleName}
+        </if>  
+        <if test="moduleNameLike != null and moduleNameLike != '' ">  
+             and sys_oper_log.`module_name` like CONCAT('%',#{moduleNameLike},'%')
+        </if>   
+        <if test="operResult != null and operResult != '' ">  
+           and sys_oper_log.`oper_result` = #{operResult}
+        </if>  
+        <if test="operResultLike != null and operResultLike != '' ">  
+             and sys_oper_log.`oper_result` like CONCAT('%',#{operResultLike},'%')
+        </if>   
+        <if test="params != null and params != '' ">  
+           and sys_oper_log.`params` = #{params}
+        </if>  
+        <if test="paramsLike != null and paramsLike != '' ">  
+             and sys_oper_log.`params` like CONCAT('%',#{paramsLike},'%')
+        </if>   
+        <if test="compName != null and compName != '' ">  
+           and sys_oper_log.`comp_name` = #{compName}
+        </if>  
+        <if test="compNameLike != null and compNameLike != '' ">  
+             and sys_oper_log.`comp_name` like CONCAT('%',#{compNameLike},'%')
+        </if>   
+        <if test="operDetail != null and operDetail != '' ">  
+           and sys_oper_log.`oper_detail` = #{operDetail}
+        </if>  
+        <if test="userId != null and userId != '' ">  
+           and sys_oper_log.`user_id` = #{userId}
+        </if>  
+        <if test="userIp != null and userIp != '' ">  
+           and sys_oper_log.`user_ip` = #{userIp}
+        </if>  
+        <if test="userIpLike != null and userIpLike != '' ">  
+             and sys_oper_log.`user_ip` like CONCAT('%',#{userIpLike},'%')
+        </if>   
+        <if test="userName != null and userName != '' ">  
+           and sys_oper_log.`user_name` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and sys_oper_log.`user_name` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_oper_log.`create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sys_oper_log.`create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sys_oper_log.`create_time` &lt;= #{createTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_oper_log where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="moduleName != null and moduleName != '' ">
+           or `module_name` = #{moduleName}
+        </if>
+        <if test="operResult != null and operResult != '' ">
+           or `oper_result` = #{operResult}
+        </if>
+        <if test="params != null and params != '' ">
+           or `params` = #{params}
+        </if>
+        <if test="compName != null and compName != '' ">
+           or `comp_name` = #{compName}
+        </if>
+        <if test="operDetail != null and operDetail != '' ">
+           or `oper_detail` = #{operDetail}
+        </if>
+        <if test="userId != null and userId != '' ">
+           or `user_id` = #{userId}
+        </if>
+        <if test="userIp != null and userIp != '' ">
+           or `user_ip` = #{userIp}
+        </if>
+        <if test="userName != null and userName != '' ">
+           or `user_name` = #{userName}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `create_time` = #{createTime}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into sys_oper_log (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.moduleName,jdbcType=VARCHAR}
+,#{record.operResult,jdbcType=VARCHAR}
+,#{record.params,jdbcType=VARCHAR}
+,#{record.compName,jdbcType=VARCHAR}
+,#{record.operDetail,jdbcType=LONGVARCHAR}
+,#{record.userId,jdbcType=BIGINT}
+,#{record.userIp,jdbcType=VARCHAR}
+,#{record.userName,jdbcType=VARCHAR}
+,#{record.createTime,jdbcType=TIMESTAMP}
+)
+        </foreach >
+    </insert>
+</mapper>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysActive.dao.SysActiveMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysActive.bean.SysActive">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="act_type" jdbcType="VARCHAR" property="actType" />
+      <result column="act_code" jdbcType="VARCHAR" property="actCode" />
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="act_status" jdbcType="INTEGER" property="actStatus" />
+      <result column="act_time" jdbcType="DATE" property="actTime" />
+      <result column="add_time" jdbcType="DATE" property="addTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_active.`id` ,sys_active.`act_type` ,sys_active.`act_code` ,sys_active.`user_id` ,sys_active.`act_status` ,sys_active.`act_time` ,sys_active.`add_time` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_active
+    where sys_active.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_active
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysActive.bean.SysActive" >
+
+    insert into sys_active (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{actType,jdbcType=VARCHAR}
+,#{actCode,jdbcType=VARCHAR}
+,#{userId,jdbcType=BIGINT}
+,#{actStatus,jdbcType=INTEGER}
+,#{actTime,jdbcType=DATE}
+,#{addTime,jdbcType=DATE}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysActive.bean.SysActive" >
+    insert into sys_active
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="actType != null" >  
+           `act_type`,
+        </if>  
+        <if test="actCode != null" >  
+           `act_code`,
+        </if>  
+        <if test="userId != null" >  
+           `user_id`,
+        </if>  
+        <if test="actStatus != null" >  
+           `act_status`,
+        </if>  
+        <if test="actTime != null" >  
+           `act_time`,
+        </if>  
+        <if test="addTime != null" >  
+           `add_time`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="actType != null" >  
+          #{actType,jdbcType=VARCHAR},
+        </if>  
+        <if test="actCode != null" >  
+          #{actCode,jdbcType=VARCHAR},
+        </if>  
+        <if test="userId != null" >  
+          #{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="actStatus != null" >  
+          #{actStatus,jdbcType=INTEGER},
+        </if>  
+        <if test="actTime != null" >  
+          #{actTime,jdbcType=DATE},
+        </if>  
+        <if test="addTime != null" >  
+          #{addTime,jdbcType=DATE},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysActive.bean.SysActive" >
+    update sys_active
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="actType != null" >  
+             `act_type`=#{actType,jdbcType=VARCHAR},
+        </if>  
+        <if test="actCode != null" >  
+             `act_code`=#{actCode,jdbcType=VARCHAR},
+        </if>  
+        <if test="userId != null" >  
+             `user_id`=#{userId,jdbcType=BIGINT},
+        </if>  
+        <if test="actStatus != null" >  
+             `act_status`=#{actStatus,jdbcType=INTEGER},
+        </if>  
+        <if test="actTime != null" >  
+             `act_time`=#{actTime,jdbcType=DATE},
+        </if>  
+        <if test="addTime != null" >  
+             `add_time`=#{addTime,jdbcType=DATE},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysActive.bean.SysActive" >
+    update sys_active
+    set 
+              `act_type`=#{actType,jdbcType=VARCHAR},
+              `act_code`=#{actCode,jdbcType=VARCHAR},
+              `user_id`=#{userId,jdbcType=BIGINT},
+              `act_status`=#{actStatus,jdbcType=INTEGER},
+              `act_time`=#{actTime,jdbcType=DATE},
+              `add_time`=#{addTime,jdbcType=DATE}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_active where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="actType != null and actType != '' ">  
+           and `act_type` = #{actType}
+        </if>  
+        <if test="actTypeLike != null and actTypeLike != '' ">
+             and `act_type` like CONCAT('%',#{actTypeLike},'%')
+        </if>   
+        <if test="actCode != null and actCode != '' ">  
+           and `act_code` = #{actCode}
+        </if>  
+        <if test="actCodeLike != null and actCodeLike != '' ">
+             and `act_code` like CONCAT('%',#{actCodeLike},'%')
+        </if>   
+        <if test="userId != null and userId != '' ">  
+           and `user_id` = #{userId}
+        </if>  
+        <if test="actStatus != null and actStatus != '' ">  
+           and `act_status` = #{actStatus}
+        </if>  
+        <if test="actTime != null and actTime != '' ">  
+           and `act_time` = #{actTime}
+        </if>  
+        <if test="addTime != null and addTime != '' ">  
+           and `add_time` = #{addTime}
+        </if>  
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_active
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_active.`id` = #{id}
+        </if>  
+        <if test="actType != null and actType != '' ">  
+           and sys_active.`act_type` = #{actType}
+        </if>  
+        <if test="actTypeLike != null and actTypeLike != '' ">  
+             and sys_active.`act_type` like CONCAT('%',#{actTypeLike},'%')
+        </if>   
+        <if test="actCode != null and actCode != '' ">  
+           and sys_active.`act_code` = #{actCode}
+        </if>  
+        <if test="actCodeLike != null and actCodeLike != '' ">  
+             and sys_active.`act_code` like CONCAT('%',#{actCodeLike},'%')
+        </if>   
+        <if test="userId != null and userId != '' ">  
+           and sys_active.`user_id` = #{userId}
+        </if>  
+        <if test="actStatus != null and actStatus != '' ">  
+           and sys_active.`act_status` = #{actStatus}
+        </if>  
+        <if test="actTime != null and actTime != '' ">  
+           and sys_active.`act_time` = #{actTime}
+        </if>  
+        <if test="addTime != null and addTime != '' ">  
+           and sys_active.`add_time` = #{addTime}
+        </if>  
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_active where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_active.`id` = #{id}
+        </if>  
+        <if test="actType != null and actType != '' ">  
+           and sys_active.`act_type` = #{actType}
+        </if>  
+        <if test="actTypeLike != null and actTypeLike != '' ">  
+             and sys_active.`act_type` like CONCAT('%',#{actTypeLike},'%')
+        </if>   
+        <if test="actCode != null and actCode != '' ">  
+           and sys_active.`act_code` = #{actCode}
+        </if>  
+        <if test="actCodeLike != null and actCodeLike != '' ">  
+             and sys_active.`act_code` like CONCAT('%',#{actCodeLike},'%')
+        </if>   
+        <if test="userId != null and userId != '' ">  
+           and sys_active.`user_id` = #{userId}
+        </if>  
+        <if test="actStatus != null and actStatus != '' ">  
+           and sys_active.`act_status` = #{actStatus}
+        </if>  
+        <if test="actTime != null and actTime != '' ">  
+           and sys_active.`act_time` = #{actTime}
+        </if>  
+        <if test="addTime != null and addTime != '' ">  
+           and sys_active.`add_time` = #{addTime}
+        </if>  
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_active where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="actType != null and actType != '' ">
+           or `act_type` = #{actType}
+        </if>
+        <if test="actCode != null and actCode != '' ">
+           or `act_code` = #{actCode}
+        </if>
+        <if test="userId != null and userId != '' ">
+           or `user_id` = #{userId}
+        </if>
+        <if test="actStatus != null and actStatus != '' ">
+           or `act_status` = #{actStatus}
+        </if>
+        <if test="actTime != null and actTime != '' ">
+           or `act_time` = #{actTime}
+        </if>
+        <if test="addTime != null and addTime != '' ">
+           or `add_time` = #{addTime}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into sys_active (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.actType,jdbcType=VARCHAR}
+,#{record.actCode,jdbcType=VARCHAR}
+,#{record.userId,jdbcType=BIGINT}
+,#{record.actStatus,jdbcType=INTEGER}
+,#{record.actTime,jdbcType=DATE}
+,#{record.addTime,jdbcType=DATE}
+)
+        </foreach >
+    </insert>
+</mapper>

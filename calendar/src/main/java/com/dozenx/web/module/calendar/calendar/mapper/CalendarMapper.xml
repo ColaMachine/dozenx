@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.calendar.calendar.dao.CalendarMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.calendar.calendar.bean.Calendar">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="calendar_display_name" jdbcType="VARCHAR" property="calendarDisplayName" />
+      <result column="visible" jdbcType="INTEGER" property="visible" />
+      <result column="sync_events" jdbcType="INTEGER" property="syncEvents" />
+      <result column="user" jdbcType="BIGINT" property="user" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    calendar.`id` ,calendar.`name` ,calendar.`calendar_display_name` ,calendar.`visible` ,calendar.`sync_events` ,calendar.`user` ,calendar.`create_time` ,calendar.`update_time` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from calendar
+    where calendar.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from calendar
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.calendar.calendar.bean.Calendar" >
+
+    insert into calendar (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{name,jdbcType=VARCHAR}
+,#{calendarDisplayName,jdbcType=VARCHAR}
+,#{visible,jdbcType=INTEGER}
+,#{syncEvents,jdbcType=INTEGER}
+,#{user,jdbcType=BIGINT}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{updateTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.calendar.calendar.bean.Calendar" >
+    insert into calendar
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="name != null" >  
+           `name`, 
+        </if>  
+        <if test="calendarDisplayName != null" >  
+           `calendarDisplayName`, 
+        </if>  
+        <if test="visible != null" >  
+           `visible`, 
+        </if>  
+        <if test="syncEvents != null" >  
+           `syncEvents`, 
+        </if>  
+        <if test="user != null" >  
+           `user`, 
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`, 
+        </if>  
+        <if test="updateTime != null" >  
+           `updateTime`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="calendarDisplayName != null" >  
+          #{calendarDisplayName,jdbcType=VARCHAR},
+        </if>  
+        <if test="visible != null" >  
+          #{visible,jdbcType=INTEGER},
+        </if>  
+        <if test="syncEvents != null" >  
+          #{syncEvents,jdbcType=INTEGER},
+        </if>  
+        <if test="user != null" >  
+          #{user,jdbcType=BIGINT},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.calendar.calendar.bean.Calendar" >
+    update calendar
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="calendarDisplayName != null" >  
+             `calendar_display_name`=#{calendarDisplayName,jdbcType=VARCHAR},
+        </if>  
+        <if test="visible != null" >  
+             `visible`=#{visible,jdbcType=INTEGER},
+        </if>  
+        <if test="syncEvents != null" >  
+             `sync_events`=#{syncEvents,jdbcType=INTEGER},
+        </if>  
+        <if test="user != null" >  
+             `user`=#{user,jdbcType=BIGINT},
+        </if>  
+        <if test="createTime != null" >  
+             `create_time`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+             `update_time`=#{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.calendar.calendar.bean.Calendar" >
+    update calendar
+    set 
+              `name`=#{name,jdbcType=VARCHAR},
+              `calendar_display_name`=#{calendarDisplayName,jdbcType=VARCHAR},
+              `visible`=#{visible,jdbcType=INTEGER},
+              `sync_events`=#{syncEvents,jdbcType=INTEGER},
+              `user`=#{user,jdbcType=BIGINT},
+              `create_time`=#{createTime,jdbcType=TIMESTAMP},
+              `update_time`=#{updateTime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from calendar where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="calendarDisplayName != null and calendarDisplayName != '' ">  
+           and `calendarDisplayName` = #{calendarDisplayName}
+        </if>  
+        <if test="calendarDisplayNameLike != null and calendarDisplayNameLike != '' ">
+             and `calendar_display_name` like "%"#{calendarDisplayNameLike}"%"
+        </if>   
+        <if test="visible != null and visible != '' ">  
+           and `visible` = #{visible}
+        </if>  
+        <if test="syncEvents != null and syncEvents != '' ">  
+           and `syncEvents` = #{syncEvents}
+        </if>  
+        <if test="user != null and user != '' ">  
+           and `user` = #{user}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and `updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `update_time` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `update_time` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from calendar
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and calendar.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and calendar.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and calendar.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="calendarDisplayName != null and calendarDisplayName != '' ">  
+           and calendar.`calendar_display_name` = #{calendarDisplayName}
+        </if>  
+        <if test="calendarDisplayNameLike != null and calendarDisplayNameLike != '' ">  
+             and calendar.`calendar_display_name` like "%"#{calendarDisplayNameLike}"%"
+        </if>   
+        <if test="visible != null and visible != '' ">  
+           and calendar.`visible` = #{visible}
+        </if>  
+        <if test="syncEvents != null and syncEvents != '' ">  
+           and calendar.`sync_events` = #{syncEvents}
+        </if>  
+        <if test="user != null and user != '' ">  
+           and calendar.`user` = #{user}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and calendar.`create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and calendar.`create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and calendar.`create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and calendar.`update_time` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and calendar.`update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and calendar.`update_time` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from calendar where 1=1
+        <if test="id != null and id != '' ">  
+           and calendar.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and calendar.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and calendar.`name` like "%"#{nameLike}"%"
+        </if>   
+        <if test="calendarDisplayName != null and calendarDisplayName != '' ">  
+           and calendar.`calendar_display_name` = #{calendarDisplayName}
+        </if>  
+        <if test="calendarDisplayNameLike != null and calendarDisplayNameLike != '' ">  
+             and calendar.`calendar_display_name` like "%"#{calendarDisplayNameLike}"%"
+        </if>   
+        <if test="visible != null and visible != '' ">  
+           and calendar.`visible` = #{visible}
+        </if>  
+        <if test="syncEvents != null and syncEvents != '' ">  
+           and calendar.`sync_events` = #{syncEvents}
+        </if>  
+        <if test="user != null and user != '' ">  
+           and calendar.`user` = #{user}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and calendar.`create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and calendar.`create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and calendar.`create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and calendar.`update_time` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and calendar.`update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and calendar.`update_time` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from calendar where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="calendarDisplayName != null and calendarDisplayName != '' ">
+           or `calendar_display_name` = #{calendarDisplayName}
+        </if>
+        <if test="visible != null and visible != '' ">
+           or `visible` = #{visible}
+        </if>
+        <if test="syncEvents != null and syncEvents != '' ">
+           or `sync_events` = #{syncEvents}
+        </if>
+        <if test="user != null and user != '' ">
+           or `user` = #{user}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `create_time` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+           or `update_time` = #{updateTime}
+        </if>
+  </select>
+</mapper>

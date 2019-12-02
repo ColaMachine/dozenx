@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.log.sysLog.dao.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.log.sysLog.bean.SysLog">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="log_path" jdbcType="VARCHAR" property="logPath" />
+      <result column="log_type" jdbcType="TINYINT" property="logType" />
+      <result column="log_code" jdbcType="INTEGER" property="logCode" />
+      <result column="param" jdbcType="VARCHAR" property="param" />
+      <result column="user_name" jdbcType="VARCHAR" property="userName" />
+      <result column="log_msg" jdbcType="VARCHAR" property="logMsg" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_log.`id` ,sys_log.`log_path` ,sys_log.`log_type` ,sys_log.`log_code` ,sys_log.`param` ,sys_log.`user_name` ,sys_log.`log_msg` ,sys_log.`create_time` ,sys_log.`start_time` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where sys_log.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.log.sysLog.bean.SysLog" >
+
+    insert into sys_log (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{logPath,jdbcType=VARCHAR}
+,#{logType,jdbcType=TINYINT}
+,#{logCode,jdbcType=INTEGER}
+,#{param,jdbcType=VARCHAR}
+,#{userName,jdbcType=VARCHAR}
+,#{logMsg,jdbcType=VARCHAR}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{startTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.log.sysLog.bean.SysLog" >
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="logPath != null" >  
+           `log_path`,
+        </if>  
+        <if test="logType != null" >  
+           `log_type`,
+        </if>  
+        <if test="logCode != null" >  
+           `log_code`,
+        </if>  
+        <if test="param != null" >  
+           `param`,
+        </if>  
+        <if test="userName != null" >  
+           `user_name`,
+        </if>  
+        <if test="logMsg != null" >  
+           `log_msg`,
+        </if>  
+        <if test="createTime != null" >  
+           `create_time`,
+        </if>  
+        <if test="startTime != null" >  
+           `start_time`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="logPath != null" >  
+          #{logPath,jdbcType=VARCHAR},
+        </if>  
+        <if test="logType != null" >  
+          #{logType,jdbcType=TINYINT},
+        </if>  
+        <if test="logCode != null" >  
+          #{logCode,jdbcType=INTEGER},
+        </if>  
+        <if test="param != null" >  
+          #{param,jdbcType=VARCHAR},
+        </if>  
+        <if test="userName != null" >  
+          #{userName,jdbcType=VARCHAR},
+        </if>  
+        <if test="logMsg != null" >  
+          #{logMsg,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="startTime != null" >  
+          #{startTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.log.sysLog.bean.SysLog" >
+    update sys_log
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="logPath != null" >  
+             `log_path`=#{logPath,jdbcType=VARCHAR},
+        </if>  
+        <if test="logType != null" >  
+             `log_type`=#{logType,jdbcType=TINYINT},
+        </if>  
+        <if test="logCode != null" >  
+             `log_code`=#{logCode,jdbcType=INTEGER},
+        </if>  
+        <if test="param != null" >  
+             `param`=#{param,jdbcType=VARCHAR},
+        </if>  
+        <if test="userName != null" >  
+             `user_name`=#{userName,jdbcType=VARCHAR},
+        </if>  
+        <if test="logMsg != null" >  
+             `log_msg`=#{logMsg,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `create_time`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="startTime != null" >  
+             `start_time`=#{startTime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.log.sysLog.bean.SysLog" >
+    update sys_log
+    set 
+              `log_path`=#{logPath,jdbcType=VARCHAR},
+              `log_type`=#{logType,jdbcType=TINYINT},
+              `log_code`=#{logCode,jdbcType=INTEGER},
+              `param`=#{param,jdbcType=VARCHAR},
+              `user_name`=#{userName,jdbcType=VARCHAR},
+              `log_msg`=#{logMsg,jdbcType=VARCHAR},
+              `create_time`=#{createTime,jdbcType=TIMESTAMP},
+              `start_time`=#{startTime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="logPath != null and logPath != '' ">  
+           and `log_path` = #{logPath}
+        </if>  
+        <if test="logPathLike != null and logPathLike != '' ">
+             and `log_path` like CONCAT('%',#{logPathLike},'%')
+        </if>   
+        <if test="logType != null and logType != '' ">  
+           and `log_type` = #{logType}
+        </if>  
+        <if test="logCode != null and logCode != '' ">  
+           and `log_code` = #{logCode}
+        </if>  
+        <if test="param != null and param != '' ">  
+           and `param` = #{param}
+        </if>  
+        <if test="paramLike != null and paramLike != '' ">
+             and `param` like CONCAT('%',#{paramLike},'%')
+        </if>   
+        <if test="userName != null and userName != '' ">  
+           and `user_name` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">
+             and `user_name` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="logMsg != null and logMsg != '' ">  
+           and `log_msg` = #{logMsg}
+        </if>  
+        <if test="logMsgLike != null and logMsgLike != '' ">
+             and `log_msg` like CONCAT('%',#{logMsgLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="startTime != null and startTime != '' ">  
+           and `start_time` = #{startTime}
+        </if>  
+        <if test="startTimeBegin != null and startTimeBegin != '' ">  
+             and `start_time` &gt;= #{startTimeBegin}
+        </if>   
+         <if test="startTimeEnd != null and startTimeEnd != '' ">  
+             and `start_time` &lt;= #{startTimeEnd}
+        </if> 
+        <if test="startTimeBegin != null and startTimeBegin != '' ">  
+             and `start_time` &gt;= #{startTimeBegin}
+        </if>   
+         <if test="startTimeEnd != null and startTimeEnd != '' ">  
+             and `start_time` &lt;= #{startTimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_log.`id` = #{id}
+        </if>  
+        <if test="logPath != null and logPath != '' ">  
+           and sys_log.`log_path` = #{logPath}
+        </if>  
+        <if test="logPathLike != null and logPathLike != '' ">  
+             and sys_log.`log_path` like CONCAT('%',#{logPathLike},'%')
+        </if>   
+        <if test="logType != null and logType != '' ">  
+           and sys_log.`log_type` = #{logType}
+        </if>  
+        <if test="logCode != null and logCode != '' ">  
+           and sys_log.`log_code` = #{logCode}
+        </if>  
+        <if test="param != null and param != '' ">  
+           and sys_log.`param` = #{param}
+        </if>  
+        <if test="paramLike != null and paramLike != '' ">  
+             and sys_log.`param` like CONCAT('%',#{paramLike},'%')
+        </if>   
+        <if test="userName != null and userName != '' ">  
+           and sys_log.`user_name` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and sys_log.`user_name` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="logMsg != null and logMsg != '' ">  
+           and sys_log.`log_msg` = #{logMsg}
+        </if>  
+        <if test="logMsgLike != null and logMsgLike != '' ">  
+             and sys_log.`log_msg` like CONCAT('%',#{logMsgLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_log.`create_time` = #{createTime}
+        </if>  
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `create_time` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `create_time` &lt;= #{createTimeEnd}
+               </if>
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `create_time` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `create_time` &lt;= #{createTimeEnd}
+               </if>
+        <if test="startTime != null and startTime != '' ">  
+           and sys_log.`start_time` = #{startTime}
+        </if>  
+               <if test="startTimeBegin != null and startTimeBegin != '' ">
+                    and `start_time` &gt;= #{startTimeBegin}
+               </if>
+                <if test="startTimeEnd != null and startTimeEnd != '' ">
+                    and `start_time` &lt;= #{startTimeEnd}
+               </if>
+               <if test="startTimeBegin != null and startTimeBegin != '' ">
+                    and `start_time` &gt;= #{startTimeBegin}
+               </if>
+                <if test="startTimeEnd != null and startTimeEnd != '' ">
+                    and `start_time` &lt;= #{startTimeEnd}
+               </if>
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_log where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_log.`id` = #{id}
+        </if>  
+        <if test="logPath != null and logPath != '' ">  
+           and sys_log.`log_path` = #{logPath}
+        </if>  
+        <if test="logPathLike != null and logPathLike != '' ">  
+             and sys_log.`log_path` like CONCAT('%',#{logPathLike},'%')
+        </if>   
+        <if test="logType != null and logType != '' ">  
+           and sys_log.`log_type` = #{logType}
+        </if>  
+        <if test="logCode != null and logCode != '' ">  
+           and sys_log.`log_code` = #{logCode}
+        </if>  
+        <if test="param != null and param != '' ">  
+           and sys_log.`param` = #{param}
+        </if>  
+        <if test="paramLike != null and paramLike != '' ">  
+             and sys_log.`param` like CONCAT('%',#{paramLike},'%')
+        </if>   
+        <if test="userName != null and userName != '' ">  
+           and sys_log.`user_name` = #{userName}
+        </if>  
+        <if test="userNameLike != null and userNameLike != '' ">  
+             and sys_log.`user_name` like CONCAT('%',#{userNameLike},'%')
+        </if>   
+        <if test="logMsg != null and logMsg != '' ">  
+           and sys_log.`log_msg` = #{logMsg}
+        </if>  
+        <if test="logMsgLike != null and logMsgLike != '' ">  
+             and sys_log.`log_msg` like CONCAT('%',#{logMsgLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_log.`create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sys_log.`create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sys_log.`create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="startTime != null and startTime != '' ">  
+           and sys_log.`start_time` = #{startTime}
+        </if>  
+        <if test="startTimeBegin != null and startTimeBegin != '' ">  
+             and sys_log.`start_time` &gt;= #{startTimeBegin}
+        </if>   
+         <if test="startTimeEnd != null and startTimeEnd != '' ">  
+             and sys_log.`start_time` &lt;= #{startTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_log where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="logPath != null and logPath != '' ">
+           or `log_path` = #{logPath}
+        </if>
+        <if test="logType != null and logType != '' ">
+           or `log_type` = #{logType}
+        </if>
+        <if test="logCode != null and logCode != '' ">
+           or `log_code` = #{logCode}
+        </if>
+        <if test="param != null and param != '' ">
+           or `param` = #{param}
+        </if>
+        <if test="userName != null and userName != '' ">
+           or `user_name` = #{userName}
+        </if>
+        <if test="logMsg != null and logMsg != '' ">
+           or `log_msg` = #{logMsg}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `create_time` = #{createTime}
+        </if>
+        <if test="startTime != null and startTime != '' ">
+           or `start_time` = #{startTime}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into sys_log (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.logPath,jdbcType=VARCHAR}
+,#{record.logType,jdbcType=TINYINT}
+,#{record.logCode,jdbcType=INTEGER}
+,#{record.param,jdbcType=VARCHAR}
+,#{record.userName,jdbcType=VARCHAR}
+,#{record.logMsg,jdbcType=VARCHAR}
+,#{record.createTime,jdbcType=TIMESTAMP}
+,#{record.startTime,jdbcType=TIMESTAMP}
+)
+        </foreach >
+    </insert>
+</mapper>

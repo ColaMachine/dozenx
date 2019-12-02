@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dozenx.web.module.interfaceapi.exampletest.dao.ExampleTestMapper">
+    <resultMap id="ExampleTestMap" type="com.dozenx.web.module.interfaceapi.exampletest.pojo.ExampleTest">
+        <result column="id" property="id"/>
+        <result column="params" property="params"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association column="api_id" property="interfaceInfo" javaType="com.dozenx.web.module.interfaceapi.interfaceinfo.pojo.InterfaceInfo"
+                     select="com.dozenx.web.module.interfaceapi.interfaceinfo.dao.InterfaceInfoMapper.getApiById"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.dozenx.web.module.interfaceapi.exampletest.pojo.ExampleTest">
+        insert into interface_example_test
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="interfaceInfo != null">api_id,</if>
+            <if test="params != null">params,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="interfaceInfo != null">#{interfaceInfo.id},</if>
+            <if test="params != null">#{params},</if>
+        </trim>
+    </insert>
+
+    <select id="select" parameterType="map" resultMap="ExampleTestMap">
+        select * from interface_example_test where 1 = 1
+        <if test="id != null and id != ''"> and id = #{id} </if>
+        <if test="interfaceInfo != null "> and interface_id = #{interfaceInfo.id} </if>
+        <if test="createTime != null "> and create_time = #{createTime} </if>
+        <if test="updateTime != null "> and update_time = #{updateTime} </if>
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.dozenx.web.module.interfaceapi.exampletest.pojo.ExampleTest">
+        select * from interface_example_test
+        where id = #{id}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from interface_example_test where id = #{id}
+    </delete>
+
+    <update id="update" >
+        update interface_example_test set params = #{params} where id = #{id}
+    </update>
+</mapper>

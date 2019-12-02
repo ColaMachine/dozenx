@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dozenx.web.module.interfaceapi.interfacelog.dao.InterfaceLogMapper">
+    <resultMap id="InterfaceLogMap" type="com.dozenx.web.module.interfaceapi.interfacelog.pojo.InterfaceLog">
+        <result column="id" property="id"/>
+        <result column="result" property="result"/>
+        <result column="create_time" property="createTime"/>
+        <result column="test_id" property="testId"/>
+        <!--<association column="testid" property="exampletest" javaType="com.awifi.vs.api.pojo.ExampleTest"
+                     select="com.dozenx.web.model.interfaceapi.dao.ExampleTestMapper.selectById"/>-->
+    </resultMap>
+
+    <insert id="insert" parameterType="com.dozenx.web.module.interfaceapi.interfacelog.pojo.InterfaceLog">
+        insert into interface_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="result != null">result,</if>
+            <if test="testId != null">test_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="result != null">#{result},</if>
+            <if test="testId != null">#{testId},</if>
+        </trim>
+    </insert>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="InterfaceLogMap">
+        select * from interface_log
+        where id = #{id}
+    </select>
+
+    <select id="select" parameterType="map" resultMap="InterfaceLogMap">
+        select * from interface_log where 1 = 1
+        <if test="id != null and id != ''">and id = #{id}</if>
+        <if test="testId != null and testId != ''"> and test_id = #{testId} </if>
+        <if test="startTime != null "> and create_time > #{startTime} </if>
+        <if test="endTime != null">and #{endTime} > create_time  </if>
+        order by create_time desc
+        <if test="Page != null">
+        limit #{startRow},#{Page.pageSize}
+        </if>
+    </select>
+
+    <select id="getListByParams" parameterType="map" resultMap="InterfaceLogMap">
+        select * from interface_log where 1 = 1
+        <if test="id != null and id != ''">and id = #{id}</if>
+        <if test="testId != null and testId != ''"> and test_id = #{testId} </if>
+        <if test="starttime != null "> and create_time > #{starttime} </if>
+        <if test="endtime != null">and #{endtime} > create_time  </if>
+        order by create_time desc
+    </select>
+
+    <delete id="delete" parameterType="map" >
+        delete from interface_log
+        where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.calendar.instance.dao.InstanceMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.calendar.instance.bean.Instance">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="begin" jdbcType="BIGINT" property="begin" />
+      <result column="end" jdbcType="BIGINT" property="end" />
+      <result column="event_id" jdbcType="BIGINT" property="eventId" />
+      <result column="end_day" jdbcType="DATE" property="endDay" />
+      <result column="end_minute" jdbcType="INTEGER" property="endMinute" />
+      <result column="start_day" jdbcType="DATE" property="startDay" />
+      <result column="start_minute" jdbcType="INTEGER" property="startMinute" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    instance.`id` ,instance.`begin` ,instance.`end` ,instance.`event_id` ,instance.`end_day` ,instance.`end_minute` ,instance.`start_day` ,instance.`start_minute` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from instance
+    where instance.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from instance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.calendar.instance.bean.Instance" >
+
+    insert into instance (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{begin,jdbcType=BIGINT}
+,#{end,jdbcType=BIGINT}
+,#{eventId,jdbcType=BIGINT}
+,#{endDay,jdbcType=DATE}
+,#{endMinute,jdbcType=INTEGER}
+,#{startDay,jdbcType=DATE}
+,#{startMinute,jdbcType=INTEGER}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.calendar.instance.bean.Instance" >
+    insert into instance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="begin != null" >  
+           `begin`, 
+        </if>  
+        <if test="end != null" >  
+           `end`, 
+        </if>  
+        <if test="eventId != null" >  
+           `eventId`, 
+        </if>  
+        <if test="endDay != null" >  
+           `endDay`, 
+        </if>  
+        <if test="endMinute != null" >  
+           `endMinute`, 
+        </if>  
+        <if test="startDay != null" >  
+           `startDay`, 
+        </if>  
+        <if test="startMinute != null" >  
+           `startMinute`, 
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="begin != null" >  
+          #{begin,jdbcType=BIGINT},
+        </if>  
+        <if test="end != null" >  
+          #{end,jdbcType=BIGINT},
+        </if>  
+        <if test="eventId != null" >  
+          #{eventId,jdbcType=BIGINT},
+        </if>  
+        <if test="endDay != null" >  
+          #{endDay,jdbcType=DATE},
+        </if>  
+        <if test="endMinute != null" >  
+          #{endMinute,jdbcType=INTEGER},
+        </if>  
+        <if test="startDay != null" >  
+          #{startDay,jdbcType=DATE},
+        </if>  
+        <if test="startMinute != null" >  
+          #{startMinute,jdbcType=INTEGER},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.calendar.instance.bean.Instance" >
+    update instance
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="begin != null" >  
+             `begin`=#{begin,jdbcType=BIGINT},
+        </if>  
+        <if test="end != null" >  
+             `end`=#{end,jdbcType=BIGINT},
+        </if>  
+        <if test="eventId != null" >  
+             `event_id`=#{eventId,jdbcType=BIGINT},
+        </if>  
+        <if test="endDay != null" >  
+             `end_day`=#{endDay,jdbcType=DATE},
+        </if>  
+        <if test="endMinute != null" >  
+             `end_minute`=#{endMinute,jdbcType=INTEGER},
+        </if>  
+        <if test="startDay != null" >  
+             `start_day`=#{startDay,jdbcType=DATE},
+        </if>  
+        <if test="startMinute != null" >  
+             `start_minute`=#{startMinute,jdbcType=INTEGER},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.calendar.instance.bean.Instance" >
+    update instance
+    set 
+              `begin`=#{begin,jdbcType=BIGINT},
+              `end`=#{end,jdbcType=BIGINT},
+              `event_id`=#{eventId,jdbcType=BIGINT},
+              `end_day`=#{endDay,jdbcType=DATE},
+              `end_minute`=#{endMinute,jdbcType=INTEGER},
+              `start_day`=#{startDay,jdbcType=DATE},
+              `start_minute`=#{startMinute,jdbcType=INTEGER}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from instance where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="begin != null and begin != '' ">  
+           and `begin` = #{begin}
+        </if>  
+        <if test="end != null and end != '' ">  
+           and `end` = #{end}
+        </if>  
+        <if test="eventId != null and eventId != '' ">  
+           and `event_id` = #{eventId}
+        </if>  
+        <if test="endDay != null and endDay != '' ">  
+           and `end_day` = #{endDay}
+        </if>  
+        <if test="endMinute != null and endMinute != '' ">  
+           and `end_minute` = #{endMinute}
+        </if>  
+        <if test="startDay != null and startDay != '' ">  
+           and `start_day` = #{startDay}
+        </if>  
+        <if test="startMinute != null and startMinute != '' ">  
+           and `start_minute` = #{startMinute}
+        </if>  
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from instance
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and instance.`id` = #{id}
+        </if>  
+        <if test="begin != null and begin != '' ">  
+           and instance.`begin` = #{begin}
+        </if>  
+        <if test="end != null and end != '' ">  
+           and instance.`end` = #{end}
+        </if>  
+        <if test="eventId != null and eventId != '' ">  
+           and instance.`event_id` = #{eventId}
+        </if>  
+        <if test="endDay != null and endDay != '' ">  
+           and instance.`end_day` = #{endDay}
+        </if>  
+        <if test="endMinute != null and endMinute != '' ">  
+           and instance.`end_minute` = #{endMinute}
+        </if>  
+        <if test="startDay != null and startDay != '' ">  
+           and instance.`start_day` = #{startDay}
+        </if>  
+        <if test="startMinute != null and startMinute != '' ">  
+           and instance.`start_minute` = #{startMinute}
+        </if>  
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from instance where 1=1
+        <if test="id != null and id != '' ">  
+           and instance.`id` = #{id}
+        </if>  
+        <if test="begin != null and begin != '' ">  
+           and instance.`begin` = #{begin}
+        </if>  
+        <if test="end != null and end != '' ">  
+           and instance.`end` = #{end}
+        </if>  
+        <if test="eventId != null and eventId != '' ">  
+           and instance.`event_id` = #{eventId}
+        </if>  
+        <if test="endDay != null and endDay != '' ">  
+           and instance.`end_day` = #{endDay}
+        </if>  
+        <if test="endMinute != null and endMinute != '' ">  
+           and instance.`end_minute` = #{endMinute}
+        </if>  
+        <if test="startDay != null and startDay != '' ">  
+           and instance.`start_day` = #{startDay}
+        </if>  
+        <if test="startMinute != null and startMinute != '' ">  
+           and instance.`start_minute` = #{startMinute}
+        </if>  
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from instance where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="begin != null and begin != '' ">
+           or `begin` = #{begin}
+        </if>
+        <if test="end != null and end != '' ">
+           or `end` = #{end}
+        </if>
+        <if test="eventId != null and eventId != '' ">
+           or `event_id` = #{eventId}
+        </if>
+        <if test="endDay != null and endDay != '' ">
+           or `end_day` = #{endDay}
+        </if>
+        <if test="endMinute != null and endMinute != '' ">
+           or `end_minute` = #{endMinute}
+        </if>
+        <if test="startDay != null and startDay != '' ">
+           or `start_day` = #{startDay}
+        </if>
+        <if test="startMinute != null and startMinute != '' ">
+           or `start_minute` = #{startMinute}
+        </if>
+  </select>
+
+
+    <select id="listByStartAndEndTime"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from instance where begin between #{param1} and #{param2}
+
+    </select>
+</mapper>

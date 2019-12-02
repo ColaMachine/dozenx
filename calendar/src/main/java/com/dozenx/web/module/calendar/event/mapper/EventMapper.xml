@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.module.calendar.event.dao.EventMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.module.calendar.event.bean.Event">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="calendar_id" jdbcType="BIGINT" property="calendarId" />
+      <result column="organizer" jdbcType="VARCHAR" property="organizer" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="event_location" jdbcType="VARCHAR" property="eventLocation" />
+      <result column="description" jdbcType="VARCHAR" property="description" />
+      <result column="dtstart" jdbcType="BIGINT" property="dtstart" />
+      <result column="dtend" jdbcType="BIGINT" property="dtend" />
+      <result column="event_timezone" jdbcType="VARCHAR" property="eventTimezone" />
+      <result column="EVENT_END_TIMEZONE" jdbcType="VARCHAR" property="eventEndTimezone" />
+      <result column="duration" jdbcType="VARCHAR" property="duration" />
+      <result column="ALL_DAY" jdbcType="INTEGER" property="allDay" />
+      <result column="rrule" jdbcType="VARCHAR" property="rrule" />
+      <result column="until" jdbcType="BIGINT" property="until" />
+      <result column="rdate" jdbcType="VARCHAR" property="rdate" />
+      <result column="availability" jdbcType="INTEGER" property="availability" />
+      <result column="guests_can_modify" jdbcType="INTEGER" property="guestsCanModify" />
+      <result column="guests_can_inveite_guests" jdbcType="INTEGER" property="guestsCanInviteOthers" />
+      <result column="guests_can_see_guests" jdbcType="INTEGER" property="guestsCanSeeGuests" />
+      <result column="user" jdbcType="BIGINT" property="user" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    event.`id` ,event.`calendar_id` ,event.`organizer` ,event.`title` ,event.`event_location` ,event.`description` ,event.`dtstart` ,event.`dtend` ,event.`event_timezone` ,event.`EVENT_END_TIMEZONE` ,event.`duration` ,event.`ALL_DAY` ,event.`rrule` ,event.`rdate` ,event.`availability` ,event.`guests_can_modify` ,event.`guests_can_inveite_guests` ,event.`guests_can_see_guests` ,event.`user` ,event.`create_time` ,event.`update_time`
+      ,event.`until`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from event
+    where event.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from event
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.module.calendar.event.bean.Event" >
+
+    insert into event (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{calendarId,jdbcType=BIGINT}
+,#{organizer,jdbcType=VARCHAR}
+,#{title,jdbcType=VARCHAR}
+,#{eventLocation,jdbcType=VARCHAR}
+,#{description,jdbcType=VARCHAR}
+,#{dtstart,jdbcType=BIGINT}
+,#{dtend,jdbcType=BIGINT}
+,#{eventTimezone,jdbcType=VARCHAR}
+,#{eventEndTimezone,jdbcType=VARCHAR}
+,#{duration,jdbcType=VARCHAR}
+,#{allDay,jdbcType=INTEGER}
+,#{rrule,jdbcType=VARCHAR}
+,#{rdate,jdbcType=VARCHAR}
+,#{availability,jdbcType=INTEGER}
+,#{guestsCanModify,jdbcType=INTEGER}
+,#{guestsCanInviteOthers,jdbcType=INTEGER}
+,#{guestsCanSeeGuests,jdbcType=INTEGER}
+,#{user,jdbcType=BIGINT}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{updateTime,jdbcType=TIMESTAMP}
+,#{until,jdbcType=BIGINT}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.module.calendar.event.bean.Event" >
+    insert into event
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`, 
+        </if>  
+        <if test="calendarId != null" >  
+           `calendarId`, 
+        </if>  
+        <if test="organizer != null" >  
+           `organizer`, 
+        </if>  
+        <if test="title != null" >  
+           `title`, 
+        </if>  
+        <if test="eventLocation != null" >  
+           `eventLocation`, 
+        </if>  
+        <if test="description != null" >  
+           `description`, 
+        </if>  
+        <if test="dtstart != null" >  
+           `dtstart`, 
+        </if>  
+        <if test="dtend != null" >  
+           `dtend`, 
+        </if>  
+        <if test="eventTimezone != null" >  
+           `eventTimezone`, 
+        </if>  
+        <if test="eventEndTimezone != null" >  
+           `eventEndTimezone`, 
+        </if>  
+        <if test="duration != null" >  
+           `duration`, 
+        </if>  
+        <if test="allDay != null" >  
+           `allDay`, 
+        </if>  
+        <if test="rrule != null" >  
+           `rrule`, 
+        </if>  
+        <if test="rdate != null" >  
+           `rdate`, 
+        </if>  
+        <if test="availability != null" >  
+           `availability`, 
+        </if>  
+        <if test="guestsCanModify != null" >  
+           `guestsCanModify`, 
+        </if>  
+        <if test="guestsCanInviteOthers != null" >  
+           `guestsCanInviteOthers`, 
+        </if>  
+        <if test="guestsCanSeeGuests != null" >  
+           `guestsCanSeeGuests`, 
+        </if>  
+        <if test="user != null" >  
+           `user`, 
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`, 
+        </if>  
+        <if test="updateTime != null" >  
+           `updateTime`, 
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="calendarId != null" >  
+          #{calendarId,jdbcType=BIGINT},
+        </if>  
+        <if test="organizer != null" >  
+          #{organizer,jdbcType=VARCHAR},
+        </if>  
+        <if test="title != null" >  
+          #{title,jdbcType=VARCHAR},
+        </if>  
+        <if test="eventLocation != null" >  
+          #{eventLocation,jdbcType=VARCHAR},
+        </if>  
+        <if test="description != null" >  
+          #{description,jdbcType=VARCHAR},
+        </if>  
+        <if test="dtstart != null" >  
+          #{dtstart,jdbcType=BIGINT},
+        </if>  
+        <if test="dtend != null" >  
+          #{dtend,jdbcType=BIGINT},
+        </if>  
+        <if test="eventTimezone != null" >  
+          #{eventTimezone,jdbcType=VARCHAR},
+        </if>  
+        <if test="eventEndTimezone != null" >  
+          #{eventEndTimezone,jdbcType=VARCHAR},
+        </if>  
+        <if test="duration != null" >  
+          #{duration,jdbcType=VARCHAR},
+        </if>  
+        <if test="allDay != null" >  
+          #{allDay,jdbcType=INTEGER},
+        </if>  
+        <if test="rrule != null" >  
+          #{rrule,jdbcType=VARCHAR},
+        </if>  
+        <if test="rdate != null" >  
+          #{rdate,jdbcType=VARCHAR},
+        </if>  
+        <if test="availability != null" >  
+          #{availability,jdbcType=INTEGER},
+        </if>  
+        <if test="guestsCanModify != null" >  
+          #{guestsCanModify,jdbcType=INTEGER},
+        </if>  
+        <if test="guestsCanInviteOthers != null" >  
+          #{guestsCanInviteOthers,jdbcType=INTEGER},
+        </if>  
+        <if test="guestsCanSeeGuests != null" >  
+          #{guestsCanSeeGuests,jdbcType=INTEGER},
+        </if>  
+        <if test="user != null" >  
+          #{user,jdbcType=BIGINT},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.module.calendar.event.bean.Event" >
+    update event
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="calendarId != null" >  
+             `calendar_id`=#{calendarId,jdbcType=BIGINT},
+        </if>  
+        <if test="organizer != null" >  
+             `organizer`=#{organizer,jdbcType=VARCHAR},
+        </if>  
+        <if test="title != null" >  
+             `title`=#{title,jdbcType=VARCHAR},
+        </if>  
+        <if test="eventLocation != null" >  
+             `event_location`=#{eventLocation,jdbcType=VARCHAR},
+        </if>  
+        <if test="description != null" >  
+             `description`=#{description,jdbcType=VARCHAR},
+        </if>  
+        <if test="dtstart != null" >  
+             `dtstart`=#{dtstart,jdbcType=BIGINT},
+        </if>  
+        <if test="dtend != null" >  
+             `dtend`=#{dtend,jdbcType=BIGINT},
+        </if>  
+        <if test="eventTimezone != null" >  
+             `event_timezone`=#{eventTimezone,jdbcType=VARCHAR},
+        </if>  
+        <if test="eventEndTimezone != null" >  
+             `EVENT_END_TIMEZONE`=#{eventEndTimezone,jdbcType=VARCHAR},
+        </if>  
+        <if test="duration != null" >  
+             `duration`=#{duration,jdbcType=VARCHAR},
+        </if>  
+        <if test="allDay != null" >  
+             `ALL_DAY`=#{allDay,jdbcType=INTEGER},
+        </if>  
+        <if test="rrule != null" >  
+             `rrule`=#{rrule,jdbcType=VARCHAR},
+        </if>  
+        <if test="rdate != null" >  
+             `rdate`=#{rdate,jdbcType=VARCHAR},
+        </if>  
+        <if test="availability != null" >  
+             `availability`=#{availability,jdbcType=INTEGER},
+        </if>  
+        <if test="guestsCanModify != null" >  
+             `guests_can_modify`=#{guestsCanModify,jdbcType=INTEGER},
+        </if>  
+        <if test="guestsCanInviteOthers != null" >  
+             `guests_can_inveite_guests`=#{guestsCanInviteOthers,jdbcType=INTEGER},
+        </if>  
+        <if test="guestsCanSeeGuests != null" >  
+             `guests_can_see_guests`=#{guestsCanSeeGuests,jdbcType=INTEGER},
+        </if>  
+        <if test="user != null" >  
+             `user`=#{user,jdbcType=BIGINT},
+        </if>  
+        <if test="createTime != null" >  
+             `create_time`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+             `update_time`=#{updateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="until != null" >
+            `until`=#{until,jdbcType=BIGINT},
+        </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.module.calendar.event.bean.Event" >
+    update event
+    set 
+              `calendar_id`=#{calendarId,jdbcType=BIGINT},
+              `organizer`=#{organizer,jdbcType=VARCHAR},
+              `title`=#{title,jdbcType=VARCHAR},
+              `event_location`=#{eventLocation,jdbcType=VARCHAR},
+              `description`=#{description,jdbcType=VARCHAR},
+              `dtstart`=#{dtstart,jdbcType=BIGINT},
+              `dtend`=#{dtend,jdbcType=BIGINT},
+              `event_timezone`=#{eventTimezone,jdbcType=VARCHAR},
+              `EVENT_END_TIMEZONE`=#{eventEndTimezone,jdbcType=VARCHAR},
+              `duration`=#{duration,jdbcType=VARCHAR},
+              `ALL_DAY`=#{allDay,jdbcType=INTEGER},
+              `rrule`=#{rrule,jdbcType=VARCHAR},
+              `rdate`=#{rdate,jdbcType=VARCHAR},
+              `availability`=#{availability,jdbcType=INTEGER},
+              `guests_can_modify`=#{guestsCanModify,jdbcType=INTEGER},
+              `guests_can_inveite_guests`=#{guestsCanInviteOthers,jdbcType=INTEGER},
+              `guests_can_see_guests`=#{guestsCanSeeGuests,jdbcType=INTEGER},
+              `user`=#{user,jdbcType=BIGINT},
+              `create_time`=#{createTime,jdbcType=TIMESTAMP},
+              `update_time`=#{updateTime,jdbcType=TIMESTAMP},
+      `until`=#{until,jdbcType=BIGINT}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from event where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="calendarId != null and calendarId != '' ">  
+           and `calendarId` = #{calendarId}
+        </if>  
+        <if test="organizer != null and organizer != '' ">  
+           and `organizer` = #{organizer}
+        </if>  
+        <if test="organizerLike != null and organizerLike != '' ">
+             and `organizer` like "%"#{organizerLike}"%"
+        </if>   
+        <if test="title != null and title != '' ">  
+           and `title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">
+             and `title` like "%"#{titleLike}"%"
+        </if>   
+        <if test="eventLocation != null and eventLocation != '' ">  
+           and `eventLocation` = #{eventLocation}
+        </if>  
+        <if test="eventLocationLike != null and eventLocationLike != '' ">
+             and `event_location` like "%"#{eventLocationLike}"%"
+        </if>   
+        <if test="description != null and description != '' ">  
+           and `description` = #{description}
+        </if>  
+        <if test="descriptionLike != null and descriptionLike != '' ">
+             and `description` like "%"#{descriptionLike}"%"
+        </if>   
+        <if test="dtstart != null and dtstart != '' ">  
+           and `dtstart` = #{dtstart}
+        </if>  
+        <if test="dtend != null and dtend != '' ">  
+           and `dtend` = #{dtend}
+        </if>  
+        <if test="eventTimezone != null and eventTimezone != '' ">  
+           and `eventTimezone` = #{eventTimezone}
+        </if>  
+        <if test="eventTimezoneLike != null and eventTimezoneLike != '' ">
+             and `event_timezone` like "%"#{eventTimezoneLike}"%"
+        </if>   
+        <if test="eventEndTimezone != null and eventEndTimezone != '' ">  
+           and `eventEndTimezone` = #{eventEndTimezone}
+        </if>  
+        <if test="eventEndTimezoneLike != null and eventEndTimezoneLike != '' ">
+             and `EVENT_END_TIMEZONE` like "%"#{eventEndTimezoneLike}"%"
+        </if>   
+        <if test="duration != null and duration != '' ">  
+           and `duration` = #{duration}
+        </if>  
+        <if test="durationLike != null and durationLike != '' ">
+             and `duration` like "%"#{durationLike}"%"
+        </if>   
+        <if test="allDay != null and allDay != '' ">  
+           and `allDay` = #{allDay}
+        </if>  
+        <if test="rrule != null and rrule != '' ">  
+           and `rrule` = #{rrule}
+        </if>  
+        <if test="rruleLike != null and rruleLike != '' ">
+             and `rrule` like "%"#{rruleLike}"%"
+        </if>   
+        <if test="rdate != null and rdate != '' ">  
+           and `rdate` = #{rdate}
+        </if>  
+        <if test="rdateLike != null and rdateLike != '' ">
+             and `rdate` like "%"#{rdateLike}"%"
+        </if>   
+        <if test="availability != null and availability != '' ">  
+           and `availability` = #{availability}
+        </if>  
+        <if test="guestsCanModify != null and guestsCanModify != '' ">  
+           and `guestsCanModify` = #{guestsCanModify}
+        </if>  
+        <if test="guestsCanInviteOthers != null and guestsCanInviteOthers != '' ">  
+           and `guestsCanInviteOthers` = #{guestsCanInviteOthers}
+        </if>  
+        <if test="guestsCanSeeGuests != null and guestsCanSeeGuests != '' ">  
+           and `guestsCanSeeGuests` = #{guestsCanSeeGuests}
+        </if>  
+        <if test="user != null and user != '' ">  
+           and `user` = #{user}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and `updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `update_time` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `update_time` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from event
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and event.`id` = #{id}
+        </if>  
+        <if test="calendarId != null and calendarId != '' ">  
+           and event.`calendar_id` = #{calendarId}
+        </if>  
+        <if test="organizer != null and organizer != '' ">  
+           and event.`organizer` = #{organizer}
+        </if>  
+        <if test="organizerLike != null and organizerLike != '' ">  
+             and event.`organizer` like "%"#{organizerLike}"%"
+        </if>   
+        <if test="title != null and title != '' ">  
+           and event.`title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">  
+             and event.`title` like "%"#{titleLike}"%"
+        </if>   
+        <if test="eventLocation != null and eventLocation != '' ">  
+           and event.`event_location` = #{eventLocation}
+        </if>  
+        <if test="eventLocationLike != null and eventLocationLike != '' ">  
+             and event.`event_location` like "%"#{eventLocationLike}"%"
+        </if>   
+        <if test="description != null and description != '' ">  
+           and event.`description` = #{description}
+        </if>  
+        <if test="descriptionLike != null and descriptionLike != '' ">  
+             and event.`description` like "%"#{descriptionLike}"%"
+        </if>   
+        <if test="dtstart != null and dtstart != '' ">  
+           and event.`dtstart` = #{dtstart}
+        </if>  
+        <if test="dtend != null and dtend != '' ">  
+           and event.`dtend` = #{dtend}
+        </if>  
+        <if test="eventTimezone != null and eventTimezone != '' ">  
+           and event.`event_timezone` = #{eventTimezone}
+        </if>  
+        <if test="eventTimezoneLike != null and eventTimezoneLike != '' ">  
+             and event.`event_timezone` like "%"#{eventTimezoneLike}"%"
+        </if>   
+        <if test="eventEndTimezone != null and eventEndTimezone != '' ">  
+           and event.`EVENT_END_TIMEZONE` = #{eventEndTimezone}
+        </if>  
+        <if test="eventEndTimezoneLike != null and eventEndTimezoneLike != '' ">  
+             and event.`EVENT_END_TIMEZONE` like "%"#{eventEndTimezoneLike}"%"
+        </if>   
+        <if test="duration != null and duration != '' ">  
+           and event.`duration` = #{duration}
+        </if>  
+        <if test="durationLike != null and durationLike != '' ">  
+             and event.`duration` like "%"#{durationLike}"%"
+        </if>   
+        <if test="allDay != null and allDay != '' ">  
+           and event.`ALL_DAY` = #{allDay}
+        </if>  
+        <if test="rrule != null and rrule != '' ">  
+           and event.`rrule` = #{rrule}
+        </if>  
+        <if test="rruleLike != null and rruleLike != '' ">  
+             and event.`rrule` like "%"#{rruleLike}"%"
+        </if>   
+        <if test="rdate != null and rdate != '' ">  
+           and event.`rdate` = #{rdate}
+        </if>  
+        <if test="rdateLike != null and rdateLike != '' ">  
+             and event.`rdate` like "%"#{rdateLike}"%"
+        </if>   
+        <if test="availability != null and availability != '' ">  
+           and event.`availability` = #{availability}
+        </if>  
+        <if test="guestsCanModify != null and guestsCanModify != '' ">  
+           and event.`guests_can_modify` = #{guestsCanModify}
+        </if>  
+        <if test="guestsCanInviteOthers != null and guestsCanInviteOthers != '' ">  
+           and event.`guests_can_inveite_guests` = #{guestsCanInviteOthers}
+        </if>  
+        <if test="guestsCanSeeGuests != null and guestsCanSeeGuests != '' ">  
+           and event.`guests_can_see_guests` = #{guestsCanSeeGuests}
+        </if>  
+        <if test="user != null and user != '' ">  
+           and event.`user` = #{user}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and event.`create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and event.`create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and event.`create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and event.`update_time` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and event.`update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and event.`update_time` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from event where 1=1
+        <if test="id != null and id != '' ">  
+           and event.`id` = #{id}
+        </if>  
+        <if test="calendarId != null and calendarId != '' ">  
+           and event.`calendar_id` = #{calendarId}
+        </if>  
+        <if test="organizer != null and organizer != '' ">  
+           and event.`organizer` = #{organizer}
+        </if>  
+        <if test="organizerLike != null and organizerLike != '' ">  
+             and event.`organizer` like "%"#{organizerLike}"%"
+        </if>   
+        <if test="title != null and title != '' ">  
+           and event.`title` = #{title}
+        </if>  
+        <if test="titleLike != null and titleLike != '' ">  
+             and event.`title` like "%"#{titleLike}"%"
+        </if>   
+        <if test="eventLocation != null and eventLocation != '' ">  
+           and event.`event_location` = #{eventLocation}
+        </if>  
+        <if test="eventLocationLike != null and eventLocationLike != '' ">  
+             and event.`event_location` like "%"#{eventLocationLike}"%"
+        </if>   
+        <if test="description != null and description != '' ">  
+           and event.`description` = #{description}
+        </if>  
+        <if test="descriptionLike != null and descriptionLike != '' ">  
+             and event.`description` like "%"#{descriptionLike}"%"
+        </if>   
+        <if test="dtstart != null and dtstart != '' ">  
+           and event.`dtstart` = #{dtstart}
+        </if>  
+        <if test="dtend != null and dtend != '' ">  
+           and event.`dtend` = #{dtend}
+        </if>  
+        <if test="eventTimezone != null and eventTimezone != '' ">  
+           and event.`event_timezone` = #{eventTimezone}
+        </if>  
+        <if test="eventTimezoneLike != null and eventTimezoneLike != '' ">  
+             and event.`event_timezone` like "%"#{eventTimezoneLike}"%"
+        </if>   
+        <if test="eventEndTimezone != null and eventEndTimezone != '' ">  
+           and event.`EVENT_END_TIMEZONE` = #{eventEndTimezone}
+        </if>  
+        <if test="eventEndTimezoneLike != null and eventEndTimezoneLike != '' ">  
+             and event.`EVENT_END_TIMEZONE` like "%"#{eventEndTimezoneLike}"%"
+        </if>   
+        <if test="duration != null and duration != '' ">  
+           and event.`duration` = #{duration}
+        </if>  
+        <if test="durationLike != null and durationLike != '' ">  
+             and event.`duration` like "%"#{durationLike}"%"
+        </if>   
+        <if test="allDay != null and allDay != '' ">  
+           and event.`ALL_DAY` = #{allDay}
+        </if>  
+        <if test="rrule != null and rrule != '' ">  
+           and event.`rrule` = #{rrule}
+        </if>  
+        <if test="rruleLike != null and rruleLike != '' ">  
+             and event.`rrule` like "%"#{rruleLike}"%"
+        </if>   
+        <if test="rdate != null and rdate != '' ">  
+           and event.`rdate` = #{rdate}
+        </if>  
+        <if test="rdateLike != null and rdateLike != '' ">  
+             and event.`rdate` like "%"#{rdateLike}"%"
+        </if>   
+        <if test="availability != null and availability != '' ">  
+           and event.`availability` = #{availability}
+        </if>  
+        <if test="guestsCanModify != null and guestsCanModify != '' ">  
+           and event.`guests_can_modify` = #{guestsCanModify}
+        </if>  
+        <if test="guestsCanInviteOthers != null and guestsCanInviteOthers != '' ">  
+           and event.`guests_can_inveite_guests` = #{guestsCanInviteOthers}
+        </if>  
+        <if test="guestsCanSeeGuests != null and guestsCanSeeGuests != '' ">  
+           and event.`guests_can_see_guests` = #{guestsCanSeeGuests}
+        </if>  
+        <if test="user != null and user != '' ">  
+           and event.`user` = #{user}
+        </if>  
+        <if test="createTime != null and createTime != '' ">  
+           and event.`create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and event.`create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and event.`create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and event.`update_time` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and event.`update_time` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and event.`update_time` &lt;= #{updateTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from event where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="calendarId != null and calendarId != '' ">
+           or `calendar_id` = #{calendarId}
+        </if>
+        <if test="organizer != null and organizer != '' ">
+           or `organizer` = #{organizer}
+        </if>
+        <if test="title != null and title != '' ">
+           or `title` = #{title}
+        </if>
+        <if test="eventLocation != null and eventLocation != '' ">
+           or `event_location` = #{eventLocation}
+        </if>
+        <if test="description != null and description != '' ">
+           or `description` = #{description}
+        </if>
+        <if test="dtstart != null and dtstart != '' ">
+           or `dtstart` = #{dtstart}
+        </if>
+        <if test="dtend != null and dtend != '' ">
+           or `dtend` = #{dtend}
+        </if>
+        <if test="eventTimezone != null and eventTimezone != '' ">
+           or `event_timezone` = #{eventTimezone}
+        </if>
+        <if test="eventEndTimezone != null and eventEndTimezone != '' ">
+           or `EVENT_END_TIMEZONE` = #{eventEndTimezone}
+        </if>
+        <if test="duration != null and duration != '' ">
+           or `duration` = #{duration}
+        </if>
+        <if test="allDay != null and allDay != '' ">
+           or `ALL_DAY` = #{allDay}
+        </if>
+        <if test="rrule != null and rrule != '' ">
+           or `rrule` = #{rrule}
+        </if>
+        <if test="rdate != null and rdate != '' ">
+           or `rdate` = #{rdate}
+        </if>
+        <if test="availability != null and availability != '' ">
+           or `availability` = #{availability}
+        </if>
+        <if test="guestsCanModify != null and guestsCanModify != '' ">
+           or `guests_can_modify` = #{guestsCanModify}
+        </if>
+        <if test="guestsCanInviteOthers != null and guestsCanInviteOthers != '' ">
+           or `guests_can_inveite_guests` = #{guestsCanInviteOthers}
+        </if>
+        <if test="guestsCanSeeGuests != null and guestsCanSeeGuests != '' ">
+           or `guests_can_see_guests` = #{guestsCanSeeGuests}
+        </if>
+        <if test="user != null and user != '' ">
+           or `user` = #{user}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `create_time` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+           or `update_time` = #{updateTime}
+        </if>
+  </select>
+
+
+    <select id="listRepeatEventByTime"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from event where rrule is not null and until is not null and  dtstart &lt;= #{1} and until &gt;= #{0}
+    </select>
+
+    <select id="listRepeatEvent"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from event where rrule is not null
+    </select>
+</mapper>
