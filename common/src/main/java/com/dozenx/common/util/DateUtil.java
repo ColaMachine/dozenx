@@ -374,6 +374,9 @@ public final class DateUtil {
         System.out.println(ca.getTimeInMillis());
         System.out.println(new Date().getTime());
         System.out.println(DateUtil.formatToString(new Date(1480695398105l), YYYY_MM_DD_HH_MM_SS));
+
+
+        System.out.println(DateUtil.parseToDate("2020-06-11 20:27:00", YYYY_MM_DD_HH_MM_SS).getTime());
     }
 
     public final static int DATE_INTERVAL_DAY = 1; // 日

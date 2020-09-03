@@ -2,12 +2,17 @@ package com.dozenx.web.util;
 
 import com.dozenx.common.Path.PathManager;
 import com.dozenx.common.config.Config;
+import com.dozenx.common.config.ImageConfig;
 import com.dozenx.common.util.FastYml;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.common.util.db.MysqlUtil;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,19 +27,37 @@ import java.util.Properties;
 /**
  * Created by dozen.zhang on 2016/12/5.
  */
+
 public class ConfigUtil {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ConfigUtil.class);
 
+    public static  Environment environment;
+
     public static Properties properties = new Properties();
 
+    public static ConfigUtil getInstance(){
+       return  (ConfigUtil)BeanUtil.getBean(ConfigUtil.class);
+    }
     /**
      * 根据name获取配置项值
      *
      * @param name
      * @return
      */
+
+//    static ConfigUtil configUtil;
+
+    public void init(){
+//        configUtil=this;
+//        ImageConfig config = this.environment.getProperty("image",ImageConfig.class);
+//       System.out.println(config.getServerDir());
+    }
+
     public static String getConfig(String name) {
-//        Object object = BeanUtil.getBean("sysConfigService");
+        if(environment!=null)
+            return environment.getProperty(name);
+        //return configUtil.environment.getProperty(name);
+        Object object = BeanUtil.getBean("sysConfigService");
         if (StringUtil.isBlank(name)) {
             logger.error("ConfigUtil.getConfig 参数不能为空");
             return null;
@@ -71,7 +94,7 @@ public class ConfigUtil {
 
             return value;
         }*/
-        logger.info("properties size:"+properties.size());
+//        logger.info("properties size:"+properties.size());
         return value;
     }
 

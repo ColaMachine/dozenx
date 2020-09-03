@@ -2,7 +2,10 @@ package com.dozenx.web.core.log;
 
 import com.dozenx.common.util.NetWorkUtil;
 import com.dozenx.common.util.StringUtil;
+import com.dozenx.web.core.log.service.LogUtilService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /*
@@ -17,8 +20,10 @@ import java.util.Date;
  *99unknow未知异常
  *第三组3位数字表示明细错误
  */
+//@Service
 public class LogUtilFeichu {
-    
+//    @Resource
+//    LogUtilService logUtilService;
     /** SERVICE_IP */
     private static final String SERVICE_IP = NetWorkUtil.getLocalIPAddress();
     
@@ -40,7 +45,7 @@ public class LogUtilFeichu {
        // String paramInfo = DCLogUtil.parseCenterSysLog(SERVICE_IP, ""+"000000".substring(0, (8- s.length()))+((serviceCode.ordinal()+1)*100000+type.ordinal()*1000+detailCode), ""+serviceCode,
          //       "save",param, "OPMS-"+serviceCode, globalValue, msg);
         if(type.ordinal()>= LogType.SERVICE.ordinal()){
-           // LogSendClient.sendErrorLog(paramInfo);
+//           LogSendClient.sendErrorLog(paramInfo);
         }else{
             //LogSendClient.sendInfoLog(paramInfo);
         }

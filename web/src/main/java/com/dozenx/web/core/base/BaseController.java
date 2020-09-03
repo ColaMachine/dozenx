@@ -8,22 +8,28 @@ import com.dozenx.common.util.StringUtil;
 import com.dozenx.common.util.UUIDUtil;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.auth.session.SessionUser;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.service.LogService;
 import com.dozenx.web.util.CookieUtil;
 import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.dozenx.common.util.MapUtils;
+
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 //import com.dozenx.web.message.ErrorMessage;
@@ -32,7 +38,13 @@ public class BaseController extends ResultAction {
     @Autowired
     private LogService logService;
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    /**
+     * session缓存时间
+     */
+    public int SESSION_LIVE_TIME = 24 * 60 * 60;
 
+    @Resource
+    RedisService redisService;
     /**
      * 拦截未传必需参数或者参数类型错误的异常并返回相应错误代码
      *
@@ -78,6 +90,11 @@ public class BaseController extends ResultAction {
 		 * instanceof org.apache.shiro.authz.UnauthorizedException) { result =
 		 * getWrongResultFromCfg("err.logic.no.auth"); }else
 		 */
+        if (e instanceof SQLSyntaxErrorException || e instanceof BadSqlGrammarException) {
+            e.printStackTrace();
+            logger.error("", e.getMessage());
+            result = getWrongResultFromCfg("err.db.sql");
+        } else
         if (e instanceof TypeMismatchException) {
             logger.error("", e);
             if (((TypeMismatchException) e).getValue().toString().length() == 0) {
@@ -98,6 +115,8 @@ public class BaseController extends ResultAction {
             result = new ResultDTO(Integer.valueOf(((InterfaceException)e).code),((InterfaceException)e).msg);
 		}*/ else {
             logger.error("", e);
+            logger.error("", e.getMessage());
+            e.printStackTrace();
             result = getWrongResultFromCfg(e.getMessage());
         }
         String json = request.getParameter("json");
@@ -213,29 +232,29 @@ public class BaseController extends ResultAction {
      * 判断是否是管理员
      **/
     public boolean isAdmin(HttpServletRequest request) {
-        String[] roles = getRoles(request);
-        boolean isAdmin = false;
+        String[] roles = getRoles(request);//获取角色
+        //boolean isAdmin = false;
         if (roles != null) {
             for (int i = 0; i < roles.length; i++) {
-                if (StringUtil.isNotBlank(roles[i]) && roles[i].endsWith("ADMIN")) {
-                    isAdmin = true;
-                    break;
+                if (StringUtil.isNotBlank(roles[i]) && roles[i].endsWith("ADMIN")) {//如果角色名以admin为后缀
+                    //isAdmin = true;
+                    return true;
+                    //break;
                 }
             }
         }
-
-        return isAdmin;
+        return false;
     }
     public void setUser(HttpServletRequest request,SessionUser sessionUser){
          this.setSessionAttribute(request,Constants.SESSION_USER,sessionUser);
     }
+
     /**
      * @Author: dozen.zhang
      * @Description: 获取当前用户
      * @Date: 2018/1/3
      */
     public SessionUser getUser(HttpServletRequest request) {
-
         return this.getSessionAttribute(request,Constants.SESSION_USER,SessionUser.class);
 //        HttpSession session = request.getSession();
 //        SessionUser sessionUser = (SessionUser) session.getAttribute(Constants.SESSION_USER);
@@ -264,7 +283,6 @@ public class BaseController extends ResultAction {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/json;charset=UTF-8");
             response.setContentType("text/json;charset=UTF-8");
-
             response.getWriter().println(resultStr);
             response.getWriter().flush();
             response.getWriter().close();
@@ -284,9 +302,6 @@ public class BaseController extends ResultAction {
 //        request.getSession().getAttribute(key);
 //    }
 
-    public int SESSION_LIVE_TIME = 24 * 7 * 60 * 60;
-
-
     public void generateCookieSessionKey(HttpServletRequest request,HttpServletResponse response){
         Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
         if (cookie == null) {
@@ -294,19 +309,23 @@ public class BaseController extends ResultAction {
             String uuid = UUIDUtil.getUUID();
             CookieUtil.setCookie(response,"dpksk",uuid,SESSION_LIVE_TIME);
         }
-
     }
+
     /**
      * 通过cookie中的token来活取值 如果没有token 就默认分配一个
      * @param request
      * @return
      */
     public String getSessionId(HttpServletRequest request/*,HttpServletResponse response*/ ) {
-        String sessionId =  request.getRequestedSessionId();
+        String sessionId = request.getHeader("Authorization");
         logger.info(sessionId);
+        if(StringUtil.isBlank(sessionId)) {
+            sessionId = request.getRequestedSessionId();
+        }
         if(StringUtil.isBlank(sessionId)){
             return request.getSession(true).getId();
         }
+        MDC.put(Constants.SESSION_USER,sessionId);//为了feign调用的时候带过去token
         return sessionId;
      //   return request.getSession(true).getId();
     //    Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
@@ -322,14 +341,14 @@ public class BaseController extends ResultAction {
 //        }
       //  return sessionKey;
     }
+
     public void resetLoginToken(HttpServletRequest request, HttpServletResponse response,String token){
         CookieUtil.setCookie(response, "JSESSIONID",getSessionId(request),SESSION_LIVE_TIME);//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
-
     }
+
     public String getLoginToken(HttpServletRequest request){
         Cookie cookie = CookieUtil.getCookieByName(request, "dpksk");//从cookie 中找dpksk字段  每次登录成功都会下发这个字段 标识记住这个用户了
          if (cookie == null) {
-
 //            String uuid = UUIDUtil.getUUID();
 //            CookieUtil.setCookie(response,"dpksk",uuid,SESSION_LIVE_TIME);
            return null;
@@ -347,47 +366,49 @@ public class BaseController extends ResultAction {
     }
 
     public <T> T getSessionAttribute(HttpServletRequest request, String key, Class<T> clazz) {
-        logger.info("sessionId: "+getSessionId(request));
         //先从session中直接去取
 //        Object object = request.getSession().getAttribute(key);
 //        if(object!=null)
 //            return (T)object;
         //没有的话拿到这个人的token
-
-
         String sessionKey = getSessionId(request);
+        logger.info("sessionId: "+sessionKey);
         if (StringUtil.isBlank(sessionKey)) {
-
             return null;    //如果token也是空的那么肯定没有登录过
         }
-        byte[] result = RedisUtil.getByteAry(sessionKey + "_" + key);//RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
+        byte[] result = redisService.getByteAry(sessionKey + "_" + key);//RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
             if(result==null || result.length==0){
                 return null;
             }
+        RedisUtil.expire(sessionKey + "_" + key,SESSION_LIVE_TIME);
         return (T)toObject(result);
 //        ByInputStream ois = new ObjectInputStream(new FileInputStream(file));
 //        User1 newUser = (User1)ois.readObject();
-//
 //        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
 //            return null;
 //        }
-//
 //        object =  JsonUtil.toJavaBean(result, clazz);
-//
 //        request.getSession().setAttribute(key,object);
 //        return (T)object;
-
     }
+
+    public <T> T getSessionAttribute(String token,String key){
+        byte[] result = RedisUtil.getByteAry(token + "_" + key);//RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
+        if(result==null || result.length==0){
+            return null;
+        }
+        RedisUtil.expire(token + "_" + key,SESSION_LIVE_TIME);
+        return (T)toObject(result);
+    }
+
     public <T> T getSessionAttribute(HttpServletRequest request, String key) {
-        logger.info("sessionId: "+getSessionId(request));
         //先从session中直接去取
 //        Object object = request.getSession().getAttribute(key);
 //        if(object!=null)
 //            return (T)object;
         //没有的话拿到这个人的token
-
-
         String sessionKey = getSessionId(request);
+        logger.info("sessionId: "+sessionKey);
         if (StringUtil.isBlank(sessionKey)) {
 
             return null;    //如果token也是空的那么肯定没有登录过
@@ -398,27 +419,22 @@ public class BaseController extends ResultAction {
         }
         return (T)toObject(result);
     }
+
     public String getSessionParam(HttpServletRequest request, String key) {
             return this.getSessionAttribute(request,key);
 //        String s = (String)request.getSession().getAttribute(key);
 //        if(s!=null)
 //            return s;
 //        //没有的话拿到这个人的token
-//
-//
 //        String sessionKey = getSessionId(request);
 //        if (StringUtil.isBlank(sessionKey)) {
-//
 //            return null;    //如果token也是空的那么肯定没有登录过
 //        }
 //        String result = RedisUtil.get(sessionKey + "_" + key);  //根据token去redis中去取
 //        if (StringUtil.isBlank(result)) {   //如果是空的就返回null
 //            return null;
 //        }
-//
-//
 //        return result;
-
     }
     //现在很多bug 由于在session set 和get的时候 param 是直接用redis set string 进去的 而 setAttribute 和 getAttribute 是序列化之后再set进去的 所以导致有个bug 就是 setAttribute进去的东西 用 getParam去取出来头部会多出序列化的乱码值 会出现
     public void setSessionParam(HttpServletRequest request, String key, String value) {
@@ -434,23 +450,19 @@ public class BaseController extends ResultAction {
 ////        if (value == null) {
 ////            return;
 ////        }
-//
 //        RedisUtil.setex(sessionKey + "_" + key, key, SESSION_LIVE_TIME);
 //
-
     }
 
     public void setSessionAttribute(HttpServletRequest request, String key, Object object) {
         if (object == null) {
-
             return;
         }
         //先往session里面存放 再在redis中存放
        // request.getSession().setAttribute(key,object);
         String sessionKey = getSessionId(request);
-
+        logger.info("redis setEx"+sessionKey + "_" + key);
         RedisUtil.setByteAry(sessionKey + "_" + key, toByteArray(object),SESSION_LIVE_TIME);
-
     }
 
     public void removeSession(HttpServletRequest request, String key) {

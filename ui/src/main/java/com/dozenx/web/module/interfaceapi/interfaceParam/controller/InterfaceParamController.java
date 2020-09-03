@@ -123,7 +123,7 @@ public class InterfaceParamController extends BaseController {
     @API(summary = "修改参数接口")
     @ResponseBody
     @PutMapping(value = {"/update"})
-    public String updateParams(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+    public ResultDTO updateParams(HttpServletRequest request,@RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
         int id = MapUtils.getIntValue(bodyParam, "id");
         String paramname = CastUtil.toString(MapUtils.getString(bodyParam, "paramName"));
         String paramtype = CastUtil.toString(MapUtils.getString(bodyParam, "paramType"));
@@ -143,7 +143,8 @@ public class InterfaceParamController extends BaseController {
         params.setParamIn(paramIn);
         params.setParamValue(paramValue);
         int result = paramsService.updateByPrimaryKeySelective(params);
-        return result == 1 ? "update success" : "update failure";
+//        return result == 1 ? "update success" : "update failure";
+        return this.getResult();
     }
 
 

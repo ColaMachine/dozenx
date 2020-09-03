@@ -15,4 +15,6 @@ public interface ExampleTestMapper {
     Integer delete(@Param(value = "id") Integer id);
     Integer update(ExampleTest exampleTest);
     List<ExampleTest> select(Map map);
+
+    List<ExampleTest>  selectByInterfaceId(Integer interfaceId);
 }

@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.dozenx.common.exception.BizException;
 import com.dozenx.common.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,11 +81,20 @@ public class SysRoleServiceImpl extends BaseService implements SysRoleService {
        
        //判断是更新还是插入
         if (sysRole.getId()==null ||  this.selectByPrimaryKey(sysRole.getId())==null) {
+
+            int num = sysRoleMapper.countByNameCode(sysRole);
+            if(num>0){
+                throw new BizException(30504089,"角色名或编码重复");
+            }
             sysRole.setCreateTime(new Timestamp(new Date().getTime()));
             sysRole.setStatus(1);
             sysRole.setCreateTime(DateUtil.getNowTimeStamp());
             sysRoleMapper.insert(sysRole);
         } else {
+            int num = sysRoleMapper.countByNameCodeId(sysRole);
+            if(num>0){
+                throw new BizException(30504089,"角色名或编码重复");
+            }
             sysRoleMapper.updateByPrimaryKeySelective(sysRole);
         }
         return ResultUtil.getSuccResult();

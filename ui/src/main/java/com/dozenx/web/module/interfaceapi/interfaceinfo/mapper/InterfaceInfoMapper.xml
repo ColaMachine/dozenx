@@ -14,15 +14,18 @@
             <result column="interface_detail" property="interfaceDetail" jdbcType="VARCHAR"></result>
             <result column="image_url" property="imageUrl" jdbcType="VARCHAR"></result>
             <result column="version" property="version" jdbcType="VARCHAR"></result>
+            <result column="module_id" property="moduleId" jdbcType="INTEGER"></result>
             <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
             <result column="history_flag" property="historyFlag" jdbcType="INTEGER" />
             <result column="splicing" property="splicing" jdbcType="INTEGER" />
+        <result column="domain" property="domain" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
     </resultMap>
     <!--    <resultMap id="ExampleMap" type="com.dozenx.web.module.interfaceapi.pojo.InterfaceExample"></resultMap>-->
     <!--    新增-->
     <sql id="Base_Column_List" >
         id, project_name, module_name, url, http_type, content_type, interface_id, interface_name,
-        interface_detail, image_url, version, create_time,update_time, splicing, history_flag
+        interface_detail, image_url, version, create_time,update_time, splicing, history_flag,domain,module_id
     </sql>
     <insert id="insertApi" parameterType="com.dozenx.web.module.interfaceapi.interfaceinfo.pojo.InterfaceInfo">
         insert into interface_api
@@ -37,6 +40,9 @@
             <if test="interfaceDetail != null">interface_detail,</if>
             <if test="imageUrl != null">image_url,</if>
             <if test="version != null">version,</if>
+            <if test="domain != null">domain,</if>
+            <if test="author != null">author,</if>
+            <if test="moduleId != null">module_Id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectName != null">#{projectName},</if>
@@ -49,6 +55,9 @@
             <if test="interfaceDetail != null">#{interfaceDetail},</if>
             <if test="imageUrl != null">#{imageUrl},</if>
             <if test="version != null">#{version},</if>
+            <if test="domain != null">#{domain},</if>
+            <if test="author != null">#{author},</if>
+            <if test="moduleId != null">#{moduleId},</if>
         </trim>
     </insert>
 <!--    <insert id="insertParams" parameterType="com.dozenx.web.module.interfaceapi.paramsTest.pojo.InterfaceParams">-->
@@ -108,6 +117,7 @@
             <if test="interfaceId != null">interface_id = #{interfaceId},</if>
             <if test="projectName != null">project_name = #{projectName},</if>
             <if test="moduleName != null">module_name = #{moduleName},</if>
+            <if test="moduleId != null">module_id = #{moduleId},</if>
             <if test="url != null">url = #{url},</if>
             <if test="httpType != null">http_type = #{httpType},</if>
             <if test="contentType != null">content_type = #{contentType},</if>
@@ -115,6 +125,8 @@
             <if test="interfaceDetail != null">interface_detail = #{interfaceDetail},</if>
             <if test="imageUrl != null">image_url = #{imageUrl},</if>
             <if test="historyFlag != null">history_flag = #{historyFlag},</if>
+            <if test="domain != null">domain = #{domain},</if>
+            <if test="author != null">author = #{author},</if>
         </set>
         where id = #{id}
     </update>
@@ -132,20 +144,29 @@
         select * from interface_api where 1=1
         <if test="id != null and id != ''"> and id = #{id} </if>
         <if test="projectName != null and projectName != ''"> and project_name = #{projectName} </if>
+        <if test="projectNameLike != null and projectNameLike != ''"> and project_name like  CONCAT('%',#{projectNameLike},'%')  </if>
         <if test="moduleName != null and moduleName != ''"> and module_name = #{moduleName} </if>
+        <if test="moduleId != null and moduleId != ''"> and module_id = #{moduleId} </if>
+        <if test="moduleNameLike != null and moduleNameLike != ''"> and module_name like CONCAT('%',#{moduleNameLike},'%') </if>
         <if test="url != null and url != ''"> and url = #{url} </if>
+        <if test="urlLike != null and urlLike != ''"> and url like CONCAT('%',#{urlLike},'%') </if>
         <if test="httpType != null and httpType != ''"> and http_type = #{httpType} </if>
         <if test="interfaceName != null and interfaceName != ''"> and interface_name = #{interfaceName} </if>
+        <if test="interfaceNameLike != null and interfaceNameLike != ''"> and interface_name like CONCAT('%',#{interfaceNameLike},'%') </if>
+
         <if test="interfaceDetail != null and interfaceDetail != ''"> and interface_detail = #{interfaceDetail} </if>
         <if test="interfaceId != null and interfaceId != ''"> and interface_id = #{interfaceId} </if>
         <if test="contentType != null and contentType != ''"> and content_type = #{contentType} </if>
         <if test="imageUrl != null and imageUrl != ''"> and image_url = #{imageUrl} </if>
         <if test="version != null and version != ''"> and version = #{version} </if>
+        <if test="author != null and author != ''"> and author = #{author} </if>
         <!-- 根据前台传来的页码来查询 -->
         <if test="nowPageNum != null and pageSize != null and pageSize > 0">
             limit #{nowPageNum},#{pageSize}
         </if>
     </select>
+
+
 <!--    <select id="getParamsById" parameterType="java.lang.Integer" resultMap="ParamsMap">-->
 <!--        select * from interface_params where 1=1-->
 <!--        <if test="apiId != null and apiId != ''">-->
@@ -196,6 +217,9 @@
             <if test="moduleName != null" >
                 module_name,
             </if>
+            <if test="moduleId != null" >
+                module_id,
+            </if>
             <if test="url != null" >
                 url,
             </if>
@@ -232,6 +256,14 @@
             <if test="historyFlag != null" >
                 history_flag,
             </if>
+            <if test="domain != null" >
+                domain,
+            </if>
+
+            <if test="author != null" >
+                author,
+            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -242,6 +274,9 @@
             </if>
             <if test="moduleName != null" >
                 #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleId != null" >
+                #{moduleId,jdbcType=INTEGER},
             </if>
             <if test="url != null" >
                 #{url,jdbcType=VARCHAR},
@@ -277,6 +312,13 @@
             <if test="historyFlag != null" >
                 #{historyFlag,jdbcType=INTEGER},
             </if>
+            <if test="domain != null" >
+                #{domain,jdbcType=VARCHAR},
+            </if>
+
+            <if test="author != null" >
+                #{author,jdbcType=VARCHAR},
+            </if>
         </trim>
         <selectKey keyProperty="id" resultType="Integer" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -294,6 +336,9 @@
             </if>
             <if test="moduleName != null" >
                 module_name = #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleId != null" >
+                module_id = #{moduleId,jdbcType=INTEGER},
             </if>
             <if test="url != null" >
                 url = #{url,jdbcType=VARCHAR},
@@ -329,6 +374,12 @@
             </if>
             <if test="historyFlag != null" >
                 history_flag = #{historyFlag,jdbcType=INTEGER},
+            </if>
+            <if test="domain != null" >
+                domain = #{domain,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null" >
+                author = #{author,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

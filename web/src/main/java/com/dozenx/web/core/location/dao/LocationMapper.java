@@ -10,6 +10,6 @@ import java.util.Map;
  * @Modified By:
  */
 public interface LocationMapper {
-
+    Long getIdByName(Map map);
     List<Map<String,Object >> selectAll();
 }

@@ -1,5 +1,6 @@
 package com.dozenx.common.util;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
@@ -2600,7 +2601,99 @@ public class HttpRequestUtil {
 
 
 
-    public static void main(String args[]) {
+    /**
+     * 向指定 URL 发送POST form表单请求方法的请求
+     *
+     * @param url    发送请求的 URL
+     * @param params 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @return 所代表远程资源的响应结果
+     */
+    public static String sendPostInBody(String url, Map<String, String> params) {
+        OutputStream out = null;
+        BufferedReader in = null;
+        StringBuffer result = new StringBuffer("");
+
+        try {
+
+            String bodyString =  JsonUtil.toJsonString(params);
+
+            // logger.debug(bodyString);
+            byte[] body = bodyString
+                    .getBytes("utf-8");// ("[" + JSON.toJSONString(params) + "]")
+            URL realUrl = new URL(url);
+//            logger.debug("post:"+realUrl);
+            // 打开和URL之间的连接
+            HttpURLConnection conn = (HttpURLConnection) realUrl
+                    .openConnection();
+            // 设置通用的请求属性
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            conn.setRequestProperty("Content-Type",
+                    "application/json");
+            conn.setRequestProperty("Content-Length",
+                    String.valueOf(body.length));
+
+//            PrintWriter  out2 = new PrintWriter(conn.getOutputStream());
+            // 发送POST请求必须设置如下两行
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            out = conn.getOutputStream();
+            // 发送请求参数
+            out.write(body);
+            // flush输出流的缓冲
+            out.flush();
+            out.close();
+            // 定义BufferedReader输入流来读取URL的响应
+//            logger.debug(conn.getResponseCode()+"");
+            if (conn.getResponseCode() != 200) {
+                return "400";
+            }
+            in = new BufferedReader(new InputStreamReader(
+                    conn.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+            //logger.debug(result.toString());
+            conn.disconnect();
+        } catch (Exception e) {
+            // //logger.debug("发送 POST 请求出现异常！" + e);
+            e.printStackTrace();
+            return "400";
+        }
+        // 使用finally块来关闭输出流、输入流
+        finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result.toString();
+    }
+
+
+    public static void main(String[] arsg){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("accessToken", "hello");
+        String result = sendPostInBody("http://192.168.120.13:8100/shsrv//app/tianyi/auth/login",params);
+        System.out.println(result);
+
+    }
+
+
+
+
+    public static void main1(String args[]) {
 //
 //        String url = "http://192.168.41.53/sms-service/sms/send?mobile=18368729738&msg=%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%A4%B1%E8%B4%A5&access_token=5aaf89c1bfaed238e1eea6c1";
 //
@@ -2652,6 +2745,9 @@ public class HttpRequestUtil {
 //        }
 
     }
+
+
+
 }
 
 

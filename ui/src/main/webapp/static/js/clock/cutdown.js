@@ -1,9 +1,10 @@
 (function() {
-	var WIDTH = 1024;
-	var HEIGHT = 400;
+	var WIDTH = 300;
+	var HEIGHT = 100;
 	var RADIUS = 1;
-	var MARGIN_LEFT =300;
+	var MARGIN_LEFT =050;
 	var MARGIN_TOP = 0;
+	var TARGET_TIME=new Date().getTime()+25*60*1000;
 
 //  var endTime=new Date();
 //  endTime.setTime(endTime.getTime()+3600*1000*24)
@@ -70,15 +71,15 @@
 				balls[i].vy = -balls[i].vy * 0.45;
 			}
 		}
-		var cnt = 0;
-		for (var i = 0; i < balls.length; i++) 
-			if ((balls[i].x + RADIUS) > 0 && (balls[i].x - RADIUS) < WIDTH) 
-				balls[cnt++] = balls[i];
+		var cnt = 150;
+//		for (var i = 0; i < balls.length; i++)
+//			if ((balls[i].x + RADIUS) > 0 && (balls[i].x - RADIUS) < WIDTH)
+//				balls[cnt++] = balls[i];
 				
-				console.log(balls)
-//			while (balls.length > cnt) {
-//				balls.pop();
-//			}
+//            console.log(balls)
+        while (balls.length > cnt) {
+            balls.shift();
+        }
 	};
 
 	function addBalls(x, y, num) {
@@ -88,8 +89,8 @@
 					var aball = {
 						x: x + j * 2 * (RADIUS + 1) + (RADIUS + 1),
 						y: y + i * 2 * (RADIUS + 1) + (RADIUS + 1),
-						g: 1.5+Math.random(),
-						vx: Math.pow(-1, Math.ceil(Math.random() * 1000))*4,
+						g: 1.5+Math.random(),//随机加速度
+						vx: Math.pow(-1, Math.ceil(Math.random() * 1000))*4,//输出正4或者-4
 						vy: -5,
 						color: colors[Math.floor(Math.random() * colors.length)]
 					};
@@ -148,9 +149,11 @@
 
 	function getCurrentShowTimeSeconds() {
 		var curTime = new Date();
+
 //		var ret = endTime.getTime() - curTime.getTime();
 //		ret = Math.round(ret / 1000);
-        var ret=curTime.getHours()*3600+curTime.getMinutes()*60+curTime.getSeconds();
+       // var ret=curTime.getHours()*3600+curTime.getMinutes()*60+curTime.getSeconds();
+       var ret =(TARGET_TIME-curTime.getTime())/1000;
 		return ret >= 0 ? ret : 0;
 	};
 

@@ -112,13 +112,13 @@ Logger logger=LoggerFactory.getLogger(this.getClass());
 		return getResult(Integer.valueOf(location+result), msg);
 
 	}
+
 	/**返回未登录错误
 	 * @return
 	 * @author zzw
 	 */
 	protected ResultDTO getNotLogging(){
 		return getWrongResultFromCfg("err.logic.notlogging");
-		
 	}
 	
 	/**

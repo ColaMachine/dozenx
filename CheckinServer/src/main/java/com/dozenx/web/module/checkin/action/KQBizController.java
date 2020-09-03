@@ -244,7 +244,9 @@ public class KQBizController extends BaseController {
      * @return
      * @throws Exception
      */
-    //http://192.168.213.7:8097/home/checkin/faceinfo/opendoor?camera=7099
+    //http://192.168.188.21:2019/home/checkin/face/opendoor?camera=88
+
+    //
     @RequestMapping(value = "/opendoor")
     @ResponseBody
     public ResultDTO testopendoor(HttpServletRequest request) throws Exception {

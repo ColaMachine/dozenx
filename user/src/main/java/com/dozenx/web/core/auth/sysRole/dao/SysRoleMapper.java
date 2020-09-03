@@ -89,4 +89,8 @@ public interface SysRoleMapper {
      * @date 2015年5月14日上午11:34:13
      */
     List<SysRole> listByUserId(Long userId);
+
+    int countByNameCode(SysRole sysRole);
+
+    int countByNameCodeId(SysRole sysRole);
 }

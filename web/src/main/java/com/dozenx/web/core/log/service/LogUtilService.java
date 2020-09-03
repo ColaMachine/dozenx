@@ -62,6 +62,19 @@ public class LogUtilService {
      * @author dozen.zhang
      */
     public void log(ServiceCode serviceCode, LogType type, int detailCode, String param, String msg, String username) {
+       log(serviceCode.ordinal()+1 ,type,detailCode,param,msg,username);
+
+    }
+    public void log(int serviceCode, LogType type, int detailCode, String param, String msg, String username) {
+        int codeInt = type.getValue() * 1000000 + ((serviceCode  * 1000 + detailCode));
+        String s = "" + codeInt;
+//        String code = "000000".substring(0, (8 - s.length()))
+//                + (serviceCode * 100000 + (type.ordinal() + 1) * 1000 + detailCode);
+        log(codeInt,type,param,msg,username);
+
+    }
+
+    public void log(int code, LogType type,String param, String msg, String username) {
         try {
             String globalValue = new LogKey().get();
             if (StringUtil.isBlank(globalValue)) {
@@ -69,12 +82,8 @@ public class LogUtilService {
                 globalValue = new LogKey().get();
             }
             // System.out.println(globalValue);
-            int codeInt = type.getValue() * 1000000 + (((serviceCode.ordinal() + 1) * 1000 + detailCode));
-            String s = "" + codeInt;
-            String code = "000000".substring(0, (8 - s.length()))
-                    + ((serviceCode.ordinal() + 1) * 100000 + (type.ordinal() + 1) * 1000 + detailCode);
-       /* String paramInfo = DCLogUtil.parseCenterSysLog(SERVICE_IP, code, "" + serviceCode, "save", param,
-                "MSP-" + serviceCode, globalValue, msg);*/
+
+
 
             Throwable ex = new Throwable();
             StackTraceElement[] stackElements = ex.getStackTrace();
@@ -93,13 +102,13 @@ public class LogUtilService {
 
                 }
             }
-        /*
-         * WebApplicationContext wac =
-         * ContextLoader.getCurrentWebApplicationContext(); SysLogService
-         * sysLogService = (SysLogService)wac.getBean("sysLogService");
-         */
+            /*
+             * WebApplicationContext wac =
+             * ContextLoader.getCurrentWebApplicationContext(); SysLogService
+             * sysLogService = (SysLogService)wac.getBean("sysLogService");
+             */
             SysLog sysLog = new SysLog();
-            sysLog.setLogCode(codeInt);
+            sysLog.setLogCode(code);
             sysLog.setLogPath(path);
             sysLog.setCreateTime(new Timestamp(new Date().getTime()));
             sysLog.setLogMsg(msg);
@@ -134,10 +143,10 @@ public class LogUtilService {
             sb.append("【").append(globalValue).append("】【").append(type).append("】【").append(msg).append("】【").append(param)
                     .append("】【").append(new Date().getTime()).append("】【").append(code).append("】");
 
-        /*
-         * try { RedisUtil.lpush("msp-log", sb.toString()); } catch (Exception
-         * e) { // TODO Auto-generated catch block e.printStackTrace(); }
-         */
+            /*
+             * try { RedisUtil.lpush("msp-log", sb.toString()); } catch (Exception
+             * e) { // TODO Auto-generated catch block e.printStackTrace(); }
+             */
             if (type == LogType.SERVICE || type == LogType.PARAM || type == LogType.THIRD || type == LogType.SYSTEM
                     || type == LogType.UNKNOW) {
                 // logger.error(sb.toString());
@@ -153,7 +162,6 @@ public class LogUtilService {
         }
 
     }
-
     /**
      * 系统错误
      * 
@@ -167,6 +175,16 @@ public class LogUtilService {
     public void error(ServiceCode serviceCode, int detailCode, String param, String msg, String username) {
        // String s = "" + LogType.SYSTEM.getValue() * 100000 +  (((serviceCode.ordinal() + 1)* 1000 + detailCode));
         log(serviceCode, LogType.SERVICE, detailCode, param, msg, username);
+    }
+
+    /**
+     * @param code 30104001 3+2+3格式  前三位 模块id 中间2位 告警级别 后三位 独立id
+     * @param msg 不要超过4000字符
+     */
+    public void error(int code , String msg) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.SERVICE, null, msg, null);
+
     }
 
     /**
@@ -198,6 +216,15 @@ public class LogUtilService {
        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.SYSTEM.ordinal() * 1000 + detailCode));
         log(serviceCode, LogType.SYSTEM, detailCode, param, msg, username);
     }
+    /**
+     * @param code 30104001 3+2+3格式  前三位 模块id 中间2位 告警级别 后三位 独立id
+     * @param msg 不要超过4000字符
+     */
+    public void system(int code , String msg) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.SYSTEM, null, msg, null);
+
+    }
 
     /**
      * 前端参数错误
@@ -214,7 +241,15 @@ public class LogUtilService {
         log(serviceCode, LogType.PARAM, detailCode, param, msg, username);
 
     }
+    /**
+     * @param code 30104001 3+2+3格式  前三位 模块id 中间2位 告警级别 后三位 独立id
+     * @param msg 不要超过4000字符
+     */
+    public void param(int code , String msg) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.PARAM, null, msg, null);
 
+    }
     /**
      * 普通跟踪打印
      * 
@@ -228,6 +263,16 @@ public class LogUtilService {
     public void track(ServiceCode serviceCode, int detailCode, String param, String msg, String username) {
       //  String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.TRACK.ordinal() * 1000 + detailCode));
         log(serviceCode, LogType.TRACK, detailCode, param, msg, username);
+
+    }
+
+    /**
+     * @param code 30104001 3+2+3格式  前三位 模块id 中间2位 告警级别 后三位 独立id
+     * @param msg 不要超过4000字符
+     */
+    public void track(int code , String msg) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.TRACK, null, msg, null);
 
     }
 
@@ -257,6 +302,27 @@ public class LogUtilService {
 
     }
 
+    public void info(int serviceCode, int detailCode, String param, String msg, String username) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(serviceCode, LogType.INFO, detailCode, param, msg, username);
+
+    }
+
+    /**
+     * @param code 30104001 3+2+3格式  前三位 模块id 中间2位 告警级别 后三位 独立id
+     * @param msg 不要超过4000字符
+     */
+    public void info(int code , String msg) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.INFO, null, msg, null);
+
+    }
+
+    public void info(int code , String msg,String key) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.INFO, null, msg, key);
+
+    }
     /**
      * 未知错误
      * 
@@ -272,7 +338,15 @@ public class LogUtilService {
         log(serviceCode, LogType.UNKNOW, detailCode, param, msg, username);
 
     }
+    /**
+     * @param code 30104001 3+2+3格式  前三位 模块id 中间2位 告警级别 后三位 独立id
+     * @param msg 不要超过4000字符
+     */
+    public void unknow(int code , String msg) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.UNKNOW, null, msg, null);
 
+    }
     /**
      * 第三方错误 error 级别
      * 
@@ -286,6 +360,16 @@ public class LogUtilService {
     public void third(ServiceCode serviceCode, int detailCode, String param, String msg, String username) {
        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.THIRD.ordinal() * 1000 + detailCode));
         log(serviceCode, LogType.THIRD, detailCode, param, msg, username);
+
+    }
+
+    /**
+     * @param code 30104001 3+2+3格式  前三位 模块id 中间2位 告警级别 后三位 独立id
+     * @param msg 不要超过4000字符
+     */
+    public void third(int code , String msg) {
+        // String s = "" + (((serviceCode.ordinal() + 1) * 100000 + LogType.INFO.ordinal() * 1000 + detailCode));
+        log(code, LogType.THIRD, null, msg, null);
 
     }
 }

@@ -41,7 +41,7 @@ public class InterfaceParam {
      *
      * @mbggenerated
      */
-    private int interfaceId;
+    private Integer interfaceId;
     private Timestamp createTime;
     private Timestamp updateTime;
     private String paramIn;
@@ -167,8 +167,22 @@ public class InterfaceParam {
      *
      * @mbggenerated
      */
-    public int getInterfaceId() {
+
+    public Integer getInterfaceId() {
         return interfaceId;
+    }
+    public boolean paramRequired;
+
+    public boolean isParamRequired() {
+        return paramRequired;
+    }
+
+    public void setParamRequired(boolean paramRequired) {
+        this.paramRequired = paramRequired;
+    }
+
+    public void setInterfaceId(Integer interfaceId) {
+        this.interfaceId = interfaceId;
     }
 
     /**
@@ -179,9 +193,7 @@ public class InterfaceParam {
      *
      * @mbggenerated
      */
-    public void setInterfaceId(int interfaceId) {
-        this.interfaceId = interfaceId;
-    }
+
     public Timestamp getCreateTime() {
         return createTime;
     }

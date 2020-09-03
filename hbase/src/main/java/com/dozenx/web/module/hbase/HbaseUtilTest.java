@@ -148,7 +148,7 @@ public class HbaseUtilTest {
 
     public static void initWithNo() {
         Configuration config = HBaseConfiguration.create();
-        config.set("hbase.zookeeper.quorum", "192.168.44.100");
+        config.set("hbase.zookeeper.quorum", "192.168.154.52");
 
         try {
 

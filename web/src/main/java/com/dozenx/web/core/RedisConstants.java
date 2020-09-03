@@ -10,6 +10,7 @@ public class RedisConstants {
     public static final String LOCATION_CHILDS = "advert_loction_childs_";
 
     public static final String LOCATION_IDNAME = "advert_loction_idname_";
+    public static final String LOCATION_IDCODE = "advert_loction_idcode_";
     /**地区key有效时间*/
     public static final int LOCATION_TIME = 2678400;//31*24*60*60(31天)
 

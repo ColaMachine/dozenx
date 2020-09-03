@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import com.dozenx.web.core.annotation.RequiresPermission;
+import com.dozenx.web.core.auth.sysRolePermission.service.SysRolePermissionService;
 import com.dozenx.web.core.log.ErrorMessage;
+import com.dozenx.web.core.log.OperLogUtil;
 import org.slf4j.Logger;
 import com.dozenx.common.exception.ParamException;
 import org.slf4j.LoggerFactory;
@@ -539,6 +541,7 @@ public class SysRoleController extends BaseController{
         if(StringUtil.isNotBlank(validStr)) {
             return ResultUtil.getResult(302,validStr);
         }
+        OperLogUtil.add(request,"角色管理","角色新增","角色新增:"+sysRole.getRoleName());
 
         return sysRoleService.save(sysRole);
 
@@ -566,7 +569,7 @@ public class SysRoleController extends BaseController{
 
     public Object update(HttpServletRequest request,@PathVariable Integer id ,@RequestBody(required=true) Map<String,Object> bodyParam) throws Exception {
         SysRole sysRole =getInfoFromMap(bodyParam);
-
+        OperLogUtil.add(request,"角色管理","角色更新","角色更新:"+sysRole.getRoleName());
         return sysRoleService.save(sysRole);
 
     }
@@ -608,9 +611,108 @@ public class SysRoleController extends BaseController{
         if(id==null ){
             return this.getResult(10202003, ErrorMessage.getErrorMsg("err.param.null","角色id"));
         }
-
-        sysRoleService.delete(id);//将状态为改成9
+        SysRole sysRole = sysRoleService.selectByPrimaryKey(id);
+        if(sysRole!=null ) {
+            OperLogUtil.add(request, "角色管理", "角色删除", "角色删除:" + sysRole.getRoleName());
+            sysRoleService.delete(id);//将状态为改成9
+        }
         return this.getResult(SUCC);
+    }
+
+
+
+
+    @API(summary = "角色添加接口",
+            consumes = "application/json",
+            description = "sysRoleController 角色添加接口", parameters = {
+            @Param(name = "body", description = "{\"roleName\":\"角色名称\",\"roleCode\":\"角色代号\",\"orderNo\":\"排序号\",\"remark\":\"角色备注\",\"permissionIds\":[1,2,3,4]}"
+                    , dataType = DataType.STRING, in="body",required = true),
+
+    })
+    @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
+    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+    @RequestMapping(value = "/addRoleAndPermission",method=RequestMethod.POST,produces="application/json")
+    @RequiresPermission
+    @ResponseBody
+    public Object addRoleAndPermission(HttpServletRequest request,@RequestBody(required=true) Map<String,Object> bodyParam) throws Exception {
+        SysRole sysRole =new  SysRole();
+
+        String roleName = MapUtils.getString(bodyParam,"roleName");
+        if(!StringUtil.isBlank(roleName)){
+            sysRole.setRoleName(roleName);
+        }
+        String roleCode = MapUtils.getString(bodyParam,"roleCode");
+
+        if(!StringUtil.isBlank(roleCode)){
+            sysRole.setRoleCode(roleCode);
+        }
+        Integer orderNo = MapUtils.getInteger(bodyParam,"orderNo");
+        if(orderNo!=null){
+            sysRole.setOrderNo(orderNo);
+        }
+        sysRole.setStatus(0);
+        sysRole.setCreateTime(DateUtil.getNowTimeStamp());
+        String remark = MapUtils.getString(bodyParam,"remark");
+        if(!StringUtil.isBlank(remark)){
+            sysRole.setRemark(remark);
+        }
+        //valid
+        ValidateUtil vu = new ValidateUtil();
+        String validStr="";
+
+        vu.add("roleName", roleName, "角色名",  new Rule[]{new Length(20),new NotEmpty(),new Regex(RegexConstants.ZHONGWEN_ALPHA_NUMBER_PATTERN)});
+        vu.add("roleCode", roleCode, "角色代码",  new Rule[]{new Length(20),new NotEmpty(),new Regex(RegexConstants.ALPHA_NUMBER_PATTERN)});
+        vu.add("orderNo", orderNo, "排序",  new Rule[]{new Digits(3,0)});//考虑到角色没必要强制排序 将从修改中移除此项目 2018年2月24日09:05:59 ,new NotEmpty()
+
+        vu.add("remark", remark, "备注",  new Rule[]{new Length(255),new CharRegex()});
+        //vu.add("createtime", createtime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
+        validStr = vu.validateString();
+        if(StringUtil.isNotBlank(validStr)) {
+            return ResultUtil.getResult(302,validStr);
+        }
+
+         sysRoleService.save(sysRole);
+        if(sysRole.getId() == null ){
+            logger.error("mybatis 需要把sysRole新增后产生的id带上");
+            throw new BizException(30504671,"mybatis 需要把sysRole新增后产生的id带上");
+        }
+        bodyParam.put("roleId",sysRole.getId());
+
+        return this.getResult(sysRolePermissionService.updateRolePermissions(bodyParam));
+
+    }
+    @Autowired
+    SysRolePermissionService sysRolePermissionService ;
+    @API(summary = "角色及其权限更新接口",
+            consumes = "application/json",
+            description = "sysRoleController 角色及其权限更新接口", parameters = {
+            @Param(name = "body", description = "{\"id\":3,\"roleName\":\"角色名称\",\"roleCode\":\"角色代号\",\"orderNo\":\"排序号\",\"remark\":\"角色备注\",\"permissionIds\":[1,2,3,4]}"
+                    , dataType = DataType.STRING, in="body",required = true),
+//            @Param(name = "id", description = "角色id"
+//                    , dataType = DataType.LONG, in="body",required = true),
+//            @Param(name = "name", description = "角色名"
+//                    , dataType = DataType.STRING, in="body",required = true),
+//            @Param(name = "orderNo", description = "排序号"
+//                    , dataType = DataType.LONG, in="body",required = false),
+//            @Param(name = "code", description = "角色代号"
+//                    , dataType = DataType.STRING, in="body",required = true),
+//            @Param(name = "remark", description = "角色备注"
+//                    , dataType = DataType.STRING, in="body",required = true),
+//            @Param(name = "permissionIds", description = "权限id数组"
+//                    , dataType = DataType.ARRAY, in="body",required = true),
+    })
+    @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
+    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+    @RequestMapping(value = "/updateRoleAndPermission",method=RequestMethod.PUT,produces="application/json")
+    @RequiresPermission
+    @ResponseBody
+
+    public Object updateRoleAndPermission(HttpServletRequest request,@RequestBody(required=true) Map<String,Object> bodyParam) throws Exception {
+        SysRole sysRole =getInfoFromMap(bodyParam);
+
+         sysRoleService.save(sysRole);
+        bodyParam.put("roleId",sysRole.getId());
+        return this.getResult(sysRolePermissionService.updateRolePermissions(bodyParam));
     }
 
 }

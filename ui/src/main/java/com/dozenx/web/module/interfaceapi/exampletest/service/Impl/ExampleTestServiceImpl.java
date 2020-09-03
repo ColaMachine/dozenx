@@ -9,6 +9,7 @@ import com.dozenx.web.module.interfaceapi.exampletest.pojo.ExampleTest;
 import com.dozenx.web.module.interfaceapi.exampletest.service.ExampleTestService;
 import com.dozenx.web.module.interfaceapi.interfaceinfo.dao.InterfaceInfoMapper;
 import com.dozenx.web.module.interfaceapi.interfaceinfo.pojo.InterfaceInfo;
+import com.dozenx.web.module.interfaceapi.interfaceinfo.service.InterfaceInfoService;
 import com.dozenx.web.module.interfaceapi.interfacelog.dao.InterfaceLogMapper;
 import com.dozenx.web.module.interfaceapi.interfacelog.pojo.InterfaceLog;
 import com.dozenx.web.util.ResultUtil;
@@ -75,12 +76,13 @@ public class ExampleTestServiceImpl implements ExampleTestService {
                 @Override
                 public void run() {
                     Map map = JsonUtil.toMap(e.getParams());
-                    if(e.getInterfaceInfo().getSplicing()==1){
+                    InterfaceInfo interfaceInfo = interfaceInfoMapper.getApiById( e.getApiId());
+                    if(interfaceInfo.getSplicing()==1){
                         map.clear();
                         map.put("params",e.getParams());
                     }
                     try {
-                        String result = RequestMethod(e.getInterfaceInfo().getUrl(),e.getInterfaceInfo().getHttpType(),map,e.getInterfaceInfo().getContentType());
+                        String result = RequestMethod(interfaceInfo.getUrl(),interfaceInfo.getHttpType(),map,interfaceInfo.getContentType());
                         InterfaceLog interfaceLog = new InterfaceLog(e.getId(),result);
                         interfaceLogMapper.insert(interfaceLog);
                     } catch (Exception e1) {
@@ -104,7 +106,7 @@ public class ExampleTestServiceImpl implements ExampleTestService {
     // 添加测试用例
     @Override
     public ResultDTO addTestCase(Integer id,String params) {
-        Map vparams = JsonUtil.toMap(params);
+      //ap vparams = JsonUtil.toMap(params);
         try {
             //Integer id = MapUtils.getInteger(vparams,"id");
             InterfaceInfo interfaceInfo = interfaceInfoMapper.getApiById(id);
@@ -159,5 +161,11 @@ public class ExampleTestServiceImpl implements ExampleTestService {
             result = HttpRequestUtil.sendPost(url,map);
         }
         return result;
+    }
+
+    public   List<ExampleTest> listByInterfaceId(Integer interfaceId){
+//        ExampleTest exampleTest123 = exampleTestMapper.selectById(18);
+        List<ExampleTest>  list =exampleTestMapper.selectByInterfaceId(interfaceId);
+            return list;
     }
 }

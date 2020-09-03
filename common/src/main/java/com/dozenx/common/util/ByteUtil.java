@@ -7,6 +7,9 @@ package com.dozenx.common.util;
 import com.dozenx.common.net.ByteBufferWrap;
 import com.dozenx.common.net.SimpleByteBufferWrap;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
@@ -783,6 +786,22 @@ public class ByteUtil {
         return getString(bytes, "GBK");
     }
 
+    public byte[] toByteArray(Object obj) {
+        byte[] bytes = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(obj);
+            oos.flush();
+            bytes = bos.toByteArray();
+            oos.close();
+            bos.close();
+        } catch (IOException var5) {
+            var5.printStackTrace();
+        }
+
+        return bytes;
+    }
 
 }

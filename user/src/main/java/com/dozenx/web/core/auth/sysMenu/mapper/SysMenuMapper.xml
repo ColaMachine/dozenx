@@ -12,7 +12,7 @@
       <result column="status" jdbcType="TINYINT" property="status" />
       <result column="remark" jdbcType="VARCHAR" property="remark" />
       <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="sys_menu_name" jdbcType="VARCHAR" property="sys_menu_name" />
+
   </resultMap>
   <sql id="Base_Column_List">
     sys_menu.`id` ,sys_menu.`pid` ,sys_menu.`menu_name` ,sys_menu.`menu_code` ,sys_menu.`menu_pmsn` ,sys_menu.`menur_url` ,sys_menu.`order_no` ,sys_menu.`status` ,sys_menu.`remark` ,sys_menu.`icon` 

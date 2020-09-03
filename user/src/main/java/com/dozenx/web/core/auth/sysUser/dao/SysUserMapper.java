@@ -140,4 +140,9 @@ public interface SysUserMapper {
 
 
     public void updateOutId(@Param("id") Long userId, @Param("outId")Long outId);
+
+
+    List<SysUser> selectUsersByOrg(Long orgId);
+
+    List<HashMap<String, Object>> listByParamsHash(Map params);
 }

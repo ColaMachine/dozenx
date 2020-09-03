@@ -8,23 +8,38 @@
 
 package com.dozenx.web.core.auth.sysRolePermission.service;
 
+import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.StringUtil;
+import com.dozenx.swagger.annotation.APIResponse;
 import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
 import com.dozenx.web.core.auth.sysPermission.dao.SysPermissionMapper;
+import com.dozenx.web.core.auth.sysPermission.service.SysPermissionService;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysRole.dao.SysRoleMapper;
 import com.dozenx.web.core.auth.sysRolePermission.bean.SysRolePermission;
 import com.dozenx.web.core.auth.sysRolePermission.dao.SysRolePermissionMapper;
 import com.dozenx.web.core.base.BaseService;
 import com.dozenx.web.core.log.ResultDTO;
+import com.dozenx.web.core.rules.Digits;
+import com.dozenx.web.core.rules.Required;
+import com.dozenx.web.core.rules.Rule;
 import com.dozenx.web.util.ResultUtil;
+import com.dozenx.web.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("sysRolePermissionService")
 public class SysRolePermissionService extends BaseService {
@@ -204,4 +219,84 @@ public class SysRolePermissionService extends BaseService {
         return ResultUtil.getSuccResult();
     }
 
+
+    /**
+     * 批量更新角色所属权限
+     * @param bodyParam
+     * @return
+     * @throws Exception
+     */
+    public ResultDTO updateRolePermissions( @RequestBody(required=true) Map<String,Object> bodyParam) throws Exception {
+        Integer roleId = MapUtils.getInteger(bodyParam,"roleId");
+        ValidateUtil.valid(roleId,"userId",new Rule[]{new Required(),new Digits(10,0)});
+
+        Object obj = bodyParam.get("permissionIds");
+        Integer[] permissionIds;
+        if(obj==null){
+            permissionIds=new Integer[]{};
+        }else{
+            List<Number> ary = (ArrayList<Number>)bodyParam.get("permissionIds");//bodyoaran 只不过的参数是 arryList<Double>格式的
+            permissionIds = new Integer[ary.size()];
+            for(int i=0;i<ary.size();i++){
+                permissionIds[i] = ary.get(i).intValue();
+            }
+
+        }
+        return batchUpdate(new Integer[]{ roleId}, permissionIds);
+    }
+
+    @Autowired
+    private SysPermissionService sysPermissionService;
+
+    /**
+     * 根据角色的id得到角色所拥有的权限列表
+     * @param roleId
+     * @return
+     */
+    public List<SysPermission>  tree(Integer roleId){
+
+        HashMap<String,Object> params =new HashMap<String,Object>();
+        params.put("status",1);//删除的不要展示
+        List<SysPermission> sysPermissions = sysPermissionService.listByParams(params);
+
+
+        params.put("roleId",roleId);
+        params.put("status",1);//删除的不要展示
+        List<SysRolePermission> hasPermissions= listByParams(params);
+
+
+        List<SysPermission> finalList = new ArrayList<SysPermission>();//最终返回前台的list
+        //列表结构 后续组成树
+        for(int i=0,length=sysPermissions.size();i<length;i++){
+            SysPermission sysPermission = sysPermissions.get(i);
+            sysPermission.setChecked(false);
+            for(int j=0;j<hasPermissions.size();j++){
+                SysRolePermission sysRolePermission  = hasPermissions.get(j);
+                if(sysPermission.getId() == sysRolePermission.getPermissionId()){
+                    sysPermission.setChecked(true);
+                    break;
+                }
+            }
+
+        }
+        params =new HashMap<String,Object>();
+        //组装成树状结构
+        for(int i=0,length=sysPermissions.size();i<length;i++){//倒序 方便找到后删除
+            SysPermission sysPermission = sysPermissions.get(i);
+
+            if(sysPermission.getPid()==0){
+                finalList.add(sysPermission);
+                sysPermission.childs=new ArrayList<>();
+                for(int j=0;j<length;j++){//倒序 方便找到后删除
+                    SysPermission child = sysPermissions.get(j);//遍历所有的项目查找所有子项
+                    if(child.getPid() == sysPermission.getId()){
+                        sysPermission.childs.add(child);//塞入到childs中 并从集合中删除
+                        // sysMenuTree.remove(j);
+                    }
+                }
+                // sysMenuTree.remove(i);
+            }
+        }
+        return sysPermissions;
+    }
 }

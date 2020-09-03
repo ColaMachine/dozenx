@@ -1209,6 +1209,7 @@ public class FaceCheckinOutController extends BaseController {
                 regUrl = domain+regUrl;
                 faceCheckinOut.setOriUrl(oriUrl);
                 faceCheckinOut.setRegUrl(regUrl);
+
             }
         }
         return ResultUtil.getResult(faceCheckinOuts, page);

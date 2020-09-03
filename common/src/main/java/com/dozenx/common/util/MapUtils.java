@@ -9,7 +9,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
 
-
 public class MapUtils {
 	/*public static HashMap createResultMap(boolean flag ,String msg){
 		HashMap returnMap =new HashMap();
@@ -70,12 +69,12 @@ public class MapUtils {
 
 	}
 
-
-
+	//check apache
 	public static Float getFloatValue(Map map , String name){
 		Float value =(Float)map.get(name);
 		return value;
 	}
+	//check apache
 	public static String getString(Map map , String key){
 		if (map != null) {
 			Object answer = map.get(key);
@@ -825,12 +824,14 @@ public class MapUtils {
 	 * @return the value in the Map as a double, <code>defaultValue</code> if null map input
 	 */
 	public static double getDoubleValue(final Map map, final Object key, double defaultValue) {
+
 		Double doubleObject = getDouble(map, key);
 		if (doubleObject == null) {
 			return defaultValue;
 		}
 		return doubleObject.doubleValue();
 	}
+
 
 	// Conversion methods
 	//-------------------------------------------------------------------------

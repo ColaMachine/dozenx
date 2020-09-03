@@ -19,6 +19,7 @@ import java.util.Map;
 /**
  * @author dozen.zhang
  */
+
 public class Config {
     private static final Logger logger = LoggerFactory.getLogger(Config.class);
     /**
@@ -52,20 +53,80 @@ public class Config {
     /**
      * 单例 配置
      */
-    private static Config CONFIG;
+    public static Config CONFIG;
 
     /**
      * 单例 配置
      */
-    private static EmailConfig email =new EmailConfig();
+    private  EmailConfig email =new EmailConfig();
 
-    public static EmailConfig getEmail() {
+    public  EmailConfig getEmail() {
         return email;
     }
 
-    public static void setEmail(EmailConfig email) {
-        Config.email = email;
+    public  void setEmail(EmailConfig email) {
+        email = email;
     }
+
+
+    public SystemConfig getSystem() {
+        return system;
+    }
+
+    public CacheConfig getCache() {
+        return cache;
+    }
+
+
+
+    /**
+     * 获取配置文件路径
+     *
+     * @return String
+     */
+    public static Path getConfigFile() {
+        return PathManager.getInstance().getClassPath().resolve("config.cfg");
+    }
+
+    /*
+     * public static void save(Path toFile,Config config) throws IOException{
+     * try(BufferedWriter writer =Files.newBufferedWriter(toFile,
+     * Charset.forName("UTF-8"))){ createGson().toJson(config,writer); } }
+     * 
+     */
+
+    public ValidCodeConfig getValidCode() {
+        return validCode;
+    }
+
+    public void setValidCode(ValidCodeConfig validCode) {
+        this.validCode = validCode;
+    }
+
+    public ImageConfig getImage() {
+        return image;
+    }
+
+    public void setPvSmsSendAmount(int pvSmsSendAmount) {
+        this.pvSmsSendAmount = pvSmsSendAmount;
+    }
+
+    public void setSystem(SystemConfig system) {
+        this.system = system;
+    }
+
+    public void setCache(CacheConfig cache) {
+        this.cache = cache;
+    }
+
+    public void setImage(ImageConfig image) {
+        this.image = image;
+    }
+
+    public int getPvSmsSendAmount() {
+        return pvSmsSendAmount;
+    }
+
 
     /**
      * 单例配置获取
@@ -100,6 +161,7 @@ public class Config {
                             String jsonStr = JsonUtil.toJsonString(map);
                             LOGGER.error("error to find  配置文件 config.cfg");
                             CONFIG = Config.load(new ByteArrayInputStream(jsonStr.getBytes()));
+
                         }else{
                             logger.info("not find the application.yml in classes path:"+Config.class.getResource("/application.yml"));
                         }
@@ -116,30 +178,6 @@ public class Config {
         }
         return CONFIG;
     }
-
-    public SystemConfig getSystem() {
-        return system;
-    }
-
-    public CacheConfig getCache() {
-        return cache;
-    }
-
-    /**
-     * 获取配置文件路径
-     *
-     * @return String
-     */
-    public static Path getConfigFile() {
-        return PathManager.getInstance().getClassPath().resolve("config.cfg");
-    }
-
-    /*
-     * public static void save(Path toFile,Config config) throws IOException{
-     * try(BufferedWriter writer =Files.newBufferedWriter(toFile,
-     * Charset.forName("UTF-8"))){ createGson().toJson(config,writer); } }
-     * 
-     */
 
     /**
      * 加载配置文件
@@ -240,37 +278,6 @@ public class Config {
         }
     }
 
-    public ValidCodeConfig getValidCode() {
-        return validCode;
-    }
-
-    public void setValidCode(ValidCodeConfig validCode) {
-        this.validCode = validCode;
-    }
-
-    public ImageConfig getImage() {
-        return image;
-    }
-
-    public void setPvSmsSendAmount(int pvSmsSendAmount) {
-        this.pvSmsSendAmount = pvSmsSendAmount;
-    }
-
-    public void setSystem(SystemConfig system) {
-        this.system = system;
-    }
-
-    public void setCache(CacheConfig cache) {
-        this.cache = cache;
-    }
-
-    public void setImage(ImageConfig image) {
-        this.image = image;
-    }
-
-    public int getPvSmsSendAmount() {
-        return pvSmsSendAmount;
-    }
 
 
 }

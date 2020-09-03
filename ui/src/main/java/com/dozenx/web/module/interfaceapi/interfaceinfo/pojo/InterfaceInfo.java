@@ -1,5 +1,6 @@
 package com.dozenx.web.module.interfaceapi.interfaceinfo.pojo;
 
+import com.dozenx.web.module.interfaceapi.interfaceParam.pojo.InterfaceHeader;
 import com.dozenx.web.module.interfaceapi.interfaceParam.pojo.InterfaceParam;
 
 import java.util.Date;
@@ -9,6 +10,34 @@ import java.util.Map;
 public class InterfaceInfo {
     private Integer id;
     private String projectName;     //项目名称
+    private String domain;
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+    private String author;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    private int  moduleId;       //模块id
+
+    public int getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(int moduleId) {
+        this.moduleId = moduleId;
+    }
+
     private String moduleName;       //模块名称
     private String url;             //请求地址
     private String httpType;        //http协议
@@ -22,8 +51,11 @@ public class InterfaceInfo {
     private int historyFlag;    //是否历史版本
     private Integer splicing;       //请求参数拼接标记 0不用，1要拼接
     private Date updateTime;//修改时间
+
+    private List<InterfaceHeader> interfaceHeaders;//header头参数
     private List<InterfaceParam> interfaceParams;//参数
 
+    private List<Integer > deleteParamsIds ;
     public Integer getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package com.dozenx.web.module.interfaceapi.interfaceinfo.service;
 
 import com.dozenx.common.util.StringUtil;
+import com.dozenx.web.module.interfaceapi.interfaceParam.service.InterfaceParamService;
 import com.dozenx.web.module.interfaceapi.interfaceinfo.dao.InterfaceInfoMapper;
 import com.dozenx.web.module.interfaceapi.interfaceinfo.pojo.InterfaceInfo;
 import com.dozenx.web.module.interfaceapi.interfaceParam.dao.InterfaceParamMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,11 @@ public class InterfaceInfoServiceImpl implements InterfaceInfoService {
     @Override
     public int deleteApi(Integer id) {
         return interfaceInfoMapper.deleteApi(id);
+    }
+
+    @Override
+    public List<InterfaceInfo> selectAll() {
+        return interfaceInfoMapper.selectAll();
     }
 
 
@@ -53,6 +60,11 @@ public class InterfaceInfoServiceImpl implements InterfaceInfoService {
     }
 
 
+    @Override
+    public List<InterfaceInfo> listByParams(Map map) {
+        List<InterfaceInfo> apiList = interfaceInfoMapper.getApiByParams(map);
+        return apiList;
+    }
     @Override
     public PageInfo<InterfaceInfo> getApiByParams(Map map, int curPage, int pageSize) {
         PageHelper.startPage(curPage, pageSize);
@@ -118,6 +130,9 @@ public class InterfaceInfoServiceImpl implements InterfaceInfoService {
     public int updateByPrimaryKeySelective(InterfaceInfo record){
         List<InterfaceParam> paramsadd=record.getInterfaceParams();
         int resultParams=0;
+        HashSet<Integer> idSet =new HashSet<>();
+        List<InterfaceParam> oldParams = paramsMapper.selectByInterfaceId(record.getId());
+
         if(paramsadd!=null){
             for(InterfaceParam params : paramsadd ){
 //                InterfaceParam params=new InterfaceParam();
@@ -127,7 +142,18 @@ public class InterfaceInfoServiceImpl implements InterfaceInfoService {
 //                params.setParamType(items.get("paramType").toString());
 //                params.setParamComment(items.get("paramComment").toString());
 //                params.setCreateTime( Timestamp.valueOf(record.getCreateTime()));
-                resultParams = paramsMapper.updateByPrimaryKeySelective(params);
+                if(params.getId()!=null) {
+                    resultParams = paramsMapper.updateByPrimaryKeySelective(params);
+                    idSet.add(params.getId());
+                }else {
+                    paramsMapper.insert(params);
+                }
+            }
+        }
+        if(oldParams!=null)
+        for(InterfaceParam interfaceParam : oldParams){
+            if(interfaceParam.getId()!=null && !idSet.contains(interfaceParam.getId())){
+                paramsMapper.deleteByPrimaryKey(interfaceParam.getId());
             }
         }
 

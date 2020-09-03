@@ -167,6 +167,7 @@ public class StringUtil {
      */
     public static boolean checkDateStr(String str, String format) {
         format = format.replaceAll("[yMdhHms]", "\\\\d");
+        //保所有的yyyy-MM-dd HH:mm:ss 换成 \d\d\d\d-\d\d \d\d:\d\d:\d\d
         return str.matches(format);
     }
 
@@ -934,31 +935,18 @@ public class StringUtil {
      * @return
      */
     public static String filterEmoji(String source) {
-        if (StringUtil.isBlank(source)) {
+        if(source != null)
+        {
+            Pattern emoji = Pattern.compile ("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",Pattern.UNICODE_CASE | Pattern . CASE_INSENSITIVE ) ;
+            Matcher emojiMatcher = emoji.matcher(source);
+            if ( emojiMatcher.find())
+            {
+                source = emojiMatcher.replaceAll("*");
+                return source ;
+            }
             return source;
         }
-        StringBuilder buf = null;
-        int len = source.length();
-        for (int i = 0; i < len; i++) {
-            char codePoint = source.charAt(i);
-
-            if (isEmojiCharacter(codePoint)) {
-                if (buf == null) {
-                    buf = new StringBuilder(source.length());
-                }
-                buf.append(codePoint);
-            }
-        }
-        if (buf == null) {
-            return source;
-        } else {
-            if (buf.length() == len) {
-                buf = null;
-                return source;
-            } else {
-                return buf.toString();
-            }
-        }
+        return source;
     }
     public static String getStringValue(String s){
         if(s==null){
@@ -974,5 +962,14 @@ public class StringUtil {
     }
     public static String defaultString(String str,String zzz) {
         return str == null ? zzz : str;
+    }
+
+
+    public static String reverse(String ori){
+        StringBuffer buffer =new StringBuffer(ori.length());
+        for(int i=ori.length()-1;i>=0;i--){
+            buffer.append(ori.charAt(i));
+        }
+        return buffer.toString();
     }
 }

@@ -53,5 +53,7 @@ public class Base64Util {
 		BASE64Decoder decoder = new BASE64Decoder();
 		return decoder.decodeBuffer(s);
 	}
-
+	public static void main(String args[]){
+		System.out.println(Base64Util.encode("EZVIZ-AB1-AQ7V".getBytes()));
+	}
 }

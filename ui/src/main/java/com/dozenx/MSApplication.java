@@ -6,12 +6,16 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+//import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+//import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableScheduling
+//@EnableFeignClients
+//@EnableEurekaClient
 @MapperScan({"com.awifi.**.dao","com.dozenx.**.dao"})
 @ComponentScan(basePackages = {"com.awifi.**","com.dozenx.**","com.dozenx.swagger.**"})
 public class MSApplication extends SpringBootServletInitializer{

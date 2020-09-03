@@ -15,6 +15,7 @@ import com.dozenx.common.util.*;
 //import com.dozenx.web.core.auth.active.service.ActiveService;
 import com.dozenx.web.core.auth.bean.Pwdrst;
 import com.dozenx.web.core.auth.dao.PwdrstMapper;
+import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysActive.bean.SysActive;
 import com.dozenx.web.core.auth.sysActive.service.SysActiveService;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
@@ -27,6 +28,7 @@ import com.dozenx.web.core.auth.sysUserRole.dao.SysUserRoleMapper;
 import com.dozenx.web.core.auth.sysUserRole.service.SysUserRoleService;
 import com.dozenx.web.core.auth.validcode.service.ValidCodeService;
 import com.dozenx.web.core.base.BaseService;
+import com.dozenx.web.core.location.bean.Location;
 import com.dozenx.web.core.location.service.LocationService;
 import com.dozenx.web.core.log.*;
 import com.dozenx.web.module.email.email.service.EmailSendService;
@@ -37,8 +39,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -209,6 +214,7 @@ public class SysUserService extends BaseService {
 
         Long id = sysUser.getId();
         Integer[] roleId = sysUser.getRoleIds();
+        Integer orgId = sysUser.getOrgId();
         if (roleId == null || roleId.length == 0) {
 
         } else {
@@ -311,6 +317,61 @@ public class SysUserService extends BaseService {
         return list;
     }
 
+
+    /**
+     * @Author: dozen.zhang
+     * @Description:附加了角色的查询信息
+     * @Date: 2018/2/26
+     */
+    public List<HashMap<String, Object>> alllistWithRoleInfoByParams(Map params) {
+
+        //顺便加上一个地区信息
+        List<HashMap<String, Object>> list = sysUserMapper.listByParamsHash(params);
+        for (HashMap<String, Object> map : list) {
+            Long province = MapUtils.getLong(map, "province");
+            String location = "";
+
+            try {
+                if (province != null) {
+
+                    String provinceName = locationService.getNameById(province);
+                    if (provinceName != null)
+                        location += provinceName;
+                }
+                Long city = MapUtils.getLong(map, "city");
+                if (city != null) {
+                    String cityName = locationService.getNameById(city);
+                    if (cityName != null)
+                        location += cityName;
+                }
+                Long county = MapUtils.getLong(map, "county");
+                if (county != null) {
+                    String countyName = locationService.getNameById(county);
+                    if (countyName != null) {
+                        location += countyName;
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("地区服务错误", e);
+            }
+            //查找出该用户的角色信息 放入到roleName中 和 roleId当中
+            String roleNames = "";
+            List<SysRole> roleList = sysRoleService.listByUserId(MapUtils.getLong(map, "id"));
+
+            // Long roleIdAry[] = new Long[roleList.size()];
+            if (roleList != null && roleList.size() > 0) {
+                for (int i = 0; i < roleList.size(); i++) {
+                    //  roleIdAry[i] = roleList.get(i).getId();
+                    roleNames += roleList.get(i).getRoleName() + " ";
+                }
+            }
+
+            map.put("roleNames", roleNames);
+            map.put("location", location);
+        }
+        return list;
+    }
+
     /**
      * @Author: dozen.zhang
      * @Description:根据角色id 获取用户信息
@@ -364,8 +425,13 @@ public class SysUserService extends BaseService {
         return user;
     }
 
-    public SysUser getUserByTelno(String email) {
-        SysUser user = sysUserMapper.selectUserByTelno(email);
+    /**
+     * 根据手机号码查询用户
+     * @param phone
+     * @return
+     */
+    public SysUser getUserByTelno(String phone) {
+        SysUser user = sysUserMapper.selectUserByTelno(phone);
         return user;
     }
 
@@ -513,7 +579,7 @@ public class SysUserService extends BaseService {
         } else {
             user.setEmail(user.getEmail());
             user.setPassword(MD5Utils.MD5Encode(user.getPassword()));
-            this.sysUserMapper.insert(user);
+            this.sysUserMapper.insertSelective(user);
 
             return ResultUtil.getSuccResult();
             // }
@@ -576,7 +642,7 @@ public class SysUserService extends BaseService {
             user.setEmail(user.getEmail());
             user.setPassword(MD5Utils.MD5Encode(user.getPassword()));
             user.setAccount(StringUtil.isBlank(user.getEmail()) ? user.getTelno() : user.getEmail());
-            this.sysUserMapper.insert(user);
+            this.sysUserMapper.insertSelective(user);
 
             if (StringUtil.isNotBlank(user.getEmail())) {
                 // 插入激活数据
@@ -657,7 +723,7 @@ public class SysUserService extends BaseService {
             user.setEmail(user.getEmail());
             user.setPassword(MD5Utils.MD5Encode(user.getPassword()));
             user.setAccount(StringUtil.isBlank(user.getEmail()) ? user.getTelno() : user.getEmail());
-            this.sysUserMapper.insert(user);
+            this.sysUserMapper.insertSelective(user);
 
             if (StringUtil.isNotBlank(user.getEmail())) {
                 // 插入激活数据
@@ -1062,11 +1128,29 @@ public class SysUserService extends BaseService {
 //        }
 
         SysUser userInfo = this.getUserById(userId);
+        //如果用户的输入的old密码不等于数据库里的密码的话 就是密码输入错误了
         if (!userInfo.getPassword().equals(oldPassword)) {
             return ResultUtil.getResult(10305038, ErrorMessage.getErrorMsg("pwd.reset.wrong.old.pwd"));
         }
 
 
+        SysUser user = new SysUser();
+        user.setId(userId);
+        user.setPassword(newPassword);
+        sysUserMapper.resetPwd(user);
+        return ResultUtil.ok();
+    }
+    /**
+     * 更新用户的密码设置
+     *
+     * @param userId      用户id
+     * @param oldPassword 旧密码 md5之后的
+     * @param newPassword 新密码 md5之后的
+     * @return
+     */
+    public ResultDTO updateUserPwd(Long userId, String newPassword) {
+        SysUser userInfo = this.getUserById(userId);
+        //如果用户的输入的old密码不等于数据库里的密码的话 就是密码输入错误了
         SysUser user = new SysUser();
         user.setId(userId);
         user.setPassword(newPassword);
@@ -1091,4 +1175,15 @@ public class SysUserService extends BaseService {
         }
         sysUserMapper.updateOutId(userId, outId);
     }
+
+    public  List<SysUser> selectUsersByOrg(Long id ){
+        return sysUserMapper.selectUsersByOrg(id);
+    }
+
+
+
+
+
+
+
 }

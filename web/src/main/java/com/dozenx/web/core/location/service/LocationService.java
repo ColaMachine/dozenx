@@ -14,6 +14,7 @@ import com.dozenx.common.util.CastUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.RedisConstants;
 import com.dozenx.web.core.base.BaseService;
+import com.dozenx.web.core.location.bean.Location;
 import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,12 @@ public class LocationService extends BaseService {
      */
     @Resource
     private LoctionApiService loctionApiService;
+    //地区名字id 翻译 map
+    public static  Map<Long ,String> idNameMap=null;
+
+    public static  Map<String,Long > nameIdMap=null;
+    public static  Map<String,String > codeNameMap=null;    //code对应name
+    public static  Map<Long,String > idCodeMap=null;    //code对应name
 
     /**
      * 获取省地区信息
@@ -205,24 +212,52 @@ public class LocationService extends BaseService {
             }
         }
     }
-	//地区名字id 翻译 map
-    public static  Map<Long ,String> idNameMap=null;
+
     public   String getNameById(Long id){
         if(idNameMap==null||idNameMap.size()==0){
+            //according to id:id not find in idNamMap so cause re cacheJsonStr
             idNameMap=new HashMap<>();//防止一直报错
-            loctionApiService.cacheJsonStr();//重新进行地区缓存
+            loctionApiService.forseCacheJsonStr();//重新进行地区缓存
         }
         return idNameMap.get(id);
     }
 
-    public static  Map<String,Long > nameIdMap=null;
-    public static  Map<String,String > codeNameMap=null;    //code对应name
     public   Long getIdByName(String name){
         if(nameIdMap==null||nameIdMap.size()==0){
             nameIdMap=new HashMap<>();//防止一直报错
-            loctionApiService.cacheJsonStr();//重新进行地区缓存
+            loctionApiService.forseCacheJsonStr();//重新进行地区缓存
         }
         return nameIdMap.get(name);
+    }
+
+
+    /**
+     * 通过名称+父id获取当前
+     * @param parentId 父地区id
+     * @param name 地区名称
+     * @return java.lang.Long
+     * @author 许小满
+     * @date 2020-02-26 15:03:12
+     */
+    public Long getIdByName(Long parentId, String name){
+        if (parentId == null || StringUtil.isBlank(name)) {
+            return null;
+        }
+        if(nameIdMap==null){
+            nameIdMap=new HashMap<>();
+        }
+        // 从缓存map中读取
+        String key = parentId + "-" + name;
+        Long id = nameIdMap.get(key);
+        // 未缓存时，从数据库中获取
+        if (id == null) {
+            id = loctionApiService.getIdByName(parentId, name);
+            // 数据库中的id不为空时，将id存入缓存map中
+            if (id != null) {
+                nameIdMap.put(key, id);
+            }
+        }
+        return id;
     }
     //根据code 拿到name
     public String getNameByCode(String code ){
@@ -240,6 +275,24 @@ public class LocationService extends BaseService {
        // return codeNameMap.get(code);
     }
 
+    public String getCodeById(Long id ){
+        if(id==null)return null;
+//        if(codeNameMap==null){
+//            codeNameMap
+//        }
+//        if(codeNameMap==null||codeNameMap.size()==0){
+//            String name = RedisUtil.hget("location_code_name",code);
+        String name=loctionApiService.getCodeById(id);//RedisUtil.hget("location_code_name",code);
+
+        return name;
+//            loctionApiService.cacheJsonStr();//重新进行地区缓存
+//        }
+        // return codeNameMap.get(code);
+    }
+    public Location getLocationById(Long id){
+
+        return loctionApiService.getLocationById(id);
+    }
 
 
 }

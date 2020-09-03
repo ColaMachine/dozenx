@@ -5,14 +5,17 @@ import com.dozenx.common.config.Config;
 import com.dozenx.common.util.DateUtil;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.StringUtil;
+import jdk.nashorn.internal.objects.annotations.Constructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisException;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
-@Component
+//@Component
 public final class RedisUtil {
 
 
@@ -67,12 +70,15 @@ public final class RedisUtil {
      * 声明
      */
     public static JedisPool jedisPool = null;
-
+//    @Autowired
+//    ConfigUtil ConfigUtil;
     public static String  PWD = null;
     /**
      * 初始化Redis连接池
      */
-    static {
+//    @PostConstruct
+    public static void init(){
+//    static {
         try {
             /** Redis服务器IP */
             ADDR = ConfigUtil.getConfig("spring.redis.host");// Config.getInstance().getCache().getRedis().getAddr();
@@ -109,31 +115,43 @@ public final class RedisUtil {
            // AUTH = ConfigUtil.getConfig("cache.redis.pwd");//Config.getInstance().getCache().getRedis().getPort();
 
             //Config.getInstance().getCache().getRedis().getAuth();
-
+            JedisPoolConfig config = new JedisPoolConfig();
             /** 可用连接实例的最大数目，默认值为8；
              *如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
              */
             MAX_ACTIVE = Config.getInstance().getCache().getRedis().getMaxActive();
-
-            /** 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。 */
-            MAX_IDLE = Config.getInstance().getCache().getRedis().getMaxIdle();
-
-            /** 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException； */
-            MAX_WAIT = Config.getInstance().getCache().getRedis().getMaxWait();
-            /** 连接超时 */
-            TIMEOUT = Config.getInstance().getCache().getRedis().getTimeout();
-            TEST_ON_BORROW = Config.getInstance().getCache().getRedis().isTestOnBorrow();
-            JedisPoolConfig config = new JedisPoolConfig();
-            // config.setMaxActive(MAX_ACTIVE);
+            if(MAX_ACTIVE==0){
+                MAX_ACTIVE=50;
+            }
             config.setMaxTotal(MAX_ACTIVE);
+//
+//            /** 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。 */
+            MAX_IDLE = Config.getInstance().getCache().getRedis().getMaxIdle();
+            if(MAX_IDLE==0){
+                MAX_IDLE=20;
+            }
             config.setMaxIdle(MAX_IDLE);
+//
+//            /** 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException； */
+//            MAX_WAIT = Config.getInstance().getCache().getRedis().getMaxWait();
+//            /** 连接超时 */
+            TIMEOUT = Config.getInstance().getCache().getRedis().getTimeout();
+            if(TIMEOUT==0){
+                TIMEOUT=1000;
+            }
+            TEST_ON_BORROW = Config.getInstance().getCache().getRedis().isTestOnBorrow();
+            config.setTestOnBorrow(TEST_ON_BORROW);
+
+            // config.setMaxActive(MAX_ACTIVE);
+
+
 
             config.setMaxWaitMillis(1000);
             // config.setSoftMinEvictableIdleTimeMillis();
             config.setMinEvictableIdleTimeMillis(3000);
             config.setSoftMinEvictableIdleTimeMillis(3000);
-            //  config.setMaxWait(MAX_WAIT);
-            config.setTestOnBorrow(TEST_ON_BORROW);
+//              config.setMaxWait(MAX_WAIT);
+
 
             // logger.debug(String.format("初始化redis ADDR:%s"));
             //   jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
@@ -144,11 +162,18 @@ public final class RedisUtil {
                 logger.error("redis can't get jedis  redis启动失败");
                 System.exit(0);
             }
+
+
+
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    //}
     }
-
     /**
      * 获取Jedis实例
      *
@@ -227,7 +252,28 @@ public final class RedisUtil {
         }
 
     }  */
+    public static Map<String,String> hgetAll(String key){
+        JedisPool pool = null;
+        Jedis jedis = null;
+        try {
 
+            jedis = jedisPool.getResource();
+            Map<String,String> map = jedis.hgetAll(key);
+            return map;
+            //logger.debug("redis setex key:" + key + " seconds:" + seconds + " value:" + value);
+        } catch (Exception e) {
+            //释放redis对象
+            jedis.close();
+
+            e.printStackTrace();
+        } finally {
+            //返还到连接池
+            if(jedis!=null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
     /**
      * 设置值并且设置超时时间
      *
@@ -238,13 +284,16 @@ public final class RedisUtil {
         JedisPool pool = null;
         Jedis jedis = null;
         try {
+            if(value==null){
+                value="";
+            }
             jedis = jedisPool.getResource();
             jedis.setex(key, seconds, value);
             logger.debug("redis setex key:" + key + " seconds:" + seconds + " value:" + value);
         } catch (Exception e) {
             //释放redis对象
             jedis.close();
-            ;
+
             e.printStackTrace();
         } finally {
             //返还到连接池
@@ -532,13 +581,13 @@ public final class RedisUtil {
      * @param key
      * @return
      */
-    public static void setByteAry(String key, byte[] value,long expireTime) {
+    public static void setByteAry(String key, byte[] value,int expireTime) {
         Jedis jedis = null;
 //        boolean success = true;
         try {
             jedis = jedisPool.getResource();
             jedis.set(key.getBytes(), value);
-
+            jedis.expire(key.getBytes(),expireTime);
         } catch (Exception e) {
 //            success = false;
 //            if (jedis != null) {
@@ -900,6 +949,32 @@ public final class RedisUtil {
         return retIdentifier;
     }
 
+
+
+    public static boolean lock(String lockName,String randomVal,int seconds){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            String rlt = jedis.set(lockName,randomVal,"NX","EX",seconds);
+            return "OK".equalsIgnoreCase(rlt);
+        }finally {
+            jedis.close();
+        }
+    }
+
+    public static boolean release(String lockName,String randomVal){
+        String program ="if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+
+        Jedis jedis =null;
+        try{
+            jedis = jedisPool.getResource();
+            Object rlt =jedis.eval(program,1,lockName,randomVal);
+            return Long.valueOf(1) == rlt;
+        }
+        finally {
+            jedis.close();
+        }
+    }
     /**
      * 加锁
      * @param key

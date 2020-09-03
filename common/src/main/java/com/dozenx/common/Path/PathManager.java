@@ -276,7 +276,6 @@ public final class PathManager {
             webRootPath=classPath= homePath;
         }else
         if (webRootPath == null) {
-
             // webRootPath
             // 判断是何种方式启动的tomcat
             // 是否是maven
@@ -287,12 +286,9 @@ public final class PathManager {
                 logger.info("--------------tomcat start mode------------");
                 webRootPath = homePath;
             }
-
         }
-
         logger.info("webRoot123123: " + webRootPath);
         logger.info("classPath123123: " + classPath);
-
     }
 
     public Path getHomePath() {
@@ -356,7 +352,7 @@ public final class PathManager {
             vcodePath = webRootPath.resolve(config.getInstance().getImage().getServerDir()).resolve(config.getInstance().getImage().getVcodeDir());
             Files.createDirectories(vcodePath);
         } catch (Exception e) {
-            logger.info("非服务器启动");
+            logger.info("非服务器启动",e);
             e.printStackTrace();
         }
 

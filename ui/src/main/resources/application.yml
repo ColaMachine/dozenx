@@ -1,11 +1,12 @@
 #1.项目端口设置
+debug: true
 server:
   domain: http://192.168.154.32
   port: 8081
   tomcat:
     accesslog:
       buffered: true
-      directory: G:\\camera-school
+      directory: ./
       enabled: true
       file-date-format: .yyyy-MM-dd
       prefix: access_log
@@ -51,7 +52,7 @@ spring:
 
   #2.2 redis 配置
   redis:
-    database: 9  #redis哪个库
+    database: 0  #redis哪个库
     host: 192.168.213.91 #redis的ip地址
     port: 6379  #redis 端口
     password: Awifi@123   #redis 密码
@@ -268,3 +269,7 @@ dbcenter:
   sms:
     #短信服务
     url : http://192.168.41.53/sms-service/sms/send?mobile=%mobile%&msg=%content%
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.120.13:8761/eureka/

@@ -892,7 +892,7 @@ public class FileUtil {
         int resultCode=0;
         try {
             String command = "tar -xf " + tar + " -C " + desc;
-             new CmdUtil().execCommand(command);
+             new CmdUtil().execCommand(command,"/root");
         } catch (IOException  e) {
             // 异常处理  或许打印  或许统一处理
         }

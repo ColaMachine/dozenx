@@ -39,16 +39,11 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.dozenx</groupId>
-            <artifactId>web</artifactId>
-            <version>${dozenx.version}</version>
-        </dependency>
-        <dependency>
+      <!--  <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
 
         <!--数据库依赖-->
         <!--定时任务依赖-->
@@ -56,13 +51,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
-
+<!--
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.4</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
 
         <!--config 依赖-->
 
@@ -165,6 +160,9 @@
              <artifactId>logging-interceptor</artifactId>
              <version>3.5.0</version>
          </dependency>
+
+
+
     <!--<  &lt;!&ndash; tomcat支持 &ndash;&gt;
      <dependency>
          <groupId>javax.servlet</groupId>
@@ -207,7 +205,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>-->
-
+        <!--<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>-->
 
     </dependencies>
 
@@ -249,9 +254,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.5.9.RELEASE</version>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
+                    <mainClass>com.dozenx.MSApplication</mainClass>
                 </configuration>
+
+
+
             </plugin>
 
             <!-- <plugin>

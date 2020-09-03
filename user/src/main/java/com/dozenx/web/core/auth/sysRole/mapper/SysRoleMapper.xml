@@ -287,8 +287,19 @@
         </if>
     </select>
 
+    <select id="countByNameCode" parameterType="com.dozenx.web.core.auth.sysRole.bean.SysRole" resultType="java.lang.Integer">
+        select
+        count(1)
+        from sys_role where
+        role_name =#{roleName} or role_code =#{roleName}
+    </select>
 
-
+    <select id="countByNameCodeId" parameterType="com.dozenx.web.core.auth.sysRole.bean.SysRole" resultType="java.lang.Integer">
+        select
+        count(1)
+        from sys_role where
+        (role_name =#{roleName} or role_code =#{roleCode}) and id !=#{id}
+    </select>
     <insert id="insertBatch"   parameterType="java.util.List" >
         insert into sys_role (  <include refid="Base_Column_List" />)
         values

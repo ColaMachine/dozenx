@@ -9,14 +9,21 @@
 */
 package com.dozenx.web.core.api.client.auth.http.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dozenx.common.exception.BizException;
 import com.dozenx.common.exception.InterfaceException;
 import com.dozenx.common.exception.ValidException;
+import com.dozenx.common.util.JsonUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.api.client.auth.http.bean.HttpResult;
 import com.dozenx.web.core.api.client.auth.http.service.HttpApi;
 import com.dozenx.web.core.api.client.auth.http.service.impl.HttpApiConnectionImpl;
 import com.dozenx.web.core.log.ErrorMessage;
+import com.dozenx.web.core.log.ResultDTO;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -337,5 +344,77 @@ public class HttpUtil {
 //        }
         return new HttpApiConnectionImpl();
     }
-    
+
+    private static OkHttpClient client = new OkHttpClient();
+    public static  String get(String url){
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(url)
+
+                    .get()
+                    .build();
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        }catch (Exception e){
+            return "400";
+        }
+    }
+    public static void getLocation(){
+        try {
+            String url = "http://alpha-ad.51awifi.com" + "/shsrv/user/db/location/provinces/zj";
+            String result = get(url);
+            ResultDTO resultDTO = getResultDTO(result);
+            ResultLocation resultLocation=null;
+            if (resultDTO != null && resultDTO.getR() == 0) {
+                JSONObject jsonObject = (JSONObject)resultDTO.getData();
+                resultLocation = JsonUtil.toJavaBean(jsonObject.toString(), ResultLocation.class);
+                System.out.print(JsonUtil.toJsonString(resultLocation.checkPCA(resultLocation)));
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static ResultDTO getResultDTO(String response ){
+        if (response == null || response.equals("") || response.equals("400")) {
+
+            return null;
+        }
+        try {
+            JSONObject resultOjb =  JSONObject.parseObject(response);//将结果转成jsonobject
+           // Log.i("login response", response);   //打印日志打印日志
+            int r = resultOjb.getInteger("r");//获取标志位
+            ResultDTO resultDTO =new ResultDTO();
+            if (r == 0) {
+//                Toast.makeText(MainActivity.this, "登录请求成功", Toast.LENGTH_SHORT).show();
+                //debug("登录请求成功！");
+
+                resultDTO.setR(r);
+                resultDTO.setMsg(resultOjb.getString("msg"));
+                resultDTO.setData(resultOjb.getJSONObject("data"));
+            } else {
+
+                resultDTO.setR(r);
+                resultDTO.setMsg(resultOjb.getString("msg"));
+
+
+
+            }
+            return resultDTO;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static void main(String args[]){
+
+        getLocation();
+    }
 }

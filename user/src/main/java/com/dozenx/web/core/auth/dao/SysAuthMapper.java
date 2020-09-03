@@ -1,6 +1,7 @@
 package com.dozenx.web.core.auth.dao;
 
 import com.dozenx.web.core.auth.sysPermission.bean.SysPermission;
+import com.dozenx.web.core.auth.sysResource.bean.SysResource;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface SysAuthMapper {
      * @return
      */
     public List<SysRole> selectRolesByUserId(Long userId);
+
+    public List<SysResource> selectSysResourceByUserId(Long roleId);
 }

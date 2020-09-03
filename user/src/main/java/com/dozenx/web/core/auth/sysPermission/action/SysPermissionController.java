@@ -471,6 +471,7 @@ public class SysPermissionController extends BaseController{
                 sysPermission.childs=new ArrayList<>();
                 for(int j=0;j<length;j++){//倒序 方便找到后删除
                     SysPermission child = sysPermissions.get(j);//遍历所有的项目查找所有子项
+
                     if(child.getPid() == sysPermission.getId()){
                         sysPermission.childs.add(child);//塞入到childs中 并从集合中删除
                         // sysMenuTree.remove(j);

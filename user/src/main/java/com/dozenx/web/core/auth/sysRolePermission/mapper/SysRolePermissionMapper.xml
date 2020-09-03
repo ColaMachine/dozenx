@@ -16,7 +16,7 @@
           where role_id in
           <foreach collection="roleIds" item="item" index="index"
                    open="(" separator="," close=")"> #{item}</foreach>
-         <if test="permissionIds != null and permissionIds != '' " >
+         <if test="permissionIds != null and permissionIds.length>0  " >
           and permission_id not in
           <foreach collection="permissionIds" item="item" index="index"
                    open="(" separator="," close=")"> #{item}</foreach>

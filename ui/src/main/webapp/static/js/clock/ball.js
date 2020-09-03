@@ -13,13 +13,13 @@ canvas.width = 1024;
 canvas.height = 768;
 
 var context = canvas.getContext("2d");
-
-setInterval(function() {
-
-	render(context);
-	update();
-
-}, 50)
+//
+//setInterval(function() {
+//
+//	render(context);
+//	update();
+//
+//}, 100)
 
 function render(context) {
 	context.clearRect(0, 0, context.canvas.width, context.canvas.height);

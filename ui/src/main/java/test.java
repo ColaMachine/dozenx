@@ -2,6 +2,7 @@ import com.dozenx.web.util.RedisUtil;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,9 +24,25 @@ import com.dozenx.common.util.DateUtil;
  * @Modified By:
  */
 public class test {
-
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(test.class);
     public static void main(String args[]) {
+        Robot robot = null;
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        for(int i=0;i<10;i++){
+            robot.mouseMove(300+(int)(Math.random()*50),(int)(300+Math.random()*50));
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(test.class);
+    public static void main1(String args[]) {
 
 
 

@@ -17,10 +17,12 @@ import com.dozenx.web.core.Constants;
 import com.dozenx.common.util.*;
 import com.dozenx.web.core.annotation.RequiresLogin;
 import com.dozenx.web.core.annotation.RequiresPermission;
+import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.web.core.auth.sysUser.bean.SysUser;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.core.auth.sysUserDepart.service.SysUserDepartService;
 import com.dozenx.web.core.base.BaseController;
+import com.dozenx.web.core.location.service.LocationService;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.core.log.OperLogUtil;
 import com.dozenx.web.core.log.ResultDTO;
@@ -62,6 +64,9 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private SysUserDepartService sysUserDepartService;
+
+    @Autowired
+    private LocationService locationService;
 
     /**
      * 说明: 跳转到角色列表页面
@@ -1283,19 +1288,78 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Object list(HttpServletRequest request, @RequestParam(name = "params", required = true) String paramStr) {
-        Map<String, Object> params = JsonUtil.fromJson(paramStr, Map.class);
+
+        HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
         Page page = RequestUtil.getPage(params);
         params.put("page", page);
+        boolean admin = this.isAdmin(request);
+        if(!admin){
+            Long userId = this.getUserId(request);
+            params.put("createUser",userId);
+        }
 
-        String nameLike = MapUtils.getStringValue(params, "name");
+
+        String nameLike = MapUtils.getStringValue(params, "username");
         if(StringUtil.isNotBlank(nameLike)){
-            params.put("accountLike", nameLike);//账号关键字查询
-            params.remove("name");
+            params.put("usernameLike", nameLike);//账号关键字查询
+            params.remove("username");
+        }
+        String accountLike = MapUtils.getStringValue(params, "account");
+        if(StringUtil.isNotBlank(nameLike)){
+            params.remove("account");
+            params.put("accountLike", accountLike);//账号关键字查询
+
         }
        // params.put("userNameLike", MapUtils.getStringValue(params, "userNameLike"));//姓名查询
+        List<HashMap<String, Object>> sysUsers=new ArrayList<>();
+//        if(StringUtil.isBlank(nameLike)&&StringUtil.isBlank(nameLike)){
+//            //获取用户以及用户下的用户
+//            sysUsers = sysUserService.alllistWithRoleInfoByParams(params);
+//            List<HashMap<String, Object>> childsSysUser = getChildsSysUser(sysUsers);
+//            sysUsers.addAll(childsSysUser);
+//
+//            //组合page
+//            int size=sysUsers.size();
+//            int curPage = page.getCurPage();
+//            int pageSize = page.getPageSize();
+//            int requestTotle=curPage*pageSize;
+//            page.setTotalCount(size);
+//
+//            //截取结果 如果大于则截取
+//            if(size>requestTotle){
+//                int reP = requestTotle + pageSize;
+//                if(reP<size){
+//                   sysUsers.subList(requestTotle-1,reP-1);
+//                }else {
+//                    sysUsers.subList(requestTotle-1,size-1);
+//                }
+//            }
+//
+//        }else {
+            sysUsers = sysUserService.listWithRoleInfoByParams4Page(params);
+//        }
 
-        List<HashMap<String, Object>> sysUsers = sysUserService.listWithRoleInfoByParams4Page(params);
         return ResultUtil.getResult(sysUsers, page);
+    }
+
+    //获取这个用户下的所有用户
+    public  List<HashMap<String, Object>> getChildsSysUser(List<HashMap<String, Object>> sysUsers){
+        List<HashMap<String, Object>> returnList =new ArrayList<>();
+        //for循环整个
+        for (HashMap<String, Object> H:sysUsers) {
+
+            Long userId =MapUtils.getLong(H,"id");
+            Map<String, Object> params = new HashMap<>();
+            params.put("createUser",userId);
+            //判断是否有子角色
+            List<HashMap<String, Object>> sysUsersList = sysUserService.alllistWithRoleInfoByParams(params);
+            if(sysUsersList.size()>0){
+                getChildsSysUser(sysUsersList);
+            }
+            returnList.addAll(sysUsersList);
+        }
+
+        return returnList;
     }
 
 
@@ -1349,8 +1413,8 @@ public class SysUserController extends BaseController {
             consumes = "application/json",
             description = "sysUserController 用户添加接口", parameters = {
 
-            @Param(name = "account", description = "账号"
-                    , dataType = DataType.STRING, in = InType.body, required = true),
+          /*  @Param(name = "account", description = "账号"
+            , dataType = DataType.STRING, in = InType.body, required = true),
             @Param(name = "username", description = "用户名"
                     , dataType = DataType.STRING, in = InType.body, required = true),
             @Param(name = "password", description = "密码"
@@ -1370,7 +1434,11 @@ public class SysUserController extends BaseController {
                     , dataType = DataType.STRING, in = InType.body, required = false),
 
             @Param(name = "county", description = "区id"
+                    , dataType = DataType.STRING, in = InType.body, required = false),*/
+            @Param(name = "body", description = "{\"account\":\"test1\", \"username\":\"1用户姓名\", \"password\":\"123456\", \"email\":\"37145821@163.com\", \"telno\":\"13958789547\", \"face\":\"头像\", \"roleIds\":[1], \"province\":31, \"city\":34, \"county\":115 ,\"orgId\":3}"
                     , dataType = DataType.STRING, in = InType.body, required = false),
+
+
     })
     @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
@@ -1378,15 +1446,28 @@ public class SysUserController extends BaseController {
     @ResponseBody
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
     public ResultDTO add(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+        Long userId = this.getUserId(request);
         SysUser sysUser = getInfoFromMap(bodyParam);
+        sysUser.setCreateUser(userId);
 
+        boolean admin = isAdmin(request);
+        if(!admin){
+            SessionUser sessionUser = this.getUser(request);
+            Integer privace = MapUtils.getInteger(bodyParam, "province");
+            Integer city = MapUtils.getInteger(bodyParam, "city");
+            Integer county = MapUtils.getInteger(bodyParam, "county");
+
+            String checkPCA = checkPCA(sessionUser, privace, city, county);
+            if(checkPCA!=null){
+                throw new ParamException(1000101,checkPCA);
+            }
+//
+        }
 
         //检查用户名
         //valid
         //获取角色id数组
-
         //保存用户信息并 关联角色信息
-
         //获取组织信息 然后添加组织信息
 //        Long depart = MapUtils.getLong(bodyParam, "depart");
         ResultDTO result = null;
@@ -1398,23 +1479,18 @@ public class SysUserController extends BaseController {
 //            sysUserDepart.setDepartId(depart);
 //            result = sysUserDepartService.save(sysUserDepart);
 //        }
-
         if(StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))){
             String resultStr =   HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face")+"?userId="+sysUser.getId());
-
         }
         OperLogUtil.add(request, "系统管理", "账号管理","添加账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
         return result;
-
     }
 
 
-    @API(summary = "用户资料更新接口",
-
+    @API(summary = "用户资料更新接口 后台系统管理员接口 风险级别高",
             consumes = "application/json",
-            description = "sysUserController 用户资料更新接口 更新关联的角色信息 不更新角色信息.所有信息封装成json 在body体中 ", parameters = {
-
-            @Param(name = "id", description = "用户id"
+            description = "sysUserController 用户资料更新接口 更新名称 登录帐号 性别头像  手机号码  用户角色 省市区 地址 邮箱 备注 密码 更新关联的角色信息 不更新角色信息.所有信息封装成json 在body体中 ", parameters = {
+          /*  @Param(name = "id", description = "用户id"
                     , dataType = DataType.LONG, in = InType.path, required = true),
             @Param(name = "username", description = "用户名"
                     , dataType = DataType.LONG, in = InType.body, required = true),
@@ -1436,42 +1512,58 @@ public class SysUserController extends BaseController {
             @Param(name = "county", description = "区id"
                     , dataType = DataType.STRING, in = InType.body, required = true),
             @Param(name = "roleIds", description = "角色id数组"
+                    , dataType = DataType.ARRAY, in = InType.body, required = false),*/
+            @Param(name = "body", description = "{\"account\":\"test1\", \"username\":\"1用户姓名\", \"password\":\"123456\", \"email\":\"37145821@163.com\", \"telno\":\"13958789547\", \"face\":\"头像\", \"roleIds\":[1], \"province\":31, \"city\":34, \"county\":115 ,\"orgId\":3}"
                     , dataType = DataType.ARRAY, in = InType.body, required = false),
     })
     @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
     @RequiresPermission
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
-
-
     // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
-
     public Object update(HttpServletRequest request, @PathVariable Long id, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
-        SysUser sysUser = getInfoFromMap(bodyParam);
-        id = MapUtils.getLong(bodyParam, "id");
+        SysUser sysUser = getInfoFromMap(bodyParam); //从参数里获取sysUser对象
+        id = MapUtils.getLong(bodyParam, "id");  //从参数里获取 id
         if (id == null || id == 0) {
             return ResultUtil.getResult(10102001, ErrorMessage.getErrorMsg("err.param.null", "用户id"));
         }
+        sysUser.setId(id);//
+        boolean admin = isAdmin(request);
+        if(!admin){
+            SessionUser sessionUser = this.getUser(request);
+            Integer privace = MapUtils.getInteger(bodyParam, "province");
+            Integer city = MapUtils.getInteger(bodyParam, "city");
+            Integer county = MapUtils.getInteger(bodyParam, "county");
 
-        sysUser.setId(id);
+            //如果确实没传 不做判断
 
+                String checkPCA = checkPCA(sessionUser, privace, city, county);
+                if(checkPCA!=null){
+                    throw new ParamException(1000101,checkPCA);
+                }
+
+
+
+        }
         //获取角色id
-
-        sysUser.setPassword(null);
-
-
-        OperLogUtil.add(request, "系统管理", "账号管理","修改账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
+//        if(StringUtil.isNotBlank(sysUser.getPassword())){//如果密码不为空的话
+//            if(sysUser.getPassword().length()<30){
+//                sysUser.setPassword(MD5Util.getStringMD5String(sysUser.getPassword()));
+//            }
+//        }
+        OperLogUtil.add(request, "账号管理", "账号管理","修改账号,账号名称\""+ sysUser.getAccount()+"\"" );
         ResultDTO resultDTO =  sysUserService.saveWithRoleInfo(sysUser);
         //新增完用户后才能更新人脸 报账主功能是通的
-        try {
-            if (StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))) {
-                logger.info("开始调用updated.user.face接口"+ConfigUtil.getConfig("updated.user.face"));
-                String resultStr = HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face") + "?userId=" + sysUser.getId());
 
+        if (StringUtil.isNotBlank(ConfigUtil.getConfig("updated.user.face"))) {
+            logger.info("开始调用updated.user.face接口"+ConfigUtil.getConfig("updated.user.face"));
+            try {
+                String resultStr = HttpRequestUtil.sendGet(ConfigUtil.getConfig("updated.user.face") + "?userId=" + sysUser.getId());
+            }catch (Exception e){
+                logger.error("更新人脸特征库报错",e);
             }
-        }catch (Exception e){
-            logger.error("更新人脸特征库报错",e);
         }
+
         return resultDTO;
     }
 
@@ -1498,6 +1590,18 @@ public class SysUserController extends BaseController {
             return this.getResult(10205460, ErrorMessage.getErrorMsg("err.param.null", "用户不存在"));
         }
         OperLogUtil.add(request, "系统管理", "账号管理", "删除账号,账号:"+ sysUser.getAccount() + sysUser.getUsername());
+
+//        boolean admin = this.isAdmin(request);
+//        if(!admin){
+//            Long userId = this.getUserId(request);
+//            HashMap paramsMap=new HashMap();
+//            paramsMap.put("createUser",userId);
+//            List<SysUser> sysUsers = sysUserService.listByParams(paramsMap);
+//            if(sysUsers.size()>0){
+//                throw  new ParamException(10205461,"用户下还有用户,请先联系删除底下用户");
+//            }
+//        }
+
 
         sysUserService.delete(id);//将状态为改成9
 
@@ -1544,7 +1648,13 @@ public class SysUserController extends BaseController {
         }
         String password = MapUtils.getString(bodyParam, "password");
         if (!StringUtil.isBlank(password)) {
-            sysUser.setPassword(MD5Util.getStringMD5String(password));//别忘记md5加密
+            if(password.length()>30){
+                sysUser.setPassword(password);//别忘记md5加密
+            }else{
+                sysUser.setPassword(MD5Util.getStringMD5String(password));//别忘记md5加密
+
+            }
+
         }
         String nkname = MapUtils.getString(bodyParam, "nkname");
         if (!StringUtil.isBlank(nkname)) {
@@ -1627,6 +1737,13 @@ public class SysUserController extends BaseController {
             sysUser.setOutId(outId);
         }
 
+
+        Integer orgId = MapUtils.getInteger(bodyParam, "orgId");
+        if (orgId != null && orgId > 0) {
+            sysUser.setOrgId(orgId);
+        }
+
+
         Object roleIdsObj = bodyParam.get("roleIds");
         if (roleIdsObj != null) {
             sysUser.setRoleIds(JsonUtil.convertDigitAryToIntegerAry((ArrayList<Number>) bodyParam.get("roleIds")));
@@ -1665,11 +1782,12 @@ public class SysUserController extends BaseController {
 
             consumes = "application/json",
             description = "sysUserController 用户密码重置功能 更新关联的角色密码信息 不更新角色信息.所有信息封装成json 在body体中 ", parameters = {
-
-            @Param(name = "oldPassword", description = "旧密码"
+            @Param(name = "body", description = "{\"oldPassword\":\"123123\",\"newPassword\":\"123123\"”}旧密码和新密码"
                     , dataType = DataType.STRING, in = InType.body, required = true),
-            @Param(name = "newPassword", description = "新密码"
-                    , dataType = DataType.STRING, in = InType.body, required = true),
+//            @Param(name = "oldPassword", description = "旧密码"
+//                    , dataType = DataType.STRING, in = InType.body, required = true),
+//            @Param(name = "newPassword", description = "新密码"
+//                    , dataType = DataType.STRING, in = InType.body, required = true),
 
     })
 
@@ -1688,9 +1806,15 @@ public class SysUserController extends BaseController {
 
         ValidateUtil vu = new ValidateUtil();
         String validStr = "";
-        vu.add("newPassword", oldPassword, "新密码", new Rule[]{new Required(), new Length(6, 20), new Regex(RegexConstants.PASSWORD)});
+        vu.add("newPassword", newPassword, "新密码", new Rule[]{new Required(), new Length(6, 20), new Regex(RegexConstants.PASSWORD)});
         vu.add("oldPassword", oldPassword, "旧密码", new Rule[]{new Required(), new Length(6, 20)});
-
+        //如果前端传入的参数没有加密过那么帮他加密一次
+        if(oldPassword.length()<30){
+            oldPassword=MD5Util.getStringMD5String(oldPassword);
+        }
+        if(newPassword.length()<30){
+            newPassword=MD5Util.getStringMD5String(newPassword);
+        }
         Long userId = this.getUserId(request);
         String userName = this.getUserName(request);
         sysUserService.getUserById(userId);
@@ -1698,6 +1822,96 @@ public class SysUserController extends BaseController {
         return sysUserService.updateUserPwd(userId, oldPassword, newPassword);
     }
 
+
+    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+    /**
+     * 修改密码
+     */
+
+    @API(summary = "管理员重置用户密码功能",
+
+            consumes = "application/json",
+            description = "sysUserController 用户密码重置功能 更新关联的角色密码信息 不更新角色信息.所有信息封装成json 在body体中 ", parameters = {
+            @Param(name = "body", description = "{\"userId\":\"6\",\"newPassword\":\"123123\"}旧密码和新密码"
+                    , dataType = DataType.STRING, in = InType.body, required = true),
+    })
+    @APIResponse(value = "{\"r\":0,msg:'xxxx'}")
+    @RequiresLogin
+    //TODO
+//    @RequiresPermission
+    @RequestMapping(value = "admin/pwd/update", method = RequestMethod.PUT, produces = "application/json")
+    @ResponseBody
+    public Object updatePwdByAdmin(HttpServletRequest request, @RequestBody(required = true) Map<String, Object> bodyParam) throws Exception {
+
+
+        String newPassword = MapUtils.getString(bodyParam, "newPassword");
+
+        ValidateUtil vu = new ValidateUtil();
+        String validStr = "";
+        String userIdStr=  MapUtils.getString(bodyParam, "userId");
+        vu.add("newPassword", newPassword, "新密码", new Rule[]{new Required(), new Length(6,32), new Regex(RegexConstants.PASSWORD)});
+        vu.add("userId", userIdStr, "用户id", new Rule[]{new Required(),new IntegerRange(0,Integer.MAX_VALUE)});
+        validStr = vu.validateString();
+        if (StringUtil.isNotBlank(validStr)) {
+            logger.debug("用户添加 参数验证错误" + validStr);
+            throw new ParamException(10002000, validStr);//bean的校验
+        }
+        //如果前端传入的参数没有加密过那么帮他加密一次
+
+        if(newPassword.length()<30){
+            newPassword=MD5Util.getStringMD5String(newPassword);
+        }
+        Long userId = Long.valueOf(userIdStr);
+        String userName = this.getUserName(request);
+        sysUserService.getUserById(userId);
+        OperLogUtil.add(request, "系统管理", "账号管理", "修改密码"+userName);
+        return sysUserService.updateUserPwd(userId,  newPassword);
+    }
+
     public static void main(String args[]) {
+    }
+
+
+    /*
+     * @Author Ailenk(王作品)
+     * @Website http://bignose.ink
+     * @Description //TODO 判断省市区 是否在user 范围内
+     * @Date  2020/3/16 16:37
+     * @param null
+     * @Return
+     **/
+
+    public String checkPCA(SessionUser sessionUser,Integer province,Integer city,Integer area) throws Exception {
+
+        String userprovince1 =CastUtil.toString( sessionUser.getProvince()); //省
+        String usercity1 =CastUtil.toString(sessionUser.getCity()) ; //市
+        String usercounty = CastUtil.toString(sessionUser.getCounty()) ;//区
+        int flag=0;
+
+        if(!"0".equals(userprovince1)){
+            if(!userprovince1.equals(CastUtil.toString(province) )){
+                flag=1;
+            }
+        }
+        if(!"0".equals(usercity1)){
+            if(!usercity1.equals(CastUtil.toString(city))){
+                flag=1;
+            }
+        }
+
+        if(!"0".equals(usercounty)){
+            if(!usercounty.equals(CastUtil.toString(area))){
+                flag=1;
+            }
+        }
+
+        if(flag==1){
+            String userPname = locationService.getNameById(CastUtil.toLong(userprovince1));
+            String userCname = locationService.getNameById(CastUtil.toLong(usercity1));
+            String userCOname = locationService.getNameById(CastUtil.toLong(usercounty));
+            return "你没有这个地区的权限 你的权限是"+userPname+userCname+userCOname;
+        }
+
+        return null;
     }
 }

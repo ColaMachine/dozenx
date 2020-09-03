@@ -5,6 +5,7 @@ import com.dozenx.common.config.Config;
 import com.dozenx.common.config.SystemValidCodeConfig;
 import com.dozenx.common.config.ValidCodeConfig;
 import com.dozenx.common.util.*;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.core.log.LogType;
 import com.dozenx.web.core.log.ResultDTO;
 import com.dozenx.web.core.log.ServiceCode;
@@ -38,6 +39,9 @@ public class ValidCodeService {
 
     @Resource
     private LogUtilService LogUtil;
+
+    @Resource
+    RedisService redisService;
     /**
      * @param systemCode 系统名称
      * @param phone 手机号码

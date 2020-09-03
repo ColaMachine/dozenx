@@ -99,7 +99,7 @@ kq:
 image :
     serverEnable  :  false
     serverIp : xxx.xxx.xx.xxx
-    serverDir : upload
+    serverDir : upload/faceCapture
     serverUser : root
     maxSize : 1024
     type : png
@@ -109,7 +109,7 @@ image :
     posterTemplate : src.jpg
     posterZipDir : poster_zip
     vcodeDir : static/vc
-    serverUrl : upload
+    serverUrl : upload/faceCapture
 email :
     ##设置传输协议
     protocol : smtp

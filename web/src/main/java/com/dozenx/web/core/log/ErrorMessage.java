@@ -45,15 +45,16 @@ public class ErrorMessage {
         }
         msgProp = new Properties();
         try {
-            InputStream inputStream = PathManager.class.getResourceAsStream("/properties/message.properties");
+
+            InputStream inputStream = PathManager.class.getResourceAsStream("/message.properties");
             if (inputStream == null) {
-                inputStream = PathManager.class.getResourceAsStream("/message.properties");
+                inputStream = PathManager.class.getResourceAsStream("/properties/message.properties");
             }
             if (inputStream == null) {
                 logger.error("未找到 not find message.properties");
                 return;
             }
-            msgProp.load(PathManager.class.getResourceAsStream("/properties/message.properties"));
+            msgProp.load(inputStream);
         } catch (Exception e) {
             logger.error("", e);
 //            e.printStackTrace();

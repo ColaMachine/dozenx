@@ -10,6 +10,7 @@ package com.dozenx.web.core.auth.service;
 import com.dozenx.common.util.PermissionUtil;
 import com.dozenx.web.core.auth.session.SessionUser;
 import com.dozenx.common.config.SysConfig;
+import com.dozenx.web.core.auth.sysResource.bean.SysResource;
 import com.dozenx.web.core.auth.sysRole.bean.SysRole;
 import com.dozenx.web.core.auth.sysUser.service.SysUserService;
 import com.dozenx.web.util.ResultUtil;
@@ -306,6 +307,16 @@ public class AuthService {
 //        return ResultUtil.getResult();
 //    }
 
+    public List<SysResource> listSysResrouceByUserid(Long userid) {
+        List<SysResource> permissions =  authMapper.selectSysResourceByUserId(userid);
 
+//        for(SysPermission sysPermission : permissions){
+//            if(StringUtil.isNotBlank( sysPermission.getPermissionUrl())){
+//                sysPermission.setPermissionUrl(sysPermission.getPermissionUrl().replaceAll(SysConfig.PATH,""));
+//            }
+//
+//        }
+        return permissions;
+    }
 
 }

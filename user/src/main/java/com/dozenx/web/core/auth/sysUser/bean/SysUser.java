@@ -16,11 +16,7 @@ import java.util.Date;
 public class SysUser implements Serializable {
     /**编号**/
     private Long id;
-
-
-
     /**用户名**/
-
     private String username;
     /**密码**/
     private String password;
@@ -50,7 +46,16 @@ public class SysUser implements Serializable {
     private int province;
     /**区**/
     private int county;
+    /**公司id **/
+    private int orgId;
 
+    public int getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(int orgId) {
+        this.orgId = orgId;
+    }
 
     /**省**/
     private String  cityName;
@@ -310,6 +315,11 @@ public class SysUser implements Serializable {
         sessionUser.setEmail(email);
         sessionUser.setStatus(this.getStatus());
         sessionUser.setNick(this.getNkname());
+
+        sessionUser.setCity(this.getCity());
+        sessionUser.setCounty(this.getCounty());
+        sessionUser.setProvince(this.getProvince());
+
         return sessionUser;
     }
 

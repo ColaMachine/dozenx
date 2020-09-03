@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
@@ -612,6 +613,8 @@ public class JsonUtil {
 
 
     public static void main(String args[]) {
+        String s = URLDecoder.decode("%257B%2522account%2522%253A%252213958173965%2522%252C%2522deviceNum%2522%253A%252233100300001327921045%2522%257D");
+        System.out.println(s);
         JSONObject obj = JSON.parseObject("{'rex':'(-|+)?(90.0{0,6}|(\\\\d|[1-8]\\\\d).\\\\d{0,6})'}");
         System.out.print("allright");
     }

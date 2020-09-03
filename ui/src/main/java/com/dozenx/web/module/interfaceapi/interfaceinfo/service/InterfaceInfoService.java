@@ -13,10 +13,10 @@ public interface InterfaceInfoService {
     int deleteApi(Integer id);
 //    int deleteParams(Map map);
 //    int deleteParamsById(Integer id);
-
+    public List<InterfaceInfo> selectAll();
     int updateApi(InterfaceInfo record);
 //    int updateParams(InterfaceParams record);
-
+public List<InterfaceInfo> listByParams(Map map);
     //获取数据
     PageInfo<InterfaceInfo> getApiByParams(Map map, int curPage, int pageSize);//根据传入数据查询接口信息
 //    List<InterfaceParams> getParamsById(Integer apiId);//根据接口id获取对应参数信息

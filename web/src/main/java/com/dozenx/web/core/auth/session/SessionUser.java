@@ -140,4 +140,33 @@ public class SessionUser implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
+
+
+    public int city;
+    public int county;
+    public int province;
+
+    public int getCity() {
+        return city;
+    }
+
+    public void setCity(int city) {
+        this.city = city;
+    }
+
+    public int getCounty() {
+        return county;
+    }
+
+    public void setCounty(int county) {
+        this.county = county;
+    }
+
+    public int getProvince() {
+        return province;
+    }
+
+    public void setProvince(int province) {
+        this.province = province;
+    }
 }

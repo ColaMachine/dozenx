@@ -11,6 +11,7 @@
     <result column="param_type" property="paramType" jdbcType="VARCHAR" />
     <result column="param_in" property="paramIn" jdbcType="VARCHAR" />
     <result column="param_value" property="paramValue" jdbcType="VARCHAR" />
+    <result column="param_required" property="paramRequired" jdbcType="BOOLEAN" />
     <result column="param_comment" property="paramComment" jdbcType="VARCHAR" />
     <result column="interface_id" property="interfaceId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -91,14 +92,18 @@
       <if test="interfaceId != null" >
         interface_id,
       </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
+
       <if test="paramIn != null" >
         param_in,
       </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
       <if test="paramValue != null" >
-        create_value,
+        param_value,
+      </if>
+      <if test="paramRequired != null" >
+        param_required,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -126,6 +131,12 @@
       </if>
       <if test="createTime != null" >
         #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="paramValue != null" >
+        #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="paramRequired != null" >
+        #{paramRequired,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

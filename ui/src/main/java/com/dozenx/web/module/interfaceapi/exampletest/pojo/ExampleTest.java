@@ -6,7 +6,16 @@ import java.util.Date;
 
 public class ExampleTest {
     private Integer id;
-    private InterfaceInfo interfaceInfo;
+    private Integer apiId;
+
+    public Integer getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(Integer apiId) {
+        this.apiId = apiId;
+    }
+
     private String params;
     private Date createTime;
     private Date updateTime;
@@ -15,13 +24,13 @@ public class ExampleTest {
     }
 
     public ExampleTest(InterfaceInfo interfaceInfo, String params) {
-        this.interfaceInfo = interfaceInfo;
+        this.apiId = interfaceInfo.getId();
         this.params = params;
     }
 
     public ExampleTest(Integer id, InterfaceInfo interfaceInfo, String params, Date createTime, Date updateTime) {
         this.id = id;
-        this.interfaceInfo = interfaceInfo;
+        this.apiId = interfaceInfo.getId();
         this.params = params;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -31,7 +40,6 @@ public class ExampleTest {
     public String toString() {
         return "ExampleTest{" +
                 "id=" + id +
-                ", interfaceInfo=" + interfaceInfo +
                 ", params='" + params + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
@@ -44,14 +52,6 @@ public class ExampleTest {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public InterfaceInfo getInterfaceInfo() {
-        return interfaceInfo;
-    }
-
-    public void setInterfaceInfo(InterfaceInfo interfaceInfo) {
-        this.interfaceInfo = interfaceInfo;
     }
 
     public String getParams() {

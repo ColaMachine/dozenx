@@ -47,6 +47,7 @@ public class LocationController extends BaseController {
     @RequestMapping(method = RequestMethod.GET,value = "/dif/provinces")
     @ResponseBody
     public ResultDTO getProvinces() throws Exception{
+        logger.info("/dif/provinces 这个方法谁在调用????");
         List<Map<String,Object>> provinceMap = locationService.getProvinces();//获取所有省
         return this.getDataResult(provinceMap);
     }
@@ -62,10 +63,8 @@ public class LocationController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET,value = "/provinces")
     public void  getProvinces( HttpServletResponse response) throws Exception{
-
         String jsonStr=  locationService.getProvincesJsonStr();//获取所有省
         writeJsonStr(response,"{\"r\":0,\"data\":"+jsonStr+"}");
-
         return ;
     }
 
@@ -80,6 +79,7 @@ public class LocationController extends BaseController {
     @RequestMapping(method = RequestMethod.GET,value = "/dif/cities")
     @ResponseBody
     public ResultDTO getCities(@RequestParam(value="parentid",required=true) String parentId) throws Exception{
+        logger.info("/dif/cities 这个方法谁在调用????");
         List<Map<String,Object>> cityMap = locationService.getCities(parentId);//获取所有市
         return this.getDataResult(cityMap);
     }
@@ -110,6 +110,7 @@ public class LocationController extends BaseController {
     @RequestMapping(method = RequestMethod.GET,value = "/dif/areas")
     @ResponseBody
     public ResultDTO getAreas(@RequestParam(value="parentid",required=true) String parentId) throws Exception{
+        logger.info("/dif/areas 这个方法谁在调用????");
         List<Map<String,Object>> areaMap = locationService.getAreas(parentId);//获取所有区县
         return this.getDataResult(areaMap);
     }
@@ -124,7 +125,6 @@ public class LocationController extends BaseController {
             })
     @RequestMapping(method = RequestMethod.GET,value = "/areas")
     public void getAreas(@RequestParam(value="parentid",required=true) String parentId,HttpServletResponse response) throws Exception{
-
         String jsonStr=  locationService.getAreasJsonStr(parentId);//获取所有市
         writeJsonStr(response,"{\"r\":0,\"data\":"+jsonStr+"}");
         return ;
