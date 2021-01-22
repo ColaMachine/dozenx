@@ -1,10 +1,22 @@
 <template>
   <div>
+
 <ShopNav></ShopNav>
+
 <zwRow  style="margin-top:20px;">
 
 <zwCol class="pull-right" span=24>
+
+    <div class="content-inner">
+        <section class="content wrap" id="feed-wrap">
+            <article class="wrap-main">
 <zwArticle :data="data"></zwArticle>
+<div class="aside-right" id="feed-side">
+    <sideStuff ></sideStuff>
+</div>
+            </article>
+        </section>
+    </div>
 </zwCol>
 
 </zwRow>
@@ -26,7 +38,7 @@
 
 
    import zwArticle from '../../component/datadisplay/zwArticle.vue'
-
+ import sideStuff from '../../component/datadisplay/sideStuff.vue'
 
   export default {
   extends:zwBase,
@@ -34,7 +46,7 @@
     components: {
     zwBase,zwArticle,ShopNav,
       zwRow,
-      zwCol,
+      zwCol,sideStuff
 
     },
     name: "PcArticlePage",
@@ -77,6 +89,27 @@
   }
 </script>
 <style scoped>
+
+.aside-right {
+float: right;
+    width: 328px;
+    margin-left: 10px;
+    background-color: #f5f5f5;
+}
+
+.content-inner {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+#feed-wrap {
+    position: relative;
+    margin-bottom: 30px;
+}
+.content {
+    width: 1080px;
+    margin: 0 auto;
+}
 
 
 </style>

@@ -10,7 +10,7 @@ package com.dozenx.web.core.auth.sysRolePermission.action;
 
 import com.dozenx.swagger.annotation.*;
 import com.dozenx.common.util.DateUtil;
-import com.dozenx.common.util.ExcelUtil;
+//import com.dozenx.common.util.ExcelUtil;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
@@ -154,74 +154,74 @@ public class SysRolePermissionController extends BaseController {
     }
 
 
-    /**
-     * 导出
-     * @param request
-     * @return
-     * @author dozen.zhang
-     */
-    @RequestMapping(value = "/export.json")
-    @ResponseBody
-    public Object exportExcel(HttpServletRequest request) {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        String id = request.getParameter("id");
-        if (!StringUtil.isBlank(id)) {
-            params.put("id", id);
-        }
-        String rid = request.getParameter("rid");
-        if (!StringUtil.isBlank(rid)) {
-            params.put("rid", rid);
-        }
-        String pid = request.getParameter("pid");
-        if (!StringUtil.isBlank(pid)) {
-            params.put("pid", pid);
-        }
-
-        // 查询list集合
-        List<SysRolePermission> list = sysRolePermissionService.listByParams(params);
-        // 存放临时文件
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "list.xlsx");
-        String folder = request.getSession().getServletContext()
-                .getRealPath("/")
-                + "xlstmp";
-        File folder_file = new File(folder);
-        if (!folder_file.exists()) {
-            folder_file.mkdir();
-        }
-        String fileName = folder + File.separator
-                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
-                + ".xlsx";
-        // 得到导出Excle时清单的英中文map
-        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-        colTitle.put("id", "主键");
-        colTitle.put("rid", "角色id");
-        colTitle.put("pid", "权限id");
-        List finalList = new ArrayList();
-        for (int i = 0; i < list.size(); i++) {
-            SysRolePermission sm = list.get(i);
-            HashMap<String, Object> map = new HashMap<String, Object>();
-
-            map.put("rid", list.get(i).getRoleId());
-            map.put("pid", list.get(i).getPermissionId());
-            finalList.add(map);
-        }
-        try {
-            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                return this.getResult(SUCC, fileName, "导出成功");
-            }
-            /*
-             * return new ResponseEntity<byte[]>(
-             * FileUtils.readFileToByteArray(new File(fileName)), headers,
-             * HttpStatus.CREATED);
-             */
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this.getResult(0, "数据为空，导出失败");
-
-    }
+//    /**
+//     * 导出
+//     * @param request
+//     * @return
+//     * @author dozen.zhang
+//     */
+//    @RequestMapping(value = "/export.json")
+//    @ResponseBody
+//    public Object exportExcel(HttpServletRequest request) {
+//        HashMap<String, Object> params = new HashMap<String, Object>();
+//        String id = request.getParameter("id");
+//        if (!StringUtil.isBlank(id)) {
+//            params.put("id", id);
+//        }
+//        String rid = request.getParameter("rid");
+//        if (!StringUtil.isBlank(rid)) {
+//            params.put("rid", rid);
+//        }
+//        String pid = request.getParameter("pid");
+//        if (!StringUtil.isBlank(pid)) {
+//            params.put("pid", pid);
+//        }
+//
+//        // 查询list集合
+//        List<SysRolePermission> list = sysRolePermissionService.listByParams(params);
+//        // 存放临时文件
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", "list.xlsx");
+//        String folder = request.getSession().getServletContext()
+//                .getRealPath("/")
+//                + "xlstmp";
+//        File folder_file = new File(folder);
+//        if (!folder_file.exists()) {
+//            folder_file.mkdir();
+//        }
+//        String fileName = folder + File.separator
+//                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
+//                + ".xlsx";
+//        // 得到导出Excle时清单的英中文map
+//        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+//        colTitle.put("id", "主键");
+//        colTitle.put("rid", "角色id");
+//        colTitle.put("pid", "权限id");
+//        List finalList = new ArrayList();
+//        for (int i = 0; i < list.size(); i++) {
+//            SysRolePermission sm = list.get(i);
+//            HashMap<String, Object> map = new HashMap<String, Object>();
+//
+//            map.put("rid", list.get(i).getRoleId());
+//            map.put("pid", list.get(i).getPermissionId());
+//            finalList.add(map);
+//        }
+//        try {
+//            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                return this.getResult(SUCC, fileName, "导出成功");
+//            }
+//            /*
+//             * return new ResponseEntity<byte[]>(
+//             * FileUtils.readFileToByteArray(new File(fileName)), headers,
+//             * HttpStatus.CREATED);
+//             */
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return this.getResult(0, "数据为空，导出失败");
+//
+//    }
 
     @RequestMapping(value = "/import.json")
     public void importExcel() {

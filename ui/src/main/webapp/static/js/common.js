@@ -275,8 +275,8 @@ contentType:"application/json",
          		}
          	};
          	delete options['inputData'];
-         	//ajax(options);
-         	$.ajax(options);
+         	ajax(options);
+         	//$.ajax(options);
 
 
          }

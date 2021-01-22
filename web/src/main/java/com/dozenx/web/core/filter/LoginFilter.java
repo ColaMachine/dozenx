@@ -1,7 +1,8 @@
 package com.dozenx.web.core.filter;
 
 import com.dozenx.common.util.JsonUtil;
-import com.dozenx.web.util.RedisUtil;
+import com.dozenx.web.core.cache.service.RedisService;
+import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.ResultUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.Constants;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -105,7 +105,9 @@ public class LoginFilter implements Filter {
 //            sessionUser = seesionDTO.getSessionUser();
 //        }
        /// Object sessionDTO =  session.getAttribute(Constants.SESSION_USER) ;
-        byte[] ary= RedisUtil.getByteAry(request.getRequestedSessionId()+"_"+Constants.SESSION_USER);
+        RedisService redisService =(RedisService) BeanUtil.getBean("redisService");
+
+        byte[] ary= redisService.getByteAry(request.getRequestedSessionId()+"_"+Constants.SESSION_USER);
         if (ary == null/* && sessionUser == null*/
       //  if (session.getAttribute(sessionKey) == null/* && sessionUser == null*/
                 && (!checkRequestURIIntNotFilterList(request))) {

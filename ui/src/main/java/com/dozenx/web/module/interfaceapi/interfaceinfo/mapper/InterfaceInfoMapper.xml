@@ -18,8 +18,16 @@
             <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
             <result column="history_flag" property="historyFlag" jdbcType="INTEGER" />
             <result column="splicing" property="splicing" jdbcType="INTEGER" />
+
+
         <result column="domain" property="domain" jdbcType="VARCHAR" />
         <result column="author" property="author" jdbcType="VARCHAR" />
+
+
+        <result column="interface_headers" property="interfaceHeaders" jdbcType="VARCHAR" />
+
+        <result column="interface_body" property="interfaceBody" jdbcType="VARCHAR" />
+
     </resultMap>
     <!--    <resultMap id="ExampleMap" type="com.dozenx.web.module.interfaceapi.pojo.InterfaceExample"></resultMap>-->
     <!--    新增-->
@@ -334,6 +342,15 @@
             <if test="projectName != null" >
                 project_name = #{projectName,jdbcType=VARCHAR},
             </if>
+
+            <if test="interfaceBody != null" >
+                interface_body = #{interfaceBody,jdbcType=VARCHAR},
+            </if>
+
+            <if test="interfaceHeaders != null" >
+                interface_headers = #{interfaceHeaders,jdbcType=VARCHAR},
+            </if>
+
             <if test="moduleName != null" >
                 module_name = #{moduleName,jdbcType=VARCHAR},
             </if>

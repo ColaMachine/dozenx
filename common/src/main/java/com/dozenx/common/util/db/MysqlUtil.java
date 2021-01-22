@@ -153,8 +153,8 @@ public class MysqlUtil {
 
 	public void getData() {
 		try {
-			url_a = "jdbc:mysql://192.168.10.138:3306/test?user=twifi&password=twifi123$";
-			url_b = "jdbc:mysql://192.168.10.183:3306/test?user=twifi&password=twifi123$";
+			url_a = "jdbc:mysql://192.168.212.53:3306/awifi_smart_home?user=root&password=awifi@123";
+			url_b = "jdbc:mysql://192.168.154.10:3306/awifi_smart_home?user=twifi&password=awifi@123";
 			con_a = DriverManager.getConnection(url_a);
 			con_b = DriverManager.getConnection(url_b);
 			stmt_a = con_a.createStatement();
@@ -219,7 +219,7 @@ public class MysqlUtil {
 		}
 
 	}
-
+, ,mm
 	public static void main(String args[]) {
 		MysqlUtil compareMysql = new MysqlUtil();
 		compareMysql.run();

@@ -39,7 +39,7 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.util.*;
 @Controller
-@RequestMapping("/artical")
+@RequestMapping("/article")
 public class ArticalController extends BaseController{
     /** 日志 **/
     private Logger logger = LoggerFactory.getLogger(ArticalController.class);

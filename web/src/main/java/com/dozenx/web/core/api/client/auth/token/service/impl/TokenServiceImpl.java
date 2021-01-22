@@ -8,13 +8,14 @@ import com.dozenx.common.util.MD5Util;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.api.client.auth.http.util.HttpUtil;
 import com.dozenx.web.core.api.client.auth.token.service.TokenService;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.core.log.ErrorMessage;
 import com.dozenx.web.util.ConfigUtil;
-import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 
@@ -29,7 +30,8 @@ import java.util.Map;
  */
 @Service("tokenService")
 public class TokenServiceImpl implements TokenService {
-
+        @Resource
+    RedisService redisService;
     /**
      * 获取数据中心access_token
      * @param key rediskey
@@ -68,7 +70,8 @@ public class TokenServiceImpl implements TokenService {
         //Long loseTimestamp = (Long) data.get("loseTimestamp");//token失效时间
         // int seconds = (int) ((loseTimestamp-oauthTimestamp)/1000);//access_token有效时间
         int seconds = (int) data.get("expires_in");
-        RedisUtil.setex(key, oauthToken, seconds);//access_token存到redis
+        redisService.setex(key, oauthToken, seconds);
+//        RedisUtil.setex(key, oauthToken, seconds);//access_token存到redis
         return oauthToken;//返回access_token
     }
 
@@ -102,7 +105,7 @@ public class TokenServiceImpl implements TokenService {
         //Long loseTimestamp = (Long) data.get("loseTimestamp");//token失效时间
         // int seconds = (int) ((loseTimestamp-oauthTimestamp)/1000);//access_token有效时间
         int seconds = (int) data.get(expireInName);
-        RedisUtil.setex(key, oauthToken, seconds);//access_token存到redis
+        redisService.setex(key, oauthToken, seconds);//access_token存到redis
         return oauthToken;//返回access_token
     }
 

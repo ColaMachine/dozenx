@@ -4,6 +4,7 @@ import com.dozenx.common.util.DateUtil;
 import com.dozenx.common.util.HttpRequestUtil;
 import com.dozenx.swagger.annotation.APIs;
 import com.dozenx.web.core.base.BaseController;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.module.calendar.calendar.action.CalendarController;
 import com.dozenx.web.module.calendar.calendar.service.CalendarManagerService;
 import com.dozenx.web.module.calendar.calendar.service.CalendarService;
@@ -11,7 +12,6 @@ import com.dozenx.web.module.calendar.event.bean.Event;
 import com.dozenx.web.module.calendar.event.service.EventService;
 import com.dozenx.web.module.calendar.instance.bean.Instance;
 import com.dozenx.web.module.calendar.instance.service.InstanceService;
-import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,8 @@ CalendarBizController extends BaseController {
      **/
     @Autowired
     private CalendarService calendarService;
-
+    @Resource
+    RedisService redisService;
     @Autowired
     private CalendarManagerService calendarManagerService;
 
@@ -68,7 +70,7 @@ CalendarBizController extends BaseController {
     public void tictac() {
 
         try {
-            if (RedisUtil.incr("risksrv_calendar_tictac" + DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH), 30) > 1) {//同一分钟内只允许一个进入
+            if (redisService.incr("risksrv_calendar_tictac" + DateUtil.toDateStr(new Date(), DateUtil.YYYY_MM_DD_HH_MM_DASH), 30) > 1) {//同一分钟内只允许一个进入
                 logger.info("统一是建只允许一次定时任务");
                 return ;
             }

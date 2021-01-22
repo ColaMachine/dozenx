@@ -350,6 +350,11 @@ public final class DateUtil {
     }
 
     public static void main(String[] args) {
+        Map map = new HashMap();
+        map.put("a","a");
+        map.put("b",null);
+        String s123 = JsonUtil.toJsonString(map);
+        System.out.println(s123);
 
         List list = DateUtil.getWeekDayList();
         String s ="2019-07-17T16:00:00.000Z";
@@ -878,7 +883,39 @@ public final class DateUtil {
         }
     }
 
+    /*
+     * @Author Ailenk(王作品)
+     * @Website http://https://home.51awifi.com
+     * @Description //TODO
+     * @Date  2020/2/23 10:20
+     * @param startDate 开始时间  -yyyyMMdd
+     * @param endDate 开始时间  -yyyyMMdd
+     * @Return
+     **/
 
+    public static List<String> getDatesBetween(Integer startDate, Integer endDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        int calendarType;
+        calendarType = Calendar.DATE;
+
+        List<String> result = new ArrayList<>();
+        Calendar min = Calendar.getInstance();
+        Calendar max = Calendar.getInstance();
+        try {
+            min.setTime(sdf.parse(CastUtil.toString(startDate)));
+            min.add(calendarType, 0);
+            max.setTime(sdf.parse(CastUtil.toString(endDate)));
+            max.add(calendarType, 1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar curr = min;
+        while (curr.before(max)) {
+            result.add(sdf.format(min.getTime()));
+            curr.add(calendarType, 1);
+        }
+        return result;
+    }
 
 }
 

@@ -2,13 +2,15 @@
 
 function zImageUtil2(config) {
 	var o = {
-		imgDom: null, //回显的image的id
+		imgDom: null, //回显的image的dom
+		fileInput:null,// input type = file 节点
+		input: null ,  //保存 url 的节点id
 		maxHeight: null, //预设的最大高度
 		maxWidth: null, //预设的最大宽度
 		postUrl: null, //提交的url"/calendar/image/upload.json"
 		preShow: false,
 		callback: null,
-        fileInput:null,
+
 		fileChange: function(e) {
 			var f = e.files[0]; //一次只上传1个文件，其实可以上传多个的
 			var FR = new FileReader();
@@ -94,9 +96,10 @@ function zImageUtil2(config) {
 
 		},
 		init: function(jso) {
-			this.imgDom = $("<img class=\" img-upload\" alt=\"请上传图片\"> "
-		//	+" <svg class=\"Zi Zi--Camera WriteCover-uploadIcon\" fill=\"currentColor\" viewBox=\"0 0 24 24\" width=\"42\" height=\"42\"><path d=\"M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z\" fill-rule=\"evenodd\"></path></svg>"
-			+" </img>");
+
+
+
+
 			this.maxHeight = jso.maxHeight||633;
 			this.maxWidth = jso.maxWidth||300;
 			this.postUrl = jso.postUrl||(PATH+"/pubimage/base64/upload");
@@ -104,17 +107,35 @@ function zImageUtil2(config) {
 			this.callback = jso.callback||function(result){
                 $(that.input).val(result.data);
 			};
-			this.fileInput=$("<input type=\"file\" style=\"display:none\"/>");
+
+
+
 			this.input =$("#"+jso.input);
+
+			if(!config.imgDom){//如果不存在 img节点
+                this.imgDom = $("<img class=\" img-upload\" alt=\"请上传图片\"> "
+                //	+" <svg class=\"Zi Zi--Camera WriteCover-uploadIcon\" fill=\"currentColor\" viewBox=\"0 0 24 24\" width=\"42\" height=\"42\"><path d=\"M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z\" fill-rule=\"evenodd\"></path></svg>"
+                            +" </img>");
+                $(this.input).parent().append(this.imgDom);
+            }else{
+                this.imgDom  = $(config.imgDom);
+            }
+            if(!config.fileInput){
+                this.fileInput=$("<input type=\"file\" style=\"display:none\"/>");
+                 $(this.input).parent().append(this.fileInput);
+            }else{
+                this.fileInput=  $(config.fileInput) ;
+
+            }
             this.imgDom.attr("src",$(this.input).val())
-			$(this.input).parent().append(this.imgDom);
-			$(this.input).parent().append(this.fileInput);
+
+
 
 			 $(this.fileInput).change(function(){
 
               //  console.log("imgDom:"+nowImg);
                 //var imageUtil= new zImageUtil({imgDom:nowImg,postUrl:"/calendar/image/upload.json",maxWidth:633,maxHeight:300});
-                that.fileChange(this);
+              that.fileChange(this);
             });
 
             $(this.imgDom).click(function(){

@@ -153,6 +153,9 @@
       <if test="paramType != null" >
         param_type = #{paramType,jdbcType=VARCHAR},
       </if>
+
+
+
       <if test="paramComment != null" >
         param_comment = #{paramComment,jdbcType=VARCHAR},
       </if>

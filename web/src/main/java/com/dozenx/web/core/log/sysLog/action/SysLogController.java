@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.JsonUtil;
-import com.dozenx.common.util.ExcelUtil;
+//import com.dozenx.common.util.ExcelUtil;
 import java.math.BigDecimal;
 import com.dozenx.swagger.annotation.*;
 import java.util.LinkedHashMap;
@@ -243,7 +243,7 @@ public class SysLogController extends BaseController{
         String createTimeBegin = MapUtils.getString(params,"createTimeBegin");
         if(!StringUtil.isBlank(createTimeBegin)){
             if(StringUtil.checkNumeric(createTimeBegin)){
-                params.put("createTimeBegin",createTimeBegin);
+                params.put("createTimeBegin",new Timestamp( Long.valueOf(createTimeBegin)));
             }else if(StringUtil.checkDateStr(createTimeBegin, "yyyy-MM-dd HH:mm:ss")){
                 params.put("createTimeBegin",new Timestamp( DateUtil.parseToDate(createTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
@@ -251,7 +251,7 @@ public class SysLogController extends BaseController{
         String createTimeEnd = MapUtils.getString(params,"createTimeEnd");
         if(!StringUtil.isBlank(createTimeEnd)){
             if(StringUtil.checkNumeric(createTimeEnd)){
-                params.put("createTimeEnd",createTimeEnd);
+                params.put("createTimeEnd",new Timestamp( Long.valueOf(createTimeEnd)));
             }else if(StringUtil.checkDateStr(createTimeEnd, "yyyy-MM-dd HH:mm:ss")){
                 params.put("createTimeEnd",new Timestamp( DateUtil.parseToDate(createTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
@@ -267,7 +267,7 @@ public class SysLogController extends BaseController{
         String startTimeBegin = MapUtils.getString(params,"startTimeBegin");
         if(!StringUtil.isBlank(startTimeBegin)){
             if(StringUtil.checkNumeric(startTimeBegin)){
-                params.put("startTimeBegin",startTimeBegin);
+                params.put("startTimeBegin",new Timestamp( Long.valueOf(startTimeBegin)));
             }else if(StringUtil.checkDateStr(startTimeBegin, "yyyy-MM-dd HH:mm:ss")){
                 params.put("startTimeBegin",new Timestamp( DateUtil.parseToDate(startTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
@@ -275,7 +275,7 @@ public class SysLogController extends BaseController{
         String startTimeEnd = MapUtils.getString(params,"startTimeEnd");
         if(!StringUtil.isBlank(startTimeEnd)){
             if(StringUtil.checkNumeric(startTimeEnd)){
-                params.put("startTimeEnd",startTimeEnd);
+                params.put("startTimeEnd",new Timestamp( Long.valueOf(startTimeEnd)));
             }else if(StringUtil.checkDateStr(startTimeEnd, "yyyy-MM-dd HH:mm:ss")){
                 params.put("startTimeEnd",new Timestamp( DateUtil.parseToDate(startTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
             }
@@ -360,189 +360,189 @@ public class SysLogController extends BaseController{
 
 
 
-       /**
-         * 导出
-         * @param request
-         * @return
-         * @author dozen.zhang
-         */
-        @API(summary="系统日志列表导出接口",
-          description="系统日志列表导出接口",
-          parameters={
-          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
-          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
-             @Param(name="id" , description="编号 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-             @Param(name="logPath" , description="代码路径 ",in=InType.params,dataType = DataType.STRING,required =false),// false
-             @Param(name="logType" , description="日志类型 ",in=InType.params,dataType = DataType.BYTE,required =false),// false
-             @Param(name="logCode" , description="日志编号 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-             @Param(name="param" , description="操作参数 ",in=InType.params,dataType = DataType.STRING,required =false),// false
-             @Param(name="userName" , description="用户 ",in=InType.params,dataType = DataType.STRING,required =false),// false
-             @Param(name="logMsg" , description="消息 ",in=InType.params,dataType = DataType.STRING,required =false),// false
-             @Param(name="createTime" , description="创建时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-             @Param(name="startTime" , description="开始时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
-          })
-        @RequestMapping(value = "/export", method = RequestMethod.GET)
-        @ResponseBody
-        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
-
-             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
-              Page page = RequestUtil.getPage(params);
-             if(page ==null){
-                  return this.getWrongResultFromCfg("err.param.page");
-             }
-
-                     String id = MapUtils.getString(params,"id");
-        if(!StringUtil.isBlank(id)){
-            params.put("id",id);
-        }
-        String logPath = MapUtils.getString(params,"logPath");
-        if(!StringUtil.isBlank(logPath)){
-            params.put("logPath",logPath);
-        }
-        String logPathLike = MapUtils.getString(params,"logPathLike");
-        if(!StringUtil.isBlank(logPathLike)){
-            params.put("logPathLike",logPathLike);
-        }
-        String logType = MapUtils.getString(params,"logType");
-        if(!StringUtil.isBlank(logType)){
-            params.put("logType",logType);
-        }
-        String logCode = MapUtils.getString(params,"logCode");
-        if(!StringUtil.isBlank(logCode)){
-            params.put("logCode",logCode);
-        }
-        String param = MapUtils.getString(params,"param");
-        if(!StringUtil.isBlank(param)){
-            params.put("param",param);
-        }
-        String paramLike = MapUtils.getString(params,"paramLike");
-        if(!StringUtil.isBlank(paramLike)){
-            params.put("paramLike",paramLike);
-        }
-        String userName = MapUtils.getString(params,"userName");
-        if(!StringUtil.isBlank(userName)){
-            params.put("userName",userName);
-        }
-        String userNameLike = MapUtils.getString(params,"userNameLike");
-        if(!StringUtil.isBlank(userNameLike)){
-            params.put("userNameLike",userNameLike);
-        }
-        String logMsg = MapUtils.getString(params,"logMsg");
-        if(!StringUtil.isBlank(logMsg)){
-            params.put("logMsg",logMsg);
-        }
-        String logMsgLike = MapUtils.getString(params,"logMsgLike");
-        if(!StringUtil.isBlank(logMsgLike)){
-            params.put("logMsgLike",logMsgLike);
-        }
-        String createTime = MapUtils.getString(params,"createTime");
-        if(!StringUtil.isBlank(createTime)){
-            if(StringUtil.checkNumeric(createTime)){
-                params.put("createTime",createTime);
-            }else if(StringUtil.checkDateStr(createTime, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createTime",new Timestamp( DateUtil.parseToDate(createTime, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String createTimeBegin = MapUtils.getString(params,"createTimeBegin");
-        if(!StringUtil.isBlank(createTimeBegin)){
-            if(StringUtil.checkNumeric(createTimeBegin)){
-                params.put("createTimeBegin",createTimeBegin);
-            }else if(StringUtil.checkDateStr(createTimeBegin, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createTimeBegin",new Timestamp( DateUtil.parseToDate(createTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String createTimeEnd = MapUtils.getString(params,"createTimeEnd");
-        if(!StringUtil.isBlank(createTimeEnd)){
-            if(StringUtil.checkNumeric(createTimeEnd)){
-                params.put("createTimeEnd",createTimeEnd);
-            }else if(StringUtil.checkDateStr(createTimeEnd, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createTimeEnd",new Timestamp( DateUtil.parseToDate(createTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String startTime = MapUtils.getString(params,"startTime");
-        if(!StringUtil.isBlank(startTime)){
-            if(StringUtil.checkNumeric(startTime)){
-                params.put("startTime",startTime);
-            }else if(StringUtil.checkDateStr(startTime, "yyyy-MM-dd HH:mm:ss")){
-                params.put("startTime",new Timestamp( DateUtil.parseToDate(startTime, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String startTimeBegin = MapUtils.getString(params,"startTimeBegin");
-        if(!StringUtil.isBlank(startTimeBegin)){
-            if(StringUtil.checkNumeric(startTimeBegin)){
-                params.put("startTimeBegin",startTimeBegin);
-            }else if(StringUtil.checkDateStr(startTimeBegin, "yyyy-MM-dd HH:mm:ss")){
-                params.put("startTimeBegin",new Timestamp( DateUtil.parseToDate(startTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String startTimeEnd = MapUtils.getString(params,"startTimeEnd");
-        if(!StringUtil.isBlank(startTimeEnd)){
-            if(StringUtil.checkNumeric(startTimeEnd)){
-                params.put("startTimeEnd",startTimeEnd);
-            }else if(StringUtil.checkDateStr(startTimeEnd, "yyyy-MM-dd HH:mm:ss")){
-                params.put("startTimeEnd",new Timestamp( DateUtil.parseToDate(startTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-
-             params.put("page",page);
-             List<SysLog> list = sysLogService.listByParams4Page(params);
-            // 存放临时文件
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "list.xlsx");
-              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
-
-            String folder = request.getSession().getServletContext()
-                    .getRealPath("/")
-                    + "xlstmp";
-
-
-            File folder_file = new File(folder);
-            if (!folder_file.exists()) {
-                folder_file.mkdir();
-            }
-            String fileName = folder + File.separator
-                      + randomName;
-            // 得到导出Excle时清单的英中文map
-            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-            colTitle.put("id", "编号");
-            colTitle.put("logPath", "代码路径");
-            colTitle.put("logType", "日志类型");
-            colTitle.put("logCode", "日志编号");
-            colTitle.put("param", "操作参数");
-            colTitle.put("userName", "用户");
-            colTitle.put("logMsg", "消息");
-            colTitle.put("createTime", "创建时间");
-            colTitle.put("startTime", "开始时间");
-            List<Map> finalList = new ArrayList<Map>();
-            for (int i = 0; i < list.size(); i++) {
-                SysLog sm = list.get(i);
-                HashMap<String,Object> map = new HashMap<String,Object>();
-                map.put("id",  list.get(i).getId());
-                map.put("logPath",  list.get(i).getLogPath());
-                map.put("logType",  list.get(i).getLogType());
-                map.put("logCode",  list.get(i).getLogCode());
-                map.put("param",  list.get(i).getParam());
-                map.put("userName",  list.get(i).getUserName());
-                map.put("logMsg",  list.get(i).getLogMsg());
-                map.put("createTime",  list.get(i).getCreateTime());
-                map.put("startTime",  list.get(i).getStartTime());
-                finalList.add(map);
-            }
-            try {
-                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
-                }
-                /*
-                 * return new ResponseEntity<byte[]>(
-                 * FileUtils.readFileToByteArray(new File(fileName)), headers,
-                 * HttpStatus.CREATED);
-                 */
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return this.getResult(0, "数据为空，导出失败");
-
-        }
+//       /**
+//         * 导出
+//         * @param request
+//         * @return
+//         * @author dozen.zhang
+//         */
+//        @API(summary="系统日志列表导出接口",
+//          description="系统日志列表导出接口",
+//          parameters={
+//          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
+//          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
+//             @Param(name="id" , description="编号 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+//             @Param(name="logPath" , description="代码路径 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+//             @Param(name="logType" , description="日志类型 ",in=InType.params,dataType = DataType.BYTE,required =false),// false
+//             @Param(name="logCode" , description="日志编号 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+//             @Param(name="param" , description="操作参数 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+//             @Param(name="userName" , description="用户 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+//             @Param(name="logMsg" , description="消息 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+//             @Param(name="createTime" , description="创建时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
+//             @Param(name="startTime" , description="开始时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// false
+//          })
+//        @RequestMapping(value = "/export", method = RequestMethod.GET)
+//        @ResponseBody
+//        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
+//
+//             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
+//              Page page = RequestUtil.getPage(params);
+//             if(page ==null){
+//                  return this.getWrongResultFromCfg("err.param.page");
+//             }
+//
+//                     String id = MapUtils.getString(params,"id");
+//        if(!StringUtil.isBlank(id)){
+//            params.put("id",id);
+//        }
+//        String logPath = MapUtils.getString(params,"logPath");
+//        if(!StringUtil.isBlank(logPath)){
+//            params.put("logPath",logPath);
+//        }
+//        String logPathLike = MapUtils.getString(params,"logPathLike");
+//        if(!StringUtil.isBlank(logPathLike)){
+//            params.put("logPathLike",logPathLike);
+//        }
+//        String logType = MapUtils.getString(params,"logType");
+//        if(!StringUtil.isBlank(logType)){
+//            params.put("logType",logType);
+//        }
+//        String logCode = MapUtils.getString(params,"logCode");
+//        if(!StringUtil.isBlank(logCode)){
+//            params.put("logCode",logCode);
+//        }
+//        String param = MapUtils.getString(params,"param");
+//        if(!StringUtil.isBlank(param)){
+//            params.put("param",param);
+//        }
+//        String paramLike = MapUtils.getString(params,"paramLike");
+//        if(!StringUtil.isBlank(paramLike)){
+//            params.put("paramLike",paramLike);
+//        }
+//        String userName = MapUtils.getString(params,"userName");
+//        if(!StringUtil.isBlank(userName)){
+//            params.put("userName",userName);
+//        }
+//        String userNameLike = MapUtils.getString(params,"userNameLike");
+//        if(!StringUtil.isBlank(userNameLike)){
+//            params.put("userNameLike",userNameLike);
+//        }
+//        String logMsg = MapUtils.getString(params,"logMsg");
+//        if(!StringUtil.isBlank(logMsg)){
+//            params.put("logMsg",logMsg);
+//        }
+//        String logMsgLike = MapUtils.getString(params,"logMsgLike");
+//        if(!StringUtil.isBlank(logMsgLike)){
+//            params.put("logMsgLike",logMsgLike);
+//        }
+//        String createTime = MapUtils.getString(params,"createTime");
+//        if(!StringUtil.isBlank(createTime)){
+//            if(StringUtil.checkNumeric(createTime)){
+//                params.put("createTime",createTime);
+//            }else if(StringUtil.checkDateStr(createTime, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("createTime",new Timestamp( DateUtil.parseToDate(createTime, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String createTimeBegin = MapUtils.getString(params,"createTimeBegin");
+//        if(!StringUtil.isBlank(createTimeBegin)){
+//            if(StringUtil.checkNumeric(createTimeBegin)){
+//                params.put("createTimeBegin",createTimeBegin);
+//            }else if(StringUtil.checkDateStr(createTimeBegin, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("createTimeBegin",new Timestamp( DateUtil.parseToDate(createTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String createTimeEnd = MapUtils.getString(params,"createTimeEnd");
+//        if(!StringUtil.isBlank(createTimeEnd)){
+//            if(StringUtil.checkNumeric(createTimeEnd)){
+//                params.put("createTimeEnd",createTimeEnd);
+//            }else if(StringUtil.checkDateStr(createTimeEnd, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("createTimeEnd",new Timestamp( DateUtil.parseToDate(createTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String startTime = MapUtils.getString(params,"startTime");
+//        if(!StringUtil.isBlank(startTime)){
+//            if(StringUtil.checkNumeric(startTime)){
+//                params.put("startTime",startTime);
+//            }else if(StringUtil.checkDateStr(startTime, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("startTime",new Timestamp( DateUtil.parseToDate(startTime, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String startTimeBegin = MapUtils.getString(params,"startTimeBegin");
+//        if(!StringUtil.isBlank(startTimeBegin)){
+//            if(StringUtil.checkNumeric(startTimeBegin)){
+//                params.put("startTimeBegin",startTimeBegin);
+//            }else if(StringUtil.checkDateStr(startTimeBegin, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("startTimeBegin",new Timestamp( DateUtil.parseToDate(startTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String startTimeEnd = MapUtils.getString(params,"startTimeEnd");
+//        if(!StringUtil.isBlank(startTimeEnd)){
+//            if(StringUtil.checkNumeric(startTimeEnd)){
+//                params.put("startTimeEnd",startTimeEnd);
+//            }else if(StringUtil.checkDateStr(startTimeEnd, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("startTimeEnd",new Timestamp( DateUtil.parseToDate(startTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//
+//             params.put("page",page);
+//             List<SysLog> list = sysLogService.listByParams4Page(params);
+//            // 存放临时文件
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//            headers.setContentDispositionFormData("attachment", "list.xlsx");
+//              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
+//
+//            String folder = request.getSession().getServletContext()
+//                    .getRealPath("/")
+//                    + "xlstmp";
+//
+//
+//            File folder_file = new File(folder);
+//            if (!folder_file.exists()) {
+//                folder_file.mkdir();
+//            }
+//            String fileName = folder + File.separator
+//                      + randomName;
+//            // 得到导出Excle时清单的英中文map
+//            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+//            colTitle.put("id", "编号");
+//            colTitle.put("logPath", "代码路径");
+//            colTitle.put("logType", "日志类型");
+//            colTitle.put("logCode", "日志编号");
+//            colTitle.put("param", "操作参数");
+//            colTitle.put("userName", "用户");
+//            colTitle.put("logMsg", "消息");
+//            colTitle.put("createTime", "创建时间");
+//            colTitle.put("startTime", "开始时间");
+//            List<Map> finalList = new ArrayList<Map>();
+//            for (int i = 0; i < list.size(); i++) {
+//                SysLog sm = list.get(i);
+//                HashMap<String,Object> map = new HashMap<String,Object>();
+//                map.put("id",  list.get(i).getId());
+//                map.put("logPath",  list.get(i).getLogPath());
+//                map.put("logType",  list.get(i).getLogType());
+//                map.put("logCode",  list.get(i).getLogCode());
+//                map.put("param",  list.get(i).getParam());
+//                map.put("userName",  list.get(i).getUserName());
+//                map.put("logMsg",  list.get(i).getLogMsg());
+//                map.put("createTime",  list.get(i).getCreateTime());
+//                map.put("startTime",  list.get(i).getStartTime());
+//                finalList.add(map);
+//            }
+//            try {
+//                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
+//                }
+//                /*
+//                 * return new ResponseEntity<byte[]>(
+//                 * FileUtils.readFileToByteArray(new File(fileName)), headers,
+//                 * HttpStatus.CREATED);
+//                 */
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return this.getResult(0, "数据为空，导出失败");
+//
+//        }
 
 }

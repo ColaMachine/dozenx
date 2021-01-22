@@ -16,13 +16,12 @@ import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.RedisConstants;
 import com.dozenx.web.core.base.BaseService;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.core.location.bean.Location;
 import com.dozenx.web.core.location.dao.LocationMapper;
-import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -35,7 +34,8 @@ public class LoctionApiService extends BaseService {
      * logger
      */
     private Logger logger = LoggerFactory.getLogger(LoctionApiService.class);
-
+    @Resource
+    RedisService redisService;
     @Resource
     private LocationMapper locationMapper;
 
@@ -67,7 +67,7 @@ public class LoctionApiService extends BaseService {
             }
             cacheLocationMap.put(key, locationStrMap);//保存 key-value  advert_location_31  :   {id:31,name code type fullName parentId}
         }
-        RedisUtil.hmsetBatch(cacheLocationMap, RedisConstants.LOCATION_TIME);//redis缓存
+        redisService.hmsetBatch(cacheLocationMap, RedisConstants.LOCATION_TIME);//redis缓存
     }
 
     private static final Object lock = new Object();
@@ -94,9 +94,9 @@ public class LoctionApiService extends BaseService {
             Map<Long, List<Location>> parentId2ChildLocationsMap = new LinkedHashMap<Long, List<Location>>();
             //组装child数据
             for (Location location : getAllLocationList()) {
-                RedisUtil.setex(RedisConstants.LOCATION_IDCODE + location.getId(), location.getCode(), RedisConstants.DAY_SECONDS * 3);
+                redisService.setex(RedisConstants.LOCATION_IDCODE + location.getId(), location.getCode(), RedisConstants.DAY_SECONDS * 3);
                 idCodeMap.put(location.getId(),location.getCode());
-                RedisUtil.setex(RedisConstants.LOCATION_IDNAME + location.getId(), location.getAreaName(), RedisConstants.DAY_SECONDS * 3);
+                redisService.setex(RedisConstants.LOCATION_IDNAME + location.getId(), location.getAreaName(), RedisConstants.DAY_SECONDS * 3);
                 idCodeMap.put(location.getId(),location.getAreaName());
                 parentId = location.getParentId();//获取父id
                 if (parentId == null) {//如果为空，跳过本次循环
@@ -131,7 +131,7 @@ public class LoctionApiService extends BaseService {
             for (Map.Entry<Long, List<Location>> entry : parentId2ChildLocationsMap.entrySet()) {//循环map
                 id = entry.getKey();//获取地区主键id
                 List<Location> list = entry.getValue();//获取地区属性
-                RedisUtil.setex(RedisConstants.LOCATION_CHILDS + id, JsonUtil.toJsonString(list), RedisConstants.DAY_SECONDS * 3);
+                redisService.setex(RedisConstants.LOCATION_CHILDS + id, JsonUtil.toJsonString(list), RedisConstants.DAY_SECONDS * 3);
 
             }
         }
@@ -168,7 +168,7 @@ public class LoctionApiService extends BaseService {
         //这里会导致再次启动系统就没有idNameMap值了
         synchronized (lock) {
             logger.debug("enter the lock ");
-            String flag = RedisUtil.get(RedisConstants.LOCATION_CHILDS + 1);
+            String flag = redisService.get(RedisConstants.LOCATION_CHILDS + 1);
             if (StringUtil.isNotBlank(flag)) {
                 return;
             }
@@ -180,12 +180,12 @@ public class LoctionApiService extends BaseService {
             Location locationMap;   //地区map
             Map<Long, List<Location>> parentId2ChildLocationsMap = new LinkedHashMap<Long, List<Location>>();
             //组装child数据
-            Jedis jedis =null;
+//            Jedis jedis =null;
             try {
-                 jedis = RedisUtil.getResource();
+//                 jedis = redisService.getResource();
                 for (Location location : getAllLocationList()) {
-                    jedis.setex(RedisConstants.LOCATION_IDCODE + location.getId(), RedisConstants.DAY_SECONDS * 3 ,location.getCode());
-                    jedis.setex(RedisConstants.LOCATION_IDNAME + location.getId(), RedisConstants.DAY_SECONDS * 3, location.getAreaName());
+                    redisService.setex(RedisConstants.LOCATION_IDCODE + location.getId() ,location.getCode(), RedisConstants.DAY_SECONDS * 3);
+                    redisService.setex(RedisConstants.LOCATION_IDNAME + location.getId(), location.getAreaName(), RedisConstants.DAY_SECONDS * 3);
                     parentId = location.getParentId();//获取父id
                     if (parentId == null) { //如果为空，跳过本次循环
                         continue;
@@ -202,13 +202,13 @@ public class LoctionApiService extends BaseService {
             }catch(Exception e){
                 logger.error("",e);
             }finally {
-                if(jedis!=null) {
-                    try {
-                        jedis.close();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
+//                if(jedis!=null) {
+//                    try {
+//                        jedis.close();
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                }
             }
      /*   for(Map.Entry<Long, Location> entry : allLocationMap.entrySet()){//循环map
             id = entry.getKey();//获取地区主键id
@@ -230,7 +230,7 @@ public class LoctionApiService extends BaseService {
             for (Map.Entry<Long, List<Location>> entry : parentId2ChildLocationsMap.entrySet()) {//循环map
                 id = entry.getKey();//获取地区主键id
                 List<Location> list = entry.getValue();//获取地区属性
-                RedisUtil.setex(RedisConstants.LOCATION_CHILDS + id, JsonUtil.toJsonString(list), RedisConstants.DAY_SECONDS * 3);
+                redisService.setex(RedisConstants.LOCATION_CHILDS + id, JsonUtil.toJsonString(list), RedisConstants.DAY_SECONDS * 3);
 
             }
         }
@@ -312,10 +312,10 @@ public class LoctionApiService extends BaseService {
 
     public static final String BEIJING_LOCATION_KEY = RedisConstants.LOCATION + "2";
 
-    public static boolean isCached() {
-        boolean isCached = RedisUtil.exists(BEIJING_LOCATION_KEY);//判断地区信息是否缓存 以北京为例
-        return isCached;
-    }
+//    public static boolean isCached() {
+//        boolean isCached = redisService.exists(BEIJING_LOCATION_KEY);//判断地区信息是否缓存 以北京为例
+//        return isCached;
+//    }
 
 
     /**
@@ -435,8 +435,8 @@ public class LoctionApiService extends BaseService {
 
         }
 
-        RedisUtil.hmset("location_code_name", codeNameMap, RedisConstants.DAY_SECONDS * 3);
-        // RedisUtil.hmset("location_id_name",LocationService.idNameMap,RedisConstants.DAY_SECONDS*3);
+        redisService.hmset("location_code_name", codeNameMap, RedisConstants.DAY_SECONDS * 3);
+        // redisService.hmset("location_id_name",LocationService.idNameMap,RedisConstants.DAY_SECONDS*3);
         this.configFullNameBean(allLocationBeanMap);//配置地区全路径
         return allLocationBeanMap;
     }
@@ -565,15 +565,15 @@ public class LoctionApiService extends BaseService {
     }
 
     public String getNameByCode(String code) {
-        String name = RedisUtil.hget("location_code_name", code);
+        String name = redisService.hget("location_code_name", code);
         if (StringUtil.isBlank(name)) {
             logger.info("未命中 LOCATION_ID_CODE:"+code);
             forseCacheJsonStr();
-            name = RedisUtil.hget("location_code_name", code);
+            name = redisService.hget("location_code_name", code);
             if(StringUtil.isBlank(name)){
                 //说明数据库没有这个值
                 logger.info("数据库没有这个值"+code);
-                RedisUtil.hset("location_code_name", code,"null");
+                redisService.hset("location_code_name", code,"null");
             }
         }
         return name;
@@ -584,15 +584,15 @@ public class LoctionApiService extends BaseService {
         //现阶段发现一个问题 alpha测试环境会不停重复调用 导致 调用了好几次 mysql 全收缩缓存
 
         //当前一个补救方式是 在cache的地方加上日期判断 如果隔了比较近的时间就不同意缓存
-        String code = RedisUtil.get(RedisConstants.LOCATION_IDCODE + id);
+        String code = redisService.get(RedisConstants.LOCATION_IDCODE + id);
         if (StringUtil.isBlank(code)) {
             logger.info("未命中 LOCATION_ID_CODE:"+id);
             forseCacheJsonStr();
-            code = RedisUtil.get(RedisConstants.LOCATION_IDCODE + id);
+            code = redisService.get(RedisConstants.LOCATION_IDCODE + id);
             if(StringUtil.isBlank(code)){
                 //说明数据库没有这个值
                 logger.info("数据库没有这个值"+id);
-                RedisUtil.setex(RedisConstants.LOCATION_IDCODE+ id , "null",RedisConstants.DAY_SECONDS);
+                redisService.setex(RedisConstants.LOCATION_IDCODE+ id , "null",RedisConstants.DAY_SECONDS);
             }
         }
         return code;

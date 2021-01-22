@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="player" style="display:inline-block;position:relative;text-align:center;"></div>
+<div id="player1" style="display:inline-block;position:relative;text-align:center;"></div>
+
+<div id="player2" style="display:inline-block;position:relative;text-align:center;"></div>
+<div id="player3" style="display:inline-block;position:relative;text-align:center;"></div>
+<div id="player4" style="display:inline-block;position:relative;text-align:center;"></div>
+
+<div id="player5" style="display:inline-block;position:relative;text-align:center;"></div>
+
+<!--
+<OBJECT classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" id="vlc"
+        codebase="http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
+        width="800" height="600" id="vlc" events="True">
+    <param name="ShowDisplay" value="False" />
+    <param name="AutoLoop" value="False" />
+    <param name="AutoPlay" value="False" />
+    <param name="Time" value="True"/>
+    <EMBED pluginspage="http://www.videolan.org"
+           type="application/x-vlc-plugin"
+           version="VideoLAN.VLCPlugin.2"
+           width="800"
+           height="600"
+           text="Waiting for video"
+           name="vlc"
+    ></EMBED>
+</OBJECT>-->
+<script src="index.js"></script>
+</body>
+<script>
+      function show(domid,url){
+
+    if(url){
+        theHtml = '<object type="application/x-vlc-plugin" pluginspage="http://www.videolan.org/" id="vlc'+domid+'" events="false" width="480" height="300">'+
+                        '<param name="mrl" value="' + url + '" />'+
+                        '<param name="volume" value="50" />'+
+                        '<param name="autoplay" value="true" />'+
+                        '<param name="loop" value="false" />'+
+                        '<param name="play" id="isPlay" value="true" />'+
+                        '<param name="fullscreen" value="false" />'+
+                        '<param name="controls" value="false" />'+
+                '</object>';
+    }else{
+        theHtml = "暂无视频连接";
+    }
+    document.getElementById(domid).innerHTML = theHtml;
+  document.getElementById("vlc"+domid).style.width="480px";
+ document.getElementById("vlc"+domid).style.height="300px";
+
+
+}
+show("player","rtsp://admin:awifi@123@192.168.6.203:554");
+show("player1","rtsp://admin:awifi@123@192.168.6.200:554");
+show("player2","rtsp://admin:awifi@123@192.168.6.204:554");
+
+
+show("player3","rtsp://admin:admin123@192.168.6.205:554");
+show("player4","rtsp://admin:admin123@192.168.6.206:554");
+show("player5","rtsp://admin:admin123@192.168.120.111:554");
+</script>
+</html>

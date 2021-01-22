@@ -108,6 +108,7 @@ public class SysRoleServiceImpl extends BaseService implements SysRoleService {
     * @date 2015年12月27日下午10:56:38
     */
     public void delete(Integer  id){
+
         sysRoleMapper.deleteByPrimaryKey(id);
     }   
     /**

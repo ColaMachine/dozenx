@@ -1187,233 +1187,233 @@ public class PubImageController extends BaseController {
         return pubImageService.multilDelete(idAry);
     }
 
-    /**
-     * 导出
-     *
-     * @param request
-     * @return
-     * @author dozen.zhang
-     */
-    @RequestMapping(value = "/export.json")
-    @ResponseBody
-    public ResultDTO exportExcel(HttpServletRequest request) {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        String id = request.getParameter("id");
-        if (!StringUtil.isBlank(id)) {
-            params.put("id", id);
-        }
-        String path = request.getParameter("path");
-        if (!StringUtil.isBlank(path)) {
-            params.put("path", path);
-        }
-        String pathLike = request.getParameter("pathLike");
-        if (!StringUtil.isBlank(pathLike)) {
-            params.put("pathLike", pathLike);
-        }
-        String oriName = request.getParameter("oriName");
-        if (!StringUtil.isBlank(oriName)) {
-            params.put("oriName", oriName);
-        }
-        String oriNameLike = request.getParameter("oriNameLike");
-        if (!StringUtil.isBlank(oriNameLike)) {
-            params.put("oriNameLike", oriNameLike);
-        }
-        String name = request.getParameter("name");
-        if (!StringUtil.isBlank(name)) {
-            params.put("name", name);
-        }
-        String nameLike = request.getParameter("nameLike");
-        if (!StringUtil.isBlank(nameLike)) {
-            params.put("nameLike", nameLike);
-        }
-        String remark = request.getParameter("remark");
-        if (!StringUtil.isBlank(remark)) {
-            params.put("remark", remark);
-        }
-        String remarkLike = request.getParameter("remarkLike");
-        if (!StringUtil.isBlank(remarkLike)) {
-            params.put("remarkLike", remarkLike);
-        }
-        String absPath = request.getParameter("absPath");
-        if (!StringUtil.isBlank(absPath)) {
-            params.put("absPath", absPath);
-        }
-        String absPathLike = request.getParameter("absPathLike");
-        if (!StringUtil.isBlank(absPathLike)) {
-            params.put("absPathLike", absPathLike);
-        }
-        String relPath = request.getParameter("relPath");
-        if (!StringUtil.isBlank(relPath)) {
-            params.put("relPath", relPath);
-        }
-        String relPathLike = request.getParameter("relPathLike");
-        if (!StringUtil.isBlank(relPathLike)) {
-            params.put("relPathLike", relPathLike);
-        }
-        String figure = request.getParameter("figure");
-        if (!StringUtil.isBlank(figure)) {
-            params.put("figure", figure);
-        }
-        String figureLike = request.getParameter("figureLike");
-        if (!StringUtil.isBlank(figureLike)) {
-            params.put("figureLike", figureLike);
-        }
-        String uploadIp = request.getParameter("uploadIp");
-        if (!StringUtil.isBlank(uploadIp)) {
-            params.put("uploadIp", uploadIp);
-        }
-        String uploadIpLike = request.getParameter("uploadIpLike");
-        if (!StringUtil.isBlank(uploadIpLike)) {
-            params.put("uploadIpLike", uploadIpLike);
-        }
-        String creator = request.getParameter("creator");
-        if (!StringUtil.isBlank(creator)) {
-            params.put("creator", creator);
-        }
-        String creatorLike = request.getParameter("creatorLike");
-        if (!StringUtil.isBlank(creatorLike)) {
-            params.put("creatorLike", creatorLike);
-        }
-        String creatorName = request.getParameter("creatorName");
-        if (!StringUtil.isBlank(creatorName)) {
-            params.put("creatorName", creatorName);
-        }
-        String creatorNameLike = request.getParameter("creatorNameLike");
-        if (!StringUtil.isBlank(creatorNameLike)) {
-            params.put("creatorNameLike", creatorNameLike);
-        }
-        String createDate = request.getParameter("createDate");
-        if (!StringUtil.isBlank(createDate)) {
-            if (StringUtil.checkNumeric(createDate)) {
-                params.put("createDate", createDate);
-            } else if (StringUtil.checkDateStr(createDate, "yyyy-MM-dd")) {
-                params.put("createDate", DateUtil.parseToDate(createDate, "yyyy-MM-dd"));
-            }
-        }
-        String createDateBegin = request.getParameter("createDateBegin");
-        if (!StringUtil.isBlank(createDateBegin)) {
-            if (StringUtil.checkNumeric(createDateBegin)) {
-                params.put("createDateBegin", createDateBegin);
-            } else if (StringUtil.checkDateStr(createDateBegin, "yyyy-MM-dd")) {
-                params.put("createDateBegin", DateUtil.parseToDate(createDateBegin, "yyyy-MM-dd"));
-            }
-        }
-        String createDateEnd = request.getParameter("createDateEnd");
-        if (!StringUtil.isBlank(createDateEnd)) {
-            if (StringUtil.checkNumeric(createDateEnd)) {
-                params.put("createDateEnd", createDateEnd);
-            } else if (StringUtil.checkDateStr(createDateEnd, "yyyy-MM-dd")) {
-                params.put("createDateEnd", DateUtil.parseToDate(createDateEnd, "yyyy-MM-dd"));
-            }
-        }
-        String lastModify = request.getParameter("lastModify");
-        if (!StringUtil.isBlank(lastModify)) {
-            if (StringUtil.checkNumeric(lastModify)) {
-                params.put("lastModify", lastModify);
-            } else if (StringUtil.checkDateStr(lastModify, "yyyy-MM-dd")) {
-                params.put("lastModify", DateUtil.parseToDate(lastModify, "yyyy-MM-dd"));
-            }
-        }
-        String lastModifyBegin = request.getParameter("lastModifyBegin");
-        if (!StringUtil.isBlank(lastModifyBegin)) {
-            if (StringUtil.checkNumeric(lastModifyBegin)) {
-                params.put("lastModifyBegin", lastModifyBegin);
-            } else if (StringUtil.checkDateStr(lastModifyBegin, "yyyy-MM-dd")) {
-                params.put("lastModifyBegin", DateUtil.parseToDate(lastModifyBegin, "yyyy-MM-dd"));
-            }
-        }
-        String lastModifyEnd = request.getParameter("lastModifyEnd");
-        if (!StringUtil.isBlank(lastModifyEnd)) {
-            if (StringUtil.checkNumeric(lastModifyEnd)) {
-                params.put("lastModifyEnd", lastModifyEnd);
-            } else if (StringUtil.checkDateStr(lastModifyEnd, "yyyy-MM-dd")) {
-                params.put("lastModifyEnd", DateUtil.parseToDate(lastModifyEnd, "yyyy-MM-dd"));
-            }
-        }
-        String status = request.getParameter("status");
-        if (!StringUtil.isBlank(status)) {
-            params.put("status", status);
-        }
-        String order = request.getParameter("order");
-        if (!StringUtil.isBlank(order)) {
-            params.put("order", order);
-        }
-        String pid = request.getParameter("pid");
-        if (!StringUtil.isBlank(pid)) {
-            params.put("pid", pid);
-        }
-
-        // 查询list集合
-        List<PubImage> list = pubImageService.listByParams(params);
-        // 存放临时文件
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "list.xlsx");
-        String folder = request.getSession().getServletContext()
-                .getRealPath("/")
-                + "xlstmp";
-        File folder_file = new File(folder);
-        if (!folder_file.exists()) {
-            folder_file.mkdir();
-        }
-        String fileName = folder + File.separator
-                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
-                + ".xlsx";
-        // 得到导出Excle时清单的英中文map
-        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-        colTitle.put("id", "编号");
-        colTitle.put("path", "文件的绝对路径");
-        colTitle.put("oriName", "原始名称");
-        colTitle.put("name", "文件名称");
-        colTitle.put("remark", "备注");
-        colTitle.put("absPath", "绝对路径");
-        colTitle.put("relPath", "相对路径");
-        colTitle.put("figure", "指纹");
-        colTitle.put("uploadIp", "照片上传时的Ip");
-        colTitle.put("creator", "上传照片人的Id");
-        colTitle.put("creatorName", "上传人的姓名");
-        colTitle.put("createDate", "上传照片的时间");
-        colTitle.put("lastModify", "照片的创建时间");
-        colTitle.put("status", "照片的状态 0 使用状态 1 移除状态 9 彻底删除状态");
-        colTitle.put("order", "顺序id");
-        colTitle.put("pid", "父组件id");
-        List<Map> finalList = new ArrayList<Map>();
-        for (int i = 0; i < list.size(); i++) {
-            PubImage sm = list.get(i);
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("id", list.get(i).getId());
-            map.put("path", list.get(i).getPath());
-            map.put("oriName", list.get(i).getOriName());
-            map.put("name", list.get(i).getName());
-            map.put("remark", list.get(i).getRemark());
-            map.put("absPath", list.get(i).getAbsPath());
-            map.put("relPath", list.get(i).getRelPath());
-            map.put("figure", list.get(i).getFigure());
-            map.put("uploadIp", list.get(i).getUploadIp());
-            map.put("creator", list.get(i).getCreator());
-            map.put("creatorName", list.get(i).getCreatorName());
-            map.put("createDate", list.get(i).getCreateDate());
-            map.put("lastModify", list.get(i).getLastModify());
-            map.put("status", list.get(i).getStatus());
-            map.put("order", list.get(i).getOrder());
-            map.put("pid", list.get(i).getPid());
-            finalList.add(map);
-        }
-        try {
-            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                return this.getResult(SUCC, fileName, "导出成功");
-            }
-            /*
-             * return new ResponseEntity<byte[]>(
-             * FileUtils.readFileToByteArray(new File(fileName)), headers,
-             * HttpStatus.CREATED);
-             */
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this.getResult(0, "数据为空，导出失败");
-
-    }
+//    /**
+//     * 导出
+//     *
+//     * @param request
+//     * @return
+//     * @author dozen.zhang
+//     */
+//    @RequestMapping(value = "/export.json")
+//    @ResponseBody
+//    public ResultDTO exportExcel(HttpServletRequest request) {
+//        HashMap<String, Object> params = new HashMap<String, Object>();
+//        String id = request.getParameter("id");
+//        if (!StringUtil.isBlank(id)) {
+//            params.put("id", id);
+//        }
+//        String path = request.getParameter("path");
+//        if (!StringUtil.isBlank(path)) {
+//            params.put("path", path);
+//        }
+//        String pathLike = request.getParameter("pathLike");
+//        if (!StringUtil.isBlank(pathLike)) {
+//            params.put("pathLike", pathLike);
+//        }
+//        String oriName = request.getParameter("oriName");
+//        if (!StringUtil.isBlank(oriName)) {
+//            params.put("oriName", oriName);
+//        }
+//        String oriNameLike = request.getParameter("oriNameLike");
+//        if (!StringUtil.isBlank(oriNameLike)) {
+//            params.put("oriNameLike", oriNameLike);
+//        }
+//        String name = request.getParameter("name");
+//        if (!StringUtil.isBlank(name)) {
+//            params.put("name", name);
+//        }
+//        String nameLike = request.getParameter("nameLike");
+//        if (!StringUtil.isBlank(nameLike)) {
+//            params.put("nameLike", nameLike);
+//        }
+//        String remark = request.getParameter("remark");
+//        if (!StringUtil.isBlank(remark)) {
+//            params.put("remark", remark);
+//        }
+//        String remarkLike = request.getParameter("remarkLike");
+//        if (!StringUtil.isBlank(remarkLike)) {
+//            params.put("remarkLike", remarkLike);
+//        }
+//        String absPath = request.getParameter("absPath");
+//        if (!StringUtil.isBlank(absPath)) {
+//            params.put("absPath", absPath);
+//        }
+//        String absPathLike = request.getParameter("absPathLike");
+//        if (!StringUtil.isBlank(absPathLike)) {
+//            params.put("absPathLike", absPathLike);
+//        }
+//        String relPath = request.getParameter("relPath");
+//        if (!StringUtil.isBlank(relPath)) {
+//            params.put("relPath", relPath);
+//        }
+//        String relPathLike = request.getParameter("relPathLike");
+//        if (!StringUtil.isBlank(relPathLike)) {
+//            params.put("relPathLike", relPathLike);
+//        }
+//        String figure = request.getParameter("figure");
+//        if (!StringUtil.isBlank(figure)) {
+//            params.put("figure", figure);
+//        }
+//        String figureLike = request.getParameter("figureLike");
+//        if (!StringUtil.isBlank(figureLike)) {
+//            params.put("figureLike", figureLike);
+//        }
+//        String uploadIp = request.getParameter("uploadIp");
+//        if (!StringUtil.isBlank(uploadIp)) {
+//            params.put("uploadIp", uploadIp);
+//        }
+//        String uploadIpLike = request.getParameter("uploadIpLike");
+//        if (!StringUtil.isBlank(uploadIpLike)) {
+//            params.put("uploadIpLike", uploadIpLike);
+//        }
+//        String creator = request.getParameter("creator");
+//        if (!StringUtil.isBlank(creator)) {
+//            params.put("creator", creator);
+//        }
+//        String creatorLike = request.getParameter("creatorLike");
+//        if (!StringUtil.isBlank(creatorLike)) {
+//            params.put("creatorLike", creatorLike);
+//        }
+//        String creatorName = request.getParameter("creatorName");
+//        if (!StringUtil.isBlank(creatorName)) {
+//            params.put("creatorName", creatorName);
+//        }
+//        String creatorNameLike = request.getParameter("creatorNameLike");
+//        if (!StringUtil.isBlank(creatorNameLike)) {
+//            params.put("creatorNameLike", creatorNameLike);
+//        }
+//        String createDate = request.getParameter("createDate");
+//        if (!StringUtil.isBlank(createDate)) {
+//            if (StringUtil.checkNumeric(createDate)) {
+//                params.put("createDate", createDate);
+//            } else if (StringUtil.checkDateStr(createDate, "yyyy-MM-dd")) {
+//                params.put("createDate", DateUtil.parseToDate(createDate, "yyyy-MM-dd"));
+//            }
+//        }
+//        String createDateBegin = request.getParameter("createDateBegin");
+//        if (!StringUtil.isBlank(createDateBegin)) {
+//            if (StringUtil.checkNumeric(createDateBegin)) {
+//                params.put("createDateBegin", createDateBegin);
+//            } else if (StringUtil.checkDateStr(createDateBegin, "yyyy-MM-dd")) {
+//                params.put("createDateBegin", DateUtil.parseToDate(createDateBegin, "yyyy-MM-dd"));
+//            }
+//        }
+//        String createDateEnd = request.getParameter("createDateEnd");
+//        if (!StringUtil.isBlank(createDateEnd)) {
+//            if (StringUtil.checkNumeric(createDateEnd)) {
+//                params.put("createDateEnd", createDateEnd);
+//            } else if (StringUtil.checkDateStr(createDateEnd, "yyyy-MM-dd")) {
+//                params.put("createDateEnd", DateUtil.parseToDate(createDateEnd, "yyyy-MM-dd"));
+//            }
+//        }
+//        String lastModify = request.getParameter("lastModify");
+//        if (!StringUtil.isBlank(lastModify)) {
+//            if (StringUtil.checkNumeric(lastModify)) {
+//                params.put("lastModify", lastModify);
+//            } else if (StringUtil.checkDateStr(lastModify, "yyyy-MM-dd")) {
+//                params.put("lastModify", DateUtil.parseToDate(lastModify, "yyyy-MM-dd"));
+//            }
+//        }
+//        String lastModifyBegin = request.getParameter("lastModifyBegin");
+//        if (!StringUtil.isBlank(lastModifyBegin)) {
+//            if (StringUtil.checkNumeric(lastModifyBegin)) {
+//                params.put("lastModifyBegin", lastModifyBegin);
+//            } else if (StringUtil.checkDateStr(lastModifyBegin, "yyyy-MM-dd")) {
+//                params.put("lastModifyBegin", DateUtil.parseToDate(lastModifyBegin, "yyyy-MM-dd"));
+//            }
+//        }
+//        String lastModifyEnd = request.getParameter("lastModifyEnd");
+//        if (!StringUtil.isBlank(lastModifyEnd)) {
+//            if (StringUtil.checkNumeric(lastModifyEnd)) {
+//                params.put("lastModifyEnd", lastModifyEnd);
+//            } else if (StringUtil.checkDateStr(lastModifyEnd, "yyyy-MM-dd")) {
+//                params.put("lastModifyEnd", DateUtil.parseToDate(lastModifyEnd, "yyyy-MM-dd"));
+//            }
+//        }
+//        String status = request.getParameter("status");
+//        if (!StringUtil.isBlank(status)) {
+//            params.put("status", status);
+//        }
+//        String order = request.getParameter("order");
+//        if (!StringUtil.isBlank(order)) {
+//            params.put("order", order);
+//        }
+//        String pid = request.getParameter("pid");
+//        if (!StringUtil.isBlank(pid)) {
+//            params.put("pid", pid);
+//        }
+//
+//        // 查询list集合
+//        List<PubImage> list = pubImageService.listByParams(params);
+//        // 存放临时文件
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", "list.xlsx");
+//        String folder = request.getSession().getServletContext()
+//                .getRealPath("/")
+//                + "xlstmp";
+//        File folder_file = new File(folder);
+//        if (!folder_file.exists()) {
+//            folder_file.mkdir();
+//        }
+//        String fileName = folder + File.separator
+//                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
+//                + ".xlsx";
+//        // 得到导出Excle时清单的英中文map
+//        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+//        colTitle.put("id", "编号");
+//        colTitle.put("path", "文件的绝对路径");
+//        colTitle.put("oriName", "原始名称");
+//        colTitle.put("name", "文件名称");
+//        colTitle.put("remark", "备注");
+//        colTitle.put("absPath", "绝对路径");
+//        colTitle.put("relPath", "相对路径");
+//        colTitle.put("figure", "指纹");
+//        colTitle.put("uploadIp", "照片上传时的Ip");
+//        colTitle.put("creator", "上传照片人的Id");
+//        colTitle.put("creatorName", "上传人的姓名");
+//        colTitle.put("createDate", "上传照片的时间");
+//        colTitle.put("lastModify", "照片的创建时间");
+//        colTitle.put("status", "照片的状态 0 使用状态 1 移除状态 9 彻底删除状态");
+//        colTitle.put("order", "顺序id");
+//        colTitle.put("pid", "父组件id");
+//        List<Map> finalList = new ArrayList<Map>();
+//        for (int i = 0; i < list.size(); i++) {
+//            PubImage sm = list.get(i);
+//            HashMap<String, Object> map = new HashMap<String, Object>();
+//            map.put("id", list.get(i).getId());
+//            map.put("path", list.get(i).getPath());
+//            map.put("oriName", list.get(i).getOriName());
+//            map.put("name", list.get(i).getName());
+//            map.put("remark", list.get(i).getRemark());
+//            map.put("absPath", list.get(i).getAbsPath());
+//            map.put("relPath", list.get(i).getRelPath());
+//            map.put("figure", list.get(i).getFigure());
+//            map.put("uploadIp", list.get(i).getUploadIp());
+//            map.put("creator", list.get(i).getCreator());
+//            map.put("creatorName", list.get(i).getCreatorName());
+//            map.put("createDate", list.get(i).getCreateDate());
+//            map.put("lastModify", list.get(i).getLastModify());
+//            map.put("status", list.get(i).getStatus());
+//            map.put("order", list.get(i).getOrder());
+//            map.put("pid", list.get(i).getPid());
+//            finalList.add(map);
+//        }
+//        try {
+//            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                return this.getResult(SUCC, fileName, "导出成功");
+//            }
+//            /*
+//             * return new ResponseEntity<byte[]>(
+//             * FileUtils.readFileToByteArray(new File(fileName)), headers,
+//             * HttpStatus.CREATED);
+//             */
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return this.getResult(0, "数据为空，导出失败");
+//
+//    }
 
     @RequestMapping(value = "/import.json")
     public void importExcel() {

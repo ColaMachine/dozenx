@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -56,6 +57,9 @@ public class LocalStorage implements Storage {
     public void store(InputStream inputStream, long contentLength, String contentType, String keyName) {
         try {
             Files.copy(inputStream, rootLocation.resolve(keyName), StandardCopyOption.REPLACE_EXISTING);
+        } catch (FileNotFoundException e) {
+            logger.error("文件夹未创建",e);
+            throw new RuntimeException("Failed to store file " + keyName, e);
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file " + keyName, e);
         }

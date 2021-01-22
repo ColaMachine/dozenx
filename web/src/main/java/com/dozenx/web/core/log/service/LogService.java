@@ -25,7 +25,7 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
 @Transactional
-@Service("logService")
+@Service("logService1")
 public class LogService {
 	@Resource(name = "appExceptionLogMapper")
 	private AppExceptionLogMapper appExceptionLogMapper;

@@ -78,7 +78,7 @@ service.interceptors.response.use(
       return response
     }
   }, error => {
-    //console.log('err' + r)// for debug
+    // console.log('err' + r)// for debug
     Message({
       message: '登录连接超时（后台不能连接，请联系系统管理员）',
       type: 'error',

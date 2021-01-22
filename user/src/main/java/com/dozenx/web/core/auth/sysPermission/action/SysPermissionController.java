@@ -17,7 +17,7 @@ import java.util.List;
 import com.dozenx.common.exception.ValidException;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.JsonUtil;
-import com.dozenx.common.util.ExcelUtil;
+//import com.dozenx.common.util.ExcelUtil;
 import java.math.BigDecimal;
 import com.dozenx.swagger.annotation.*;
 import java.util.LinkedHashMap;
@@ -306,143 +306,143 @@ public class SysPermissionController extends BaseController{
 
 
 
-       /**
-         * 导出
-         * @param request
-         * @return
-         * @author dozen.zhang
-         */
-        @API(summary="权限配置列表导出接口",
-          description="权限配置列表导出接口",
-          parameters={
-          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
-          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
-             @Param(name="id" , description="编号 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-             @Param(name="pid" , description="父主键 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
-             @Param(name="permissionName" , description="权限名称 ",in=InType.params,dataType = DataType.STRING,required =false),// true
-             @Param(name="permissionCode" , description="权限代码 ",in=InType.params,dataType = DataType.STRING,required =false),// true
-             @Param(name="permissionUrl" , description="权限url ",in=InType.params,dataType = DataType.STRING,required =false),// true
-             @Param(name="orderNo" , description="排序id ",in=InType.params,dataType = DataType.BYTE,required =false),// false
-             @Param(name="status" , description="状态 ",in=InType.params,dataType = DataType.BYTE,required =false),// true
-             @Param(name="remark" , description="备注 ",in=InType.params,dataType = DataType.STRING,required =false),// false
-          })
-        @RequestMapping(value = "/export", method = RequestMethod.GET)
-        @ResponseBody
-        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
-
-             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
-              Page page = RequestUtil.getPage(params);
-             if(page ==null){
-                  return this.getWrongResultFromCfg("err.param.page");
-             }
-
-                     String id = MapUtils.getString(params,"id");
-        if(!StringUtil.isBlank(id)){
-            params.put("id",id);
-        }
-        String pid = MapUtils.getString(params,"pid");
-        if(!StringUtil.isBlank(pid)){
-            params.put("pid",pid);
-        }
-        String permissionName = MapUtils.getString(params,"permissionName");
-        if(!StringUtil.isBlank(permissionName)){
-            params.put("permissionName",permissionName);
-        }
-        String permissionNameLike = MapUtils.getString(params,"permissionNameLike");
-        if(!StringUtil.isBlank(permissionNameLike)){
-            params.put("permissionNameLike",permissionNameLike);
-        }
-        String permissionCode = MapUtils.getString(params,"permissionCode");
-        if(!StringUtil.isBlank(permissionCode)){
-            params.put("permissionCode",permissionCode);
-        }
-        String permissionCodeLike = MapUtils.getString(params,"permissionCodeLike");
-        if(!StringUtil.isBlank(permissionCodeLike)){
-            params.put("permissionCodeLike",permissionCodeLike);
-        }
-        String permissionUrl = MapUtils.getString(params,"permissionUrl");
-        if(!StringUtil.isBlank(permissionUrl)){
-            params.put("permissionUrl",permissionUrl);
-        }
-        String permissionUrlLike = MapUtils.getString(params,"permissionUrlLike");
-        if(!StringUtil.isBlank(permissionUrlLike)){
-            params.put("permissionUrlLike",permissionUrlLike);
-        }
-        String orderNo = MapUtils.getString(params,"orderNo");
-        if(!StringUtil.isBlank(orderNo)){
-            params.put("orderNo",orderNo);
-        }
-        String status = MapUtils.getString(params,"status");
-        if(!StringUtil.isBlank(status)){
-            params.put("status",status);
-        }
-        String remark = MapUtils.getString(params,"remark");
-        if(!StringUtil.isBlank(remark)){
-            params.put("remark",remark);
-        }
-        String remarkLike = MapUtils.getString(params,"remarkLike");
-        if(!StringUtil.isBlank(remarkLike)){
-            params.put("remarkLike",remarkLike);
-        }
-
-             params.put("page",page);
-             List<SysPermission> list = sysPermissionService.listByParams4Page(params);
-            // 存放临时文件
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "list.xlsx");
-              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
-
-            String folder = request.getSession().getServletContext()
-                    .getRealPath("/")
-                    + "xlstmp";
-
-
-            File folder_file = new File(folder);
-            if (!folder_file.exists()) {
-                folder_file.mkdir();
-            }
-            String fileName = folder + File.separator
-                      + randomName;
-            // 得到导出Excle时清单的英中文map
-            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-            colTitle.put("id", "编号");
-            colTitle.put("pid", "父主键");
-            colTitle.put("permissionName", "权限名称");
-            colTitle.put("permissionCode", "权限代码");
-            colTitle.put("permissionUrl", "权限url");
-            colTitle.put("orderNo", "排序id");
-            colTitle.put("status", "状态");
-            colTitle.put("remark", "备注");
-            List<Map> finalList = new ArrayList<Map>();
-            for (int i = 0; i < list.size(); i++) {
-                SysPermission sm = list.get(i);
-                HashMap<String,Object> map = new HashMap<String,Object>();
-                map.put("id",  list.get(i).getId());
-                map.put("pid",  list.get(i).getPid());
-                map.put("permissionName",  list.get(i).getPermissionName());
-                map.put("permissionCode",  list.get(i).getPermissionCode());
-                map.put("permissionUrl",  list.get(i).getPermissionUrl());
-                map.put("orderNo",  list.get(i).getOrderNo());
-                map.put("status",  list.get(i).getStatus());
-                map.put("remark",  list.get(i).getRemark());
-                finalList.add(map);
-            }
-            try {
-                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
-                }
-                /*
-                 * return new ResponseEntity<byte[]>(
-                 * FileUtils.readFileToByteArray(new File(fileName)), headers,
-                 * HttpStatus.CREATED);
-                 */
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return this.getResult(0, "数据为空，导出失败");
-
-        }
+//       /**
+//         * 导出
+//         * @param request
+//         * @return
+//         * @author dozen.zhang
+//         */
+//        @API(summary="权限配置列表导出接口",
+//          description="权限配置列表导出接口",
+//          parameters={
+//          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
+//          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
+//             @Param(name="id" , description="编号 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+//             @Param(name="pid" , description="父主键 ",in=InType.params,dataType = DataType.INTEGER,required =false),// false
+//             @Param(name="permissionName" , description="权限名称 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+//             @Param(name="permissionCode" , description="权限代码 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+//             @Param(name="permissionUrl" , description="权限url ",in=InType.params,dataType = DataType.STRING,required =false),// true
+//             @Param(name="orderNo" , description="排序id ",in=InType.params,dataType = DataType.BYTE,required =false),// false
+//             @Param(name="status" , description="状态 ",in=InType.params,dataType = DataType.BYTE,required =false),// true
+//             @Param(name="remark" , description="备注 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+//          })
+//        @RequestMapping(value = "/export", method = RequestMethod.GET)
+//        @ResponseBody
+//        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
+//
+//             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
+//              Page page = RequestUtil.getPage(params);
+//             if(page ==null){
+//                  return this.getWrongResultFromCfg("err.param.page");
+//             }
+//
+//                     String id = MapUtils.getString(params,"id");
+//        if(!StringUtil.isBlank(id)){
+//            params.put("id",id);
+//        }
+//        String pid = MapUtils.getString(params,"pid");
+//        if(!StringUtil.isBlank(pid)){
+//            params.put("pid",pid);
+//        }
+//        String permissionName = MapUtils.getString(params,"permissionName");
+//        if(!StringUtil.isBlank(permissionName)){
+//            params.put("permissionName",permissionName);
+//        }
+//        String permissionNameLike = MapUtils.getString(params,"permissionNameLike");
+//        if(!StringUtil.isBlank(permissionNameLike)){
+//            params.put("permissionNameLike",permissionNameLike);
+//        }
+//        String permissionCode = MapUtils.getString(params,"permissionCode");
+//        if(!StringUtil.isBlank(permissionCode)){
+//            params.put("permissionCode",permissionCode);
+//        }
+//        String permissionCodeLike = MapUtils.getString(params,"permissionCodeLike");
+//        if(!StringUtil.isBlank(permissionCodeLike)){
+//            params.put("permissionCodeLike",permissionCodeLike);
+//        }
+//        String permissionUrl = MapUtils.getString(params,"permissionUrl");
+//        if(!StringUtil.isBlank(permissionUrl)){
+//            params.put("permissionUrl",permissionUrl);
+//        }
+//        String permissionUrlLike = MapUtils.getString(params,"permissionUrlLike");
+//        if(!StringUtil.isBlank(permissionUrlLike)){
+//            params.put("permissionUrlLike",permissionUrlLike);
+//        }
+//        String orderNo = MapUtils.getString(params,"orderNo");
+//        if(!StringUtil.isBlank(orderNo)){
+//            params.put("orderNo",orderNo);
+//        }
+//        String status = MapUtils.getString(params,"status");
+//        if(!StringUtil.isBlank(status)){
+//            params.put("status",status);
+//        }
+//        String remark = MapUtils.getString(params,"remark");
+//        if(!StringUtil.isBlank(remark)){
+//            params.put("remark",remark);
+//        }
+//        String remarkLike = MapUtils.getString(params,"remarkLike");
+//        if(!StringUtil.isBlank(remarkLike)){
+//            params.put("remarkLike",remarkLike);
+//        }
+//
+//             params.put("page",page);
+//             List<SysPermission> list = sysPermissionService.listByParams4Page(params);
+//            // 存放临时文件
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//            headers.setContentDispositionFormData("attachment", "list.xlsx");
+//              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
+//
+//            String folder = request.getSession().getServletContext()
+//                    .getRealPath("/")
+//                    + "xlstmp";
+//
+//
+//            File folder_file = new File(folder);
+//            if (!folder_file.exists()) {
+//                folder_file.mkdir();
+//            }
+//            String fileName = folder + File.separator
+//                      + randomName;
+//            // 得到导出Excle时清单的英中文map
+//            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+//            colTitle.put("id", "编号");
+//            colTitle.put("pid", "父主键");
+//            colTitle.put("permissionName", "权限名称");
+//            colTitle.put("permissionCode", "权限代码");
+//            colTitle.put("permissionUrl", "权限url");
+//            colTitle.put("orderNo", "排序id");
+//            colTitle.put("status", "状态");
+//            colTitle.put("remark", "备注");
+//            List<Map> finalList = new ArrayList<Map>();
+//            for (int i = 0; i < list.size(); i++) {
+//                SysPermission sm = list.get(i);
+//                HashMap<String,Object> map = new HashMap<String,Object>();
+//                map.put("id",  list.get(i).getId());
+//                map.put("pid",  list.get(i).getPid());
+//                map.put("permissionName",  list.get(i).getPermissionName());
+//                map.put("permissionCode",  list.get(i).getPermissionCode());
+//                map.put("permissionUrl",  list.get(i).getPermissionUrl());
+//                map.put("orderNo",  list.get(i).getOrderNo());
+//                map.put("status",  list.get(i).getStatus());
+//                map.put("remark",  list.get(i).getRemark());
+//                finalList.add(map);
+//            }
+//            try {
+//                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
+//                }
+//                /*
+//                 * return new ResponseEntity<byte[]>(
+//                 * FileUtils.readFileToByteArray(new File(fileName)), headers,
+//                 * HttpStatus.CREATED);
+//                 */
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return this.getResult(0, "数据为空，导出失败");
+//
+//        }
 
 
     @API(summary = "权限列表树状接口",

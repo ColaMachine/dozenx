@@ -149,12 +149,12 @@ public class LogUtilService {
              */
             if (type == LogType.SERVICE || type == LogType.PARAM || type == LogType.THIRD || type == LogType.SYSTEM
                     || type == LogType.UNKNOW) {
-                // logger.error(sb.toString());
-                System.err.print(sb.toString());
+                 logger.error(sb.toString());
+                //System.err.print(sb.toString());
                 //LogSendClient.sendErrorLog(paramInfo);
             } else {
-                //logger.info(sb.toString());
-                System.out.println(sb.toString());
+                logger.info(sb.toString());
+                //System.out.println(sb.toString());
                 //LogSendClient.sendInfoLog(paramInfo);
             }
         }catch (Exception e){

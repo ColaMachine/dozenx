@@ -1,0 +1,542 @@
+package com.dozenx.web.core.cache.service;
+
+import com.dozenx.common.util.MapUtils;
+import com.dozenx.common.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+@Component
+public final class RedisService2 {
+    @Resource
+    RedisTemplate redisTemplate = null;
+//    public RedisUtil2(){
+//        redisTemplate =
+//    }
+
+    private /*static*/ Logger logger = LoggerFactory.getLogger(RedisService2.class);
+
+    public /*static*/ Map<String, String> hgetAll(String key) {
+        return redisTemplate.opsForHash().entries(key);
+    }
+
+    /**
+     * 设置值并且设置超时时间
+     *
+     * @param key
+     * @return
+     */
+    public /*static*/ void setex(String key, String value, int seconds) {
+        try {
+            if (value == null) {
+                value = "";
+            }
+            redisTemplate.opsForValue().set(key, value,seconds,TimeUnit.SECONDS);
+            logger.debug("redis setex key:" + key + " seconds:" + seconds + " value:" + value);
+        } catch (Exception e) {
+            //释放redis对象
+            e.printStackTrace();
+        } finally {
+            //返还到连接池
+        }
+    }
+
+
+
+    /**
+     * 获取数据 归还连接
+     *
+     * @param key
+     * @return
+     */
+    private /*static*/ void set(String key, String value) {
+        try {
+            redisTemplate.opsForValue().set(key, value);
+            logger.debug("redis set {0} value {1}", key, value);
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+        }
+
+    }
+
+    public /*static*/ void expire(String key, int seconds) {
+        if (StringUtil.isNotBlank(key)) {
+            try {
+                redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
+                logger.debug("Redis.expire result for key: key({}), seconds({}).", key, seconds);
+            } catch (Exception e) {
+                logger.error("redis", e);
+                throw e;
+            } finally {
+            }
+        }
+    }
+
+
+
+    /**
+     * 获取数据 归还资源
+     *
+     * @param key
+     * @return
+     */
+    public /*static*/ String get(String key) {
+        String value = null;
+        try {
+            Object obj = redisTemplate.opsForValue().get(key);
+            if(obj==null)
+                return null;
+            value = String.valueOf(obj);
+            logger.debug("redis get " + key + " value" + value);
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+
+        }
+
+        return value;
+    }
+
+
+
+
+    /**
+     * 获取数据
+     *
+     * @param key
+     * @return
+     */
+    public /*static*/ void del(String key) {
+        if (StringUtil.isNotBlank(key)) {
+
+//            boolean success = true;
+            try {
+                redisTemplate.delete(key);
+                logger.debug("redis del key:" + key);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            } finally {
+            }
+        }
+    }
+
+    public /*static*/ Set<String> hkeys(String key) {
+        if (StringUtil.isNotBlank(key)) {
+            try {
+                Set<String> set = redisTemplate.opsForSet().members(key);
+                logger.debug("Redis.hkeys {}: result({}).", key, set);
+                return set;
+            } catch (Exception e) {
+                logger.error("redis", e);
+                throw e;
+            } finally {
+            }
+        }
+        return null;
+    }
+
+
+
+    /**
+     * hset + 还连接
+     *
+     * @param key
+     * @param field
+     * @param value
+     * @author dozen.zhang
+     */
+    public /*static*/ void hset(String key, String field, String value) {
+        try {
+            redisTemplate.opsForHash().put(key, field, value);
+            logger.debug("hset " + key + " field" + field + " value" + value);
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+        }
+    }
+
+    /**
+     * 强制归还资源的hget
+     *
+     * @param key
+     * @param field
+     * @author dozen.zhang
+     */
+    public /*static*/ String hget(String key, String field) {
+        String value = null;
+        try {
+            value = (String) redisTemplate.opsForHash().get(key, field);
+            logger.debug("redis hget " + key + " field" + field + " value" + value);
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+
+        }
+        return value;
+    }
+
+
+    public /*static*/ void hdel(String key, String field) throws Exception {
+        if (StringUtil.isNotBlank(key) && StringUtil.isNotBlank(field)) {
+            try {
+                long result = redisTemplate.opsForHash().delete(key, field);
+                logger.debug("Redis.hdel {0} set: result({1}).", key, result);
+            } catch (Exception e) {
+                logger.error("redis", e);
+                throw e;
+            } finally {
+
+            }
+        }
+    }
+
+
+    /**
+     * 获取数据 归还连接
+     *
+     * @param key
+     * @return
+     */
+    public /*static*/ void setByteAry(String key, byte[] value, int expireTime) {
+        try {
+            redisTemplate.opsForValue().set(key, value, expireTime,TimeUnit.SECONDS);
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+
+        }
+    }
+
+
+    /**
+     * 获取数据 归还连接
+     *
+     * @param key
+     * @return
+     */
+    public /*static*/ byte[] getByteAry(String key) {
+        try {
+            return (byte[]) redisTemplate.opsForValue().get(key);
+
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+        }
+    }
+
+    /**
+     * 自增
+     */
+
+
+    public /*static*/ Long incr(String key) throws Exception {
+        Long value = null;
+        try {
+            value=redisTemplate.opsForValue().increment(key);
+            logger.debug("redis incr " + key);
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+        }
+
+        return value;
+    }
+
+    public /*static*/ Long incr(String key, int timeout) throws Exception {
+        Long value = null;
+        try {
+            value = redisTemplate.opsForValue().increment(key, timeout);
+            redisTemplate.expire(key,timeout,TimeUnit.SECONDS);
+            logger.debug("redis incr " + key);
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+        }
+
+        return value;
+    }
+
+
+    /**
+     * Hash键值 字段 get操作
+     * @param key    键
+     * @param fields 字段(可多个)
+     * @return 结果
+     * @author 尤小平
+     * @date 2018年2月6日 下午2:50:13
+     */
+    public /*static*/ List<String> hmget(final String key, final String... fields) {
+
+        try {
+            List arry = Arrays.asList(fields);
+            List<String> filedValueList = redisTemplate.opsForHash().multiGet(key, arry);
+            filedValueList.removeAll(Collections.singleton(null)); // 移除所有的null元素
+            return filedValueList;
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+
+        }
+    }
+
+
+    /**
+     * 批量Hash键值设置操作
+     *
+     * @param dataMap map
+     * @param seconds 有效时间
+     * @return 结果
+     * @author 尤小平
+     * @date 2018年2月6日 下午2:50:35
+     */
+    public /*static*/ String hmsetBatch(Map<String, Map<String, String>> dataMap, Integer seconds) {
+        try {
+            boolean secondsNotNull = seconds != null;
+            for (Map.Entry<String, Map<String, String>> entry : dataMap.entrySet()) {
+                String key = entry.getKey();
+                Map<String, String> map = entry.getValue();
+                if (StringUtil.isBlank(key) || map.size() == 0) {
+                    logger.error("key or value 不能为空 " + key + " " + map);
+                }
+                //遍历删除值为null的元素
+                MapUtils.removeNull(map);
+                redisTemplate.opsForHash().putAll(key, map);
+                if (secondsNotNull) {
+                    redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+
+        }
+    }
+
+    /**
+     * 批量Hash键值设置操作
+     * 注意 key 和value 都不能为空
+     *
+     * @param dataMap map
+     * @param seconds 有效时间
+     * @return 结果
+     * @author 尤小平
+     * @date 2018年2月6日 下午2:50:35
+     */
+    public /*static*/ String hmset(String key, Map<String, String> dataMap, Integer seconds) {
+        logger.error("hmset key :" + key + " " + seconds + "s");
+        try {
+            boolean secondsNotNull = seconds != null;
+            if (StringUtil.isBlank(key) || dataMap == null || dataMap.size() == 0) {
+                logger.error("key or value 不能为空");
+            } else {
+                redisTemplate.opsForHash().putAll(key, dataMap);
+                if (secondsNotNull) {
+                    redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
+                }
+            }
+            //遍历删除值为null的元素
+
+            return null;
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+        }
+    }
+
+
+    /**
+     * 判断keys是否存在
+     *
+     * @param key key
+     * @return true 存在、false 不存在
+     * @author 尤小平
+     * @date 2018年2月6日 下午2:51:12
+     */
+    public /*static*/ Boolean exists(final String key) {
+        try {
+            Boolean isExists = redisTemplate.hasKey(key);
+            logger.debug("redis exists {0}  {1}", key, isExists);
+            return isExists;
+        } catch (Exception e) {
+            logger.error("redis", e);
+            throw e;
+        } finally {
+
+        }
+    }
+
+
+    /**
+     * 释放锁
+     * author 王作品
+     *
+     * @param key   锁的key
+     * @param value 释放锁的标识
+     * @return
+     */
+    public /*static*/ void lpush(String key, String value) {
+        try {
+            redisTemplate.opsForList().leftPush(key, value);
+        } catch (Exception e) {
+            logger.error("JedisException报错 +e " + e.getMessage());
+        } finally {
+        }
+    }
+
+    public /*static*/ String rpop(String key) {
+        try {
+            return (String) redisTemplate.opsForList().rightPop(key);
+        } catch (Exception e) {
+            logger.error("JedisException报错 +e " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+
+        }
+        return null;
+    }
+//
+//    /**
+//     * zadd
+//     * @param key
+//     * @param score
+//     * @param member
+//     */
+//    public /*static*/ void zadd(String key,Long score,String member){
+//
+//        try {
+//            conn = getJedis();
+//             conn.zadd(key,score,member);
+//
+//             logger.info("zadd key:"+key+" score:"+score+" member:"+member);
+//        } catch (JedisException e) {
+//            logger.error("JedisException报错 +e " + e.getMessage());
+//            e.printStackTrace();
+//        } finally {
+//
+//        }
+//
+//    }
+//
+//    /**
+//     * zrange
+//     * @param key
+//     * @param startScore
+//     * @param endSocre
+//     * @return
+//     */
+//    public /*static*/ Set<String>  zrange(String key,Long startScore,Long endSocre){
+//        Jedis conn = null;
+//        try {
+//            conn = getJedis();
+//            logger.info("zrange "+key+" "+startScore+" "+endSocre);
+//            return conn.zrange(key,startScore,endSocre);
+//        } catch (JedisException e) {
+//            logger.error("JedisException报错 +e " + e.getMessage());
+//            e.printStackTrace();
+//        } finally {
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return null;
+//    }
+//    /**
+//     * zrangebyscore
+//     * @param key
+//     * @param startScore
+//     * @param endSocre
+//     * @return
+//     */
+//    public /*static*/ Set<String>  zrangebyscore(String key,Long startScore,Long endSocre){
+//        Jedis conn = null;
+//        try {
+//            conn = getJedis();
+//            logger.info("zrangebyscore "+key+" "+startScore+" "+endSocre);
+//            return conn.zrangeByScore(key,startScore,endSocre);
+//        } catch (JedisException e) {
+//            logger.error("JedisException报错 +e " + e.getMessage());
+//            e.printStackTrace();
+//        } finally {
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return null;
+//    }
+//
+//    /**
+//     * zrange
+//     * @param key
+//     * @param member
+//     * @return
+//     */
+//    public /*static*/ void  zrem(String key,String member){
+//        Jedis conn = null;
+//        try {
+//            conn = getJedis();
+//             conn.zrem(key,member);
+//        } catch (JedisException e) {
+//            logger.error("JedisException报错 +e " + e.getMessage());
+//            e.printStackTrace();
+//        } finally {
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//
+//    }
+//
+//    public /*static*/ String printPoolStatus(){
+//        StringBuffer stringBuffer =new StringBuffer();
+//        stringBuffer.append("getNumWaiters:").append(jedisPool.getNumWaiters())
+//                .append("getNumActive:").append(jedisPool.getNumActive())
+//                .append("getNumIdle:").append(jedisPool.getNumIdle())
+//                .append("getMaxBorrowWaitTimeMillis:").append(jedisPool.getMaxBorrowWaitTimeMillis())
+//                .append("getMeanBorrowWaitTimeMillis:").append(jedisPool.getMeanBorrowWaitTimeMillis());
+//        logger.info(stringBuffer.toString());
+//        return stringBuffer.toString();
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public  boolean lock(String lockName,String randomVal,int seconds){
+        return redisTemplate.opsForValue().setIfAbsent(lockName,randomVal,seconds,TimeUnit.SECONDS);
+    }
+
+    public  boolean release(String lockName,String randomVal){
+        return redisTemplate.delete(lockName);
+    }
+}

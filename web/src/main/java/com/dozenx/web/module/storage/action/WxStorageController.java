@@ -55,7 +55,6 @@ public class WxStorageController {
         LitemallStorage litemallStorage = storageService.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename);
         return ResultUtil.ok(litemallStorage);
     }
-
     /**
      * 访问存储对象
      *
@@ -78,6 +77,7 @@ public class WxStorageController {
         if (file == null) {
             return ResponseEntity.notFound().build();
         }
+
         return ResponseEntity.ok().contentType(mediaType).body(file);
     }
 
@@ -96,7 +96,10 @@ public class WxStorageController {
         if (key.contains("../")) {
             return ResponseEntity.badRequest().build();
         }
-
+        if(litemallStorage==null){
+            logger.error("can't find storage resource "+ key);
+            return ResponseEntity.status(404).build();
+        }
         String type = litemallStorage.getType();
         MediaType mediaType = MediaType.parseMediaType(type);
 

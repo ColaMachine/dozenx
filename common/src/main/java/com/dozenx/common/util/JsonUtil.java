@@ -613,7 +613,24 @@ public class JsonUtil {
 
 
     public static void main(String args[]) {
-        String s = URLDecoder.decode("%257B%2522account%2522%253A%252213958173965%2522%252C%2522deviceNum%2522%253A%252233100300001327921045%2522%257D");
+
+
+        String s = "{\"r\":0}";
+        Map<String, Object> map = JsonUtil.toMap(s);
+        String data = MapUtils.getString(map, "data");
+        Map<String, Object> map1 = JsonUtil.toMap(data);
+        String data1 = MapUtils.getString(map1, "data");
+        Map<String, Object> map2 = JsonUtil.toMap(data1);
+
+        Integer errorCode = MapUtils.getInteger(map, "r");
+        String errorMsg = MapUtils.getString(map, "msg");
+        System.out.println("smarthome判断视频云取消语音广播2.0是否成功" + map);
+        if (errorCode != 0) {
+            logger.info("succ.0是否成功" + map);
+        }
+
+
+         s = URLDecoder.decode("%257B%2522account%2522%253A%252213958173965%2522%252C%2522deviceNum%2522%253A%252233100300001327921045%2522%257D");
         System.out.println(s);
         JSONObject obj = JSON.parseObject("{'rex':'(-|+)?(90.0{0,6}|(\\\\d|[1-8]\\\\d).\\\\d{0,6})'}");
         System.out.print("allright");

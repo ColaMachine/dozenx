@@ -269,74 +269,74 @@ public class SysUserPermissionController extends BaseController{
        return  sysUserPermissionService.multilDelete(idAry);
     }
 
-    /**
-     * 导出
-     * @param request
-     * @return
-     * @author dozen.zhang
-     */
-    @RequestMapping(value = "/export.json")
-    @ResponseBody   
-    public Object exportExcel(HttpServletRequest request){
-               HashMap<String,Object> params= new HashMap<String,Object>();
-        String id = request.getParameter("id");
-        if(!StringUtil.isBlank(id)){
-            params.put("id",id);
-        }
-        String uid = request.getParameter("uid");
-        if(!StringUtil.isBlank(uid)){
-            params.put("uid",uid);
-        }
-        String pid = request.getParameter("pid");
-        if(!StringUtil.isBlank(pid)){
-            params.put("pid",pid);
-        }
-
-        // 查询list集合
-        List<SysUserPermission> list =sysUserPermissionService.listByParams(params);
-        // 存放临时文件
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "list.xlsx");
-        String folder = request.getSession().getServletContext()
-                .getRealPath("/")
-                + "xlstmp";
-        File folder_file = new File(folder);
-        if (!folder_file.exists()) {
-            folder_file.mkdir();
-        }
-        String fileName = folder + File.separator
-                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
-                + ".xlsx";
-        // 得到导出Excle时清单的英中文map
-        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-        colTitle.put("id", "主键");
-        colTitle.put("uid", "用户id");
-        colTitle.put("pid", "权限id");
-        List finalList = new ArrayList();
-        for (int i = 0; i < list.size(); i++) {
-            SysUserPermission sm = list.get(i);
-            HashMap<String,Object> map = new HashMap<String,Object>();
-            map.put("id",  list.get(i).getId());
-            map.put("uid",  list.get(i).getUid());
-            map.put("pid",  list.get(i).getPid());
-            finalList.add(map);
-        }
-        try {
-            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                return this.getResult(SUCC,fileName,"导出成功");
-            }
-            /*
-             * return new ResponseEntity<byte[]>(
-             * FileUtils.readFileToByteArray(new File(fileName)), headers,
-             * HttpStatus.CREATED);
-             */
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this.getResult(0, "数据为空，导出失败");
-    
-    }
+//    /**
+//     * 导出
+//     * @param request
+//     * @return
+//     * @author dozen.zhang
+//     */
+//    @RequestMapping(value = "/export.json")
+//    @ResponseBody
+//    public Object exportExcel(HttpServletRequest request){
+//               HashMap<String,Object> params= new HashMap<String,Object>();
+//        String id = request.getParameter("id");
+//        if(!StringUtil.isBlank(id)){
+//            params.put("id",id);
+//        }
+//        String uid = request.getParameter("uid");
+//        if(!StringUtil.isBlank(uid)){
+//            params.put("uid",uid);
+//        }
+//        String pid = request.getParameter("pid");
+//        if(!StringUtil.isBlank(pid)){
+//            params.put("pid",pid);
+//        }
+//
+//        // 查询list集合
+//        List<SysUserPermission> list =sysUserPermissionService.listByParams(params);
+//        // 存放临时文件
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", "list.xlsx");
+//        String folder = request.getSession().getServletContext()
+//                .getRealPath("/")
+//                + "xlstmp";
+//        File folder_file = new File(folder);
+//        if (!folder_file.exists()) {
+//            folder_file.mkdir();
+//        }
+//        String fileName = folder + File.separator
+//                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
+//                + ".xlsx";
+//        // 得到导出Excle时清单的英中文map
+//        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+//        colTitle.put("id", "主键");
+//        colTitle.put("uid", "用户id");
+//        colTitle.put("pid", "权限id");
+//        List finalList = new ArrayList();
+//        for (int i = 0; i < list.size(); i++) {
+//            SysUserPermission sm = list.get(i);
+//            HashMap<String,Object> map = new HashMap<String,Object>();
+//            map.put("id",  list.get(i).getId());
+//            map.put("uid",  list.get(i).getUid());
+//            map.put("pid",  list.get(i).getPid());
+//            finalList.add(map);
+//        }
+//        try {
+//            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                return this.getResult(SUCC,fileName,"导出成功");
+//            }
+//            /*
+//             * return new ResponseEntity<byte[]>(
+//             * FileUtils.readFileToByteArray(new File(fileName)), headers,
+//             * HttpStatus.CREATED);
+//             */
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return this.getResult(0, "数据为空，导出失败");
+//
+//    }
     @RequestMapping(value = "/import.json")
     public void importExcel(){
         

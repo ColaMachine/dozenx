@@ -15,6 +15,7 @@ import com.dozenx.web.core.rules.Length;
 import com.dozenx.web.core.rules.NotEmpty;
 import com.dozenx.web.core.rules.Rule;
 import com.dozenx.web.module.interfaceapi.exampletest.service.ExampleTestService;
+import com.dozenx.web.module.interfaceapi.interfaceParam.pojo.InterfaceHeader;
 import com.dozenx.web.module.interfaceapi.interfaceParam.pojo.InterfaceParam;
 import com.dozenx.web.module.interfaceapi.interfaceParam.service.InterfaceParamService;
 import com.dozenx.web.module.interfaceapi.interfaceinfo.pojo.InterfaceInfo;
@@ -24,6 +25,8 @@ import com.dozenx.web.util.ResultUtil;
 import com.dozenx.web.util.ValidateUtil;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.JsonObject;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -350,6 +354,8 @@ public class InterfaceController extends BaseController {
         String projectName = CastUtil.toString(MapUtils.getString(bodyParam, "projectName"));//项目名称
         String interfaceId = CastUtil.toString(MapUtils.getString(bodyParam, "interfaceId"));//设备编码
         String version = CastUtil.toString(MapUtils.getString(bodyParam, "version"));//接口版本
+
+
 //        InterfaceInfo paramsInterface = new InterfaceInfo();
 //        paramsInterface.setInterfaceId(interfaceId);
 //        paramsInterface.setProjectName(projectName);
@@ -411,11 +417,24 @@ public class InterfaceController extends BaseController {
         int moduleId = MapUtils.getIntValue(bodyParam,"moduleId");
         interfaceApi.setModuleId(moduleId);
         List<Map<String, Object>> interfaceParams = (List<Map<String, Object>>) bodyParam.get("interfaceParams");
-        List<Map<String, Object>> headers = (List<Map<String, Object>>) bodyParam.get("headers");
+        List<Map<String, String>> headers = (List<Map<String, String>>) bodyParam.get("headers");
+
+        List<InterfaceHeader> headerList =new ArrayList<>();
+        for(Map<String, String> map: headers){
+            InterfaceHeader header  =new InterfaceHeader();
+            header.setKey(map.get("key"));
+            header.setValue(map.get("value"));
+            headerList.add(header);
+        }
+        interfaceApi.setInterfaceHeaderList(headerList);
         Integer historyFlag = CastUtil.toInteger(MapUtils.getString(bodyParam, "historyFlag"));//是否在用
         Integer splicing = CastUtil.toInteger(MapUtils.getString(bodyParam, "splicing"));//是否拼接
         String author = MapUtils.getString(bodyParam,"author");
         String domain = CastUtil.toString(MapUtils.getString(bodyParam, "domain"));//接口详情
+
+        interfaceApi.setInterfaceHeaders(MapUtils.getString(bodyParam, "interfaceHeaders"));
+
+        interfaceApi.setInterfaceBody(MapUtils.getString(bodyParam, "interfaceBody"));
         interfaceApi.setDomain(domain);
         interfaceApi.setAuthor(author);
         Integer id = CastUtil.toInteger(MapUtils.getInteger(bodyParam, "id"));
@@ -491,10 +510,8 @@ public class InterfaceController extends BaseController {
         }
         boolean paramsGetFlag = false, bodyJsonFlag = false;
         Map params = new HashMap();
-
         List<InterfaceParam> interfaceParamList = interfaceInfo.getInterfaceParams();
         if (interfaceInfo.getInterfaceParams() != null && interfaceInfo.getInterfaceParams().size() > 0 && interfaceInfo.getInterfaceParams().get(0).getParamIn().toLowerCase().equals("body")) {
-
             bodyJsonFlag = true;
             json = JsonUtil.toMap(interfaceInfo.getInterfaceParams().get(0).getParamValue());
         } else {
@@ -516,12 +533,9 @@ public class InterfaceController extends BaseController {
                 if (paramIn.toLowerCase().equals("body")) {
                     throw new BizException("3030120123", "body请求体的参数不能超过1个");
                 }
-
-
                 if (paramIn.toLowerCase().equals("query")) {//如果有url参数 就放到url参数里面
                     //如果是查询参数就拼接到url里
                     url += "&" + paramName + "=" + URLEncoder.encode(paramValue);
-
                     // delete json[paramName];//如果在query 里的 就删除掉
                     json.remove(paramName);
                 }
@@ -529,13 +543,10 @@ public class InterfaceController extends BaseController {
                 if (paramIn.toLowerCase().equals("path")) {//如果有url参数 就放到url参数里面
                     //如果是url path 参数就拼接到url里
                     //  url+="/"+json[this.content.parameters[i].name];
-
                     if (url.indexOf("{") > 0) {    //如果含有 if contain path variable
                         // console.log("进行替换");
                         String replaceId = url.substring(url.indexOf("{") + 1, url.indexOf("}") );//- url.indexOf("{") - 1
-
                         url = url.replace("{" + replaceId + "}", (String) json.get(replaceId)); //replace it put the variable into url
-
                         //alert(replaceId);
                     }
                 }
@@ -543,10 +554,8 @@ public class InterfaceController extends BaseController {
         }
 
         OkHttpClient okHttpClient = new OkHttpClient();
-
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLogger());
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
 
         URLUtil.connact(interfaceInfo.getDomain(), url);
         MediaType mediaType = MediaType.parse(interfaceInfo.getContentType());
@@ -763,5 +772,39 @@ public class InterfaceController extends BaseController {
         interfaceParam.setParamRequired(required);
 
         return  interfaceParam;
+    }
+
+
+
+    public static void main(String args[]){
+        //构造数据
+        try {
+            Map<String, String> dataMap = new HashMap<String, String>();
+            /*List<User> list = new ArrayList<User>();
+            for (int i = 0; i < 10; i++) {
+                User user = new User();
+                user.setA("a" + (i + 1));
+                user.setB("b" + (i + 1));
+                user.setC("c" + (i + 1));
+                list.add(user);
+            }*/
+            dataMap.put("httpType", "1");
+            dataMap.put("url", "http");
+            dataMap.put("detail", "detail");
+            dataMap.put("httpType", "123");
+            dataMap.put("output", "123");
+            dataMap.put("remark", "123");
+            dataMap.put("params","123123");
+            Configuration configuration = new Configuration();
+            configuration.setDefaultEncoding("utf-8");
+            configuration.setDirectoryForTemplateLoading(new File("E:/"));
+            File outFile = new File("e:\\test.doc");
+            Template t = configuration.getTemplate("template.ftl", "utf-8");
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
+            t.process(dataMap, out);
+            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

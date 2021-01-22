@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysOrg.dao.SysOrgMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysOrg.bean.SysOrg">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="userId" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_org.`id` ,sys_org.`name` ,sys_org.`code` ,sys_org.`status` ,sys_org.`remark` ,sys_org.`createTime` ,sys_org.`updateTime` ,sys_org.`userId` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_org
+    where sys_org.id =   #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_org
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysOrg.bean.SysOrg" >
+
+    insert into sys_org (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=BIGINT}
+,#{name,jdbcType=VARCHAR}
+,#{code,jdbcType=VARCHAR}
+,#{status,jdbcType=INTEGER}
+,#{remark,jdbcType=VARCHAR}
+,#{createTime,jdbcType=TIMESTAMP}
+,#{updateTime,jdbcType=TIMESTAMP}
+,#{userId,jdbcType=BIGINT}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysOrg.bean.SysOrg" >
+    insert into sys_org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="name != null" >  
+           `name`,
+        </if>  
+        <if test="code != null" >  
+           `code`,
+        </if>  
+        <if test="status != null" >  
+           `status`,
+        </if>  
+        <if test="remark != null" >  
+           `remark`,
+        </if>  
+        <if test="createTime != null" >  
+           `createTime`,
+        </if>  
+        <if test="updateTime != null" >  
+           `updateTime`,
+        </if>  
+        <if test="userId != null" >  
+           `userId`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+          #{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="userId != null" >  
+          #{userId,jdbcType=BIGINT},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysOrg.bean.SysOrg" >
+    update sys_org
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=BIGINT},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+             `code`=#{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `createTime`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="updateTime != null" >  
+             `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+        </if>  
+        <if test="userId != null" >  
+             `userId`=#{userId,jdbcType=BIGINT},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysOrg.bean.SysOrg" >
+    update sys_org
+    set 
+              `name`=#{name,jdbcType=VARCHAR},
+              `code`=#{code,jdbcType=VARCHAR},
+              `status`=#{status,jdbcType=INTEGER},
+              `remark`=#{remark,jdbcType=VARCHAR},
+              `createTime`=#{createTime,jdbcType=TIMESTAMP},
+              `updateTime`=#{updateTime,jdbcType=TIMESTAMP},
+              `userId`=#{userId,jdbcType=BIGINT}
+where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_org where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="code != null and code != '' ">  
+           and `code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">
+             and `code` like CONCAT('%',#{codeLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and `updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and `updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and `updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="userId != null and userId != '' ">  
+           and `userId` = #{userId}
+        </if>  
+  </select>
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_org
+
+    where status=1
+        <if test="id != null and id != '' ">  
+           and sys_org.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_org.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_org.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="code != null and code != '' ">  
+           and sys_org.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_org.`code` like CONCAT('%',#{codeLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and sys_org.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_org.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_org.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_org.`createTime` = #{createTime}
+        </if>  
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `createTime` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `createTime` &lt;= #{createTimeEnd}
+               </if>
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `createTime` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `createTime` &lt;= #{createTimeEnd}
+               </if>
+        <if test="updateTime != null and updateTime != '' ">  
+           and sys_org.`updateTime` = #{updateTime}
+        </if>  
+               <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+                    and `updateTime` &gt;= #{updateTimeBegin}
+               </if>
+                <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+                    and `updateTime` &lt;= #{updateTimeEnd}
+               </if>
+               <if test="updateTimeBegin != null and updateTimeBegin != '' ">
+                    and `updateTime` &gt;= #{updateTimeBegin}
+               </if>
+                <if test="updateTimeEnd != null and updateTimeEnd != '' ">
+                    and `updateTime` &lt;= #{updateTimeEnd}
+               </if>
+        <if test="userId != null and userId != '' ">  
+           and sys_org.`userId` = #{userId}
+        </if>  
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_org where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_org.`id` = #{id}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_org.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_org.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="code != null and code != '' ">  
+           and sys_org.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_org.`code` like CONCAT('%',#{codeLike},'%')
+        </if>   
+        <if test="status != null and status != '' ">  
+           and sys_org.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_org.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_org.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_org.`createTime` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sys_org.`createTime` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sys_org.`createTime` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="updateTime != null and updateTime != '' ">  
+           and sys_org.`updateTime` = #{updateTime}
+        </if>  
+        <if test="updateTimeBegin != null and updateTimeBegin != '' ">  
+             and sys_org.`updateTime` &gt;= #{updateTimeBegin}
+        </if>   
+         <if test="updateTimeEnd != null and updateTimeEnd != '' ">  
+             and sys_org.`updateTime` &lt;= #{updateTimeEnd}
+        </if> 
+        <if test="userId != null and userId != '' ">  
+           and sys_org.`userId` = #{userId}
+        </if>  
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_org where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="code != null and code != '' ">
+           or `code` = #{code}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `createTime` = #{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != '' ">
+           or `updateTime` = #{updateTime}
+        </if>
+        <if test="userId != null and userId != '' ">
+           or `userId` = #{userId}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into sys_org (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=BIGINT}
+,#{record.name,jdbcType=VARCHAR}
+,#{record.code,jdbcType=VARCHAR}
+,#{record.status,jdbcType=INTEGER}
+,#{record.remark,jdbcType=VARCHAR}
+,#{record.createTime,jdbcType=TIMESTAMP}
+,#{record.updateTime,jdbcType=TIMESTAMP}
+,#{record.userId,jdbcType=BIGINT}
+)
+        </foreach >
+    </insert>
+
+
+
+    <select id="getOrgNameByCamera" parameterType="java.lang.Long" resultType="java.lang.String">
+        select max(name) from sys_org where id in (select org_id from
+        sys_org_video_source where video_id = #{camera});
+    </select>
+</mapper>

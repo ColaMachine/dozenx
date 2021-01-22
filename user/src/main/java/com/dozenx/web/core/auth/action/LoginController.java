@@ -243,20 +243,20 @@ public class LoginController extends BaseController {
 
             Long userId = this.getUserId(request);
             //根据用户id查找菜单
-            List finalResourceList = new ArrayList();
-            List<SysResource> sysResourcesTree = authService.listSysResrouceByUserid(userId);
-            for (int i = sysResourcesTree.size() - 1; i >= 0; i--) {
-                SysResource sysResource = sysResourcesTree.get(i);
-                if (sysResource.getPid() == 0) {
-                    finalResourceList.add(sysResource);
-                    for (int j = sysResourcesTree.size() - 1; j >= 0; j--) {//倒序 方便找到后删除
+            List<SysResource> finalResourceList = new ArrayList();
+            List<SysResource> usersSysResourcesTree = authService.listSysResrouceByUserid(userId);
+            for (int i = usersSysResourcesTree.size() - 1; i >= 0; i--) {
+                SysResource hisFirstLevelSysResource = usersSysResourcesTree.get(i);
+                if (hisFirstLevelSysResource.getPid() == 0) {
+                    finalResourceList.add(hisFirstLevelSysResource);//一级菜单
+                    for (int j = usersSysResourcesTree.size() - 1; j >= 0; j--) {//倒序 方便找到后删除
                         //判断当前的人是否有这个菜单的权限
-                        SysResource childMenu = sysResourcesTree.get(j);//遍历所有的项目查找所有子项
+                        SysResource hisSecondLevelSysResource = usersSysResourcesTree.get(j);//遍历所有的项目查找所有子项
 //                        if (!permissions.contains(childMenu.getPermission())) {
 //                            continue;
 //                        }
-                        if (childMenu.getPid() == sysResource.getId()) {
-                            sysResource.childs.add(childMenu);//塞入到childs中 并从集合中删除
+                        if (hisSecondLevelSysResource.getPid() == hisFirstLevelSysResource.getId()) {
+                            hisFirstLevelSysResource.childs.add(hisSecondLevelSysResource);//塞入到childs中 并从集合中删除
                             // sysMenuTree.remove(j);
                         }
                     }
@@ -298,7 +298,14 @@ public class LoginController extends BaseController {
                 }
             }
 
-            this.setSessionAttribute(request, Constants.SESSION_MENUS, finalList);//塞入到用户session中
+            for (int i = finalResourceList.size() - 1; i >= 0; i--) {
+                SysResource sysMenu = finalResourceList.get(i);//如果父级菜单是容器 并且没有子菜单 就不要显示
+                if ((sysMenu.childs == null || sysMenu.childs.size() == 0) && StringUtil.isBlank(sysMenu.getUrl())) {
+                    finalResourceList.remove(i);
+                }
+            }
+
+            this.setSessionAttribute(request, Constants.SESSION_MENUS, finalResourceList);//塞入到用户session中
 
 
         }

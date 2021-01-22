@@ -34,9 +34,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
     platform: mysql
     name: ms   #数据库配置名称 使用多数据源时区别
-    url: jdbc:mysql://192.168.41.74:3306/awifi_videocloud?serverTimezone=GMT%2B8 #配置数据库连接 #先改成视频云的数据库 应为 接口表的数据在这个数据库
+    url: jdbc:mysql://192.168.212.52:3306/awifi_videocloud?serverTimezone=GMT%2B8 #配置数据库连接 #先改成视频云的数据库 应为 接口表的数据在这个数据库
     username: root  #数据库用户名
-    password: root@2015 #数据库密码
+    password: awifi@123 #数据库密码
     initialSize: 5
     minIdle: 5
     maxActive: 20

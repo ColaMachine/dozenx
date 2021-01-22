@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dozenx.web.core.auth.sysResource.dao.SysResourceMapper">
+  <resultMap id="BaseResultMap" type="com.dozenx.web.core.auth.sysResource.bean.SysResource">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="pid" jdbcType="INTEGER" property="pid" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="type" jdbcType="VARCHAR" property="type" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
+      <result column="order" jdbcType="INTEGER" property="order" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+
+  </resultMap>
+
+    <resultMap id="SimpleSysResource" type="com.dozenx.web.core.auth.sysResource.bean.SimpleSysResource">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="pid" jdbcType="INTEGER" property="pid" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+
+    </resultMap>
+
+  <sql id="Base_Column_List">
+    sys_resource.`id` ,sys_resource.`pid` ,sys_resource.`name` ,sys_resource.`code` ,sys_resource.`type` ,sys_resource.`url` ,sys_resource.`order` ,sys_resource.`status` ,sys_resource.`remark` ,sys_resource.`create_time` 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+                ,sys_resource1.name as SysResource_name
+    from sys_resource
+               left join sys_resource sys_resource1
+                 on sys_resource.pid = sys_resource1.id
+    where sys_resource.id =   #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_resource
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id"   parameterType="com.dozenx.web.core.auth.sysResource.bean.SysResource" >
+
+    insert into sys_resource (  <include refid="Base_Column_List" />)
+    values (
+#{id,jdbcType=INTEGER}
+,#{pid,jdbcType=INTEGER}
+,#{name,jdbcType=VARCHAR}
+,#{code,jdbcType=VARCHAR}
+,#{type,jdbcType=VARCHAR}
+,#{url,jdbcType=VARCHAR}
+,#{order,jdbcType=INTEGER}
+,#{status,jdbcType=INTEGER}
+,#{remark,jdbcType=VARCHAR}
+,#{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+   <insert id="insertSelective" parameterType="com.dozenx.web.core.auth.sysResource.bean.SysResource" >
+    insert into sys_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+           `id`,
+        </if>  
+        <if test="pid != null" >  
+           `pid`,
+        </if>  
+        <if test="name != null" >  
+           `name`,
+        </if>  
+        <if test="code != null" >  
+           `code`,
+        </if>  
+        <if test="type != null" >  
+           `type`,
+        </if>  
+        <if test="url != null" >  
+           `url`,
+        </if>  
+        <if test="order != null" >  
+           `order`,
+        </if>  
+        <if test="status != null" >  
+           `status`,
+        </if>  
+        <if test="remark != null" >  
+           `remark`,
+        </if>  
+        <if test="createTime != null" >  
+           `create_time`,
+        </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >  
+          #{id,jdbcType=INTEGER},
+        </if>  
+        <if test="pid != null" >  
+          #{pid,jdbcType=INTEGER},
+        </if>  
+        <if test="name != null" >  
+          #{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+          #{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="type != null" >  
+          #{type,jdbcType=VARCHAR},
+        </if>  
+        <if test="url != null" >  
+          #{url,jdbcType=VARCHAR},
+        </if>  
+        <if test="order != null" >  
+          #{order,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+          #{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+          #{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>  
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dozenx.web.core.auth.sysResource.bean.SysResource" >
+    update sys_resource
+    <set >
+        <if test="id != null" >  
+             `id`=#{id,jdbcType=INTEGER},
+        </if>  
+        <if test="pid != null" >  
+             `pid`=#{pid,jdbcType=INTEGER},
+        </if>  
+        <if test="name != null" >  
+             `name`=#{name,jdbcType=VARCHAR},
+        </if>  
+        <if test="code != null" >  
+             `code`=#{code,jdbcType=VARCHAR},
+        </if>  
+        <if test="type != null" >  
+             `type`=#{type,jdbcType=VARCHAR},
+        </if>  
+        <if test="url != null" >  
+             `url`=#{url,jdbcType=VARCHAR},
+        </if>  
+        <if test="order != null" >  
+             `order`=#{order,jdbcType=INTEGER},
+        </if>  
+        <if test="status != null" >  
+             `status`=#{status,jdbcType=INTEGER},
+        </if>  
+        <if test="remark != null" >  
+             `remark`=#{remark,jdbcType=VARCHAR},
+        </if>  
+        <if test="createTime != null" >  
+             `create_time`=#{createTime,jdbcType=TIMESTAMP},
+        </if>  
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dozenx.web.core.auth.sysResource.bean.SysResource" >
+    update sys_resource
+    set 
+              `pid`=#{pid,jdbcType=INTEGER},
+              `name`=#{name,jdbcType=VARCHAR},
+              `code`=#{code,jdbcType=VARCHAR},
+              `type`=#{type,jdbcType=VARCHAR},
+              `url`=#{url,jdbcType=VARCHAR},
+              `order`=#{order,jdbcType=INTEGER},
+              `status`=#{status,jdbcType=INTEGER},
+              `remark`=#{remark,jdbcType=VARCHAR},
+              `create_time`=#{createTime,jdbcType=TIMESTAMP}
+where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByParams" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_resource where 1=1
+        <if test="id != null and id != '' ">  
+           and `id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and `pid` = #{pid}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and `name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">
+             and `name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="code != null and code != '' ">  
+           and `code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">
+             and `code` like CONCAT('%',#{codeLike},'%')
+        </if>   
+        <if test="type != null and type != '' ">  
+           and `type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">
+             and `type` like CONCAT('%',#{typeLike},'%')
+        </if>   
+        <if test="url != null and url != '' ">  
+           and `url` = #{url}
+        </if>  
+        <if test="urlLike != null and urlLike != '' ">
+             and `url` like CONCAT('%',#{urlLike},'%')
+        </if>   
+        <if test="order != null and order != '' ">  
+           and `order` = #{order}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and `status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and `remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">
+             and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and `create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and `create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and `create_time` &lt;= #{createTimeEnd}
+        </if> 
+  </select>
+
+
+    <select id="listSimpleByParams" parameterType="map" resultMap="SimpleSysResource">
+        select
+        <include refid="Base_Column_List" />
+        from sys_resource where 1=1
+        <if test="id != null and id != '' ">
+            and `id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+            and `pid` = #{pid}
+        </if>
+        <if test="name != null and name != '' ">
+            and `name` = #{name}
+        </if>
+        <if test="nameLike != null and nameLike != '' ">
+            and `name` like CONCAT('%',#{nameLike},'%')
+        </if>
+        <if test="code != null and code != '' ">
+            and `code` = #{code}
+        </if>
+        <if test="codeLike != null and codeLike != '' ">
+            and `code` like CONCAT('%',#{codeLike},'%')
+        </if>
+        <if test="type != null and type != '' ">
+            and `type` = #{type}
+        </if>
+        <if test="typeLike != null and typeLike != '' ">
+            and `type` like CONCAT('%',#{typeLike},'%')
+        </if>
+        <if test="url != null and url != '' ">
+            and `url` = #{url}
+        </if>
+        <if test="urlLike != null and urlLike != '' ">
+            and `url` like CONCAT('%',#{urlLike},'%')
+        </if>
+        <if test="order != null and order != '' ">
+            and `order` = #{order}
+        </if>
+        <if test="status != null and status != '' ">
+            and `status` = #{status}
+        </if>
+        <if test="remark != null and remark != '' ">
+            and `remark` = #{remark}
+        </if>
+        <if test="remarkLike != null and remarkLike != '' ">
+            and `remark` like CONCAT('%',#{remarkLike},'%')
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and `create_time` = #{createTime}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != '' ">
+            and `create_time` &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != '' ">
+            and `create_time` &lt;= #{createTimeEnd}
+        </if>
+
+        order by `order`
+    </select>
+
+   <select id="listByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+
+
+           ,sys_resource1.name as SysResource_name
+    from sys_resource
+
+    left join sys_resource sys_resource1
+      on sys_resource.pid = sys_resource1.id
+
+    where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_resource.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sys_resource.`pid` = #{pid}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_resource.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_resource.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="code != null and code != '' ">  
+           and sys_resource.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_resource.`code` like CONCAT('%',#{codeLike},'%')
+        </if>   
+        <if test="type != null and type != '' ">  
+           and sys_resource.`type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">  
+             and sys_resource.`type` like CONCAT('%',#{typeLike},'%')
+        </if>   
+        <if test="url != null and url != '' ">  
+           and sys_resource.`url` = #{url}
+        </if>  
+        <if test="urlLike != null and urlLike != '' ">  
+             and sys_resource.`url` like CONCAT('%',#{urlLike},'%')
+        </if>   
+        <if test="order != null and order != '' ">  
+           and sys_resource.`order` = #{order}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and sys_resource.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_resource.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_resource.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_resource.`create_time` = #{createTime}
+        </if>  
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `create_time` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `create_time` &lt;= #{createTimeEnd}
+               </if>
+               <if test="createTimeBegin != null and createTimeBegin != '' ">
+                    and `create_time` &gt;= #{createTimeBegin}
+               </if>
+                <if test="createTimeEnd != null and createTimeEnd != '' ">
+                    and `create_time` &lt;= #{createTimeEnd}
+               </if>
+  </select>
+   <select id="countByParams" parameterType="map" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from sys_resource where 1=1
+        <if test="id != null and id != '' ">  
+           and sys_resource.`id` = #{id}
+        </if>  
+        <if test="pid != null and pid != '' ">  
+           and sys_resource.`pid` = #{pid}
+        </if>  
+        <if test="name != null and name != '' ">  
+           and sys_resource.`name` = #{name}
+        </if>  
+        <if test="nameLike != null and nameLike != '' ">  
+             and sys_resource.`name` like CONCAT('%',#{nameLike},'%')
+        </if>   
+        <if test="code != null and code != '' ">  
+           and sys_resource.`code` = #{code}
+        </if>  
+        <if test="codeLike != null and codeLike != '' ">  
+             and sys_resource.`code` like CONCAT('%',#{codeLike},'%')
+        </if>   
+        <if test="type != null and type != '' ">  
+           and sys_resource.`type` = #{type}
+        </if>  
+        <if test="typeLike != null and typeLike != '' ">  
+             and sys_resource.`type` like CONCAT('%',#{typeLike},'%')
+        </if>   
+        <if test="url != null and url != '' ">  
+           and sys_resource.`url` = #{url}
+        </if>  
+        <if test="urlLike != null and urlLike != '' ">  
+             and sys_resource.`url` like CONCAT('%',#{urlLike},'%')
+        </if>   
+        <if test="order != null and order != '' ">  
+           and sys_resource.`order` = #{order}
+        </if>  
+        <if test="status != null and status != '' ">  
+           and sys_resource.`status` = #{status}
+        </if>  
+        <if test="remark != null and remark != '' ">  
+           and sys_resource.`remark` = #{remark}
+        </if>  
+        <if test="remarkLike != null and remarkLike != '' ">  
+             and sys_resource.`remark` like CONCAT('%',#{remarkLike},'%')
+        </if>   
+        <if test="createTime != null and createTime != '' ">  
+           and sys_resource.`create_time` = #{createTime}
+        </if>  
+        <if test="createTimeBegin != null and createTimeBegin != '' ">  
+             and sys_resource.`create_time` &gt;= #{createTimeBegin}
+        </if>   
+         <if test="createTimeEnd != null and createTimeEnd != '' ">  
+             and sys_resource.`create_time` &lt;= #{createTimeEnd}
+        </if> 
+  </select>
+ <select id="countByOrParams" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sys_resource where 1!=1
+        <if test="id != null and id != '' ">
+           or `id` = #{id}
+        </if>
+        <if test="pid != null and pid != '' ">
+           or `pid` = #{pid}
+        </if>
+        <if test="name != null and name != '' ">
+           or `name` = #{name}
+        </if>
+        <if test="code != null and code != '' ">
+           or `code` = #{code}
+        </if>
+        <if test="type != null and type != '' ">
+           or `type` = #{type}
+        </if>
+        <if test="url != null and url != '' ">
+           or `url` = #{url}
+        </if>
+        <if test="order != null and order != '' ">
+           or `order` = #{order}
+        </if>
+        <if test="status != null and status != '' ">
+           or `status` = #{status}
+        </if>
+        <if test="remark != null and remark != '' ">
+           or `remark` = #{remark}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+           or `create_time` = #{createTime}
+        </if>
+  </select>
+
+
+
+<insert id="insertBatch"   parameterType="java.util.List" >
+    insert into sys_resource (  <include refid="Base_Column_List" />)
+        values
+
+        <foreach collection ="list" item="record" index= "index" separator =",">
+         (
+#{record.id,jdbcType=INTEGER}
+,#{record.pid,jdbcType=INTEGER}
+,#{record.name,jdbcType=VARCHAR}
+,#{record.code,jdbcType=VARCHAR}
+,#{record.type,jdbcType=VARCHAR}
+,#{record.url,jdbcType=VARCHAR}
+,#{record.order,jdbcType=INTEGER}
+,#{record.status,jdbcType=INTEGER}
+,#{record.remark,jdbcType=VARCHAR}
+,#{record.createTime,jdbcType=TIMESTAMP}
+)
+        </foreach >
+    </insert>
+</mapper>

@@ -47,10 +47,10 @@
     <select id="selectRolesByUserId" parameterType="java.lang.Long" resultMap="SysRole">
         select * from sys_role sr where sr.id in (select role_id from sys_user_role where user_id =#{userid})
     </select>
-
+    <!-- 为什么要倒序排列 因为菜单和 菜单角色分配的界面用的是同一个service接口-->
     <select id="selectSysResourceByUserId" parameterType="java.lang.Long" resultType="com.dozenx.web.core.auth.sysResource.bean.SysResource">
         select * from sys_resource sr where sr.id in (select resource_id from sys_role_resource where status!=9 and role_id in ( select role_id from sys_user_role where user_id =#{userid}))
-        union select * from sys_resource where pid =0
+        order by sr.`order` desc
     </select>
 
 </mapper>

@@ -4,19 +4,8 @@ package com.dozenx.web.core.log;
  * Created by dozen.zhang on 2016/5/13.
  */
 
-import com.dozenx.web.util.RedisUtil;
-
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import redis.clients.jedis.Jedis;
-
-import java.lang.reflect.Method;
-import java.util.UUID;
 
 
 @Aspect

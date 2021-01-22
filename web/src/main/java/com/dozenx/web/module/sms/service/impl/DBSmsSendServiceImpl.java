@@ -26,10 +26,11 @@ import java.util.Map;
 @Service("smsSendService")
 public class DBSmsSendServiceImpl implements SmsSendService {
     private static final Logger logger = LoggerFactory.getLogger(DBSmsSendServiceImpl.class);
+
     @Override
 
     public void send(String phone, String msg) {
-        logger.info("read send sms "+msg);
+        logger.info("read send sms " + msg);
         sendByDbcenter(phone, msg);
         //   return getSmsApiService().sendMsg(cellphone, msg);
     }
@@ -59,7 +60,7 @@ public class DBSmsSendServiceImpl implements SmsSendService {
                 {
                     TokenRequestResult tokenRequestResult = new TokenRequestResult();
 
-            //result:{"data":{"expiresIn":738,"loseTimestamp":1571127179398,"oauthTimestamp":1571125379398,
+                    //result:{"data":{"expiresIn":738,"loseTimestamp":1571127179398,"oauthTimestamp":1571125379398,
                     // "oauthToken":"5da57883bfaed204741c80f6"},"state":"success"}
                     Map resultMap = JsonUtil.fromJson(result, Map.class);//转成map
                     if (resultMap == null) {//如果为空

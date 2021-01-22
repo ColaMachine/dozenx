@@ -28,17 +28,130 @@
         .btn{
 
         }
+
+
+        .WriteCover-wrapper {
+    background: #f6f6f6;
+    line-height: 192px;
+    color: grey;
+    min-height: 192px;
+    text-align: center;
+}
+.WriteIndexLayout-main {
+    margin: 47px auto 0;
+    width: 660px;
+}
+
+.UploadPicture-input {
+    display: none!important ;
+}
+
+
+.UploadPicture-wrapper {
+    cursor: pointer;
+}
+
+.Layout-titleImage--normal .WriteCover-previewWrapper .WriteTitleImage {
+    margin-bottom: 0;
+
+}
+.Layout-titleImage--normal .WriteTitleImage {
+    margin-bottom: 24px;
+}
+.WriteTitleImage, .WriteTitleImage  {
+    display: none;
+}
+
+
+.WriteTitleImage-imagePure {
+    width: 100%;
+}
+
+
+.WriteCover-previewWrapper {
+    min-height: 192px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: relative;
+}
+
+.WriteCover-editWrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 42px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba(18,18,18,.75);
+    border-radius: 4px 0 0 0;
+    border: 0;
+}
+
+.WriteCover-editWrapper .Button, html[data-theme=dark] .WriteCover-editWrapper .Button {
+    color: #fff;
+}
+.WriteCover-editButton {
+    height: 42px;
+    width: 48px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+}
+.WriteCover-previewWrapper .UploadPicture-wrapper {
+    display: block;
+}
+
+
     </style>
 </head>
 <body>
-<div class="content">
+<div class="content WriteIndexLayout-main WriteIndex">
 
     <button class="btn btn-primary primary" id="submit" onclick="submit()" type="button">发布</button>
+
+    <div class="WriteCover-wrapper">
+        <div class="WriteCover-previewWrapper WriteCover-previewWrapper--empty">
+
+            <img style="display:none" src="https://pic1.zhimg.com/v2-81c24be3e0782c447dfae875924d0260.jpeg" style="display: none;">
+            <div class="WriteTitleImage">
+                <img id="update-img" alt="11111111" src="https://pic1.zhimg.com/v2-81c24be3e0782c447dfae875924d0260.jpeg" class="WriteTitleImage-imagePure WriteTitleImage-imagePure--fixed" height="622">
+            </div>
+
+            <div class="WriteCover-editWrapper"><button title="更换" aria-label="更换" type="button" class="Button WriteCover-editButton WriteCover-uploadButton">
+                <svg class="Zi Zi--Camera" fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill-rule="evenodd"></path></svg></button><button title="删除" aria-label="删除" type="button" class="Button WriteCover-editButton WriteCover-deleteButton">
+                <svg class="Zi Zi--TrashOutline" fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M16.213 18.638h-7.83V8.085H7.021v10.553c0 .751.611 1.362 1.362 1.362h7.83c.75 0 1.361-.61 1.361-1.362V8.085h-1.361v10.553zM15.19 5.362c0-.751-.61-1.362-1.361-1.362h-3.064c-.751 0-1.362.61-1.362 1.362v.68H6.766S6 6 6 6.715c0 .714.766.69.766.69H17.89s.705 0 .705-.688c0-.689-.705-.673-.705-.673h-2.7v-.681zm-1.361.68h-3.064v-.68h3.064v.68zm-3.745 3.064v8.17h1.362v-8.17h-1.362zm3.064 0v8.17h1.362v-8.17h-1.362z" fill-rule="evenodd">
+
+            </path></svg></button></div>
+            <label class="UploadPicture-wrapper">
+                <input type="hidden" id="fengmian" value="">
+                <input type="file"  id="fileInput" accept=".jpeg, .jpg, .png" class="UploadPicture-input">
+                <svg id="upload-svn" class="Zi Zi--Camera WriteCover-uploadIcon" fill="currentColor" viewBox="0 0 24 24" width="42" height="42">
+                    <path d="M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill-rule="evenodd">
+
+                    </path>
+                </svg>
+            </label>
+        </div>
+    </div>
+
+
     <div class="container-fluid">
         <div id='pad-wrapper'>
             <div id="editparent">
                 <div class="fengmian" style="text-align:center">
-                <input  id="fengmian" name="fengmian"  value="static/img/timg.jpeg" style="display:none" class="form-control input-sm"   maxlength="100"></input>
+              <!--  <input  id="fengmian" name="fengmian"  value="static/img/timg.jpeg" style="display:none" class="form-control input-sm"   maxlength="100"></input>-->
 </div>
                 <input type="text" id="title" style="font-size:40px;font-weight:bold;width:100%"  placeholder="请输入标题(最多50个字)"/>
 
@@ -92,8 +205,7 @@
                     </div>
                 </div>
                 <div id='editor' class='span12' style='' contenteditable>
-                    <h1>This is a title!</h1>
-                    <p>This is just some example text to start us off</p>
+
                 </div>
 
 
@@ -161,7 +273,15 @@ function addImage(e){
 }
 
 
-var imageUtil=new zImageUtil2({"input":"fengmian"});
+var imageUtil=new zImageUtil2({"clickUploadDom":123
+,"fileInput":document.getElementById("fileInput")
+,"imgDom":document.getElementById("update-img"),"input":"fengmian",'callback':function(data){
+document.getElementById("upload-svn").style.display="none";
+$("#fengmian").val(data.data);
+alert(data.data);
+$(".WriteTitleImage").show();
+}
+});
 var imageUtil=new getUploadImag({"clickDom":document.getElementById("addImgBtn"),"callback":function(src){//alert(src.data);
 
 
@@ -176,7 +296,7 @@ function submit(){
     var content = document.getElementById("editor").innerHTML;
     var pic = document.getElementById("fengmian").value;
     var json = {"title":title,content:content,pic:pic,type:1};
-    Ajax.post("/home/artical/save.json",json,function(data){
+    Ajax.post("/home/article/save.json",json,function(data){
 
         console.log(data);
     });

@@ -3,8 +3,9 @@ package com.dozenx.web.core.api.client.auth.http.util;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.RedisConstants;
 import com.dozenx.web.core.api.client.auth.token.service.TokenService;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.util.BeanUtil;
-import com.dozenx.web.util.RedisUtil;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 
 
 /**
@@ -44,7 +45,9 @@ public class TokenClient {
      */
     public static String getAccessToken(){
         String key = RedisConstants.TOKEN_REDIS_KEY;//获取数据中心access_token rediskey
-        String accessToken = RedisUtil.get(key);//redis获取access_token
+        RedisService redisService =(RedisService)BeanUtil.getBean("redisService");
+
+        String accessToken = redisService.get(key);//redis获取access_token
         if(StringUtil.isNotBlank(accessToken)){//如果不为空
             return accessToken;//返回access_token
         }
@@ -53,7 +56,8 @@ public class TokenClient {
 
     public static String getAccessToken(String codeName,String codeValue,String authCodeName,String expireInName){
         String key = RedisConstants.TOKEN_REDIS_KEY;//获取数据中心access_token rediskey
-        String accessToken = RedisUtil.get(key);//redis获取access_token
+        RedisService redisService =(RedisService)BeanUtil.getBean("redisService");
+        String accessToken = redisService.get(key);//redis获取access_token
         if(StringUtil.isNotBlank(accessToken)){//如果不为空
             return accessToken;//返回access_token
         }

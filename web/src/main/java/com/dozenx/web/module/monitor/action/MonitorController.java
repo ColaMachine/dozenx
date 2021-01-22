@@ -7,7 +7,6 @@ import com.dozenx.swagger.annotation.Param;
 import com.dozenx.web.core.Constants;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.log.ResultDTO;
-import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -46,7 +45,10 @@ public class MonitorController extends BaseController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO list(HttpServletRequest request) throws Exception {
-        return this.getResult(RedisUtil.printPoolStatus());
+
+       return this.getResult();
+
+//        return this.getResult();
         //检测广告系统是否正常
 //        String url = "http://ad.51awifi.com/advertsrv/ads/req?usermac=D8C46A555609&adpos=4&devid=RADIUS-RADIUS-20150203-44ffb97d&devmac=50DA00D16B80&t=1532393604072";
 //        try {

@@ -9,7 +9,7 @@
 package com.dozenx.web.core.sysConfig.action;
 
 import com.dozenx.common.util.DateUtil;
-import com.dozenx.common.util.ExcelUtil;
+//import com.dozenx.common.util.ExcelUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.base.BaseController;
 import com.dozenx.web.core.page.Page;
@@ -305,92 +305,92 @@ public class SysConfigController extends BaseController{
        return  sysConfigService.multilDelete(idAry);
     }
 
-    /**
-     * 导出
-     * @param request
-     * @return
-     * @author dozen.zhang
-     */
-    @RequestMapping(value = "/export.json")
-    @ResponseBody   
-    public Object exportExcel(HttpServletRequest request){
-               HashMap<String,Object> params= new HashMap<String,Object>();
-        String id = request.getParameter("id");
-        if(!StringUtil.isBlank(id)){
-            params.put("id",id);
-        }
-        String key = request.getParameter("key");
-        if(!StringUtil.isBlank(key)){
-            params.put("key",key);
-        }
-        String keyLike = request.getParameter("keyLike");
-        if(!StringUtil.isBlank(keyLike)){
-            params.put("keyLike",keyLike);
-        }
-        String value = request.getParameter("value");
-        if(!StringUtil.isBlank(value)){
-            params.put("value",value);
-        }
-        String valueLike = request.getParameter("valueLike");
-        if(!StringUtil.isBlank(valueLike)){
-            params.put("valueLike",valueLike);
-        }
-        String remark = request.getParameter("remark");
-        if(!StringUtil.isBlank(remark)){
-            params.put("remark",remark);
-        }
-        String remarkLike = request.getParameter("remarkLike");
-        if(!StringUtil.isBlank(remarkLike)){
-            params.put("remarkLike",remarkLike);
-        }
-
-        // 查询list集合
-        List<SysConfig> list =sysConfigService.listByParams(params);
-        // 存放临时文件
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "list.xlsx");
-        String folder = request.getSession().getServletContext()
-                .getRealPath("/")
-                + "xlstmp";
-        File folder_file = new File(folder);
-        if (!folder_file.exists()) {
-            folder_file.mkdir();
-        }
-        String fileName = folder + File.separator
-                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
-                + ".xlsx";
-        // 得到导出Excle时清单的英中文map
-        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-        colTitle.put("id", "编号");
-        colTitle.put("key", "名称");
-        colTitle.put("value", "对应值");
-        colTitle.put("remark", "说明");
-        List finalList = new ArrayList();
-        for (int i = 0; i < list.size(); i++) {
-            SysConfig sm = list.get(i);
-            HashMap<String,Object> map = new HashMap<String,Object>();
-            map.put("id",  list.get(i).getId());
-            map.put("key",  list.get(i).getKey());
-            map.put("value",  list.get(i).getValue());
-            map.put("remark",  list.get(i).getRemark());
-            finalList.add(map);
-        }
-        try {
-            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                return this.getResult(SUCC,fileName,"导出成功");
-            }
-            /*
-             * return new ResponseEntity<byte[]>(
-             * FileUtils.readFileToByteArray(new File(fileName)), headers,
-             * HttpStatus.CREATED);
-             */
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this.getResult(0, "数据为空，导出失败");
-    
-    }
+//    /**
+//     * 导出
+//     * @param request
+//     * @return
+//     * @author dozen.zhang
+//     */
+//    @RequestMapping(value = "/export.json")
+//    @ResponseBody
+//    public Object exportExcel(HttpServletRequest request){
+//               HashMap<String,Object> params= new HashMap<String,Object>();
+//        String id = request.getParameter("id");
+//        if(!StringUtil.isBlank(id)){
+//            params.put("id",id);
+//        }
+//        String key = request.getParameter("key");
+//        if(!StringUtil.isBlank(key)){
+//            params.put("key",key);
+//        }
+//        String keyLike = request.getParameter("keyLike");
+//        if(!StringUtil.isBlank(keyLike)){
+//            params.put("keyLike",keyLike);
+//        }
+//        String value = request.getParameter("value");
+//        if(!StringUtil.isBlank(value)){
+//            params.put("value",value);
+//        }
+//        String valueLike = request.getParameter("valueLike");
+//        if(!StringUtil.isBlank(valueLike)){
+//            params.put("valueLike",valueLike);
+//        }
+//        String remark = request.getParameter("remark");
+//        if(!StringUtil.isBlank(remark)){
+//            params.put("remark",remark);
+//        }
+//        String remarkLike = request.getParameter("remarkLike");
+//        if(!StringUtil.isBlank(remarkLike)){
+//            params.put("remarkLike",remarkLike);
+//        }
+//
+//        // 查询list集合
+//        List<SysConfig> list =sysConfigService.listByParams(params);
+//        // 存放临时文件
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", "list.xlsx");
+//        String folder = request.getSession().getServletContext()
+//                .getRealPath("/")
+//                + "xlstmp";
+//        File folder_file = new File(folder);
+//        if (!folder_file.exists()) {
+//            folder_file.mkdir();
+//        }
+//        String fileName = folder + File.separator
+//                + DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")
+//                + ".xlsx";
+//        // 得到导出Excle时清单的英中文map
+//        LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+//        colTitle.put("id", "编号");
+//        colTitle.put("key", "名称");
+//        colTitle.put("value", "对应值");
+//        colTitle.put("remark", "说明");
+//        List finalList = new ArrayList();
+//        for (int i = 0; i < list.size(); i++) {
+//            SysConfig sm = list.get(i);
+//            HashMap<String,Object> map = new HashMap<String,Object>();
+//            map.put("id",  list.get(i).getId());
+//            map.put("key",  list.get(i).getKey());
+//            map.put("value",  list.get(i).getValue());
+//            map.put("remark",  list.get(i).getRemark());
+//            finalList.add(map);
+//        }
+//        try {
+//            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                return this.getResult(SUCC,fileName,"导出成功");
+//            }
+//            /*
+//             * return new ResponseEntity<byte[]>(
+//             * FileUtils.readFileToByteArray(new File(fileName)), headers,
+//             * HttpStatus.CREATED);
+//             */
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return this.getResult(0, "数据为空，导出失败");
+//
+//    }
     @RequestMapping(value = "/import.json")
     public void importExcel(){
         

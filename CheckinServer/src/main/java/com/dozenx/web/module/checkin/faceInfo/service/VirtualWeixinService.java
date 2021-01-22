@@ -1,9 +1,5 @@
 package com.dozenx.web.module.checkin.faceInfo.service;
 
-import com.dozenx.common.util.CmdUtil;
-import com.dozenx.common.util.DateUtil;
-import com.dozenx.web.util.RedisUtil;
-
 /**
  * @Author: dozen.zhang
  * @Description:

@@ -53,6 +53,36 @@ public class ConfigUtil {
 //       System.out.println(config.getServerDir());
     }
 
+    public static void loadFromCfg(){
+        InputStream inputStream = ConfigUtil.class.getResourceAsStream("config.cfg");
+        try {
+            Config.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadFromProperties(){
+
+    }
+
+    public static void loadFromYml(){
+
+    }
+
+    public static void appendFromCfg(){
+
+    }
+
+    public static void appendFromProperties(){
+
+    }
+
+    public static void appendFromYml(){
+
+    }
+
+
     public static String getConfig(String name) {
         if(environment!=null)
             return environment.getProperty(name);

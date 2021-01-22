@@ -114,6 +114,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           date:new Date()
         }),
 
+         new HtmlWebpackPlugin({
+                  filename: 'PcArticlePage.html',
+                  template: 'index.html',
+                  inject:true,
+                  title:'this is example.html',
+                  author:'zzw',
+                  chunks:['PcArticlePage'],
+                  inject: true,
+                  date:new Date()
+                }),
+
     // copy custom static assets
     new CopyWebpackPlugin([
       {

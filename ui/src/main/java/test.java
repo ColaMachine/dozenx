@@ -1,4 +1,4 @@
-import com.dozenx.web.util.RedisUtil;
+import com.dozenx.common.util.ExcelUtil;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.LoggerFactory;
 
@@ -11,12 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.dozenx.common.util.MapUtils;
-import com.dozenx.common.util.StringUtil;
-import com.dozenx.common.util.ExcelUtil;
-import com.dozenx.common.util.FileUtil;
-import com.dozenx.common.util.JsonUtil;
-import com.dozenx.common.util.DateUtil;
+
 /**
  * @Author: dozen.zhang
  * @Description:
@@ -80,7 +75,7 @@ public class test {
             int i=0;
             for(Map<Integer,String> map : list){
                 System.out.println(map.get(2));
-                RedisUtil.setex("asdf_"+i,map.get(2),24*60*60);
+                //RedisUtil.setex("asdf_"+i,map.get(2),24*60*60);
                 i++;
             }
         } catch (IOException e) {

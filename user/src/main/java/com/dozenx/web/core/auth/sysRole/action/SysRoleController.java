@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.JsonUtil;
-import com.dozenx.common.util.ExcelUtil;
+//import com.dozenx.common.util.ExcelUtil;
 import java.math.BigDecimal;
 import com.dozenx.swagger.annotation.*;
 import java.util.LinkedHashMap;
@@ -443,9 +443,9 @@ public class SysRoleController extends BaseController{
                 finalList.add(map);
             }
             try {
-                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
-                }
+//                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
+//                }
                 /*
                  * return new ResponseEntity<byte[]>(
                  * FileUtils.readFileToByteArray(new File(fileName)), headers,

@@ -39,9 +39,18 @@
     <select id="count" parameterType="com.dozenx.web.core.auth.sysUserRole.bean.SysUserRole"  resultType="java.lang.Integer">
         select
         count(1)
-        from sys_user_role where
+        from sys_user_role syr left join sys_user su
+        on syr.user_id = su.id
+        where  su.status =1
 
-        sys_user_role.`user_id` = #{userId} and sys_user_role.`role_id` = #{roleId}
+
+            <if test="userId != null  " >
+                and syr.sys_user_role.`user_id` = #{userId}
+            </if>
+            <if test="roleId != null  " >
+               and syr.and sys_user_role.`role_id` = #{roleId}
+            </if>
+
 
     </select>
 </mapper>

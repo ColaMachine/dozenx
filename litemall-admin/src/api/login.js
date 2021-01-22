@@ -1,7 +1,7 @@
 import request from '@/utils/request'
-import md5 from 'js-md5';
+import md5 from 'js-md5'
 export function loginByUsername(username, password) {
-   const data = {
+  const data = {
     loginName: username,
     pwd: md5(md5(password)),
     picCaptcha: 5719

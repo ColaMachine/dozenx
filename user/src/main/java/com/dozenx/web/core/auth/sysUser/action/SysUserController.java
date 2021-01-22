@@ -1046,9 +1046,9 @@ public class SysUserController extends BaseController {
             finalList.add(map);
         }
         try {
-            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                return this.getResult(SUCC, fileName, "导出成功");
-            }
+//            if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                return this.getResult(SUCC, fileName, "导出成功");
+//            }
             /*
              * return new ResponseEntity<byte[]>(
              * FileUtils.readFileToByteArray(new File(fileName)), headers,
@@ -1096,7 +1096,7 @@ public class SysUserController extends BaseController {
             //            colMatch.put("邮箱", "email");
 
 
-            List<Map<String, String>> list = ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
+            List<Map<String, String>> list = null;//ExcelUtil.getExcelData(xlsFile);//excel 转成 list数据
             for (int i = 0; i < list.size(); i++) {
 
                 Map<String, String> map = list.get(i);
@@ -1142,11 +1142,11 @@ public class SysUserController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("导入失败", e);
-            if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
-                throw new BizException("E041412313", "导入的excel需为2003版本");
-            } else {
+//            if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
+//                throw new BizException("E041412313", "导入的excel需为2003版本");
+//            } else {
                 throw new BizException("E041412313", e.getMessage());
-            }
+//            }
         }
 
 
@@ -1253,11 +1253,11 @@ public class SysUserController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("导入失败", e);
-            if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
-                throw new BizException("E041412313", "导入的excel需为2003版本");
-            } else {
+//            if (e instanceof org.apache.poi.poifs.filesystem.OfficeXmlFileException) {
+//                throw new BizException("E041412313", "导入的excel需为2003版本");
+//            } else {
                 throw new BizException("E041412313", e.getMessage());
-            }
+//            }
         }
 
 

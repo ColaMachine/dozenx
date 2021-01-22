@@ -13,9 +13,9 @@ package com.dozenx.common.util;
 //import ch.ethz.ssh2.SFTPv3Client;
 //import ch.ethz.ssh2.StreamGobbler;
 import com.dozenx.common.Path.PathManager;
-import org.apache.tools.zip.ZipEntry;
-import org.apache.tools.zip.ZipFile;
-import org.apache.tools.zip.ZipOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 import org.slf4j.Logger;
 
 import java.io.*;
@@ -837,9 +837,9 @@ public class FileUtil {
         }
         ZipFile zipFile = new ZipFile(originFile);
         ZipEntry zipEntry;
-        Enumeration<ZipEntry> entry = zipFile.getEntries();
+        Enumeration<?> entry = zipFile.entries();
         while (entry.hasMoreElements()) {
-            zipEntry = entry.nextElement();
+            zipEntry =(ZipEntry) entry.nextElement();
             String fileName = zipEntry.getName();
             File outputFile = new File(targetDir + fileName);
             if (zipEntry.isDirectory()) {

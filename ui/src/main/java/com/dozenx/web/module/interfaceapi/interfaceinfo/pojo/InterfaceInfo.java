@@ -52,7 +52,12 @@ public class InterfaceInfo {
     private Integer splicing;       //请求参数拼接标记 0不用，1要拼接
     private Date updateTime;//修改时间
 
-    private List<InterfaceHeader> interfaceHeaders;//header头参数
+    private String interfaceHeaders;//存入数据库的 头部信息 是一个数组
+  //  private String interfaceParams;//存入数据库的参数部分
+    private String interfaceBody;
+
+
+    private List<InterfaceHeader> interfaceHeaderList;//header头参数
     private List<InterfaceParam> interfaceParams;//参数
 
     private List<Integer > deleteParamsIds ;
@@ -224,4 +229,43 @@ public class InterfaceInfo {
     public void setInterfaceParams(List<InterfaceParam> interfaceParams) {
         this.interfaceParams = interfaceParams;
     }
+
+
+
+
+    public String getInterfaceHeaders() {
+        return interfaceHeaders;
+    }
+
+    public void setInterfaceHeaders(String interfaceHeaders) {
+        this.interfaceHeaders = interfaceHeaders;
+    }
+//
+//    public void setInterfaceParams(String interfaceParams) {
+//        this.interfaceParams = interfaceParams;
+//    }
+
+    public String getInterfaceBody() {
+        return interfaceBody;
+    }
+
+    public void setInterfaceBody(String interfaceBody) {
+        this.interfaceBody = interfaceBody;
+    }
+
+    public List<InterfaceHeader> getInterfaceHeaderList() {
+        return interfaceHeaderList;
+    }
+
+    public void setInterfaceHeaderList(List<InterfaceHeader> interfaceHeaderList) {
+        this.interfaceHeaderList = interfaceHeaderList;
+    }
+
+//    public List<InterfaceParam> getInterfaceParamList() {
+//        return interfaceParamList;
+//    }
+//
+//    public void setInterfaceParamList(List<InterfaceParam> interfaceParamList) {
+//        this.interfaceParamList = interfaceParamList;
+//    }
 }

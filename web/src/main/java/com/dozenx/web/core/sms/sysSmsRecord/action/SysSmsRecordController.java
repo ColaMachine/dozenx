@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.dozenx.common.util.MapUtils;
 import com.dozenx.common.util.JsonUtil;
-import com.dozenx.common.util.ExcelUtil;
+//import com.dozenx.common.util.ExcelUtil;
 import java.math.BigDecimal;
 import com.dozenx.swagger.annotation.*;
 import java.util.LinkedHashMap;
@@ -312,155 +312,155 @@ public class SysSmsRecordController extends BaseController{
 
 
 
-       /**
-         * 导出
-         * @param request
-         * @return
-         * @author dozen.zhang
-         */
-        @API(summary="短信验证码发送历史列表导出接口",
-          description="短信验证码发送历史列表导出接口",
-          parameters={
-          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
-          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
-             @Param(name="id" , description="id ",in=InType.params,dataType = DataType.LONG,required =false),// false
-             @Param(name="phone" , description="手机号码 ",in=InType.params,dataType = DataType.STRING,required =false),// true
-             @Param(name="biz" , description="业务类型 ",in=InType.params,dataType = DataType.STRING,required =false),// true
-             @Param(name="createTime" , description="发送时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// true
-             @Param(name="content" , description="内容 ",in=InType.params,dataType = DataType.STRING,required =false),// true
-             @Param(name="status" , description="发送状态 ",in=InType.params,dataType = DataType.BYTE,required =false),// false
-             @Param(name="reason" , description="失败原因 ",in=InType.params,dataType = DataType.STRING,required =false),// false
-          })
-        @RequestMapping(value = "/export", method = RequestMethod.GET)
-        @ResponseBody
-        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
-
-             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
-              Page page = RequestUtil.getPage(params);
-             if(page ==null){
-                  return this.getWrongResultFromCfg("err.param.page");
-             }
-
-                     String id = MapUtils.getString(params,"id");
-        if(!StringUtil.isBlank(id)){
-            params.put("id",id);
-        }
-        String phone = MapUtils.getString(params,"phone");
-        if(!StringUtil.isBlank(phone)){
-            params.put("phone",phone);
-        }
-        String phoneLike = MapUtils.getString(params,"phoneLike");
-        if(!StringUtil.isBlank(phoneLike)){
-            params.put("phoneLike",phoneLike);
-        }
-        String biz = MapUtils.getString(params,"biz");
-        if(!StringUtil.isBlank(biz)){
-            params.put("biz",biz);
-        }
-        String bizLike = MapUtils.getString(params,"bizLike");
-        if(!StringUtil.isBlank(bizLike)){
-            params.put("bizLike",bizLike);
-        }
-        String createTime = MapUtils.getString(params,"createTime");
-        if(!StringUtil.isBlank(createTime)){
-            if(StringUtil.checkNumeric(createTime)){
-                params.put("createTime",createTime);
-            }else if(StringUtil.checkDateStr(createTime, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createTime",new Timestamp( DateUtil.parseToDate(createTime, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String createTimeBegin = MapUtils.getString(params,"createTimeBegin");
-        if(!StringUtil.isBlank(createTimeBegin)){
-            if(StringUtil.checkNumeric(createTimeBegin)){
-                params.put("createTimeBegin",createTimeBegin);
-            }else if(StringUtil.checkDateStr(createTimeBegin, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createTimeBegin",new Timestamp( DateUtil.parseToDate(createTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String createTimeEnd = MapUtils.getString(params,"createTimeEnd");
-        if(!StringUtil.isBlank(createTimeEnd)){
-            if(StringUtil.checkNumeric(createTimeEnd)){
-                params.put("createTimeEnd",createTimeEnd);
-            }else if(StringUtil.checkDateStr(createTimeEnd, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createTimeEnd",new Timestamp( DateUtil.parseToDate(createTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String content = MapUtils.getString(params,"content");
-        if(!StringUtil.isBlank(content)){
-            params.put("content",content);
-        }
-        String contentLike = MapUtils.getString(params,"contentLike");
-        if(!StringUtil.isBlank(contentLike)){
-            params.put("contentLike",contentLike);
-        }
-        String status = MapUtils.getString(params,"status");
-        if(!StringUtil.isBlank(status)){
-            params.put("status",status);
-        }
-        String reason = MapUtils.getString(params,"reason");
-        if(!StringUtil.isBlank(reason)){
-            params.put("reason",reason);
-        }
-        String reasonLike = MapUtils.getString(params,"reasonLike");
-        if(!StringUtil.isBlank(reasonLike)){
-            params.put("reasonLike",reasonLike);
-        }
-
-             params.put("page",page);
-             List<SysSmsRecord> list = sysSmsRecordService.listByParams4Page(params);
-            // 存放临时文件
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "list.xlsx");
-              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
-
-            String folder = request.getSession().getServletContext()
-                    .getRealPath("/")
-                    + "xlstmp";
-
-
-            File folder_file = new File(folder);
-            if (!folder_file.exists()) {
-                folder_file.mkdir();
-            }
-            String fileName = folder + File.separator
-                      + randomName;
-            // 得到导出Excle时清单的英中文map
-            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
-            colTitle.put("id", "id");
-            colTitle.put("phone", "手机号码");
-            colTitle.put("biz", "业务类型");
-            colTitle.put("createTime", "发送时间");
-            colTitle.put("content", "内容");
-            colTitle.put("status", "发送状态");
-            colTitle.put("reason", "失败原因");
-            List<Map> finalList = new ArrayList<Map>();
-            for (int i = 0; i < list.size(); i++) {
-                SysSmsRecord sm = list.get(i);
-                HashMap<String,Object> map = new HashMap<String,Object>();
-                map.put("id",  list.get(i).getId());
-                map.put("phone",  list.get(i).getPhone());
-                map.put("biz",  list.get(i).getBiz());
-                map.put("createTime",  list.get(i).getCreateTime());
-                map.put("content",  list.get(i).getContent());
-                map.put("status",  list.get(i).getStatus());
-                map.put("reason",  list.get(i).getReason());
-                finalList.add(map);
-            }
-            try {
-                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
-                }
-                /*
-                 * return new ResponseEntity<byte[]>(
-                 * FileUtils.readFileToByteArray(new File(fileName)), headers,
-                 * HttpStatus.CREATED);
-                 */
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return this.getResult(0, "数据为空，导出失败");
-
-        }
+//       /**
+//         * 导出
+//         * @param request
+//         * @return
+//         * @author dozen.zhang
+//         */
+//        @API(summary="短信验证码发送历史列表导出接口",
+//          description="短信验证码发送历史列表导出接口",
+//          parameters={
+//          @Param(name="pageSize", description="分页大小",in=InType.params, dataType= DataType.INTEGER,required = true),
+//          @Param(name="curPage", description="当前页",in=InType.params, dataType= DataType.INTEGER,required = true),
+//             @Param(name="id" , description="id ",in=InType.params,dataType = DataType.LONG,required =false),// false
+//             @Param(name="phone" , description="手机号码 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+//             @Param(name="biz" , description="业务类型 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+//             @Param(name="createTime" , description="发送时间 ",in=InType.params,dataType = DataType.DATE_TIME,required =false),// true
+//             @Param(name="content" , description="内容 ",in=InType.params,dataType = DataType.STRING,required =false),// true
+//             @Param(name="status" , description="发送状态 ",in=InType.params,dataType = DataType.BYTE,required =false),// false
+//             @Param(name="reason" , description="失败原因 ",in=InType.params,dataType = DataType.STRING,required =false),// false
+//          })
+//        @RequestMapping(value = "/export", method = RequestMethod.GET)
+//        @ResponseBody
+//        public ResultDTO exportExcelInBody(HttpServletRequest request,@RequestParam(name = "params", required = true) String paramStr ) throws Exception{
+//
+//             HashMap<String, Object> params = JsonUtil.fromJson(paramStr, HashMap.class);
+//              Page page = RequestUtil.getPage(params);
+//             if(page ==null){
+//                  return this.getWrongResultFromCfg("err.param.page");
+//             }
+//
+//                     String id = MapUtils.getString(params,"id");
+//        if(!StringUtil.isBlank(id)){
+//            params.put("id",id);
+//        }
+//        String phone = MapUtils.getString(params,"phone");
+//        if(!StringUtil.isBlank(phone)){
+//            params.put("phone",phone);
+//        }
+//        String phoneLike = MapUtils.getString(params,"phoneLike");
+//        if(!StringUtil.isBlank(phoneLike)){
+//            params.put("phoneLike",phoneLike);
+//        }
+//        String biz = MapUtils.getString(params,"biz");
+//        if(!StringUtil.isBlank(biz)){
+//            params.put("biz",biz);
+//        }
+//        String bizLike = MapUtils.getString(params,"bizLike");
+//        if(!StringUtil.isBlank(bizLike)){
+//            params.put("bizLike",bizLike);
+//        }
+//        String createTime = MapUtils.getString(params,"createTime");
+//        if(!StringUtil.isBlank(createTime)){
+//            if(StringUtil.checkNumeric(createTime)){
+//                params.put("createTime",createTime);
+//            }else if(StringUtil.checkDateStr(createTime, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("createTime",new Timestamp( DateUtil.parseToDate(createTime, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String createTimeBegin = MapUtils.getString(params,"createTimeBegin");
+//        if(!StringUtil.isBlank(createTimeBegin)){
+//            if(StringUtil.checkNumeric(createTimeBegin)){
+//                params.put("createTimeBegin",createTimeBegin);
+//            }else if(StringUtil.checkDateStr(createTimeBegin, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("createTimeBegin",new Timestamp( DateUtil.parseToDate(createTimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String createTimeEnd = MapUtils.getString(params,"createTimeEnd");
+//        if(!StringUtil.isBlank(createTimeEnd)){
+//            if(StringUtil.checkNumeric(createTimeEnd)){
+//                params.put("createTimeEnd",createTimeEnd);
+//            }else if(StringUtil.checkDateStr(createTimeEnd, "yyyy-MM-dd HH:mm:ss")){
+//                params.put("createTimeEnd",new Timestamp( DateUtil.parseToDate(createTimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+//            }
+//        }
+//        String content = MapUtils.getString(params,"content");
+//        if(!StringUtil.isBlank(content)){
+//            params.put("content",content);
+//        }
+//        String contentLike = MapUtils.getString(params,"contentLike");
+//        if(!StringUtil.isBlank(contentLike)){
+//            params.put("contentLike",contentLike);
+//        }
+//        String status = MapUtils.getString(params,"status");
+//        if(!StringUtil.isBlank(status)){
+//            params.put("status",status);
+//        }
+//        String reason = MapUtils.getString(params,"reason");
+//        if(!StringUtil.isBlank(reason)){
+//            params.put("reason",reason);
+//        }
+//        String reasonLike = MapUtils.getString(params,"reasonLike");
+//        if(!StringUtil.isBlank(reasonLike)){
+//            params.put("reasonLike",reasonLike);
+//        }
+//
+//             params.put("page",page);
+//             List<SysSmsRecord> list = sysSmsRecordService.listByParams4Page(params);
+//            // 存放临时文件
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//            headers.setContentDispositionFormData("attachment", "list.xlsx");
+//              String randomName = DateUtil.formatToString(new Date(), "yyyyMMddHHmmssSSS")+".xlsx";
+//
+//            String folder = request.getSession().getServletContext()
+//                    .getRealPath("/")
+//                    + "xlstmp";
+//
+//
+//            File folder_file = new File(folder);
+//            if (!folder_file.exists()) {
+//                folder_file.mkdir();
+//            }
+//            String fileName = folder + File.separator
+//                      + randomName;
+//            // 得到导出Excle时清单的英中文map
+//            LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
+//            colTitle.put("id", "id");
+//            colTitle.put("phone", "手机号码");
+//            colTitle.put("biz", "业务类型");
+//            colTitle.put("createTime", "发送时间");
+//            colTitle.put("content", "内容");
+//            colTitle.put("status", "发送状态");
+//            colTitle.put("reason", "失败原因");
+//            List<Map> finalList = new ArrayList<Map>();
+//            for (int i = 0; i < list.size(); i++) {
+//                SysSmsRecord sm = list.get(i);
+//                HashMap<String,Object> map = new HashMap<String,Object>();
+//                map.put("id",  list.get(i).getId());
+//                map.put("phone",  list.get(i).getPhone());
+//                map.put("biz",  list.get(i).getBiz());
+//                map.put("createTime",  list.get(i).getCreateTime());
+//                map.put("content",  list.get(i).getContent());
+//                map.put("status",  list.get(i).getStatus());
+//                map.put("reason",  list.get(i).getReason());
+//                finalList.add(map);
+//            }
+//            try {
+//                if (ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
+//                    return this.getResult(SUCC,SysConfig.PATH+"/xlstmp/"+randomName,"导出成功");
+//                }
+//                /*
+//                 * return new ResponseEntity<byte[]>(
+//                 * FileUtils.readFileToByteArray(new File(fileName)), headers,
+//                 * HttpStatus.CREATED);
+//                 */
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return this.getResult(0, "数据为空，导出失败");
+//
+//        }
 
 }

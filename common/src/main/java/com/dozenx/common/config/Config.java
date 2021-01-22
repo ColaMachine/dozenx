@@ -134,7 +134,7 @@ public class Config {
      * @return Config
      */
     public static Config getInstance() {
-        if (CONFIG == null) {
+        if (CONFIG  == null || CONFIG.validCode==null) {
             try {
                 Path path = Config.getConfigFile();
                 if (!path.toFile().exists()) {//如果config.cfg不存在 即老的方式不行 那么尝试通过yml方式来配置

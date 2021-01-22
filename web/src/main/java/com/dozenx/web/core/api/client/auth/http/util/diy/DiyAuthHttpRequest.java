@@ -12,9 +12,10 @@ import com.dozenx.web.core.api.client.auth.http.bean.HttpResult;
 import com.dozenx.web.core.api.client.auth.http.bean.TokenHttpResult;
 import com.dozenx.web.core.api.client.auth.http.util.HttpUtil;
 import com.dozenx.web.core.api.client.auth.http.util.TokenRequestResult;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.core.log.ErrorMessage;
+import com.dozenx.web.util.BeanUtil;
 import com.dozenx.web.util.ConfigUtil;
-import com.dozenx.web.util.RedisUtil;
 
 import java.util.Map;
 
@@ -35,9 +36,9 @@ public abstract class DiyAuthHttpRequest {
      * @return
      */
     public Map<String, Object> sendGetRequest(String url, String params) {
-        //1.发送请求(第一次)
+        //1.获取token 并附加在token上面 先从redis 获取 没有
         String priURL = urlAddAccessToken(url);//请求参数添加access_token
-        //先从redis 获取 没有 在去发送请求获取
+        //在去发送请求获取
         HttpResult httpResult = HttpUtil.get(priURL, params);//发送get请求
         //2.分析请求返回结果（第一次）
         TokenHttpResult tokenHttpResult = analysisPriResult(httpResult, priURL, params);//分析第一次发送请求结果
@@ -156,7 +157,9 @@ public abstract class DiyAuthHttpRequest {
      */
     public String getAccessToken() {
         String key = RedisConstants.TOKEN_REDIS_KEY;//获取数据中心access_token rediskey
-        String accessToken = RedisUtil.get(key);//redis获取access_token
+        RedisService redisService =(RedisService) BeanUtil.getBean("redisService");
+
+        String accessToken = redisService.get(key);//redis获取access_token
         if (StringUtil.isNotBlank(accessToken)) {//如果不为空
             return accessToken;//返回access_token
         }
@@ -312,7 +315,9 @@ public abstract class DiyAuthHttpRequest {
 //        // int seconds = (int) ((loseTimestamp-oauthTimestamp)/1000);//access_token有效时间
 //        int seconds = (int) data.get("expires_in");
         TokenRequestResult tokenRequestResult = getTokenResultFromResultStr(result);
-        RedisUtil.setex(key, tokenRequestResult.getToken(), tokenRequestResult.getToeknLeftTime());//access_token存到redis
+        RedisService redisService =(RedisService) BeanUtil.getBean("redisService");
+
+        redisService.setex(key, tokenRequestResult.getToken(), tokenRequestResult.getToeknLeftTime());//access_token存到redis
         return tokenRequestResult.getToken();//返回access_token
     }
 

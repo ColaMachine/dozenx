@@ -14,8 +14,8 @@ import com.dozenx.common.util.CastUtil;
 import com.dozenx.common.util.StringUtil;
 import com.dozenx.web.core.RedisConstants;
 import com.dozenx.web.core.base.BaseService;
+import com.dozenx.web.core.cache.service.RedisService;
 import com.dozenx.web.core.location.bean.Location;
-import com.dozenx.web.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,9 @@ import java.util.*;
 
 @Service("locationService")
 public class LocationService extends BaseService {
+
+    @Resource
+    RedisService redisService;
     /**
      * logger
      */
@@ -124,7 +127,7 @@ public class LocationService extends BaseService {
 
 
     private String getChildLocationsJsonStr(String redisKey){
-      String locationListStr = RedisUtil.get(redisKey);
+      String locationListStr = redisService.get(redisKey);
 
         if(!StringUtil.isBlank(locationListStr)){//不为空时，返回地区数据
             return locationListStr;
@@ -135,7 +138,7 @@ public class LocationService extends BaseService {
         }*/
         loctionApiService.cacheJsonStr();//重新进行地区缓存
 
-         locationListStr = RedisUtil.get(redisKey);//重新获取地区数据
+         locationListStr = redisService.get(redisKey);//重新获取地区数据
         if(!StringUtil.isBlank(locationListStr)){//不为空时，返回地区数据
             return locationListStr;
         }
@@ -150,7 +153,7 @@ public class LocationService extends BaseService {
      * @date 2017年11月3日 上午11:16:33
      */
     private List<Map<String, Object>> getChilds(String redisKey) {
-        List<String> redisList = RedisUtil.hmget(redisKey, "childs");//获取key对应的值
+        List<String> redisList = redisService.hmget(redisKey, "childs");//获取key对应的值
         if(redisList == null || redisList.size() <=0 ){
             return null;
         }

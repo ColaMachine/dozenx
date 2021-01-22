@@ -90,7 +90,10 @@
     float: left;
     background: #fff;
 }
-
+.content .main-left {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
 
 .info .img-box {
     width: 230px;

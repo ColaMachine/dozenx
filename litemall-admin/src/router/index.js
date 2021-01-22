@@ -78,7 +78,7 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
- /* {
+  /* {
     path: '/user',
     component: Layout,
     redirect: 'noredirect',
@@ -571,36 +571,36 @@ export const asyncRouterMap = [
 */
 
   {
-      path: '/api',
-      component: Layout,
-      redirect: 'noredirect',
-      alwaysShow: true,
-      name: 'apiManager',
-      meta: {
-        title: '接口管理',
-        icon: 'chart'
-      },
-      children: [
-        {
-          path: 'list',
-          component: () => import('@/views/api/list'),
-          name: 'list',
-          meta: {
-            title: '接口列表',
-            noCache: true
-          }
-        },
-        {
-            path: 'edit',
-            component: () => import('@/views/api/edit'),
-            name: 'edit',
-            meta: {
-              title: '接口编辑',
-              noCache: true
-            }
-          }
-      ]
+    path: '/api',
+    component: Layout,
+    redirect: 'noredirect',
+    alwaysShow: true,
+    name: 'apiManager',
+    meta: {
+      title: '接口管理',
+      icon: 'chart'
     },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/api/list'),
+        name: 'list',
+        meta: {
+          title: '接口列表',
+          noCache: true
+        }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/api/edit'),
+        name: 'edit',
+        meta: {
+          title: '接口编辑',
+          noCache: true
+        }
+      }
+    ]
+  },
 
   {
     path: '/profile',

@@ -24,12 +24,8 @@
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
       <div style="position:relative">
-        <div class="tips">
-
-        </div>
-        <div class="tips">
-
-        </div>
+        <div class="tips"/>
+        <div class="tips"/>
         <div class="tips">
 
           <span> 推广管理员用户名：admin/awifi@123</span>
@@ -92,7 +88,7 @@ export default {
       }
     },
     handleLogin() {
-     // var loginData = {'loginName':this.loginForm.username,pwd:this.loginForm.password,captcha:'5719'};
+      // var loginData = {'loginName':this.loginForm.username,pwd:this.loginForm.password,captcha:'5719'};
       this.$refs.loginForm.validate(valid => {
         if (valid && !this.loading) {
           this.loading = true
